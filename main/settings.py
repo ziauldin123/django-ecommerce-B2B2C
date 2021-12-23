@@ -22,7 +22,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'dr&-v@o7w9#&#r3wj$d#$t78t&*hb$&(2)xa5@05d1p$)1=$96'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*',]
 
@@ -176,7 +176,6 @@ DEFAULT_AUTO_FIELD='django.db.models.AutoField'
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
-   os.path.join(BASE_DIR, 'static'),
    os.path.join(BASE_DIR, 'apps/dashboard/static'),
 ]
 STATICFILES_FINDERS = (
@@ -188,8 +187,8 @@ STATICFILES_FINDERS = (
 # RELATIVES_CACHE_KEY = 'relatives_cache'
 # RELATIVES_CACHE_TIME = int(60*60*24)
 
-STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), "staticfiles")
-# STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 
 # # Extra places for collectstatic to find static files.
