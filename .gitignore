@@ -16,7 +16,7 @@ eggs/
 .eggs/
 lib/
 lib64/
-
+staticfiles/
 sdist/
 var/
 wheels/
@@ -58,7 +58,7 @@ coverage.xml
 # Django stuff:
 *.log
 local_settings.py
-#db.sqlite3
+db.sqlite3
 db.sqlite3-journal
 
 # Flask stuff:
