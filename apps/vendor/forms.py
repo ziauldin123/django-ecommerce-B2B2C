@@ -134,17 +134,17 @@ class ProductImageForm(ModelForm):
 class VendorSignUpForm(UserCreationForm):
     company_name = forms.CharField(max_length=64, required=True)
     company_code = forms.CharField(max_length=64, required=True)
-    # district = forms.ChoiceField(choices=[
-    #                              (-1, '')] + [(entry.id, entry.district) for entry in District.objects.all()])
+    district = forms.ChoiceField(choices=[
+                                 (-1, '')] + [(entry.id, entry.district) for entry in District.objects.all()])
 
-    # sector = forms.ChoiceField(
-    #     choices=[(-1, '')] + [(entry.id, entry.sector) for entry in Sector.objects.all()])
+    sector = forms.ChoiceField(
+        choices=[(-1, '')] + [(entry.id, entry.sector) for entry in Sector.objects.all()])
 
-    # cell = forms.ChoiceField(
-    #     choices=[(-1, '')] + [(entry.id, entry.cell) for entry in Cell.objects.all()])
+    cell = forms.ChoiceField(
+        choices=[(-1, '')] + [(entry.id, entry.cell) for entry in Cell.objects.all()])
 
-    # village = forms.ChoiceField(
-    #     choices=[(-1, '')] + [(entry.id, entry.village) for entry in Village.objects.all()])
+    village = forms.ChoiceField(
+        choices=[(-1, '')] + [(entry.id, entry.village) for entry in Village.objects.all()])
     address = forms.CharField(widget=forms.Textarea(
         attrs={'rows': 2, 'cols': 85}), max_length=170)
     phone = forms.CharField(max_length=32, required=True)

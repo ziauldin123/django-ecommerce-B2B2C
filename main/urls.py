@@ -50,7 +50,7 @@ urlpatterns = [
     path('transporter/',include('apps.transporter.urls')),
     path('api/add_subscriber/', api_add_subscriber, name='api_add_subscriber'),
     path('api/can_use/', api_can_use, name='api_can_use'),
-    # path('api/check_add_qty/<int:product_id>/<int:num>/', check_add_qty, name='check_add_qty'),
+    path('api/check_add_qty/<int:product_id>/<int:num>/', check_add_qty, name='check_add_qty'),
     path("dashboard/", include("apps.dashboard.urls")),
     path('activate/<slug:uidb64>/<slug:token>/',
          vendor_views.activate, name='activate'),
