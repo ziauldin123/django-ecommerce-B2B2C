@@ -1,0 +1,55 @@
+{% load static %}
+<div class="column is-3 product-list-item">
+    <div class="box">
+
+        <figure class="image is-4by3 mb-4">
+            <a href="{% url 'product' product.id product.slugV product.category.sub_category.category.slug product.category.sub_category.slug product.category.slug product.slug %}">
+               {% if product.is_variant %}
+                    <img src="{{product.get_variant.image_variant.url }}" alt="Product-Image">
+               {% else %}
+                  <img src="{{ product.image.url }}">
+               {% endif %}
+            </a>
+        </figure>
+
+          <h2 class="subtitle">{{ product.title }}</h2>
+
+
+        <h3 class="price is-size-6 mb-1">
+            {% if product.is_variant %}
+
+                {% if product.discount > 0 %}
+                    <span class="text-decoration-line-through">Frw {{ product.get_variant.price }}</span> <span style="color: #001833">Frw {{ product.get_variant.get_discounted_price }}</span>
+                {% else %}
+                      Frw {{ product.get_variant.price }}
+                {% endif %}
+
+            {% else %}
+                {% if product.discount > 0 %}
+                     <span class="text-decoration-line-through">Frw {{ product.price }}</span> <span style="color: #001833">Frw {{ product.get_discounted_price }}</span>
+                {% else %}
+                     Frw {{ product.price }}
+                {% endif %}
+            {% endif %}
+        </h3>
+        {% if product.is_variant %}
+        <a href="{% url 'product' product.id product.slugV product.category.sub_category.category.slug product.category.sub_category.slug product.category.slug product.slug %}" class="primary-btn add-to-cart">
+            <button type="submit" class="primary-btn add-to-cart">
+                 View Options
+            </button>
+        </a>
+        {% else %}
+        <a href="/order/addtoshopcart/{{ product.id }}" class="primary-btn add-to-cart">
+            {% if request.session.customer and product.quantity > 0  %}
+            <button type="submit" class="primary-btn add-to-cart">
+                <i class="fa fa-shopping-cart"></i> Add to Cart
+            </button>
+            {% else %}
+            <button type="submit" disabled class="primary-btn" >
+                <i class="fa fa-shopping-cart"></i> Add to Cart
+            </button>
+            {% endif %}
+        </a>
+        {% endif %}
+    </div>
+</div>
