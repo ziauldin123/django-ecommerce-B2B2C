@@ -20,7 +20,7 @@ from django.contrib import admin
 from django.urls import path, include, re_path
 from django.conf.urls.static import static
 
-# from apps.cart.views import check_add_qty
+from apps.cart.views import check_add_qty
 from apps.newsletter.api import api_add_subscriber
 from apps.coupon.api import api_can_use
 from apps.home import views
