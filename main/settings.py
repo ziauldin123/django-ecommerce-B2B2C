@@ -188,9 +188,9 @@ STATICFILES_FINDERS = (
 # RELATIVES_CACHE_KEY = 'relatives_cache'
 # RELATIVES_CACHE_TIME = int(60*60*24)
 
+STATIC_ROOT = "/home/ubuntu/sokopark.com/sokopark"
+# STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATIC_URL = '/static/'
 
 # # Extra places for collectstatic to find static files.
 # STATICFILES_DIRS = (
