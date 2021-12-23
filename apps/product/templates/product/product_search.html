@@ -1,0 +1,187 @@
+<form method="get" action=".">
+
+    <div class="columns card-body is-multiline m-2 p-2">
+
+
+        <input type="text" id="query" value="{{query}}" name="query" hidden="true">
+        <div class="row is-2">
+            <h2 class="is-size-6"><label for="amount">Price range:</label></h2>
+            <p>
+                <input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;">
+                <input type="text" id="max_amount" value="{{max_amount}}" hidden="true">
+                <input type="text" id="price_from" value="{{price_from}}" name="price_from" hidden="true">
+                <input type="text" id="price_to" value="{{price_to}}" name="price_to" hidden="true">
+            </p>
+            <div class="field">
+                <div class="control">
+<!--                        <input type="number" name="price_to" class="input" value="{{ price_to }}">-->
+
+
+                    <div id="slider-range"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row is-2">
+            <h2 class="is-size-6">Select sorting criteria</h2>
+
+            <div class="field">
+                <div class="control">
+                    <div class="select">
+                        <select name="sorting">
+                            <option value="-created_at"{% if sorting == '-created_at' %} selected{% endif %}>Newest first</option>
+                            <option value="created_at"{% if sorting == 'created_at' %} selected{% endif %}>Oldest first</option>
+                            <option value="price"{% if sorting == 'price' %} selected{% endif %}>Price low-high</option>
+                            <option value="-price"{% if sorting == '-price' %} selected{% endif %}>Price high-low</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        {% if form.brand %}
+        <div class="row is-2">
+            <h2 class="is-size-6">Brand:</h2>
+            <div class="field">
+                <div class="control">
+
+                        <select class="js-example-basic-single" id="select_brand" name="brand" style="width: 200px;">
+                            {% if query_brand != None %}
+                                <option selected disabled="true">Select</option>
+                                <script>
+                                    $('#select_brand').val('{{query_brand}}').trigger("change");
+                                </script>
+
+                            {% else %}
+                                <option selected disabled="true">Select</option>
+                            {% endif %}
+                            {% for brand in brands %}
+                            <option value="{{brand.brand}}">{{brand.brand}}</option>
+                            {% endfor %}
+                        </select>
+
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        {% if form.color %}
+        <div class="row is-1">
+            <h2 class="is-size-6">Color</h2>
+            <div class="field">
+                <div class="control">
+                    <select class="js-example-basic-single" id="select_color" name="color" style="width: 100px;">
+                        {% if query_color != None %}
+                                <option selected disabled="true">Select</option>
+                                <script>
+                                    $('#select_color').val('{{query_color}}').trigger("change");
+                                </script>
+
+                            {% else %}
+                                <option selected disabled="true">Select</option>
+                            {% endif %}
+                        {% for color in colors %}
+                        <option value="{{color.name}}">{{color.name}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        {% if form.weight %}
+        <div class="row is-1">
+            <h2 class="is-size-6">Weight</h2>
+            <div class="field">
+                <div class="control">
+                    <select class="js-example-basic-single" id="select_weight" name="weight" style="width: 100px;">
+                        {% if query_weight != None %}
+                                <option selected disabled="true">Select</option>
+                                <script>
+                                    $('#select_weight').val('{{query_weight}}').trigger("change");
+                                </script>
+
+                            {% else %}
+                                <option selected disabled="true">Select</option>
+                            {% endif %}
+                        {% for weight in weight %}
+                        <option value="{{weight.weight}}">{{weight.weight}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        {% if form.mesurement %}
+        <div class="row is-1">
+            <h2 class="is-size-6">mesurement</h2>
+            <div class="field">
+                <div class="control">
+                    <select class="js-example-basic-single" id="select_mesurement" name="mesurement" style="width: 100px;">
+                        {% if query_mesurement != None %}
+                                <option selected disabled="true">Select</option>
+                                <script>
+                                    $('#select_mesurement').val('{{query_mesurement}}').trigger("change");
+                                </script>
+
+                            {% else %}
+                                <option selected disabled="true">Select</option>
+                            {% endif %}
+                        {% for length in length %}
+                        <option value="{{length.length}}">{{length.length}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="row is-1">
+            <h2 class="is-size-6">Search</h2>
+            <div class="field">
+                <div class="control">
+                    <button class="button is-dark is-fullwidth">
+                        <span class="icon"><i class="fas fa-search"></i></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+{% block scripts %}
+    <script>
+        $(document).ready(function() {
+            $('#select_brand').select2();
+            $('#select_color').select2();
+            $('#select_weight').select2();
+            $('#select_mesurement').select2();
+
+        });
+        $(document).ready(function() {
+            var max_amount=parseInt($('#max_amount').val())
+            var price_to=parseInt($('#price_to').val())
+            var price_from=parseInt($('#price_from').val())
+            console.log(max_amount)
+
+        $( "#slider-range" ).slider({
+            range: true,
+            min: 0,
+            max: max_amount,
+            values: [ price_from, price_to ],
+            slide: function( event, ui ) {
+            $( "#amount" ).val( "$" + ui.values[ 0 ] + " - $" + ui.values[ 1 ] );
+            $( "#price_from" ).val(ui.values[ 0 ] );
+            $( "#price_to" ).val(ui.values[ 1 ] );
+            }
+        });
+        $( "#amount" ).val( "$" + $( "#slider-range" ).slider( "values", 0 ) +
+            " - $" + $( "#slider-range" ).slider( "values", 1 ) );
+        } );
+
+    </script>
+{% endblock %}
+

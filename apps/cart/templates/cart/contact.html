@@ -1,0 +1,543 @@
+{% extends 'core/base.html' %}
+{% load mathfilters %}
+
+
+{% block title %}Order Info | {% endblock %}
+
+{% block content %}
+<h1 class="title">Order Info</h1>
+
+<div class="box">
+    <div class="table">
+        <table class="shopping-cart-table table">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Product</th>
+                    <th class="text-center">Price</th>
+                    <th class="text-center">Discount</th>
+                    <th class="text-center">Quantity</th>
+                    <th class="text-center">Total</th>
+                    <th class="text-right"></th>
+                </tr>
+            </thead>
+            <tbody>
+
+                {% for rs in shopcart %}
+                <tr>
+                    <td class="thumb">
+                        {% if rs.variant %}
+                            <img src="{{rs.variant.image_variant.url }}" style="width: 40px;" alt="">
+                        {% else %}
+                            <img src="{{rs.product.image.url}}" style="width: 40px;" alt="">
+                        {% endif %}
+
+                    </td>
+                    <td class="details">
+                        {% if rs.variant %}
+                         <a href="/product/{{ rs.product.id }}/{{ rs.product.slug }}">{{rs.variant.title}}</a>
+                        {% else %} 
+                        <a href="/product/{{ rs.product.id }}/{{ rs.product.slug }}">{{rs.product}}</a>
+                        {% endif %}
+                    </td>
+                    <td class="price text-center"><strong>
+                            {% if rs.product.variant == 'None' %}
+                            {{ rs.product.price }}
+                            {% else %}
+                            {{ rs.variant.price }}
+                            {% endif %}
+                        </strong></td>
+                        <td class="qty text-center"><strong>
+                            {% if rs.product.variant == 'None' %}
+                                {{rs.product.discount}} %
+                            {% else %}
+                                {{rs.variant.discount}} %
+                            {% endif %}
+                        </strong></td>
+                    <td class="qty text-center"><strong>{{rs.quantity}}
+                         {% if rs.product.variant == 'None' %} 
+                        {% if rs.product.unit_type %} 
+                          {{ rs.product.unit_type.unit }}(s)
+                         {% endif %} 
+                     {% else %} 
+                        {% if rs.variant.unit_type %}  
+                         {{ rs.variant.unit_type.unit }}(s)
+                         {% endif %} 
+                     {% endif %}</strong></td>
+                    <td class="total text-center"><strong class="primary-color">$
+                        {% if rs.product.variant == 'None' %}
+                            {% if rs.product.discount > 0 %}
+                                {{ rs.prodct_dicount_amount }}
+                            {% else %}
+                                {{ rs.amount }}
+                            {% endif %}
+                        {% else %}
+                            {% if rs.variant.discount > 0 %}
+                                {{ rs.var_dicount_amount }}
+                            {% else %}
+                                {{ rs.varamount }}
+                            {% endif %}
+
+                        {% endif %}
+                        {% if rs.product.is_vat == True %}vat incl.{% endif %}
+                    </strong></td>
+                    <td class="text-right"><a href="/order/deletefromcart/{{ rs.id }}"
+                            onclick="return confirm('Delete ! Are you sure?')" class="main-btn icon-btn"><i
+                                class="fa fa-close"></i></a></td>
+                </tr>
+                {% endfor %}
+
+            </tbody>
+            <tfoot>
+                <tr>
+                                    <td></td>
+                                    <td><strong>SUB TOTAL</strong></td>
+                                    <td><strong></strong></td>
+                                    <td></td>
+                                    <td><strong>Frw <span id="total_cost">{{ sub_total }} </span></strong></td>
+                                </tr>
+                <tr>
+                    <td></td>
+                    <td><strong>Code</strong></td>
+                    <td></td>
+                    <td><strong>
+                        {% if coupon.code != None %}
+                            {{ coupon.code }}
+                        {% endif %}
+                    </strong></td>
+                    <td><strong>
+                        {% if coupon.code != None %}
+                            - {{ coupon.discount }} %
+                        {% endif %}
+                    </strong></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><strong>TOTAL cost with coupon</strong></td>
+                    <td><strong></strong></td>
+                    <td></td>
+                    <td><strong>
+
+                            <span id="total_cost_with_coupon"> FRW {{ total }} </span></strong>
+
+                        </td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+    <form method="POST" action="" id="contact-form">
+        {% csrf_token %}
+
+        {% if form.non_field_errors %}
+        <div class="notification is-danger">
+            {{ form.non_field_errors}}
+        </div>
+        {% endif %}
+
+        {% if form.errors %}
+        <div class="notification is-danger">
+            <ul>
+                {% for field in form %}
+                {% for error in field.errors %}
+                <li><strong>{{ field.label }}: </strong>{{ error }}</li>
+                {% endfor %}
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+
+        <div class="columns">
+            <div class="column is-6">
+                <h3 class="subtitle">Contact Info</h3>
+                <div class="field">
+                    <label>First name</label>
+
+                    <div class="control">
+                        <input class="input" type="text" name="first_name"
+                            value="{% if request.user.is_authenticated and cart_user.customername %}{{ cart_user.customername.split | first }}{% endif %}">
+                    </div>
+
+                </div>
+
+                <div class="field">
+                    <label>Last name</label>
+
+                    <div class="control">
+                        <input class="input" type="text" name="last_name"
+                            value="{% if request.user.is_authenticated %}{{ cart_user.customername.split | last }}{% endif %}">
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label>E-mail</label>
+
+                    <div class="control">
+                        <input class="input" type="email" name="email"
+                            value="{% if request.user.is_authenticated %}{{ cart_user.email }}{% endif %}">
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label>Phone</label>
+
+                    <div class="control">
+                        <input class="input" type="text" name="phone"
+                            value="{% if request.user.is_authenticated %}{{ cart_user.phone }}{% endif %}">
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label>Customer Address</label>
+
+                    <div class="control">
+                        <input class="input" type="text" name="address"
+                            value="{% if request.user.is_authenticated %}{{ cart_user.address }}{% endif %}">
+                    </div>
+                </div>
+            </div>
+
+            <div class="column is-3">
+                <h3 class="subtitle">Delivery Info</h3>
+
+                <div class="field">
+                    <div class="field">
+                        <label>What do you want?</label>
+                    </div>
+
+                    {% for choice in form.delivery_option %}
+                    {% if choice.choice_label == "Pick up from Store" and not pickup_available %}
+                    <div class="field" style="display: none;">
+                        {% else %}
+                        <div class="field">
+                            {% endif %}
+                            <span class="radio" name="delivery_option" id="{{ choice.choice_label }}">{{ choice.tag }}</span>
+                            {{ choice.choice_label }}
+                        </div>
+                        {% endfor %}
+
+                    </div>
+                    <div class="field" id="district">
+                        <label>District</label>
+
+                        <div class="control">
+                            <select class="select" name="district" id="id_district">
+                                <option value="" selected>---Select District---</option>
+                                {% for entry in districts %}
+                                <option value="{{ entry.id }}">{{ entry.district }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="field" id="sector">
+                        <label>Sector</label>
+
+                        <div class="control">
+                            <select class="select" name="sector" id="id_sector">
+                                <option value="" selected>---Select Sector---</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="field" id="cell">
+                        <label>Cell</label>
+
+                        <div class="control">
+                            <select class="select" name="cell" id="id_cell">
+                                <option value="" selected>---Select Cell---</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="field" id="village">
+                        <label>Village</label>
+
+                        <div class="control">
+                            <select class="select" name="village" id="id_village">
+                                <option value="" selected>---Select Village---</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="field" id="address">
+                        <label>Street No & House No.</label>
+
+                        <div class="control">
+                            <input type="textarea" class="textarea" name="delivery_address" id="delivery_address"
+                                value="">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="column is-3">
+                    <div class="field" id="cost">
+                        <div class="control">
+                            <select class="select" name="delivery_cost" id="id_cost">
+                                <option value="0" selected>---Delivery---</option>
+                                {% for entry in delivery_costs %}
+                                <option value="{{ entry.id }}">{{ entry.cost }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <div class="control">
+                            <input type="submit" class="button is-dark mt-4" value="Proceed to payment" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    {% if messages %}
+    {% for message in messages %}
+    <div class="notification is-danger is-toast">{{ message }}</div>
+    {% endfor %}
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script>
+    var store_opt = document.getElementById('id_delivery_option_0');
+    var delivery_opt = document.getElementById('id_delivery_option_1');
+    var delivery_express_opt = document.getElementById('id_delivery_option_2');
+
+    var district = document.getElementById('district');
+    var district_sel = document.getElementById('id_district');
+
+    var sector = document.getElementById('sector');
+    var sector_sel = document.getElementById('id_sector');
+
+    var cell = document.getElementById('cell');
+    var cell_sel = document.getElementById('id_cell');
+
+    var village = document.getElementById('village');
+    var village_sel = document.getElementById('id_village');
+
+    var address = document.getElementById('address');
+    var textArea = document.getElementById('delivery_address');
+
+    var cost = document.getElementById('cost')
+    var cost_sel = document.getElementById('id_cost');
+    cost.style.display = 'none';
+    cost_sel.selectedIndex = 1;
+
+    console.log("display = ", store_opt.parentElement.parentElement.style.display);
+    if (store_opt.parentElement.parentElement.style.display == "none") {
+        console.log("none");
+        delivery_opt.checked = 'checked';
+    }
+
+    // Default shown - District Only
+    function delivery_shown() {
+        district.style.display = 'block';
+        district_sel.selectedIndex = 0;
+
+        // cost.style.display = 'block';
+        // cost_sel.selectedIndex = 0;
+
+        sector.style.display = 'none';
+        sector_sel.selectedIndex = 0;
+
+        cell.style.display = 'none';
+        cell_sel.selectedIndex = 0;
+
+        village.style.display = 'none';
+        village_sel.selectedIndex = 0;
+
+        address.style.display = 'none';
+        textArea.value = "";
+
+        store_opt.checked = false;
+    }
+
+    function store_shown() {
+        district.style.display = 'none';
+        district_opt = document.createElement("option")
+        district_opt.value = -1;
+        district_sel.appendChild(district_opt);
+        district_sel.selectedIndex = 1;
+
+        sector.style.display = 'none';
+        sector_opt = document.createElement("option")
+        sector_opt.value = -1;
+        sector_sel.appendChild(sector_opt);
+        sector_sel.selectedIndex = 1;
+
+        cell.style.display = 'none';
+        cell_opt = document.createElement("option")
+        cell_opt.value = -1;
+        cell_sel.appendChild(cell_opt);
+        cell_sel.selectedIndex = 1;
+
+        village.style.display = 'none';
+        village_opt = document.createElement("option")
+        village_opt.value = -1;
+        village_sel.appendChild(village_opt);
+        village_sel.selectedIndex = 1;
+
+        address.style.display = 'none';
+        textArea.value = "*****";
+
+        cost.style.display = 'none';
+        cost_sel.selectedIndex = 0;
+
+        delivery_opt.checked = false;
+
+    }
+
+    // Default option - Delivery
+    if (delivery_opt.checked == true) {
+        console.log('dvopt checked');
+        delivery_opt.checked = true;
+        store_opt.checked = false;
+        if (delivery_express_opt){
+            delivery_express_opt.checked = false;
+        }
+        delivery_shown();
+    } else if (delivery_express_opt && delivery_express_opt.checked == true) {
+        console.log('deopty checked')
+        delivery_express_opt.checked = true;
+        delivery_opt.checked = true;
+        store_opt.checked = false;
+        delivery_shown();
+    } else {
+        console.log('else');
+        delivery_opt.checked = false;
+        if (delivery_express_opt) {
+            delivery_express_opt.checked = false;
+        }
+        store_opt.checked = true;
+        store_shown();
+    }
+
+
+    store_opt.addEventListener('click', function () {
+        store_shown();
+    });
+
+    delivery_opt.addEventListener('click', function () {
+        delivery_shown();
+    });
+
+    if (delivery_express_opt) {
+        delivery_express_opt.addEventListener('click', function () {
+            delivery_shown();
+        });
+    }
+
+    // select options
+    district_sel.onchange = function () {
+        if (this.value == "") {
+            cell.style.display = 'none';
+            village.style.display = 'none';
+            address.style.display = 'none';
+        }
+
+        sector_sel.selectedIndex = 0;
+        sector.style.display = (this.value == "") ? "none" : "block";
+    };
+    sector_sel.onchange = function () {
+        if (this.value == "") {
+            village.style.display = 'none';
+            address.style.display = 'none';
+        }
+
+        cell_sel.selectedIndex = 0;
+        cell.style.display = (this.value == "") ? "none" : "block";
+    };
+    cell_sel.onchange = function () {
+        if (this.value == "") {
+            address.style.display = 'none';
+        }
+        village_sel.selectedIndex = 0;
+        village.style.display = (this.value == "") ? "none" : "block";
+    };
+    village_sel.onchange = function () {
+        textArea.value = "";
+        address.style.display = (this.value == "") ? "none" : "block";
+    };
+</script>
+
+<script>
+    $("#id_district").change(function () {
+        var district_url = "district_sector";
+        var districtId = $(this).val();
+
+        if (districtId != '') {
+            $.ajax({
+                url: district_url,
+                data: {
+                    'districtId': districtId
+                },
+                success: function (data) {
+                    $("#cell").hide();
+                    $("#village").hide();
+                    $("#address").hide();
+
+                    var html_data = '<option value="" selected>---Select Sector---</option>';
+                    data.forEach(function (data) {
+                        html_data += `<option value="${data.id}">${data.sector}</option>`
+                    });
+                    $("#id_sector").html(html_data);
+
+                }
+            });
+        }
+    });
+
+    $("#id_sector").change(function () {
+        var sector_url = "district_sector_cell";
+        var districtId = $("#id_district").val();
+        var sectorId = $(this).val();
+
+        if (sectorId != '') {
+            $.ajax({
+                url: sector_url,
+                data: {
+                    'districtId': districtId,
+                    'sectorId': sectorId
+                },
+                success: function (data) {
+                    $("#village").hide();
+                    $("#address").hide();
+
+                    var html_data = '<option value="" selected>---Select Cell---</option>';
+                    data.forEach(function (data) {
+                        html_data += `<option value="${data.id}">${data.cell}</option>`
+                    });
+                    $("#id_cell").html(html_data);
+                }
+            });
+        }
+    });
+
+    $("#id_cell").change(function () {
+        var cell_url = "district_sector_cell_village";
+        var districtId = $("#id_district").val();
+        var sectorId = $("#id_sector").val();
+        var cellId = $(this).val();
+
+        if (cellId != '') {
+            $.ajax({
+                url: cell_url,
+                data: {
+                    'districtId': districtId,
+                    'sectorId': sectorId,
+                    'cellId': cellId
+                },
+                success: function (data) {
+                    var html_data = '<option value="" selected>---Select Village---</option>';
+                    data.forEach(function (data) {
+                        html_data += `<option value="${data.id}">${data.village}</option>`
+                    });
+                    $("#id_village").html(html_data);
+                }
+            });
+        }
+    });
+</script>
+{% endblock %}

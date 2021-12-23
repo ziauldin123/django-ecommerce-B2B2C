@@ -1,0 +1,208 @@
+{% extends 'core/base.html' %}
+{% block title %}My account | {{ request.session.username }} - {% endblock %}
+{% include 'messages.html' %}
+{% block content %}
+<script>
+    $('body').on('click','.deleteBtn',function(){
+        var product_id=$(this).closest('.delete').find('.prod_id').val();
+        var my_token='{{ csrf_token }}'
+        $.ajax({
+            method:'POST',
+            urls:"/deletecompare/",
+            context:this,
+            data:{
+                "csrfmiddlewaretoken": my_token,
+                'id':product_id
+            }
+        })
+    })
+</script>    
+<div id="breadcrumb">
+    <div class="container">
+        <ul class="breadcrumb">
+            <li><a href="/">Home</a></li>
+            <li class="active">Comparing</li>
+        </ul>
+    </div>
+</div>
+<table class="table is-fullwidth">
+    <tbody>
+        <tr>
+            <th>Product</th>
+            <th>Title</th>
+            <th>Color</th>
+            <th>Rating</th>
+            <th>Availability</th>
+            <th>Price</th>
+            <th>Add to Cart</th>
+            <th>Weight</th>
+            <th>Length</th>
+            <th>Width</th>
+            <th>Size</th>
+            <th>Brand</th>
+        </tr>
+        <tbody>
+            {% for product in products %}
+            <tr>
+                <td>
+                    <img style="width: 70px;height: 70px;" src="{{product.image.url}}" alt="">  
+                </td>
+                <td>
+                    {{product.title}}
+                </td>
+                <td>
+                    {{product.color}}
+                </td>
+                <td>
+                {% if product.countreview %}
+                {{product.countreview}}
+                {% else %} 
+                  -
+                {% endif %}
+            </td>
+            <td>
+                {% if product.quantity > 0 %} 
+                  In Stock
+                {% else %} 
+                Out of Stock
+                {% endif %}  
+            </td>
+            <td>
+                {% if product.discount %} 
+                  {{product.get_discounted_price}}
+                {% else %} 
+                 {{product.price}}
+                {% endif %}   
+            </td>
+            <td>
+                <a href="/order/addtoshopcart/{{ product.id }}" class="primary-btn add-to-cart">
+                    <button type="submit" {% if product.quantity < 1  %} disabled {% endif %} class="button is-dark">
+                        <i class="fa fa-shopping-cart"></i> 
+                     Add Cart</button>
+                 </a>
+            </td>
+            <td>
+                {% if product.weight %} 
+                {{product.weight}}
+                {% else %} 
+                -
+                {% endif %}
+            </td>
+            <td>
+                {% if product.length %} 
+                {{product.length}}
+                {% else %}
+                  -
+                {% endif %}
+            </td>
+            <td>
+                {% if product.width %} 
+                  {{product.width}}
+                {% else %} 
+                   -
+                {% endif %}
+            </td>
+            <td>
+                {% if product.size %} 
+                {{product.size}}
+                {% else %} 
+                  -
+                {% endif %}
+            </td>
+            <td>
+                {% if product.brand %} 
+                {{product.brand}}
+                {% else %} 
+                  -
+                {% endif %}
+            </td>
+            <td>
+                <a href="/compare/delete/{{ product.id }}" onclick="return confirm('Delete ! Are you sure?')"><i class="fa fa-close"></i></a>
+            </td>
+            </tr>
+            {% endfor %}
+            {% for product in variants %}
+            <tr>
+                <td>
+                    <img style="width: 70px;height: 70px;" src="{{product.image_variant.url}}" alt="">  
+                </td>
+                <td>
+                    {{product.title}}
+                </td>
+                <td>
+                    {{product.color}}
+                </td>
+                <td>
+                {% if product.product.countreview %}
+                {{product.product.countreview}}
+                {% else %} 
+                  -
+                {% endif %}
+            </td>
+            <td>
+                {% if product.quantity > 0 %} 
+                  In Stock
+                {% else %} 
+                Out of Stock
+                {% endif %}  
+            </td>
+            <td>
+                {% if product.discount %} 
+                  {{product.get_discounted_price}}
+                {% else %} 
+                 {{product.price}}
+                {% endif %}   
+            </td>
+            <td>
+                <form method="post" action=".">
+                    {% csrf_token %}
+                    <input type="hidden" class="input" name="quantity" value="1" >
+                   <button class="button is-dark" {% if product.quantity < 1  %} disabled {% endif %} name="id" value="{{ product.id }}">
+                       <i class="fa fa-shopping-cart"></i> 
+                    Add Cart</button>
+                   </form>
+            </td>
+            <td>
+                {% if product.weight %} 
+                {{product.weight}}
+                {% else %} 
+                -
+                {% endif %}
+            </td>
+            <td>
+                {% if product.length %} 
+                {{product.length}}
+                {% else %}
+                  -
+                {% endif %}
+            </td>
+            <td>
+                {% if product.width %} 
+                  {{product.width}}
+                {% else %} 
+                   -
+                {% endif %}
+            </td>
+            <td>
+                {% if product.size %} 
+                {{product.size}}
+                {% else %} 
+                  -
+                {% endif %}
+            </td>
+            <td>
+                {% if product.product.brand %} 
+                {{product.product.brand}}
+                {% else %} 
+                  -
+                {% endif %}
+            </td>
+            <td>
+                <a href="/compare/delete/{{ product.id }}" onclick="return confirm('Delete ! Are you sure?')"><i class="fa fa-close"></i></a>
+            </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+
+</table>     
+{% endblock %}

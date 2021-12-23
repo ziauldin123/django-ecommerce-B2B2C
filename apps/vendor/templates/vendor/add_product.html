@@ -1,0 +1,40 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block title %}Add product | {% endblock %}
+{% block content %}
+    <h1 class="title">Add product</h1>
+
+    <form method="post" action="." enctype="multipart/form-data">
+        {% csrf_token %}
+
+        {{ form.as_p }}
+
+
+        <div class="field">
+            <div class="control">
+                <button  class="button is-dark">Submit</button>
+            </div>
+        </div>
+    </form>
+
+
+{% endblock %}
+
+
+{% block footer %}
+    <script type="text/javascript" src="{% static 'admin/js/vendor/jquery/jquery.js' %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'autocomplete_light/select2.css' %}" />
+    <script type="text/javascript" src="{% static 'autocomplete_light/jquery.init.js' %}"></script>
+    <script type="text/javascript" src="{% static 'autocomplete_light/autocomplete.init.js' %}"></script>
+    <script type="text/javascript" src="{% static 'autocomplete_light/select2.js' %}"></script>
+    <script type="text/javascript" src="{% static 'autocomplete_light/vendor/select2/dist/css/select2.css' %}"></script>
+    <script type="text/javascript" src="{% static 'autocomplete_light/vendor/select2/dist/js/select2.full.js' %}"></script>
+    <script type="text/javascript" src="{% static 'autocomplete_light/forward.js' %}"></script>
+    <script type="text/javascript" src="{% static 'admin/js/vendor/jquery/jquery.js' %}"></script>
+    {{ form.media }}
+
+
+{% endblock %}
+
+
+

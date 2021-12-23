@@ -1,0 +1,334 @@
+{% extends 'core/base.html' %}
+{% load get_vendor_order_cost %}
+{% load mathfilters %}
+{% block title %}Vendor Dashboard | {{ vendor.company_name }} - {% endblock %}
+
+{% block content %}
+
+<style>
+    a{
+        color: black;
+    }
+    a:hover,a:focus{
+        color: cadetblue;
+    }
+</style>
+{% include 'messages.html' %}
+    <div class="box">
+        <h1 class="title">Vendor Dashboard - {{ vendor.company_name }}</h1>
+
+        {% if vendor.logo %}
+        <img src="{{vendor.logo.url}}" width="100">
+        {% else %}
+        <p>Not Set</p>
+        {% endif %}
+
+        <form class="form" style=" justify-content: space-between; width: 45%;" method="post" action="{% url 'upload_logo' %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="row">
+                <div class="com-sm-3"><label for="image">Select:</label></div>
+                <div class="col-sm-6"><input  type="file" class="form-control" id="image" name="image"></div>
+                <div class="col-sm-3"><button type="submit" class="button is-dark mb-6">Upload</button></div>
+            </div>
+        </form>
+        <hr>
+
+        <strong>TIN: </strong> {{ vendor.company_code }}<br>
+        <strong>Phone: </strong> {{ vendor.phone }}<br>
+        <strong>E-mail: </strong> {{ vendor.email }}<br>
+        <strong>Address: </strong> {{ vendor.address }}<br>
+        <strong>Location: </strong> {{ vendor.district }} district - {{ vendor.sector }} sector- {{ vendor.cell }} cell - {{ vendor.village }} village<br>
+        <strong>Status: </strong>{% if vendor.enabled %}Enabled{% else %}Disabled{% endif %}<br>
+
+        <table class="table table-borderless" style="font-size:15px;width: 80%;">
+            <strong> Hours :</strong>
+            <tbody>
+                {% if  opening_hours == 0 %}
+                    <p>Opening hours are not defined yet</p>
+                {% else %}
+                {% for hours in opening_hours %}
+                <tr>
+                    <td scope="row">{{hours}}</td>
+                    <td>{{hours.from_hour}} <span style="margin: 0 20px;">-</span>{{hours.to_hour}}</td>
+                    <td><a style="color: blue"  href="{% url 'remove_opening' hours.id %}">Remove</a></td>
+                </tr>
+                {% endfor %}
+                {% endif %}
+            </tbody>
+        </table>
+
+        <form class="form-inline" style=" justify-content: space-between; width: 15%;margin-left: 5%" method="post" action="." enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="row">
+            <label class="col-sm-5 " for="day">WeekDay:</label>
+            <select class="custom-select col-sm-7" name="day" id="day">
+                <option value=1>Monday
+                </option>
+                <option value=2>Tuesday
+                </option>
+                <option value=3>Wednesday
+                </option>
+                <option value=4>Thrusday
+                </option>
+                <option value=5>Friday
+                </option>
+                <option value=6>Saturday
+                </option>
+                <option value=7>Sunday
+                </option>
+            </select>
+            </div>
+            <div class="row">
+                <label class="col-sm-3 " for="from">From:</label>
+                    <input class="form-control col-sm-4" type="time" name="from" id="from">
+
+
+                <label class="col-sm-3 " for="to">To:</label>
+                    <input class="form-control col-sm-4" type="time" name="to" id="to">
+
+
+                <br>
+                <div class="row">
+                    <button type="submit" class="button col-sm-12 mt-2">Add Hours</button>
+                </div>
+            </div>
+
+        </form>
+
+    <form method="post" action=".">
+        {% csrf_token %}
+
+        <div class="field">
+            <label>Delivery price</label>
+
+            <div class="control">
+                <input type="text" name="delivery_price" id="id_delivery" value="{{ vendor_delivery_price }}" class="input">
+            </div>
+        </div>
+
+        <div class="field">
+            <div class="control">
+                <button class="button is-dark">Update delivery price</button>
+            </div>
+        </div>
+    </form>
+
+        <hr>
+        {% get_total_balance user as total_balance %}
+        <strong>My balance: </strong>Frw {{ total_balance }}<br>
+
+        {% get_total_paid_balance user as total_paid_balance %}
+        <strong>My paid amount: </strong>Frw {{ total_paid_balance }}
+
+        <hr>
+
+    </div>
+
+    <div class="box" id="vendor_products">
+        <h2 class="is-size-3 mb-4">My products</h2>
+        {% if product_limit %}
+            <a href="{% url 'add_product' %}" class="button is-dark mb-6">Add product</a>
+            <a href="{% url 'add_product_without_variant' %}" class="button is-dark mb-6">Add product with Variant</a>
+            <a href="{% url 'add_variant' %}" class="button is-dark mb-6">Add product Variants</a>
+        {% else %}
+            <!-- <a href="#vendor_products" onclick="return $('#alert_product_limit').removeClass('d-none');" class="button is-dark mb-6">Add product</a>
+            <a href="#" onclick="return $('#alert_product_limit').removeClass('d-none');" class="button is-dark mb-6">Add product with Variant</a>
+            <a href="#" onclick="return $('#alert_product_limit').removeClass('d-none');" class="button is-dark mb-6">Add product Variants</a>
+            <div class="messages">
+                <div class="alert alert-warning alert-dismissible d-none" role="alert" id="alert_product_limit">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="$('#alert_product_limit').addClass('d-none');">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    The number of products has already reached the limit.
+                </div>
+            </div> -->
+
+            <h4 style="color:red">You have reached your products' limit. Kindly contact your account manager to increase your limit.</h4>
+        {% endif %}
+
+        {% if products %}
+            <table class="table is-fullwidth">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Price</th>
+                        <th>VAT</th>
+                        <th>Discount</th>
+                        <th>Status</th>
+                        <th>Product</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for product in products %}
+                        <tr>
+                            {% if product.variant == 'None' %}
+                              <td><a href="">{{ product.title }}</a></td>
+                            {% endif %}
+                            {% if product.variant == 'None' %}
+                               <td>Frw {{ product.price }}</td>
+                            {% endif %}
+                            {% if product.variant == 'None' %}
+                            <td>
+                                {% if  product.is_vat %}
+                                  <p>18%</p>
+                                {% else %}
+                                  <p>No VAT</p>
+                                {% endif %}
+                            </td>
+                            {% endif %}
+                            {% if product.variant == 'None' %}
+                            <td>
+                                {% if product.discount > 0 %}
+                                    {{ product.discount }} %
+                                {% endif %}
+                            </td>
+                            {% endif %}
+                            {% if product.variant == 'None' %}
+                            <td>
+                                {% if product.status == True %}
+                                    <p>Active</p>
+                                {% else %}
+                                    <p>Under Review</p>
+                                {% endif %}
+
+                            </td>
+                            {% endif %}
+                            {% if product.variant == 'None' %}
+                            <td>
+                                <a href="{% url 'edit_product' product.id %}" class="mr-5">Edit</a>
+                            </td>
+                            {% endif %}
+                            {% if product.variant == 'None' %}
+                            <td>
+                                <a href="{% url 'delete_product' product.id %}">Delete</a>
+                            </td>
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
+                    {% for variants in products %} 
+                    {% for variant in variants.product_variant.all %}
+                    <tr>
+                      <td><a href="">{{ variant.title }}</a></td>
+                      <td>Frw {{ variant.price }}</td>
+                      <td>
+                          {% if  variant.is_vat %}
+                            <p>18%</p>
+                          {% else %}
+                            <p>No VAT</p>
+                          {% endif %}
+                      </td>
+                      <td>
+                          {% if variant.discount > 0 %}
+                              {{ variant.discount }} %
+                          {% endif %}
+                      </td>
+                      <td>
+                          {% if variant.status == True %}
+                              <p>Active</p>
+                          {% else %}
+                              <p>Under Review</p>
+                          {% endif %}
+
+                      </td>
+                      <td>
+                          <a href="{% url 'edit_product' variant.id %}" class="mr-5">Edit</a>
+                      </td>
+                      <td>
+                          <a href="{% url 'delete_product' variant.id %}">Delete</a>
+                      </td>
+                  </tr>
+                    {% endfor %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>You don't have any products yet...</p>
+        {% endif %}
+
+    </div>
+
+    <div class="box">
+        <h2 class="is-size-3 mb-4">My orders</h2>
+
+        {% if orders %}
+            {% for order in orders %}
+                <div class="{% if order.fully_paid %}has-background-success-light{% else %}has-background-info-light{% endif %} mb-2 p-4">
+                    <div class="columns is-multiline">
+                        <div class="column is-6">
+                            <h3 class="is-size-4">#{{ order.id }} - {{ order.first_name }} {{ order.last_name }}</h3>
+                        </div>
+
+                        <div class="column is-12">
+                            <b>Name:</b> {{ order.first_name }} {{ order.last_name }}<br>
+                            <b>Address:</b> {{ order.address }}<br>
+                            <b>E-mail:</b> {{ order.email }}<br>
+                            <b>Phone:</b> {{ order.phone }} <br>
+                            <b>Created at:</b> {{ order.created_at }}
+
+                            <table class="table is-fullwidth mt-4">
+                                <thead>
+                                    <tr>
+                                        <th>Title</th>
+                                        <th>Price</th>
+                                        <th>Quantity</th>
+                                        <th>Paid</th>
+                                        <th>Total</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    {% for item in order.items.all %}
+                                        {% if item.vendor == request.user.vendor %}
+                                            <tr>
+                                                <td>{{ item.get_product_name }} </td>
+                                                <td>Frw {{ item.get_discounted_price }}</td>
+                                                <td>{{ item.quantity }}</td>
+                                                <td>{{ item.vendor_paid|yesno:"Yes,No" }}</td>
+                                                {% get_total_with_coupon order item.get_total_price user as total_price_with_coupon %}
+                                                <td>Frw {{ total_price_with_coupon }}</td>
+                                            </tr>
+                                        {% endif %}
+                                    {% endfor %}
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                    <td></td>
+                                    <td><strong>Coupon</strong></td>
+                                    {% if order.used_coupon %}
+                                     <td>{{ order.used_coupon }} </td>
+                                     {% else %}
+                                     <td> - </td>
+                                     {% endif %}
+                                    <td><strong>{{ order.coupon_discount }}%</strong></td>
+                                    </tr>
+                                    {% if order.delivery_type == 'Vendor_Delivery' %}
+                                      <tr>
+                                          <td></td>
+                                          <td><strong>Delivery Address</strong></td>
+                                          <td>{{order.district}} - {{order.sector}} - {{order.cell}} - {{order.village}} - {{order.delivery_address}} </td>
+                                          <td><strong>Delivery cost</strong></td>
+                                          {% get_order_delivery_cost order user as order_delivery_cost %}
+                                          <td>{{order_delivery_cost}}</td>
+                                      </tr>
+                                    {% endif %}
+                                    <tr>
+                                        <td></td>
+                                        <td><strong>Total</strong></td>
+                                        <td></td>
+                                        <td></td>
+                                        {% get_total_order_cost order user as total_cost_order %}
+                                        <td><strong>{{ total_cost_order }}</strong></td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+            {% else %}
+            <p>You don't have an order</p>
+        {% endif %}
+    </div>
+{% endblock %}

@@ -1,0 +1,257 @@
+{% extends 'core/base.html' %}
+{% load mathfilters %}
+
+{% block title %}Payment Info | {% endblock %}
+
+{% block content %}
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script>
+        function applyCoupon() {
+            console.log($("#coupon_code").val());
+            $.ajax({
+                type: "GET",
+                url: "/api/can_use/?coupon_code=" + $("#coupon_code").val(),
+                success: function (data) {
+                    console.log(data);
+                    var discount = parseInt(data.amount);
+                    console.log(discount)
+                    if (discount > 0) {
+                        $("#coupon_value").text(discount + " %");
+                        $("#total_cost_with_coupon").text(parseFloat($("#total_cost").text()) * (100 - discount) / 100);
+                        document.myform.coupon_discount.value = discount
+                        console.log()
+                    }
+                },
+            });
+        }
+    </script>
+    <h1 class="title">Payment Info</h1>
+    <div class="table">
+        <table class="table is-fullwidth is-striped">
+            <thead>
+                <th></th>
+                <th>Product</th>
+                <th>Price</th>
+                <th>VAT</th>
+                <th>Discount</th>
+                <th>Quantity</th>
+                <th>Total</th>
+            </thead>
+
+            <tbody>
+                {% for rs in shopcart %}
+                    <tr>
+                        <td>
+                            <figure >
+                            {% if rs.variant %}
+                                <img src="{{rs.variant.image_variant.url }}" style="width: 40px;" alt="">
+                            {% else %}
+                                <img src="{{rs.product.image.url}}" style="width: 40px;" alt="">
+                            {% endif %}
+                            </figure>
+                        </td>
+                        <td>
+                            {% if rs.variant %}
+                                          <a href="/product/{{ rs.product.id }}/{{ rs.product.slug }}">{{rs.variant.title}}</a>
+                                        {% else %} 
+                                          <a href="/product/{{ rs.product.id }}/{{ rs.product.slug }}">{{rs.product}}</a>
+                                        {% endif %}
+                        </td>
+                        <td>
+                            {% if rs.product.variant == 'None' %}
+                            {{ rs.product.price }} $
+                        {% else %}
+                            {{ rs.variant.price }} $
+                        {% endif %}
+                    </td>
+                    <td class="price text-center">
+                        <strong>
+                            {% if  rs.product.is_vat %}
+                                <p>18%</p>
+                           {% else %} 
+                                <p>No VAT</p>  
+                           {% endif %}
+                        </strong>
+                    </td>
+                        <td>
+                            {% if rs.product.variant == 'None' %}
+                                {{rs.product.discount}} %
+                            {% else %}
+                                {{rs.variant.discount}} %
+                            {% endif %}
+                    </td>
+                        <td>
+                            <strong>{{rs.quantity}}
+                                {% if rs.product.variant == 'None' %} 
+                        {% if rs.product.unit_type %} 
+                          {{ rs.product.unit_type.unit }}(s)
+                         {% endif %} 
+                     {% else %} 
+                        {% if rs.variant.unit_type %}  
+                         {{ rs.variant.unit_type.unit }}(s)
+                         {% endif %} 
+                     {% endif %}
+                            </strong>
+                        </td>
+                        <td class="total text-center"><strong class="primary-color">$
+                            {% if rs.product.variant == 'None' %}
+                                {% if rs.product.discount > 0 %}
+                                    {{ rs.prodct_dicount_amount }}
+                                {% else %}
+                                    {{ rs.amount }}
+                                {% endif %}
+                            {% else %}
+                                {% if rs.variant.discount > 0 %}
+                                    {{ rs.var_dicount_amount }}
+                                {% else %}
+                                    {{ rs.varamount }}
+                                {% endif %}
+
+                            {% endif %}
+                            {% if rs.product.is_vat == True %}vat incl.{% endif %}
+                        </strong></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+                    <tfoot>
+                        <tr>
+                            <td></td>
+                            <td><strong>TOTAL</strong></td>
+                            <td><strong></strong></td>
+                            <td></td>
+                            <td><strong>Frw <span id="total_cost">{{ total }} </span></strong></td>
+                        </tr>
+
+                        {% if coupon.code != None %}
+
+                        <tr>
+                            <td></td>
+                            <td><strong>Code</strong></td>
+                            <td><strong>{{ coupon.code }}</strong></td>
+                            <td><strong>
+                                {% if coupon.code != None %}
+                                    {{ coupon.discount }} %
+                                {% endif %}
+                            </strong></td>
+                        </tr>
+                        {% endif %}
+                        <tr>
+                            <td></td>
+                            <td><strong>Delivery cost</strong></td>
+                            <td></td>
+                            <td><strong>$ {{ cart.get_delivery_cost }}</strong></td>
+                        </tr>
+                <tr>
+                    <td></td>
+                    <td><strong>{% if cart.get_delivery_type == 'store' %} Pick up {% else %} Delivery {% endif %} address</strong></td>
+                    <td>{{ cart.get_delivery_address }}</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><strong>TOTAL with coupon and delivery cost</strong></td>
+                    <td><strong></strong></td>
+                    <td></td>
+                    <td><strong>
+
+                            <span id="total_cost"> FRW {{ cart.get_total_cost }} </span></strong>
+
+                        </td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+    <form method="post" action="" id="payment-form">
+        {% csrf_token %}
+        {% if cart.get_delivery_type == 'store' %}
+        <div>
+            pay now <input type="checkbox" name="pay_now" checked onclick="showMe()">
+        </div>
+        {% endif %}
+<!--        <div id="card-element">-->
+<!--            {{ form.as_p }}-->
+            <!-- A Stripe Element will be inserted here -->
+<!--        </div>-->
+        <div id="pay-form">
+        {{ form.as_p }}
+        </div>
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="notification is-danger">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+
+        <div class="field">
+            <div class="control">
+                <button class="button is-dark mt-4" onclick="this.disabled=true; this.form.submit();">Confirm Order</button>
+            </div>
+        </div>
+    </form>
+{% endblock %}
+
+
+{% block scripts %}
+    <script src="https://js.stripe.com/v3/"></script>
+    <script>
+    function showMe () {
+        var chboxs = document.getElementsByName("pay_now");
+        var vis = "none";
+        for(var i=0; i<chboxs.length; i++) {
+            if(chboxs[i].checked){
+            console.log('checked');
+             vis = "block";
+                break;
+            } else {
+            console.log('nonchecked')
+              vis = "none"
+            }
+        }
+
+        document.getElementById('pay-form').style.display = vis;
+
+    }
+    </script>
+    <script>
+        var stripe = Stripe('{{ stripe_pub_key }}');
+        var elements = stripe.elements();
+
+        var card = elements.create('card');
+
+        card.mount('#card-element');
+
+        var form = document.getElementById('payment-form');
+        form.addEventListener('submit', function(event) {
+            console.log('form add el');
+            event.preventDefault();
+
+            stripe.createToken(card).then(function(result) {
+                if (result.error) {
+                    console.log('error');
+                    var errorElement = document.getElementById('card-errors');
+                    errorElement.textContent = result.error.message;
+                } else {
+                    console.log('token:');
+                    console.log(result.token);
+                    stripeTokenHandler(result.token);
+                }
+            });
+            stripeTokenHandler("");
+        });
+        console.log('');
+        console.log('done');
+
+
+        function stripeTokenHandler(token) {
+            console.log("stripeTokenHandler");
+            var form = document.getElementById('payment-form');
+            var hiddenInput = document.createElement('input');
+            hiddenInput.setAttribute('type', 'hidden');
+            hiddenInput.setAttribute('name', 'stripe_token');
+            hiddenInput.setAttribute('value', token.id);
+            form.appendChild(hiddenInput);
+
+            form.submit();
+        }
+    </script>
+{% endblock %}

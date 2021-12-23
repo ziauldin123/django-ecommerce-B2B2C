@@ -1,0 +1,292 @@
+<!--
+=========================================================
+ Material Dashboard - v2.1.2
+=========================================================
+
+ Product Page: https://www.creative-tim.com/product/material-dashboard
+ Copyright 2019 Creative Tim (https://www.creative-tim.com)
+ Licensed under MIT (https://github.com/creativetimofficial/material-dashboard/blob/master/LICENSE.md)
+
+ Coded by Creative Tim
+
+=========================================================
+
+ The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8" />
+  <link rel="apple-touch-icon" sizes="76x76" href="/static/assets/img/apple-icon.png">
+  <link rel="icon" type="image/png" href="/static/assets/img/favicon.png">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <link rel="canonical" href="https://appseed.us/admin-dashboards/django-dashboard-material">
+
+  <title>
+     Admin Dashboard | Warehouse250
+  </title>
+
+  <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
+  <!--     Fonts and icons     -->
+<!--  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />-->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
+  <!-- CSS Files -->
+  <link href="/static/assets/css/material-dashboard.css?v=2.1.2" rel="stylesheet" />
+  <!-- CSS Just for demo purpose, don't include it in your project -->
+  <link href="/static/assets/demo/demo.css" rel="stylesheet" />
+
+  <link href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css" rel="stylesheet" />
+  <link href="https://cdn.datatables.net/rowgroup/1.1.3/css/rowGroup.dataTables.min.css" rel="stylesheet" />
+  <style>
+    tr.odd td:first-child,
+    tr.even td:first-child {
+        padding-left: 4em !important;
+    }
+
+    select, select.form-control {
+      -webkit-appearance: textfield !important;
+    }
+
+    table.dataTable {
+      width: calc( 100% - 2px ) !important;
+    }
+  </style>
+
+  
+
+
+  <!-- Specific Page CSS goes HERE  -->
+  {% block stylesheets %}{% endblock stylesheets %}
+
+</head>
+
+<body class="">
+  <div class="wrapper ">
+
+    {% include 'includes/sidebar.html' %}
+
+    <div class="main-panel">
+
+      <div class="content">
+        <div class="container-fluid">
+
+          {% block content %}{% endblock content %}
+
+        </div>
+      </div>
+
+      <!-- {% include 'includes/footer.html' %} -->
+
+    </div>
+  </div>
+
+
+  {% include 'includes/scripts.html' %}
+
+  {% include 'includes/scripts-sidebar.html' %}
+  
+  <!-- Specific Page JS goes HERE  -->
+  {% block javascripts %}{% endblock javascripts %}
+  
+
+<script src="https://code.jquery.com/jquery-3.5.1.js" crossorigin="anonymous"></script>
+<script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.datatables.net/rowgroup/1.1.3/js/dataTables.rowGroup.min.js" crossorigin="anonymous"></script>
+
+  <script>
+      var statuses = [
+        "ordered", 
+        "arrived",
+        "shipped"
+      ];
+
+      var enabled_list = [
+        {'label': 'enabled', 'value': 'True'} ,
+        {'label': 'disable', 'value': 'False'} ,
+      ];
+
+      var visible_list = [
+        {'label': 'visible', 'value': 'True'} ,
+        {'label': 'hidden', 'value': 'False'} ,
+      ];
+
+      function changeOrderStatus(id, val) {
+        $.ajax({
+          type: "GET",
+          url: "/dashboard/api/changeOrderStatus/" + id + "/"+ val,
+          success: function (data) {
+            console.log("ajax call success");
+          },
+        });
+      }
+      
+      function changeVendorEnalbed(id, val) {
+        $.ajax({
+          type: "GET",
+          url: "/dashboard/api/changeVendorEnalbed/" + id + "/"+ val,
+          success: function (data) {
+            console.log("ajax call success");
+          },
+        });
+      }
+      
+      function changeProductVisible(id, val) {
+        $.ajax({
+          type: "GET",
+          url: "/dashboard/api/changeProductVisible/" + id + "/"+ val,
+          success: function (data) {
+            console.log("ajax call success");
+          },
+        });
+      }
+
+      function changeProductLimit(id, e, me) {
+        
+        val = me.value;
+        if (e.keyCode == 13) {
+          $.ajax({
+            type: "GET",
+            url: "/dashboard/api/changeProductLimit/" + id + "/"+ val,
+            success: function (data) {
+              console.log("ajax call success");
+            },
+          });
+        }
+      }
+
+// Orders
+      $("#ordersTable").DataTable({
+          "columns":[
+              null,
+              null,
+              null,
+              null,
+              {
+                  "render": function(d,t,r){
+                      var $select = $("<select onchange='changeOrderStatus(" + r[0] + ", event.target.value)'></select>", {
+                          "id": r[0]+"start",
+                          "value": d
+                        });
+                      $.each(statuses, function(k,v){
+                          var $option = $("<option></option>", {
+                              "text": v,
+                                "value": v
+                            });
+                            if(d === v){
+                              $option.attr("selected", "selected")
+                            }
+                          $select.append($option);
+                        });
+                        return $select.prop("outerHTML");
+                    }
+              },
+              null
+            ],
+            order: [[1, 'asc'],],
+            columnDefs: [ {
+                targets: [ 0, ],
+                visible: false
+            } ]
+        });
+    $('.dataTables_length').addClass('bs-select');
+
+    $('#ordersStatisticsTable').DataTable( {
+        order: [[0, 'asc'],],
+        rowGroup: {
+            dataSrc: [ 0, ]
+        },
+        columnDefs: [ {
+            targets: [ 0, ],
+            visible: false
+        } ]
+    } );
+
+// Vendors
+    $("#vendorsTable").DataTable({
+          "columns":[
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              {
+                  "render": function(d,t,r){
+                      var $select = $("<select onchange='changeVendorEnalbed(" + r[0] + ", event.target.value)'></select>", {
+                          "id": r[0]+"start",
+                            "value": d
+                        });
+                      $.each(enabled_list, function(k,v){
+                          var $option = $("<option></option>", {
+                              "text": v["label"],
+                              "value": v["value"]
+                            });
+                            if(d === v["value"]){
+                              $option.attr("selected", "selected")
+                            }
+                          $select.append($option);
+                        });
+                        return $select.prop("outerHTML");
+                    }
+              }
+            ],
+            // columnDefs: [{
+            //     orderable: false,
+            //     targets: [7, ]
+            // }]
+        });
+
+// Customers
+    $("#customersTable").DataTable();
+
+// Products
+$("#productsTable").DataTable({
+          "columns":[
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              {
+                  "render": function(d,t,r){
+                      var $select = $("<select onchange='changeProductVisible(" + r[0] + ", event.target.value)'></select>", {
+                          "id": r[0]+"start",
+                            "value": d
+                        });
+                      $.each(visible_list, function(k,v){
+                          var $option = $("<option></option>", {
+                              "text": v["label"],
+                              "value": v["value"]
+                            });
+                            if(d === v["value"]){
+                              $option.attr("selected", "selected")
+                            }
+                          $select.append($option);
+                        });
+                        return $select.prop("outerHTML");
+                    }
+              }
+            ],
+            columnDefs: [ {
+                targets: [ 0, ],
+                visible: false
+            } ], 
+            order: [[1, 'asc'],],
+        });
+  // Order Details
+        // $("#orderTable_1").DataTable();
+        // $("#orderTable_2").DataTable();
+
+  </script>
+
+
+
+  
+</body>
+</html>

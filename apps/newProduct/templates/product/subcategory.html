@@ -1,0 +1,28 @@
+{% extends 'core/base.html' %}
+
+{% block title %}{{ category.title }} | {% endblock %}
+
+{% block content %}
+
+
+    <section class="hero is-small is-dark">
+        <div class="hero-body">
+                <div class="container has-text-centered">
+                    <p class="title">
+                        {{ category.title }}
+                    </p>
+                   
+            </div>
+        </div>
+    </section>
+
+    <div class="columns is-multiline">
+        {% for subsubcategory in category.subsubcategory.all %}
+            {% for product in subsubcategory.products.all %}
+                {% if product.vendor.enabled and product.visible %}
+                    {% include 'list_item.html' %}
+                {% endif %}
+            {% endfor %}
+        {% endfor %}
+    </div>
+{% endblock %}

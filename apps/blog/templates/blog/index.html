@@ -1,0 +1,41 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Blog | {% endblock  %}
+
+{% block content %}
+    {% for post in posts %}
+        <div class="box">
+            <section class="hero is-small is-dark">
+                <div class="hero-body">
+                    <p class="title">{{ post.title }}</p>
+                    <p class="subtitle">{{ post.created_at|date:"Y-m-d H:i" }}</p>
+                </div>
+            </section>
+
+            <br>
+
+            <div class="columns">
+                <div class="column is-3">
+                    {% if post.image %}
+                        <figure class="image is-16by9">
+                            <img src="{{ post.image.url }}">
+                        </figure>
+                    {% endif %}
+                </div>
+            
+                <div class="column is-9">
+                    <div class="content">
+                        <p>{{ post.intro }}</p> 
+                        <a href="{% url 'detail' post.slug  %}" class="button is-dark">Read more</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+    {% endfor %}
+{% endblock %}
+
+   
+ 
+    

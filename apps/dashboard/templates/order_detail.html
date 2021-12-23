@@ -1,0 +1,134 @@
+{% extends "layouts/base.html" %}
+{% load static %}
+{% block title %} UI Tables {% endblock %} 
+
+<!-- Specific Page CSS goes HERE  -->
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>  
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
+
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+        <div class="row">
+            <div class="col-md-12">
+              <div class="card">
+                <div class="card-header card-header-primary">
+                  <h4 class="card-title ">Order</h4>
+                  <p class="card-category"> </p>
+                </div>
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <table class="table table table-striped table-bordered table-sm dataTable" id="orderTable_1">
+                      <!-- <table class="table table table-striped table-bordered table-sm" id="orderTable_1"></table> -->
+                      
+                      <thead class=" text-primary">
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Email</th>
+                        <th>Address</th>
+                        <th>Phone</th>
+                        <th>District</th>
+                        <th>Sector</th>
+
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>{{ order.first_name }}</td>
+                          <td>{{ order.last_name }}</td>
+                          <td>{{ order.email }}</td>
+                          <td>{{ order.address }}</td>
+                          <td>{{ order.phone }}</td>
+                          <td>{{ order.district }}</td>
+                          <td>{{ order.sector }}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <table class="table table table-striped table-bordered table-sm dataTable pt-5 pb-4" id="orderTable_2">
+                      <thead class=" text-primary">
+                        <th>Village</th>
+                        <th>Cell</th>
+                        <th>Delivery Address</th>
+                        <th>Delivery Cost</th>
+                        <th>Paid Amount</th>
+                        <th>Vendors</th>
+                        <th>Shipped Date</th>
+                        <th>Status</th>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>{{ order.village }}</td>
+                          <td>{{ order.cell }}</td>
+                          <td>{{ order.delivery_address }}</td>
+                          <td>{{ order.delivery_cost }}</td>
+                          <td>{{ order.paid_amount }}</td>
+                          <td>
+                            {% for vendor in vendors %}
+                              {{ vendor.vendor__company_name }} ( {{ vendor.count }} )<br>
+                            {% endfor %}
+                          </td>
+                          <td>{{ order.shipped_date }}</td>
+                          <td>{{ order.status }}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>                
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="card">
+                <div class="card-header card-header-primary">
+                  <h4 class="card-title ">Order Items</h4>
+                  <p class="card-category"> </p>
+                </div>
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <table class="table table table-striped table-bordered table-sm dataTable" id="orderItemsTable">
+                      <thead class=" text-primary">
+                        <th>
+                          Product
+                        </th>
+                        <th>
+                          Vendor
+                        </th>
+                        <th>
+                          Vendor Paid
+                        </th>
+                        <th>
+                          Price
+                        </th>
+                        <th>
+                          Quantity
+                        </th>
+                      </thead>
+                      <tbody>
+                        {% for orderItem in orderItems %}
+                          <tr>
+                            <td>{{ orderItem.product.title }}</td>
+                            <td>{{ orderItem.vendor.company_name }}</td>
+                            <td>
+                              {% if orderItem.vendor_paid %}
+                                paid
+                              {% else %}
+                                &nbsp;
+                              {% endif %}
+                            </td>
+                            <td>{{ orderItem.price }}</td>
+                            <td>{{ orderItem.quantity }}</td>
+                          </tr>
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="d-flex justify-content-center w-100">
+              <button class="btn btn-primary pull-left" onClick="javascript:history.go(-1);">Go Back</button>
+            </div>
+        </div>
+
+{% endblock content %}
+{% block javascripts %}{% endblock javascripts %}

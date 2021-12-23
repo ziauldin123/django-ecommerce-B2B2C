@@ -1,0 +1,108 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Furniture, Lighting, Building materials, Tools | {% endblock %}
+
+{% block content %}
+{% include 'messages.html' %}
+    <section class="hero is-medium is-dark">
+        <div class="hero-body">
+                <div class="container has-text-centered">
+                    <p class="title ">
+                        WELCOME TO SOKOPARK
+                    </p>
+                     <p class="subtitle">
+                        Home Improvement | Commercial Fitout | & More
+                    </p>
+            </div>
+        </div>
+    </section>
+
+    <div class="columns is-multiline mb-2">
+       <div class="column is-12 mt-5 mb-2">
+            <h2 class="title">Featured products</h2>
+        </div>
+
+        {% for product in featured_products %}
+            {% if product.vendor.enabled and product.visible and not product.is_variant %}
+                {% include 'product/parts/list_item.html' %}
+            {% elif product.vendor.enabled and product.visible and product.is_variant %}
+                {% if product.get_variant %}
+                    {% include 'product/parts/list_item.html' %}
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+    </div>
+
+    <div class="columns is-multiline mb-2">
+
+        <div class="column is-12 mt-2 mb-2">
+            <h2 class="title">Popular products</h2>
+        </div>
+
+        {% for product in featured_products %}
+            {% if product.vendor.enabled and product.visible and not product.is_variant %}
+                {% include 'product/parts/list_item.html' %}
+            {% elif product.vendor.enabled and product.visible and product.is_variant %}
+                {% if product.get_variant %}
+                    {% include 'product/parts/list_item.html' %}
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+    </div>
+
+    <div class="featured-categories">
+
+        {% for category in featured_categories %}
+
+            <div class="column is-12 mt-2 mb-2">
+                <h2 class="title">Featured category - {{ category.title }}</h2>
+            </div>
+
+            <div class="columns is-multiline">
+                {% for product in featured_categories_products %}
+                    {% if product.vendor.enabled and product.visible and not product.is_variant %}
+                        {% include 'product/parts/list_item.html' %}
+                    {% elif product.vendor.enabled and product.visible and product.is_variant %}
+                        {% if product.get_variant %}
+                            {% include 'product/parts/list_item.html' %}
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+            </div>
+        {% endfor %}
+    </div>
+
+    <div class="columns is-multiline mb-2">
+        <div class="column is-12 mt-2 mb-2">
+            <h2 class="title ">Latest Additions</h2>
+        </div>
+
+        {% for product in newest_products %}
+                {% if product.vendor.enabled and product.visible and not product.is_variant %}
+                    {% include 'product/parts/list_item.html' %}
+                {% elif product.vendor.enabled and product.visible and product.is_variant %}
+                    {% if product.get_variant %}
+                        {% include 'product/parts/list_item.html' %}
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+    </div>
+
+    <div class="columns is-multiline mb-2">
+        <div class="column is-12 mt-2 mb-2">
+            <h2 class="title ">Recently viewed products</h2>
+        </div>
+
+        {% for product in recently_viewed_products %}
+                {% if product.vendor.enabled and product.visible and not product.is_variant %}
+                    {% include 'product/parts/list_item.html' %}
+                {% elif product.vendor.enabled and product.visible and product.is_variant %}
+                    {% if product.get_variant %}
+                        {% include 'product/parts/list_item.html' %}
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+    </div>
+
+{% endblock %}
+

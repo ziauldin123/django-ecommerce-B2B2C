@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+        <title>Warehouse250</title>
+
+        <style type="text/css">
+            html {
+                width: 100%;
+            }
+
+            body {
+                width: 100%;
+                font-family: Arial;
+                font-size: 14px;
+                background-color: #fff;
+                color: #333;
+            }
+        </style>
+    </head>
+
+    <body>
+        <table width="100%" cellspacing="0" cellpadding="0">
+            <tr>
+                <td><h1>New order</h1></td>
+            </tr>
+
+            <tr>
+                <td>
+                    <h3>Details</h3>
+
+                    <b>Name:</b> {{ order.first_name }} {{ order.last_name }}<br>
+                    <b>Address:</b> {{ order.address }}<br>
+                    <b>E-mail:</b> {{ order.email }}<br>
+                    <b>Phone:</b> {{ order.phone }}
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <h3>Products</h3>
+                    {% if order.coupon_discount > 0 %}
+                        <h4>Coupon discount : {{ order.coupon_discount }} %</h4>
+                    {% endif %}
+
+                    <table width="100%" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td><b>Product</b></td>
+                            <td><b>Price</b></td>
+                            <td><b>Quantity</b></td>
+                            <td><b>Total</b></td>
+                        </tr>
+
+                        {% for item in order.items.all %}
+                            {% if item.vendor == vendor %}
+                                <tr>
+                                    <td>{{ item.get_product_name }}</td>
+                                    <td>
+                                        Frw {{ item.get_discounted_price }}
+                                    </td>
+                                    <td>{{ item.quantity }}</td>
+                                    <td>Frw {{ item.get_total_price }}</td>
+                                </tr>
+                            {% endif %}
+                        {% endfor %}
+                        <tr>
+                            <td>Products subtotal</td>
+                            <td></td>
+                            <td>{{ total_quantity }}</td>
+                            <td>Frw {{ subtotal_cost }}</td>
+                        </tr>
+                        {% if order.coupon_discount > 0 %}
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td>Coupon</td>
+                                <td>{{ order.coupon_discount }} %</td>
+                            </tr>
+                        {% endif %}
+                        {% if is_delivery %}
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td>Delivery cost</td>
+                            <td>Frw {{ delivery_cost }}</td>
+                        </tr>
+                        {% endif %}
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td>Grand total</td>
+                            <td>Frw {{ grand_total }}</td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </body>
+</html>

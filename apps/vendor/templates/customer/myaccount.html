@@ -1,0 +1,82 @@
+{% extends 'core/base.html' %}
+
+{% block title %}My account | {{ request.session.username }} - {% endblock %}
+{% block content %}
+
+    <h2 class="subtitle"><strong>Account Information</strong></h2>
+
+    <div class="box">
+
+        <p><strong>Name: </strong>{{ request.session.username }}</p>
+        <p><strong>E-mail: </strong>{{ request.user.email }}</p>
+        <p><strong>Address: </strong>{{ request.session.address }}</p>
+        <p><strong>Phone: </strong>{{ request.session.phone}}</p>
+
+    </div>
+
+
+    <h2 class="subtitle"><strong>My orders</strong></h2>
+
+    {% for order in orders %}
+        <article class="message is-light">
+            <div class="message-header">
+                <p><strong>Status: </strong>{{ order.status }} - <strong>Date & Time: </strong>{{ order.created_at }}</p>
+                <p><strong>Shipped date: </strong>{{ order.shipped_date }}</p>
+                <p><strong>Arrived date: </strong>{{ order.arrived_date }}</p>
+            </div>
+
+            <div class="message-body">
+                <table class="table is-striped is-fullwidth">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Quantity</th>
+                            <th>Price</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for item in order.items %}
+                            <tr>
+                                <td>{{ item.product_title }}</td>
+                                <td>{{ item.quantity }}</td>
+                                <td>{{ item.price }}</td>
+                                <td>{{ item.subtotal }}</td>
+                            </tr>
+                        {% endfor %}
+                        <tr>
+                            <td>Products subtotal</td>
+                            <td>{{ order.total_quantity }}</td>
+                            <td>{{ order.subtotal_amount }}</td>
+                        </tr>
+
+                        {% if order.coupon_discount != "" %}
+                            <tr>
+                                <td> </td>
+                                <td>Coupon discount</td>
+                                <td>{{ order.coupon_discount }}</td>
+                            </tr>
+                        {% endif %}
+
+                        <tr>
+                            <td></td>
+                            <td>Delivery cost</td>
+                            <td>{{ order.delivery_cost }}</td>
+                        </tr>
+                    </tbody>
+
+                    <tfoot>
+                        <tr>
+                            <td></td>
+                            <td><strong>Grand total</strong></td>
+                            <td><strong>Frw {{ order.grand_paid_amount }}</strong></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </article>
+    {% empty %}
+        <p>You don't have any order yet.</p>
+    {% endfor %}
+{% endblock %}

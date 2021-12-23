@@ -1,0 +1,40 @@
+{% extends 'core/base.html' %}
+
+{% block title %}{{ category.title }} | {% endblock %}
+
+{% block content %}
+
+
+    <section class="hero is-small is-dark">
+        <div class="hero-body">
+                <div class="container has-text-centered">
+                    <p class="title">
+                        {{ category.title }}
+                    </p>
+
+            </div>
+        </div>
+    </section>
+    <br>
+    <div class="row">
+        <div class="col-3 card">
+            {% include 'product/product_search.html' %}
+        </div>
+        <div class="col-9">
+
+            <div class="columns is-multiline">
+
+                {% for product in products %}
+                    {% if product.vendor.enabled and product.visible and not product.is_variant %}
+                        {% include 'product/parts/list_item.html' %}
+                    {% elif product.vendor.enabled and product.visible and product.is_variant %}
+                        {% if product.get_variant %}
+                            {% include 'product/parts/list_item.html' %}
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+
+            </div>
+        </div>
+    </div>
+{% endblock %}

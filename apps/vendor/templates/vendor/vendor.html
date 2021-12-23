@@ -1,0 +1,54 @@
+{% extends 'core/base.html' %}
+
+{% block title %}{{ vendor.company_name }} | {% endblock %}
+
+{% block content %}
+
+    <section class="hero is-small is-dark">
+        <div class="hero-body">
+                <div class="container">
+                <div class="col-sm-2">
+                    {% if not vendor.logo.url %}
+                      <img src="{{vendor.logo.url}}" width="200" class="m-0 p-0">
+                    {% else %}
+                    <img src="https://via.placeholder.com/240x180.jpg" width="200" class="m-0 p-0">
+                    {% endif %}  
+                </div>
+                    <p class="subtitle mt-3">
+                        {{ vendor.address }}  | {{ vendor.phone }}
+                    </p>
+
+                    <table class="table table-borderless" style="font-size:15px;background: white">
+                        <tbody>
+                            {% for hours in vendor.Opening.all %}
+                            <tr>
+                                <td scope="row">{{hours}}</td>
+                                <td>{{hours.from_hour}} <span style="margin: 0 40px;">-</span>{{hours.to_hour}}</td>
+                            </tr>
+                            {% endfor %}
+                    
+                        </tbody>
+                    </table>
+                   
+                </div>
+        </div>
+    </section>
+
+    <br>
+
+    <!-- <div class="columns is-multiline mb-2">
+        {% for product in vendor.newProducts.all %}
+            {% if product.vendor.enabled and product.visible %}
+                {% include 'product/parts/list_item.html' %}
+            {% endif %}
+        {% endfor %}
+    </div> -->
+    <div class="columns is-multiline mb-2">
+            {% for product in vendor.newProducts.all %}
+            {% if product.vendor.enabled and product.visible %}
+                {% include 'product/parts/list_item.html' %}
+            {% endif %}
+            {% endfor %}
+    </div>
+    
+{% endblock %}

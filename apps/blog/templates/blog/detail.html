@@ -1,0 +1,30 @@
+{% extends 'core/base.html' %}
+
+{% load blog_extras %}
+
+{% block title %}{{ post.title }} | {% endblock  %}
+
+{% block content %}
+    <div class="box">
+        <section class="hero is-small is-dark">
+            <div class="hero-body">
+                <p class="title">{{ post.title }}</p>
+                <p class="subtitle">{{ post.created_at|date:"Y-m-d H:i" }}</p>
+            </div>
+        </section>
+
+        {% if post.image %}
+            <figure class="image is-16by9">
+                <img src="{{ post.image.url }}">
+            </figure>
+        {% endif %}
+      
+        <div class="content intro">
+            <p>{{ post.intro }}</p>
+        </div>
+       
+        <div class="content">
+            <p>{{ post.body|convert_markdown|safe }}</p>
+        </div>
+    </div>
+{% endblock %}

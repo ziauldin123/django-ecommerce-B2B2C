@@ -1,0 +1,70 @@
+{% extends 'core/base.html' %}
+{% block title %}Add variant | {% endblock %}
+{% block content %}
+    <h1 class="title">Add variant</h1>
+
+    <form method="post" action="" enctype="multipart/form-data" style="padding: 4px;">
+        {% csrf_token %}
+        {{forms.errors}}
+        <label>Title </label><input type="text" name="title" id=""></br>
+        <label>Color </label>
+        <select name="color">
+            <option selected disabled >-- Select Color --</option>
+            {% for pr in color %} 
+            <option value={{pr.id}}>{{pr.name}}</option>
+              {% endfor %}
+        </select></br>
+        <label>Size </label>
+        <select name="size">
+            <option selected disabled >-- Select Size --</option>
+            {% for pr in size %} 
+            <option value={{pr.id}}>{{pr.name}}</option>
+              {% endfor %}
+        </select></br>
+        <label>Length </label>
+        <select name="length">
+            <option selected disabled >-- Select Length --</option>
+            {% for pr in length %} 
+            <option value={{pr.id}}>{{pr.length}}</option>
+              {% endfor %}
+        </select></br>
+        <label>Width </label>
+        <select name="width">
+            <option selected disabled >-- Select Width --</option>
+            {% for pr in width %} 
+            <option value={{pr.id}}>{{pr.width}}</option>
+              {% endfor %}
+        </select></br>
+        <label>Weight </label>
+        <select name="weight">
+            <option selected disabled >-- Select Weight --</option>
+            {% for pr in weight %} 
+            <option value={{pr.id}}>{{pr.weight}}</option>
+              {% endfor %}
+        </select></br>
+        <label>Unit Types</label>
+        <select name="unit_type">
+           <option selected disabled >-- Select Unit Types --</option>
+           {% for pr in unitType %} 
+           <option value={{pr.id}}>{{pr.unit}}</option>
+           {% endfor %}
+        </select></br>
+        <label>Price </label> <input type="number" value="price" name="price"></br>
+        <label>Discount </label><input type="number" value="discount" name="discount"></br>
+        <label>Quantity </label><input type="number" value="quantity" name="quantity"></br>
+        <label>Product </label>
+        <select name="product">
+            <option >--</option>
+            {% for pr in product %} 
+            <option value={{pr.id}}>{{pr.title}}</option>
+              {% endfor %}
+        </select></br>
+        <label>Image</label>
+        <input name="image_variant" type="file" name="upload" accept="image/*">
+        <div class="field">
+            <div class="control">
+                <button type="submit"  name="save" value="Submit" class="button is-dark">Submit</button>
+            </div>
+        </div>
+    </form>
+{% endblock %}
