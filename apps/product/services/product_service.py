@@ -1,6 +1,6 @@
 from django.db.models import Q
 
-from apps.newProduct.models import Brand, Color, Product, Size, Variants, Weight
+from apps.newProduct.models import Brand, Color, Length, Product, Size, Variants, Weight, Width,Height
 
 
 class ProductService:
@@ -17,10 +17,13 @@ class ProductService:
         color,
         weight,
         size,
+        height,
+        width,
+        length,
         *args,
         **kwargs
     ):
-        # print("filters",query,color,sorting, weight, price_from, price_to,brand)
+        print("filters",query,color,height,width,length,sorting, weight, price_from, price_to,brand)
         # print(products)
         if price_from != None and price_to != None:
             products = products.filter(Q(price__gte=price_from) , Q(price__lte=price_to), ~Q(price=0))
@@ -44,7 +47,7 @@ class ProductService:
 
 
         # print(products)
-        products = self.filter_by_variants(products, brand, color, weight, size)
+        products = self.filter_by_variants(products, brand, color, weight, height,width,length, size)
         # print("after filter",products)
         if instock:
             products = products.filter(num_available__gte=1)
@@ -58,6 +61,9 @@ class ProductService:
         brand,
         color,
         weight,
+        height,
+        width,
+        length,
         size,
         *args,
         **kwargs
@@ -69,6 +75,12 @@ class ProductService:
             print("after color",products)
         if weight:
             products = products.filter(weight__in=Weight.objects.filter(weight=weight))
+        if height:
+            products = products.filter(height__in=Height.objects.filter(height=height))
+        if width:
+            products = products.filter(width__in=Width.objects.filter(width=width))
+        if length:
+            products = products.filter(length__in=Length.objects.filter(length=length))
         if size:
             products = products.filter(size__in=Size.objects.filter(name=size))
         return products

@@ -99,10 +99,11 @@ class SearchForm(forms.Form, BaseProductVariantsForm):
     brand = forms.CharField(widget=forms.Select(),required=False)
     color = forms.CharField(widget=forms.Select(),required=False)
     weight = forms.CharField(widget=forms.Select(),required=False)
-    # category = forms.CharField(required=False, widget=forms.TextInput(attrs={'class': 'input'}))
     size = forms.CharField(widget=forms.Select(),required=False)
+    height = forms.CharField(widget=forms.Select(),required=False)
+    length = forms.CharField(widget=forms.Select(),required=False)
+    width = forms.CharField(widget=forms.Select(),required=False)
 
-    mesurement = forms.CharField(widget=forms.Select(),required=False)
 
     def clean_price_to(self) -> int:
         price_to = self.cleaned_data['price_to']
