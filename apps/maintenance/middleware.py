@@ -8,5 +8,5 @@ class UnderConstructionMiddleware:
 
     def __call__(self, request):
         if settings.UNDER_CONSTRUCTION:
-            return render(request, 'index2.html')
+            return render(request, settings.UNDER_CONSTRUCTION_TEMPLATE)
         return self.get_response(request)
