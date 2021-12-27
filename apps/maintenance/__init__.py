@@ -1,1 +1,1 @@
-from django_underconstruction import settings
+from . import settings
