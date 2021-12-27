@@ -22,7 +22,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'dr&-v@o7w9#&#r3wj$d#$t78t&*hb$&(2)xa5@05d1p$)1=$96'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*',]
 
@@ -78,6 +78,7 @@ INSTALLED_APPS = [
     'apps.home',
     'apps.transporter',
     'apps.ordering',
+    'apps.maintenance',
 
 
     # 'rest_framework',
@@ -86,7 +87,8 @@ INSTALLED_APPS = [
     'mathfilters',
     'bootstrap4',
     'django_addanother',
-    'django_select2'
+    'django_select2',
+
 
 ]
 
@@ -98,7 +100,10 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'apps.maintenance.middleware.UnderConstructionMiddleware',
 ]
+
+
 
 ROOT_URLCONF = 'main.urls'
 
@@ -120,6 +125,9 @@ TEMPLATES = [
         },
     },
 ]
+
+UNDER_CONSTRUCTION = not DEBUG
+
 
 WSGI_APPLICATION = 'main.wsgi.application'
 

@@ -42,7 +42,9 @@ def search(request):
     query_brand=request.GET.get('brand')
     query_color=request.GET.get('color')
     query_weight=request.GET.get('weight')
-    query_mesurement=request.GET.get('mesurement')
+    query_height=request.GET.get('height')
+    query_width=request.GET.get('width')
+    query_length=request.GET.get('length')
 
     if not query:
         query=''
@@ -79,7 +81,9 @@ def search(request):
             'query_brand':query_brand,
             'query_color':query_color,
             'query_weight':query_weight,
-            'query_mesurement':query_mesurement,
+            'query_height':query_height,
+            'query_width':query_width,
+            'query_length':query_length,
             'max_amount':max_amount
         }
     )
@@ -203,7 +207,7 @@ def variantCompare(request):
         variant=Variants.objects.get(id=variantid)
         print(variant)
 
-    
+
         if not request.session.get('comparing'):
             request.session['comparing']=[]
 
@@ -214,7 +218,7 @@ def variantCompare(request):
             return redirect(variant.get_url())
         print('thererer')
         request.session['comparing'].append(variantid)
-        return redirect(variant.get_url())        
+        return redirect(variant.get_url())
 
 
 
@@ -226,7 +230,7 @@ class ComparingView(TemplateView):
         comparing_product_ids = request.session.get('comparing')
         products = Product.objects.filter(id__in=comparing_product_ids)
         variants = Variants.objects.filter(id__in=comparing_product_ids)
-        
+
 
         return render(request,'product/comparing.html',{'products':products,'variants':variants})
 
@@ -234,7 +238,7 @@ class ComparingView(TemplateView):
         cart = Cart(request)
         url=request.META.get('HTTP_REFERER')
         product_id = int(request.POST.get('id'))
-        
+
         current_user=request.user
         customer=Customer.objects.filter(email=current_user)
 
@@ -265,7 +269,7 @@ class ComparingView(TemplateView):
                     data.quantity=form.cleaned_data['quantity']
                     data.save()
 
-                    cart.add(product_id=product.id,user_id=current_user.id,quantity=form.cleaned_data['quantity'],update_quantity=True) 
+                    cart.add(product_id=product.id,user_id=current_user.id,quantity=form.cleaned_data['quantity'],update_quantity=True)
 
             messages.success(request,'Product added to Shopcart')
             return HttpResponseRedirect(url)
@@ -283,9 +287,9 @@ class ComparingView(TemplateView):
                     quantity=1,
                     variant_id=None,
                 )
-                cart.add(product_id=product.id,quantity=1,update_quantity=True,user_id=current_user.id)                
+                cart.add(product_id=product.id,quantity=1,update_quantity=True,user_id=current_user.id)
             messages.success(request,'Product added to shopcart')
-            return HttpResponseRedirect(url)               
+            return HttpResponseRedirect(url)
 
 @login_required(login_url='/login')
 @never_cache
@@ -294,8 +298,8 @@ def deleteCompare(request,id):
     request.session['comparing'].remove(id)
 
     messages.success(request,"Your item deleted from compare")
-    return redirect(url)    
-    
+    return redirect(url)
+
 
 
 class ReviewView(FormView):
@@ -360,22 +364,22 @@ class WishlistAddVariant(FormView):
 
             try:
                 request.user.customer
-                
+
             except:
                return self.redirect(variant)
             is_already_in_wishlist = UserWishList.objects.filter(user=request.user, variant=variant)
             if is_already_in_wishlist:
                 UserWishList.objects.filter(user=request.user, variant=variant).delete()
-            
+
             else:
                 UserWishList.objects.create(user=request.user, variant=variant)
-            return self.redirect(variant)  
+            return self.redirect(variant)
 
     def redirect(self, variant: Variants):
         return redirect(
             f'/{variant.product.id}/{variant.product.vendor.slug}/{variant.product.category.sub_category.category.slug}/{variant.product.category.sub_category.slug}/'
-            f'{variant.product.category.slug}/{variant.product.slug}/')         
-    
+            f'{variant.product.category.slug}/{variant.product.slug}/')
+
 
 def wishlistDelete(request,id):
     url=request.META.get('HTTP_REFERER')
@@ -387,9 +391,9 @@ def wishlistDelete(request,id):
         UserWishList.objects.filter(user=request.user,variant=variant).delete()
 
     messages.success(request,"Your item deleted from wishlist")
-    return redirect(url)         
-        
-    
+    return redirect(url)
+
+
 
 class CollectionView(TemplateView):
     template_name = 'product/collection.html'
@@ -440,7 +444,9 @@ def category(request, category_slug):
     query_brand=request.GET.get('brand')
     query_color=request.GET.get('color')
     query_weight=request.GET.get('weight')
-    query_mesurement=request.GET.get('mesurement')
+    query_height=request.GET.get('height')
+    query_width=request.GET.get('width')
+    query_length=request.GET.get('length')
 
 
 
@@ -494,7 +500,9 @@ def category(request, category_slug):
             'query_brand':query_brand,
             'query_color':query_color,
             'query_weight':query_weight,
-            'query_mesurement':query_mesurement,
+            'query_height':query_height,
+            'query_width':query_width,
+            'query_length':query_length,
             'max_amount':max_amount
 
         }
@@ -539,7 +547,9 @@ def subcategory(request, category_slug, subcategory_slug):
     query_brand=request.GET.get('brand')
     query_color=request.GET.get('color')
     query_weight=request.GET.get('weight')
-    query_mesurement=request.GET.get('mesurement')
+    query_height=request.GET.get('height')
+    query_width=request.GET.get('width')
+    query_length=request.GET.get('length')
 
 
     if not query:
@@ -576,7 +586,9 @@ def subcategory(request, category_slug, subcategory_slug):
         'query_brand':query_brand,
         'query_color':query_color,
         'query_weight':query_weight,
-        'query_mesurement':query_mesurement,
+        'query_height':query_height,
+        'query_width':query_width,
+        'query_length':query_length,
         'max_amount':max_amount
         }
     )
@@ -621,7 +633,9 @@ def subsubcategory(request, category_slug, subcategory_slug, subsubcategory_slug
     query_brand=request.GET.get('brand')
     query_color=request.GET.get('color')
     query_weight=request.GET.get('weight')
-    query_mesurement=request.GET.get('mesurement')
+    query_height=request.GET.get('height')
+    query_width=request.GET.get('width')
+    query_length=request.GET.get('length')
 
     if not query:
         query=''
@@ -659,7 +673,9 @@ def subsubcategory(request, category_slug, subcategory_slug, subsubcategory_slug
             'query_brand':query_brand,
             'query_color':query_color,
             'query_weight':query_weight,
-            'query_mesurement':query_mesurement,
+            'query_height':query_height,
+            'query_width':query_width,
+            'query_length':query_length,
             'max_amount':max_amount
         }
     )

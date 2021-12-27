@@ -101,6 +101,9 @@ class WidthAdmin(admin.ModelAdmin):
 class WeightAdmin(admin.ModelAdmin):
     list_display=['weight']
 
+class HeightAdmin(admin.ModelAdmin):
+    list_display=['height']
+
 class CommentAdmin(admin.ModelAdmin):
     list_display = ['subject','comment', 'status','create_at']
     list_filter = ['status']
@@ -117,6 +120,7 @@ admin.site.register(Images,ImagesAdmin)
 admin.site.register(Length,LengthAdmin)
 admin.site.register(Width,WidthAdmin)
 admin.site.register(Weight,WeightAdmin)
+admin.site.register(Height,HeightAdmin)
 admin.site.register(Comment,CommentAdmin)
 admin.site.register(UnitTypes,UnitTypesAdmin)
 admin.site.register(Brand,BrandAdmin)

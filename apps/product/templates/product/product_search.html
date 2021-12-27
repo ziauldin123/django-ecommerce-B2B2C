@@ -1,6 +1,6 @@
 <form method="get" action=".">
 
-    <div class="columns card-body is-multiline m-2 p-2">
+    <div class="card-body is-multiline m-2 p-2">
 
 
         <input type="text" id="query" value="{{query}}" name="query" hidden="true">
@@ -71,7 +71,7 @@
             <h2 class="is-size-6">Color</h2>
             <div class="field">
                 <div class="control">
-                    <select class="js-example-basic-single" id="select_color" name="color" style="width: 100px;">
+                    <select class="js-example-basic-single" id="select_color" name="color" style="width: 200px;">
                         {% if query_color != None %}
                                 <option selected disabled="true">Select</option>
                                 <script>
@@ -95,7 +95,7 @@
             <h2 class="is-size-6">Weight</h2>
             <div class="field">
                 <div class="control">
-                    <select class="js-example-basic-single" id="select_weight" name="weight" style="width: 100px;">
+                    <select class="js-example-basic-single" id="select_weight" name="weight" style="width: 200px;">
                         {% if query_weight != None %}
                                 <option selected disabled="true">Select</option>
                                 <script>
@@ -114,23 +114,23 @@
         </div>
         {% endif %}
 
-        {% if form.mesurement %}
+        {% if form.height %}
         <div class="row is-1">
-            <h2 class="is-size-6">mesurement</h2>
+            <h2 class="is-size-6">height</h2>
             <div class="field">
                 <div class="control">
-                    <select class="js-example-basic-single" id="select_mesurement" name="mesurement" style="width: 100px;">
-                        {% if query_mesurement != None %}
+                    <select class="js-example-basic-single" id="select_height" name="height" style="width: 200px;">
+                        {% if query_height != None %}
                                 <option selected disabled="true">Select</option>
                                 <script>
-                                    $('#select_mesurement').val('{{query_mesurement}}').trigger("change");
+                                    $('#select_height').val('{{query_height}}').trigger("change");
                                 </script>
 
                             {% else %}
                                 <option selected disabled="true">Select</option>
                             {% endif %}
-                        {% for length in length %}
-                        <option value="{{length.length}}">{{length.length}}</option>
+                        {% for h in height %}
+                        <option value="{{h.height}}">{{h.height}}</option>
                         {% endfor %}
                     </select>
                 </div>
@@ -138,6 +138,54 @@
         </div>
         {% endif %}
 
+        {% if form.legnth %}
+        <div class="row is-1">
+            <h2 class="is-size-6">length</h2>
+            <div class="field">
+                <div class="control">
+                    <select class="js-example-basic-single" id="select_length" name="length" style="width: 200px;">
+                        {% if query_length != None %}
+                                <option selected disabled="true">Select</option>
+                                <script>
+                                    $('#select_length').val('{{query_length}}').trigger("change");
+                                </script>
+
+                            {% else %}
+                                <option selected disabled="true">Select</option>
+                            {% endif %}
+                        {% for len in length %}
+                        <option value="{{len.length}}">{{len.length}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        {% if form.width %}
+        <div class="row is-1">
+            <h2 class="is-size-6">width</h2>
+            <div class="field">
+                <div class="control">
+                    <select class="js-example-basic-single" id="select_width" name="width" style="width: 200px;">
+                        {% if query_width != None %}
+                                <option selected disabled="true">Select</option>
+                                <script>
+                                    $('#select_width').val('{{query_width}}').trigger("change");
+                                </script>
+
+                            {% else %}
+                                <option selected disabled="true">Select</option>
+                            {% endif %}
+                        {% for w in width %}
+                        <option value="{{w.width}}">{{w.width}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    <br>
         <div class="row is-1">
             <h2 class="is-size-6">Search</h2>
             <div class="field">
@@ -158,7 +206,10 @@
             $('#select_brand').select2();
             $('#select_color').select2();
             $('#select_weight').select2();
-            $('#select_mesurement').select2();
+            $('#select_height').select2();
+            $('#select_width').select2();
+            $('#select_length').select2();
+
 
         });
         $(document).ready(function() {

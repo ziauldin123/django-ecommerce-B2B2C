@@ -121,6 +121,12 @@ class Length(models.Model):
     def __str__(self):
         return str(self.length)
 
+class Height(models.Model):
+    height = models.IntegerField(default=0)
+
+    def __str__(self):
+        return str(self.height)
+
 
 class Color(models.Model):
     name = models.CharField(max_length=28)
@@ -186,6 +192,8 @@ class Product(models.Model):
         Width, on_delete=models.CASCADE, blank=True, null=True)
     length = models.ForeignKey(
         Length, on_delete=models.CASCADE, blank=True, null=True)
+    height = models.ForeignKey(
+        Height, on_delete=models.CASCADE, blank=True, null=True)
     color = models.ForeignKey(
         Color, on_delete=models.CASCADE, blank=True, null=True)
     slug = models.SlugField(null=False, unique=True)
@@ -346,6 +354,8 @@ class Variants(models.Model):
         Width, on_delete=models.CASCADE, blank=True, null=True)
     length = models.ForeignKey(
         Length, on_delete=models.CASCADE, blank=True, null=True)
+    height = models.ForeignKey(
+        Height, on_delete=models.CASCADE, blank=True, null=True)
     image_id = models.IntegerField(blank=True, null=True, default=0)
     image_variant = models.ImageField(upload_to='images/', null=False)
     quantity = models.IntegerField(default=1)
