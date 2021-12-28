@@ -136,15 +136,19 @@ class VendorSignUpForm(UserCreationForm):
     company_code = forms.CharField(max_length=64, required=True)
     district = forms.ChoiceField(choices=[
                                  (-1, '')] + [(entry.id, entry.district) for entry in District.objects.all()])
+    print("district", district)
 
     sector = forms.ChoiceField(
         choices=[(-1, '')] + [(entry.id, entry.sector) for entry in Sector.objects.all()])
+    print("sector", sector)
 
     cell = forms.ChoiceField(
         choices=[(-1, '')] + [(entry.id, entry.cell) for entry in Cell.objects.all()])
+    print("cell", cell)
 
     village = forms.ChoiceField(
         choices=[(-1, '')] + [(entry.id, entry.village) for entry in Village.objects.all()])
+    print("village", village)
     address = forms.CharField(widget=forms.Textarea(
         attrs={'rows': 2, 'cols': 85}), max_length=170)
     phone = forms.CharField(max_length=32, required=True)
