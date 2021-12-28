@@ -31,13 +31,13 @@ from django.conf.urls import url
 
 from django.contrib.sitemaps.views import sitemap
 
-from .sitemaps import StaticViewSitemap, CategorySitemap, ProductSitemap, PostSitemap
+from .sitemaps import StaticViewSitemap, ProductSitemap, PostSitemap
 
 
 from apps.vendor import views as vendor_views
 
 sitemaps = {'static': StaticViewSitemap,
-            'product': ProductSitemap, 'category': CategorySitemap, 'post': PostSitemap}
+            'product': ProductSitemap,  'post': PostSitemap}
 
 
 urlpatterns = [
