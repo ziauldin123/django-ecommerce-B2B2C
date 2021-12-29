@@ -15,8 +15,8 @@ urlpatterns = [
      path('create-brand/',forms.CreateBrand.as_view(),name='add_brand',),
      path('create-color/',forms.CreateColor.as_view(),name='add_color',),
      path('create-weight/',forms.CreateWeight.as_view(),name='add_weight',),
-
-
+     path('create-height/',forms.CreateHeight.as_view(),name='add_height',),
+     path('create-size/',forms.CreateSize.as_view(),name='add_size',),
 
 
      path('become-vendor/', views.become_vendor, name='become_vendor'),

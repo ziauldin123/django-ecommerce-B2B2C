@@ -44,6 +44,7 @@ class Cart(object):
                 self.cart['cart'][str(p)]['product']['is_free_delivery'] = shopcart.product.is_free_delivery
                 self.cart['cart'][str(p)]['product']['get_thumbnail'] = shopcart.product.get_thumbnail()
                 self.cart['cart'][str(p)]['product']['title'] = shopcart.product.title
+                self.cart['cart'][str(p)]['product']['tax']=float(shopcart.product.get_vat_price())
             else:
                 null_id.append(p)
 
@@ -54,6 +55,7 @@ class Cart(object):
         for item in self.cart['cart'].values():
             if 'product' in item:
                 item['total_price'] = float(item['product']['total_price'] * item['quantity'])
+                item['tax'] = float(item['product']['tax'] * item['quantity'])
 
 
     def __iter__(self):
@@ -249,6 +251,20 @@ class Cart(object):
                  product_ids.append(shopcart.product.id)
         return product_ids
         # return [int(p) for p in self.cart['cart'].keys()]
+    
+    def get_cart_tax(self):
+        for p in self.cart['cart'].keys():
+            shopcart = ShopCart.objects.filter(pk=int(p)).first()
+            if shopcart:
+                self.cart['cart'][str(p)]['product']['id'] = shopcart.product.id
+                self.cart['cart'][str(p)]['product']['tax'] = self.cart['cart'][str(p)]['product']['tax']
+        tax = 0
+        for item in self.cart['cart'].values():
+            if 'product' in item:
+                tax += float(item['product']['tax'] * item['quantity']) 
+
+        tax=Decimal(tax)
+        return round(tax,2) 
 
     def get_cart_cost(self):
         for p in self.cart['cart'].keys():

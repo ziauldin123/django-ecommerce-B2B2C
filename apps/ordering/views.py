@@ -144,6 +144,8 @@ def shopcart(request):
 
         shopcart = ShopCart.objects.filter(user_id=current_user.id)
         total=cart.get_cart_cost()
+        tax=cart.get_cart_tax()
+        grandTotal=cart.get_cart_cost() + cart.get_cart_tax()
         # for rs in shopcart:
         #     if rs.product.variant=='None':
         #         if rs.product.discount > 0:
@@ -159,12 +161,15 @@ def shopcart(request):
         context={'shopcart': shopcart,
                 'category':category,
                 'total': round(total,2),
-
+                'tax':tax,
+                'grandTotal':grandTotal
                 }
     else:
          context={'shopcart': None,
                 'category':None,
                 'total': None,
+                'tax':None,
+                'grandTotal':None
                 }
     return render(request,'shopcart_products.html',context)
 

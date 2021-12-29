@@ -11,7 +11,13 @@
         <p><strong>E-mail: </strong>{{ request.user.email }}</p>
         <p><strong>Address: </strong>{{ request.session.address }}</p>
         <p><strong>Phone: </strong>{{ request.session.phone}}</p>
-
+        {% if request.session.company_code %}
+        <p><strong>TIN:</strong>
+             {{ request.session.company_code }} 
+        </p>
+        {% else %}
+         <p>Hello</p>
+        {% endif %}
     </div>
 
 
@@ -33,6 +39,7 @@
                             <th>Quantity</th>
                             <th>Price</th>
                             <th>Total</th>
+                            <th>VAT</th>
                         </tr>
                     </thead>
 
@@ -43,6 +50,7 @@
                                 <td>{{ item.quantity }}</td>
                                 <td>{{ item.price }}</td>
                                 <td>{{ item.subtotal }}</td>
+                                <td>{{ item.tax|floatformat:2 }}</td>
                             </tr>
                         {% endfor %}
                         <tr>
@@ -69,8 +77,18 @@
                     <tfoot>
                         <tr>
                             <td></td>
-                            <td><strong>Grand total</strong></td>
+                            <td><strong>total</strong></td>
                             <td><strong>Frw {{ order.grand_paid_amount }}</strong></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td><strong>VAT</strong></td>
+                            <td><strong>FRW {{ order.vat_cost|floatformat:2 }}</strong></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td><strong>Grand Total(incl VAT)</strong></td>
+                            <td><strong>FRW {{ order.vat_cost|add:order.grand_paid_amount }}</strong></td>
                         </tr>
                     </tfoot>
                 </table>

@@ -32,7 +32,6 @@
                 <th></th>
                 <th>Product</th>
                 <th>Price</th>
-                <th>VAT</th>
                 <th>Discount</th>
                 <th>Quantity</th>
                 <th>Total</th>
@@ -63,15 +62,6 @@
                         {% else %}
                             {{ rs.variant.price }} $
                         {% endif %}
-                    </td>
-                    <td class="price text-center">
-                        <strong>
-                            {% if  rs.product.is_vat %}
-                                <p>18%</p>
-                           {% else %} 
-                                <p>No VAT</p>  
-                           {% endif %}
-                        </strong>
                     </td>
                         <td>
                             {% if rs.product.variant == 'None' %}
@@ -157,6 +147,26 @@
                             <span id="total_cost"> FRW {{ cart.get_total_cost }} </span></strong>
 
                         </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><strong>VAT</strong></td>
+                    <td></td>
+                    <td></td>
+                    <td><strong>$
+                        {{ tax }}
+                    </strong></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><strong>Total cost (Included VAT)</strong></td>
+                    <td><strong></strong></td>
+                    <td></td>
+                    <td><strong>Frw
+                        <span id="total_cost_with_coupon" name="total_cost_with_coupon">
+                            {{ grandTotal }}
+                        </span>
+                    </strong></td>
                 </tr>
             </tfoot>
         </table>

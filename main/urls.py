@@ -62,6 +62,7 @@ urlpatterns = [
     # path('home/',include('apps.home.urls')),
     # path('product/<int:id>/<slug:slug>/', views.product_detail, name='product_detail'),
     path('ajaxcolor/', views.ajaxcolor, name='ajaxcolor'),
+    path('ajaxcolorWeight/',views.ajaxcolorWeigth, name='ajaxcolor-weight'),
     path('shopcart/',orderview.shopcart,name='shopcart'),
     path('order/addtoshopcart/<int:id>', orderview.addtoshopcart, name='addtoshopcart'),
     path('updateshopcart',orderview.update, name='update'),

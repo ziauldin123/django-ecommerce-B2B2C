@@ -17,7 +17,7 @@ register = template.Library()
 from apps.cart.cart import Cart
 from apps.ordering.models import OrderItem, ShopCart, ShopCartForm
 from apps.vendor.models import VendorDelivery
-from .models import Transporter, UserWishList, Vendor, Customer, OpeningHours, VendorDelivery
+from .models import Profile, Transporter, UserWishList, Vendor, Customer, OpeningHours, VendorDelivery
 # from apps.product.models import Product, ProductImage
 from apps.newProduct.models import Color, Images, Length, Product, Size, Variants, Weight, Width, UnitTypes
 from apps.ordering.models import Order, OrderItem
@@ -73,6 +73,7 @@ def login_request(request):
                 request.session['username'] = customer.customername
                 request.session['phone'] = customer.phone
                 request.session['address'] = customer.address
+                request.session['company_code'] = customer.company_code
                 request.session['customer'] = True
                 try:
                     orders = []
@@ -220,34 +221,30 @@ def become_vendor(request):
     if request.method == 'POST':
         form = VendorSignUpForm(request.POST)
         if form.is_valid():
-            user = form.save()
-
-            user.refresh_from_db()
-
+            user = form.save(commit=False)
             user.username = form.cleaned_data.get('email')
-
             user.is_active = False
-            user.profile.email = form.cleaned_data.get('email')
+            user.save()
+
+            profile=Profile(user=user,email=form.cleaned_data.get('email'))
+            profile.save()
 
             district_id = form.cleaned_data['district']
             sector_id = form.cleaned_data['sector']
             cell_id = form.cleaned_data['cell']
             village_id = form.cleaned_data['village']
 
-            user.vendor.email = form.cleaned_data.get('email')
-            user.vendor.company_name = form.cleaned_data.get('company_name')
-            user.vendor.company_code = form.cleaned_data.get('company_code')
-            user.vendor.phone = form.cleaned_data.get('phone')
-            user.vendor.address = form.cleaned_data.get('address')
-
-            user.vendor.district = District.objects.get(id=district_id)
-            user.vendor.sector = Sector.objects.get(id=sector_id)
-            user.vendor.cell = Cell.objects.get(id=cell_id)
-            user.vendor.village = Village.objects.get(id=village_id)
-
-            user.save()
-
-            Customer.objects.last().delete()
+            vendor = Vendor(email=form.cleaned_data.get('email'),
+                company_name=form.cleaned_data.get('company_name'),
+                company_code=form.cleaned_data.get('company_code'),
+                village_id=village_id,
+                district_id=district_id,
+                sector_id=sector_id,
+                cell_id=cell_id,
+                address=form.cleaned_data.get('address'),
+                phone=form.cleaned_data.get('phone'),
+                user=user)
+            vendor.save()
 
             current_site = get_current_site(request)
             subject = 'Please Activate Your Account'
@@ -703,21 +700,25 @@ def become_customer(request):
         form = CustomerSignUpForm(request.POST)
 
         if form.is_valid():
-            user = form.save()
-            user.refresh_from_db()
-
+            user = form.save(commit=False)
             user.username = form.cleaned_data.get('email')
-
             user.is_active = False
-            user.profile.email = form.cleaned_data.get('email')
-
-            user.customer.customername = form.cleaned_data.get('customername')
-            user.customer.email = form.cleaned_data.get('email')
-            user.customer.address = form.cleaned_data.get('address')
-            user.customer.phone = form.cleaned_data.get('phone')
-
             user.save()
-            Vendor.objects.last().delete()
+
+            profile=Profile(user=user,email=form.cleaned_data.get('email'))
+            profile.save()
+
+            customer=Customer(
+                    customername = form.cleaned_data.get('customername'),
+                    email = form.cleaned_data.get('email'),
+                    address = form.cleaned_data.get('address'),
+                    phone = form.cleaned_data.get('phone'),
+                    company_code = form.cleaned_data.get('company_code'),
+                    user=user
+                )
+            customer.save()
+
+
 
             current_site = get_current_site(request)
             subject = 'Please Activate Your Account'
@@ -749,6 +750,7 @@ class MyAccount(TemplateView):
 
     def get(self, request, *args, **kwargs):
         orders = account_service.calculate_order_sum(request.user.email)
+        cart=Cart(request)
         context = self.get_context_data()
         context['orders'] = orders
         context['user_id'] = request.user.id
@@ -770,20 +772,20 @@ class WishListView(TemplateView):
         wishlist_dict={
             'wishlist':wishlist
         }
-        
+
         return self.render_to_response(wishlist_dict)
 
     def post(self, request, *args, **kwargs):
         cart = Cart(request)
         url=request.META.get('HTTP_REFERER')
         product_id = int(request.POST.get('id'))
-        
+
         current_user=request.user
         customer=Customer.objects.filter(email=current_user)
 
         variant=Variants.objects.get(pk=product_id)
         product=Product.objects.get(pk=variant.product.id)
-        
+
         checkinvariant=ShopCart.objects.filter(variant=product_id,user=current_user)
 
         if checkinvariant:
@@ -808,11 +810,11 @@ class WishListView(TemplateView):
                     data.quantity=form.cleaned_data['quantity']
                     data.save()
 
-                    cart.add(product_id=product.id,user_id=current_user.id,quantity=form.cleaned_data['quantity'],update_quantity=True) 
-                
+                    cart.add(product_id=product.id,user_id=current_user.id,quantity=form.cleaned_data['quantity'],update_quantity=True)
+
             messages.success(request,"Product added to Shopcart")
-            return HttpResponseRedirect(url)       
-        
+            return HttpResponseRedirect(url)
+
         else:
             if control == 1:
                 data=ShopCart.objects.get(product_id=product.id,user_id=current_user.id)
@@ -828,10 +830,10 @@ class WishListView(TemplateView):
                 )
                 cart.add(product_id=product.id,quantity=1,update_quantity=True,user_id=current_user.id)
             messages.success(request,'Product added to shopcart')
-            return HttpResponseRedirect(url)        
+            return HttpResponseRedirect(url)
 
 
-        
+
 
 
 def request_restore_password(request):
@@ -900,19 +902,21 @@ def become_transporter(request):
         if form.is_valid():
             user = form.save(commit=False)
             user.username = form.cleaned_data.get('email')
-            # user=user_form.save()
-            # user.refresh_from_db()
-
-            user.is_active = False
-            # user.profile.email=form.cleaned_data.get('email')
-
-            # user.transporter.transporter_name=form.cleaned_data.get('transporter_name')
-            # user.transporter.email=form.cleaned_data.get('email')
-            # user.transporter.phone=form.cleaned_data.get('phone')
-            # user.transporter.number_plate=form.cleaned_data.get('number_plate')
-
             user.save()
-            Vendor.objects.last().delete()
+
+            profile=Profile(user=user,email=form.cleaned_data.get('email'))
+            profile.save()
+
+            transporter=Transporter(transporter_name=form.cleaned_data.get('transporter_name'),
+                    email=form.cleaned_data.get('email'),
+                    phone=form.cleaned_data.get('phone'),
+                    number_plate=form.cleaned_data.get('number_plate'),
+                    user=user
+                )
+            transporter.save()
+
+
+
 
             current_site = get_current_site(request)
             subject = 'Please Activate Your Account'

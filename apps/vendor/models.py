@@ -60,7 +60,7 @@ class Vendor(models.Model):
 
     @receiver(post_save, sender=User)
     def create_user_vendor(sender, instance, created, **kwargs):
-        # if created:
+        # if not instance.vendor:
         #     Vendor.objects.create(user=instance)
 
         try:
@@ -111,7 +111,7 @@ class Customer(models.Model):
     address = models.CharField(max_length=255)
     phone = models.CharField(max_length=10)
     created_at = models.DateTimeField(auto_now_add=True)
-    company_code = models.CharField(max_length=255, default=999999)
+    company_code = models.CharField(max_length=255,null=True,blank=True)
     user = models.OneToOneField(
         User, related_name='customer', on_delete=models.CASCADE)
 
@@ -171,6 +171,7 @@ class Profile(models.Model):
         # if created:
         #     Profile.objects.create(user=instance)
         # instance.profile.save()
+        print("profile",kwargs)
         try:
             instance.Profile.save()
             if instance.is_staff == True:

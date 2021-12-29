@@ -133,6 +133,8 @@ class Order(models.Model):
 
     def __str__(self):
         return self.first_name
+    
+   
 
     def grand_paid_amount(self):
         return self.paid_amount + self.delivery_cost
@@ -206,6 +208,12 @@ class OrderItem(models.Model):
     def __str__(self):
         return '%s' % self.id
     
+    def get_vat_price(self):
+        if self.product.is_vat == True:
+            return float((18*self.price)/100)
+        else:
+            return 0
+
 
     def get_discounted_price(self):
         if not self.is_variant:

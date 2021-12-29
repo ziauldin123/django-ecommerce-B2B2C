@@ -89,8 +89,18 @@
                         <tr>
                             <td></td>
                             <td></td>
-                            <td>Grand total</td>
+                            <td>total</td>
                             <td>Frw {{ grand_total }}</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td><strong>VAT</strong></td>
+                            <td><strong>FRW {{ order.vat_cost|floatformat:2 }}</strong></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td><strong>Grand Total(incl VAT)</strong></td>
+                            <td><strong>FRW {{ order.grand_paid_amount|add:order.vat_cost }}</strong></td>
                         </tr>
                     </table>
                 </td>

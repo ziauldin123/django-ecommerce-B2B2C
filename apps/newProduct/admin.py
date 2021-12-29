@@ -58,6 +58,12 @@ class ProductInline(TabularInline):
 class CollectionAdmin(admin.ModelAdmin):
     inlines = [ProductInline]
 
+@admin_thumbnails.thumbnail('image')
+class ProductImageInline(admin.TabularInline):
+    model = ProductImage
+    readonly_fields = ('id',)
+    extra = 1
+
 class ProductVariantsInline(admin.TabularInline):
     model=Variants
     readonly_fields=['image_tag']
@@ -80,7 +86,7 @@ class ProductAdmin(admin.ModelAdmin):
     list_display=['title','category','status','pickup_available','is_vat','discount','price','get_discounted_price','get_vat_price','get_vat_exclusive_price']
     list_filter=['category']
     # readonly_fields=['image_tag']
-    inlines=[ProductVariantsInline]
+    inlines=[ProductVariantsInline,ProductImageInline]
     prepopulated_fields={'slug':('title',)}
 
 class VariantAdmin(admin.ModelAdmin):
@@ -109,6 +115,9 @@ class CommentAdmin(admin.ModelAdmin):
     list_filter = ['status']
     readonly_fields = ('subject','comment','ip','user','product','rate','id')
 
+class ProductImageAdmin(admin.ModelAdmin):
+    list_display = ['image','title','image_tag','variant','product']
+
 admin.site.register(Size,sizeAdmin)
 admin.site.register(Color,colorAdmin)
 admin.site.register(Category)
@@ -124,3 +133,4 @@ admin.site.register(Height,HeightAdmin)
 admin.site.register(Comment,CommentAdmin)
 admin.site.register(UnitTypes,UnitTypesAdmin)
 admin.site.register(Brand,BrandAdmin)
+admin.site.register(ProductImage,ProductImageAdmin)

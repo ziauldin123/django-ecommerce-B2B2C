@@ -19,6 +19,14 @@ class CreateLength(CreatePopupMixin, generic.CreateView):
     model = Length
     fields = ['length']
 
+class CreateHeight(CreatePopupMixin, generic.CreateView):
+    model = Height
+    fields = ['height']
+
+class CreateSize(CreatePopupMixin, generic.CreateView):
+    model = Size
+    fields = ['name','code']
+
 class CreateBrand(CreatePopupMixin, generic.CreateView):
     model = Brand
     fields = ['brand']
@@ -50,16 +58,18 @@ class ProductForm(ModelForm):
             'category',
             'title',
             # fields = ['category', 'image', 'title',
-            'description',
+            'summary',
             'price',
             'is_vat',
             'quantity',
-            'detail',
+            'description',
             'discount',
             'color',
             'length',
             'width',
             'weight',
+            'size',
+            'height',
             'pickup_available',
             'is_free_delivery',
             'image',
@@ -81,6 +91,12 @@ class ProductForm(ModelForm):
             'weight':  Select2AddAnother(
                 reverse_lazy('add_weight'),
             ),
+            'height':  Select2AddAnother(
+                reverse_lazy('add_height'),
+            ),
+            'size':  Select2AddAnother(
+                reverse_lazy('add_size'),
+            ),
             'color':  Select2AddAnother(
                 reverse_lazy('add_color'),
             )
@@ -93,8 +109,8 @@ class ProductWithVariantForm(ModelForm):
         fields=[
             'category',
             'title',
+            'summary',
             'description',
-            'detail',
             'pickup_available',
             'is_free_delivery',
             'brand',
@@ -136,15 +152,19 @@ class VendorSignUpForm(UserCreationForm):
     company_code = forms.CharField(max_length=64, required=True)
     district = forms.ChoiceField(choices=[
                                  (-1, '')] + [(entry.id, entry.district) for entry in District.objects.all()])
+    print("district", district)
 
     sector = forms.ChoiceField(
         choices=[(-1, '')] + [(entry.id, entry.sector) for entry in Sector.objects.all()])
+    print("sector", sector)
 
     cell = forms.ChoiceField(
         choices=[(-1, '')] + [(entry.id, entry.cell) for entry in Cell.objects.all()])
+    print("cell", cell)
 
     village = forms.ChoiceField(
         choices=[(-1, '')] + [(entry.id, entry.village) for entry in Village.objects.all()])
+    print("village", village)
     address = forms.CharField(widget=forms.Textarea(
         attrs={'rows': 2, 'cols': 85}), max_length=170)
     phone = forms.CharField(max_length=32, required=True)
@@ -179,7 +199,7 @@ class CustomerSignUpForm(UserCreationForm):
     customername = forms.CharField(max_length=32)
     address = forms.CharField(max_length=64, required=True)
     phone = forms.CharField(max_length=32, required=True)
-
+    company_code = forms.CharField(max_length=32,required=False)
     class Meta:
         model = User
         fields = [
@@ -190,6 +210,7 @@ class CustomerSignUpForm(UserCreationForm):
             'customername',
             'address',
             'phone',
+            'company_code'
         ]
 
 
