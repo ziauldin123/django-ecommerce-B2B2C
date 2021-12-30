@@ -19,7 +19,7 @@ from apps.ordering.models import OrderItem, ShopCart, ShopCartForm
 from apps.vendor.models import VendorDelivery
 from .models import Profile, Transporter, UserWishList, Vendor, Customer, OpeningHours, VendorDelivery
 # from apps.product.models import Product, ProductImage
-from apps.newProduct.models import Color, Images, Length, Product, Size, Variants, Weight, Width, UnitTypes
+from apps.newProduct.models import Color, Height, Images, Length, Product, Size, Variants, Weight, Width, UnitTypes
 from apps.ordering.models import Order, OrderItem
 from .forms import ProductForm, TransporterSignUpForm, ProductImageForm, VariantForm, VendorSignUpForm, CustomerSignUpForm, RestorePasswordForm, RequestRestorePasswordForm, OpeningHoursForm, ProductWithVariantForm
 from django.utils.encoding import force_text
@@ -498,6 +498,7 @@ def add_variant(request):
     color = Color.objects.all()
     size = Size.objects.all()
     weight = Weight.objects.all()
+    height = Height.objects.all()
     length = Length.objects.all()
     width = Width.objects.all()
     images = Images.objects.all()
@@ -533,7 +534,7 @@ def add_variant(request):
 
     return render(request, 'vendor/add_variant.html', {'form': variant_form, 'product': product,
                                                        'color': color, 'size': size,
-                                                       'weight': weight, 'length': length,
+                                                       'weight': weight, 'length': length,'height':height,
                                                        'width': width, 'images': images,
                                                        'unitType': unitTpye})
 

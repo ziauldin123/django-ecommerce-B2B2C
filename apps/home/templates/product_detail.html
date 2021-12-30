@@ -480,6 +480,9 @@
                                 {% if product.width %}
                                    width: {{ product.width }} m</br>
                                 {% endif %}
+                                {% if product.height %}
+                                   height: {{ product.height }} m</br>
+                                {% endif %}
                                 {% if product.size %}
                                    Size: {{ product.size }} 
                                 {% endif %}
@@ -497,6 +500,9 @@
                                 {% endif %}
                                 {% if variant.width %}
                                    width: {{ variant.width }} m</br>
+                                {% endif %}
+                                {% if variant.height %}
+                                   height: {{ variant.height }} m</br>
                                 {% endif %}
                                 {% if variant.size %}
                                    Size: {{ variant.size }} 

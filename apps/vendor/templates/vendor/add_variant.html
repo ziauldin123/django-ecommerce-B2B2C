@@ -35,11 +35,18 @@
             <option value={{pr.id}}>{{pr.width}}</option>
               {% endfor %}
         </select></br>
-        <label>Weight (m)</label>
+        <label>Weight (kg)</label>
         <select name="weight">
             <option selected disabled >-- Select Weight --</option>
             {% for pr in weight %} 
             <option value={{pr.id}}>{{pr.weight}}</option>
+              {% endfor %}
+        </select></br>
+        <label>Height (m)</label>
+        <select name="height">
+            <option selected disabled >-- Select height --</option>
+            {% for pr in height %} 
+            <option value={{pr.id}}>{{pr.height}}</option>
               {% endfor %}
         </select></br>
         <label>Unit Types</label>
