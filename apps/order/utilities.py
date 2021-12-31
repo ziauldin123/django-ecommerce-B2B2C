@@ -10,6 +10,7 @@ from apps.newProduct.models import Product, Variants
 from apps.ordering.models import Order,OrderItem
 from apps.coupon.models import Coupon
 from ..vendor.models import Transporter, Vendor,VendorDelivery
+from apps.vendor.services.account_service import account_service
 
 
 def checkout(
@@ -69,11 +70,17 @@ def checkout(
 
         total_quantity = 0
         subtotal_amount = 0
+        price_no_vat = 0
+        vat = 0
         print("checkout")
 
         for item in Cart(request):
 
             total_quantity += item['quantity']
+            price_no_vat += Decimal(item['total_vat_excl'])
+            price_no_vat=round(Decimal(price_no_vat),2)
+            vat +=Decimal(item['tax'])
+            vat=round(Decimal(vat),2)
             print("quantity in cart")
             print(total_quantity)
             subtotal_amount += Decimal(item['product']['total_price'] * item['quantity'])
@@ -99,6 +106,8 @@ def checkout(
             order.vendors.add(vendor)
 
         order.total_quantity = total_quantity
+        order.price_no_vat = price_no_vat
+        order.vat = vat
         order.subtotal_amount = subtotal_amount
         notify_customer(order,request)
         notify_vendor(order)
@@ -113,16 +122,18 @@ def notify_vendor(order):
     print("vendor order")
     print(order)
     print("vender")
-    print(order.vendors)
+    print(order.vendors.all())
 
     from_email = settings.DEFAULT_EMAIL_FROM
     try:
 
         for vendor in order.vendors.all():
+            print(vendor.email)
             to_email = vendor.email
             vendor_item_price=0
             vendor_items_total_price=0
             total_quantity= 0
+            is_delivery=False
             order_items= OrderItem.objects.filter(order=order)
             delivery_cost=0
             for items in order_items:
@@ -146,7 +157,6 @@ def notify_vendor(order):
 
             vendor_items_total_price=round(Decimal(vendor_items_total_price),2)
             total_cost=round(Decimal(total_cost),2)
-            total=total_cost + round(Decimal(order.get_vat_price()))
 
             subject = 'New order'
             text_content = 'You have a new order!'
@@ -157,7 +167,6 @@ def notify_vendor(order):
                 'delivery_cost':delivery_cost,
                 'is_delivery':is_delivery,
                 'grand_total':total_cost,
-                'total':total,
                 'total_quantity':total_quantity})
 
             msg = EmailMultiAlternatives(
@@ -174,15 +183,12 @@ def notify_customer(order,request):
     connection = get_connection() # uses SMTP server specified in settings.py
     connection.open()
     grand_cost=order.paid_amount + Decimal(order.delivery_cost)
-    cart = Cart(request)
-    tax=cart.get_cart_tax()
-    grandTotal=cart.get_cart_cost() + cart.get_cart_tax()
     from_email = settings.DEFAULT_EMAIL_FROM
     to_email = order.email
     subject = 'Order confirmation'
     text_content = 'Thank you for the order!'
     html_content = render_to_string(
-        'order/email_notify_customer.html', {'order': order,'grand_cost':grand_cost,'tax':tax,'total':grandTotal})
+        'order/email_notify_customer.html', {'order': order,'grand_cost':grand_cost})
 
     msg = EmailMultiAlternatives(subject, text_content, from_email, [to_email], connection=connection)
     msg.attach_alternative(html_content, 'text/html')

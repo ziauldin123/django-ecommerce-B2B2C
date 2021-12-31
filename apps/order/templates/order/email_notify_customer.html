@@ -44,16 +44,20 @@
                     <table width="100%" cellspacing="0" cellpadding="0">
                         <tr>
                             <td><b>Product</b></td>
-                            <td><b>Price</b></td>
                             <td><b>Quantity</b></td>
+                            <td>Price(vat exl.)</td>
+                            <td>vat</td>
+                            <td><b>Price(vat incl.)</b></td>
                             <td><b>Total</b></td>
                         </tr>
 
                         {% for item in order.items.all %}
                             <tr>
                                 <td>{{ item.get_product_name }}</td>
-                                <td>Frw {{ item.get_discounted_price }}</td>
                                 <td>{{ item.quantity }}</td>
+                                <td>{{ item.get_product_no_vat }}</td>
+                                <td>{{ item.get_vat_price }}</td>
+                                <td>Frw {{ item.get_discounted_price }}</td>
                                 <td>Frw {{ item.get_total_price }}</td>
                             </tr>
                         {% endfor %}
@@ -62,7 +66,6 @@
                             <td>Products subtotal</td>
                             <td></td>
                             <td>{{ order.total_quantity }}</td>
-                            <td>Frw {{ order.subtotal_amount }}</td>
                         </tr>
                         {% if order.coupon_discount > 0 %}
                             <tr>
@@ -98,19 +101,18 @@
                         </tr>
                         <tr>
                             <td></td>
-                            <td></td>
-                            <td>total</td>
-                            <td>Frw {{ grand_cost }}</td>
+                            <td>total(exl. VAT)</td>
+                            <td>Frw {{ order.price_no_vat }}</td>
                         </tr>
                         <tr>
                             <td></td>
                             <td><strong>VAT</strong></td>
-                            <td><strong>FRW {{ tax }}</strong></td>
+                            <td><strong>FRW {{ order.vat}}</strong></td>
                         </tr>
                         <tr>
                             <td></td>
-                            <td><strong>Grand Total(incl VAT)</strong></td>
-                            <td><strong>FRW {{ total }}</strong></td>
+                            <td><strong>Grand Total(incl. VAT)</strong></td>
+                            <td><strong>FRW  {{ grand_cost }}</strong></td>
                         </tr>
                     </table>
                 </td>

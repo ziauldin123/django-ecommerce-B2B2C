@@ -752,6 +752,7 @@ class MyAccount(TemplateView):
     def get(self, request, *args, **kwargs):
         orders = account_service.calculate_order_sum(request.user.email)
         cart=Cart(request)
+        tax=cart.get_cart_tax()
         context = self.get_context_data()
         context['orders'] = orders
         context['user_id'] = request.user.id

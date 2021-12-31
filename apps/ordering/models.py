@@ -104,7 +104,6 @@ class Order(models.Model):
     address=models.CharField(max_length=100)
     phone=models.CharField(max_length=100)
     created_at=models.DateTimeField(auto_now_add=True)
-
     district=models.CharField(max_length=100,null=True)
     sector=models.CharField(max_length=100,null=True)
     village=models.CharField(max_length=100,null=True)
@@ -202,17 +201,22 @@ class OrderItem(models.Model):
     )
     vendor_paid=models.BooleanField(default=False)
     price=models.DecimalField(max_digits=8,decimal_places=2)
+    price_no_vat=models.DecimalField(max_digits=8,decimal_places=2,default=0)
     quantity=models.IntegerField(default=1)
     is_variant=models.BooleanField(default=False)
+    vat=models.DecimalField(max_digits=8,decimal_places=2,blank=True,null=True)
 
     def __str__(self):
         return '%s' % self.id
     
     def get_vat_price(self):
-        if self.product.is_vat == True:
-            return float((18*self.price)/100)
+        if not self.is_variant:
+            vat=self.product.get_vat_price() * self.quantity
         else:
-            return 0
+            vat=self.variant.get_vat_price() * self.quantity
+        vat=round(Decimal(vat),2)
+        return round(Decimal(vat),2)    
+    
 
 
     def get_discounted_price(self):
@@ -257,12 +261,27 @@ class OrderItem(models.Model):
             title =self.variant.title
         return title
 
+    
     def get_product_total_price(self):
         if not self.is_variant:
             price=self.product.get_discounted_price()
         else:
             price =self.variant.get_discounted_price()
         return round(Decimal(price),2)
+
+    def get_product_no_vat(self):
+        if not self.is_variant:
+            price_no_vat=self.product.get_vat_exclusive_price()
+        else:
+            price_no_vat=self.variant.get_vat_exclusive_price() 
+        return round(Decimal(price_no_vat),2)       
+    
+    def get_subtotal_vat_exlusive(self):
+        if not self.is_variant:
+            return round(Decimal(round(Decimal(self.product.get_vat_exclusive_price() * self.quantity),2)),2)
+        else:
+            return round(Decimal(round(Decimal(self.variant.get_vat_exclusive_price() * self.quantity),2)),2)
+                
 
     def get_total_price(self):
         return round(Decimal(self.price * self.quantity),2)

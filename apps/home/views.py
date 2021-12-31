@@ -29,6 +29,7 @@ def index(request):
     return render(request,'index.html',context)
 
 def product_detail(request,id,slug,vendor_slug,category_slug,subcategory_slug, subsubcategory_slug):
+    query = request.GET.get('q')
     mainProduct=[]
     query=request.GET.get('q')
     product = Product.objects.get(pk=id)
@@ -77,7 +78,7 @@ def product_detail(request,id,slug,vendor_slug,category_slug,subcategory_slug, s
             weight=Variants.objects.raw('SELECT * FROM newProduct_variants WHERE product_id=%s AND status=True AND visible=True  GROUP BY weight_id',[id])
             length=Variants.objects.raw('SELECT * FROM newProduct_variants WHERE product_id=%s AND status=True AND visible=True  GROUP BY length_id',[id])
             width=Variants.objects.raw('SELECT * FROM newProduct_variants WHERE product_id=%s AND status=True AND visible=True  GROUP BY width_id',[id])
-            query +=variant.title+' Size:' +str(variant.size) +' Color:' +str(variant.color) +' Weight:' +str(variant.weight)+' length:' +str(variant.length)+' Width:' +str(variant.width)
+            # query +=variant.title+' Size:' +str(variant.size) +' Color:' +str(variant.color) +' Weight:' +str(variant.weight)+' length:' +str(variant.length)+' Width:' +str(variant.width)
         else:
             variants=Variants.objects.filter(product_id=id,status=True,visible=True)
             colors=Variants.objects.filter(product_id=id,size_id=variants[0].size_id,status=True,visible=True)

@@ -273,7 +273,10 @@ class Product(models.Model):
 
     def get_vat_price(self):
         if self.is_vat == True:
-            return float((18*self.price)/100)
+            if self.discount > 0:
+                return float((18*self.get_discounted_price())/100)
+            else:
+                return float((18*self.price)/100)    
         else:
             return 0
 
@@ -389,7 +392,13 @@ class Variants(models.Model):
 
     def get_vat_price(self):
         if self.is_vat == True:
-            return float((18*self.price)/100)
+            if self.discount > 0:
+                discounted_price=float(
+                    self.price-((self.discount*self.price)/100)
+                )
+                return float(18*discounted_price/100)
+            else:
+                return float((18*self.price)/100)    
         else:
             return 0
 
@@ -412,11 +421,6 @@ class Variants(models.Model):
         discounted_price = float(self.price-((self.discount*self.price)/100))
         return discounted_price
 
-    def get_vat_price(self):
-        if self.product.is_vat == True:
-            return float((18*self.price)/100)
-        else:
-            return 0
 
     def get_vat_exclusive_price(self):
         if self.is_vat == True:
@@ -425,6 +429,8 @@ class Variants(models.Model):
             return float(discounted_price-((18*discounted_price)/100))
         else:
             return float(self.price-((self.discount*self.price)/100))
+    
+
 
     def get_discounted_price(self):
         discounted_price = float(self.price-((self.discount*self.price)/100))

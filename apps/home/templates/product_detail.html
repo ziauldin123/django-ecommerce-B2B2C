@@ -243,6 +243,7 @@
                                                             <a style=" color: #204d74;  width: 90px">
                                                                 ${{ rs.size }}<br> {{ rs.price }}
                                                             </a>
+                                                            <img src="{{ rs.image_variant.url}}" alt="" style="height:100px">
                                                         </li>
                                                     {% endfor %}
                                                 </ul>
@@ -263,6 +264,7 @@
                                                        <a style="width: 90px;">
                                                               ${{ rs.weight }}<br> {{ rs.price }}
                                                       </a>
+                                                      <img src="{{ rs.image_variant.url}}" alt="" style="height:100px">
                                                    </li>
                                                    {% endfor %}
                                               </ul>
@@ -283,6 +285,7 @@
                                                        <a style="width: 90px;">
                                                               {{ rs.length }}mm<br> ${{ rs.price }}
                                                       </a>
+                                                      <img src="{{ rs.image_variant.url}}" alt="" style="height:100px">
                                                    </li>
                                                    {% endfor %}
                                               </ul>
@@ -303,6 +306,7 @@
                                                        <a style="width: 90px;">
                                                               {{ rs.width }}mm<br> ${{ rs.price }}
                                                       </a>
+                                                      <img src="{{ rs.image_variant.url}}" alt="" style="height:100px">
                                                    </li>
                                                    {% endfor %}
                                               </ul>

@@ -269,12 +269,9 @@
             <div class="navbar-item">
                 <a href="/users/customer/{{ request.user.id }}/wishlist/" class="button is-info ">My wishlist{% if wishlist %} ({{ wishlist|length }}){% endif %}</a>
             </div>
-
-             {% if comparing %}
                  <div class="navbar-item">
-                    <a href="{% url 'product-comparing'  %}" class="button is-dark">Compare{% if comparing %} ({{ comparing|length }}){% endif %}</a>
+                    <a href="{% url 'product-comparing'  %}" class="button is-dark">Compare</a>
                 </div>
-             {% endif %}
             <div class="navbar-item">
                 <a href="{% url 'shopcart'%}">
                     <div class="header-btns-icon">

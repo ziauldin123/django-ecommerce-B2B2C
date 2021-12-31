@@ -68,7 +68,6 @@
                             <td>Products subtotal</td>
                             <td></td>
                             <td>{{ total_quantity }}</td>
-                            <td>Frw {{ subtotal_cost }}</td>
                         </tr>
                         {% if order.coupon_discount > 0 %}
                             <tr>
@@ -88,19 +87,19 @@
                         {% endif %}
                         <tr>
                             <td></td>
-                            <td></td>
-                            <td>total</td>
-                            <td>Frw {{ grand_total }}</td>
+                            <td>total(exl. VAT)</td>
+                            <td>Frw {{ order.price_no_vat }}</td>
                         </tr>
                         <tr>
                             <td></td>
                             <td><strong>VAT</strong></td>
-                            <td><strong>FRW {{ order.vat_cost|floatformat:2 }}</strong></td>
+                            <td><strong>FRW {{ order.vat}}</strong></td>
                         </tr>
                         <tr>
                             <td></td>
-                            <td><strong>Grand Total(incl VAT)</strong></td>
-                            <td><strong>FRW {{ order.grand_paid_amount|add:order.vat_cost }}</strong></td>
+                            <td></td>
+                            <td>total(incl. VAT)</td>
+                            <td>Frw {{ grand_total }}</td>
                         </tr>
                     </table>
                 </td>
