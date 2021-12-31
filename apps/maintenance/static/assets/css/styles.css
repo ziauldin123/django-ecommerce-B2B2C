@@ -232,6 +232,10 @@ img{
     margin-right: auto;
   }
 
+  .home__description{
+     width: 450px;
+  }
+
   .home__container{
     justify-content: initial;
     column-gap: 0.5rem;
