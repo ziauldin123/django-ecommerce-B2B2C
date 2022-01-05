@@ -45,6 +45,7 @@ def search(request):
     query_height=request.GET.get('height')
     query_width=request.GET.get('width')
     query_length=request.GET.get('length')
+    print("weight", query_weight)
 
     if not query:
         query=''
@@ -189,7 +190,7 @@ class CompareView(View):
         # session = request.session
         if not request.session.get('comparing'):
             request.session['comparing'] = []
-        
+
         if not request.session.get('comparing_variants'):
             request.session['comparing_variants']=[]
 
@@ -213,10 +214,10 @@ def variantCompare(request):
     if request.method=="POST":
         variantid=request.POST.get('variant_id')
         variant=Variants.objects.get(id=variantid)
-     
+
         if not request.session.get('comparing'):
             request.session['comparing'] = []
-    
+
         if not request.session.get('comparing_variants'):
             request.session['comparing_variants']=[]
 
@@ -233,7 +234,7 @@ def variantCompare(request):
             print('limit')
             messages.success(request,"Your reach compare product limits(3)")
 
-        return redirect(variant.get_url())  
+        return redirect(variant.get_url())
 
 
 
@@ -249,8 +250,8 @@ class ComparingView(TemplateView):
         if comparing_product_ids:
             products = Product.objects.filter(id__in=comparing_product_ids)
         if comparing_variant_ids:
-            variants = Variants.objects.filter(id__in=comparing_variant_ids) 
-        print(request.session.get('comparing_variants'))   
+            variants = Variants.objects.filter(id__in=comparing_variant_ids)
+        print(request.session.get('comparing_variants'))
         return render(request,'product/comparing.html',{'products':products,'variants':variants})
 
     def post(self, request, *args, **kwargs):
