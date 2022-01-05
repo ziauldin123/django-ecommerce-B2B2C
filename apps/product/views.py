@@ -189,7 +189,9 @@ class CompareView(View):
         # session = request.session
         if not request.session.get('comparing'):
             request.session['comparing'] = []
-
+        
+        if not request.session.get('comparing_variants'):
+            request.session['comparing_variants']=[]
 
 
         if product_id in request.session['comparing']:
@@ -198,27 +200,40 @@ class CompareView(View):
             print(request.session['comparing'])
             return redirect(product.get_url())
         print('thererer')
-        request.session['comparing'].append(product_id)
+        limit=not 3 <= (request.session['comparing_variants'].__len__() + request.session['comparing'].__len__())
+        if limit:
+            request.session['comparing'].append(product_id)
+        else:
+            print('limit')
+            messages.success(request,"Your reach compare product limits(3)")
+
         return redirect(product.get_url())
 
 def variantCompare(request):
     if request.method=="POST":
         variantid=request.POST.get('variant_id')
         variant=Variants.objects.get(id=variantid)
-        print(variant)
-
-
+     
         if not request.session.get('comparing'):
-            request.session['comparing']=[]
+            request.session['comparing'] = []
+    
+        if not request.session.get('comparing_variants'):
+            request.session['comparing_variants']=[]
 
-        if variantid in request.session['comparing']:
+        if variantid in request.session['comparing_variants']:
             print('in')
-            request.session['comparing'].remove(variantid)
-            print(request.session['comparing'])
+            request.session['comparing_variants'].remove(variantid)
+            print(request.session['comparing_variants'])
             return redirect(variant.get_url())
         print('thererer')
-        request.session['comparing'].append(variantid)
-        return redirect(variant.get_url())
+        limit=not 3 <= (request.session['comparing_variants'].__len__() + request.session['comparing'].__len__())
+        if limit:
+            request.session['comparing_variants'].append(int(variantid))
+        else:
+            print('limit')
+            messages.success(request,"Your reach compare product limits(3)")
+
+        return redirect(variant.get_url())  
 
 
 
@@ -227,11 +242,15 @@ class ComparingView(TemplateView):
 
     def get(self, request, *args, **kwargs):
         context = self.get_context_data(**kwargs)
+        variants=[]
+        products=[]
         comparing_product_ids = request.session.get('comparing')
-        products = Product.objects.filter(id__in=comparing_product_ids)
-        variants = Variants.objects.filter(id__in=comparing_product_ids)
-
-
+        comparing_variant_ids = request.session.get('comparing_variants')
+        if comparing_product_ids:
+            products = Product.objects.filter(id__in=comparing_product_ids)
+        if comparing_variant_ids:
+            variants = Variants.objects.filter(id__in=comparing_variant_ids) 
+        print(request.session.get('comparing_variants'))   
         return render(request,'product/comparing.html',{'products':products,'variants':variants})
 
     def post(self, request, *args, **kwargs):
@@ -300,7 +319,15 @@ def deleteCompare(request,id):
     messages.success(request,"Your item deleted from compare")
     return redirect(url)
 
+@login_required(login_url='/login')
+@never_cache
+def deleteVariantCompare(request,id):
+    url=request.META.get('HTTP_REFERER')
 
+    request.session['comparing_variants'].remove(id)
+
+    messages.success(request,"Your item deleted from compare")
+    return redirect(url)
 
 class ReviewView(FormView):
     form_class = ReviewForm

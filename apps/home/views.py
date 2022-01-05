@@ -29,6 +29,7 @@ def index(request):
     return render(request,'index.html',context)
 
 def product_detail(request,id,slug,vendor_slug,category_slug,subcategory_slug, subsubcategory_slug):
+    query = request.GET.get('q')
     mainProduct=[]
     query=request.GET.get('q')
     product = Product.objects.get(pk=id)
@@ -60,10 +61,7 @@ def product_detail(request,id,slug,vendor_slug,category_slug,subcategory_slug, s
 
     comments = Comment.objects.filter(product_id=id,status='True')
 
-    # wishlist = None
-    # if not request.user.is_anonymous:
-    #     wishlist = UserWishList.objects.filter(user=request.user, product=pr).first()
-
+    
     product.save()
     context={'product':product,'category':category,
               'subcategory':subcategory,'subsubCategory': subsubCategory,
@@ -75,6 +73,7 @@ def product_detail(request,id,slug,vendor_slug,category_slug,subcategory_slug, s
             variant_id=request.POST.get('variantid')
             variant=Variants.objects.get(id=variant_id,status=True,visible=True) #selected product by color
             colors=Variants.objects.filter(product_id=id,size_id=variant.size_id,status=True,visible=True)
+            colors1=Variants.objects.filter(product_id=id,weight_id=variant.weight_id,status=True,visible=True)
             sizes=Variants.objects.raw('SELECT * FROM newProduct_variants WHERE product_id=%s AND status=True AND visible=True GROUP BY size_id',[id])
             weight=Variants.objects.raw('SELECT * FROM newProduct_variants WHERE product_id=%s AND status=True AND visible=True  GROUP BY weight_id',[id])
             length=Variants.objects.raw('SELECT * FROM newProduct_variants WHERE product_id=%s AND status=True AND visible=True  GROUP BY length_id',[id])
@@ -83,6 +82,7 @@ def product_detail(request,id,slug,vendor_slug,category_slug,subcategory_slug, s
         else:
             variants=Variants.objects.filter(product_id=id,status=True,visible=True)
             colors=Variants.objects.filter(product_id=id,size_id=variants[0].size_id,status=True,visible=True)
+            colors1=Variants.objects.filter(product_id=id,weight_id=variants[0].weight_id,status=True,visible=True)
             sizes=Variants.objects.raw('SELECT * FROM  newProduct_variants  WHERE product_id=%s AND status=True AND visible=True  GROUP BY size_id',[id])
             weight=Variants.objects.raw('SELECT * FROM newProduct_variants WHERE product_id=%s AND status=True AND visible=True  GROUP BY weight_id',[id])
             length=Variants.objects.raw('SELECT * FROM newProduct_variants WHERE product_id=%s AND status=True AND visible=True  GROUP BY length_id',[id])
@@ -90,7 +90,7 @@ def product_detail(request,id,slug,vendor_slug,category_slug,subcategory_slug, s
             variant=Variants.objects.get(id=variants[0].id,status=True,visible=True)
 
 
-        context.update({'sizes':sizes, 'colors':colors, 'weight':weight,'width':width,'length':length
+        context.update({'sizes':sizes, 'colors':colors,'colors1':colors1, 'weight':weight,'width':width,'length':length
                              ,'variant':variant, 'query':query,
                              'is_comparing': variant.id in request.session.get('comparing', [])})
     return render(request,'product_detail.html',context)
@@ -110,34 +110,19 @@ def ajaxcolor(request):
         return JsonResponse(data)
     return JsonResponse(data)
 
-# def category_products(request,id,slug):
-#     catdata = Category.objects.get(pk=id)
-#     products = Product.objects.filter(category_id=id)
-
-
-#     context={'products': products,
-#              #'category':category,
-#              'catdata':catdata }
-#     return render(request,'category_products.html',context)
-
-# def subcategory_products(request,id,slug):
-#     catdata = SubCategory.objects.get(pk=id)
-#     products = Product.objects.filter(category_id=id)
-
-
-#     context={'products': products,
-#              #'category':category,
-#              'catdata':catdata }
-#     return render(request,'category_products.html',context)
-
-# def category_products(request,id,slug):
-#     catdata = Category.objects.get(pk=id)
-#     products = Product.objects.filter(category_id=id)
-
-
-#     context={'products': products,
-#              #'category':category,
-#              'catdata':catdata }
-#     return render(request,'category_products.html',context)
+def ajaxcolorWeigth(request):
+    data = {}
+    if request.POST.get('action') == 'post':
+        weight_id = request.POST.get('weigth')
+        productid = request.POST.get('productid')
+        colors = Variants.objects.filter(product_id=productid, weight_id=weight_id)
+        context = {
+            'weight_id':weight_id,
+            'productid': productid,
+            'colors': colors,
+        }
+        data = {'rendered_table': render_to_string('color_list.html', context=context)}
+        return JsonResponse(data)
+    return JsonResponse(data)
 
 

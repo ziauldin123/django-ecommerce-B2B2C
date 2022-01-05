@@ -34,9 +34,8 @@ def addtoshopcart(request,id):
 
     if product.is_variant:
         #get variant object
-        variant=Variants.objects.get(pk=variantid)
         #from variant add to cart
-        checkinvariant = ShopCart.objects.filter(variant=variantid,user=current_user) #check product from cart
+        checkinvariant = ShopCart.objects.filter(variant_id=variantid,user=current_user) #check product from cart
         if checkinvariant:
             control = 1 #product is in cart
         else:
@@ -55,22 +54,25 @@ def addtoshopcart(request,id):
     if request.method == 'POST': #if there is a post
 
         form = ShopCartForm(request.POST)
-        if form.is_valid():
+        if form.is_valid():     
+           
 
             if control == 1: #update shopcart
                 if product.variant == 'None':
                     data = ShopCart.objects.get(product_id=id, user_id=current_user)
                 else:
-                    data=ShopCart.objects.get(product_id=id, variant_id=variantid, user_id=current_user.id)
+                    data=ShopCart.objects.get(variant_id=variantid, user_id=current_user.id)
                 data.quantity += form.cleaned_data['quantity']
                 data.save()#save data
 
-                cart.add(product_id=product.id,user_id=current_user.id, quantity=form.cleaned_data['quantity'], update_quantity=True)
+                cart.add(product_id=product.id,user_id=current_user.id,quantity=form.cleaned_data['quantity'], update_quantity=True)
             else :# insert to shopcart
+                variant=Variants.objects.get(id=variantid)
                 data=ShopCart()
                 data.user=current_user
                 data.product=product
                 data.variant=variant
+                data.variant_id=variantid
                 data.quantity = form.cleaned_data['quantity']
                 data.save()
                 # cart.set(int(product.id), int(form.cleaned_data['quantity']))
@@ -87,7 +89,7 @@ def addtoshopcart(request,id):
             data=ShopCart.objects.get(product_id=id, user_id=current_user.id)
             data.quantity += 1
             data.save()
-            cart.add(product_id=product.id, quantity=1, update_quantity=True,user_id=current_user.id)
+            cart.add(product_id=product.id,quantity=1, update_quantity=True,user_id=current_user.id)
         else:#insert to shopcart
             data=ShopCart.objects.create(
                 user_id=current_user.id,
@@ -95,14 +97,7 @@ def addtoshopcart(request,id):
                 quantity = 1,
                 variant_id = None,
             )
-            # data = ShopCart()
-            # data.user_id = current_user.id
-            # data.product_id = id
-            # data.quantity = 1
-            # data.variant_id = None
-            # data.save()
-            # cart.set(product.id, 1)
-            cart.add(product_id=product.id, quantity=1, update_quantity=True,user_id=current_user.id)
+            cart.add(product_id=product.id,quantity=1, update_quantity=True,user_id=current_user.id)
         messages.success(request,'Product added to Shopcart')
         return HttpResponseRedirect(url)
 
@@ -144,27 +139,21 @@ def shopcart(request):
 
         shopcart = ShopCart.objects.filter(user_id=current_user.id)
         total=cart.get_cart_cost()
-        # for rs in shopcart:
-        #     if rs.product.variant=='None':
-        #         if rs.product.discount > 0:
-        #             total+=Decimal(rs.product.get_discounted_price()*rs.quantity)
-        #         else:
-        #             total+=rs.product.price*rs.quantity
-        #     else:
-        #         if rs.variant.discount > 0:
-        #             print(rs.variant.get_discounted_price())
-        #             total+=Decimal(rs.variant.get_discounted_price())*rs.quantity
-        #         else:
-        #             total+=rs.varamount*rs.quantity
+        tax=cart.get_cart_tax()
+        grandTotal=cart.get_cart_cost() + cart.get_cart_tax()
+       
         context={'shopcart': shopcart,
                 'category':category,
                 'total': round(total,2),
-
+                'tax':tax,
+                'grandTotal':grandTotal
                 }
     else:
          context={'shopcart': None,
                 'category':None,
                 'total': None,
+                'tax':None,
+                'grandTotal':None
                 }
     return render(request,'shopcart_products.html',context)
 

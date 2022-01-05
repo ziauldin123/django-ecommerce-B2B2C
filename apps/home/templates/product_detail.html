@@ -66,7 +66,7 @@
                                 <a href="#tab1"> {{ product.countreview}}  Review(s) / Add Review</a>
                             </div>
 
-                            <p> {{ product.description }} </p>
+                            <p> {{ product.summary }} </p>
 
                             {% if product.pickup_available == True %}
                                 <p>Pickup available</p>
@@ -103,6 +103,29 @@
                                         }
                                     });
                                 });
+                               
+                                $(document).on('change', '#post-form1',function(e){
+                                    e.preventDefault();
+                                    $.ajax({
+                                        type:'POST',
+                                        url:'{% url "ajaxcolor-weight" %}',
+                                        data:{
+                                            productid:$('#productid').val(),
+                                            weigth:$('#weight').val(),
+                                            csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+                                            action: 'post'
+                                        },
+                                        data_type : 'html',
+                                        success: function (data) {
+                                            console.log("success");
+                                            $('#appendHere').html(data.rendered_table);
+                                        },
+                                        error: function (data) {
+                                            alert("Got an error dude " + data);
+                                        }
+                                    });
+                                });
+
                                 $('body').on('click','.compareBtn',function(){
                                     var variant_id=$(this).closest('.compare').find('.variantid').val()
                                     var my_token='{{ csrf_token }}'
@@ -171,6 +194,41 @@
                                             </form>
                                         </div>
 
+                                        {% elif product.variant == 'Wght-Color' %}
+
+                                        <div class="product-options" >
+                                            <div class="size-option">
+                                                <form method="POST" id="post-form1">
+                                                    <input type="hidden" name="productid" id="productid" value="{{ product.id }}">
+                                                    <span class="text-uppercase">Weight :</span>
+                                                    {% csrf_token %}
+                                                    <select name="weight" id="weight">
+                                                        {% for rs in weight %}
+                                                            <option {% if variant.weight_id == rs.weight_id %} selected {% endif %} value="{{ rs.weight_id }}">{{ rs.weight }}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </form>
+                                            </div>
+
+                                            <form method="post" action="?q=selectvariant" id="post-color">
+                                                {% csrf_token %}
+                                                <div id="appendHere">
+                                                    <input type="hidden" name="weight" id="weight" value="{{ weight_id }}">
+                                                    <ul class="color-option" >
+                                                        <li><span class="text-uppercase">Color:</span></li>
+                                                        {% for rs in colors1 %}
+                                                            <input type="radio"  {% if variant.id == rs.id %} checked {% endif %} name="variantid" id="variantid" value="{{ rs.id }}" onchange="this.form.submit();">
+                                                            <li  {% if variant.id == rs.id %} class="active" {% endif %}>
+                                                                <a style="background-color:{{ rs.color.code }};width:90px">
+                                                                     {{ rs.color }}
+                                                                </a>
+                                                                <img src="{{ rs.image_variant.url}}" alt="" style="height: 100px;">
+                                                            </li>
+                                                        {% endfor %}
+                                                    </ul>
+                                                </div>
+                                            </form>
+                                        </div>
 
                                     {% elif product.variant == 'Size' %}
                                         <form method="post" action="?q=selectvariant" id="post-color">
@@ -185,6 +243,7 @@
                                                             <a style=" color: #204d74;  width: 90px">
                                                                 ${{ rs.size }}<br> {{ rs.price }}
                                                             </a>
+                                                            <img src="{{ rs.image_variant.url}}" alt="" style="height:100px">
                                                         </li>
                                                     {% endfor %}
                                                 </ul>
@@ -205,6 +264,7 @@
                                                        <a style="width: 90px;">
                                                               ${{ rs.weight }}<br> {{ rs.price }}
                                                       </a>
+                                                      <img src="{{ rs.image_variant.url}}" alt="" style="height:100px">
                                                    </li>
                                                    {% endfor %}
                                               </ul>
@@ -225,6 +285,7 @@
                                                        <a style="width: 90px;">
                                                               {{ rs.length }}mm<br> ${{ rs.price }}
                                                       </a>
+                                                      <img src="{{ rs.image_variant.url}}" alt="" style="height:100px">
                                                    </li>
                                                    {% endfor %}
                                               </ul>
@@ -245,6 +306,7 @@
                                                        <a style="width: 90px;">
                                                               {{ rs.width }}mm<br> ${{ rs.price }}
                                                       </a>
+                                                      <img src="{{ rs.image_variant.url}}" alt="" style="height:100px">
                                                    </li>
                                                    {% endfor %}
                                               </ul>
@@ -390,8 +452,11 @@
 
                         <!-- Nav tabs -->
                         <ul class="nav nav-tabs">
+                            <li class="nav-item">
+                                <a class="nav-link active" data-toggle="tab" href="#spec">Description</a>
+                              </li>
                           <li class="nav-item">
-                            <a class="nav-link active" data-toggle="tab" href="#detail">Specification</a>
+                            <a class="nav-link" data-toggle="tab" href="#detail">Specification</a>
                           </li>
                           <li class="nav-item">
                             <a class="nav-link" data-toggle="tab" href="#review">Review ({{ product.countreview }} )</a>
@@ -400,7 +465,10 @@
 
                         <!-- Tab panes -->
                         <div class="tab-content">
-                          <div class="tab-pane container active" id="detail">
+                            <div class="tab-pane container active" id="spec">
+                                <p>{{ product.description|safe }}</p>
+                            </div>
+                          <div class="tab-pane container fade in" id="detail">
                             <p>
                                 {% if product.variant == 'None' %}
 
@@ -408,13 +476,19 @@
                                   Color: {{ product.color }} </br>
                                 {% endif %}
                                 {% if product.length %}
-                                  length: {{ product.length }} </br>
+                                  length: {{ product.length }} m</br>
                                 {% endif %}
                                 {% if product.weight %}
-                                  weight: {{ product.weight }} </br>
+                                  weight: {{ product.weight }} kg </br>
                                 {% endif %}
                                 {% if product.width %}
-                                   width: {{ product.width }}
+                                   width: {{ product.width }} m</br>
+                                {% endif %}
+                                {% if product.height %}
+                                   height: {{ product.height }} m</br>
+                                {% endif %}
+                                {% if product.size %}
+                                   Size: {{ product.size }} 
                                 {% endif %}
 
                                 {% else %}
@@ -423,13 +497,19 @@
                                   Color: {{ variant.color }} </br>
                                 {% endif %}
                                 {% if variant.length %}
-                                  length: {{ variant.length }} </br>
+                                  length: {{ variant.length }} m</br>
                                 {% endif %}
                                 {% if variant.weight %}
-                                  weight: {{ variant.weight }} </br>
+                                  weight: {{ variant.weight }} kg</br>
                                 {% endif %}
                                 {% if variant.width %}
-                                   width: {{ variant.width }}
+                                   width: {{ variant.width }} m</br>
+                                {% endif %}
+                                {% if variant.height %}
+                                   height: {{ variant.height }} m</br>
+                                {% endif %}
+                                {% if variant.size %}
+                                   Size: {{ variant.size }} 
                                 {% endif %}
 
                                 {% endif %}
