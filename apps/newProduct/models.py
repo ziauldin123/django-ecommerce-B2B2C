@@ -418,8 +418,13 @@ class Variants(models.Model):
             return ""
 
     def get_discounted_price_var(self):
-        discounted_price = float(self.price-((self.discount*self.price)/100))
+        if self.discount:
+            discounted_price = float(self.price-((self.discount*self.price)/100))
+        else:
+            discounted_price = 0    
         return discounted_price
+        
+        
 
 
     def get_vat_exclusive_price(self):

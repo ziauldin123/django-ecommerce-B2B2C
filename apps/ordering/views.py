@@ -27,7 +27,6 @@ def addtoshopcart(request,id):
     current_user=request.user #Access User Session infor
     product=Product.objects.get(pk=id)
     variantid = request.POST.get('variantid')
-
     customer=Customer.objects.filter(email=current_user)
     print(customer)
 
@@ -64,8 +63,8 @@ def addtoshopcart(request,id):
                     data=ShopCart.objects.get(variant_id=variantid, user_id=current_user.id)
                 data.quantity += form.cleaned_data['quantity']
                 data.save()#save data
-
-                cart.add(product_id=product.id,user_id=current_user.id,quantity=form.cleaned_data['quantity'], update_quantity=True)
+    
+                cart.add(product_id=product.id,variant_id=variantid,user_id=current_user.id,quantity=form.cleaned_data['quantity'], update_quantity=True)
             else :# insert to shopcart
                 variant=Variants.objects.get(id=variantid)
                 data=ShopCart()
@@ -76,7 +75,7 @@ def addtoshopcart(request,id):
                 data.quantity = form.cleaned_data['quantity']
                 data.save()
                 # cart.set(int(product.id), int(form.cleaned_data['quantity']))
-                cart.add(product_id=product.id,user_id=current_user.id, quantity=form.cleaned_data['quantity'], update_quantity=True)
+                cart.add(product_id=product.id,variant_id=variantid,user_id=current_user.id, quantity=form.cleaned_data['quantity'], update_quantity=True)
 
 
         messages.success(request,"Product added to Shopcart")
@@ -89,7 +88,7 @@ def addtoshopcart(request,id):
             data=ShopCart.objects.get(product_id=id, user_id=current_user.id)
             data.quantity += 1
             data.save()
-            cart.add(product_id=product.id,quantity=1, update_quantity=True,user_id=current_user.id)
+            cart.add(product_id=product.id,variant_id=None,quantity=1, update_quantity=True,user_id=current_user.id)
         else:#insert to shopcart
             data=ShopCart.objects.create(
                 user_id=current_user.id,
@@ -97,7 +96,7 @@ def addtoshopcart(request,id):
                 quantity = 1,
                 variant_id = None,
             )
-            cart.add(product_id=product.id,quantity=1, update_quantity=True,user_id=current_user.id)
+            cart.add(product_id=product.id,variant_id=None, quantity=1, update_quantity=True,user_id=current_user.id)
         messages.success(request,'Product added to Shopcart')
         return HttpResponseRedirect(url)
 
@@ -144,7 +143,7 @@ def shopcart(request):
        
         context={'shopcart': shopcart,
                 'category':category,
-                'total': round(total,2),
+                'total': round(Decimal(total),2),
                 'tax':tax,
                 'grandTotal':grandTotal
                 }
@@ -184,7 +183,12 @@ def update(request):
             cart=ShopCart.objects.get(id=prod_id,user=request.user)
             cart.quantity=prod_qty
             cart.save()
-            cart_data.add(product_id=cart.product.id,user_id=request.user.id, quantity=prod_qty, update_quantity=True)
+            if cart.product.is_variant:
+                cart_data.add(product_id=cart.product.id,variant_id=cart.variant.id,user_id=request.user.id, quantity=prod_qty, update_quantity=True)
+            else:
+                cart_data.add(product_id=cart.product.id,variant_id=None,user_id=request.user.id, quantity=prod_qty, update_quantity=True)    
+
+            
             return JsonResponse({'status':"Updated"})
 
     return redirect('/')

@@ -1,4 +1,5 @@
 from decimal import Decimal
+from django.core.validators import ProhibitNullCharactersValidator
 
 import stripe
 from django.conf import settings
@@ -70,9 +71,6 @@ def contact_info(request):
     cell=''
     village=''
     cart = Cart(request)
-    # print("contact_info")
-    # print("GET = ", request.GET)
-    # print("POST = ", request.POST)
 
     districts = District.objects.all()
 
@@ -80,53 +78,21 @@ def contact_info(request):
     cart_customer = Customer.objects.filter(email=request.user.email).first()
     current_user=request.user
 
-    # if cart_vendor:
-    #     cart_user = cart_vendor
-    # else:
-    #     cart_user = cart_customer
+
 
     coupon_discount=cart.get_coupon_discount()
     print(coupon_discount,"%")
 
-    # use_vendor_delivery = True
-    # pickup_avaliable = True
-
-    # for item in cart:
-    #     product = Product.objects.get(pk=item['product']['id'])
-    #     if product.vendor.vendor_delivery.all().count() == 0:
-    #         use_vendor_delivery = False
-    #     if item["product"] and not item["product"]['pickup_available']:
-    #         pickup_avaliable = False
+    
 
     use_vendor_delivery,pickup_avaliable=cart.get_is_vendor_delivery()
     shopcart = ShopCart.objects.filter(user_id=current_user.id)
-    products = [i['product'] for i in cart]
+    # products = [i['product'] for i in cart]
     sub_total=cart.get_cart_cost()
     total=total=cart.get_cart_cost_with_coupen()
     tax=Cart(request).get_cart_tax()
     grandTotal=cart.get_cart_cost() + cart.get_cart_tax()
-    # for rs in shopcart:
-    #     print(rs.id)
-    #     print(rs.product.id)
-    #     product=Product.objects.get(id=rs.product.id)
-    #     print(product)
-    #     if product.vendor.vendor_delivery.all().count()==0:
-    #         use_vendor_delivery=False
-    #     if rs.product and not rs.product.pickup_available:
-    #         pickup_avaliable=False
-    #     print(rs.product.pickup_available)
-    #     if rs.product.variant=='None':
-    #         if rs.product.discount > 0:
-    #             total+=rs.product.get_discounted_price*rs.quantity
-    #         else:
-    #             total+=float(rs.product.price)*rs.quantity
-    #     else:
-    #         if rs.variant.discount > 0:
-    #             total+=rs.variant.get_discounted_price()*rs.quantity
-    #         else:
-    #             total+=rs.varamount*rs.quantity
-
-    #     total = float(total-((coupon_discount*total)/100))
+    
 
     if cart_customer:
         print("cart_customer")
@@ -273,34 +239,15 @@ def payment_check(request, *args, **kwargs):
     total=cart.get_cart_cost()
     tax=cart.get_cart_tax()
     grandTotal=cart.get_cart_tax() + cart.get_total_cost()
-    # for rs in shopcart:
-    #     if rs.product.variant=='None':
-    #         if rs.product.discount > 0:
-    #             total+=rs.product.get_discounted_price*rs.quantity
-    #         else:
-    #             total+=rs.product.price*rs.quantity
-    #     else:
-    #         if rs.variant.discount > 0:
-    #             total+=Decimal(rs.variant.get_discounted_price()*rs.quantity)
-    #         else:
-    #             total+=rs.varamount*rs.quantity
-
-
-
-    request.POST.get('pay_now')
     if request.method == 'POST':
         form = PaymentForm(request.POST)  # PaymentForm
         if cart.get_delivery_type() == 'store':
-            payment_service.make_checkout(request, cart,shopcart)
+            payment_service.make_checkout(request,cart,shopcart)
             return redirect('success')
         elif form.is_valid():
             stripe.api_key = settings.STRIPE_SECRET_KEY
             try:
                 amount = cart.get_cart_cost_with_coupen()
-                # if request.session.get(settings.COUPON_SESSION_ID)["discount"] != "":
-                #     amount = amount * \
-                #         (100 - int(request.session.get(settings.COUPON_SESSION_ID)
-                #                    ["discount"])) / 100
                 amount += cart.get_delivery_cost()
                 try:
                     token = stripe.Token.create(

@@ -45,8 +45,6 @@
                         <tr>
                             <td><b>Product</b></td>
                             <td><b>Quantity</b></td>
-                            <td>Price(vat exl.)</td>
-                            <td>vat</td>
                             <td><b>Price(vat incl.)</b></td>
                             <td><b>Total</b></td>
                         </tr>
@@ -55,8 +53,6 @@
                             <tr>
                                 <td>{{ item.get_product_name }}</td>
                                 <td>{{ item.quantity }}</td>
-                                <td>{{ item.get_product_no_vat }}</td>
-                                <td>{{ item.get_vat_price }}</td>
                                 <td>Frw {{ item.get_discounted_price }}</td>
                                 <td>Frw {{ item.get_total_price }}</td>
                             </tr>
@@ -98,11 +94,6 @@
                                     {% endif %}
                                 </strong>
                             </td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td>total(exl. VAT)</td>
-                            <td>Frw {{ order.price_no_vat }}</td>
                         </tr>
                         <tr>
                             <td></td>

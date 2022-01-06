@@ -72,7 +72,7 @@ class ShopCart(models.Model):
     @property
     def var_dicount_amount(self):
         if self.variant.discount  == 0:
-            return 00
+            return 0
         else:
             return round(Decimal(self.quantity * self.variant.get_discounted_price_var()),2)
 
@@ -202,7 +202,7 @@ class OrderItem(models.Model):
     vendor_paid=models.BooleanField(default=False)
     price=models.DecimalField(max_digits=8,decimal_places=2)
     price_no_vat=models.DecimalField(max_digits=8,decimal_places=2,default=0)
-    quantity=models.IntegerField(default=1)
+    quantity=models.IntegerField()
     is_variant=models.BooleanField(default=False)
     vat=models.DecimalField(max_digits=8,decimal_places=2,blank=True,null=True)
 
@@ -260,7 +260,8 @@ class OrderItem(models.Model):
         else:
             title =self.variant.title
         return title
-
+    
+     
     
     def get_product_total_price(self):
         if not self.is_variant:
@@ -278,9 +279,9 @@ class OrderItem(models.Model):
     
     def get_subtotal_vat_exlusive(self):
         if not self.is_variant:
-            return round(Decimal(round(Decimal(self.product.get_vat_exclusive_price() * self.quantity),2)),2)
+            return round(Decimal(round(Decimal(Decimal(self.product.get_vat_exclusive_price()) * self.quantity),2)),2)
         else:
-            return round(Decimal(round(Decimal(self.variant.get_vat_exclusive_price() * self.quantity),2)),2)
+            return round(Decimal(round(Decimal(Decimal(self.variant.get_vat_exclusive_price()) * self.quantity),2)),2)
                 
 
     def get_total_price(self):
