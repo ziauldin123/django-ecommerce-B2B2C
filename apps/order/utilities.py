@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.core.mail import EmailMultiAlternatives, get_connection
 from django.template.loader import render_to_string
-from decimal import Decimal
+from decimal import ROUND_05UP, Decimal
 
 from apps.cart.cart import Cart
 from apps.newProduct.models import Product, Variants
@@ -83,28 +83,26 @@ def checkout(
             vat=round(Decimal(vat),2)
             print("quantity in cart")
             print(total_quantity)
-            subtotal_amount += Decimal(item['product']['total_price'] * item['quantity'])
+            subtotal_amount += round(Decimal(item['total_price'] * item['quantity']),2)
             subtotal_amount=round(Decimal(subtotal_amount),2)
+            
             if item['product']['is_variant']:
-                var_id=int(item['product']['variant_id'])
+                var_id=int(item['product']['variant_id']['id'])
                 pro_id=int(item['product']['id'])
-                print(pro_id)
             else:
                 pro_id=int(item['product']['id'])
-                var_id=''
-
+                var_id=''   
             OrderItem.objects.create(
                 order=order,
                 product_id=pro_id,
                 variant_id=var_id,
-                vendor_id=item['product']['vendor_id'],
-                price=item['product']['total_price'],
+                vendor_id=item['product']['vendor_id']['id'],
+                price=item['total_price'],
                 quantity=item['quantity'],
                 is_variant=item['product']['is_variant']
             )
-            vendor = Vendor.objects.get(pk=item['product']['vendor_id'])
+            vendor = Vendor.objects.get(pk=item['product']['vendor_id']['id'])
             order.vendors.add(vendor)
-
         order.total_quantity = total_quantity
         order.price_no_vat = price_no_vat
         order.vat = vat
@@ -157,7 +155,6 @@ def notify_vendor(order):
 
             vendor_items_total_price=round(Decimal(vendor_items_total_price),2)
             total_cost=round(Decimal(total_cost),2)
-
             subject = 'New order'
             text_content = 'You have a new order!'
             html_content = render_to_string(
@@ -185,6 +182,7 @@ def notify_customer(order,request):
     grand_cost=order.paid_amount + Decimal(order.delivery_cost)
     from_email = settings.DEFAULT_EMAIL_FROM
     to_email = order.email
+    print('order')
     subject = 'Order confirmation'
     text_content = 'Thank you for the order!'
     html_content = render_to_string(
