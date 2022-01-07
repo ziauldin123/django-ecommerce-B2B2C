@@ -239,6 +239,8 @@ def payment_check(request, *args, **kwargs):
     total=cart.get_cart_cost()
     tax=cart.get_cart_tax()
     grandTotal=cart.get_cart_tax() + cart.get_total_cost()
+    
+    request.POST.get('pay_now')
     if request.method == 'POST':
         form = PaymentForm(request.POST)  # PaymentForm
         if cart.get_delivery_type() == 'store':

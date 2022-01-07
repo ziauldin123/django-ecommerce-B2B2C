@@ -85,6 +85,7 @@ def checkout(
             print(total_quantity)
             subtotal_amount += Decimal(item['total_price'] * item['quantity'])
             subtotal_amount=round(Decimal(subtotal_amount),2)
+            
             if item['product']['is_variant']:
                 var_id=int(item['product']['variant_id']['id'])
                 pro_id=int(item['product']['id'])
