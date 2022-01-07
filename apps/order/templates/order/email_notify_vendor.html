@@ -1,109 +1,278 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
-        <title>Warehouse250</title>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Order Confirmation - Sokopark</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <link href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css' rel='stylesheet'>
+    <link href='' rel='stylesheet'>
+    <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
+    <style type="text/css">
+            body,
+            table,
+            td,
+            a {
+                -webkit-text-size-adjust: 100%;
+                -ms-text-size-adjust: 100%;
+            }
 
-        <style type="text/css">
-            html {
-                width: 100%;
+            table,
+            td {
+                mso-table-lspace: 0pt;
+                mso-table-rspace: 0pt;
+            }
+
+            img {
+                -ms-interpolation-mode: bicubic;
+            }
+
+            img {
+                border: 0; 
+                height: auto;
+                line-height: 100%;
+                outline: none;
+                text-decoration: none;
+            }
+
+            table {
+                border-collapse: collapse !important;
             }
 
             body {
-                width: 100%;
-                font-family: Arial;
-                font-size: 14px;
-                background-color: #fff;
-                color: #333;
+                height: 100% !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                width: 100% !important;
+            }
+
+            a[x-apple-data-detectors] {
+                color: inherit !important;
+                text-decoration: none !important;
+                font-size: inherit !important;
+                font-family: inherit !important;
+                font-weight: inherit !important;
+                line-height: inherit !important;
+            }
+
+            @media screen and (max-width: 480px) {
+                .mobile-hide {
+                    display: none !important;
+                }
+
+                .mobile-center {
+                    text-align: center !important;
+                }
+            }
+
+            div[style*="margin: 16px 0;"] {
+                margin: 0 !important;
             }
         </style>
-    </head>
 
-    <body>
-        <table width="100%" cellspacing="0" cellpadding="0">
+    <body style="margin: 0 !important; padding: 0 !important; background-color: #eeeeee;" bgcolor="#eeeeee">
+        <table border="0" cellpadding="0" cellspacing="0" width="100%">
             <tr>
-                <td><h1>New order</h1></td>
-            </tr>
-
-            <tr>
-                <td>
-                    <h3>Details</h3>
-
-                    <b>Name:</b> {{ order.first_name }} {{ order.last_name }}<br>
-                    <b>Address:</b> {{ order.address }}<br>
-                    <b>E-mail:</b> {{ order.email }}<br>
-                    <b>Phone:</b> {{ order.phone }}
-                </td>
-            </tr>
-
-            <tr>
-                <td>
-                    <h3>Products</h3>
-                    {% if order.coupon_discount > 0 %}
-                        <h4>Coupon discount : {{ order.coupon_discount }} %</h4>
-                    {% endif %}
-
-                    <table width="100%" cellspacing="0" cellpadding="0">
+                <td align="center" style="background-color: #eeeeee;" bgcolor="#eeeeee">
+                    <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%"
+                        style="max-width:600px;">
                         <tr>
-                            <td><b>Product</b></td>
-                            <td><b>Price</b></td>
-                            <td><b>Quantity</b></td>
-                            <td><b>Total</b></td>
-                        </tr>
-
-                        {% for item in order.items.all %}
-                            {% if item.vendor == vendor %}
-                                <tr>
-                                    <td>{{ item.get_product_name }}</td>
-                                    <td>
-                                        Frw {{ item.get_discounted_price }}
-                                    </td>
-                                    <td>{{ item.quantity }}</td>
-                                    <td>Frw {{ item.get_total_price }}</td>
-                                </tr>
-                            {% endif %}
-                        {% endfor %}
-                        <tr>
-                            <td>Products subtotal</td>
-                            <td></td>
-                            <td>{{ total_quantity }}</td>
-                        </tr>
-                        {% if order.coupon_discount > 0 %}
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td>Coupon</td>
-                                <td>{{ order.coupon_discount }} %</td>
-                            </tr>
-                        {% endif %}
-                        {% if is_delivery %}
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td>Delivery cost</td>
-                            <td>Frw {{ delivery_cost }}</td>
-                        </tr>
-                        {% endif %}
-                        <tr>
-                            <td></td>
-                            <td>total(exl. VAT)</td>
-                            <td>Frw {{ order.price_no_vat }}</td>
+                            <td align="center" valign="top" style="font-size:0; padding: 20px;" bgcolor="#000000">
+                                <div
+                                    style="display:inline-block; max-width:50%; min-width:100px; vertical-align:top; width:100%;">
+                                    <table align="left" border="0" cellpadding="0" cellspacing="0" width="100%"
+                                        style="max-width:300px;">
+                                        <tr>
+                                            <td align="center" valign="top"
+                                                style="line-height: 48px;"
+                                                class="mobile-center">
+                                                <img src="/Users/rolandbahire/Desktop/Sokopark/art/navbar_logo_white.png" width="250" height="250"
+                                                style="display: block; border: 0px;" /> </td>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </td>
                         </tr>
                         <tr>
-                            <td></td>
-                            <td><strong>VAT</strong></td>
-                            <td><strong>FRW {{ order.vat}}</strong></td>
+                            <td align="center" style="padding: 0px 35px 20px 35px; background-color: #ffffff;"
+                                bgcolor="#ffffff">
+                                <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%"
+                                    style="max-width:600px;">
+                                    <tr>
+                                        <td align="center"
+                                            style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding-top: 25px;">
+                                            <img src="https://img.icons8.com/carbon-copy/100/000000/checked-checkbox.png"
+                                                width="125" height="120" style="display: block; border: 0px;" /><br>
+                                            <h2
+                                                style="font-size: 30px; font-weight: 800; line-height: 36px; color: #333333; margin: 0;">
+                                                Order Received. </h2>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td align="left"
+                                            style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding-top: 10px;">
+                                            <p
+                                                style="font-size: 16px; font-weight: 400; line-height: 24px; color: #000000; padding-top: 15px;">
+                                                Order Reference: #03545<br>
+                                                Order Date & Time: 22/01/05, 14:27:26
+                                            </p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td align="left" style="padding-top: 0px;">
+                                            <table cellspacing="0" cellpadding="0" border="0" width="100%">
+                                                <tr>
+                                                    <td width="40%" align="left" bgcolor="#eeeeee"
+                                                        style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 800; line-height: 24px; padding: 10px;">
+                                                        Item</td>
+                                                    <td width="10%" align="left" bgcolor="#eeeeee"
+                                                        style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 800; line-height: 24px; padding: 10px;">
+                                                         Qty</td>
+                                                    <td width="25%" align="left" bgcolor="#eeeeee"
+                                                        style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 800; line-height: 24px; padding: 10px;">
+                                                         Price</td>
+                                                    <td width="25%" align="left" bgcolor="#eeeeee"
+                                                        style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 800; line-height: 24px; padding: 10px;">
+                                                         Total</td>
+                                                </tr>
+                                                {% for item in order.items.all %}
+                                                    {% if item.vendor == vendor %}
+                                                        <tr>
+                                                            <td width="40%" align="left"
+                                                                style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding: 15px 10px 5px 10px;">
+                                                                {{ item.get_product_name }}</td>
+                                                            <td width="10%" align="left"
+                                                                style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding: 15px 10px 5px 10px;">
+                                                                {{ item.quantity }} </td>
+                                                            <td width="25%" align="left"
+                                                                style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding: 15px 10px 5px 10px;">
+                                                                {{ item.get_discounted_price }} </td>
+                                                            <td width="25%" align="left"
+                                                                style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding: 15px 10px 5px 10px;">
+                                                                {{ item.subtotal }} </td>
+                                                        </tr>
+                                                    {% endif %}
+                                                {% endfor %}
+                                               
+                                            </table>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td align="left" style="padding-top: 20px;">
+                                            <table cellspacing="0" cellpadding="0" border="0" width="100%">
+                                                <tr>
+                                                    <td width="75%" align="right"
+                                                        style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 800; line-height: 24px; padding: 10px; border-top: 3px solid #eeeeee; border-bottom: 3px solid #eeeeee;">
+                                                        Sub-Total </td>
+                                                    <td width="25%" align="left"
+                                                        style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 800; line-height: 24px; padding: 10px; border-top: 3px solid #eeeeee; border-bottom: 3px solid #eeeeee;">
+                                                        {{ subtotal }} </td>
+                                                </tr>
+                                                {% if is_delivery %}
+                                                <tr>
+                                                    <td width="75%" align="right"
+                                                        style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding: 5px 10px;">
+                                                        Delivery  </td>
+                                                    <td width="25%" align="left"
+                                                        style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding: 5px 10px;">
+                                                        {{ delivery_cost }} </td>
+                                                </tr>
+                                                {% endif %}
+                                                <tr>
+                                                    <td width="75%" align="right"
+                                                        style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 800; line-height: 24px; padding: 10px; border-top: 3px solid #eeeeee; border-bottom: 3px solid #eeeeee;">
+                                                        TOTAL </td>
+                                                    <td width="25%" align="left"
+                                                        style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 800; line-height: 24px; padding: 10px; border-top: 3px solid #eeeeee; border-bottom: 3px solid #eeeeee;">
+                                                        {{ grand_total }} </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
                         </tr>
                         <tr>
-                            <td></td>
-                            <td></td>
-                            <td>total(incl. VAT)</td>
-                            <td>Frw {{ grand_total }}</td>
+                            <td align="left" height="100%" valign="top" width="100%"
+                                style="padding: 0 35px 35px 35px; background-color: #ffffff;" bgcolor="#ffffff">
+                                <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%"
+                                    style="max-width:660px;">
+                                    <tr>
+                                        <td align="left" valign="top" style="font-size:0;">
+                                             <div
+                                                style="display:inline-block; max-width:50%; min-width:240px; vertical-align:top; width:100%;">
+                                                <table align="left" border="0" cellpadding="0" cellspacing="0"
+                                                    width="100%" style="max-width:300px;">
+                                                    <tr>
+                                                        <td align="left" valign="top"
+                                                            style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px;">
+                                                            <p style="font-weight: 800;">Customer Details</p>
+                                                            <p>Name: {{ order.first_name }} {{ order.last_name }}<br>Phone: {{ order.phone }}<br>Email: {{ order.email }}<br>Tin: 10236525</p>
+                                                           
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                            <div
+                                                style="display:inline-block; max-width:50%; min-width:240px; vertical-align:top; width:100%;">
+                                                <table align="left" border="0" cellpadding="0" cellspacing="0"
+                                                    width="100%" style="max-width:300px;">
+                                                    <tr>
+                                                        <td align="left" valign="top"
+                                                            style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px;">
+                                                            <p style="font-weight: 800;">Delivery Address</p>
+                                                            <p>District:{{order.district}}<br>Sector:{{order.sector}}<br>Cell:{{order.cell}}<br>Village:{{order.village}}<br>Address:{{order.delivery_address}}<br></p>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <hr style="height:2px;border-width:0;background-color:black">
+                            </td>
+                        </tr>       
+                        <tr>
+                            <td align="center" style="padding: 0px 35px 0px 35px; background-color: #ffffff;" bgcolor="#ffffff">
+                                <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%"
+                                    style="max-width:600px;">
+                                    <tr>
+                                        <td align="center"> <img src="/Users/rolandbahire/Desktop/Sokopark/art/black_logo.png" width="78" height="78"
+                                                style="display: block; border: 0px;" /> </td>
+                                    </tr>
+                                    <tr>
+                                        <td align="center"
+                                            style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 14px; font-weight: 400; line-height: 24px; padding: 5px 0 10px 0;">
+                                            <p
+                                                style="font-size: 14px; font-weight: 800; line-height: 18px; color: #333333;">
+                                               SOKOPARK<br>Kigali, Rwanda </p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td align="left"
+                                            style="font-family: Open Sans, Helvetica, Arial, sans-serif;font-weight: 400; line-height: 24px;">
+                                            <p
+                                                style="font-size: 13px; font-weight: 400; line-height: 20px; color: #777777;">
+                                                * This document is an order confirmation. It is the responsibility of the vendor to provide tax receipts to the customers. <br> * The prices above include Value Added Tax (if applicable). <br>* If you are not a Sokopark vendor, please ignore
+                                                this email.</p>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
                         </tr>
                     </table>
                 </td>
             </tr>
         </table>
     </body>
+
+    </html>
+    <script type='text/javascript'
+        src='https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js'></script>
+    <script type='text/javascript' src=''></script>
+    <script type='text/javascript' src=''></script>
+    <script type='text/Javascript'></script>
+
 </html>
