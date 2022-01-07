@@ -167,6 +167,7 @@ class Product(models.Model):
         ('Length', 'Length'),
         ('Width', 'Width'),
         ('Size-Color', 'Size-Color'),
+        ('Wght-Color','Weight-Color')
     )
     # many to one relation with Category
     category = models.ForeignKey(
@@ -176,14 +177,14 @@ class Product(models.Model):
     title = models.CharField(max_length=150)
     brand = models.ForeignKey(
         Brand, on_delete=models.DO_NOTHING, null=True, blank=True)
-    description = models.TextField(max_length=255)
+    summary = models.TextField(max_length=255,null=True,blank=True)
     image = models.ImageField(upload_to='images/', null=True, blank=True)
     unit_type = models.ForeignKey(
         UnitTypes, on_delete=models.DO_NOTHING, null=True, blank=True)
     price = models.DecimalField(max_digits=12, decimal_places=2, default=0)
     quantity = models.IntegerField(default=0)
     variant = models.CharField(max_length=10, choices=VARIANTS, default='None')
-    detail = RichTextUploadingField()
+    description = RichTextUploadingField()
     size = models.ForeignKey(
         Size, on_delete=models.CASCADE, blank=True, null=True)
     weight = models.ForeignKey(
@@ -272,7 +273,10 @@ class Product(models.Model):
 
     def get_vat_price(self):
         if self.is_vat == True:
-            return float((18*self.price)/100)
+            if self.discount > 0:
+                return float((18*self.get_discounted_price())/100)
+            else:
+                return float((18*self.price)/100)    
         else:
             return 0
 
@@ -388,7 +392,13 @@ class Variants(models.Model):
 
     def get_vat_price(self):
         if self.is_vat == True:
-            return float((18*self.price)/100)
+            if self.discount > 0:
+                discounted_price=float(
+                    self.price-((self.discount*self.price)/100)
+                )
+                return float(18*discounted_price/100)
+            else:
+                return float((18*self.price)/100)    
         else:
             return 0
 
@@ -411,11 +421,6 @@ class Variants(models.Model):
         discounted_price = float(self.price-((self.discount*self.price)/100))
         return discounted_price
 
-    def get_vat_price(self):
-        if self.product.is_vat == True:
-            return float((18*self.price)/100)
-        else:
-            return 0
 
     def get_vat_exclusive_price(self):
         if self.is_vat == True:
@@ -424,6 +429,8 @@ class Variants(models.Model):
             return float(discounted_price-((18*discounted_price)/100))
         else:
             return float(self.price-((self.discount*self.price)/100))
+    
+
 
     def get_discounted_price(self):
         discounted_price = float(self.price-((self.discount*self.price)/100))
@@ -446,3 +453,15 @@ class Collection(models.Model):
     def __str__(self):
         return self.title
 
+class ProductImage(models.Model):
+    product=models.ForeignKey(Product,related_name='product_images',on_delete=models.CASCADE,blank=True,null=True)
+    variant=models.ForeignKey(Variants,related_name='variants_images',on_delete=models.CASCADE,blank=True,null=True)
+    title = models.CharField(max_length=50,blank=True)
+    image = models.ImageField(blank=True, upload_to='images/')
+
+    def __str__(self):
+        return self.title   
+
+    def image_tag(self):
+        
+        return mark_safe('<img src="{}" height="50"/>'.format(self.image.url))

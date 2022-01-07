@@ -21,6 +21,7 @@ urlpatterns = [
     ),
     path('variant/compare/',views.variantCompare,name='compare-variant'),
     path('variant/wishlist/',views.WishlistAddVariant.as_view(),name='addwishlistvariant'),
-    path('compare/delete/<int:id>',views.deleteCompare,name='delete_compare'),
+    path('compare/delete/<int:id>/',views.deleteCompare,name='delete_compare'),
+    path('compare/deletevariant/<int:id>',views.deleteVariantCompare,name='deleteVariantCompare'),
     path('wishlist/delete/<int:id>/',views.wishlistDelete,name='wishlistdelete')
 ]

@@ -280,5 +280,11 @@ dmypy.json
 .Spotlight-V100
 .Trashes
 ehthumbs.db
+<<<<<<< HEAD
 >>>>>>> 82e1102e57b46494ec5c12f1240316f3589a4d99
 Thumbs.db
+=======
+Thumbs.db
+*.png
+*.jpg
+>>>>>>> 55da47eb057a18be708e180e46bef80e615e32f0

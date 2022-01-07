@@ -31,13 +31,13 @@ from django.conf.urls import url
 
 from django.contrib.sitemaps.views import sitemap
 
-from .sitemaps import StaticViewSitemap, CategorySitemap, ProductSitemap, PostSitemap
+from .sitemaps import StaticViewSitemap, ProductSitemap, PostSitemap
 
 
 from apps.vendor import views as vendor_views
 
 sitemaps = {'static': StaticViewSitemap,
-            'product': ProductSitemap, 'category': CategorySitemap, 'post': PostSitemap}
+            'product': ProductSitemap,  'post': PostSitemap}
 
 
 urlpatterns = [
@@ -62,7 +62,8 @@ urlpatterns = [
     # path('home/',include('apps.home.urls')),
     # path('product/<int:id>/<slug:slug>/', views.product_detail, name='product_detail'),
     path('ajaxcolor/', views.ajaxcolor, name='ajaxcolor'),
-    path('shopcart',orderview.shopcart,name='shopcart'),
+    path('ajaxcolorWeight/',views.ajaxcolorWeigth, name='ajaxcolor-weight'),
+    path('shopcart/',orderview.shopcart,name='shopcart'),
     path('order/addtoshopcart/<int:id>', orderview.addtoshopcart, name='addtoshopcart'),
     path('updateshopcart',orderview.update, name='update'),
     path('order/deletefromcart/<int:id>', orderview.deletefromcart, name='deletefromcart'),

@@ -1,7 +1,7 @@
 {% extends 'core/base.html' %}
 {% block title %}My account | {{ request.session.username }} - {% endblock %}
-{% include 'messages.html' %}
 {% block content %}
+{% include 'messages.html' %}
 <script>
     $('body').on('click','.deleteBtn',function(){
         var product_id=$(this).closest('.delete').find('.prod_id').val();
@@ -198,7 +198,7 @@
                 {% endif %}
             </td>
             <td>
-                <a href="/compare/delete/{{ product.id }}" onclick="return confirm('Delete ! Are you sure?')"><i class="fa fa-close"></i></a>
+                <a href="/compare/deletevariant/{{ product.id }}" onclick="return confirm('Delete ! Are you sure?')"><i class="fa fa-close"></i></a>
             </td>
             </tr>
             {% endfor %}

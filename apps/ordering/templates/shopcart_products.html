@@ -81,7 +81,6 @@
                                 <th>Product</th>
                                 <th class="text-center">Price</th>
                                 <th class="text-center">Discount</th>
-
                                 <th class="text-center">Quantity</th>
                                 <th class="text-center">Total</th>
                                 <th class="text-right"></th>
@@ -127,8 +126,7 @@
                                     <td class="qty text-center "><strong>
                                         <div class="product_data qty-input">
                                             <input type="hidden" class="prod_id" value="{{rs.id}}">
-
-                                           <input class="input changeQty" id="quantity" name="quantity" type="number" value="{{rs.quantity}}" min="1" max="{{ rs.product.quantity }}">
+                                           <input class="input changeQty" id="quantity" name="quantity" type="number" value="{{rs.quantity}}" min="1" {% if rs.product.is_variant %} max="{{ rs.variant.quantity }}" {% else %} max="{{ rs.product.quantity }}" {% endif %}>
                                            {% if rs.product.variant == 'None' %}
                                            {% if rs.product.unit_type %}
                                              {{ rs.product.unit_type.unit }} (s)
@@ -164,6 +162,16 @@
 
                             </tbody>
                             <tfoot>
+                                
+                            <tr>
+                                <td></td>
+                                <td><strong>VAT</strong></td>
+                                <td></td>
+                                <td></td>
+                                <td><strong>$
+                                    {{ tax }}
+                                </strong></td>
+                            </tr>
                                 <tr>
                                     <td></td>
                                 </tr>
@@ -183,7 +191,7 @@
                             </tr>
                             <tr>
                                 <td></td>
-                                <td><strong>Total cost with coupon and Delivery cost</strong></td>
+                                <td><strong>Total cost with coupon</strong></td>
                                 <td><strong></strong></td>
                                 <td></td>
                                 <td><strong>Frw

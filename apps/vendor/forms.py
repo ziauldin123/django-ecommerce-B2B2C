@@ -19,6 +19,14 @@ class CreateLength(CreatePopupMixin, generic.CreateView):
     model = Length
     fields = ['length']
 
+class CreateHeight(CreatePopupMixin, generic.CreateView):
+    model = Height
+    fields = ['height']
+
+class CreateSize(CreatePopupMixin, generic.CreateView):
+    model = Size
+    fields = ['name','code']
+
 class CreateBrand(CreatePopupMixin, generic.CreateView):
     model = Brand
     fields = ['brand']
@@ -50,16 +58,18 @@ class ProductForm(ModelForm):
             'category',
             'title',
             # fields = ['category', 'image', 'title',
-            'description',
+            'summary',
             'price',
             'is_vat',
             'quantity',
-            'detail',
+            'description',
             'discount',
             'color',
             'length',
             'width',
             'weight',
+            'size',
+            'height',
             'pickup_available',
             'is_free_delivery',
             'image',
@@ -81,6 +91,12 @@ class ProductForm(ModelForm):
             'weight':  Select2AddAnother(
                 reverse_lazy('add_weight'),
             ),
+            'height':  Select2AddAnother(
+                reverse_lazy('add_height'),
+            ),
+            'size':  Select2AddAnother(
+                reverse_lazy('add_size'),
+            ),
             'color':  Select2AddAnother(
                 reverse_lazy('add_color'),
             )
@@ -93,8 +109,8 @@ class ProductWithVariantForm(ModelForm):
         fields=[
             'category',
             'title',
+            'summary',
             'description',
-            'detail',
             'pickup_available',
             'is_free_delivery',
             'brand',
@@ -183,7 +199,7 @@ class CustomerSignUpForm(UserCreationForm):
     customername = forms.CharField(max_length=32)
     address = forms.CharField(max_length=64, required=True)
     phone = forms.CharField(max_length=32, required=True)
-
+    company_code = forms.CharField(max_length=32,required=False)
     class Meta:
         model = User
         fields = [
@@ -194,6 +210,7 @@ class CustomerSignUpForm(UserCreationForm):
             'customername',
             'address',
             'phone',
+            'company_code'
         ]
 
 

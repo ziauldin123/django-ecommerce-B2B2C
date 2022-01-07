@@ -18,7 +18,6 @@ from apps.vendor.models import Vendor, Customer
 from apps.newProduct.models import Product
 
 from apps.cart.cart import Cart
-from apps.product.models import ProductImage
 
 
 @login_required(login_url="/login/")

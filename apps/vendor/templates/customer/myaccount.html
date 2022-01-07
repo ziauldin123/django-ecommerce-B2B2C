@@ -11,7 +11,13 @@
         <p><strong>E-mail: </strong>{{ request.user.email }}</p>
         <p><strong>Address: </strong>{{ request.session.address }}</p>
         <p><strong>Phone: </strong>{{ request.session.phone}}</p>
-
+        {% if request.session.company_code %}
+        <p><strong>TIN:</strong>
+             {{ request.session.company_code }} 
+        </p>
+        {% else %}
+         <p>Hello</p>
+        {% endif %}
     </div>
 
 
@@ -31,7 +37,9 @@
                         <tr>
                             <th>Title</th>
                             <th>Quantity</th>
-                            <th>Price</th>
+                            <th>Price(VAT Excl.)</th>
+                            <th>VAT</th>
+                            <th>Price(VAT Incl.)</th>
                             <th>Total</th>
                         </tr>
                     </thead>
@@ -41,6 +49,8 @@
                             <tr>
                                 <td>{{ item.product_title }}</td>
                                 <td>{{ item.quantity }}</td>
+                                <td>{{ item.price_no_vat }}</td>
+                                <td>{{ item.tax }}</td>
                                 <td>{{ item.price }}</td>
                                 <td>{{ item.subtotal }}</td>
                             </tr>
@@ -48,7 +58,6 @@
                         <tr>
                             <td>Products subtotal</td>
                             <td>{{ order.total_quantity }}</td>
-                            <td>{{ order.subtotal_amount }}</td>
                         </tr>
 
                         {% if order.coupon_discount != "" %}
@@ -69,8 +78,18 @@
                     <tfoot>
                         <tr>
                             <td></td>
-                            <td><strong>Grand total</strong></td>
-                            <td><strong>Frw {{ order.grand_paid_amount }}</strong></td>
+                            <td><strong>total(excl. VAT)</strong></td>
+                            <td><strong>Frw {{ order.total_vat_exl }}</strong></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td><strong>VAT</strong></td>
+                            <td><strong>FRW {{ order.vat_cost }}</strong></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td><strong>Grand Total(incl VAT)</strong></td>
+                            <td><strong>FRW {{ order.grand_paid_amount }}</strong></td>
                         </tr>
                     </tfoot>
                 </table>

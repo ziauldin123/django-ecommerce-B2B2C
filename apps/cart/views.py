@@ -103,6 +103,8 @@ def contact_info(request):
     products = [i['product'] for i in cart]
     sub_total=cart.get_cart_cost()
     total=total=cart.get_cart_cost_with_coupen()
+    tax=Cart(request).get_cart_tax()
+    grandTotal=cart.get_cart_cost() + cart.get_cart_tax()
     # for rs in shopcart:
     #     print(rs.id)
     #     print(rs.product.id)
@@ -227,6 +229,8 @@ def contact_info(request):
             'shopcart': shopcart,
             'sub_total':sub_total,
             'total': total,
+            'tax':round(tax,2),
+            'grandTotal':round(grandTotal,2),
             'form': form,
             'cart_user': cart_customer,
             'districts': districts,
@@ -267,6 +271,8 @@ def payment_check(request, *args, **kwargs):
     current_user=request.user
     shopcart = ShopCart.objects.filter(user_id=current_user.id)
     total=cart.get_cart_cost()
+    tax=cart.get_cart_tax()
+    grandTotal=cart.get_cart_tax() + cart.get_total_cost()
     # for rs in shopcart:
     #     if rs.product.variant=='None':
     #         if rs.product.discount > 0:
@@ -336,6 +342,8 @@ def payment_check(request, *args, **kwargs):
             'coupon': request.session.get(settings.COUPON_SESSION_ID),
             'shopcart': shopcart,
             'total':round(total,2),
+            'tax':round(tax,2),
+            'grandTotal':round(grandTotal,2),
             'cart':cart
         }
     )
