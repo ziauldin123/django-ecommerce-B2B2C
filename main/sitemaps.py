@@ -6,12 +6,10 @@ from apps.blog.models import Post
 
 class StaticViewSitemap(Sitemap):
     def items(self):
-        return ['frontpage', 'contact', 'about', 'pricing', 'vendors', 'termsandconditions', 'frequently_asked_questions']
+        return ['frontpage', 'contact', 'about', 'pricing', 'vendors', 'termsandconditions', 'privacy_policy', 'frequently_asked_questions']
 
     def location(self, item):
         return reverse(item)
-
-
 
 
 class ProductSitemap(Sitemap):
