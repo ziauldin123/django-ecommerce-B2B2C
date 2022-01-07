@@ -102,7 +102,7 @@ def checkout(
                 variant_id = var_id,
                 vendor_id = item['product']['vendor_id']['id'],
                 price = round(item['total_price'],2),
-                quantity = round(item['product']['quantity'],2),
+                quantity = item['quantity'],
                 is_variant = item['product']['is_variant']
             )
             vendor = Vendor.objects.get(pk=item['product']['vendor_id']['id'])
