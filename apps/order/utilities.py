@@ -89,7 +89,7 @@ def checkout(
                                        ['total_price'] * item['quantity'])
             subtotal_amount = round(Decimal(subtotal_amount), 2)
             if item['product']['is_variant']:
-                var_id = int(item['product']['variant_id'])
+                var_id = int(item['product']['variant_id']['id'])
                 pro_id = int(item['product']['id'])
                 print(pro_id)
             else:
@@ -197,8 +197,8 @@ def notify_vendor(order):
 def notify_customer(order, request):
     connection = get_connection()  # uses SMTP server specified in settings.py
     connection.open()
-    subtotal = order.paid_amount
-    grand_cost = order.paid_amount + Decimal(order.delivery_cost)
+    subtotal = order.subtotal_amount
+    grand_cost = order.subtotal_amount + Decimal(order.delivery_cost)
     from_email = settings.DEFAULT_EMAIL_FROM
     to_email = order.email
     print('order')

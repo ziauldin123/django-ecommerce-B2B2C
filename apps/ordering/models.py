@@ -272,9 +272,9 @@ class OrderItem(models.Model):
 
     def get_product_no_vat(self):
         if not self.is_variant:
-            price_no_vat=self.product.get_vat_exclusive_price()
+            price_no_vat=self.product.get_vat_exclusive_price() * self.quantity
         else:
-            price_no_vat=self.variant.get_vat_exclusive_price() 
+            price_no_vat=self.variant.get_vat_exclusive_price() * self.quantity 
         return round(Decimal(price_no_vat),2)       
     
     def get_subtotal_vat_exlusive(self):

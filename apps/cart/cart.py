@@ -77,19 +77,17 @@ class Cart(object):
                 self.cart['cart'][str(p)]['product']['slug'] = shopcart.product.slug
                 self.cart['cart'][str(p)]['product']['slugV']=shopcart.product.slugV
                 self.cart['cart'][str(p)]['product']['pickup_available'] = shopcart.product.pickup_available
-                
+                self.cart['cart'][str(p)]['product']['quantity'] = float(shopcart.quantity)
                 
                 if shopcart.variant == None :
-                    self.cart['cart'][str(p)]['product']['total_price'] = float(shopcart.product.get_discounted_price())
+                    # self.cart['cart'][str(p)]['product']['total_price'] = float(shopcart.product.get_discounted_price())
                     self.cart['cart'][str(p)]['product']['is_variant'] = False
                     self.cart['cart'][str(p)]['product']['tax']=float(shopcart.product.get_vat_price())
-                    self.cart['cart'][str(p)]['product']['quantity'] = float(shopcart.quantity)
                     self.cart['cart'][str(p)]['product']['total_vat_excl'] = float(shopcart.product.get_vat_exclusive_price())
                     
                 else:
-                    self.cart['cart'][str(p)]['product']['total_price'] = float(shopcart.variant.get_discounted_price())
+                    # self.cart['cart'][str(p)]['product']['total_price'] = float(shopcart.variant.get_discounted_price())
                     self.cart['cart'][str(p)]['product']['is_variant'] = True
-                    self.cart['cart'][str(p)]['product']['quantity'] = float(shopcart.quantity)
                     self.cart['cart'][str(p)]['product']['variant_id'] = {'id':shopcart.variant.id}
 
                 self.cart['cart'][str(p)]['product']['is_free_delivery'] = shopcart.product.is_free_delivery
@@ -105,7 +103,7 @@ class Cart(object):
         for item in self.cart['cart'].values():
             if 'product' in item:
                 # item['total_price'] = float(item['product']['total_price'] * item['quantity'])
-                item['total_price'] = float(item['total_price'] * item['quantity'])
+                # item['total_price'] = float(item['total_price'] * item['quantity'])
                 item['quantity'] += float(item['quantity'])
                 yield item
 
@@ -278,6 +276,7 @@ class Cart(object):
         return round(round(tax,2),2)
 
     def get_cart_cost(self):
+        total_cost = 0
         for p in self.cart['cart'].keys():
 
             # product = Product.objects.get(pk=p)
@@ -286,14 +285,14 @@ class Cart(object):
                 self.cart['cart'][str(p)]['product']['id'] = shopcart.product.id
                 self.cart['cart'][str(p)]['product']['total_cost'] = self.cart['cart'][str(p)]['product']['total_price']
 
-        total_cost = 0
+        
         for item in self.cart['cart'].values():
             if 'product' in item:
                 total_cost += float(item['product']['total_cost'] * item['quantity'])
 
-        total_cost=Decimal(total_cost)
+        # total_cost=Decimal(total_cost)
 
-        return round(total_cost,2)
+        return round(Decimal(total_cost),2)
 
     def get_cart_cost_with_coupen(self):
         for p in self.cart['cart'].keys():

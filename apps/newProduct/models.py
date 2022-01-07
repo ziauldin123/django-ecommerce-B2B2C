@@ -423,9 +423,7 @@ class Variants(models.Model):
         else:
             discounted_price = 0    
         return discounted_price
-        
-        
-
+    
 
     def get_vat_exclusive_price(self):
         if self.is_vat == True:

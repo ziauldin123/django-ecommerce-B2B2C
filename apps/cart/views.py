@@ -187,7 +187,7 @@ def contact_info(request):
         return redirect('cart')
 
     form = CheckoutForm(use_vendor_delivery)
-
+    
     return render(
         request,
         'cart/contact.html',
@@ -239,7 +239,7 @@ def payment_check(request, *args, **kwargs):
     total=cart.get_cart_cost()
     tax=cart.get_cart_tax()
     grandTotal=cart.get_cart_tax() + cart.get_total_cost()
-    
+    print(cart.get_cart_cost())
     request.POST.get('pay_now')
     if request.method == 'POST':
         form = PaymentForm(request.POST)  # PaymentForm
@@ -281,7 +281,8 @@ def payment_check(request, *args, **kwargs):
             print(form.errors)
     else:
         form = PaymentForm()
-
+    
+    
     return render(
         request,
         'cart/payment.html',
@@ -290,8 +291,8 @@ def payment_check(request, *args, **kwargs):
             'stripe_pub_key': settings.STRIPE_PUB_KEY,
             'coupon': request.session.get(settings.COUPON_SESSION_ID),
             'shopcart': shopcart,
-            'total':round(total,2),
             'tax':round(tax,2),
+            'total':round(total,2),
             'grandTotal':round(grandTotal,2),
             'cart':cart
         }
