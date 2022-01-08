@@ -16,7 +16,7 @@ class Cart(object):
         self.session = request.session
         cart = self.session.get(settings.CART_SESSION_ID)
         # print("Cart data")
-        print(cart)
+        # print(cart)
         if not cart:
             cart = self.session[settings.CART_SESSION_ID] = {'cart':{}}
 
@@ -48,7 +48,7 @@ class Cart(object):
                 self.cart['cart'][str(p)]['product']['is_free_delivery'] = shopcart.product.is_free_delivery
                 self.cart['cart'][str(p)]['product']['get_thumbnail'] = shopcart.product.get_thumbnail()
                 self.cart['cart'][str(p)]['product']['title'] = shopcart.product.title
-                
+
             else:
                 null_id.append(p)
 
@@ -225,8 +225,8 @@ class Cart(object):
             #     use_vendor_delivery = False
             # pickup_avaliable = self.cart['cart'][str(item)]['product']['pickup_available']
 
-        print(is_vendor_delivery)
-        print(is_pickup_avaliable)
+        print("is_vendor_deliveryi", is_vendor_delivery)
+        print("is_pickup_avaliable",is_pickup_avaliable)
         if all(is_vendor_delivery):
             use_vendor_delivery=True
         else:
@@ -256,7 +256,7 @@ class Cart(object):
                  product_ids.append(shopcart.product.id)
         return product_ids
         # return [int(p) for p in self.cart['cart'].keys()]
-    
+
     def get_cart_tax(self):
         for p in self.cart['cart'].keys():
             shopcart = ShopCart.objects.filter(pk=int(p)).first()
@@ -266,7 +266,7 @@ class Cart(object):
         tax = 0
         for item in self.cart['cart'].values():
             if 'product' in item:
-                tax += float(item['product']['tax'] * item['quantity']) 
+                tax += float(item['product']['tax'] * item['quantity'])
 
         tax=Decimal(Decimal(tax))
         return round(round(tax,2) )

@@ -7,6 +7,34 @@
 {% block body %}
 {% include 'base.html' %}
 {% include 'messages.html' %}
+
+
+<script>
+    function add_To_Cart(pr_id) {
+         event.preventDefault(); //so that we stop normal form submit.
+         var_id = $("#variant_id").val();
+         pq = $("#quantity").val()
+         $.ajax({
+            url: "/order/addtoshopcart/" + pr_id,
+            type: 'POST',
+            data: {'variantid': var_id,
+                'quantity':pq
+            },
+            success: function (data) {
+                console.log(data);
+                $("#my_cart").load(location.href + " #my_cart");
+                $("#msg1").append(
+                    '<div class="alert alert-success hideit alertSuc">added in cart successfully.</div >')
+                setTimeout(function () {
+                    $("#msg1").load(location.href + " #msg1");
+                }, 1000);
+            }
+        });
+    }
+
+
+</script>
+
     <!-- BREADCRUMB -->
 
     <div id="breadcrumb">
@@ -103,7 +131,7 @@
                                         }
                                     });
                                 });
-                               
+
                                 $(document).on('change', '#post-form1',function(e){
                                     e.preventDefault();
                                     $.ajax({
@@ -338,63 +366,64 @@
                                     {% endif %}
 
                             {% if  product.is_variant   %}
-                            <form action="/order/addtoshopcart/{{ product.id }}" method="post"  id="addchart-form">
-                                {% csrf_token %}
-                                <input type="hidden" name="variantid" id="variantid" value="{{ variant.id }}">
-                                <div id="SelectedProduct">
-                                    <p><strong>Availability:</strong> {% if variant.quantity > 0  %} In Stock {% else %} Out of Stock {% endif %}</p>
-                                    <p><strong>Selected :</strong> {% if variant.size %} Size : {{ variant.size }} {% endif %}  {% if variant.color %} Color : {{ variant.color }} {% endif %} </p>
-                                    <h3 class="product-price">
-                                        {% if variant.discount > 0 %}
-                <span class="text-decoration-line-through">Frw {{ variant.price }}{% if variant.unit_type %}/{{variant.unit_type.unit}}{% endif %}</span> <span style="color: #001833">frw {{ variant.get_discounted_price_var }}{% if variant.unit_type %}/{{variant.unit_type.unit}}{% endif %}</span>
-            {% else %}
-                Frw {{ variant.price }}{% if variant.unit_type %}/{{variant.unit_type.unit}}{% endif %}
-            {% endif %}
-                                    </h3>
-                                    <div class="qty-input">
-                                        <span class="text-uppercase">QTY: </span>
-                                        <input class="input" name="quantity" type="number" value="1" min="1" max="{{ variant.quantity }}">
-                                        {% if request.session.customer %}
-                                        <button type="submit" {% if variant.quantity < 1  %} disabled {% endif %} class="primary-btn add-to-cart">
-                                            <i class="fa fa-shopping-cart"></i> Add to Cart
-                                        </button>
-                                        {% else %}
-                                        <button class="primary-btn" disabled>
-                                            <i class="fa fa-shopping-cart"></i> Add to Cart
-                                        </button></br>
-                                        {% endif %}
+                                <div>
+                                    <input type="hidden" name="variantid" id="variant_id" value="{{ variant.id }}">
+                                    <div id="SelectedProduct">
+                                        <p><strong>Availability:</strong> {% if variant.quantity > 0  %} In Stock {% else %} Out of Stock {% endif %}</p>
+                                        <p><strong>Selected :</strong> {% if variant.size %} Size : {{ variant.size }} {% endif %}  {% if variant.color %} Color : {{ variant.color }} {% endif %} </p>
+                                        <h3 class="product-price">
+                                            {% if variant.discount > 0 %}
+                                                <span class="text-decoration-line-through">Frw {{ variant.price }}{% if variant.unit_type %}/{{variant.unit_type.unit}}{% endif %}</span> <span style="color: #001833">frw {{ variant.get_discounted_price_var }}{% if variant.unit_type %}/{{variant.unit_type.unit}}{% endif %}</span>
+                                            {% else %}
+                                                Frw {{ variant.price }}{% if variant.unit_type %}/{{variant.unit_type.unit}}{% endif %}
+                                            {% endif %}
+                                        </h3>
+                                        <div class="qty-input">
+                                            <span class="text-uppercase">QTY: </span>
+                                            <input class="input" id="quantity" name="quantity" type="number" value="1" min="1" max="{{ variant.quantity }}">
+                                            {% if request.session.customer %}
+                                            <button onclick="add_To_Cart('{{ product.id }}')"{% if variant.quantity < 1  %} disabled {% endif %} class="primary-btn add-to-cart">
+                                                <i class="fa fa-shopping-cart"></i> Add to Cart
+                                            </button>
+                                            {% else %}
+                                            <button class="primary-btn" disabled>
+                                                <i class="fa fa-shopping-cart"></i> Add to Cart
+                                            </button></br>
+                                            {% endif %}
+                                        </div>
+                                        <div id="msg1" class="mt-3">
+                                        </div>
                                     </div>
                                 </div>
-                            </form>
                             {% else %}
-
-                            <form action="/order/addtoshopcart/{{ product.id }}" method="post"  id="addchart-form">
-                                {% csrf_token %}
-                                <input type="hidden" name="variantid" id="variantid" value="{{ variant.id }}">
-                                <div id="SelectedProduct">
-                                    <p><strong>Availability:</strong> {% if product.quantity > 0  %} In Stock {% else %} Out of Stock {% endif %}</p>
-                                    <h3 class="product-price">
-                                        {% if product.discount > 0 %}
-                                  <span class="text-decoration-line-through">Frw {{ product.price }}{% if product.unit_type %}/{{product.unit_type.unit}}{% endif %}</span> <span style="color: #001833">Frw {{ product.get_discounted_price }}{% if product.unit_type %}/{{product.unit_type.unit}}{% endif %}</span>
-                                  {% else %}
-                                    $ {{ product.price }}{% if product.unit_type %}/{{product.unit_type.unit}}{% endif %}
-                                {% endif %}
-                                    </h3>
-                                    <div class="qty-input">
-                                        <span class="text-uppercase">QTY: </span>
-                                        <input class="input" name="quantity" type="number" value="1" min="1" max="{{ product.quantity }}">
-                                        {% if request.session.customer %}
-                                        <button type="submit" {% if product.quantity < 1  %} disabled {% endif %} class="primary-btn add-to-cart">
-                                            <i class="fa fa-shopping-cart"></i> Add to Cart
-                                        </button>
-                                        {% else %}
-                                        <button class="primary-btn" disabled>
-                                            <i class="fa fa-shopping-cart"></i> Add to Cart
-                                        </button></br>
-                                        {% endif %}
+                                <div>
+                                    <input type="hidden" name="variantid" id="variantid" value="{{ variant.id }}">
+                                    <div id="SelectedProduct">
+                                        <p><strong>Availability:</strong> {% if product.quantity > 0  %} In Stock {% else %} Out of Stock {% endif %}</p>
+                                        <h3 class="product-price">
+                                            {% if product.discount > 0 %}
+                                    <span class="text-decoration-line-through">Frw {{ product.price }}{% if product.unit_type %}/{{product.unit_type.unit}}{% endif %}</span> <span style="color: #001833">Frw {{ product.get_discounted_price }}{% if product.unit_type %}/{{product.unit_type.unit}}{% endif %}</span>
+                                    {% else %}
+                                        $ {{ product.price }}{% if product.unit_type %}/{{product.unit_type.unit}}{% endif %}
+                                    {% endif %}
+                                        </h3>
+                                        <div class="qty-input">
+                                            <span class="text-uppercase">QTY: </span>
+                                            <input class="input" name="quantity" id="quantity" type="number" value="1" min="1" max="{{ product.quantity }}">
+                                            {% if request.session.customer %}
+                                            <button onclick="add_To_Cart('{{ product.id }}')" {% if product.quantity < 1  %} disabled {% endif %} class="primary-btn add-to-cart">
+                                                <i class="fa fa-shopping-cart"></i> Add to Cart
+                                            </button>
+                                            {% else %}
+                                            <button class="primary-btn" disabled>
+                                                <i class="fa fa-shopping-cart"></i> Add to Cart
+                                            </button></br>
+                                            {% endif %}
+                                        </div>
+                                        <div id="msg1" class="mt-3">
+                                        </div>
                                     </div>
                                 </div>
-                            </form>
                             {% endif %}
                         </div>
                         <br>
@@ -404,28 +433,28 @@
                             <button class="main-btn icon-btn"><i class="fa fa-exchange"></i></button>
                             <button class="main-btn icon-btn"><i class="fa fa-share-alt"></i></button>
                         </div>
-                                  {% if product.is_variant %} 
+                                  {% if product.is_variant %}
                                       <div class="wishlist">
                                         <form method="post">
                                             {% csrf_token %}
-                                            {% if request.session.customer %} 
+                                            {% if request.session.customer %}
                                             <input type="hidden" name="variantid" class="variantid" id="variantid" value="{{ variant.id }}">
                                             <button class="button is-dark wish"> Wishlist</button>
-                                            {% else %} 
+                                            {% else %}
                                             <button class="button is-dark" disabled>wishlist</button>
                                             {% endif %}
                                         </form>
                                       </div>
-                                  {% else %} 
+                                  {% else %}
                                   <form method="post" action={% url 'wishlist-add' product.id %}>
                                     {% csrf_token %}
-                                    {% if request.session.customer %} 
+                                    {% if request.session.customer %}
                                         <button class="button is-dark">wishlist</button>
-                                    {% else %} 
+                                    {% else %}
                                            <button class="button is-dark" disabled>wishlist</button>
                                     {% endif %}
                                   </form>
-                                   {% endif %} 
+                                   {% endif %}
 
                             {% if product.is_variant  %}
                             <div class="compare">
@@ -488,7 +517,7 @@
                                    height: {{ product.height }} m</br>
                                 {% endif %}
                                 {% if product.size %}
-                                   Size: {{ product.size }} 
+                                   Size: {{ product.size }}
                                 {% endif %}
 
                                 {% else %}
@@ -509,7 +538,7 @@
                                    height: {{ variant.height }} m</br>
                                 {% endif %}
                                 {% if variant.size %}
-                                   Size: {{ variant.size }} 
+                                   Size: {{ variant.size }}
                                 {% endif %}
 
                                 {% endif %}
