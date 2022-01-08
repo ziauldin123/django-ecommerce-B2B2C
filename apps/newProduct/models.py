@@ -273,10 +273,7 @@ class Product(models.Model):
 
     def get_vat_price(self):
         if self.is_vat == True:
-            if self.discount > 0:
-                return float((18*self.get_discounted_price())/100)
-            else:
-                return float((18*self.price)/100)    
+            return float((18*self.get_vat_exclusive_price())/100)   
         else:
             return 0
 
