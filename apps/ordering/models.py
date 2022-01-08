@@ -103,6 +103,7 @@ class Order(models.Model):
     email=models.CharField(max_length=100)
     address=models.CharField(max_length=100)
     phone=models.CharField(max_length=100)
+    company_code=models.CharField(max_length=100,default=000)
     created_at=models.DateTimeField(auto_now_add=True)
     district=models.CharField(max_length=100,null=True)
     sector=models.CharField(max_length=100,null=True)

@@ -46,7 +46,7 @@
                     <div class="col-md-6">
                         <div class="product-body">
 
-                            {% if product.variant %}
+                            {% if product.is_variant %}
                             <p><strong>{{ variant.title }}</strong></p>
                             {% else %}
                             <p><strong>{{ product.title }}</strong></p>
@@ -337,7 +337,7 @@
                                         </div>
                                     {% endif %}
 
-                            {% if  product.is_variant   %}
+                            {% if  product.variant != 'None'  %}
                             <form action="/order/addtoshopcart/{{ product.id }}" method="post"  id="addchart-form">
                                 {% csrf_token %}
                                 <input type="hidden" name="variantid" id="variantid" value="{{ variant.id }}">
