@@ -11,89 +11,105 @@ from django.contrib import messages
 from django.conf import settings
 
 
-from apps.newProduct.models import Category, Comment, Product, SubCategory,SubSubCategory,Images,Comment,Variants
-from apps.vendor.models import UserWishList,Customer
+from apps.newProduct.models import Category, Comment, Product, SubCategory, SubSubCategory, Images, Comment, Variants
+from apps.vendor.models import UserWishList, Customer
 # Create your views here.
+
+
 def index(request):
-    products_latest=Product.objects.filter()[0:4]
-    products_slider=Product.objects.all().order_by('id')[:4]
-    product_picked=Product.objects.all().order_by('-last_visit')[0:4]
-    product_popular=Product.objects.all().order_by('-num_visits')[0:4]
+    products_latest = Product.objects.filter()[0:4]
+    products_slider = Product.objects.all().order_by('id')[:4]
+    product_picked = Product.objects.all().order_by('-last_visit')[0:4]
+    product_popular = Product.objects.all().order_by('-num_visits')[0:4]
 
-    context={
-        'products_latest':products_latest,
-        'products_slider':products_slider,
-        'product_picked':product_picked,
-        'product_popular':product_popular
+    context = {
+        'products_latest': products_latest,
+        'products_slider': products_slider,
+        'product_picked': product_picked,
+        'product_popular': product_popular
     }
-    return render(request,'index.html',context)
+    return render(request, 'index.html', context)
 
-def product_detail(request,id,slug,vendor_slug,category_slug,subcategory_slug, subsubcategory_slug):
+
+def product_detail(request, id, slug, vendor_slug, category_slug, subcategory_slug, subsubcategory_slug):
     query = request.GET.get('q')
-    mainProduct=[]
-    query=request.GET.get('q')
+    mainProduct = []
+    query = request.GET.get('q')
     product = Product.objects.get(pk=id)
 
     if product.visible == False:
         messages.add_message(request, messages.ERROR,
-                                 "Product is not available")
+                             "Product is not available")
         return redirect('/')
 
-    variant=Variants.objects.filter(product_id=id,status=True,visible=True)
-    category=Category.objects.all()
-    subcategory=SubCategory.objects.all()
-    subsubCategory= SubSubCategory.objects.all()
-    slugV=vendor_slug,
-    images=Images.objects.filter(product_id=id)
+    variant = Variants.objects.filter(product_id=id, status=True, visible=True)
+    category = Category.objects.all()
+    subcategory = SubCategory.objects.all()
+    subsubCategory = SubSubCategory.objects.all()
+    slugV = vendor_slug,
+    images = Images.objects.filter(product_id=id)
     product.num_visits = product.num_visits + 1
     product.last_visit = datetime.now()
 
-    username=request.user
-    customer=Customer.objects.filter(email=username)
-
-
+    username = request.user
+    customer = Customer.objects.filter(email=username)
 
     similar_products = list(product.category.product.exclude(id=product.id))
 
     if len(similar_products) >= 4:
         similar_products = random.sample(similar_products, 4)
 
+    comments = Comment.objects.filter(product_id=id, status='True')
 
-    comments = Comment.objects.filter(product_id=id,status='True')
-
-    
     product.save()
-    context={'product':product,'category':category,
-              'subcategory':subcategory,'subsubCategory': subsubCategory,
-             'images':images,'vendor_slug':slugV,'similar_products':similar_products,'comments': comments
-             ,'mainProduct':mainProduct,'customer':customer,
-             'is_comparing': product.id in request.session.get('comparing', [])}
-    if product.variant !="None": #pr has variantsu
-        if  request.method =='POST': #if we select color
-            variant_id=request.POST.get('variantid')
-            variant=Variants.objects.get(id=variant_id,status=True,visible=True) #selected product by color
-            colors=Variants.objects.filter(product_id=id,size_id=variant.size_id,status=True,visible=True)
-            colors1=Variants.objects.filter(product_id=id,weight_id=variant.weight_id,status=True,visible=True)
-            sizes=Variants.objects.raw('SELECT * FROM newProduct_variants WHERE product_id=%s AND status=True AND visible=True GROUP BY size_id',[id])
-            weight=Variants.objects.raw('SELECT * FROM newProduct_variants WHERE product_id=%s AND status=True AND visible=True  GROUP BY weight_id',[id])
-            length=Variants.objects.raw('SELECT * FROM newProduct_variants WHERE product_id=%s AND status=True AND visible=True  GROUP BY length_id',[id])
-            width=Variants.objects.raw('SELECT * FROM newProduct_variants WHERE product_id=%s AND status=True AND visible=True  GROUP BY width_id',[id])
+    context = {'product': product, 'category': category,
+               'subcategory': subcategory, 'subsubCategory': subsubCategory,
+               'images': images, 'vendor_slug': slugV, 'similar_products': similar_products, 'comments': comments, 'mainProduct': mainProduct, 'customer': customer,
+               'is_comparing': product.id in request.session.get('comparing', [])}
+    if product.variant != "None":  # pr has variantsu
+        if request.method == 'POST':  # if we select color
+            variant_id = request.POST.get('variantid')
+            variant = Variants.objects.get(
+                id=variant_id, status=True, visible=True)  # selected product by color
+            colors = Variants.objects.filter(
+                product_id=id, size_id=variant.size_id, status=True, visible=True)
+            colors1 = Variants.objects.filter(
+                product_id=id, weight_id=variant.weight_id, status=True, visible=True)
+            sizes = Variants.objects.raw(
+                'SELECT * FROM newProduct_variants WHERE product_id=%s AND status=True AND visible=True GROUP BY size_id', [id])
+            weight = Variants.objects.raw(
+                'SELECT * FROM newProduct_variants WHERE product_id=%s AND status=True AND visible=True  GROUP BY weight_id', [id])
+            length = Variants.objects.raw(
+                'SELECT * FROM newProduct_variants WHERE product_id=%s AND status=True AND visible=True  GROUP BY length_id', [id])
+            width = Variants.objects.raw(
+                'SELECT * FROM newProduct_variants WHERE product_id=%s AND status=True AND visible=True  GROUP BY width_id', [id])
+            height = Variants.objects.raw(
+                'SELECT * FROM newProduct_variants WHERE product_id=%s AND status=True AND visible=True  GROUP BY height_id', [id])
             # query +=variant.title+' Size:' +str(variant.size) +' Color:' +str(variant.color) +' Weight:' +str(variant.weight)+' length:' +str(variant.length)+' Width:' +str(variant.width)
         else:
-            variants=Variants.objects.filter(product_id=id,status=True,visible=True)
-            colors=Variants.objects.filter(product_id=id,size_id=variants[0].size_id,status=True,visible=True)
-            colors1=Variants.objects.filter(product_id=id,weight_id=variants[0].weight_id,status=True,visible=True)
-            sizes=Variants.objects.raw('SELECT * FROM  newProduct_variants  WHERE product_id=%s AND status=True AND visible=True  GROUP BY size_id',[id])
-            weight=Variants.objects.raw('SELECT * FROM newProduct_variants WHERE product_id=%s AND status=True AND visible=True  GROUP BY weight_id',[id])
-            length=Variants.objects.raw('SELECT * FROM newProduct_variants WHERE product_id=%s AND status=True AND visible=True  GROUP BY length_id',[id])
-            width=Variants.objects.raw('SELECT * FROM newProduct_variants WHERE product_id=%s AND status=True AND visible=True GROUP BY width_id',[id])
-            variant=Variants.objects.get(id=variants[0].id,status=True,visible=True)
+            variants = Variants.objects.filter(
+                product_id=id, status=True, visible=True)
+            colors = Variants.objects.filter(
+                product_id=id, size_id=variants[0].size_id, status=True, visible=True)
+            colors1 = Variants.objects.filter(
+                product_id=id, weight_id=variants[0].weight_id, status=True, visible=True)
+            sizes = Variants.objects.raw(
+                'SELECT * FROM  newProduct_variants  WHERE product_id=%s AND status=True AND visible=True  GROUP BY size_id', [id])
+            weight = Variants.objects.raw(
+                'SELECT * FROM newProduct_variants WHERE product_id=%s AND status=True AND visible=True  GROUP BY weight_id', [id])
+            length = Variants.objects.raw(
+                'SELECT * FROM newProduct_variants WHERE product_id=%s AND status=True AND visible=True  GROUP BY length_id', [id])
+            width = Variants.objects.raw(
+                'SELECT * FROM newProduct_variants WHERE product_id=%s AND status=True AND visible=True GROUP BY width_id', [id])
+            height = Variants.objects.raw(
+                'SELECT * FROM newProduct_variants WHERE product_id=%s AND status=True AND visible=True GROUP BY height_id', [id])
+            variant = Variants.objects.get(
+                id=variants[0].id, status=True, visible=True)
 
+        context.update({'sizes': sizes, 'colors': colors, 'colors1': colors1, 'weight': weight, 'width': width, 'length': length, 'height': height, 'variant': variant, 'query': query,
+                        'is_comparing': variant.id in request.session.get('comparing', [])})
+    return render(request, 'product_detail.html', context)
 
-        context.update({'sizes':sizes, 'colors':colors,'colors1':colors1, 'weight':weight,'width':width,'length':length
-                             ,'variant':variant, 'query':query,
-                             'is_comparing': variant.id in request.session.get('comparing', [])})
-    return render(request,'product_detail.html',context)
 
 def ajaxcolor(request):
     data = {}
@@ -106,23 +122,25 @@ def ajaxcolor(request):
             'productid': productid,
             'colors': colors,
         }
-        data = {'rendered_table': render_to_string('color_list.html', context=context)}
+        data = {'rendered_table': render_to_string(
+            'color_list.html', context=context)}
         return JsonResponse(data)
     return JsonResponse(data)
+
 
 def ajaxcolorWeigth(request):
     data = {}
     if request.POST.get('action') == 'post':
         weight_id = request.POST.get('weigth')
         productid = request.POST.get('productid')
-        colors = Variants.objects.filter(product_id=productid, weight_id=weight_id)
+        colors = Variants.objects.filter(
+            product_id=productid, weight_id=weight_id)
         context = {
-            'weight_id':weight_id,
+            'weight_id': weight_id,
             'productid': productid,
             'colors': colors,
         }
-        data = {'rendered_table': render_to_string('color_list.html', context=context)}
+        data = {'rendered_table': render_to_string(
+            'color_list.html', context=context)}
         return JsonResponse(data)
     return JsonResponse(data)
-
-

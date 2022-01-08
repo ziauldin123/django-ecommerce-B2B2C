@@ -39,7 +39,10 @@
             <th>Length</th>
             <th>Width</th>
             <th>Size</th>
+            <th>Height</th>
             <th>Brand</th>
+            <th>Remove</th>
+
         </tr>
         <tbody>
             {% for product in products %}
@@ -105,6 +108,13 @@
             <td>
                 {% if product.size %} 
                 {{product.size}}
+                {% else %} 
+                  -
+                {% endif %}
+            </td>
+             <td>
+                {% if product.height %} 
+                {{product.height}}
                 {% else %} 
                   -
                 {% endif %}
@@ -186,6 +196,13 @@
             <td>
                 {% if product.size %} 
                 {{product.size}}
+                {% else %} 
+                  -
+                {% endif %}
+            </td>
+            <td>
+                {% if product.height %} 
+                {{product.height}}
                 {% else %} 
                   -
                 {% endif %}
