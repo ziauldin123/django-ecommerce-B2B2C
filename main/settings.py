@@ -130,7 +130,7 @@ TEMPLATES = [
     },
 ]
 
-UNDER_CONSTRUCTION = DEBUG
+UNDER_CONSTRUCTION = False
 
 
 WSGI_APPLICATION = 'main.wsgi.application'
