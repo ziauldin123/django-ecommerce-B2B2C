@@ -36,7 +36,7 @@
                     <td class="details">
                         {% if rs.variant %}
                          <a href="/product/{{ rs.product.id }}/{{ rs.product.slug }}">{{rs.variant.title}}</a>
-                        {% else %} 
+                        {% else %}
                         <a href="/product/{{ rs.product.id }}/{{ rs.product.slug }}">{{rs.product}}</a>
                         {% endif %}
                     </td>
@@ -55,14 +55,14 @@
                             {% endif %}
                         </strong></td>
                     <td class="qty text-center"><strong>{{rs.quantity}}
-                         {% if rs.product.variant == 'None' %} 
-                        {% if rs.product.unit_type %} 
+                         {% if rs.product.variant == 'None' %}
+                        {% if rs.product.unit_type %}
                           {{ rs.product.unit_type.unit }}(s)
-                         {% endif %} 
-                     {% else %} 
-                        {% if rs.variant.unit_type %}  
+                         {% endif %}
+                     {% else %}
+                        {% if rs.variant.unit_type %}
                          {{ rs.variant.unit_type.unit }}(s)
-                         {% endif %} 
+                         {% endif %}
                      {% endif %}</strong></td>
                     <td class="total text-center"><strong class="primary-color">$
                         {% if rs.product.variant == 'None' %}
@@ -89,7 +89,7 @@
 
             </tbody>
             <tfoot>
-                
+
                 <tr>
                     <td></td>
                     <td><strong>VAT</strong></td>
@@ -216,7 +216,7 @@
 
                     {% for choice in form.delivery_option %}
                     {% if choice.choice_label == "Pick up from Store" and not pickup_available %}
-                    <div class="field" style="display: none;">
+                        <div class="field" style="display: none;">
                         {% else %}
                         <div class="field">
                             {% endif %}
