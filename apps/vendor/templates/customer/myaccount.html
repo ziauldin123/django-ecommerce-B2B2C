@@ -56,23 +56,11 @@
                             </tr>
                         {% endfor %}
                         <tr>
-                            <td>Products subtotal</td>
+                            <td>Products quantity total</td>
                             <td>{{ order.total_quantity }}</td>
                         </tr>
 
-                        {% if order.coupon_discount != "" %}
-                            <tr>
-                                <td> </td>
-                                <td>Coupon discount</td>
-                                <td>{{ order.coupon_discount }}</td>
-                            </tr>
-                        {% endif %}
-
-                        <tr>
-                            <td></td>
-                            <td>Delivery cost</td>
-                            <td>{{ order.delivery_cost }}</td>
-                        </tr>
+                        
                     </tbody>
 
                     <tfoot>

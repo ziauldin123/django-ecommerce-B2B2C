@@ -119,7 +119,7 @@
                             <td><strong>TOTAL</strong></td>
                             <td><strong></strong></td>
                             <td></td>
-                            <td><strong>Frw <span id="total_cost">{{ total }} </span></strong></td>
+                            <td><strong>Frw <span id="total_cost">{{ cart.get_cart_cost }} </span></strong></td>
                         </tr>
 
                         {% if coupon.code != None %}
