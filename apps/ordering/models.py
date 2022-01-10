@@ -211,9 +211,9 @@ class OrderItem(models.Model):
     
     def get_vat_price(self):
         if not self.is_variant:
-            vat=self.product.get_vat_price() * self.quantity
+            vat=self.product.get_vat_price()
         else:
-            vat=self.variant.get_vat_price() * self.quantity
+            vat=self.variant.get_vat_price()
         vat=round(Decimal(vat),2)
         return round(Decimal(vat),2)    
     
