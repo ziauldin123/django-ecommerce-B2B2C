@@ -39,7 +39,7 @@
             <h2 class="title">Popular products</h2>
         </div>
 
-        {% for product in featured_products %}
+        {% for product in popular_products %}
             {% if product.vendor.enabled and product.visible and not product.is_variant %}
                 {% include 'product/parts/list_item.html' %}
             {% elif product.vendor.enabled and product.visible and product.is_variant %}
