@@ -370,7 +370,6 @@
 
                             <form action="/order/addtoshopcart/{{ product.id }}" method="post"  id="addchart-form">
                                 {% csrf_token %}
-                                <input type="hidden" name="variantid" id="variantid" value="{{ variant.id }}">
                                 <div id="SelectedProduct">
                                     <p><strong>Availability:</strong> {% if product.quantity > 0  %} In Stock {% else %} Out of Stock {% endif %}</p>
                                     <h3 class="product-price">
