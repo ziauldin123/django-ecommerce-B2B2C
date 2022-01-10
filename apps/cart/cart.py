@@ -30,20 +30,18 @@ class Cart(object):
                 self.cart['cart'][str(p)]['product']['subcategory_slug'] = shopcart.product.category.sub_category.slug
                 self.cart['cart'][str(p)]['product']['subsubcategory_slug'] = shopcart.product.category.sub_category.category.slug
                 self.cart['cart'][str(p)]['product']['slug'] = shopcart.product.slug
-                self.cart['cart'][str(p)]['product']['vendor_id'] = {'id': shopcart.product.vendor.id}
+                self.cart['cart'][str(p)]['product']['vendor_id'] = shopcart.product.vendor.id
                 self.cart['cart'][str(p)]['product']['slugV']=shopcart.product.slugV
                 self.cart['cart'][str(p)]['product']['pickup_available'] = shopcart.product.pickup_available
                 if shopcart.variant == None :
                     self.cart['cart'][str(p)]['product']['total_price'] = float(shopcart.product.get_discounted_price())
                     self.cart['cart'][str(p)]['product']['is_variant'] = False
                     self.cart['cart'][str(p)]['product']['tax']=float(shopcart.product.get_vat_price())
-                    self.cart['cart'][str(p)]['product']['quantity'] = float(shopcart.product.quantity)
                     self.cart['cart'][str(p)]['product']['total_vat_excl'] = float(shopcart.product.get_vat_exclusive_price())
                 else:
                     self.cart['cart'][str(p)]['product']['total_price'] = float(shopcart.variant.get_discounted_price())
                     self.cart['cart'][str(p)]['product']['is_variant'] = True
-                    self.cart['cart'][str(p)]['product']['quantity'] = float(shopcart.variant.quantity)
-                    self.cart['cart'][str(p)]['product']['variant_id'] = {'id': shopcart.variant.id}
+                    self.cart['cart'][str(p)]['product']['variant_id'] = shopcart.variant.id
                     self.cart['cart'][str(p)]['product']['tax']=float(shopcart.variant.get_vat_price())
                     self.cart['cart'][str(p)]['product']['total_vat_excl'] = float(shopcart.variant.get_vat_exclusive_price())
 
@@ -75,25 +73,20 @@ class Cart(object):
                 self.cart['cart'][str(p)]['product']['subcategory_slug'] = shopcart.product.category.sub_category.slug
                 self.cart['cart'][str(p)]['product']['subsubcategory_slug'] = shopcart.product.category.sub_category.category.slug
                 self.cart['cart'][str(p)]['product']['slug'] = shopcart.product.slug
+                self.cart['cart'][str(p)]['product']['vendor_id'] = shopcart.product.vendor.id
                 self.cart['cart'][str(p)]['product']['slugV']=shopcart.product.slugV
                 self.cart['cart'][str(p)]['product']['pickup_available'] = shopcart.product.pickup_available
-                # self.cart['cart'][str(p)]['product']['quantity'] = float(shopcart.quantity)
-                
                 if shopcart.variant == None :
                     self.cart['cart'][str(p)]['product']['total_price'] = float(shopcart.product.get_discounted_price())
                     self.cart['cart'][str(p)]['product']['is_variant'] = False
-                    self.cart['cart'][str(p)]['product']['tax']=float(shopcart.product.get_vat_price())
-                    self.cart['cart'][str(p)]['product']['total_vat_excl'] = float(shopcart.product.get_vat_exclusive_price())
-                    
                 else:
                     self.cart['cart'][str(p)]['product']['total_price'] = float(shopcart.variant.get_discounted_price())
                     self.cart['cart'][str(p)]['product']['is_variant'] = True
-                    self.cart['cart'][str(p)]['product']['variant_id'] = {'id':shopcart.variant.id}
+                    self.cart['cart'][str(p)]['product']['variant_id'] = shopcart.variant.id
 
                 self.cart['cart'][str(p)]['product']['is_free_delivery'] = shopcart.product.is_free_delivery
                 self.cart['cart'][str(p)]['product']['get_thumbnail'] = shopcart.product.get_thumbnail()
                 self.cart['cart'][str(p)]['product']['title'] = shopcart.product.title
-                self.cart['cart'][str(p)]['product']['vendor_id'] = {'id': shopcart.product.vendor.id}
             else:
                 null_id.append(p)
         for item in null_id:
@@ -102,9 +95,8 @@ class Cart(object):
 
         for item in self.cart['cart'].values():
             if 'product' in item:
-                # item['total_price'] = float(item['product']['total_price'] * item['quantity'])
-                # item['total_price'] = float(item['total_price'] * item['quantity'])
-                # item['quantity'] += float(item['quantity'])
+                item['total_price'] = float(item['product']['total_price'] * item['quantity'])
+
                 yield item
 
     def __len__(self):
@@ -114,8 +106,8 @@ class Cart(object):
                 sum_quantity += item['quantity']
         return sum_quantity
 
-    def add(self, product_id,user_id,variant_id, quantity, update_quantity=False):
-        cart_data=ShopCart.objects.filter(product_id=product_id,variant_id=variant_id, user_id=user_id).first()
+    def add(self, product_id,user_id, quantity, update_quantity=False):
+        cart_data=ShopCart.objects.filter(product_id=product_id, user_id=user_id).first()
         if cart_data:
             cart_id=str(cart_data.id)
 
@@ -124,6 +116,8 @@ class Cart(object):
 
         if cart_id in self.cart['cart']:
             self.cart['cart'][cart_id] ={'quantity': cart_data.quantity}
+
+
 
         self.save()
 
@@ -227,7 +221,9 @@ class Cart(object):
             product = Product.objects.get(pk=p_id)
             is_vendor_delivery.append(product.vendor.vendor_delivery.all().count() == 1)
             is_pickup_avaliable.append(self.cart['cart'][str(item)]['product']['pickup_available'])
-            
+            # if product.vendor.vendor_delivery.all().count() == 0:
+            #     use_vendor_delivery = False
+            # pickup_avaliable = self.cart['cart'][str(item)]['product']['pickup_available']
 
         print("is_vendor_deliveryi", is_vendor_delivery)
         print("is_pickup_avaliable",is_pickup_avaliable)
@@ -273,10 +269,9 @@ class Cart(object):
                 tax += float(item['product']['tax'] * item['quantity'])
 
         tax=Decimal(Decimal(tax))
-        return round(round(tax,2),2)
+        return round(round(tax,2) )
 
     def get_cart_cost(self):
-        total_cost = 0
         for p in self.cart['cart'].keys():
 
             # product = Product.objects.get(pk=p)
@@ -285,14 +280,14 @@ class Cart(object):
                 self.cart['cart'][str(p)]['product']['id'] = shopcart.product.id
                 self.cart['cart'][str(p)]['product']['total_cost'] = self.cart['cart'][str(p)]['product']['total_price']
 
-        
+        total_cost = 0
         for item in self.cart['cart'].values():
             if 'product' in item:
                 total_cost += float(item['product']['total_cost'] * item['quantity'])
 
-        # total_cost=Decimal(total_cost)
+        total_cost=Decimal(total_cost)
 
-        return round(Decimal(total_cost),2)
+        return round(total_cost,2)
 
     def get_cart_cost_with_coupen(self):
         for p in self.cart['cart'].keys():

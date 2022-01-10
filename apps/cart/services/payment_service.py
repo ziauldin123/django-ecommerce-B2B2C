@@ -23,12 +23,11 @@ class PaymentService:
             s_coupon["discount"] = ""
 
 
-    
+
 
         email = request.user.customer.email
         phone = request.user.customer.phone
         address = request.user.customer.address
-        company_code = request.user.customer.company_code
         district = cart.cart['delivery']['district']
         sector = cart.cart['delivery']['sector']
         cell = cart.cart['delivery']['cell']
@@ -37,8 +36,7 @@ class PaymentService:
         delivery_cost = cart.cart['delivery']['cost']
         delivery_type=cart.cart['delivery']['delivery_type']
         is_paid_now = True if request.POST.get('pay_now') else False
-        
-        order = checkout(request,cart, first_name, last_name, email,address, phone,company_code, district,
+        order = checkout(request,cart, first_name, last_name, email,address, phone, district,
                          sector, cell, village, delivery_address, delivery_cost,delivery_type, cart.get_cart_cost(),
                          request.session.get(settings.COUPON_SESSION_ID)["code"], is_paid_now)
 
@@ -52,7 +50,7 @@ class PaymentService:
             qty = cart.cart['cart'][p_id]['quantity']
             is_variant=cart.cart['cart'][p_id]['product']['is_variant']
             if is_variant:
-                variant_id=cart.cart['cart'][p_id]['product']['variant_id']['id']
+                variant_id=cart.cart['cart'][p_id]['product']['variant_id']
                 variant = Variants.objects.get(id=variant_id)
                 variant.quantity = variant.quantity - qty
                 variant.save()
@@ -65,7 +63,7 @@ class PaymentService:
         print('reduce num available done')
         cart.clear()
         shop_cart.all().delete()
-        print(order)
+
         return order
 
     def update_payment_cost(self, delivery_cost, is_free_delivery, delivery_type, cart: Cart):

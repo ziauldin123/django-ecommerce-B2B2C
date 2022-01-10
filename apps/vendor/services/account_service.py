@@ -27,7 +27,6 @@ class AccountService:
                 subtotal_amount += item_.price
                 vat_cost += item_.get_vat_price()
                 total_vat_exl += item_.get_subtotal_vat_exlusive()
-                vat_cost += item_.get_vat_price()
                 items.append(item)
             order["items"] = items
             order["subtotal_amount"] = subtotal_amount
