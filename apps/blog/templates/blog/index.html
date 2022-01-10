@@ -8,7 +8,7 @@
             <section class="hero is-small is-dark">
                 <div class="hero-body">
                     <p class="title">{{ post.title }}</p>
-                    <p class="subtitle">{{ post.created_at|date:"Y-m-d H:i" }}</p>
+                    <p class="subtitle">By {{ post.author }} | {{ post.created_at|date:"d-m-Y | H:i" }}</p>
                 </div>
             </section>
 
@@ -17,9 +17,11 @@
             <div class="columns">
                 <div class="column is-3">
                     {% if post.image %}
+                    <a href="{% url 'detail' post.slug  %}">
                         <figure class="image is-16by9">
                             <img src="{{ post.image.url }}">
                         </figure>
+                    </a>
                     {% endif %}
                 </div>
             
