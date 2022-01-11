@@ -42,15 +42,15 @@ def frontpage(request):
     recently_viewed_products = Product.objects.filter(status=True, visible=True).order_by(
         '-last_visit')[0:4]
 
-    if not request.user.is_anonymous:
-        cart = Cart(request)
-        current_user = request.user
-        # cart.clear()
-        shopcart = ShopCart.objects.filter(user_id=current_user.id)
-        if cart.__len__() == 0:
-            for rs in shopcart:
-                cart.add(product_id=rs.product.id, user_id=current_user.id,
-                         quantity=rs.quantity, update_quantity=True)
+    # if not request.user.is_anonymous:
+    #     cart = Cart(request)
+    #     current_user = request.user
+    #     # cart.clear()
+    #     shopcart = ShopCart.objects.filter(user_id=current_user.id)
+    #     if cart.__len__() == 0:
+    #         for rs in shopcart:
+    #             cart.add(product_id=rs.product.id, user_id=current_user.id,
+    #                      quantity=rs.quantity, update_quantity=True)
 
     return render(
         request,

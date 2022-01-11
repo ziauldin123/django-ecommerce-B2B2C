@@ -75,9 +75,8 @@ def addtoshopcart(request,id):
             data.product=product
             data.quantity = p_quantity
             data.save()
-            # cart.set(int(product.id), int(form.cleaned_data['quantity']))
-            cart.add(product_id=product.id,variant_id=variantid,user_id=current_user.id, quantity=p_quantity, update_quantity=True)
-
+                # cart.set(int(product.id), int(form.cleaned_data['quantity']))
+            cart.add(product_id=product.id,user_id=current_user.id, quantity=p_quantity, update_quantity=True)
 
 
         messages.success(request,"Product added to Shopcart")
