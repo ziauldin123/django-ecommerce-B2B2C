@@ -115,8 +115,8 @@
                                             style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding-top: 10px;">
                                             <p
                                                 style="font-size: 16px; font-weight: 400; line-height: 24px; color: #000000; padding-top: 15px;">
-                                                Order Reference: #03545<br>
-                                                Order Date & Time: 22/01/05, 14:27:26
+                                                Order Reference: #{{ order.reference_number }}<br>
+                                                Order Date & Time: {{ order.created_at }}
                                             </p>
                                         </td>
                                     </tr>
