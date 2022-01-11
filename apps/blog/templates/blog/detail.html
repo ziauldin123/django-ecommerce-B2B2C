@@ -9,8 +9,8 @@
         <section class="hero is-small is-dark">
             <div class="hero-body">
                 <p class="title">{{ post.title }}</p>
-                <p class="subtitle">{{ post.created_at|date:"Y-m-d H:i" }}</p>
-            </div>
+                <p class="subtitle">By {{ post.author }} | {{ post.created_at|date:"d-m-Y | H:i" }}</p>
+            </div> 
         </section>
 
         {% if post.image %}

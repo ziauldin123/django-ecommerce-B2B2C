@@ -109,5 +109,9 @@ def termsandconditions(request):
     return render(request, 'core/termsandconditions.html')
 
 
+def privacy_policy(request):
+    return render(request, 'core/privacy_policy.html')
+
+
 def error_404_view(request, exception):
     return render(request, 'core/404.html')

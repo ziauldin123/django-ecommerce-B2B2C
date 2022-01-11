@@ -20,6 +20,8 @@ urlpatterns = [
          name='frequently_asked_questions'),
     path('termsandconditions/', views.termsandconditions,
          name='termsandconditions'),
+    path('privacy_policy/', views.privacy_policy,
+         name='privacy_policy'),
 
 ]
 
