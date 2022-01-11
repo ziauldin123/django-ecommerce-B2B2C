@@ -274,7 +274,7 @@
                 </div>
             <div class="navbar-item">
                 <a href="{% url 'shopcart'%}">
-                    <div class="header-btns-icon">
+                    <div class="header-btns-icon" id="my_cart">
                         <i class="fa fa-shopping-cart"></i>
                         {% load myapptags %}
                         {% shopcartcount user.id as count %}
