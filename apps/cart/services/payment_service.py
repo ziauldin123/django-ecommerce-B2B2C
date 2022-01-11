@@ -28,6 +28,7 @@ class PaymentService:
         email = request.user.customer.email
         phone = request.user.customer.phone
         address = request.user.customer.address
+        company_code = request.user.customer.company_code
         district = cart.cart['delivery']['district']
         sector = cart.cart['delivery']['sector']
         cell = cart.cart['delivery']['cell']
@@ -36,7 +37,7 @@ class PaymentService:
         delivery_cost = cart.cart['delivery']['cost']
         delivery_type=cart.cart['delivery']['delivery_type']
         is_paid_now = True if request.POST.get('pay_now') else False
-        order = checkout(request,cart, first_name, last_name, email,address, phone, district,
+        order = checkout(request,cart, first_name, last_name, email,address, phone,company_code, district,
                          sector, cell, village, delivery_address, delivery_cost,delivery_type, cart.get_cart_cost(),
                          request.session.get(settings.COUPON_SESSION_ID)["code"], is_paid_now)
 
