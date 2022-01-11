@@ -15,6 +15,7 @@ from decimal import Decimal
 from django.conf import settings
 from django.core.mail import EmailMultiAlternatives, get_connection
 from django.template.loader import render_to_string
+from apps.ordering.utils import create_new_ref_number
 
 
 def notify_transporter(order_items,transporter):
@@ -97,7 +98,8 @@ class Order(models.Model):
         (SHIPPED, 'Shipped'),
         (ARRIVED, 'Arrived'),
     )
-
+    reference_number = models.CharField(
+        max_length=100, default=create_new_ref_number)
     first_name=models.CharField(max_length=100)
     last_name=models.CharField(max_length=100)
     email=models.CharField(max_length=100)
@@ -111,6 +113,7 @@ class Order(models.Model):
     delivery_address=models.CharField(max_length=170,null=True)
     delivery_cost=models.DecimalField(max_digits=13,decimal_places=2,default=0)
     delivery_type=models.CharField(max_length=100,null=True)
+    company_code = models.CharField(max_length=100, default=000)
     coupon_discount=models.DecimalField(max_digits=13,decimal_places=2,default=0)
     paid_amount=models.DecimalField(max_digits=13,decimal_places=2,default=0)
     is_paid=models.BooleanField(default=False)
