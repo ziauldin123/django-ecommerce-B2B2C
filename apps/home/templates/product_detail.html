@@ -74,7 +74,7 @@
                     <div class="col-md-6">
                         <div class="product-body">
 
-                            {% if product.variant %}
+                            {% if product.is_variant %}
                             <p><strong>{{ variant.title }}</strong></p>
                             {% else %}
                             <p><strong>{{ product.title }}</strong></p>
