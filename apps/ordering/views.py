@@ -65,7 +65,7 @@ def addtoshopcart(request,id):
             data.quantity += p_quantity
             data.save()#save data
 
-            cart.add(product_id=product.id,user_id=current_user.id,quantity=p_quantity, update_quantity=True)
+            cart.add(product_id=product.id,variant_id=variantid,user_id=current_user.id,quantity=p_quantity, update_quantity=True)
         else :# insert to shopcart
             data=ShopCart()
             if product.variant != 'None':
@@ -77,7 +77,7 @@ def addtoshopcart(request,id):
             data.quantity = p_quantity
             data.save()
                 # cart.set(int(product.id), int(form.cleaned_data['quantity']))
-            cart.add(product_id=product.id,user_id=current_user.id, quantity=p_quantity, update_quantity=True)
+            cart.add(product_id=product.id,variant_id=variantid,user_id=current_user.id, quantity=p_quantity, update_quantity=True)
 
 
         messages.success(request,"Product added to Shopcart")
@@ -100,7 +100,7 @@ def addtoshopcart(request,id):
                 quantity = 1,
                 variant_id = None,
             )
-            cart.add(product_id=product.id,quantity=1, update_quantity=True,user_id=current_user.id)
+            cart.add(product_id=product.id,variant_id=None,quantity=1, update_quantity=True,user_id=current_user.id)
         messages.success(request,'Product added to Shopcart')
         return HttpResponse("Success!")
 
@@ -187,7 +187,11 @@ def update(request):
             cart=ShopCart.objects.get(id=prod_id,user=request.user)
             cart.quantity=prod_qty
             cart.save()
-            cart_data.add(product_id=cart.product.id,user_id=request.user.id, quantity=prod_qty, update_quantity=True)
+            
+            if cart.product.is_variant:
+                cart_data.add(product_id=cart.product.id,variant_id=cart.variant.id,user_id=request.user.id, quantity=prod_qty, update_quantity=True)
+            else:
+                cart_data.add(product_id=cart.product.id,variant_id=None,user_id=request.user.id, quantity=prod_qty, update_quantity=True) 
             return JsonResponse({'status':"Updated"})
 
     return redirect('/')

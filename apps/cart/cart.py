@@ -106,8 +106,8 @@ class Cart(object):
                 sum_quantity += item['quantity']
         return sum_quantity
 
-    def add(self, product_id,user_id, quantity, update_quantity=False):
-        cart_data=ShopCart.objects.filter(product_id=product_id, user_id=user_id).first()
+    def add(self, product_id,user_id,variant_id, quantity, update_quantity=False):
+        cart_data=ShopCart.objects.filter(product_id=product_id,variant_id=variant_id, user_id=user_id).first()
         if cart_data:
             cart_id=str(cart_data.id)
 
