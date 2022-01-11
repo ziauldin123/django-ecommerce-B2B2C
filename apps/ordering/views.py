@@ -21,6 +21,7 @@ def index(request):
 
 @login_required(login_url='/login') #check login
 @never_cache
+@csrf_exempt
 def addtoshopcart(request,id):
     cart = Cart(request)
     url=request.META.get('HTTP_REFERER')#get last url
@@ -28,7 +29,7 @@ def addtoshopcart(request,id):
     product=Product.objects.get(pk=id)
     variantid = request.POST.get('variantid')
     customer=Customer.objects.filter(email=current_user)
-    print(customer)
+    print("variant id", variantid)
 
 
     if product.is_variant:
@@ -51,45 +52,47 @@ def addtoshopcart(request,id):
 
 
     if request.method == 'POST': #if there is a post
+        print("control",control)
+        p_quantity = int(request.POST.get('quantity'))
 
-        form = ShopCartForm(request.POST)
-        if form.is_valid():     
-           
 
-            if control == 1: #update shopcart
-                if product.variant == 'None':
-                    data = ShopCart.objects.get(product_id=id, user_id=current_user)
-                else:
-                    data=ShopCart.objects.get(variant_id=variantid, user_id=current_user.id)
-                data.quantity += form.cleaned_data['quantity']
-                data.save()#save data
-    
-                cart.add(product_id=product.id,variant_id=variantid,user_id=current_user.id,quantity=form.cleaned_data['quantity'], update_quantity=True)
-            else :# insert to shopcart
+        if control == 1: #update shopcart
+            if product.variant == 'None':
+                data = ShopCart.objects.get(product_id=id, user_id=current_user)
+            else:
+                data=ShopCart.objects.get(variant_id=variantid, user_id=current_user.id)
+            data.quantity += p_quantity
+            data.save()#save data
+
+            cart.add(product_id=product.id,user_id=current_user.id,quantity=p_quantity, update_quantity=True)
+        else :# insert to shopcart
+            data=ShopCart()
+            if product.variant != 'None':
                 variant=Variants.objects.get(id=variantid)
-                data=ShopCart()
-                data.user=current_user
-                data.product=product
                 data.variant=variant
                 data.variant_id=variantid
-                data.quantity = form.cleaned_data['quantity']
-                data.save()
+            data.user=current_user
+            data.product=product
+            data.quantity = p_quantity
+            data.save()
                 # cart.set(int(product.id), int(form.cleaned_data['quantity']))
-                cart.add(product_id=product.id,variant_id=variantid,user_id=current_user.id, quantity=form.cleaned_data['quantity'], update_quantity=True)
+            cart.add(product_id=product.id,user_id=current_user.id, quantity=p_quantity, update_quantity=True)
 
 
         messages.success(request,"Product added to Shopcart")
-        return HttpResponseRedirect(url)
+        return HttpResponse("Success!")
 
 
 
     else:#if there is no post
         if control == 1:
+            print("get 1")
             data=ShopCart.objects.get(product_id=id, user_id=current_user.id)
             data.quantity += 1
             data.save()
             cart.add(product_id=product.id,variant_id=None,quantity=1, update_quantity=True,user_id=current_user.id)
         else:#insert to shopcart
+            print("get")
             data=ShopCart.objects.create(
                 user_id=current_user.id,
                 product_id = id,
@@ -98,7 +101,7 @@ def addtoshopcart(request,id):
             )
             cart.add(product_id=product.id,variant_id=None, quantity=1, update_quantity=True,user_id=current_user.id)
         messages.success(request,'Product added to Shopcart')
-        return HttpResponseRedirect(url)
+        return HttpResponse("Success!")
 
 @never_cache
 def shopcart(request):
@@ -140,7 +143,7 @@ def shopcart(request):
         total=cart.get_cart_cost()
         tax=cart.get_cart_tax()
         grandTotal=cart.get_cart_cost() + cart.get_cart_tax()
-       
+
         context={'shopcart': shopcart,
                 'category':category,
                 'total': round(Decimal(total),2),

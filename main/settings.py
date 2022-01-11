@@ -27,9 +27,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'dr&-v@o7w9#&#r3wj$d#$t78t&*hb$&(2)xa5@05d1p$)1=$96'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['*',]
+ALLOWED_HOSTS = ['*', ]
 
 STRIPE_PUB_KEY = 'pk_test_51Ikdb4HwFojfx57irEolkyNAWZCsGCRlrBEKIt4WZXhOTg25Lw50WpUFY5OmDb504spl1XcnaQlswKQu0ULBkpbD003XV2jNJt'
 STRIPE_SECRET_KEY = 'sk_test_51Ikdb4HwFojfx57ik70ouFvnOA2MWIE2QqZkcCmB3yO142YvuuLWc4pSBkI5yDT4y77a9oDq6NWWYXxNtGn52A3700yNZd411N'
@@ -109,7 +109,6 @@ MIDDLEWARE = [
 ]
 
 
-
 ROOT_URLCONF = 'main.urls'
 
 TEMPLATES = [
@@ -131,7 +130,7 @@ TEMPLATES = [
     },
 ]
 
-UNDER_CONSTRUCTION = False
+UNDER_CONSTRUCTION = DEBUG
 
 
 WSGI_APPLICATION = 'main.wsgi.application'
@@ -182,14 +181,14 @@ USE_TZ = False
 
 USE_THOUSAND_SEPARATOR = True
 SESSION_SAVE_EVERY_REQUEST = True
-DEFAULT_AUTO_FIELD='django.db.models.AutoField'
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
-   os.path.join(BASE_DIR, 'apps/dashboard/static'),
+    os.path.join(BASE_DIR, 'apps/dashboard/static'),
 ]
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
@@ -219,5 +218,3 @@ CKEDITOR_JQUERY_URL = 'https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery
 CKEDITOR_IMAGE_BACKEND = "pillow"
 
 # SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
-
-

@@ -221,18 +221,23 @@ def become_vendor(request):
     if request.method == 'POST':
         form = VendorSignUpForm(request.POST)
         if form.is_valid():
-            user = form.save(commit=False)
-            user.username = form.cleaned_data.get('email')
-            user.is_active = False
-            user.save()
-
-            profile=Profile(user=user,email=form.cleaned_data.get('email'))
-            profile.save()
+            if User.objects.filter(username=form.cleaned_data.get('email')).exists():
+                user=User.objects.get(username=form.cleaned_data.get('email'))
+            else:
+                user = form.save(commit=False)
+                user.username = form.cleaned_data.get('email')
+                user.is_active = False
+                user.save()
+            if not Profile.objects.filter(email=form.cleaned_data.get('email')).exists():
+                profile=Profile(user=user,email=form.cleaned_data.get('email'))
+                profile.save()
 
             district_id = form.cleaned_data['district']
             sector_id = form.cleaned_data['sector']
             cell_id = form.cleaned_data['cell']
             village_id = form.cleaned_data['village']
+            company_registration=request.FILES.get('reg_image')
+            privacy_checked= request.POST.get('is_privacy')
 
             vendor = Vendor(email=form.cleaned_data.get('email'),
                 company_name=form.cleaned_data.get('company_name'),
@@ -243,6 +248,8 @@ def become_vendor(request):
                 cell_id=cell_id,
                 address=form.cleaned_data.get('address'),
                 phone=form.cleaned_data.get('phone'),
+                company_registration=company_registration,
+                privacy_checked=privacy_checked,
                 user=user)
             vendor.save()
 

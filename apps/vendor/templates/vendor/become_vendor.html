@@ -7,7 +7,7 @@
     <div class="column is-4 is-offset-4">
         <h1 class="title">Set up a vendor account</h1>
 
-        <form method="post" action="." >
+        <form method="post" action="." enctype="multipart/form-data" >
             {% csrf_token %}
 
             <input type="hidden" name="next" value="{{ next }}">
@@ -102,6 +102,15 @@
                 </div>
 
                 <div class="field">
+                    <label>Upload Company Registration</label>
+
+                    <div clas="control">
+                        <input type="file" name="reg_image" id="reg_image" required />
+                    </div>
+                </div>
+
+
+                <div class="field">
                     <label>Password</label>
 
                     <div clas="control">
@@ -114,6 +123,16 @@
 
                     <div clas="control">
                         <input type="password" class="input" name="password2" id="id_password2">
+                    </div>
+                </div>
+
+                <div class="field">
+
+
+                    <div clas="control">
+                        <input type="checkbox" name="is_privacy" value="False" id="is_privacy" required/>
+                        <label>i agree terms & condition</label>
+
                     </div>
                 </div>
 
@@ -131,7 +150,7 @@
                         </div>
                     {% endfor %}
                 {% endif %}
-            
+
                 {% if messages %}
                     <div class="messages">
                         {% for message in messages %}
@@ -144,7 +163,7 @@
                         {% endfor %}
                     </div>
                 {% endif %}
-                
+
                 <br>
 
                 <div class="field">
