@@ -24,6 +24,8 @@ class Vendor(models.Model):
     user = models.OneToOneField(
         User, related_name='vendor', on_delete=models.CASCADE)
     logo = models.ImageField(upload_to='uploads/', blank=True, null=True)
+    company_registration = models.ImageField(upload_to='upload/registration/company-%Y-%m-%d/', blank=True, null=True)
+    privacy_checked = models.BooleanField(default=False)
 
     def __str__(self):
         return self.company_name
