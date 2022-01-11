@@ -34,7 +34,7 @@ def product_detail(request,id,slug,vendor_slug,category_slug,subcategory_slug, s
     query=request.GET.get('q')
     product = Product.objects.get(pk=id)
 
-    if product.visible == False:
+    if product.status == False:
         messages.add_message(request, messages.ERROR,
                                  "Product is not available")
         return redirect('/')
