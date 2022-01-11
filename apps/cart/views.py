@@ -235,6 +235,7 @@ def district_sector_cell_village(request):
 def payment_check(request, *args, **kwargs):
     cart = Cart(request)
     current_user=request.user
+    print(current_user.customer.company_code)
     shopcart = ShopCart.objects.filter(user_id=current_user.id)
     total=cart.get_cart_cost()
     tax=cart.get_cart_tax()
