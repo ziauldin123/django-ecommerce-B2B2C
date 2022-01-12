@@ -806,11 +806,11 @@ class WishListView(TemplateView):
             form = ShopCartForm(request.POST)
             if form.is_valid():
                 if control == 1:
-                    data=ShopCart.objects.get(product_id=variant.product.id,variant_id=product_id,user_id=current_user.id)
+                    data=ShopCart.objects.get(product_id=product_id,variant_id=variant.product.id,user_id=current_user.id)
                     data.quantity +=form.cleaned_data['quantity']
                     data.save()
 
-                    cart.add(product_id=product.id,user_id=current_user.id,quantity=form.cleaned_data['quantity'],update_quantity=True)
+                    cart.add(product_id=product.id,variant_id=None,user_id=current_user.id,quantity=form.cleaned_data['quantity'],update_quantity=True)
                 else:
                     data=ShopCart()
                     data.user=current_user
@@ -819,7 +819,7 @@ class WishListView(TemplateView):
                     data.quantity=form.cleaned_data['quantity']
                     data.save()
 
-                    cart.add(product_id=product.id,user_id=current_user.id,quantity=form.cleaned_data['quantity'],update_quantity=True)
+                    cart.add(product_id=product.id,variant_id=None,user_id=current_user.id,quantity=form.cleaned_data['quantity'],update_quantity=True)
 
             messages.success(request,"Product added to Shopcart")
             return HttpResponseRedirect(url)
@@ -829,7 +829,7 @@ class WishListView(TemplateView):
                 data=ShopCart.objects.get(product_id=product.id,user_id=current_user.id)
                 data.quantity +=1
                 data.save()
-                cart.add(product_id=product.id,quantity=1,update_quantity=True,user_id=current_user.id)
+                cart.add(product_id=product.id,variant_id=None,quantity=1,update_quantity=True,user_id=current_user.id)
             else:
                 data=ShopCart.objects.create(
                     user_id=current_user.id,
@@ -837,7 +837,7 @@ class WishListView(TemplateView):
                     quantity=1,
                     variant_id=None,
                 )
-                cart.add(product_id=product.id,quantity=1,update_quantity=True,user_id=current_user.id)
+                cart.add(product_id=product.id,variant_id=None,quantity=1,update_quantity=True,user_id=current_user.id)
             messages.success(request,'Product added to shopcart')
             return HttpResponseRedirect(url)
 

@@ -332,7 +332,7 @@ def payment_check(request, *args, **kwargs):
             print(form.errors)
     else:
         form = PaymentForm()
-
+    print(cart.get_delivery_cost())
     return render(
         request,
         'cart/payment.html',

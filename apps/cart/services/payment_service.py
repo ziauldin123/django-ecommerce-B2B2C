@@ -51,7 +51,7 @@ class PaymentService:
             qty = cart.cart['cart'][p_id]['quantity']
             is_variant=cart.cart['cart'][p_id]['product']['is_variant']
             if is_variant:
-                variant_id=cart.cart['cart'][p_id]['product']['variant_id']
+                variant_id=cart.cart['cart'][p_id]['product']['variant_id']['id']
                 variant = Variants.objects.get(id=variant_id)
                 variant.quantity = variant.quantity - qty
                 variant.save()

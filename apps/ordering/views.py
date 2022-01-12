@@ -28,6 +28,7 @@ def addtoshopcart(request,id):
     current_user=request.user #Access User Session infor
     product=Product.objects.get(pk=id)
     variantid = request.POST.get('variantid')
+    # variant = Variants.objects.get(id=variantid)
 
     customer=Customer.objects.filter(email=current_user)
     print("variant id", variantid)
@@ -58,14 +59,19 @@ def addtoshopcart(request,id):
 
 
         if control == 1: #update shopcart
+            
             if product.variant == 'None':
                 data = ShopCart.objects.get(product_id=id, user_id=current_user)
+                data.quantity += p_quantity
+                data.save()#save data
+                cart.add(product_id=id,variant_id=None,user_id=current_user.id,quantity=p_quantity, update_quantity=True)
             else:
-                data=ShopCart.objects.get(variant_id=variantid, user_id=current_user.id)
-            data.quantity += p_quantity
-            data.save()#save data
-
-            cart.add(product_id=product.id,variant_id=variantid,user_id=current_user.id,quantity=p_quantity, update_quantity=True)
+               variant=Variants.objects.get(id=variantid)
+               data=ShopCart.objects.get(variant_id=variantid, user_id=current_user.id)
+               data.quantity += p_quantity
+               data.save()#save data
+               cart.add(product_id=id,variant_id=variant.id,user_id=current_user.id,quantity=p_quantity, update_quantity=True)
+            
         else :# insert to shopcart
             data=ShopCart()
             if product.variant != 'None':
@@ -77,7 +83,7 @@ def addtoshopcart(request,id):
             data.quantity = p_quantity
             data.save()
                 # cart.set(int(product.id), int(form.cleaned_data['quantity']))
-            cart.add(product_id=product.id,variant_id=variantid,user_id=current_user.id, quantity=p_quantity, update_quantity=True)
+            cart.add(product_id=id,variant_id=variant.id,user_id=current_user.id, quantity=p_quantity, update_quantity=True)
 
 
         messages.success(request,"Product added to Shopcart")
@@ -91,7 +97,7 @@ def addtoshopcart(request,id):
             data=ShopCart.objects.get(product_id=id, user_id=current_user.id)
             data.quantity += 1
             data.save()
-            cart.add(product_id=product.id,quantity=1, update_quantity=True,user_id=current_user.id)
+            cart.add(product_id=product.id,variant_id=None,quantity=1, update_quantity=True,user_id=current_user.id)
         else:#insert to shopcart
             print("get")
             data=ShopCart.objects.create(

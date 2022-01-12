@@ -16,6 +16,29 @@
             }
         })
     })
+
+    function add_To_Cart(pr_id) {
+         event.preventDefault(); //so that we stop normal form submit.
+         var_id = $("#variant_id").val();
+         pq = $("#quantity").val()
+         $.ajax({
+            url: "/order/addtoshopcart/" + pr_id,
+            type: 'POST',
+            data: {'variantid': var_id,
+                'quantity':pq
+            },
+            success: function (data) {
+                console.log(data);
+                $("#my_cart").load(location.href + " #my_cart");
+                $("#msg1").append(
+                    '<div class="alert alert-success hideit alertSuc">added in cart successfully.</div >')
+                setTimeout(function () {
+                    $("#msg1").load(location.href + " #msg1");
+                }, 1000);
+            }
+        });
+    }
+
 </script>    
 <div id="breadcrumb">
     <div class="container">
@@ -77,12 +100,13 @@
                  {{product.price}}
                 {% endif %}   
             </td>
+            <div id="msg1" class="mt-3">
             <td>
-                <a href="/order/addtoshopcart/{{ product.id }}" class="primary-btn add-to-cart">
-                    <button type="submit" {% if product.quantity < 1  %} disabled {% endif %} class="button is-dark">
-                        <i class="fa fa-shopping-cart"></i> 
-                     Add Cart</button>
-                 </a>
+                <input class="input" name="quantity" id="quantity" type="hidden" value="1" min="1" max="{{ product.quantity }}">
+                        <button onclick="add_To_Cart('{{ product.id }}')"  {% if product.quantity < 1  %} disabled {% endif %}  class="button is-dark"> 
+                            <i class="fa fa-shopping-cart"></i> 
+                         Add Cart</button>
+                        </div>
             </td>
             <td>
                 {% if product.weight %} 
@@ -164,13 +188,11 @@
                 {% endif %}   
             </td>
             <td>
-                <form method="post" action=".">
-                    {% csrf_token %}
-                    <input type="hidden" class="input" name="quantity" value="1" >
-                   <button class="button is-dark" {% if product.quantity < 1  %} disabled {% endif %} name="id" value="{{ product.id }}">
-                       <i class="fa fa-shopping-cart"></i> 
-                    Add Cart</button>
-                   </form>
+                <input type="hidden" name="variantid" id="variant_id" value="{{ product.id }}">
+                        <input class="input" id="quantity" name="quantity" type="hidden" value="1" min="1" max="{{ product.quantity }}">
+                        <button class="button is-dark" onclick="add_To_Cart('{{ product.product.id }}')" {% if product.quantity < 1  %} disabled {% endif %} name="id" value="{{ product.id }}">
+                            <i class="fa fa-shopping-cart"></i> 
+                         Add Cart</button>
             </td>
             <td>
                 {% if product.weight %} 

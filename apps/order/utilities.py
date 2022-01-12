@@ -91,7 +91,7 @@ def checkout(
                                        ['total_price'] * item['quantity'])
             subtotal_amount = round(Decimal(subtotal_amount), 2)
             if item['product']['is_variant']:
-                var_id = int(item['product']['variant_id'])
+                var_id = int(item['product']['variant_id']['id'])
                 pro_id = int(item['product']['id'])
                 print(pro_id)
             else:
@@ -102,12 +102,12 @@ def checkout(
                 order=order,
                 product_id=pro_id,
                 variant_id=var_id,
-                vendor_id=item['product']['vendor_id'],
+                vendor_id=item['product']['vendor_id']['id'],
                 price=item['product']['total_price'],
                 quantity=item['quantity'],
                 is_variant=item['product']['is_variant']
             )
-            vendor = Vendor.objects.get(pk=item['product']['vendor_id'])
+            vendor = Vendor.objects.get(pk=item['product']['vendor_id']['id'])
             order.vendors.add(vendor)
 
         order.total_quantity = total_quantity
