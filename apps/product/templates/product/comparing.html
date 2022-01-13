@@ -102,11 +102,10 @@
             </td>
             <div id="msg1" class="mt-3">
             <td>
-                <input class="input" name="quantity" id="quantity" type="hidden" value="1" min="1" max="{{ product.quantity }}">
-                        <button onclick="add_To_Cart('{{ product.id }}')"  {% if product.quantity < 1  %} disabled {% endif %}  class="button is-dark"> 
-                            <i class="fa fa-shopping-cart"></i> 
-                         Add Cart</button>
-                        </div>
+                <input class="input" name="quantity" id="quantity" type="hidden" value="1">
+                <button onclick="add_To_Cart('{{ product.id }}')"  {% if product.quantity < 1  %} disabled {% endif %}  class="button is-dark"> 
+                    <i class="fa fa-shopping-cart"></i>Add Cart
+                </button>
             </td>
             <td>
                 {% if product.weight %} 

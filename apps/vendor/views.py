@@ -2,6 +2,7 @@ from django.http.response import HttpResponse
 from django.views.generic import TemplateView
 from decimal import Decimal
 from django.contrib import messages
+from django.conf import settings
 from apps.coupon.models import Coupon
 from django.shortcuts import render, redirect,  get_object_or_404, HttpResponseRedirect
 from django.contrib.auth import login, authenticate, logout
@@ -13,6 +14,7 @@ from django.utils.text import slugify
 from apps.cart.models import District, Sector, Cell, Village
 from django.contrib.auth.models import User, Permission
 from django import template
+from apps.cart.cart import Cart
 register = template.Library()
 from apps.cart.cart import Cart
 from apps.ordering.models import OrderItem, ShopCart, ShopCartForm
@@ -86,7 +88,7 @@ def login_request(request):
                         total_quantity = 0
                         subtotal_amount = 0
                         subtotal = 0
-                        for item_ in OrderItem.objects.filter(Order_id=row.id).select_related("product"):
+                        for item_ in OrderItem.objects.filter(id=row.id).select_related("product"):
                             item = {}
                             item["product_title"] = item_.product.title
                             item["quantity"] = str(item_.quantity)
@@ -134,7 +136,7 @@ def login_request(request):
                 request.session['username'] = vendor
             except Exception as e:
                 pass
-
+            
             messages.info(request, f"You are now logged in as { username }.")
             return redirect("vendor_admin")
 

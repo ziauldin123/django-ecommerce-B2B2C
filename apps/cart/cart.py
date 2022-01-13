@@ -15,12 +15,12 @@ class Cart(object):
     def __init__(self, request):
         self.session = request.session
         cart = self.session.get(settings.CART_SESSION_ID)
-        # print("Cart data")
-        # print(cart)
+        print("Cart data")
+        print(cart)
         if not cart:
             cart = self.session[settings.CART_SESSION_ID] = {'cart':{}}
 
-        self.cart = cart
+        self.cart = cart 
         null_id=[]
         for p in self.cart['cart'].keys():
             shopcart = ShopCart.objects.filter(pk=int(p)).first()
@@ -107,16 +107,20 @@ class Cart(object):
         return sum_quantity
 
     def add(self, product_id,user_id,variant_id, quantity, update_quantity=False):
-        cart_data=ShopCart.objects.filter(product_id=product_id,variant_id=variant_id, user_id=user_id).first()
+        # cart_id = 0
+        if variant_id is None:
+            cart_data=ShopCart.objects.filter(product_id=product_id,variant_id=None, user_id=user_id).first()
+        else:
+            cart_data=ShopCart.objects.filter(product_id=product_id,variant_id=variant_id, user_id=user_id).first()    
+        
         if cart_data:
-            cart_id=str(cart_data.id)
-
+            cart_id=str(cart_data.id) 
+              
         if cart_id not in self.cart['cart']:
             self.cart['cart'][cart_id] ={'quantity': cart_data.quantity,'id':str(cart_data.id)}
 
         if cart_id in self.cart['cart']:
             self.cart['cart'][cart_id] ={'quantity': cart_data.quantity}
-
 
 
         self.save()
