@@ -114,6 +114,7 @@ class Customer(models.Model):
     phone = models.CharField(max_length=10)
     created_at = models.DateTimeField(auto_now_add=True)
     company_code = models.CharField(max_length=255,null=True,blank=True)
+    privacy_checked = models.BooleanField(default=False)
     user = models.OneToOneField(
         User, related_name='customer', on_delete=models.CASCADE)
 

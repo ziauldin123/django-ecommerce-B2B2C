@@ -216,18 +216,17 @@ class Cart(object):
     def get_is_vendor_delivery(self):
         is_vendor_delivery=[]
         is_pickup_avaliable=[]
+        vendors=[]
         for item in self.cart['cart']:
             p_id=self.cart['cart'][str(item)]['product']['id']
             product = Product.objects.get(pk=p_id)
+            vendors.append(product.vendor.id)
             is_vendor_delivery.append(product.vendor.vendor_delivery.all().count() == 1)
             is_pickup_avaliable.append(self.cart['cart'][str(item)]['product']['pickup_available'])
-            # if product.vendor.vendor_delivery.all().count() == 0:
-            #     use_vendor_delivery = False
-            # pickup_avaliable = self.cart['cart'][str(item)]['product']['pickup_available']
 
         print("is_vendor_deliveryi", is_vendor_delivery)
-        print("is_pickup_avaliable",is_pickup_avaliable)
-        if all(is_vendor_delivery):
+        # print("is_pickup_avaliable",is_pickup_avaliable)
+        if all(is_vendor_delivery) and len(set(vendors)) == 1:
             use_vendor_delivery=True
         else:
             use_vendor_delivery=False

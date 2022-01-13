@@ -238,6 +238,7 @@ def become_vendor(request):
             village_id = form.cleaned_data['village']
             company_registration=request.FILES.get('reg_image')
             privacy_checked= request.POST.get('is_privacy')
+            print("privACY", privacy_checked)
 
             vendor = Vendor(email=form.cleaned_data.get('email'),
                 company_name=form.cleaned_data.get('company_name'),
@@ -597,30 +598,6 @@ def delete_product(request, pk):
         return redirect('vendor_admin')
 
 
-# @login_required
-# def edit_productimage(request, pk):
-#     vendor = request.user.vendor
-#     # product = vendor.products.get(pk=pk)
-#     product_images = ProductImage.objects.filter(product=pk)
-
-#     if request.method == 'POST':
-
-#         form = ProductImageForm(request.POST, request.FILES)
-#         if "image" in request.FILES and len(request.FILES["image"]) > 0:
-#             product = Product.objects.get(id=pk)
-#             product_image = ProductImage.objects.create(
-#                 product=product, image=request.FILES["image"])
-#         # product_image.save()
-#         # if form.is_valid():
-#         #     form.save()
-
-#         return redirect('vendor_admin')
-#     else:
-#         form = ProductImageForm()
-
-#     return render(request, 'vendor/edit_productimage.html', {'product_images': product_images, 'form': form})
-
-
 @ login_required
 def upload_logo(request):
     vendor = request.user.vendor
@@ -708,13 +685,19 @@ def become_customer(request):
         form = CustomerSignUpForm(request.POST)
 
         if form.is_valid():
-            user = form.save(commit=False)
-            user.username = form.cleaned_data.get('email')
-            user.is_active = False
-            user.save()
+            if User.objects.filter(username=form.cleaned_data.get('email')).exists():
+                user=User.objects.get(username=form.cleaned_data.get('email'))
+            else:
+                user = form.save(commit=False)
+                user.username = form.cleaned_data.get('email')
+                user.is_active = False
+                user.save()
+            if not Profile.objects.filter(email=form.cleaned_data.get('email')).exists():
+                profile=Profile(user=user,email=form.cleaned_data.get('email'))
+                profile.save()
 
-            profile=Profile(user=user,email=form.cleaned_data.get('email'))
-            profile.save()
+            privacy_checked= request.POST.get('is_privacy')
+            print("privACY", privacy_checked)
 
             customer=Customer(
                     customername = form.cleaned_data.get('customername'),
@@ -722,6 +705,7 @@ def become_customer(request):
                     address = form.cleaned_data.get('address'),
                     phone = form.cleaned_data.get('phone'),
                     company_code = form.cleaned_data.get('company_code'),
+                    privacy_checked=privacy_checked,
                     user=user
                 )
             customer.save()
