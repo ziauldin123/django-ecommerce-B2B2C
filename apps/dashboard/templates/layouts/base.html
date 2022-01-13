@@ -12,6 +12,9 @@
 =========================================================
 
  The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. -->
+ {% load static %}
+ {% load i18n %}
+ {% load compress %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -33,12 +36,16 @@
 <!--  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />-->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
   <!-- CSS Files -->
+  {% compress css %}
   <link href="/static/assets/css/material-dashboard.css?v=2.1.2" rel="stylesheet" />
+  {% endcompress %}
   <!-- CSS Just for demo purpose, don't include it in your project -->
+  {% compress css %}
   <link href="/static/assets/demo/demo.css" rel="stylesheet" />
-
+  {% endcompress %}
   <link href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css" rel="stylesheet" />
   <link href="https://cdn.datatables.net/rowgroup/1.1.3/css/rowGroup.dataTables.min.css" rel="stylesheet" />
+  {% compress css %}
   <style>
     tr.odd td:first-child,
     tr.even td:first-child {
@@ -53,8 +60,8 @@
       width: calc( 100% - 2px ) !important;
     }
   </style>
+  {% endcompress %}
 
-  
 
 
   <!-- Specific Page CSS goes HERE  -->
@@ -86,18 +93,18 @@
   {% include 'includes/scripts.html' %}
 
   {% include 'includes/scripts-sidebar.html' %}
-  
+
   <!-- Specific Page JS goes HERE  -->
   {% block javascripts %}{% endblock javascripts %}
-  
+
 
 <script src="https://code.jquery.com/jquery-3.5.1.js" crossorigin="anonymous"></script>
 <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
 <script src="https://cdn.datatables.net/rowgroup/1.1.3/js/dataTables.rowGroup.min.js" crossorigin="anonymous"></script>
-
+{% compress js inline %}
   <script>
       var statuses = [
-        "ordered", 
+        "ordered",
         "arrived",
         "shipped"
       ];
@@ -121,7 +128,7 @@
           },
         });
       }
-      
+
       function changeVendorEnalbed(id, val) {
         $.ajax({
           type: "GET",
@@ -131,7 +138,7 @@
           },
         });
       }
-      
+
       function changeProductVisible(id, val) {
         $.ajax({
           type: "GET",
@@ -143,7 +150,7 @@
       }
 
       function changeProductLimit(id, e, me) {
-        
+
         val = me.value;
         if (e.keyCode == 13) {
           $.ajax({
@@ -276,7 +283,7 @@ $("#productsTable").DataTable({
             columnDefs: [ {
                 targets: [ 0, ],
                 visible: false
-            } ], 
+            } ],
             order: [[1, 'asc'],],
         });
   // Order Details
@@ -284,9 +291,9 @@ $("#productsTable").DataTable({
         // $("#orderTable_2").DataTable();
 
   </script>
+{% endcompress %}
 
 
 
-  
 </body>
 </html>

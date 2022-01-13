@@ -13,10 +13,16 @@ from django.urls import reverse
 from django.utils.text import slugify
 from autoslug import AutoSlugField
 from django.forms import ModelForm
+
+from io import BytesIO
+from django.core.files.base import ContentFile
+from PIL import Image
+
 from django.core.validators import MinValueValidator, MaxValueValidator
 # Create your models here.
 from apps.vendor.models import Vendor
 from django.db.models import Avg, Count
+
 
 
 class Category(models.Model):
@@ -213,6 +219,26 @@ class Product(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     update_at = models.DateTimeField(auto_now=True)
 
+
+    def save(self, *args, **kwargs):
+        if not self.image and not self.image.url.endswith('.webp'):
+            imm = Image.open(self.image).convert("RGB")
+            original_width, original_height = imm.size
+            aspect_ratio = round(original_width / original_height)
+            if aspect_ratio < 1:
+                aspect_ratio = 1
+            desired_height = 500  # Edit to add your desired height in pixels
+            desired_width = desired_height * aspect_ratio
+            imm.thumbnail((desired_width, desired_height), Image.ANTIALIAS)
+            new_image_io = BytesIO()
+            imm.save(new_image_io, format="WEBP", quality=70)
+            self.image.save(
+                self.title[:40]+".webp",
+                content=ContentFile(new_image_io.getvalue()),
+                save=False
+            )
+        super(Product, self).save(*args, **kwargs)
+
     @property
     def get_variant(self):
         if Variants.objects.filter(product=self, status=True, visible=True).exists():
@@ -276,7 +302,7 @@ class Product(models.Model):
             if self.discount > 0:
                 return float((18*self.get_discounted_price())/100)
             else:
-                return float((18*self.price)/100)    
+                return float((18*self.price)/100)
         else:
             return 0
 
@@ -326,6 +352,26 @@ class Images(models.Model):
     name = models.CharField(max_length=50, blank=True)
     image = models.ImageField(blank=True, upload_to='images/')
 
+
+    def save(self, *args, **kwargs):
+        if not self.image and not self.image.url.endswith('.webp'):
+            imm = Image.open(self.image).convert("RGB")
+            original_width, original_height = imm.size
+            aspect_ratio = round(original_width / original_height)
+            if aspect_ratio < 1:
+                aspect_ratio = 1
+            desired_height = 500  # Edit to add your desired height in pixels
+            desired_width = desired_height * aspect_ratio
+            imm.thumbnail((desired_width, desired_height), Image.ANTIALIAS)
+            new_image_io = BytesIO()
+            imm.save(new_image_io, format="WEBP", quality=70)
+            self.image.save(
+                self.name[:40]+".webp",
+                content=ContentFile(new_image_io.getvalue()),
+                save=False
+            )
+        super(Images, self).save(*args, **kwargs)
+
     def __str__(self):
         return self.name
 
@@ -372,6 +418,25 @@ class Variants(models.Model):
     discount = models.PositiveIntegerField(
         default=0, validators=[MinValueValidator(0), MaxValueValidator(99)], verbose_name="Discount %")
 
+    def save(self, *args, **kwargs):
+        if not self.image_variant and not self.image_variant.url.endswith('.webp'):
+            imm = Image.open(self.image_variant).convert("RGB")
+            original_width, original_height = imm.size
+            aspect_ratio = round(original_width / original_height)
+            if aspect_ratio < 1:
+                aspect_ratio = 1
+            desired_height = 500  # Edit to add your desired height in pixels
+            desired_width = desired_height * aspect_ratio
+            imm.thumbnail((desired_width, desired_height), Image.ANTIALIAS)
+            new_image_io = BytesIO()
+            imm.save(new_image_io, format="WEBP", quality=70)
+            self.image_variant.save(
+                self.title[:40]+".webp",
+                content=ContentFile(new_image_io.getvalue()),
+                save=False
+            )
+        super(Variants, self).save(*args, **kwargs)
+
     def __str__(self):
         return self.title
 
@@ -398,7 +463,7 @@ class Variants(models.Model):
                 )
                 return float(18*discounted_price/100)
             else:
-                return float((18*self.price)/100)    
+                return float((18*self.price)/100)
         else:
             return 0
 
@@ -429,7 +494,7 @@ class Variants(models.Model):
             return float(discounted_price-((18*discounted_price)/100))
         else:
             return float(self.price-((self.discount*self.price)/100))
-    
+
 
 
     def get_discounted_price(self):
@@ -459,9 +524,28 @@ class ProductImage(models.Model):
     title = models.CharField(max_length=50,blank=True)
     image = models.ImageField(blank=True, upload_to='images/')
 
+    def save(self, *args, **kwargs):
+        if not self.image and not self.image.url.endswith('.webp'):
+            imm = Image.open(self.image).convert("RGB")
+            original_width, original_height = imm.size
+            aspect_ratio = round(original_width / original_height)
+            if aspect_ratio < 1:
+                aspect_ratio = 1
+            desired_height = 500  # Edit to add your desired height in pixels
+            desired_width = desired_height * aspect_ratio
+            imm.thumbnail((desired_width, desired_height), Image.ANTIALIAS)
+            new_image_io = BytesIO()
+            imm.save(new_image_io, format="WEBP", quality=70)
+            self.image.save(
+                self.title[:40]+".webp",
+                content=ContentFile(new_image_io.getvalue()),
+                save=False
+            )
+        super(ProductImage, self).save(*args, **kwargs)
+
     def __str__(self):
-        return self.title   
+        return self.title
 
     def image_tag(self):
-        
+
         return mark_safe('<img src="{}" height="50"/>'.format(self.image.url))
