@@ -221,7 +221,7 @@ class Product(models.Model):
 
 
     def save(self, *args, **kwargs):
-        if not self.image and not self.image.url.endswith('.webp'):
+        if self.image and not self.image.url.endswith('.webp'):
             imm = Image.open(self.image).convert("RGB")
             original_width, original_height = imm.size
             aspect_ratio = round(original_width / original_height)
@@ -354,7 +354,7 @@ class Images(models.Model):
 
 
     def save(self, *args, **kwargs):
-        if not self.image and not self.image.url.endswith('.webp'):
+        if self.image and not self.image.url.endswith('.webp'):
             imm = Image.open(self.image).convert("RGB")
             original_width, original_height = imm.size
             aspect_ratio = round(original_width / original_height)
@@ -419,7 +419,7 @@ class Variants(models.Model):
         default=0, validators=[MinValueValidator(0), MaxValueValidator(99)], verbose_name="Discount %")
 
     def save(self, *args, **kwargs):
-        if not self.image_variant and not self.image_variant.url.endswith('.webp'):
+        if self.image_variant and not self.image_variant.url.endswith('.webp'):
             imm = Image.open(self.image_variant).convert("RGB")
             original_width, original_height = imm.size
             aspect_ratio = round(original_width / original_height)
@@ -525,7 +525,7 @@ class ProductImage(models.Model):
     image = models.ImageField(blank=True, upload_to='images/')
 
     def save(self, *args, **kwargs):
-        if not self.image and not self.image.url.endswith('.webp'):
+        if self.image and not self.image.url.endswith('.webp'):
             imm = Image.open(self.image).convert("RGB")
             original_width, original_height = imm.size
             aspect_ratio = round(original_width / original_height)
