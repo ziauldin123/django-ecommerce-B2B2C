@@ -70,7 +70,7 @@ def addtoshopcart(request,id):
                data=ShopCart.objects.get(variant_id=variantid, user_id=current_user.id)
                data.quantity += p_quantity
                data.save()#save data
-               cart.add(product_id=id,variant_id=variant.id,user_id=current_user.id,quantity=p_quantity, update_quantity=True)
+               cart.add(product_id=id,variant_id=variantid,user_id=current_user.id,quantity=p_quantity, update_quantity=True)
             
         else :# insert to shopcart
             data=ShopCart()

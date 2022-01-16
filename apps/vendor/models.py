@@ -192,4 +192,5 @@ class UserWishList(models.Model):
     variant=models.ForeignKey(
         'newProduct.Variants',on_delete=models.CASCADE, null=True, blank=True
     )
+    is_variant=models.BooleanField()
     text = models.CharField(max_length=255, null=True)

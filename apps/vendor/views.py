@@ -758,78 +758,13 @@ class MyAccount(TemplateView):
 
 
 class WishListView(TemplateView):
-    template_name = 'customer/wishlist.html'
+    # template_name = 'customer/wishlist.html'
 
     def get(self, request, *args, **kwargs):
         context = self.get_context_data(**kwargs)
         wishlist = UserWishList.objects.filter(user=kwargs['pk'])
-        print(wishlist)
-        wishlist_dict={
-            'wishlist':wishlist
-        }
-
-        return self.render_to_response(wishlist_dict)
-
-    def post(self, request, *args, **kwargs):
-        cart = Cart(request)
-        url=request.META.get('HTTP_REFERER')
-        product_id = int(request.POST.get('id'))
-
-        current_user=request.user
-        customer=Customer.objects.filter(email=current_user)
-
-        variant=Variants.objects.get(pk=product_id)
-        product=Product.objects.get(pk=variant.product.id)
-
-        checkinvariant=ShopCart.objects.filter(variant=product_id,user=current_user)
-
-        if checkinvariant:
-            control = 1
-        else:
-            control = 0
-
-        if request.method == 'POST':
-            form = ShopCartForm(request.POST)
-            if form.is_valid():
-                if control == 1:
-                    data=ShopCart.objects.get(product_id=product_id,variant_id=variant.product.id,user_id=current_user.id)
-                    data.quantity +=form.cleaned_data['quantity']
-                    data.save()
-
-                    cart.add(product_id=product.id,variant_id=None,user_id=current_user.id,quantity=form.cleaned_data['quantity'],update_quantity=True)
-                else:
-                    data=ShopCart()
-                    data.user=current_user
-                    data.product=product
-                    data.variant=variant
-                    data.quantity=form.cleaned_data['quantity']
-                    data.save()
-
-                    cart.add(product_id=product.id,variant_id=None,user_id=current_user.id,quantity=form.cleaned_data['quantity'],update_quantity=True)
-
-            messages.success(request,"Product added to Shopcart")
-            return HttpResponseRedirect(url)
-
-        else:
-            if control == 1:
-                data=ShopCart.objects.get(product_id=product.id,user_id=current_user.id)
-                data.quantity +=1
-                data.save()
-                cart.add(product_id=product.id,variant_id=None,quantity=1,update_quantity=True,user_id=current_user.id)
-            else:
-                data=ShopCart.objects.create(
-                    user_id=current_user.id,
-                    product_id=id,
-                    quantity=1,
-                    variant_id=None,
-                )
-                cart.add(product_id=product.id,variant_id=None,quantity=1,update_quantity=True,user_id=current_user.id)
-            messages.success(request,'Product added to shopcart')
-            return HttpResponseRedirect(url)
-
-
-
-
+        
+        return render(request,'customer/wishlist.html',{'wishlist':wishlist})
 
 def request_restore_password(request):
     if request.method == 'POST':

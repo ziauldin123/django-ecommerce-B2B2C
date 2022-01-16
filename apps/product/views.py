@@ -214,6 +214,7 @@ def variantCompare(request):
     if request.method=="POST":
         variantid=request.POST.get('variant_id')
         variant=Variants.objects.get(id=variantid)
+        
 
         if not request.session.get('comparing'):
             request.session['comparing'] = []
@@ -251,65 +252,13 @@ class ComparingView(TemplateView):
             products = Product.objects.filter(id__in=comparing_product_ids)
         if comparing_variant_ids:
             variants = Variants.objects.filter(id__in=comparing_variant_ids)
-        print(request.session.get('comparing_variants'))
+        for product in products:
+            print(product.id)
+        for product in variants:
+            print(product.id)    
         return render(request,'product/comparing.html',{'products':products,'variants':variants})
 
-    def post(self, request, *args, **kwargs):
-        cart = Cart(request)
-        url=request.META.get('HTTP_REFERER')
-        product_id = int(request.POST.get('id'))
-
-        current_user=request.user
-        customer=Customer.objects.filter(email=current_user)
-
-        variant=Variants.objects.get(pk=product_id)
-        product=Product.objects.get(pk=variant.product.id)
-
-        checkinvariant=ShopCart.objects.filter(variant=product_id,user=current_user)
-
-        if checkinvariant:
-            control = 1
-        else:
-            control = 0
-
-        if request.method == 'POST':
-            form = ShopCartForm(request.POST)
-            if form.is_valid():
-                if control == 1:
-                    data=ShopCart.objects.get(product_id=variant.product.id,variant_id=product_id,user_id=current_user.id)
-                    data.quantity +=form.cleaned_data['quantity']
-                    data.save()
-
-                    cart.add(product_id=product.id,user_id=current_user.id,quantity=form.cleaned_data['quantity'],update_quantity=True)
-                else:
-                    data=ShopCart()
-                    data.user=current_user
-                    data.product=product
-                    data.variant=variant
-                    data.quantity=form.cleaned_data['quantity']
-                    data.save()
-
-                    cart.add(product_id=product.id,user_id=current_user.id,quantity=form.cleaned_data['quantity'],update_quantity=True)
-
-            messages.success(request,'Product added to Shopcart')
-            return HttpResponseRedirect(url)
-
-        else:
-            if control == 1:
-                data=ShopCart.objects.get(product_id=product.id,user_id=current_user.id)
-                data.quantity +=1
-                data.save()
-                cart.add(product_id=product.id,quantity=1,update_quantity=True,user_id=current_user.id)
-            else:
-                data=ShopCart.objects.create(
-                    user_id=current_user.id,
-                    product_id=id,
-                    quantity=1,
-                    variant_id=None,
-                )
-                cart.add(product_id=product.id,quantity=1,update_quantity=True,user_id=current_user.id)
-            messages.success(request,'Product added to shopcart')
-            return HttpResponseRedirect(url)
+    
 
 @login_required(login_url='/login')
 @never_cache
@@ -375,7 +324,7 @@ class WishListAddView(FormView):
         if is_already_in_wishlist:
             UserWishList.objects.filter(user=request.user, product=product).delete()
         else:
-            UserWishList.objects.create(user=request.user, product=product)
+            UserWishList.objects.create(user=request.user,is_variant=False, product=product)
         return self.redirect(product)
 
     def redirect(self, product: Product):
@@ -388,8 +337,9 @@ class WishlistAddVariant(FormView):
     def post(self,request):
         if request.method=="POST":
             variantid=request.POST.get('variant_id')
+            productid=request.POST.get('product_id')
             variant=Variants.objects.get(pk=variantid)
-
+            product=Product.objects.get(id=productid)
             try:
                 request.user.customer
 
@@ -397,10 +347,10 @@ class WishlistAddVariant(FormView):
                return self.redirect(variant)
             is_already_in_wishlist = UserWishList.objects.filter(user=request.user, variant=variant)
             if is_already_in_wishlist:
-                UserWishList.objects.filter(user=request.user, variant=variant).delete()
+                UserWishList.objects.filter(user=request.user,variant=variant).delete()
 
             else:
-                UserWishList.objects.create(user=request.user, variant=variant)
+                UserWishList.objects.create(user=request.user, is_variant=True,product=product,variant=variant)
             return self.redirect(variant)
 
     def redirect(self, variant: Variants):

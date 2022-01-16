@@ -1,36 +1,55 @@
 {% extends 'core/base.html' %}
-{% load static %}
-{% load bootstrap4 %}
 {% block title %} {{ request.session.username }}'s wishlist  - {% endblock %}
 {% block content %}
 {% include 'messages.html' %}
 
 <script>
-    function add_To_Cart(pr_id) {
-         event.preventDefault(); //so that we stop normal form submit.
-         var_id = $("#variant_id").val();
-         pq = $("#quantity").val()
-         $.ajax({
+    
+    function addToCart(pr_id) {
+        event.preventDefault(); //so that we stop normal form submit.
+        $.ajax({
+            type: "GET",
             url: "/order/addtoshopcart/" + pr_id,
-            type: 'POST',
-            data: {'variantid': var_id,
-                'quantity':pq
-            },
             success: function (data) {
                 console.log(data);
                 $("#my_cart").load(location.href + " #my_cart");
-                $("#msg1").append(
+                $("#msg").append(
                     '<div class="alert alert-success hideit alertSuc">added in cart successfully.</div >')
                 setTimeout(function () {
-                    $("#msg1").load(location.href + " #msg1");
+                    $("#msg").load(location.href + " #msg");
                 }, 1000);
+
             }
         });
     }
 
+    function addToVariantCart(pr_id) {
+        event.preventDefault(); //so that we stop normal form submit.
+        var_id = $("#variant_id").val();
+        // var_id=document.getElementById('variant_id').val();
+        pq = $("#quantity").val();
+        console.log($("#variant_id").val())
+        $.ajax({
+            type: "POST",
+            url: "/order/addtoshopcart/" + pr_id,
+            data:{
+                'variantid':var_id,
+                'quantity':pq,
+            },
+            success: function (data) {
+                console.log(data);
+                $("#my_cart").load(location.href + " #my_cart");
+                $("#msg").append(
+                    '<div class="alert alert-success hideit alertSuc">added in cart successfully.</div >')
+                setTimeout(function () {
+                    $("#msg").load(location.href + " #msg");
+                }, 1000);
+
+            }
+        });
+    }
 
 </script>
-
 <div id="breadcrumb">
     <div class="container">
         <ul class="breadcrumb">
@@ -120,23 +139,23 @@
                     {% endif %}
                     {% endif %}   
                 </td>
-                <div id="msg1" class="mt-3">
-                <td>
-                    {% if product.variant %} 
-                       <input type="hidden" name="variantid" id="variant_id" value="{{ product.variant.id }}">
-                        <input class="input" id="quantity" name="quantity" type="hidden" value="1" min="1" max="{{ product.variant.quantity }}">
-                        <button class="button is-dark" onclick="add_To_Cart('{{ product.variant.id }}')" {% if product.variant.quantity < 1  %} disabled {% endif %} name="id" value="{{ product.variant.id }}">
-                            <i class="fa fa-shopping-cart"></i> 
-                         Add Cart</button>
-                         
-                     {% else %} 
-                     <input class="input" name="quantity" id="quantity" type="hidden" value="1" min="1" max="{{ product.product.quantity }}">
-                        <button onclick="add_To_Cart('{{ product.product.id }}')"  {% if product.product.quantity < 1  %} disabled {% endif %}  class="button is-dark"> 
-                            <i class="fa fa-shopping-cart"></i> 
-                         Add Cart</button>
-                        </div>
-                     {% endif %}
-                    </div>
+                <div id="msg" class="mt-3"></div>
+                <td> 
+                    {% if product.is_variant %}
+                    <a onclick="addToVariantCart('{{ product.product_id }}')" class="primary-btn add-to-cart">
+                        <input class="input" id="quantity" name="quantity" type="hidden" value="1">
+                        <input class="input" type="hidden" name="variant_id" id="variant_id" value="{{ product.variant_id }}">
+                        <button  class="primary-btn add-to-cart" {% if product.variant.quantity < 1  %} disabled {% endif %}>
+                            <i class="fa fa-shopping-cart"></i> Add to Cart
+                        </button>
+                    </a>
+                    {% else %}
+                        <a onclick="addToCart('{{ product.product_id }}')" class="primary-btn add-to-cart">
+                            <button  class="primary-btn add-to-cart" {% if product.product.quantity < 1  %} disabled {% endif %}>
+                                <i class="fa fa-shopping-cart"></i> Add to Cart
+                            </button>
+                        </a>    
+                    {% endif %}
                 </td>
                 <td>
                     {% if product.variant %} 

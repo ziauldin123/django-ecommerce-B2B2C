@@ -17,24 +17,45 @@
         })
     })
 
-    function add_To_Cart(pr_id) {
-         event.preventDefault(); //so that we stop normal form submit.
-         var_id = $("#variant_id").val();
-         pq = $("#quantity").val()
-         $.ajax({
+    function addToCart(pr_id) {
+        event.preventDefault(); //so that we stop normal form submit.
+        $.ajax({
+            type: "GET",
             url: "/order/addtoshopcart/" + pr_id,
-            type: 'POST',
-            data: {'variantid': var_id,
+            success: function (data) {
+                console.log(data);
+                $("#my_cart").load(location.href + " #my_cart");
+                $("#msg").append(
+                    '<div class="alert alert-success hideit alertSuc">added in cart successfully.</div >')
+                setTimeout(function () {
+                    $("#msg").load(location.href + " #msg");
+                }, 1000);
+
+            }
+        });
+    }
+
+        function addToVariantCart(pr_id) {
+        event.preventDefault(); //so that we stop normal form submit.
+        var_id = $("#variant_id").val();
+        pq = $("#quantity").val();
+        console.log(var_id,pq)
+        $.ajax({
+            type: "POST",
+            url: "/order/addtoshopcart/" + pr_id,
+            data:{
+                'variantid':var_id,
                 'quantity':pq
             },
             success: function (data) {
                 console.log(data);
                 $("#my_cart").load(location.href + " #my_cart");
-                $("#msg1").append(
+                $("#msg").append(
                     '<div class="alert alert-success hideit alertSuc">added in cart successfully.</div >')
                 setTimeout(function () {
-                    $("#msg1").load(location.href + " #msg1");
+                    $("#msg").load(location.href + " #msg");
                 }, 1000);
+
             }
         });
     }
@@ -100,12 +121,13 @@
                  {{product.price}}
                 {% endif %}   
             </td>
-            <div id="msg1" class="mt-3">
+            <div id="msg" class="mt-3"></div>
             <td>
-                <input class="input" name="quantity" id="quantity" type="hidden" value="1">
-                <button onclick="add_To_Cart('{{ product.id }}')"  {% if product.quantity < 1  %} disabled {% endif %}  class="button is-dark"> 
-                    <i class="fa fa-shopping-cart"></i>Add Cart
-                </button>
+                <a onclick="addToCart('{{ product.id }}')" class="primary-btn add-to-cart">
+                    <button  class="primary-btn add-to-cart" {% if product.quantity < 1  %} disabled {% endif %}>
+                        <i class="fa fa-shopping-cart"></i> Add to Cart
+                    </button>
+                </a>
             </td>
             <td>
                 {% if product.weight %} 
@@ -154,26 +176,26 @@
             </td>
             </tr>
             {% endfor %}
-            {% for product in variants %}
+            {% for variant in variants %}
             <tr>
                 <td>
-                    <img style="width: 70px;height: 70px;" src="{{product.image_variant.url}}" alt="">  
+                    <img style="width: 70px;height: 70px;" src="{{variant.image_variant.url}}" alt="">  
                 </td>
                 <td>
-                    {{product.title}}
+                    {{variant.title}}
                 </td>
                 <td>
-                    {{product.color}}
+                    {{variant.color}}
                 </td>
                 <td>
-                {% if product.product.countreview %}
-                {{product.product.countreview}}
+                {% if variant.product.countreview %}
+                {{variant.product.countreview}}
                 {% else %} 
                   -
                 {% endif %}
             </td>
             <td>
-                {% if product.quantity > 0 %} 
+                {% if variant.quantity > 0 %} 
                   In Stock
                 {% else %} 
                 Out of Stock
@@ -181,62 +203,65 @@
             </td>
             <td>
                 {% if product.discount %} 
-                  {{product.get_discounted_price}}
+                  {{variant.get_discounted_price}}
                 {% else %} 
-                 {{product.price}}
+                 {{variant.price}}
                 {% endif %}   
             </td>
+            <div id="msg" class="mt-3"></div>
             <td>
-                <input type="hidden" name="variantid" id="variant_id" value="{{ product.id }}">
-                        <input class="input" id="quantity" name="quantity" type="hidden" value="1" min="1" max="{{ product.quantity }}">
-                        <button class="button is-dark" onclick="add_To_Cart('{{ product.product.id }}')" {% if product.quantity < 1  %} disabled {% endif %} name="id" value="{{ product.id }}">
-                            <i class="fa fa-shopping-cart"></i> 
-                         Add Cart</button>
+                <a onclick="addToVariantCart('{{ variant.product.id }}')" class="primary-btn add-to-cart">
+                    <input class="input" id="quantity" name="quantity" type="hidden" value="1">
+                    <input type="hidden" name="variantid" id="variant_id" value="{{ variant.id }}">
+                    <button  class="primary-btn add-to-cart" {% if variant.quantity < 1  %} disabled {% endif %}>
+                        <i class="fa fa-shopping-cart"></i> Add to Cart
+                    </button>
+                </a>
             </td>
             <td>
-                {% if product.weight %} 
-                {{product.weight}}
+                {% if variant.weight %} 
+                {{variant.weight}}
                 {% else %} 
                 -
                 {% endif %}
             </td>
             <td>
-                {% if product.length %} 
-                {{product.length}}
+                {% if variant.length %} 
+                {{variant.length}}
                 {% else %}
                   -
                 {% endif %}
             </td>
             <td>
-                {% if product.width %} 
-                  {{product.width}}
+                {% if variant.width %} 
+                  {{variant.width}}
                 {% else %} 
                    -
                 {% endif %}
             </td>
             <td>
-                {% if product.size %} 
-                {{product.size}}
+                {% if variant.size %} 
+                {{variant.size}}
                 {% else %} 
                   -
                 {% endif %}
             </td>
             <td>
-                {% if product.height %} 
-                {{product.height}}
+                {% if variant.height %} 
+                {{variant.height}}
                 {% else %} 
                   -
                 {% endif %}
             </td>
             <td>
-                {% if product.product.brand %} 
-                {{product.product.brand}}
+                {% if variant.product.brand %} 
+                {{variant.product.brand}}
                 {% else %} 
                   -
                 {% endif %}
             </td>
             <td>
-                <a href="/compare/deletevariant/{{ product.id }}" onclick="return confirm('Delete ! Are you sure?')"><i class="fa fa-close"></i></a>
+                <a href="/compare/deletevariant/{{ variant.id }}" onclick="return confirm('Delete ! Are you sure?')"><i class="fa fa-close"></i></a>
             </td>
             </tr>
             {% endfor %}

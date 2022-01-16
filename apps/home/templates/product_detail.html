@@ -14,6 +14,7 @@
          event.preventDefault(); //so that we stop normal form submit.
          var_id = $("#variant_id").val();
          pq = $("#quantity").val()
+         console.log(var_id)
          $.ajax({
             url: "/order/addtoshopcart/" + pr_id,
             type: 'POST',
@@ -169,6 +170,7 @@
                                 });
                                 $('body').on('click','.wish',function(){
                                     var variant_id=$(this).closest('.wishlist').find('.variantid').val()
+                                    var product_id=$(this).closest('.wishlist').find('.productid').val()
                                     var my_token='{{ csrf_token }}'
                                     $.ajax({
                                         method:"POST",
@@ -176,7 +178,8 @@
                                         context:this,
                                         data:{
                                             "csrfmiddlewaretoken": my_token,
-                                            'variant_id':variant_id
+                                            'variant_id':variant_id,
+                                            'product_id':product_id
                                         },
                                     })
                                 })
@@ -438,6 +441,7 @@
                                             {% csrf_token %}
                                             {% if request.session.customer %}
                                             <input type="hidden" name="variantid" class="variantid" id="variantid" value="{{ variant.id }}">
+                                            <input type="hidden" name="productid" class="productid" id="productid" value="{{ product.id }}">
                                             <button class="button is-dark wish"> Wishlist</button>
                                             {% else %}
                                             <button class="button is-dark" disabled>wishlist</button>
