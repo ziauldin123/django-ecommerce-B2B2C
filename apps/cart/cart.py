@@ -16,7 +16,7 @@ class Cart(object):
         self.session = request.session
         cart = self.session.get(settings.CART_SESSION_ID)
         # print("Cart data")
-        # print(cart)
+        print(cart)
         if not cart:
             cart = self.session[settings.CART_SESSION_ID] = {'cart':{}}
 
