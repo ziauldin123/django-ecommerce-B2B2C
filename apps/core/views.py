@@ -54,8 +54,8 @@ def frontpage(request):
                          quantity=rs.quantity, update_quantity=True) 
                 else:
                     cart.add(product_id=rs.product.id,variant_id=rs.variant.id, user_id=current_user.id,
-                         quantity=rs.quantity, update_quantity=True)                 
-        
+                         quantity=rs.quantity, update_quantity=True)    
+                                 
     return render(
         request,
         'core/frontpage.html',
