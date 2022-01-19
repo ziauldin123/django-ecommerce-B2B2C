@@ -7,12 +7,17 @@ from django.core.mail import send_mail
 
 # from apps.product.models import Product, Category, SubCategory, SubSubCategory
 from apps.newProduct.models import Product, Category, SubCategory, SubSubCategory, Variants
+from apps.blog.models import Post
+from apps.ordering.models import ShopCart
 
 
 def frontpage(request):
+    current_user = request.user
     variants = Variants.objects.filter(status=True)
     product = Product.objects.filter(status=True, visible=True)
-
+    shopcart = ShopCart.objects.filter(user_id=current_user.id)
+    posts = Post.objects.all()
+    
     if product:
         for i in product:
             if i.is_variant:
@@ -47,6 +52,9 @@ def frontpage(request):
         current_user = request.user
         # cart.clear()
         shopcart = ShopCart.objects.filter(user_id=current_user.id)
+        total=cart.get_cart_cost()
+        tax=cart.get_cart_tax()
+        grandTotal=cart.get_cart_cost() + cart.get_cart_tax()
         if cart.__len__() == 0:
             for rs in shopcart:
                 if rs.variant is None:
@@ -54,8 +62,12 @@ def frontpage(request):
                          quantity=rs.quantity, update_quantity=True) 
                 else:
                     cart.add(product_id=rs.product.id,variant_id=rs.variant.id, user_id=current_user.id,
-                         quantity=rs.quantity, update_quantity=True)    
-                                 
+                         quantity=rs.quantity, update_quantity=True)  
+        for i in cart:
+            print(i)
+    
+    
+
     return render(
         request,
         'core/frontpage.html',
@@ -67,7 +79,13 @@ def frontpage(request):
             'recently_viewed_products': recently_viewed_products,
             'featured_categories_products': featured_categories_products,
             'variants': variants,
-            'var': var
+            'var': var,
+            'posts':posts,
+            'cart':cart,
+            'shopcart':shopcart,
+            'subtotal':total,
+            'tax':tax,
+            'total':grandTotal
         }
     )
 

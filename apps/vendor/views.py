@@ -74,6 +74,7 @@ def login_request(request):
                 customer = Customer.objects.get(email=username)
                 request.session['username'] = customer.customername
                 request.session['phone'] = customer.phone
+                request.session['email'] = customer.email
                 request.session['address'] = customer.address
                 request.session['company_code'] = customer.company_code
                 request.session['customer'] = True
