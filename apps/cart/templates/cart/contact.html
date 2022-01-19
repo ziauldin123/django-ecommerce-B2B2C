@@ -1,310 +1,291 @@
-{% extends 'core/base.html' %}
+{% extends 'core/navigation.html' %}
 {% load mathfilters %}
 
 
 {% block title %}Order Info | {% endblock %}
 
 {% block content %}
-<h1 class="title">Order Info</h1>
-
-<div class="box">
-    <div class="table">
-        <table class="shopping-cart-table table">
-            <thead>
-                <tr>
-                    <th></th>
-                    <th>Product</th>
-                    <th class="text-center">Price</th>
-                    <th class="text-center">Discount</th>
-                    <th class="text-center">Quantity</th>
-                    <th class="text-center">Total</th>
-                    <th class="text-right"></th>
-                </tr>
-            </thead>
-            <tbody>
-
-                {% for rs in shopcart %}
-                <tr>
-                    <td class="thumb">
-                        {% if rs.variant %}
-                            <img src="{{rs.variant.image_variant.url }}" style="width: 40px;" alt="">
-                        {% else %}
-                            <img src="{{rs.product.image.url}}" style="width: 40px;" alt="">
-                        {% endif %}
-
-                    </td>
-                    <td class="details">
-                        {% if rs.variant %}
-                         <a href="/product/{{ rs.product.id }}/{{ rs.product.slug }}">{{rs.variant.title}}</a>
-                        {% else %}
-                        <a href="/product/{{ rs.product.id }}/{{ rs.product.slug }}">{{rs.product}}</a>
-                        {% endif %}
-                    </td>
-                    <td class="price text-center"><strong>
-                            {% if rs.product.variant == 'None' %}
-                            {{ rs.product.price }}
-                            {% else %}
-                            {{ rs.variant.price }}
-                            {% endif %}
-                        </strong></td>
-                        <td class="qty text-center"><strong>
-                            {% if rs.product.variant == 'None' %}
-                                {{rs.product.discount}} %
-                            {% else %}
-                                {{rs.variant.discount}} %
-                            {% endif %}
-                        </strong></td>
-                    <td class="qty text-center"><strong>{{rs.quantity}}
-                         {% if rs.product.variant == 'None' %}
-                        {% if rs.product.unit_type %}
-                          {{ rs.product.unit_type.unit }}(s)
-                         {% endif %}
-                     {% else %}
-                        {% if rs.variant.unit_type %}
-                         {{ rs.variant.unit_type.unit }}(s)
-                         {% endif %}
-                     {% endif %}</strong></td>
-                    <td class="total text-center"><strong class="primary-color">$
-                        {% if rs.product.variant == 'None' %}
-                            {% if rs.product.discount > 0 %}
-                                {{ rs.prodct_dicount_amount }}
-                            {% else %}
-                                {{ rs.amount }}
-                            {% endif %}
-                        {% else %}
-                            {% if rs.variant.discount > 0 %}
-                                {{ rs.var_dicount_amount }}
-                            {% else %}
-                                {{ rs.varamount }}
-                            {% endif %}
-
-                        {% endif %}
-                        {% if rs.product.is_vat == True %}vat incl.{% endif %}
-                    </strong></td>
-                    <td class="text-right"><a href="/order/deletefromcart/{{ rs.id }}"
-                            onclick="return confirm('Delete ! Are you sure?')" class="main-btn icon-btn"><i
-                                class="fa fa-close"></i></a></td>
-                </tr>
-                {% endfor %}
-
-            </tbody>
-            <tfoot>
-
-                <tr>
-                    <td></td>
-                    <td><strong>VAT</strong></td>
-                    <td></td>
-                    <td></td>
-                    <td><strong>$
-                        {{ tax }}
-                    </strong></td>
-                </tr>
-                <tr>
-                                    <td></td>
-                                    <td><strong>SUB TOTAL</strong></td>
-                                    <td><strong></strong></td>
-                                    <td></td>
-                                    <td><strong>Frw <span id="total_cost">{{ sub_total }} </span></strong></td>
-                                </tr>
-                <tr>
-                    <td></td>
-                    <td><strong>Code</strong></td>
-                    <td></td>
-                    <td><strong>
-                        {% if coupon.code != None %}
-                            {{ coupon.code }}
-                        {% endif %}
-                    </strong></td>
-                    <td><strong>
-                        {% if coupon.code != None %}
-                            - {{ coupon.discount }} %
-                        {% endif %}
-                    </strong></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td><strong>TOTAL cost with coupon</strong></td>
-                    <td><strong></strong></td>
-                    <td></td>
-                    <td><strong>
-
-                            <span id="total_cost_with_coupon"> FRW {{ total }} </span></strong>
-
-                        </td>
-                </tr>
-            </tfoot>
-        </table>
+<div class="site__body">
+    <div class="page-header">
+        <div class="page-header__container container">
+            <div class="page-header__breadcrumb">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="/">Home |</a>
+                            <svg class="breadcrumb-arrow" width="6px" height="9px">
+                                <use xlink:href="images/sprite.svg#arrow-rounded-right-6x9"></use>
+                            </svg>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a href="/shopcart">ShoppingCart | </a>
+                            <svg class="breadcrumb-arrow" width="6px" height="9px">
+                                <use xlink:href="images/sprite.svg#arrow-rounded-right-6x9"></use>
+                            </svg>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page">Checkout</li>
+                    </ol>
+                </nav>
+            </div>
+            <div class="page-header__title">
+                <h1>Checkout</h1>
+            </div>
+        </div>
     </div>
-    <form method="POST" action="" id="contact-form">
-        {% csrf_token %}
-
-        {% if form.non_field_errors %}
-        <div class="notification is-danger">
-            {{ form.non_field_errors}}
-        </div>
-        {% endif %}
-
-        {% if form.errors %}
-        <div class="notification is-danger">
-            <ul>
-                {% for field in form %}
-                {% for error in field.errors %}
-                <li><strong>{{ field.label }}: </strong>{{ error }}</li>
-                {% endfor %}
-                {% endfor %}
-            </ul>
-        </div>
-        {% endif %}
-
-        <div class="columns">
-            <div class="column is-6">
-                <h3 class="subtitle">Contact Info</h3>
-                <div class="field">
-                    <label>First name</label>
-
-                    <div class="control">
-                        <input class="input" type="text" name="first_name"
-                            value="{% if request.user.is_authenticated and cart_user.customername %}{{ cart_user.customername.split | first }}{% endif %}">
+    <div class="checkout block">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-lg-6 col-xl-7">
+                    <div class="card mb-lg-0">
+                        <div class="card-body">
+                            <h3 class="card-title">Billing details</h3>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="checkout-first-name">First Name</label>
+                                    <input type="text" class="form-control" id="checkout-first-name" placeholder="First Name">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="checkout-last-name">Last Name</label>
+                                    <input type="text" class="form-control" id="checkout-last-name" placeholder="Last Name">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="checkout-company-name">Company Name <span class="text-muted">(Optional)</span></label>
+                                <input type="text" class="form-control" id="checkout-company-name" placeholder="Company Name">
+                            </div>
+                            <div class="form-group">
+                                <label for="checkout-country">Country</label>
+                                <select id="checkout-country" class="form-control form-control-select2">
+                                    <option>Select a country...</option>
+                                    <option>United States</option>
+                                    <option>Russia</option>
+                                    <option>Italy</option>
+                                    <option>France</option>
+                                    <option>Ukraine</option>
+                                    <option>Germany</option>
+                                    <option>Australia</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="checkout-street-address">Street Address</label>
+                                <input type="text" class="form-control" id="checkout-street-address" placeholder="Street Address">
+                            </div>
+                            <div class="form-group">
+                                <label for="checkout-address">Apartment, suite, unit etc. <span class="text-muted">(Optional)</span></label>
+                                <input type="text" class="form-control" id="checkout-address">
+                            </div>
+                            <div class="form-group">
+                                <label for="checkout-city">Town / City</label>
+                                <input type="text" class="form-control" id="checkout-city">
+                            </div>
+                            <div class="form-group">
+                                <label for="checkout-state">State / County</label>
+                                <input type="text" class="form-control" id="checkout-state">
+                            </div>
+                            <div class="form-group">
+                                <label for="checkout-postcode">Postcode / ZIP</label>
+                                <input type="text" class="form-control" id="checkout-postcode">
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="checkout-email">Email address</label>
+                                    <input type="email" class="form-control" id="checkout-email" placeholder="Email address">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="checkout-phone">Phone</label>
+                                    <input type="text" class="form-control" id="checkout-phone" placeholder="Phone">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="form-check">
+                                    <span class="form-check-input input-check">
+                                        <span class="input-check__body">
+                                            <input class="input-check__input" type="checkbox" id="checkout-create-account">
+                                            <span class="input-check__box"></span>
+                                            <svg class="input-check__icon" width="9px" height="7px">
+                                                <use xlink:href="images/sprite.svg#check-9x7"></use>
+                                            </svg>
+                                        </span>
+                                    </span>
+                                    <label class="form-check-label" for="checkout-create-account">Create an account?</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-divider"></div>
+                        <div class="card-body">
+                            <h3 class="card-title">Shipping Details</h3>
+                            <div class="form-group">
+                                <div class="form-check">
+                                    <span class="form-check-input input-check">
+                                        <span class="input-check__body">
+                                            <input class="input-check__input" type="checkbox" id="checkout-different-address">
+                                            <span class="input-check__box"></span>
+                                            <svg class="input-check__icon" width="9px" height="7px">
+                                                <use xlink:href="images/sprite.svg#check-9x7"></use>
+                                            </svg>
+                                        </span>
+                                    </span>
+                                    <label class="form-check-label" for="checkout-different-address">Ship to a different address?</label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="checkout-comment">Order notes <span class="text-muted">(Optional)</span></label>
+                                <textarea id="checkout-comment" class="form-control" rows="4"></textarea>
+                            </div>
+                        </div>
                     </div>
-
                 </div>
-
-                <div class="field">
-                    <label>Last name</label>
-
-                    <div class="control">
-                        <input class="input" type="text" name="last_name"
-                            value="{% if request.user.is_authenticated %}{{ cart_user.customername.split | last }}{% endif %}">
-                    </div>
-                </div>
-
-                <div class="field">
-                    <label>E-mail</label>
-
-                    <div class="control">
-                        <input class="input" type="email" name="email"
-                            value="{% if request.user.is_authenticated %}{{ cart_user.email }}{% endif %}">
-                    </div>
-                </div>
-
-                <div class="field">
-                    <label>Phone</label>
-
-                    <div class="control">
-                        <input class="input" type="text" name="phone"
-                            value="{% if request.user.is_authenticated %}{{ cart_user.phone }}{% endif %}">
-                    </div>
-                </div>
-
-                <div class="field">
-                    <label>Customer Address</label>
-
-                    <div class="control">
-                        <input class="input" type="text" name="address"
-                            value="{% if request.user.is_authenticated %}{{ cart_user.address }}{% endif %}">
+                <div class="col-12 col-lg-6 col-xl-5 mt-4 mt-lg-0">
+                    <div class="card mb-0">
+                        <div class="card-body">
+                            <h3 class="card-title">Your Order</h3>
+                            <table class="checkout__totals">
+                                <thead class="checkout__totals-header">
+                                    <tr>
+                                        <th>Product</th>
+                                        <th>Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="checkout__totals-products">
+                                    {% for rs in shopcart %} 
+                                    <tr>
+                                        <td>
+                                            {% if rs.variant %}
+                                            {{rs.variant.title}}
+                                            {% else %} 
+                                            {{rs.product}}
+                                            {% endif %} × {{rs.quantity}}</td>
+                                        <td>{% if rs.product.variant == 'None' %}
+                                            {% if rs.product.discount > 0 %}
+                                                {{ rs.prodct_dicount_amount }}
+                                            {% else %}
+                                                {{ rs.amount }}
+                                            {% endif %}
+                                        {% else %}
+                                            {% if rs.variant.discount > 0 %}
+                                                {{ rs.var_dicount_amount }}
+                                            {% else %}
+                                                {{ rs.varamount }}
+                                            {% endif %}
+                
+                                        {% endif %}
+                                        {% if rs.product.is_vat == True %}vat incl.{% endif %}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                                <tbody class="checkout__totals-subtotals">
+                                    <tr>
+                                        <th>Subtotal</th>
+                                        <td>${{ sub_total }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Store Credit</th>
+                                        <td>$-20.00</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Shipping</th>
+                                        <td>$25.00</td>
+                                    </tr>
+                                </tbody>
+                                <tfoot class="checkout__totals-footer">
+                                    <tr>
+                                        <th>Total</th>
+                                        <td>${{ total }}</td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                            <div class="payment-methods">
+                                <ul class="payment-methods__list">
+                                    <li class="payment-methods__item payment-methods__item--active">
+                                        <label class="payment-methods__item-header">
+                                            <span class="payment-methods__item-radio input-radio">
+                                                <span class="input-radio__body">
+                                                    <input class="input-radio__input" name="checkout_payment_method" type="radio" checked>
+                                                    <span class="input-radio__circle"></span>
+                                                </span>
+                                            </span>
+                                            <span class="payment-methods__item-title">Direct bank transfer</span>
+                                        </label>
+                                        <div class="payment-methods__item-container">
+                                            <div class="payment-methods__item-description text-muted">
+                                                Make your payment directly into our bank account. Please use your Order ID as the payment
+                                                reference. Your order will not be shipped until the funds have cleared in our account.
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="payment-methods__item">
+                                        <label class="payment-methods__item-header">
+                                            <span class="payment-methods__item-radio input-radio">
+                                                <span class="input-radio__body">
+                                                    <input class="input-radio__input" name="checkout_payment_method" type="radio">
+                                                    <span class="input-radio__circle"></span>
+                                                </span>
+                                            </span>
+                                            <span class="payment-methods__item-title">Check payments</span>
+                                        </label>
+                                        <div class="payment-methods__item-container">
+                                            <div class="payment-methods__item-description text-muted">
+                                                Please send a check to Store Name, Store Street, Store Town, Store State / County, Store Postcode.
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="payment-methods__item">
+                                        <label class="payment-methods__item-header">
+                                            <span class="payment-methods__item-radio input-radio">
+                                                <span class="input-radio__body">
+                                                    <input class="input-radio__input" name="checkout_payment_method" type="radio">
+                                                    <span class="input-radio__circle"></span>
+                                                </span>
+                                            </span>
+                                            <span class="payment-methods__item-title">Cash on delivery</span>
+                                        </label>
+                                        <div class="payment-methods__item-container">
+                                            <div class="payment-methods__item-description text-muted">
+                                                Pay with cash upon delivery.
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="payment-methods__item">
+                                        <label class="payment-methods__item-header">
+                                            <span class="payment-methods__item-radio input-radio">
+                                                <span class="input-radio__body">
+                                                    <input class="input-radio__input" name="checkout_payment_method" type="radio">
+                                                    <span class="input-radio__circle"></span>
+                                                </span>
+                                            </span>
+                                            <span class="payment-methods__item-title">PayPal</span>
+                                        </label>
+                                        <div class="payment-methods__item-container">
+                                            <div class="payment-methods__item-description text-muted">
+                                                Pay via PayPal; you can pay with your credit card if you don’t have a PayPal account.
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="checkout__agree form-group">
+                                <div class="form-check">
+                                    <span class="form-check-input input-check">
+                                        <span class="input-check__body">
+                                            <input class="input-check__input" type="checkbox" id="checkout-terms">
+                                            <span class="input-check__box"></span>
+                                            <svg class="input-check__icon" width="9px" height="7px">
+                                                <use xlink:href="images/sprite.svg#check-9x7"></use>
+                                            </svg>
+                                        </span>
+                                    </span>
+                                    <label class="form-check-label" for="checkout-terms">
+                                        I have read and agree to the website <a target="_blank" href="terms-and-conditions.html">terms and conditions</a>*
+                                    </label>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-xl btn-block">Place Order</button>
+                        </div>
                     </div>
                 </div>
             </div>
-
-            <div class="column is-3">
-                <h3 class="subtitle">Delivery Info</h3>
-
-                <div class="field">
-                    <div class="field">
-                        <label>What do you want?</label>
-                    </div>
-
-                    {% for choice in form.delivery_option %}
-                    {% if choice.choice_label == "Pick up from Store" and not pickup_available %}
-                        <div class="field" style="display: none;">
-                        {% else %}
-                        <div class="field">
-                            {% endif %}
-                            <span class="radio" name="delivery_option" id="{{ choice.choice_label }}">{{ choice.tag }}</span>
-                            {{ choice.choice_label }}
-                        </div>
-                        {% endfor %}
-
-                    </div>
-                    <div class="field" id="district">
-                        <label>District</label>
-
-                        <div class="control">
-                            <select class="select" name="district" id="id_district">
-                                <option value="" selected>---Select District---</option>
-                                {% for entry in districts %}
-                                <option value="{{ entry.id }}">{{ entry.district }}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="field" id="sector">
-                        <label>Sector</label>
-
-                        <div class="control">
-                            <select class="select" name="sector" id="id_sector">
-                                <option value="" selected>---Select Sector---</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="field" id="cell">
-                        <label>Cell</label>
-
-                        <div class="control">
-                            <select class="select" name="cell" id="id_cell">
-                                <option value="" selected>---Select Cell---</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="field" id="village">
-                        <label>Village</label>
-
-                        <div class="control">
-                            <select class="select" name="village" id="id_village">
-                                <option value="" selected>---Select Village---</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="field" id="address">
-                        <label>Street No & House No.</label>
-
-                        <div class="control">
-                            <input type="textarea" class="textarea" name="delivery_address" id="delivery_address"
-                                value="">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="column is-3">
-                    <div class="field" id="cost">
-                        <div class="control">
-                            <select class="select" name="delivery_cost" id="id_cost">
-                                <option value="0" selected>---Delivery---</option>
-                                {% for entry in delivery_costs %}
-                                <option value="{{ entry.id }}">{{ entry.cost }}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="field">
-                        <div class="control">
-                            <input type="submit" class="button is-dark mt-4" value="Proceed to payment" />
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
-    </form>
-    {% if messages %}
-    {% for message in messages %}
-    <div class="notification is-danger is-toast">{{ message }}</div>
-    {% endfor %}
-    {% endif %}
+    </div>
 </div>
 {% endblock %}
 

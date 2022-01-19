@@ -50,10 +50,8 @@ def product_detail(request, id, slug, vendor_slug, category_slug, subcategory_sl
     images = Images.objects.filter(product_id=id)
     product.num_visits = product.num_visits + 1
     product.last_visit = datetime.now()
-
     username = request.user
     customer = Customer.objects.filter(email=username)
-
     similar_products = list(product.category.product.exclude(id=product.id))
 
     if len(similar_products) >= 4:

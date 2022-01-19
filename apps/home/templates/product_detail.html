@@ -1,14 +1,9 @@
-{% extends 'homebase.html' %}
+{% extends 'core/navigation.html' %}
 {% load static %}
 {% load bootstrap4 %}
 {% block title %} {{ product.title }} {% endblock %}
 {% block description %} {{ product.description }} {% endblock %}
 {% block keywords %} {{ product.keywords }} {% endblock %}
-{% block body %}
-{% include 'base.html' %}
-{% include 'messages.html' %}
-
-
 <script>
     function add_To_Cart(pr_id) {
          event.preventDefault(); //so that we stop normal form submit.
@@ -36,160 +31,284 @@
 
 </script>
 
+{% block content %}
+<div class="site__body">
+{% include 'messages.html' %}
     <!-- BREADCRUMB -->
-
-    <div id="breadcrumb">
-        <div class="container">
-            <ul class="breadcrumb">
-                <li><a href="/">Home</a></li>
-                <li><a href="/category/{{ product.category.id }}/{{ product.category.slug }}">{{ product.category.title }}</a></li>
-                <li class="active">{{ product.title }}</li>
-            </ul>
+    <div class="page-header">
+        <div class="page-header__container container">
+            <div class="page-header__breadcrumb">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="/">Home</a>
+                            <svg class="breadcrumb-arrow" width="6px" height="9px">
+                                <use xlink:href="images/sprite.svg#arrow-rounded-right-6x9"></use>
+                            </svg>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a href="/category/{{ product.category.id }}/{{ product.category.slug }}">{{ product.category.title }}</a>
+                            <svg class="breadcrumb-arrow" width="6px" height="9px">
+                            </svg>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page">{{ product.title }}</li>
+                    </ol>
+                </nav>
+            </div>
         </div>
     </div>
     <!-- /BREADCRUMB -->
     <!-- section -->
-    <div class="section">
-        <!-- container -->
+    <div class="block">
         <div class="container">
-            <!-- row -->
-            <div class="row">
-                <!--  Product Details -->
-                <div class="product product-details clearfix">
-                    <div class="col-md-6">
-                        <div id="product-main-view">
-                            <!-- <div class="product-view">
-                                <img src="{{ mainProduct.image.url }}" alt="" style="height:400px">
-                            </div> -->
-                            {% if product.variant == 'None' %}
-                                <div class="product-view">
-                                    <img src="{{ product.image.url }}" alt="" style="height: 400px">
+            <div class="product product--layout--standard" data-layout="standard">
+                <div class="product__content">
+                    <!-- .product__gallery -->
+                    <div class="product__gallery">
+                        <div class="product-gallery">
+                            <div class="product-gallery__featured">
+                                <button class="product-gallery__zoom">
+                                    <svg width="24px" height="24px">
+                                        <use xlink:href="images/sprite.svg#zoom-in-24"></use>
+                                    </svg>
+                                </button>
+                                <div class="owl-carousel" id="product-image">
+                                    <div class="product-image product-image--location--gallery">
+                                        <!--
+                        The data-width and data-height attributes must contain the size of a larger version
+                        of the product image.
+
+                        If you do not know the image size, you can remove the data-width and data-height
+                        attribute, in which case the width and height will be obtained from the naturalWidth
+                        and naturalHeight property of img.product-image__img.
+                        -->
+                                        {% if product.variant  == 'None' %} 
+                                        <a href="{{ product.image.url }}" data-width="700" data-height="700" class="product-image__body" target="_blank">
+                                            <img class="product-image__img" src="{{ product.image.url }}" alt="">
+                                        </a>
+                                        {% else %} 
+                                        <a href="{{ variant.image_variant.url }}" data-width="700" data-height="700" class="product-image__body" target="_blank">
+                                            <img class="product-image__img" src="{{ variant.image_variant.url }}" alt="">
+                                        </a>
+                                        {% endif %}
+                                    </div>
+                                    <div class="product-image product-image--location--gallery">
+                                        <!--
+                        The data-width and data-height attributes must contain the size of a larger version
+                        of the product image.
+
+                        If you do not know the image size, you can remove the data-width and data-height
+                        attribute, in which case the width and height will be obtained from the naturalWidth
+                        and naturalHeight property of img.product-image__img.
+                        -->
+                                        {% if product.variant == 'None' %}
+                                        <a href="{{ product.image.url }}" data-width="700" data-height="700" class="product-image__body" target="_blank">
+                                            <img class="product-image__img" src="{{ product.image.url }}" alt="">
+                                        </a> 
+                                        {% else %}
+                                        <a href="{{ variant.image_variant.url }}" data-width="700" data-height="700" class="product-image__body" target="_blank">
+                                            <img class="product-image__img" src="{{ variant.image_variant.url }}" alt="">
+                                        </a> 
+                                        {% endif %}
+                                    </div>
+                                    {% if product.is_variant %} 
+                                         {% for images in variant.variants_images.all %} 
+                                              <div class="product-image product-image--location--gallery">
+                                            <!--
+                            The data-width and data-height attributes must contain the size of a larger version
+                            of the product image.
+    
+                            If you do not know the image size, you can remove the data-width and data-height
+                            attribute, in which case the width and height will be obtained from the naturalWidth
+                            and naturalHeight property of img.product-image__img.
+                            -->
+                                            <a href="{{images.image.url}}" data-width="700" data-height="700" class="product-image__body" target="_blank">
+                                                <img class="product-image__img" src="{{images.image.url}}" alt="">
+                                            </a>
+                                              </div>
+                                          {% endfor %}
+                                    {% else %} 
+                                           {% for images in product.product_images.all %} 
+                                           <div class="product-image product-image--location--gallery">
+                                            <!--
+                            The data-width and data-height attributes must contain the size of a larger version
+                            of the product image.
+    
+                            If you do not know the image size, you can remove the data-width and data-height
+                            attribute, in which case the width and height will be obtained from the naturalWidth
+                            and naturalHeight property of img.product-image__img.
+                            -->
+                                            <a href="{{images.image.url}}" data-width="700" data-height="700" class="product-image__body" target="_blank">
+                                                <img class="product-image__img" src="{{images.image.url}}" alt="">
+                                            </a>
+                                               </div>
+                                           {% endfor %}
+                                    {% endif %}
                                 </div>
-                            {% else %}
-                                <div class="product-view">
-                                    <img src="{{ variant.image_variant.url }}" alt="" style="height:400px">
+                            </div>
+                            <div class="product-gallery__carousel">
+                                <div class="owl-carousel" id="product-carousel">
+                                    {% if product.is_variant %} 
+                                    {% for images in variant.variants_images.all %} 
+                                    <a href="{{images.image.url}}" class="product-image product-gallery__carousel-item">
+                                        <div class="product-image__body">
+                                            <img class="product-image__img product-gallery__carousel-image" src="{{images.image.url}}" alt="">
+                                        </div>
+                                    </a>
+                                    {% endfor %} 
+                                    {% else %} 
+                                    {% for images in product.product_images.all %} 
+                                    <a href="{{images.image.url}}" class="product-image product-gallery__carousel-item">
+                                        <div class="product-image__body">
+                                            <img class="product-image__img product-gallery__carousel-image" src="{{images.image.url}}" alt="">
+                                        </div>
+                                    </a>
+                                    {% endfor %}
+                                    {% endif %} 
                                 </div>
-                            {% endif %}
+                            </div>
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="product-body">
-
-                            {% if product.variant %}
-                            <p><strong>{{ variant.title }}</strong></p>
-                            {% else %}
-                            <p><strong>{{ product.title }}</strong></p>
-                            {% endif %}
-                            <p><strong>Vendor:</strong>{{ product.vendor }}</p>
-                            <p><strong>Brand:</strong>{{ product.brand }}</p>
-
-                            <div>
-                                <div class="product-rating">
-                                    <i class="fa fa-star{% if product.avaregeview < 1%}-o empty{% endif%}"></i>
-                                    <i class="fa fa-star{% if product.avaregeview < 2%}-o empty{% endif%}"></i>
-                                    <i class="fa fa-star{% if product.avaregeview < 3%}-o empty{% endif%}"></i>
-                                    <i class="fa fa-star{% if product.avaregeview < 4%}-o empty{% endif%}"></i>
-                                    <i class="fa fa-star{% if product.avaregeview < 5%}-o empty{% endif%}"></i>
-                                    {{ product.avaregeview |stringformat:".2f"}}
+                    <!-- .product__gallery / end -->
+                    <!-- .product__info -->
+                    <div class="product__info">
+                        <div class="product__wishlist-compare">
+                            <button type="button" class="btn btn-sm btn-light btn-svg-icon" data-toggle="tooltip" data-placement="right" title="Wishlist">
+                                <svg width="16px" height="16px">
+                                    <use xlink:href="images/sprite.svg#wishlist-16"></use>
+                                </svg>
+                            </button>
+                            <button type="button" class="btn btn-sm btn-light btn-svg-icon" data-toggle="tooltip" data-placement="right" title="Compare">
+                                <svg width="16px" height="16px">
+                                    <use xlink:href="images/sprite.svg#compare-16"></use>
+                                </svg>
+                            </button>
+                        </div>
+                        {% if product.variant == 'None' %} 
+                        <h1 class="product__name">{{product.title}}</h1>
+                        {% else %} 
+                        <h1 class="product__name">{{variant.title}}</h1>
+                        {% endif %}
+                        <div class="product__rating">
+                            <div class="product__rating-stars">
+                                <div class="rating">
+                                    <div class="rating__body">
+                                        <svg class="rating__star rating__star--active" width="13px" height="12px">
+                                            <g class="rating__fill">
+                                                <use xlink:href="images/sprite.svg#star-normal"></use>
+                                            </g>
+                                            <g class="rating__stroke">
+                                                <use xlink:href="images/sprite.svg#star-normal-stroke"></use>
+                                            </g>
+                                        </svg>
+                                        <div class="rating__star rating__star--only-edge rating__star--active">
+                                            <div class="rating__fill">
+                                                <div class="fake-svg-icon"></div>
+                                            </div>
+                                            <div class="rating__stroke">
+                                                <div class="fake-svg-icon"></div>
+                                            </div>
+                                        </div>
+                                        <svg class="rating__star rating__star--active" width="13px" height="12px">
+                                            <g class="rating__fill">
+                                                <use xlink:href="images/sprite.svg#star-normal"></use>
+                                            </g>
+                                            <g class="rating__stroke">
+                                                <use xlink:href="images/sprite.svg#star-normal-stroke"></use>
+                                            </g>
+                                        </svg>
+                                        <div class="rating__star rating__star--only-edge rating__star--active">
+                                            <div class="rating__fill">
+                                                <div class="fake-svg-icon"></div>
+                                            </div>
+                                            <div class="rating__stroke">
+                                                <div class="fake-svg-icon"></div>
+                                            </div>
+                                        </div>
+                                        <svg class="rating__star rating__star--active" width="13px" height="12px">
+                                            <g class="rating__fill">
+                                                <use xlink:href="images/sprite.svg#star-normal"></use>
+                                            </g>
+                                            <g class="rating__stroke">
+                                                <use xlink:href="images/sprite.svg#star-normal-stroke"></use>
+                                            </g>
+                                        </svg>
+                                        <div class="rating__star rating__star--only-edge rating__star--active">
+                                            <div class="rating__fill">
+                                                <div class="fake-svg-icon"></div>
+                                            </div>
+                                            <div class="rating__stroke">
+                                                <div class="fake-svg-icon"></div>
+                                            </div>
+                                        </div>
+                                        <svg class="rating__star rating__star--active" width="13px" height="12px">
+                                            <g class="rating__fill">
+                                                <use xlink:href="images/sprite.svg#star-normal"></use>
+                                            </g>
+                                            <g class="rating__stroke">
+                                                <use xlink:href="images/sprite.svg#star-normal-stroke"></use>
+                                            </g>
+                                        </svg>
+                                        <div class="rating__star rating__star--only-edge rating__star--active">
+                                            <div class="rating__fill">
+                                                <div class="fake-svg-icon"></div>
+                                            </div>
+                                            <div class="rating__stroke">
+                                                <div class="fake-svg-icon"></div>
+                                            </div>
+                                        </div>
+                                        <svg class="rating__star rating__star--active" width="13px" height="12px">
+                                            <g class="rating__fill">
+                                                <use xlink:href="images/sprite.svg#star-normal"></use>
+                                            </g>
+                                            <g class="rating__stroke">
+                                                <use xlink:href="images/sprite.svg#star-normal-stroke"></use>
+                                            </g>
+                                        </svg>
+                                        <div class="rating__star rating__star--only-edge rating__star--active">
+                                            <div class="rating__fill">
+                                                <div class="fake-svg-icon"></div>
+                                            </div>
+                                            <div class="rating__stroke">
+                                                <div class="fake-svg-icon"></div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <a href="#tab1"> {{ product.countreview}}  Review(s) / Add Review</a>
                             </div>
-
-                            <p> {{ product.summary }} </p>
-
-                            {% if product.pickup_available == True %}
-                                <p>Pickup available</p>
-                            {% else %}
-                                <p>Pickup Not Available</p>
+                            <div class="product__rating-legend">
+                                <a href="">{{ product.countreview}} Reviews</a><span>/</span><a href="">Write A Review</a>
+                            </div>
+                        </div>
+                        <div class="product__description">
+                            {{ product.summary }}.
+                        </div>
+                        <ul class="product__features">
+                            <li>Speed: 750 RPM</li>
+                            <li>Power Source: Cordless-Electric</li>
+                            <li>Battery Cell Type: Lithium</li>
+                            <li>Voltage: 20 Volts</li>
+                            <li>Battery Capacity: 2 Ah</li>
+                        </ul>
+                        <ul class="product__meta">
+                            <li class="product__meta-availability">Availability: <span class="text-success">
+                                {% if product.is_variant %} 
+                                {% if variant.quantity > 0  %} In Stock {% else %} Out of Stock {% endif %}
+                                {% else %} 
+                                {% if product.quantity > 0  %} In Stock {% else %} Out of Stock {% endif %}
+                                {% endif %}
+                            </span></li>
+                            {% if product.brand %}
+                            <li>Brand: <a href="">
+                                {{product.brand}}
+                            </a></li>
                             {% endif %}
-
-                            {% if product.is_free_delivery == True %}
-                                <p>Free Delivery</p>
-                            {% else %}
-                                <p>Free Delivery Not Available</p>
-                            {% endif %}
-
-
-                            <script>
-                                $(document).on('change', '#post-form',function(e){
-                                    e.preventDefault();
-                                    $.ajax({
-                                        type:'POST',
-                                        url:'{% url "ajaxcolor" %}',
-                                        data:{
-                                            productid:$('#productid').val(),
-                                            size:$('#size').val(),
-                                            csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
-                                            action: 'post'
-                                        },
-                                        data_type : 'html',
-                                        success: function (data) {
-                                            console.log("success");
-                                            $('#appendHere').html(data.rendered_table);
-                                        },
-                                        error: function (data) {
-                                            alert("Got an error dude " + data);
-                                        }
-                                    });
-                                });
-
-                                $(document).on('change', '#post-form1',function(e){
-                                    e.preventDefault();
-                                    $.ajax({
-                                        type:'POST',
-                                        url:'{% url "ajaxcolor-weight" %}',
-                                        data:{
-                                            productid:$('#productid').val(),
-                                            weigth:$('#weight').val(),
-                                            csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
-                                            action: 'post'
-                                        },
-                                        data_type : 'html',
-                                        success: function (data) {
-                                            console.log("success");
-                                            $('#appendHere').html(data.rendered_table);
-                                        },
-                                        error: function (data) {
-                                            alert("Got an error dude " + data);
-                                        }
-                                    });
-                                });
-
-                                $('body').on('click','.compareBtn',function(){
-                                    var variant_id=$(this).closest('.compare').find('.variantid').val()
-                                    var my_token='{{ csrf_token }}'
-                                    $.ajax({
-                                        method:"POST",
-                                        url:"/variant/compare/",
-                                        context:this,
-                                        data:{
-                                            "csrfmiddlewaretoken": my_token,
-                                            'variant_id':variant_id
-                                        },
-                                    })
-                                });
-                                $('body').on('click','.wish',function(){
-                                    var variant_id=$(this).closest('.wishlist').find('.variantid').val()
-                                    var product_id=$(this).closest('.wishlist').find('.productid').val()
-                                    var my_token='{{ csrf_token }}'
-                                    $.ajax({
-                                        method:"POST",
-                                        url:"/variant/wishlist/",
-                                        context:this,
-                                        data:{
-                                            "csrfmiddlewaretoken": my_token,
-                                            'variant_id':variant_id,
-                                            'product_id':product_id
-                                        },
-                                    })
-                                })
-
-                            </script>
-
-
-                            <div class="product-btns">
-                                <div class="row">
-                                    {% if product.variant == 'Size-Color' %}
+                            <li>Vendor:{{product.vendor}} </li>
+                        </ul>
+                    </div>
+                    <!-- .product__info / end -->
+                    <!-- .product__sidebar -->
+                    {% if product.variant == 'Size-Color' %}
 
                                         <div class="product-options" >
                                             <div class="size-option">
@@ -224,423 +343,749 @@
                                                 </div>
                                             </form>
                                         </div>
-
-                                        {% elif product.variant == 'Wght-Color' %}
-
-                                        <div class="product-options" >
-                                            <div class="size-option">
-                                                <form method="POST" id="post-form1">
-                                                    <input type="hidden" name="productid" id="productid" value="{{ product.id }}">
-                                                    <span class="text-uppercase">Weight :</span>
-                                                    {% csrf_token %}
-                                                    <select name="weight" id="weight">
-                                                        {% for rs in weight %}
-                                                            <option {% if variant.weight_id == rs.weight_id %} selected {% endif %} value="{{ rs.weight_id }}">{{ rs.weight }}</option>
-                                                        {% endfor %}
-                                                    </select>
-                                                </form>
-                                            </div>
-
-                                            <form method="post" action="?q=selectvariant" id="post-color">
-                                                {% csrf_token %}
-                                                <div id="appendHere">
-                                                    <input type="hidden" name="weight" id="weight" value="{{ weight_id }}">
-                                                    <ul class="color-option" >
-                                                        <li><span class="text-uppercase">Color:</span></li>
-                                                        {% for rs in colors1 %}
-                                                            <input type="radio"  {% if variant.id == rs.id %} checked {% endif %} name="variantid" id="variantid" value="{{ rs.id }}" onchange="this.form.submit();">
-                                                            <li  {% if variant.id == rs.id %} class="active" {% endif %}>
-                                                                <a style="background-color:{{ rs.color.code }};width:90px">
-                                                                     {{ rs.color }}
-                                                                </a>
-                                                                <img src="{{ rs.image_variant.url}}" alt="" style="height: 100px;">
-                                                            </li>
-                                                        {% endfor %}
-                                                    </ul>
-                                                </div>
-                                            </form>
-                                        </div>
-
-                                    {% elif product.variant == 'Size' %}
+                    {% elif product.variant == 'Size' %}
                                         <form method="post" action="?q=selectvariant" id="post-color">
                                             {% csrf_token %}
                                             <div id="appendHere">
                                                 <input type="hidden" name="size" id="size" value="{{ size_id }}">
                                                 <ul class="color-option" >
-                                                    <li><span class="text-uppercase">Size:</span></li>
-                                                    {% for rs in sizes %}
-                                                        <input type="radio"  {% if variant.id == rs.id %} checked {% endif %} name="variantid" id="variantid" value="{{ rs.id }}" onchange="this.form.submit();">
-                                                        <li  {% if variant.id == rs.id %} class="active" {% endif %}>
-                                                            <a style=" color: #204d74;  width: 90px">
-                                                                ${{ rs.size }}<br> {{ rs.price }}
-                                                            </a>
-                                                            <img src="{{ rs.image_variant.url}}" alt="" style="height:100px">
-                                                        </li>
-                                                    {% endfor %}
+                                                    <li class="product__option-label">Size</li>
+                                                    <div class="form-group product__option">
+                                                        <div class="input-radio-label">
+                                                            <div class="input-radio-label__list">
+                                                                {% for rs in sizes %}
+                                                                <label data-toggle="tooltip"  {% if variant.id == rs.id %} class="active" {% endif %}>
+                                                                    <input type="radio" {% if variant.id == rs.id %} checked {% endif %} name="variantid" id="variantid" value="{{ rs.id }}" onchange="this.form.submit();">
+                                                                    <a><span>{{rs.size}}</span></a>
+                                                                </label></br>
+                                                                <img src="{{ rs.image_variant.url}}" alt="" style="height:100px">
+                                                                {% endfor %}
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </ul>
                                             </div>
                                         </form>
                                         <br><br>
-
-                                    {% elif product.variant == 'Weight' %}
-                                      <form method="post" action="?q=selectvariant" id="post-color">
-                                          {% csrf_token %}
-                                          <div id="appendHere">
-                                              <input type="hidden" name="size" id="size" value="{{ weight_id }}">
-                                              <ul class="color-option">
-                                                  <li><span class="text-uppercase">Weight:</span></li>
-                                                  {% for rs in weight %}
-                                                   <input type="radio" {% if variant.id == rs.id %} checked {% endif %} name="variantid" id="variantid" value="{{ rs.id }}" onchange="this.form.submit();">
-                                                   <li {% if variant.id == rs.id %} class="active" {% endif %}>
-                                                       <a style="width: 90px;">
-                                                              ${{ rs.weight }}<br> {{ rs.price }}
-                                                      </a>
-                                                      <img src="{{ rs.image_variant.url}}" alt="" style="height:100px">
-                                                   </li>
-                                                   {% endfor %}
-                                              </ul>
-                                          </div>
-                                      </form>
-                                      <br><br>
-
-                                      {% elif product.variant == 'Length' %}
-                                      <form method="post" action="?q=selectvariant" id="post-color">
-                                          {% csrf_token %}
-                                          <div id="appendHere">
-                                              <input type="hidden" name="size" id="size" value="{{ length_id }}">
-                                              <ul class="color-option">
-                                                  <li><span class="text-uppercase">Length:</span></li>
-                                                  {% for rs in length %}
-                                                   <input type="radio" {% if variant.id == rs.id %} checked {% endif %} name="variantid" id="variantid" value="{{ rs.id }}" onchange="this.form.submit();">
-                                                   <li {% if variant.id == rs.id %} class="active" {% endif %}>
-                                                       <a style="width: 90px;">
-                                                              {{ rs.length }}mm<br> ${{ rs.price }}
-                                                      </a>
-                                                      <img src="{{ rs.image_variant.url}}" alt="" style="height:100px">
-                                                   </li>
-                                                   {% endfor %}
-                                              </ul>
-                                          </div>
-                                      </form>
-                                      <br><br>
-
-                                      {% elif product.variant == 'Width' %}
-                                      <form method="post" action="?q=selectvariant" id="post-color">
-                                          {% csrf_token %}
-                                          <div id="appendHere">
-                                              <input type="hidden" name="size" id="size" value="{{ width_id }}">
-                                              <ul class="color-option">
-                                                  <li><span class="text-uppercase">Width:</span></li>
-                                                  {% for rs in width %}
-                                                   <input type="radio" {% if variant.id == rs.id %} checked {% endif %} name="variantid" id="variantid" value="{{ rs.id }}" onchange="this.form.submit();">
-                                                   <li {% if variant.id == rs.id %} class="active" {% endif %}>
-                                                       <a style="width: 90px;">
-                                                              {{ rs.width }}mm<br> ${{ rs.price }}
-                                                      </a>
-                                                      <img src="{{ rs.image_variant.url}}" alt="" style="height:100px">
-                                                   </li>
-                                                   {% endfor %}
-                                              </ul>
-                                          </div>
-                                      </form>
-                                      <br><br>
-
-                                    {% elif product.variant == 'Color' %}
+                    {% elif product.variant == 'Length' %}
                                         <form method="post" action="?q=selectvariant" id="post-color">
                                             {% csrf_token %}
                                             <div id="appendHere">
                                                 <input type="hidden" name="size" id="size" value="{{ size_id }}">
                                                 <ul class="color-option" >
-                                                    <li><span class="text-uppercase">Color:</span></li>
-                                                    {% for rs in colors %}
-                                                        <input type="radio"  {% if variant.id == rs.id %} checked {% endif %} name="variantid" id="variantid" value="{{ rs.id }}" onchange="this.form.submit();">
-                                                        <li  {% if variant.id == rs.id %} class="active" {% endif %}>
-                                                            <a style="background-color:{{ rs.color.code }}; color: #D9D9D9; text-shadow: 1px 1px #000000; width: 90px">
-                                                                {{ rs.price }}  {{ rs.color }}
-                                                            </a>
-                                                            <img src="{{ rs.image_variant.url}}" alt="" style="height:100px">
-                                                        </li>
-                                                    {% endfor %}
+                                                    <li class="product__option-label">Length</li>
+                                                    <div class="form-group product__option">
+                                                        <div class="input-radio-label">
+                                                            <div class="input-radio-label__list">
+                                                                {% for rs in length %}
+                                                                <label {% if variant.id == rs.id %} class="active" {% endif %}>
+                                                                    <input type="radio" {% if variant.id == rs.id %} checked {% endif %} name="variantid" id="variantid" value="{{ rs.id }}" onchange="this.form.submit();">
+                                                                    <a><span>{{rs.length}}</span></a>
+                                                                </label></br>
+                                                                <img src="{{ rs.image_variant.url}}" alt="" style="height:100px">
+                                                                {% endfor %}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </ul>
+                                            </div>
+                                        </form>
+                                        <br><br> 
+                                                      
+                    {% elif product.variant == 'Weight' %}
+                                        <form method="post" action="?q=selectvariant" id="post-color">
+                                            {% csrf_token %}
+                                            <div id="appendHere">
+                                                <input type="hidden" name="size" id="size" value="{{ size_id }}">
+                                                <ul class="color-option" >
+                                                    <li class="product__option-label">Weight</li>
+                                                    <div class="form-group product__option">
+                                                        <div class="input-radio-label">
+                                                            <div class="input-radio-label__list">
+                                                                {% for rs in weight %}
+                                                                <label {% if variant.id == rs.id %} class="active" {% endif %}>
+                                                                    <input type="radio" {% if variant.id == rs.id %} checked {% endif %} name="variantid" id="variantid" value="{{ rs.id }}" onchange="this.form.submit();">
+                                                                    <a><span>{{rs.weight}}</span></a>
+                                                                </label></br>
+                                                                <img src="{{ rs.image_variant.url}}" alt="" style="height:100px">
+                                                                {% endfor %}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </ul>
+                                            </div>
+                                        </form>
+                                        <br><br>
+                    {% elif product.variant == 'Width' %}
+                                        <form method="post" action="?q=selectvariant" id="post-color">
+                                            {% csrf_token %}
+                                            <div id="appendHere">
+                                                <input type="hidden" name="size" id="size" value="{{ size_id }}">
+                                                <ul class="color-option" >
+                                                    <li class="product__option-label">Width</li>
+                                                    <div class="form-group product__option">
+                                                        <div class="input-radio-label">
+                                                            <div class="input-radio-label__list">
+                                                                {% for rs in width %}
+                                                                <label {% if variant.id == rs.id %} class="active" {% endif %}>
+                                                                    <input type="radio" {% if variant.id == rs.id %} checked {% endif %} name="variantid" id="variantid" value="{{ rs.id }}" onchange="this.form.submit();">
+                                                                    <a><span>{{rs.width}}</span></a>
+                                                                </label></br>
+                                                                <img src="{{ rs.image_variant.url}}" alt="" style="height:100px">
+                                                                {% endfor %}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </ul>
+                                            </div>
+                                        </form>
+                                        <br><br>  
+                    {% elif product.variant == 'Color' %}
+                                        <form method="post" action="?q=selectvariant" id="post-color">
+                                            {% csrf_token %}
+                                            <div id="appendHere">
+                                                <input type="hidden" name="size" id="size" value="{{ size_id }}">
+                                                <ul class="color-option" >
+                                                    <div class="form-group product__option">
+                                                        <label class="product__option-label">Color</label>
+                                                        <div class="input-radio-color">
+                                                            <div class="input-radio-color__list">
+                                                                {% for rs in colors %} 
+                                                                <label class="input-radio-color__item input-radio-color__item--white" style="color: {{rs.color.code}};" data-toggle="tooltip" title="{{rs.color}}">
+                                                                    <input type="radio" {% if variant.id == rs.id %} checked {% endif %} name="variantid" id="variantid" value="{{ rs.id }}" onchange="this.form.submit();">
+                                                                    <span></span>
+                                                                </label>
+                                                                <img src="{{ rs.image_variant.url}}" alt="" style="height:100px">
+                                                                {% endfor %}
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </ul>
                                             </div>
 
                                         </form>
-                                        </div>
-                                    {% endif %}
-
-                            {% if  product.is_variant   %}
-                                <div>
-                                    <input type="hidden" name="variantid" id="variant_id" value="{{ variant.id }}">
-                                    <div id="SelectedProduct">
-                                        <p><strong>Availability:</strong> {% if variant.quantity > 0  %} In Stock {% else %} Out of Stock {% endif %}</p>
-                                        <p><strong>Selected :</strong> {% if variant.size %} Size : {{ variant.size }} {% endif %}  {% if variant.color %} Color : {{ variant.color }} {% endif %} </p>
-                                        <h3 class="product-price">
-                                            {% if variant.discount > 0 %}
-                                                <span class="text-decoration-line-through">Frw {{ variant.price }}{% if variant.unit_type %}/{{variant.unit_type.unit}}{% endif %}</span> <span style="color: #001833">frw {{ variant.get_discounted_price_var }}{% if variant.unit_type %}/{{variant.unit_type.unit}}{% endif %}</span>
-                                            {% else %}
-                                                Frw {{ variant.price }}{% if variant.unit_type %}/{{variant.unit_type.unit}}{% endif %}
-                                            {% endif %}
-                                        </h3>
-                                        <div class="qty-input">
-                                            <span class="text-uppercase">QTY: </span>
-                                            <input class="input" id="quantity" name="quantity" type="number" value="1" min="1" max="{{ variant.quantity }}">
-                                            {% if request.session.customer %}
-                                            <button onclick="add_To_Cart('{{ product.id }}')"{% if variant.quantity < 1  %} disabled {% endif %} class="primary-btn add-to-cart">
-                                                <i class="fa fa-shopping-cart"></i> Add to Cart
-                                            </button>
-                                            {% else %}
-                                            <button class="primary-btn" disabled>
-                                                <i class="fa fa-shopping-cart"></i> Add to Cart
-                                            </button></br>
-                                            {% endif %}
-                                        </div>
-                                        <div id="msg1" class="mt-3">
-                                        </div>
-                                    </div>
-                                </div>
-                            {% else %}
-                                <div>
-                                    <div id="SelectedProduct">
-                                        <p><strong>Availability:</strong> {% if product.quantity > 0  %} In Stock {% else %} Out of Stock {% endif %}</p>
-                                        <h3 class="product-price">
-                                            {% if product.discount > 0 %}
-                                    <span class="text-decoration-line-through">Frw {{ product.price }}{% if product.unit_type %}/{{product.unit_type.unit}}{% endif %}</span> <span style="color: #001833">Frw {{ product.get_discounted_price }}{% if product.unit_type %}/{{product.unit_type.unit}}{% endif %}</span>
-                                    {% else %}
-                                        $ {{ product.price }}{% if product.unit_type %}/{{product.unit_type.unit}}{% endif %}
-                                    {% endif %}
-                                        </h3>
-                                        <div class="qty-input">
-                                            <span class="text-uppercase">QTY: </span>
-                                            <input class="input" name="quantity" id="quantity" type="number" value="1" min="1" max="{{ product.quantity }}">
-                                            {% if request.session.customer %}
-                                            <button onclick="add_To_Cart('{{ product.id }}')" {% if product.quantity < 1  %} disabled {% endif %} class="primary-btn add-to-cart">
-                                                <i class="fa fa-shopping-cart"></i> Add to Cart
-                                            </button>
-                                            {% else %}
-                                            <button class="primary-btn" disabled>
-                                                <i class="fa fa-shopping-cart"></i> Add to Cart
-                                            </button></br>
-                                            {% endif %}
-                                        </div>
-                                        <div id="msg1" class="mt-3">
-                                        </div>
-                                    </div>
-                                </div>
-                            {% endif %}
+                    {% endif %}
+                    <div class="product__sidebar">
+                        <div class="product__availability">
+                            Availability: <span class="text-success">
+                                {% if product.is_variant %} 
+                                {% if variant.quantity > 0  %} In Stock {% else %} Out of Stock {% endif %}
+                                {% else %} 
+                                {% if product.quantity > 0  %} In Stock {% else %} Out of Stock {% endif %}
+                                {% endif %}
+                            </span>
                         </div>
-                        <br>
-
-                        <div class="pull-right">
-                            <button class="main-btn icon-btn"><i class="fa fa-heart"></i></button>
-                            <button class="main-btn icon-btn"><i class="fa fa-exchange"></i></button>
-                            <button class="main-btn icon-btn"><i class="fa fa-share-alt"></i></button>
+                        <div class="product__prices">
+                                {% if product.is_variant %} 
+                                {% if variant.discount > 0 %} 
+                                Frw {{ variant.price }}{% if variant.unit_type %}/{{variant.unit_type.unit}}{% endif %}
+                                {% else %} 
+                                Frw {{ variant.price }}{% if variant.unit_type %}/{{variant.unit_type.unit}}{% endif %}
+                                {% endif %}
+                                {% else %} 
+                                {% if variant.discount > 0 %} 
+                                Frw {{ product.price }}{% if product.unit_type %}/{{product.unit_type.unit}}{% endif %}
+                                {% else %} 
+                                FRW {{ product.price }}{% if product.unit_type %}/{{product.unit_type.unit}}{% endif %}
+                                {% endif %}
+                                {% endif %}
+                            </span>
                         </div>
-                                  {% if product.is_variant %}
-                                      <div class="wishlist">
-                                        <form method="post">
-                                            {% csrf_token %}
-                                            {% if request.session.customer %}
-                                            <input type="hidden" name="variantid" class="variantid" id="variantid" value="{{ variant.id }}">
-                                            <input type="hidden" name="productid" class="productid" id="productid" value="{{ product.id }}">
-                                            <button class="button is-dark wish"> Wishlist</button>
-                                            {% else %}
-                                            <button class="button is-dark" disabled>wishlist</button>
-                                            {% endif %}
-                                        </form>
-                                      </div>
-                                  {% else %}
-                                  <form method="post" action={% url 'wishlist-add' product.id %}>
-                                    {% csrf_token %}
-                                    {% if request.session.customer %}
-                                        <button class="button is-dark">wishlist</button>
-                                    {% else %}
-                                           <button class="button is-dark" disabled>wishlist</button>
-                                    {% endif %}
-                                  </form>
-                                   {% endif %}
-
-                            {% if product.is_variant  %}
-                            <div class="compare">
-                                <form  method="post">
-                                    {% csrf_token %}
-                                    <input type="hidden" name="variantid" class="variantid" id="variantid" value="{{ variant.id }}">
-                                    <button class="button is-dark compareBtn">
-                                        compare
-                                    </button>
-                                </form>
+                        {% if product.is_variant %} 
+                    <div class="form-group product__option">
+                        <label class="product__option-label" for="product-quantity">Quantity</label>
+                        <div class="product__actions">
+                            <div class="product__actions-item">
+                                <div class="input-number product__quantity">
+                                    <input id="product-quantity" class="input-number__input form-control form-control-lg" type="number" min="1" value="1">
+                                    <div class="input-number__add"></div>
+                                    <div class="input-number__sub"></div>
+                                </div>
                             </div>
-                            {% else %}
-                            <form method="post"  action={% url 'product-compare' product.id %}>
-                                {% csrf_token %}
-                                <button class="button is-dark"  onclick="compare()" >
-                                    Compare
+                            <div class="product__actions-item product__actions-item--addtocart">
+                                <button class="btn btn-primary btn-lg">Add to cart</button>
+                            </div>
+                            <div class="product__actions-item product__actions-item--wishlist">
+                                <button type="button" class="btn btn-secondary btn-svg-icon btn-lg" data-toggle="tooltip" title="Wishlist">
+                                    <svg width="16px" height="16px">
+                                        <use xlink:href="images/sprite.svg#wishlist-16"></use>
+                                    </svg>
                                 </button>
-                            </form>
-                            {% endif %}
-
-                    </div>
-                    <div class="container">
-
-
-                        <!-- Nav tabs -->
-                        <ul class="nav nav-tabs">
-                            <li class="nav-item">
-                                <a class="nav-link active" data-toggle="tab" href="#spec">Description</a>
-                              </li>
-                          <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" href="#detail">Specification</a>
-                          </li>
-                          <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" href="#review">Review ({{ product.countreview }} )</a>
-                          </li>
-                        </ul>
-
-                        <!-- Tab panes -->
-                        <div class="tab-content">
-                            <div class="tab-pane container active" id="spec">
-                                <p>{{ product.description|safe }}</p>
                             </div>
-                          <div class="tab-pane container fade in" id="detail">
-                            <p>
-                                {% if product.variant == 'None' %}
-
-                                {% if product.color %}
-                                  Color: {{ product.color }} </br>
+                            <div class="product__actions-item product__actions-item--compare">
+                                <button type="button" class="btn btn-secondary btn-svg-icon btn-lg" data-toggle="tooltip" title="Compare">
+                                    <svg width="16px" height="16px">
+                                        <use xlink:href="images/sprite.svg#compare-16"></use>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    {% else %} 
+                    <div class="form-group product__option">
+                        <label class="product__option-label" for="product-quantity">Quantity</label>
+                        <div class="product__actions">
+                            <div class="product__actions-item">
+                                <div class="input-number product__quantity">
+                                    <input id="product-quantity" class="input-number__input form-control form-control-lg" type="number" min="1" value="1">
+                                    <div class="input-number__add"></div>
+                                    <div class="input-number__sub"></div>
+                                </div>
+                            </div>
+                            <div class="product__actions-item product__actions-item--addtocart">
+                                <button class="btn btn-primary btn-lg">Add to cart</button>
+                            </div>
+                            <div class="product__actions-item product__actions-item--wishlist">
+                                <button type="button" class="btn btn-secondary btn-svg-icon btn-lg" data-toggle="tooltip" title="Wishlist">
+                                    <svg width="16px" height="16px">
+                                        <use xlink:href="images/sprite.svg#wishlist-16"></use>
+                                    </svg>
+                                </button>
+                            </div>
+                            <div class="product__actions-item product__actions-item--compare">
+                                <button type="button" class="btn btn-secondary btn-svg-icon btn-lg" data-toggle="tooltip" title="Compare">
+                                    <svg width="16px" height="16px">
+                                        <use xlink:href="images/sprite.svg#compare-16"></use>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                        <!-- .product__options -->
+                        
+                        <!-- .product__options / end -->
+                    </div>
+                    <!-- .product__end -->
+                    <div class="product__footer">
+                        <div class="product__tags tags">
+                            <div class="tags__list">
+                                <a href="">Mounts</a>
+                                <a href="">Electrodes</a>
+                                <a href="">Chainsaws</a>
+                            </div>
+                        </div>
+                        <div class="product__share-links share-links">
+                            <ul class="share-links__list">
+                                <li class="share-links__item share-links__item--type--like"><a href="">Like</a></li>
+                                <li class="share-links__item share-links__item--type--tweet"><a href="">Tweet</a></li>
+                                <li class="share-links__item share-links__item--type--pin"><a href="">Pin It</a></li>
+                                <li class="share-links__item share-links__item--type--counter"><a href="">4K</a></li>
+                            </ul>
+                        </div>
+                    </div>
+            </div>
+            <div class="product-tabs  product-tabs--sticky">
+                <div class="product-tabs__list">
+                    <div class="product-tabs__list-body">
+                        <div class="product-tabs__list-container container">
+                            <a href="#tab-description" class="product-tabs__item product-tabs__item--active">Description</a>
+                            <a href="#tab-specification" class="product-tabs__item">Specification</a>
+                            <a href="#tab-reviews" class="product-tabs__item">Reviews</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="product-tabs__content">
+                    <div class="product-tabs__pane product-tabs__pane--active" id="tab-description">
+                        <div class="typography">
+                            <h3>Product Full Description</h3>
+                            {{ product.description|safe }}
+                        </div>
+                    </div>
+                    <div class="product-tabs__pane" id="tab-specification">
+                        {% if product.is_variant %} 
+                        <div class="spec">
+                            <h3 class="spec__header">Specification</h3>
+                            <div class="spec__section">
+                                <h4 class="spec__section-title">General</h4>
+                                {% if variant.size %}
+                                <div class="spec__row">
+                                    <div class="spec__name">Size</div>
+                                    <div class="spec__value"></div>
+                                            {{ variant.size }} mm
+                                </div>
                                 {% endif %}
-                                {% if product.length %}
-                                  length: {{ product.length }} m</br>
-                                {% endif %}
-                                {% if product.weight %}
-                                  weight: {{ product.weight }} kg </br>
-                                {% endif %}
-                                {% if product.width %}
-                                   width: {{ product.width }} m</br>
-                                {% endif %}
-                                {% if product.height %}
-                                   height: {{ product.height }} m</br>
-                                {% endif %}
-                                {% if product.size %}
-                                   Size: {{ product.size }}
-                                {% endif %}
-
-                                {% else %}
-
                                 {% if variant.color %}
-                                  Color: {{ variant.color }} </br>
-                                {% endif %}
-                                {% if variant.length %}
-                                  length: {{ variant.length }} m</br>
+                                <div class="spec__row">
+                                    <div class="spec__name">Color</div>
+                                    <div class="spec__value"></div>
+                                            {{ variant.color }}
+                                </div>
                                 {% endif %}
                                 {% if variant.weight %}
-                                  weight: {{ variant.weight }} kg</br>
+                                <div class="spec__row">
+                                    <div class="spec__name">Weight</div>
+                                    <div class="spec__value">
+                                            {{ variant.weight }} mm
+                                    </div>
+                                </div>
+                                {% endif %}
+                            </div>
+                            <div class="spec__section">
+                                <h4 class="spec__section-title">Dimensions</h4>
+                                {% if variant.length %}
+                                <div class="spec__row">
+                                    <div class="spec__name">Length</div>
+                                    <div class="spec__value">
+                                            {{ variant.length }} mm
+                                    </div>
+                                </div>
                                 {% endif %}
                                 {% if variant.width %}
-                                   width: {{ variant.width }} m</br>
+                                <div class="spec__row">
+                                    <div class="spec__name">Width</div>
+                                    <div class="spec__value">
+                                            {{ variant.width }} mm
+                                    </div>
+                                </div>
                                 {% endif %}
                                 {% if variant.height %}
-                                   height: {{ variant.height }} m</br>
+                                <div class="spec__row">
+                                    <div class="spec__name">Height</div>
+                                    <div class="spec__value">
+                                            {{ variant.height }} mm
+                                        </div>
+                                 </div>
+                                 </div>
+                            {% endif %}
+                            <div class="spec__disclaimer">
+                                Information on technical characteristics, the delivery set, the country of manufacture and the appearance
+                                of the goods is for reference only and is based on the latest information available at the time of publication.
+                            </div>
+                        </div>
+                        {% else %} 
+                        <div class="spec">
+                            <h3 class="spec__header">Specification</h3>
+                            <div class="spec__section">
+                                <h4 class="spec__section-title">General</h4>
+                                {% if product.size %}
+                                <div class="spec__row">
+                                    <div class="spec__name">Size</div>
+                                    <div class="spec__value"></div>
+                                            {{ product.size }} mm
+                                </div>
                                 {% endif %}
-                                {% if variant.size %}
-                                   Size: {{ variant.size }}
+                                {% if product.color %}
+                                <div class="spec__row">
+                                    <div class="spec__name">Color</div>
+                                    <div class="spec__value"></div>
+                                            {{ product.color }}
+                                </div>
                                 {% endif %}
-
+                                {% if product.weight %}
+                                <div class="spec__row">
+                                    <div class="spec__name">Weight</div>
+                                    <div class="spec__value">
+                                            {{ product.weight }} mm
+                                    </div>
+                                </div>
                                 {% endif %}
-                            </p>
-                          </div>
-                          <div class="tab-pane container fade in" id="review">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="product-reviews">
+                            </div>
+                            <div class="spec__section">
+                                <h4 class="spec__section-title">Dimensions</h4>
+                                {% if product.length %}
+                                <div class="spec__row">
+                                    <div class="spec__name">Length</div>
+                                    <div class="spec__value">
+                                            {{ product.length }} mm
+                                    </div>
+                                </div>
+                                {% endif %}
+                                {% if product.width %}
+                                <div class="spec__row">
+                                    <div class="spec__name">Width</div>
+                                    <div class="spec__value">
+                                            {{ product.width }} mm
+                                    </div>
+                                </div>
+                                {% endif %}
+                                {% if product.height %}
+                                <div class="spec__row">
+                                    <div class="spec__name">Height</div>
+                                    <div class="spec__value">
+                                            {{ product.height }} mm
+                                        </div>
+                                 </div>
+                                 </div>
+                            {% endif %}
+                            <div class="spec__disclaimer">
+                                Information on technical characteristics, the delivery set, the country of manufacture and the appearance
+                                of the goods is for reference only and is based on the latest information available at the time of publication.
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="product-tabs__pane" id="tab-reviews">
+                        <div class="reviews-view">
+                            <div class="reviews-view__list">
+                                <h3 class="reviews-view__header">Customer Reviews</h3>
+                                <div class="reviews-list">
+                                    <ol class="reviews-list__content">
                                         {% for rs in comments %}
-                                            <div class="single-review">
-                                                <div class="review-heading">
-                                                    <div><b>{{ rs.subject }}</b> </div>
-                                                    <div><a href="#"><i class="fa fa-clock-o"></i> {{ rs.create_at}}</a></div>
-                                                    <div>
-                                                        <p>{{rs.comment}}</p>
+                                        <li class="reviews-list__item">
+                                            <div class="review">
+                                                <div class="review__avatar"><img src="images/avatars/avatar-1.jpg" alt=""></div>
+                                                <div class="review__content">
+                                                    <div class="review__author">{{rs.subject}}</div>
+                                                    <div class="review__rating">
+                                                        <div class="rating">
+                                                            <div class="rating__body">
+                                                                <svg class="rating__star rating__star--active" width="13px" height="12px">
+                                                                    <g class="rating__fill">
+                                                                        <use xlink:href="images/sprite.svg#star-normal"></use>
+                                                                    </g>
+                                                                    <g class="rating__stroke">
+                                                                        <use xlink:href="images/sprite.svg#star-normal-stroke"></use>
+                                                                    </g>
+                                                                </svg>
+                                                                <div class="rating__star rating__star--only-edge rating__star--active">
+                                                                    <div class="rating__fill">
+                                                                        <div class="fake-svg-icon"></div>
+                                                                    </div>
+                                                                    <div class="rating__stroke">
+                                                                        <div class="fake-svg-icon"></div>
+                                                                    </div>
+                                                                </div>
+                                                                <svg class="rating__star rating__star--active" width="13px" height="12px">
+                                                                    <g class="rating__fill">
+                                                                        <use xlink:href="images/sprite.svg#star-normal"></use>
+                                                                    </g>
+                                                                    <g class="rating__stroke">
+                                                                        <use xlink:href="images/sprite.svg#star-normal-stroke"></use>
+                                                                    </g>
+                                                                </svg>
+                                                                <div class="rating__star rating__star--only-edge rating__star--active">
+                                                                    <div class="rating__fill">
+                                                                        <div class="fake-svg-icon"></div>
+                                                                    </div>
+                                                                    <div class="rating__stroke">
+                                                                        <div class="fake-svg-icon"></div>
+                                                                    </div>
+                                                                </div>
+                                                                <svg class="rating__star rating__star--active" width="13px" height="12px">
+                                                                    <g class="rating__fill">
+                                                                        <use xlink:href="images/sprite.svg#star-normal"></use>
+                                                                    </g>
+                                                                    <g class="rating__stroke">
+                                                                        <use xlink:href="images/sprite.svg#star-normal-stroke"></use>
+                                                                    </g>
+                                                                </svg>
+                                                                <div class="rating__star rating__star--only-edge rating__star--active">
+                                                                    <div class="rating__fill">
+                                                                        <div class="fake-svg-icon"></div>
+                                                                    </div>
+                                                                    <div class="rating__stroke">
+                                                                        <div class="fake-svg-icon"></div>
+                                                                    </div>
+                                                                </div>
+                                                                <svg class="rating__star rating__star--active" width="13px" height="12px">
+                                                                    <g class="rating__fill">
+                                                                        <use xlink:href="images/sprite.svg#star-normal"></use>
+                                                                    </g>
+                                                                    <g class="rating__stroke">
+                                                                        <use xlink:href="images/sprite.svg#star-normal-stroke"></use>
+                                                                    </g>
+                                                                </svg>
+                                                                <div class="rating__star rating__star--only-edge rating__star--active">
+                                                                    <div class="rating__fill">
+                                                                        <div class="fake-svg-icon"></div>
+                                                                    </div>
+                                                                    <div class="rating__stroke">
+                                                                        <div class="fake-svg-icon"></div>
+                                                                    </div>
+                                                                </div>
+                                                                <svg class="rating__star " width="13px" height="12px">
+                                                                    <g class="rating__fill">
+                                                                        <use xlink:href="images/sprite.svg#star-normal"></use>
+                                                                    </g>
+                                                                    <g class="rating__stroke">
+                                                                        <use xlink:href="images/sprite.svg#star-normal-stroke"></use>
+                                                                    </g>
+                                                                </svg>
+                                                                <div class="rating__star rating__star--only-edge ">
+                                                                    <div class="rating__fill">
+                                                                        <div class="fake-svg-icon"></div>
+                                                                    </div>
+                                                                    <div class="rating__stroke">
+                                                                        <div class="fake-svg-icon"></div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                    <div class="review-rating pull-right">
-                                                        <i class="fa fa-star{% if rs.rate < 1 %}-o empty{% endif %}"></i>
-                                                        <i class="fa fa-star{% if rs.rate < 2 %}-o empty{% endif %}"></i>
-                                                        <i class="fa fa-star{% if rs.rate < 3 %}-o empty{% endif %}"></i>
-                                                        <i class="fa fa-star{% if rs.rate < 4 %}-o empty{% endif %}"></i>
-                                                        <i class="fa fa-star{% if rs.rate < 5 %}-o empty{% endif %}"></i>
-                                                    </div>
-                                                </div>
-                                                <div class="review-body">
-                                                    <p>{{ rs.comments }}</p>
+                                                    <div class="review__text">{{rs.comment}}</div>
+                                                    <div class="review__date">{{ rs.create_at}}</div>
                                                 </div>
                                             </div>
+                                        </li>
                                         {% endfor %}
-                                        <ul class="reviews-pages">
-                                            <li class="active">1</li>
-                                            <li><a href="#">2</a></li>
-                                            <li><a href="#">3</a></li>
-                                            <li><a href="#"><i class="fa fa-caret-right"></i></a></li>
+                                    </ol>
+                                    <div class="reviews-list__pagination">
+                                        <ul class="pagination justify-content-center">
+                                            <li class="page-item disabled">
+                                                <a class="page-link page-link--with-arrow" href="" aria-label="Previous">
+                                                    <svg class="page-link__arrow page-link__arrow--left" aria-hidden="true" width="8px" height="13px">
+                                                        <use xlink:href="images/sprite.svg#arrow-rounded-left-8x13"></use>
+                                                    </svg>
+                                                </a>
+                                            </li>
+                                            <li class="page-item"><a class="page-link" href="">1</a></li>
+                                            <li class="page-item active"><a class="page-link" href="">2 <span class="sr-only">(current)</span></a></li>
+                                            <li class="page-item"><a class="page-link" href="">3</a></li>
+                                            <li class="page-item">
+                                                <a class="page-link page-link--with-arrow" href="" aria-label="Next">
+                                                    <svg class="page-link__arrow page-link__arrow--right" aria-hidden="true" width="8px" height="13px">
+                                                        <use xlink:href="images/sprite.svg#arrow-rounded-right-8x13"></use>
+                                                    </svg>
+                                                </a>
+                                            </li>
                                         </ul>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <h4 class="text-uppercase">Write Your Review</h4>
-                                    {% if messages %}
+                            </div>
+                            {% if messages %}
                                         {% for message in messages %}
                                             <div class="alert alert-{{message.tags}}" role="alert">
                                                 {{ message }}
                                             </div>
                                         {% endfor %}
                                     {% endif %}
-                                    <form class="review-form" action="/newProduct/addcomment/{{ product.id }}" method="post">
-                                        {% csrf_token %}
-                                        <div class="form-group">
-                                            <input name="subject" class="input" type="text" placeholder="Your subject" />
-                                        </div>
-                                        <div class="form-group">
-                                            <textarea name="comment" class="input" placeholder="Your review"></textarea>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="input-rating">
-                                                <strong class="text-uppercase">Your Rating: </strong>
-                                                <div class="stars">
-                                                    <input type="radio" id="star5" name="rate" value="5" /><label for="star5"></label>
-                                                    <input type="radio" id="star4" name="rate" value="4" /><label for="star4"></label>
-                                                    <input type="radio" id="star3" name="rate" value="3" /><label for="star3"></label>
-                                                    <input type="radio" id="star2" name="rate" value="2" /><label for="star2"></label>
-                                                    <input type="radio" id="star1" name="rate" value="1" /><label for="star1"></label>
-                                                </div>
+                            <form class="reviews-view__form review-form" action="/newProduct/addcomment/{{ product.id }}" method="post">
+                                {% csrf_token %}
+                                <h3 class="reviews-view__header">Write A Review</h3>
+                                <div class="row">
+                                    <div class="col-12 col-lg-9 col-xl-8">
+                                        <div class="form-row">
+                                            <div class="form-group col-md-4 input-rating">
+                                                <label for="review-stars">Review Stars</label>
+                                                <select id="review-stars" class="form-control input-rating">
+                                                    <option value="5">5 Stars Rating</option>
+                                                    <option value="4">4 Stars Rating</option>
+                                                    <option value="3">3 Stars Rating</option>
+                                                    <option value="2">2 Stars Rating</option>
+                                                    <option value="1">1 Stars Rating</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label for="review-author">Subject</label>
+                                                <input type="text" name="subject"  class="form-control input" id="review-author" placeholder="Your Name">
                                             </div>
                                         </div>
-                                        {% if customer %}
-                                            <button class="primary-btn">Submit</button>
-                                        {% else %}
-                                            You must be logged in as Customer to post a review
-                                        {% endif %}
-                                    </form>
+                                        <div class="form-group">
+                                            <label for="review-text">Your Review</label>
+                                            <textarea class="form-control input" name="comment" id="review-text" rows="6"></textarea>
+                                        </div>
+                                        <div class="form-group mb-0">
+                                            {% if customer %} 
+                                            <button type="submit" class="btn btn-primary btn-lg">Post Your Review</button>
+                                            {% else %} 
+                                            You must be logged in to post comments
+                                            {% endif %}
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                          </div>
+                            </form>
                         </div>
-                      </div>
+                    </div>
                 </div>
             </div>
         </div>
-        </div>
-        </div>
-
     </div>
 
-    <!-- /container -->
-    {% if similar_products %}
-        <hr>
-
-        <div class="columns is-multiline">
-            <div class="column is-12">
-                <h2 class="subtitle">Similar products</h2>
+    </div>
+    <!-- .block-products-carousel -->
+    <div class="block block-products-carousel" data-layout="grid-5" data-mobile-grid-columns="2">
+        <div class="container">
+            <div class="block-header">
+                <h3 class="block-header__title">Related Products</h3>
+                <div class="block-header__divider"></div>
+                <div class="block-header__arrows-list">
+                    <button class="block-header__arrow block-header__arrow--left" type="button">
+                        <svg width="7px" height="11px">
+                            <use xlink:href="images/sprite.svg#arrow-rounded-left-7x11"></use>
+                        </svg>
+                    </button>
+                    <button class="block-header__arrow block-header__arrow--right" type="button">
+                        <svg width="7px" height="11px">
+                            <use xlink:href="images/sprite.svg#arrow-rounded-right-7x11"></use>
+                        </svg>
+                    </button>
+                </div>
             </div>
-
-            {% for product in similar_products %}
-                {% include 'product/parts/list_item.html' %}
-            {% endfor %}
+            <div class="block-products-carousel__slider">
+                <div class="block-products-carousel__preloader"></div>
+                <div class="owl-carousel">
+                    {% for product in similar_products %} 
+                    <div class="block-products-carousel__column">
+                        <div class="block-products-carousel__cell">
+                            <div class="product-card product-card--hidden-actions ">
+                                <button class="product-card__quickview" type="button">
+                                    <svg width="16px" height="16px">
+                                        <use xlink:href="images/sprite.svg#quickview-16"></use>
+                                    </svg>
+                                    <span class="fake-svg-icon"></span>
+                                </button>
+                                <div class="product-card__image product-image">
+                                    {% if product.is_variant %} 
+                                    <a href="{% url 'product' product.id product.slugV product.category.sub_category.category.slug product.category.sub_category.slug product.category.slug product.slug %}" class="product-image__body">
+                                        <img class="product-image__img" src="{{product.get_variant.image_variant.url }}" alt="">
+                                    </a>
+                                    {% else %} 
+                                    <a href="{% url 'product' product.id product.slugV product.category.sub_category.category.slug product.category.sub_category.slug product.category.slug product.slug %}" class="product-image__body">
+                                        <img class="product-image__img" src="{{ product.image.url }}" alt="">
+                                    </a>
+                                    {% endif %}
+                                </div>
+                                <div class="product-card__info">
+                                    <div class="product-card__name">
+                                        <a href="{% url 'product' product.id product.slugV product.category.sub_category.category.slug product.category.sub_category.slug product.category.slug product.slug %}">
+                                            {{product.title}}
+                                        </a>
+                                    </div>
+                                    <div class="product-card__rating">
+                                        <div class="product-card__rating-stars">
+                                            <div class="rating">
+                                                <div class="rating__body">
+                                                    <svg class="rating__star rating__star--active" width="13px" height="12px">
+                                                        <g class="rating__fill">
+                                                            <use xlink:href="images/sprite.svg#star-normal"></use>
+                                                        </g>
+                                                        <g class="rating__stroke">
+                                                            <use xlink:href="images/sprite.svg#star-normal-stroke"></use>
+                                                        </g>
+                                                    </svg>
+                                                    <div class="rating__star rating__star--only-edge rating__star--active">
+                                                        <div class="rating__fill">
+                                                            <div class="fake-svg-icon"></div>
+                                                        </div>
+                                                        <div class="rating__stroke">
+                                                            <div class="fake-svg-icon"></div>
+                                                        </div>
+                                                    </div>
+                                                    <svg class="rating__star rating__star--active" width="13px" height="12px">
+                                                        <g class="rating__fill">
+                                                            <use xlink:href="images/sprite.svg#star-normal"></use>
+                                                        </g>
+                                                        <g class="rating__stroke">
+                                                            <use xlink:href="images/sprite.svg#star-normal-stroke"></use>
+                                                        </g>
+                                                    </svg>
+                                                    <div class="rating__star rating__star--only-edge rating__star--active">
+                                                        <div class="rating__fill">
+                                                            <div class="fake-svg-icon"></div>
+                                                        </div>
+                                                        <div class="rating__stroke">
+                                                            <div class="fake-svg-icon"></div>
+                                                        </div>
+                                                    </div>
+                                                    <svg class="rating__star rating__star--active" width="13px" height="12px">
+                                                        <g class="rating__fill">
+                                                            <use xlink:href="images/sprite.svg#star-normal"></use>
+                                                        </g>
+                                                        <g class="rating__stroke">
+                                                            <use xlink:href="images/sprite.svg#star-normal-stroke"></use>
+                                                        </g>
+                                                    </svg>
+                                                    <div class="rating__star rating__star--only-edge rating__star--active">
+                                                        <div class="rating__fill">
+                                                            <div class="fake-svg-icon"></div>
+                                                        </div>
+                                                        <div class="rating__stroke">
+                                                            <div class="fake-svg-icon"></div>
+                                                        </div>
+                                                    </div>
+                                                    <svg class="rating__star rating__star--active" width="13px" height="12px">
+                                                        <g class="rating__fill">
+                                                            <use xlink:href="images/sprite.svg#star-normal"></use>
+                                                        </g>
+                                                        <g class="rating__stroke">
+                                                            <use xlink:href="images/sprite.svg#star-normal-stroke"></use>
+                                                        </g>
+                                                    </svg>
+                                                    <div class="rating__star rating__star--only-edge rating__star--active">
+                                                        <div class="rating__fill">
+                                                            <div class="fake-svg-icon"></div>
+                                                        </div>
+                                                        <div class="rating__stroke">
+                                                            <div class="fake-svg-icon"></div>
+                                                        </div>
+                                                    </div>
+                                                    <svg class="rating__star " width="13px" height="12px">
+                                                        <g class="rating__fill">
+                                                            <use xlink:href="images/sprite.svg#star-normal"></use>
+                                                        </g>
+                                                        <g class="rating__stroke">
+                                                            <use xlink:href="images/sprite.svg#star-normal-stroke"></use>
+                                                        </g>
+                                                    </svg>
+                                                    <div class="rating__star rating__star--only-edge ">
+                                                        <div class="rating__fill">
+                                                            <div class="fake-svg-icon"></div>
+                                                        </div>
+                                                        <div class="rating__stroke">
+                                                            <div class="fake-svg-icon"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="product-card__rating-legend">
+                                            {{ product.countreview}}  Reviews</div>
+                                    </div>
+                                    <ul class="product-card__features-list">
+                                        <li>Speed: 750 RPM</li>
+                                        <li>Power Source: Cordless-Electric</li>
+                                        <li>Battery Cell Type: Lithium</li>
+                                        <li>Voltage: 20 Volts</li>
+                                        <li>Battery Capacity: 2 Ah</li>
+                                    </ul>
+                                </div>
+                                <div class="product-card__actions">
+                                    <div class="product-card__availability">
+                                        Availability: <span class="text-success">In Stock</span>
+                                    </div>
+                                    <div class="product-card__prices">
+                                        {% if product.is_variant %} 
+                                              {% if product.discount %} 
+                                                  <span class="product-card__new-price">{{product.get_variant.price}}</span>
+                                                  <span class="product-card__old-price">{{product.get_variant.discounted_price}}</span>
+                                              {% else %}
+                                                  <span class="product-card__old-price"></span>{{product.get_variant.price}}</span>
+                                              {% endif %}    
+                                        {% else %}
+                                             {% if product.discount  %} 
+                                                 <span class="product-card__new-price">{{product.price}}</span>
+                                                 <span class="product-card__old-price">{{product.get_discounted_price}}</span>
+                                             {% else %}
+                                                 <span class="product-card__old-price"></span>{{product.price}}</span>
+                                             {% endif %}
+                                        {% endif %}     
+                                    </div>
+                                    <div class="product-card__buttons">
+                                        {% if product.is_variant %}
+                                        <a href="{% url 'product' product.id product.slugV product.category.sub_category.category.slug product.category.sub_category.slug product.category.slug product.slug %}"> 
+                                            <button class="btn btn-primary product-card__addtocart" type="button" >View Options</button>
+                                        </a>
+                                        {% else %}
+                                        <a onclick="addToCart('{{ product.id }}')">
+                                            {% if request.session.customer and product.quantity > 0 %}
+                                            <button class="btn btn-primary product-card__addtocart disabled" type="button" >Add To Cart</button>
+                                            {% else %} 
+                                            <button class="btn btn-primary product-card__addtocart " type="button" >Add To Cart</button>
+                                            {% endif %}
+                                        </a>
+                                        <div id="msg" class="mt-3"></div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
         </div>
-    {% endif %}
-    <!-- /section -->
+    </div>
+    <!-- .block-products-carousel / end -->
+</div>
 {% endblock %}
