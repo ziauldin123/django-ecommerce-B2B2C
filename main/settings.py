@@ -45,15 +45,6 @@ COUPON_SESSION_ID = 'coupon'
 SESSION_SAVE_EVERY_REQUEST = True
 
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'warehouse2fifty@gmail.com'
-EMAIL_HOST_PASSWORD = 'Warehousedistrict2021'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-DEFAULT_EMAIL_FROM = ''
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -97,6 +88,7 @@ INSTALLED_APPS = [
     "compressor",
     'storages',
     "collectfast",
+    'django_ses',
 
 
 ]
@@ -190,6 +182,17 @@ DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
+
+
+
+
+
+EMAIL_BACKEND = 'django_ses.SESBackend'
+DEFAULT_EMAIL_FROM = 'customerservice@sokopark.com'
+SERVER_EMAIL='customerservice@sokopark.com'
+
+AWS_SES_REGION_NAME = 'eu-west-1'
+AWS_SES_REGION_ENDPOINT = 'email.eu-west-1.amazonaws.com'
 
 
 

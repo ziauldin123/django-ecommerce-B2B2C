@@ -29,6 +29,7 @@ from apps.product import views as new
 from django.views.static import serve
 from django.conf.urls import url
 
+
 from django.contrib.sitemaps.views import sitemap
 
 from .sitemaps import StaticViewSitemap, ProductSitemap, PostSitemap
@@ -78,6 +79,7 @@ urlpatterns = [
 
     path('sitemap.xml', sitemap, {'sitemaps': sitemaps},
          name='django.contrib.sitemaps.view.sitemap'),
+
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

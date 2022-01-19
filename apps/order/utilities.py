@@ -2,7 +2,8 @@ from django.conf import settings
 from django.core.mail import EmailMultiAlternatives, get_connection
 from django.template.loader import render_to_string
 from decimal import Decimal
-
+from django.core.mail import send_mail,EmailMessage
+import logging
 from apps.cart.cart import Cart
 from apps.newProduct.models import Product, Variants
 
@@ -11,6 +12,10 @@ from apps.ordering.models import Order, OrderItem
 from apps.coupon.models import Coupon
 from ..vendor.models import Transporter, Vendor, VendorDelivery
 from apps.vendor.services.account_service import account_service
+
+logging.basicConfig(level=logging.INFO,
+                    format='[%(asctime)s] [Line: %(lineno)d] %(message)s')
+logger = logging.getLogger()
 
 
 def checkout(
@@ -121,8 +126,6 @@ def checkout(
 
 
 def notify_vendor(order):
-    connection = get_connection()  # uses SMTP server specified in settings.py
-    connection.open()
     print("vendor order")
     print(order)
     print("vender")
@@ -180,15 +183,13 @@ def notify_vendor(order):
                 subject, text_content, from_email, [to_email], connection=connection)
             msg.attach_alternative(html_content, 'text/html')
             msg.send()
+
+
     except Exception as e:
         print(e)
 
-    connection.close()
-
 
 def notify_customer(order, request):
-    connection = get_connection()  # uses SMTP server specified in settings.py
-    connection.open()
     grand_cost = order.paid_amount + Decimal(order.delivery_cost)
     from_email = settings.DEFAULT_EMAIL_FROM
     to_email = order.email
@@ -197,9 +198,10 @@ def notify_customer(order, request):
     html_content = render_to_string(
         'order/email_notify_customer.html', {'order': order, 'grand_cost': grand_cost})
 
-    msg = EmailMultiAlternatives(subject, text_content, from_email, [
-                                 to_email], connection=connection)
+    msg = EmailMultiAlternatives(subject, text_content, from_email, [to_email])
     msg.attach_alternative(html_content, 'text/html')
     msg.send()
 
-    connection.close()
+
+
+
