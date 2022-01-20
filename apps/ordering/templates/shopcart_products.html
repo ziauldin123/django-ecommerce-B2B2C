@@ -165,8 +165,8 @@
                 <div class="cart__actions">
                     <form class="cart__coupon-form">
                         <label for="input-coupon-code" class="sr-only">Password</label>
-                        <input type="text" class="form-control" id="input-coupon-code" placeholder="Coupon Code">
-                        <button type="submit" class="btn btn-primary">Apply Coupon</button>
+                        <input type="text" class="form-control"  name="coupon_code" id="coupon_code" placeholder="Coupon Code">
+                        <button type="button" class="btn btn-primary  is-success"  onclick="applyCoupon()" >Apply Coupon</button>
                     </form>
                     <div class="cart__buttons">
                         <a href="index.html" class="btn btn-light">Continue Shopping</a>
@@ -203,7 +203,9 @@
                                     <tfoot class="cart__totals-footer">
                                         <tr>
                                             <th>Total</th>
-                                            <td>$5,902.00</td>
+                                            <td>$
+                                                <span id="total_cost_with_coupon" name="total_cost_with_coupon">{{total}}</span>
+                                            </td>
                                         </tr>
                                     </tfoot>
                                 </table>

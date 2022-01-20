@@ -27,7 +27,77 @@
             }
         });
     }
+    
+    $(document).on('change', '#post-form',function(e){
+                                    e.preventDefault();
+                                    $.ajax({
+                                        type:'POST',
+                                        url:'{% url "ajaxcolor" %}',
+                                        data:{
+                                            productid:$('#productid').val(),
+                                            size:$('#size').val(),
+                                            csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+                                            action: 'post'
+                                        },
+                                        data_type : 'html',
+                                        success: function (data) {
+                                            console.log("success");
+                                            $('#appendHere').html(data.rendered_table);
+                                        },
+                                        error: function (data) {
+                                            alert("Got an error dude " + data);
+                                        }
+                                    });
+                                });
 
+                                $(document).on('change', '#post-form1',function(e){
+                                    e.preventDefault();
+                                    $.ajax({
+                                        type:'POST',
+                                        url:'{% url "ajaxcolor-weight" %}',
+                                        data:{
+                                            productid:$('#productid').val(),
+                                            weigth:$('#weight').val(),
+                                            csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+                                            action: 'post'
+                                        },
+                                        data_type : 'html',
+                                        success: function (data) {
+                                            console.log("success");
+                                            $('#appendHere').html(data.rendered_table);
+                                        },
+                                        error: function (data) {
+                                            alert("Got an error dude " + data);
+                                        }
+                                    });
+                                });
+
+                                $('body').on('click','.compareBtn',function(){
+                                    var variant_id=$(this).closest('.compare').find('.variantid').val()
+                                    var my_token='{{ csrf_token }}'
+                                    $.ajax({
+                                        method:"POST",
+                                        url:"/variant/compare/",
+                                        context:this,
+                                        data:{
+                                            "csrfmiddlewaretoken": my_token,
+                                            'variant_id':variant_id
+                                        },
+                                    })
+                                });
+                                $('body').on('click','.wish',function(){
+                                    var variant_id=$(this).closest('.wishlist').find('.variantid').val()
+                                    var my_token='{{ csrf_token }}'
+                                    $.ajax({
+                                        method:"POST",
+                                        url:"/variant/wishlist/",
+                                        context:this,
+                                        data:{
+                                            "csrfmiddlewaretoken": my_token,
+                                            'variant_id':variant_id
+                                        },
+                                    })
+                                })
 
 </script>
 
@@ -309,40 +379,39 @@
                     <!-- .product__info / end -->
                     <!-- .product__sidebar -->
                     {% if product.variant == 'Size-Color' %}
+                    <div class="product-options" >
+                        <div class="size-option">
+                            <form method="POST" id="post-form">
+                                <input type="hidden" name="productid" id="productid" value="{{ product.id }}">
+                                <span class="text-uppercase">Size :</span>
+                                {% csrf_token %}
+                                <select name="size" id="size">
+                                    {% for rs in sizes %}
+                                        <option {% if variant.size_id == rs.size_id %} selected {% endif %} value="{{ rs.size_id }}">{{ rs.size.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </form>
+                        </div>
 
-                                        <div class="product-options" >
-                                            <div class="size-option">
-                                                <form method="POST" id="post-form">
-                                                    <input type="hidden" name="productid" id="productid" value="{{ product.id }}">
-                                                    <span class="text-uppercase">Size :</span>
-                                                    {% csrf_token %}
-                                                    <select name="size" id="size">
-                                                        {% for rs in sizes %}
-                                                            <option {% if variant.size_id == rs.size_id %} selected {% endif %} value="{{ rs.size_id }}">{{ rs.size.name }}</option>
-                                                        {% endfor %}
-                                                    </select>
-                                                </form>
-                                            </div>
-
-                                            <form method="post" action="?q=selectvariant" id="post-color">
-                                                {% csrf_token %}
-                                                <div id="appendHere">
-                                                    <input type="hidden" name="size" id="size" value="{{ size_id }}">
-                                                    <ul class="color-option" >
-                                                        <li><span class="text-uppercase">Color:</span></li>
-                                                        {% for rs in colors %}
-                                                            <input type="radio"  {% if variant.id == rs.id %} checked {% endif %} name="variantid" id="variantid" value="{{ rs.id }}" onchange="this.form.submit();">
-                                                            <li  {% if variant.id == rs.id %} class="active" {% endif %}>
-                                                                <a style="background-color:{{ rs.color.code }};width:90px">
-                                                                     {{ rs.color }}
-                                                                </a>
-                                                                <img src="{{ rs.image_variant.url}}" alt="" style="height: 100px;">
-                                                            </li>
-                                                        {% endfor %}
-                                                    </ul>
-                                                </div>
-                                            </form>
-                                        </div>
+                        <form method="post" action="?q=selectvariant" id="post-color">
+                            {% csrf_token %}
+                            <div id="appendHere">
+                                <input type="hidden" name="size" id="size" value="{{ size_id }}">
+                                <ul class="color-option" >
+                                    <li><span class="text-uppercase">Color:</span></li>
+                                    {% for rs in colors %}
+                                        <input type="radio"  {% if variant.id == rs.id %} checked {% endif %} name="variantid" id="variantid" value="{{ rs.id }}" onchange="this.form.submit();">
+                                        <li  {% if variant.id == rs.id %} class="active" {% endif %}>
+                                            <a style="background-color:{{ rs.color.code }};width:90px">
+                                                 {{ rs.color }}
+                                            </a>
+                                            <img src="{{ rs.image_variant.url}}" alt="" style="height: 100px;">
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </form>
+                    </div>
                     {% elif product.variant == 'Size' %}
                                         <form method="post" action="?q=selectvariant" id="post-color">
                                             {% csrf_token %}
