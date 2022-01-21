@@ -2,6 +2,7 @@
 {% block title %} Shop Cart {% endblock %}
 {% block description %} {{ setting.description }} {% endblock %}
 {% block keywords %} {{ setting.keywords }} {% endblock %}
+{% block content %}
 {% include 'messages.html' %}
     <!-- BREADCRUMB -->
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
@@ -52,7 +53,6 @@
 
 
     </script>
-    {% block content %}
     <div class="site__body">
         <div class="page-header">
             <div class="page-header__container container">
@@ -74,8 +74,8 @@
                 </div>
             </div>
         </div>
-        <div class="cart block">
-            <div class="container">
+        <div class="cart block" id="cart_table">
+            <div class="container" id="cart_table">
                 <table class="cart__table cart-table">
                     <thead class="cart-table__head">
                         <tr class="cart-table__row">
@@ -106,7 +106,7 @@
                             <td class="cart-table__column cart-table__column--product">
                                 {% if rs.variant %} 
                                 <a href="" class="cart-table__product-name">{{rs.variant.title}}</a>
-                                {% if rs.product.color %} 
+                                {% if rs.variant.color %} 
                                 <ul class="cart-table__options">
                                     <li>Color: {{rs.variant.color}}</li>
                                 </ul>
@@ -125,16 +125,17 @@
                                             {{ rs.product.price }}
                                         {% else %}
                                             {{ rs.variant.price }}
-                                        {% endif %}
+                                        {% endif %} FRW
                             </td>
                             <td class="cart-table__column cart-table__column--quantity" data-title="Quantity">
-                                <div class="input-number">
-                                    <input class="form-control input-number__input" type="number" min="1" value="{{rs.quantity}}">
+                                <div class="product_data input-number">
+                                    <input type="hidden" class="prod_id" value="{{rs.id}}">
+                                    <input class="input changeQty form-control input-number__input" id="quantity" name="quantity"  type="number" min="1" {% if rs.product.is_variant %} max="{{ rs.variant.quantity }}" {% else %} max="{{ rs.product.quantity }}" {% endif %} value="{{rs.quantity}}">
                                     <div class="input-number__add"></div>
                                     <div class="input-number__sub"></div>
                                 </div>
                             </td>
-                            <td class="cart-table__column cart-table__column--total" data-title="Total">
+                            <td class="total cart-table__column cart-table__column--total" data-title="Total">
                                 {% if rs.product.variant == 'None' %}
                                             {% if rs.product.discount > 0 %}
                                                 {{ rs.prodct_dicount_amount }}
@@ -147,8 +148,7 @@
                                             {% else %}
                                                 {{ rs.varamount }}
                                             {% endif %}
-
-                                        {% endif %}
+                                        {% endif %} 
                                         {% if rs.product.is_vat == True %}vat incl.{% endif %}
                             </td>
                             <td class="cart-table__column cart-table__column--remove">
@@ -169,8 +169,7 @@
                         <button type="button" class="btn btn-primary  is-success"  onclick="applyCoupon()" >Apply Coupon</button>
                     </form>
                     <div class="cart__buttons">
-                        <a href="index.html" class="btn btn-light">Continue Shopping</a>
-                        <a href="" class="btn btn-primary cart__update-button">Update Cart</a>
+                        <a href="/" class="btn btn-light">Continue Shopping</a>
                     </div>
                 </div>
                 <div class="row justify-content-end pt-5">

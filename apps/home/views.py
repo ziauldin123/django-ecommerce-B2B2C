@@ -9,7 +9,8 @@ import random
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.conf import settings
-
+from apps.cart.cart import Cart
+from apps.ordering.models import ShopCart
 
 from apps.newProduct.models import Category, Comment, Product, SubCategory, SubSubCategory, Images, Comment, Variants
 from apps.vendor.models import UserWishList, Customer
@@ -36,6 +37,14 @@ def product_detail(request, id, slug, vendor_slug, category_slug, subcategory_sl
     mainProduct = []
     query = request.GET.get('q')
     product = Product.objects.get(pk=id)
+    
+    if not request.user.is_anonymous:
+        cart = Cart(request)
+        current_user = request.user
+        shopcart = ShopCart.objects.filter(user_id=current_user.id)
+        total=cart.get_cart_cost()
+        tax=cart.get_cart_tax()
+        grandTotal=cart.get_cart_cost() + cart.get_cart_tax()
 
     if product.status == False:
         messages.add_message(request, messages.ERROR,
@@ -105,7 +114,8 @@ def product_detail(request, id, slug, vendor_slug, category_slug, subcategory_sl
                 id=variants[0].id, status=True, visible=True)
 
         context.update({'sizes': sizes, 'colors': colors, 'colors1': colors1, 'weight': weight, 'width': width, 'length': length, 'height': height, 'variant': variant, 'query': query,
-                        'is_comparing': variant.id in request.session.get('comparing', [])})
+                        'is_comparing': variant.id in request.session.get('comparing', []),
+                        'shopcart':shopcart,'subtotal':total,'tax':tax,'total':grandTotal})
     return render(request, 'product_detail.html', context)
 
 

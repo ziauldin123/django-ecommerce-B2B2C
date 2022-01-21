@@ -1,7 +1,7 @@
+{% load static %}
 {% load i18n %}
 <!DOCTYPE html>
-{% load static %}
-<html>
+<html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -1596,62 +1596,63 @@
           </button>
       </div>
       <div class="dropcart__products-list">
-          {% for product in shopcart %}
-          <div class="dropcart__product">
-            <div class="product-image dropcart__product-image">
-                <a href="product.html" class="product-image__body">
-                    {% if product.variant %}
-                    <img class="product-image__img" src="{{product.variant.image_variant.url}}" alt="">
-                    {% else %} 
-                    <img class="product-image__img" src="{{product.product.image.url}}" alt="">
-                    {% endif %}
-                </a>
-            </div>
-            <div class="dropcart__product-info">
-                {% if product.variant %} 
-                <div class="dropcart__product-name"><a href="{% url 'product' product.product.id product.product.slugV product.product.category.sub_category.category.slug product.product.category.sub_category.slug product.product.category.slug product.product.slug %}">{{product.variant.title}}</a></div>
-                {% else %} 
-                <div class="dropcart__product-name"><a href="{% url 'product' product.product.id product.product.slugV product.product.category.sub_category.category.slug product.product.category.sub_category.slug product.product.category.slug product.product.slug %}">{{product.product}}</a></div>
-                {% endif %}
-                <ul class="dropcart__product-options">
-                    {% if product.variant %} 
-                           {% if product.variant.color %} 
-                                 <li>Color:{{product.variant.color}} </li>
-                           {% endif %} 
-                    {% else %} 
-                          {% if product.color %}
-                                <li>Color: {{product.color}}</li> 
-                          {% endif %}      
-                    {% endif %}
-                </ul>
-                <div class="dropcart__product-meta">
-                    <span class="dropcart__product-quantity">
-                      {{product.quantity}}
-                    </span> ×
-                    <span class="dropcart__product-price">
-                      {% if product.variant %}
-                      {% if product.variant.discount %} 
-                          {{product.variant.get_discounted_price}}
-                      {% else %} 
-                          {{product.variant.price}}
-                      {% endif %}
-                  {% else %}
-                      {% if product.product.discount %}
-                           {{product.product.get_discounted_price}}
-                      {% else %} 
-                          {{product.price}}    
-                      {% endif %}     
+        {% for product in shopcart %}
+        <div class="dropcart__product">
+          <div class="product-image dropcart__product-image">
+              <a href="product.html" class="product-image__body">
+                  {% if product.variant %}
+                  <img class="product-image__img" src="{{product.variant.image_variant.url}}" alt="">
+                  {% else %} 
+                  <img class="product-image__img" src="{{product.product.image.url}}" alt="">
                   {% endif %}
-                </div>
-            </div>
-            <button type="button" class="dropcart__product-remove btn btn-light btn-sm btn-svg-icon">
-                <svg width="10px" height="10px">
-                    <use xlink:href="images/sprite.svg#cross-10"></use>
-                </svg>
-            </button>
-        </div> 
-          {% endfor %}
-      </div>
+              </a>
+          </div>
+          <div class="dropcart__product-info">
+              {% if product.variant %} 
+              <div class="dropcart__product-name"><a href="{% url 'product' product.product.id product.product.slugV product.product.category.sub_category.category.slug product.product.category.sub_category.slug product.product.category.slug product.product.slug %}">{{product.variant.title}}</a></div>
+              {% else %} 
+              <div class="dropcart__product-name"><a href="{% url 'product' product.product.id product.product.slugV product.product.category.sub_category.category.slug product.product.category.sub_category.slug product.product.category.slug product.product.slug %}">{{product.product}}</a></div>
+              {% endif %}
+              <ul class="dropcart__product-options">
+                  {% if product.variant %} 
+                         {% if product.variant.color %} 
+                               <li>Color:{{product.variant.color}} </li>
+                         {% endif %} 
+                  {% else %} 
+                        {% if product.color %}
+                              <li>Color: {{product.color}}</li> 
+                        {% endif %}      
+                  {% endif %}
+              </ul>
+              <div class="dropcart__product-meta">
+                  <span class="dropcart__product-quantity">
+                    {{product.quantity}}
+                  </span> ×
+                  <span class="dropcart__product-price">
+                    {% if product.variant %}
+                        {% if product.variant.discount %} 
+                            {{product.variant.get_discounted_price}}
+                        {% else %} 
+                            {{product.variant.price}}
+                        {% endif %}
+                    {% else %}
+                        {% if product.product.discount %}
+                             {{product.product.get_discounted_price}}
+                        {% else %} 
+                            {{product.price}}    
+                        {% endif %}     
+                    {% endif %}
+                  </span>
+              </div>
+          </div>
+          <button type="button" class="dropcart__product-remove btn btn-light btn-sm btn-svg-icon">
+              <svg width="10px" height="10px">
+                  <use xlink:href="images/sprite.svg#cross-10"></use>
+              </svg>
+          </button>
+      </div> 
+        {% endfor %}
+    </div>
       <div class="dropcart__totals">
           <table>
               <tr>
