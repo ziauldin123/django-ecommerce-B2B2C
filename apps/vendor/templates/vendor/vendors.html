@@ -1,21 +1,25 @@
-{% extends 'core/base.html' %}
+{% extends 'core/navigation.html' %}
 
 {% block title %}Vendors | {% endblock %}
 
 {% block content %}
-    <h1 class="title">Vendors</h1>
+<div class="site__body">
+    <div class="page-header">
+        <div class="page-header__container container">
+            <div class="page-header__breadcrumb">
+                <h1 class="title">Vendors</h1>
 
     <div class="columns is-multiline">
         {% for vendor in vendors %}
             <div class="column is-3">
                 <div class="box">
                     {% if vendor.logo %}
-                        <div style="width: 100%;display: inline;">
-                            <img src="{{ vendor.logo.url }}" style="width: 100%;z-index: -1;">
+                        <div style="width: 10%;display: inline;">
+                            <img src="{{ vendor.logo.url }}" style="width: 25%;z-index: -1;">
                         </div>
                     {% else %}
-                        <div style="width: 100%;display: inline;">
-                            <img src="https://via.placeholder.com/240x180.jpg" style="width: 100%;z-index: -1;">
+                        <div style="width: 10%;display: inline;">
+                            <img src="https://via.placeholder.com/240x180.jpg" style="width: 25%;z-index: -1;">
                        </div>   
                     {% endif %}
 
@@ -28,5 +32,9 @@
                 </div>
             </div>
         {% endfor %}
+    </div> 
+            </div>
+        </div>
     </div>
+</div>
 {% endblock %}

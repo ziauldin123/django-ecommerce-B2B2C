@@ -1079,7 +1079,7 @@
             <div class="site-header__search">
               <div class="search search--location--header">
                 <div class="search__body">
-                  <form class="search__form" action="">
+                  <form class="search__form" method="get" action="{% url 'search' %}">
                     <input
                       class="search__input"
                       name="search"
@@ -1087,6 +1087,7 @@
                       aria-label="Site search"
                       type="text"
                       autocomplete="off"
+                      value="{{ query }}"  required name="query"
                     />
                     <button
                       class="search__button search__button--type--submit"
@@ -1124,7 +1125,7 @@
                             {% for category in menu_categories %} 
                             {% if category.has_children %}
                             <li class="departments__item">
-                              <a class="departments__item-link" href="">
+                              <a class="departments__item-link" href="{% url 'category' category.slug %}">
                                 {{category.title}}
                                 <svg
                                   class="departments__item-arrow"
@@ -1132,7 +1133,7 @@
                                   height="9px"
                                 >
                                   <use
-                                    xlink:href="images/sprite.svg#arrow-rounded-right-6x9"
+                                    xlink:href="{% static 'templates/images/sprite.svg#arrow-rounded-right-6x9' %}"
                                   ></use>
                                 </svg>
                               </a>
@@ -1157,13 +1158,13 @@
                                           <li
                                             class="megamenu__item megamenu__item--with-submenu"
                                           >
-                                            <a href="">{{subcategory.title}}</a>
+                                            <a href="{% url 'subcategory' category.slug subcategory.slug %}">{{subcategory.title}}</a>
                                             <ul
                                               class="megamenu__links megamenu__links--level--1"
                                             >
                                               {% for subsubcategory in subcategory.children %}
                                               <li class="megamenu__item">
-                                                <a href=""
+                                                <a href="{% url 'subsubcategory' category.slug subcategory.slug subsubcategory.slug %}"
                                                   >{{subsubcategory.title}}</a
                                                 >
                                               </li>
@@ -1171,7 +1172,7 @@
                                             </ul>
                                           </li>
                                           {% else %}
-                                          <a href="">{{subcategory.title}}</a>
+                                          <a href="{% url 'subcategory' category.slug subcategory.slug %}">{{subcategory.title}}</a>
                                           {% endif %} {% endfor %}
                                         </ul>
                                       </div>
@@ -1182,7 +1183,7 @@
                               </div>
                             </li>
                             {% else %}
-                            <a class="departments__item-link" href="">
+                            <a class="departments__item-link" href="{% url 'category' category.slug %}">
                               {{category.title}}
                               <svg
                                 class="departments__item-arrow"
@@ -1190,7 +1191,7 @@
                                 height="9px"
                               >
                                 <use
-                                  xlink:href="images/sprite.svg#arrow-rounded-right-6x9"
+                                  xlink:href="{% static 'templates/images/sprite.svg#arrow-rounded-right-6x9' %}"
                                 ></use>
                               </svg>
                             </a>
@@ -1225,7 +1226,7 @@
                   <div class="nav-panel__nav-links nav-links">
                     <ul class="nav-links__list">
                       <li class="nav-links__item nav-links__item--has-submenu">
-                        <a class="nav-links__item-link" href="index.html">
+                        <a class="nav-links__item-link" href="/">
                           <div class="nav-links__item-body">
                             Home
                             <svg
@@ -1897,28 +1898,33 @@
                   </div>
                 </div>
                 <div class="col-12 col-md-12 col-lg-4">
-                  <div class="site-footer__widget footer-newsletter">
+                  <div id="newsletter-wrapper" class="newsletter-wrapper site-footer__widget footer-newsletter">
                     <h5 class="footer-newsletter__title">Newsletter</h5>
                     <div class="footer-newsletter__text">
                       Praesent pellentesque volutpat ex, vitae auctor lorem
                       pulvinar mollis felis at lacinia.
                     </div>
-                    <form action="" class="footer-newsletter__form">
+                    <form action="" v-on:submit.prevent="onSubmit" class="footer-newsletter__form">
                       <label class="sr-only" for="footer-newsletter-address"
                         >Email Address</label
                       >
                       <input
-                        type="text"
-                        class="footer-newsletter__form-input form-control"
+                        type="email"
+                        name="email"
+                        v-model=email
+                        class="input footer-newsletter__form-input form-control"
                         id="footer-newsletter-address"
                         placeholder="Email Address..."
                       />
                       <button
-                        class="footer-newsletter__form-button btn btn-primary"
+                        class=" button footer-newsletter__form-button btn btn-primary"
                       >
-                        Subscribe
+                        Subscribe 
                       </button>
                     </form>
+                    <div class="notification" v-if="showSuccess">
+                      Your e-mail address has been added to the subscribers' list.
+                    </div>
                     <div
                       class="footer-newsletter__text footer-newsletter__text--social"
                     >
@@ -2662,5 +2668,43 @@
     <script>
       svg4everybody();
     </script>
+    <script>
+      var newsletterapp = new Vue({
+          el: '#newsletter-wrapper',
+          data () {
+              return {
+                  email: '',
+                  showSuccess: false
+              }
+          },
+          methods: {
+              onSubmit() {
+                  console.log('onSubmit')
+  
+                  fetch('/api/add_subscriber/', {
+                          method: 'POST',
+                          headers: {
+                              'Content-Type': 'application/json',
+                              'X-CSRFToken': '{{ csrf_token }}'
+                          },
+                          body: JSON.stringify({'email': this.email})
+                      })
+                      .then((response) => {
+                          return response.json()
+                      })
+                      .then((data) => {
+                          console.log(data)
+  
+                          this.showSuccess = true
+                          this.email = ''
+                      })
+                      .catch(function(error) {
+                          this.showSuccess = false
+                          console.log('Error:', error);
+                      });
+              }
+          }
+      })
+  </script>
   </body>
 </html>

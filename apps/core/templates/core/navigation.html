@@ -393,7 +393,7 @@
                           {% for category in menu_categories %} 
                           {% if category.has_children %}
                           <li class="departments__item">
-                            <a class="departments__item-link" href="">
+                            <a class="departments__item-link" href="{% url 'category' category.slug %}">
                               {{category.title}}
                               <svg
                                 class="departments__item-arrow"
@@ -426,13 +426,13 @@
                                         <li
                                           class="megamenu__item megamenu__item--with-submenu"
                                         >
-                                          <a href="">{{subcategory.title}}</a>
+                                          <a href="{% url 'subcategory' category.slug subcategory.slug %}">{{subcategory.title}}</a>
                                           <ul
                                             class="megamenu__links megamenu__links--level--1"
                                           >
                                             {% for subsubcategory in subcategory.children %}
                                             <li class="megamenu__item">
-                                              <a href=""
+                                              <a href="{% url 'subsubcategory' category.slug subcategory.slug subsubcategory.slug %}"
                                                 >{{subsubcategory.title}}</a
                                               >
                                             </li>
@@ -440,7 +440,7 @@
                                           </ul>
                                         </li>
                                         {% else %}
-                                        <a href="">{{subcategory.title}}</a>
+                                        <a href="{% url 'subcategory' category.slug subcategory.slug %}">{{subcategory.title}}</a>
                                         {% endif %} {% endfor %}
                                       </ul>
                                     </div>
@@ -451,7 +451,7 @@
                             </div>
                           </li>
                           {% else %}
-                          <a class="departments__item-link" href="">
+                          <a class="departments__item-link" href="{% url 'category' category.slug %}">
                             {{category.title}}
                             <svg
                               class="departments__item-arrow"
