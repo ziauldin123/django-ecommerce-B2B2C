@@ -873,17 +873,35 @@
                               {% csrf_token %}
                               <div class="account-menu__form-title">Log In to Your Account</div>
                               <input type="hidden" name="next" value="{{ next }}">
-                              <div class="form-group field">
+                              <div class="field form-group">
                                   <label for="header-signin-email" class="sr-only">Email address</label>
-                                  <input id="header-signin-email" type="email" class="form-control form-control-sm input" name="username" id="id_username" placeholder="Email address">
+                                  <div class="control">
+                                    <input id="id_username header-signin-email" type="email" class="input form-control form-control-sm" name="username" placeholder="Email address">
+                                  </div>
                               </div>
-                              <div class="form-group field">
+                              <div class="field form-group">
                                   <label for="header-signin-password" class="sr-only">Password</label>
                                   <div class="account-menu__form-forgot">
-                                      <input id="header-signin-password" type="password" class="form-control form-control-sm input" name="password" id="id_password" placeholder="Password">
+                                      <div class="control">
+                                        <input id="id_password header-signin-password" type="password" class="input form-control form-control-sm" name="password" placeholder="Password">
+                                      </div>
                                       <a href="{% url 'request_restore_password' %}" class="account-menu__form-forgot-link">Forgot?</a>
                                   </div>
                               </div>
+                              <div class="form-group">
+                                <div class="form-check">
+                                    <span class="form-check-input input-check">
+                                        <span class="input-check__body">
+                                            <input class="input-check__input" type="checkbox" id="login-remember">
+                                            <span class="input-check__box"></span>
+                                            <svg class="input-check__icon" width="9px" height="7px">
+                                                <use xlink:href="images/sprite.svg#check-9x7"></use>
+                                            </svg>
+                                        </span>
+                                    </span>
+                                    <label class="form-check-label" for="login-remember">Remember Me</label>
+                                </div>
+                            </div>
                               {% if form.errors %}
                                    {% for field in form %}
                                         {% for error in field.errors %}
@@ -913,7 +931,7 @@
                          {% endif %}
                          <br>
                               <div class="form-group account-menu__form-button field">
-                                  <button type="submit" class="btn btn-primary btn-sm button">Login</button>
+                                  <button type="submit" class="button btn btn-primary btn-sm">Login</button>
                               </div>
                               <div class="account-menu__form-link"><a href="account-login.html">Create An Account</a></div>
                           </form>

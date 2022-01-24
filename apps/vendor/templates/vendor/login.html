@@ -3,32 +3,64 @@
 {% block title %}Log in | {% endblock %}
 
 {% block content %}
-<div class="columns">
-    <div class="column is-4 is-offset-4">
-        <h1 class="title">Log in</h1>
-
-        <form method="post" action=".">
-            {% csrf_token %}
-
-            <input type="hidden" name="next" value="{{ next }}">
-
-                <div class="field">
-                    <label>Email</label>
-        
-                    <div clas="control">
-                        <input type="email" class="input" name="username" id="id_username">
-                    </div>
-                </div>
-        
-                <div class="field">
-                    <label>Password</label>
-                    
-                    <div class="control">
-                        <input type="password" class="input" name="password" id="id_password">
-                    </div>
-                </div>
-        
-                {% if form.errors %}
+ <div class="site__body">
+    <div class="page-header">
+        <div class="page-header__container container">
+            <div class="page-header__breadcrumb">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="/">Home</a>
+                            <svg class="breadcrumb-arrow" width="6px" height="9px">
+                                <use xlink:href="images/sprite.svg#arrow-rounded-right-6x9"></use>
+                            </svg>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page">My Account</li>
+                    </ol>
+                </nav>
+            </div>
+            <div class="page-header__title">
+                <h1>My Account</h1>
+            </div>
+        </div>
+    </div>
+        <div class="row">
+            <div class="col-md-6 d-flex flex-column">
+                    <div class="card-body">
+                        <h3 class="card-title">Login</h3>
+                        <form method="post" action=".">
+                            {% csrf_token %}
+                            <input type="hidden" name="next" value="{{ next }}">
+                            <div class="field form-group">
+                                <label>Email address</label>
+                                <div class="control">
+                                    <input type="email" name="username" id="id_username" class="input form-control" placeholder="Enter email">
+                                </div>
+                            </div>
+                            <div class=" field form-group">
+                                <label>Password</label>
+                                <div class="control">
+                                    <input type="password" name="password" id="id_password" class="input form-control" placeholder="Password">
+                                </div>
+                                <small class="form-text text-muted">
+                                    <a href="{% url 'request_restore_password' %}">Forgotten Password</a>
+                                </small>
+                            </div>
+                            <div class="form-group">
+                                <div class="form-check">
+                                    <span class="form-check-input input-check">
+                                        <span class="input-check__body">
+                                            <input class="input-check__input" type="checkbox" id="login-remember">
+                                            <span class="input-check__box"></span>
+                                            <svg class="input-check__icon" width="9px" height="7px">
+                                                <use xlink:href="images/sprite.svg#check-9x7"></use>
+                                            </svg>
+                                        </span>
+                                    </span>
+                                    <label class="form-check-label" for="login-remember">Remember Me</label>
+                                </div>
+                            </div>
+                            {% if form.errors %}
                     {% for field in form %}
                         {% for error in field.errors %}
                             <div class="alert alert-danger">
@@ -56,30 +88,71 @@
                     </div>
                 {% endif %}
                 <br>
-
-                <div class="field">
-                    <div class="control">
-                        <button class="button is-dark is-fullwidth is-uppercase">Log in</button>
+                            <div class="control">
+                                <a href="">
+                                    <button type="submit" class="button btn btn-primary mt-4">Login</button>
+                                </a>
+                            </div>
+                        </form>
                     </div>
-                    <a href="{% url 'request_restore_password' %}">Forgot your password?</a>
-                </div>
-
-                <div class="field">
-                    <div class="control">
-                        <a href="{% url 'become_customer' %}">
-                            <button type="button" class="button is-dark is-fullwidth is-uppercase">Sign up as customer</button>
-                        </a>
+            </div>
+            <div class="col-md-6 d-flex flex-column mt-4 mt-md-0">
+                <div class="card flex-grow-1 mb-0">
+                    <div class="card-body">
+                        <h3 class="card-title">Register as Customer or <a href="{% url 'become_vendor' %}">Vendor</a></h3>
+                        <form method="post" action=".">
+                            {% csrf_token %}
+                            <input type="hidden" name="next" value="{{ next }}">
+                            <div class="field form-group">
+                                 <div class="control" style="display: none;">
+                                     <input type="text" name="username" id="id_username" value="username">
+                                 </div>
+                            </div>
+                            <div class="field form-group">
+                                <label>Email</label>
+                                <div class="control">
+                                    <input type="email" class="input form-control" name="email" id="id_email" placeholder="Enter email">
+                                </div>
+                            </div>
+                            <div class="field form-group">
+                                <label>Tin</label>
+                                <div class="control">
+                                    <input type="text" class="input form-control" name="company_code" id="id_company_code" placeholder="Enter TIN number">
+                                </div>
+                            </div>
+                            <div class="field form-group">
+                                <label>Address</label>
+                                <div class="control">
+                                    <input type="text" class="input form-control" name="address" id="id_address" placeholder="Enter Address">
+                                </div>
+                            </div>
+                            <div class="field form-group">
+                                <label>Phone</label>
+                                <div class="control">
+                                    <input type="text" class="input form-control" name="phone" id="id_phone" placeholder="Enter Phone">
+                                </div>
+                            </div>
+                            <div class="field form-group">
+                                <label>Password</label>
+                                <input type="password" class="input form-control" name="password1" id="id_password1" placeholder="Password">
+                            </div>
+                            <div class="field form-group">
+                                <label>Repeat Password</label>
+                                <div class="control">
+                                    <input type="password" class="input form-control" name="password2" id="id_password2" placeholder="Password">
+                                </div>
+                            </div>
+                            <div class="field form-group">
+                                <div class="control">
+                                    <input type="checkbox" name="is_privacy" value="True" id="is_privacy" required/>
+                                    <label>i agree terms & condition</label>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary mt-4">Register</button>
+                        </form>
                     </div>
                 </div>
-
-                <div class="field">
-                    <div class="control">
-                        <a href="{% url 'become_vendor' %}">
-                            <button type="button" class="button is-dark is-fullwidth is-uppercase">Sign up as vendor</button>
-                        </a>
-                    </div>
-                </div>
-        </form>
-    </div>
-</div>
+            </div>
+        </div>
+ </div>
 {% endblock %}
