@@ -1,0 +1,169 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block title %}My account | {{ request.session.username }} - {% endblock %}
+{% block content %}
+<div class="page-header">
+    <div class="page-header__container container">
+        <div class="page-header__breadcrumb">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <a href="/">Home</a>
+                        <svg class="breadcrumb-arrow" width="6px" height="9px">
+                            <use xlink:href="images/sprite.svg#arrow-rounded-right-6x9"></use>
+                        </svg>
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">My Account</li>
+                </ol>
+            </nav>
+        </div>
+        <div class="page-header__title">
+            <h1>My Account</h1>
+        </div>
+    </div>
+</div>
+<div class="block">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-lg-3 d-flex">
+                <div class="account-nav flex-grow-1">
+                    <h4 class="account-nav__title">Navigation</h4>
+                    <ul>
+                        <li class="account-nav__item   ">
+                            <a href="{% url 'vendor_admin' %}">Dashboard</a>
+                        </li>
+                        <li class="account-nav__item account-nav__item--active">
+                            <a href="{% url 'products' %}">Products</a>
+                        </li>
+                        <li class="account-nav__item">
+                            <a href="{% url 'vendor_orders' %}">Order History</a>
+                        </li>
+                        <li class="account-nav__item ">
+                            <a href="{% url 'logout' %}">Logout</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-12 col-lg-9 mt-4 mt-lg-0">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>My products</h5>
+                        {% if product_limit %}
+            <a href="{% url 'add_product' %}" class="button btn btn-primary mt-4">Add product</a>
+            <a href="{% url 'add_product_without_variant' %}" class="button btn btn-primary mt-4">Add product with Variant</a>
+            <a href="{% url 'add_variant' %}" class="button btn btn-primary mt-4">Add product Variants</a>
+        {% else %}
+            <h4 style="color:red">You have reached your products' limit. Kindly contact your account manager to increase your limit.</h4>
+        {% endif %}
+                    </div>
+                    <div class="card-divider"></div>
+                    <div class="card-table">
+                        <div class="table-responsive-sm">
+                            {% if products %}
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Title</th>
+                                        <th>Price</th>
+                                        <th>VAT</th>
+                                        <th>Discount</th>
+                                        <th>Status</th>
+                                        <th>Product</th>
+                                         <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for product in products %} 
+                                    <tr>
+                                        {% if product.variant == 'None' %}
+                                          <td><a href="">{{ product.title }}</a></td>
+                                        {% endif %}
+                                        {% if product.variant == 'None' %}
+                                           <td>Frw {{ product.price }}</td>
+                                        {% endif %}
+                                        {% if product.variant == 'None' %}
+                                        <td>
+                                            {% if  product.is_vat %}
+                                              <p>18%</p>
+                                            {% else %}
+                                              <p>No VAT</p>
+                                            {% endif %}
+                                        </td>
+                                        {% endif %}
+                                        {% if product.variant == 'None' %}
+                                        <td>
+                                            {% if product.discount > 0 %}
+                                                {{ product.discount }} %
+                                            {% endif %}
+                                        </td>
+                                        {% endif %}
+                                        {% if product.variant == 'None' %}
+                                        <td>
+                                            {% if product.status == True %}
+                                                <p>Active</p>
+                                            {% else %}
+                                                <p>Under Review</p>
+                                            {% endif %}
+            
+                                        </td>
+                                        {% endif %}
+                                        {% if product.variant == 'None' %}
+                                        <td>
+                                            <a href="{% url 'edit_product' product.id %}" class="mr-5">Edit</a>
+                                        </td>
+                                        {% endif %}
+                                        {% if product.variant == 'None' %}
+                                        <td>
+                                            <a href="{% url 'delete_product' product.id %}">Delete</a>
+                                        </td>
+                                        {% endif %}
+                                    </tr>
+                                    {% endfor %}
+                                    {% for variants in products %} 
+                    {% for variant in variants.product_variant.all %}
+                    <tr>
+                      <td><a href="">{{ variant.title }}</a></td>
+                      <td>Frw {{ variant.price }}</td>
+                      <td>
+                          {% if  variant.is_vat %}
+                            <p>18%</p>
+                          {% else %}
+                            <p>No VAT</p>
+                          {% endif %}
+                      </td>
+                      <td>
+                          {% if variant.discount > 0 %}
+                              {{ variant.discount }} %
+                          {% endif %}
+                      </td>
+                      <td>
+                          {% if variant.status == True %}
+                              <p>Active</p>
+                          {% else %}
+                              <p>Under Review</p>
+                          {% endif %}
+
+                      </td>
+                      <td>
+                          <a href="{% url 'edit_product' variant.id %}" class="mr-5">Edit</a>
+                      </td>
+                      <td>
+                          <a href="{% url 'delete_product' variant.id %}">Delete</a>
+                      </td>
+                  </tr>
+                    {% endfor %}
+                    {% endfor %}
+                                </tbody>
+                            </table>
+                            {% else %}
+                            <p>YOu don't have any product yet ...</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="card-divider"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

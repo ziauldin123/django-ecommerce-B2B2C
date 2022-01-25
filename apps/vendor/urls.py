@@ -20,6 +20,8 @@ urlpatterns = [
 
 
      path('become-vendor/', views.become_vendor, name='become_vendor'),
+     path('products/',views.vendor_products, name='products'),
+     path('order-history/',views.order_history,name='vendor_orders'),
      path('add-product/', views.add_product, name='add_product'),
      path('add-variant/',views.add_variant, name='add_variant'),
      path('add-product-with-variant/',views.add_product_with_variant,name='add_product_without_variant'),
@@ -33,6 +35,7 @@ urlpatterns = [
           views.del_productimage, name='del_productimage'),
 
      path('customer/myaccount/', views.MyAccount.as_view(), name='myaccount'),
+     path('customer/order-history',views.OrderHistory.as_view(),name='orderhistory'),
      path('upload_logo/', views.upload_logo, name='upload_logo'),
      path('become-customer/', views.become_customer, name='become_customer'),
      path('become-transporter/',views.become_transporter,name='become_transporter'),

@@ -59,8 +59,6 @@ urlpatterns = [
     path('', include('apps.core.urls')),
     path('', include('apps.product.urls')),
     path('newProduct/',include('apps.newProduct.urls')),
-    # path('home/',include('apps.home.urls')),
-    # path('product/<int:id>/<slug:slug>/', views.product_detail, name='product_detail'),
     path('ajaxcolor/', views.ajaxcolor, name='ajaxcolor'),
     path('ajaxcolorWeight/',views.ajaxcolorWeigth, name='ajaxcolor-weight'),
     path('shopcart/',orderview.shopcart,name='shopcart'),
@@ -68,6 +66,8 @@ urlpatterns = [
     path('updateshopcart',orderview.update, name='update'),
     path('order/deletefromcart/<int:id>', orderview.deletefromcart, name='deletefromcart'),
     path('order/orderproduct/', orderview.orderproduct, name='orderproduct'),
+    path('customer/order-detail/<int:id>/',vendor_views.order_detail,name='order_details'),
+    path('vendor/order_details/<int:id>/',vendor_views.vendor_order_detail,name='vendor-order-detail'),
     path('<slug:category_slug>/', new.category, name='category'),
     path('<slug:category_slug>/<slug:subcategory_slug>/', new.subcategory, name='subcategory'),
     path(

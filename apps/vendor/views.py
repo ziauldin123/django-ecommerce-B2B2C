@@ -1,3 +1,5 @@
+import code
+import re
 from django.http.response import HttpResponse
 from django.views.generic import TemplateView
 from decimal import Decimal
@@ -424,6 +426,91 @@ def remove_opening(request, pk):
     opening.delete()
     return redirect('vendor_admin')
 
+@login_required
+def vendor_products(request):
+    vendor = request.user.vendor
+    products=products = Product.objects.filter(vendor=vendor)
+    variants = []
+    for pr in products:
+        if pr.variant != 'None':
+            variants = Variants.objects.filter(product=pr.id)
+    product_limit = not vendor.products_limit <= ((products.__len__(
+        ) + vendor.variants_vendor.all().__len__()) - Product.objects.filter(vendor=vendor, is_variant=True).__len__())        
+
+    return render(request,'vendor/products.html',
+    {'product_limit': product_limit,
+    'products':products,
+    'variants':variants})        
+
+@login_required
+def order_history(request):
+    vendor = request.user.vendor
+    orders=vendor.orders.all()
+
+    for order in orders:
+        order.vendor_amount = 0
+        order.vendor_paid_amount = 0
+        order.fully_paid = True
+        coupon_discount = 0
+        coupon_code = str(order.used_coupon)
+        if coupon_code != "None":
+            try:
+                coupon = Coupon.objects.get(code=coupon_code)
+                if coupon:
+                    coupon_discount = coupon_discount
+            except:
+                pass
+        order.coupon_discount = coupon_discount
+
+        for item in order.items.all():
+            if item.vendor == request.user.vendor:
+                if item.vendor_paid:
+                    order.vendor_paid_amount +=item.get_total_price()
+                else:
+                    order.vendor_amount +=item.get_total_price()  
+                    order.fully_paid = False 
+    vendor_delivery = VendorDelivery.objects.filter(vendor=vendor).first()
+    delivery_price = vendor_delivery.price if vendor_delivery else ''                             
+
+    user = request.user
+    v = Vendor.objects.get(email=user)
+
+    vendor_item_price = 0
+    vendor_items_total_price = 0
+    total_quantity = 0
+    delivery_cost = 0 
+
+    for i in orders:
+        orderItems = i.items.all()
+        for items in orderItems:
+            if v == items.vendor:
+                vendor_item_price = items.get_product_total_price()
+                vendor_items_total_price = vendor_item_price*items.quantity
+                total_quantity = items.quantity
+                if not items.product.is_free_delivery:
+                    if i.delivery_type == "Vendor_Delivery":
+                        delivery_cost = VendorDelivery.objects.get(vendor=vendor).price
+                        is_delivery = True
+                        if delivery_cost == None:
+                            delivery_cost = False
+                    else:
+                        delivery_cost = 0
+                        is_delivery = False
+        total_cost = float(vendor_items_total_price-(order.coupon_discount*vendor_items_total_price/100))
+        total_cost += float(delivery_cost)
+
+    vendor_items_total_price = round(Decimal(vendor_items_total_price), 2)
+    total_cost = round(Decimal(vendor_items_total_price), 2) 
+
+    return render(
+        request,
+        'vendor/orders-history.html',{
+           'vendor': vendor,
+            'vendor_delivery_price': delivery_price, 
+            'orders': orders,
+        }
+    )                   
+                                    
 
 @ login_required
 def add_product(request):
@@ -757,6 +844,24 @@ class MyAccount(TemplateView):
         #     {'orders': orders}
         # )
 
+class OrderHistory(TemplateView):
+    template_name='customer/order_history.html'
+
+    def get(self,request,*args,**kwargs):
+        orders =account_service.calculate_order_sum(request.user.email)
+        cart=Cart(request)
+        context = self.get_context_data()
+        context['orders'] = orders
+        context['user_id'] = request.user.id
+        return self.render_to_response(context)
+
+def order_detail(request,id):
+    order=Order.objects.get(pk=id)
+    return render(request,'customer/order_details.html',{'order':order})
+
+def vendor_order_detail(request,id):
+    order=Order.objects.get(pk=id)
+    return render(request,'vendor/vendor_order_details.html',{'order':order})
 
 class WishListView(TemplateView):
     # template_name = 'customer/wishlist.html'
@@ -872,3 +977,4 @@ def become_transporter(request):
 @register.simple_tag()
 def multiply(qty, unit_price, *args, **kwargs):
     return qty * unit_price
+

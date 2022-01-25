@@ -1,0 +1,149 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block title %}My account | {{ request.session.username }} - {% endblock %}
+{% block content %}
+<div class="page-header">
+    <div class="page-header__container container">
+        <div class="page-header__breadcrumb">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <a href="/">Home</a>
+                        <svg class="breadcrumb-arrow" width="6px" height="9px">
+                            <use xlink:href="images/sprite.svg#arrow-rounded-right-6x9"></use>
+                        </svg>
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">My Account</li>
+                </ol>
+            </nav>
+        </div>
+        <div class="page-header__title">
+            <h1>My Account</h1>
+        </div>
+    </div>
+</div>
+<div class="block">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-lg-3 d-flex">
+                <div class="account-nav flex-grow-1">
+                    <h4 class="account-nav__title">Navigation</h4>
+                    <ul>
+                        <li class="account-nav__item">
+                            <a href="{% url 'myaccount' %}">Dashboard</a>
+                        </li>
+                        <li class="account-nav__item ">
+                            <a href="{% url 'orderhistory' %}">Order History</a>
+                        </li>
+                        <li class="account-nav__item   account-nav__item--active ">
+                            <a href="/">Order Details</a>
+                        </li>
+                        <li class="account-nav__item ">
+                            <a href="{% url 'logout' %}">Logout</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-12 col-lg-9 mt-4 mt-lg-0">
+                <div class="card">
+                    <div class="order-header">
+                        <div class="order-header__actions">
+                            <a href="{% url 'orderhistory' %}" class="btn btn-xs btn-secondary">Back to list</a>
+                        </div>
+                        <h5 class="order-header__title">Order Reference #{{order.reference_number}}</h5>
+                        <div class="order-header__subtitle">
+                            Was placed on <mark class="order-header__date">{{order.created_at}}</mark>
+                            and is currently <mark class="order-header__status">{{order.status}}</mark>.
+                        </div>
+                    </div>
+                    <div class="card-divider"></div>
+                    <div class="card-table">
+                        <div class="table-responsive-sm">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Product</th>
+                                        <th>Vendor</th>
+                                        <th>Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="card-table__body card-table__body--merge-rows">
+                                    {% for order in order.items.all %} 
+                                    <tr>
+                                        <td>{% if order.is_variant %} {{order.variant}} {% else %} {{order.product}} {% endif %} × {{order.quantity}}</td>
+                                         <td>{{order.vendor}}</td>
+                                        <td>{{order.price}} FRW</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                                <tbody class="card-table__body card-table__body--merge-rows">
+                                    <tr>
+                                        <th>Subtotal</th>
+                                        <td>{{order.subtotal_amount}} FRW</td>
+                                    </tr>
+                                    <tr>
+                                        <th>VAT</th>
+                                        <td>{{order.vat_cost}} FRW</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Delivery Cost</th>
+                                        <td>{{order.delivery_cost}} FRW</td>
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th>Total</th>
+                                        <td>{{order.grand_paid_amount}} FRW</td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-3 no-gutters mx-n2">
+                    <div class="col-sm-6 col-12 px-2">
+                        <div class="card address-card address-card--featured">
+                            <div class="address-card__body">
+                                <div class="address-card__badge address-card__badge--muted">Shipping Address</div>
+                                <div class="address-card__name">{{order.first_name}}</div>
+                                <div class="address-card__row">
+                                    {{order.district}} - {{order.sector}} - {{order.cell}} - {{order.village}}<br>
+                                    {{order.delivery_address}}<br>
+                                </div>
+                                <div class="address-card__row">
+                                    <div class="address-card__row-title">Phone Number</div>
+                                    <div class="address-card__row-content">{{order.phone}}</div>
+                                </div>
+                                <div class="address-card__row">
+                                    <div class="address-card__row-title">Email Address</div>
+                                    <div class="address-card__row-content">{{order.email}}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-12 px-2 mt-sm-0 mt-3">
+                        <div class="card address-card address-card--featured">
+                            <div class="address-card__body">
+                                <div class="address-card__badge address-card__badge--muted">Billing Address</div>
+                                <div class="address-card__name">{{order.first_name}}</div>
+                                <div class="address-card__row">
+                                    MTN Mobile Money | Airtel Money<br>
+                                    Jan 12, 2023<br>
+                                </div>
+                                <div class="address-card__row">
+                                    <div class="address-card__row-title">Phone Number</div>
+                                    <div class="address-card__row-content">{{order.phone}}</div>
+                                </div>
+                                <div class="address-card__row">
+                                    <div class="address-card__row-title">Email Address</div>
+                                    <div class="address-card__row-content">{{order.email}}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

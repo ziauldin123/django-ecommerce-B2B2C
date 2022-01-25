@@ -1432,18 +1432,27 @@
                               <li class="menu__item">
                                 <!-- This is a synthetic element that allows to adjust the vertical offset of the submenu using CSS. -->
                                 <div class="menu__item-submenu-offset"></div>
+                                {% if request.user.vendor %} 
                                 <a
                                   class="menu__item-link"
-                                  href="{% url 'myaccount'  %}"
+                                  href="{% url 'vendor_orders'  %}"
                                 >
                                   Order History
                                 </a>
+                                {% else %} 
+                                <a
+                                  class="menu__item-link"
+                                  href="{% url 'orderhistory'  %}"
+                                >
+                                  Order History
+                                </a>
+                                {% endif %}
                               </li>
                             </ul>
                               {% else %} 
                               <a
                                    class="menu__item-link"
-                                   href="{% url 'vendor_admin'   %}"
+                                   href="{% url 'myaccount'  %}"
                                  >
                                    Login | Sign up
                                  </a>
@@ -1671,7 +1680,7 @@
                             </form>
                             {% else %}
                             <div class="account-menu__divider"></div>
-                            <a href="{% url 'myaccount'  %}" class="account-menu__user">
+                            <a {% if request.user.vendor %} href="{% url 'vendor_admin'  %}" {% else %} href="{% url 'myaccount'  %}" {% endif %} class="account-menu__user">
                                 <div class="account-menu__user-avatar">
                                     <img src="{% static 'templates/images/avatars/avatar-3.jpg' %}" alt="">
                                 </div>
@@ -1682,10 +1691,17 @@
                             </a>
                             <div class="account-menu__divider"></div>
                             <ul class="account-menu__links">
+                                {% if request.user.vendor %} 
+                                <li><a href="{% url 'vendor_admin'  %}">Edit Profile</a></li>
+                                <li><a href="{% url 'vendor_admin'  %}">Order History</a></li>
+                                <li><a href="{% url 'vendor_admin'  %}">Addresses</a></li>
+                                <li><a href="{% url 'request_restore_password' %}">Password</a></li>
+                                {% else %} 
                                 <li><a href="{% url 'myaccount'  %}">Edit Profile</a></li>
                                 <li><a href="{% url 'myaccount'  %}">Order History</a></li>
                                 <li><a href="{% url 'myaccount'  %}">Addresses</a></li>
                                 <li><a href="{% url 'request_restore_password' %}">Password</a></li>
+                                {% endif %}
                             </ul>
                             <div class="account-menu__divider"></div>
                             <ul class="account-menu__links">

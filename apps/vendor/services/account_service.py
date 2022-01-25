@@ -38,6 +38,8 @@ class AccountService:
             order["delivery_cost"] = row.delivery_cost
             order["shipped_date"] = row.shipped_date
             order["arrived_date"] = row.arrived_date
+            order["reference_number"] = row.reference_number
+            order["id"] = row.id
             coupon_discount = ""
             coupon_code = str(row.used_coupon)
             if coupon_code != "None":
