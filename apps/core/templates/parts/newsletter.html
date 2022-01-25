@@ -1,22 +1,18 @@
 <div class="newsletter-wrapper" id="newsletter-wrapper">
-    <h2 class="subtitle"><strong>Subscribe to our newsletter.</strong></h2>
-
     <form v-on:submit.prevent="onSubmit">
         <div class="field has-addons">
             <div class="control">
-                <input type="email" v-model="email" name="email" class="input" placeholder="Your e-mail address.">
+                <input type="email" v-model="email" name="email" class="input form-control" placeholder="Your e-mail address.">
             </div>
             <div class="control">
-                <button class="button is-dark">Submit</button>
+                <button class="button btn btn-primary mt-4">Submit</button>
             </div>
         </div>
     </form>
-</div>
-
     <div class="notification is-dark" v-if="showSuccess">
         Your e-mail address has been added to the subscribers' list.
     </div>
-
+</div>
 <script>
     var newsletterapp = new Vue({
         el: '#newsletter-wrapper',

@@ -117,7 +117,7 @@ def login_request(request):
                         orders.append(order)
 
                     request.session['orders'] = orders
-                    return redirect('myaccount')
+                    return redirect('frontpage')
                 except Exception as e:
                     print(e)
 

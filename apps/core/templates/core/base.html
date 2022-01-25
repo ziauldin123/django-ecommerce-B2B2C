@@ -158,6 +158,8 @@
       rel="stylesheet"
       href="{% static 'templates/fonts/stroyka/stroyka.css' %}"
     />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.6.0/socket.io.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.1.3/vue.min.js"></script>
 
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -1260,7 +1262,7 @@
                       <li class="nav-links__item nav-links__item--has-submenu">
                         <a
                           class="nav-links__item-link"
-                          href="shop-grid-3-columns-sidebar.html"
+                          href="/"
                         >
                           <div class="nav-links__item-body">
                             Shop
@@ -1601,21 +1603,39 @@
                       <div class="indicator__dropdown">
                         <div class="account-menu">
                             {% if not request.session.username %}
-                            <form method="post" action="." class="account-menu__form">
+                            <form method="post" action="{% url 'login' %}" class="account-menu__form">
                                 {% csrf_token %}
                                 <div class="account-menu__form-title">Log In to Your Account</div>
                                 <input type="hidden" name="next" value="{{ next }}">
-                                <div class="form-group field">
+                                <div class="field form-group">
                                     <label for="header-signin-email" class="sr-only">Email address</label>
-                                    <input id="header-signin-email" type="email" class="form-control form-control-sm input" name="username" id="id_username" placeholder="Email address">
+                                    <div class="control">
+                                      <input id="id_username header-signin-email" type="email" class="input form-control form-control-sm" name="username" placeholder="Email address">
+                                    </div>
                                 </div>
-                                <div class="form-group field">
+                                <div class="field form-group">
                                     <label for="header-signin-password" class="sr-only">Password</label>
                                     <div class="account-menu__form-forgot">
-                                        <input id="header-signin-password" type="password" class="form-control form-control-sm input" name="password" id="id_password" placeholder="Password">
+                                        <div class="control">
+                                          <input id="id_password header-signin-password" type="password" class="input form-control form-control-sm" name="password" placeholder="Password">
+                                        </div>
                                         <a href="{% url 'request_restore_password' %}" class="account-menu__form-forgot-link">Forgot?</a>
                                     </div>
                                 </div>
+                                <div class="form-group">
+                                  <div class="form-check">
+                                      <span class="form-check-input input-check">
+                                          <span class="input-check__body">
+                                              <input class="input-check__input" type="checkbox" id="login-remember">
+                                              <span class="input-check__box"></span>
+                                              <svg class="input-check__icon" width="9px" height="7px">
+                                                  <use xlink:href="images/sprite.svg#check-9x7"></use>
+                                              </svg>
+                                          </span>
+                                      </span>
+                                      <label class="form-check-label" for="login-remember">Remember Me</label>
+                                  </div>
+                              </div>
                                 {% if form.errors %}
                                      {% for field in form %}
                                           {% for error in field.errors %}
@@ -1645,9 +1665,9 @@
                            {% endif %}
                            <br>
                                 <div class="form-group account-menu__form-button field">
-                                    <button type="submit" class="btn btn-primary btn-sm button">Login</button>
+                                    <button type="submit" class="button btn btn-primary btn-sm">Login</button>
                                 </div>
-                                <div class="account-menu__form-link"><a href="account-login.html">Create An Account</a></div>
+                                <div class="account-menu__form-link"><a href="{% url 'become_customer' %}">Create An Account</a></div>
                             </form>
                             {% else %}
                             <div class="account-menu__divider"></div>
@@ -1680,7 +1700,6 @@
               </div>
         </div>
       </header>
-      {% include 'messages.html' %}
       <!-- desktop site__header / end -->
       <div class="site__body">
         {% block content %} {% endblock %}
@@ -1795,27 +1814,7 @@
                       Praesent pellentesque volutpat ex, vitae auctor lorem
                       pulvinar mollis felis at lacinia.
                     </div>
-                    <form action="" v-on:submit.prevent="onSubmit" class="footer-newsletter__form">
-                      <label class="sr-only" for="footer-newsletter-address"
-                        >Email Address</label
-                      >
-                      <input
-                        type="email"
-                        name="email"
-                        v-model=email
-                        class="input footer-newsletter__form-input form-control"
-                        id="footer-newsletter-address"
-                        placeholder="Email Address..."
-                      />
-                      <button
-                        class=" button footer-newsletter__form-button btn btn-primary"
-                      >
-                        Subscribe 
-                      </button>
-                    </form>
-                    <div class="notification" v-if="showSuccess">
-                      Your e-mail address has been added to the subscribers' list.
-                    </div>
+                    {% include 'parts/newsletter.html' %}
                     <div
                       class="footer-newsletter__text footer-newsletter__text--social"
                     >
@@ -2559,43 +2558,5 @@
     <script>
       svg4everybody();
     </script>
-    <script>
-      var newsletterapp = new Vue({
-          el: '#newsletter-wrapper',
-          data () {
-              return {
-                  email: '',
-                  showSuccess: false
-              }
-          },
-          methods: {
-              onSubmit() {
-                  console.log('onSubmit')
-  
-                  fetch('/api/add_subscriber/', {
-                          method: 'POST',
-                          headers: {
-                              'Content-Type': 'application/json',
-                              'X-CSRFToken': '{{ csrf_token }}'
-                          },
-                          body: JSON.stringify({'email': this.email})
-                      })
-                      .then((response) => {
-                          return response.json()
-                      })
-                      .then((data) => {
-                          console.log(data)
-  
-                          this.showSuccess = true
-                          this.email = ''
-                      })
-                      .catch(function(error) {
-                          this.showSuccess = false
-                          console.log('Error:', error);
-                      });
-              }
-          }
-      })
-  </script>
   </body>
 </html>

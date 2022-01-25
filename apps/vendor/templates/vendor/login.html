@@ -100,7 +100,7 @@
                 <div class="card flex-grow-1 mb-0">
                     <div class="card-body">
                         <h3 class="card-title">Register as Customer or <a href="{% url 'become_vendor' %}">Vendor</a></h3>
-                        <form method="post" action=".">
+                        <form method="post" action="{% url 'become_customer' %}">
                             {% csrf_token %}
                             <input type="hidden" name="next" value="{{ next }}">
                             <div class="field form-group">
@@ -112,6 +112,12 @@
                                 <label>Email</label>
                                 <div class="control">
                                     <input type="email" class="input form-control" name="email" id="id_email" placeholder="Enter email">
+                                </div>
+                            </div>
+                            <div class="field form-group">
+                                <label>Username( Firstname & lastname)</label>
+                                <div class="control">
+                                    <input type="text" class="input form-control" name="customername" id="id_customername">
                                 </div>
                             </div>
                             <div class="field form-group">
@@ -129,7 +135,7 @@
                             <div class="field form-group">
                                 <label>Phone</label>
                                 <div class="control">
-                                    <input type="text" class="input form-control" name="phone" id="id_phone" placeholder="Enter Phone">
+                                    <input type="text" class="input form-control" name="phone" id="id_phone" placeholder="Enter Phone Number">
                                 </div>
                             </div>
                             <div class="field form-group">
@@ -145,10 +151,14 @@
                             <div class="field form-group">
                                 <div class="control">
                                     <input type="checkbox" name="is_privacy" value="True" id="is_privacy" required/>
-                                    <label>i agree terms & condition</label>
+                                    <label>i agree terms & conditions
                                 </div>
                             </div>
-                            <button type="submit" class="btn btn-primary mt-4">Register</button>
+                            <div class="field form-group">
+                                <div class="control">
+                                    <button type="submit" class="btn btn-primary mt-4">Register</button>
+                                </div>
+                            </div>
                         </form>
                     </div>
                 </div>
