@@ -6,13 +6,24 @@
 {% endblock %}
 
 {% block content %}
+<style>
+    input[type=text],[type=number],[type=file], select {
+     width: 100%;
+     padding: 8px 20px;
+     cursor: pointer;
+     margin: 4px 0;
+     border: 1px solid #ccc;
+     border-radius: 4px;
+     box-sizing: border-box;
+   }
+   </style>
 <div style="display: inline-block; width: 65%; vertical-align:top;">
     <form action="" method="post" style="padding: 20px; border: 1px solid #ddd">
         <table>
           {{ form.as_table }}
         </table>
         {% csrf_token %}
-        <input type="submit" value="Submit" />
+        <input type="submit" class="btn btn-primary mt-4" value="Submit" />
     </form>
 </div>
 {% endblock %}

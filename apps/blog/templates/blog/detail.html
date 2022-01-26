@@ -5,26 +5,126 @@
 {% block title %}{{ post.title }} | {% endblock  %}
 
 {% block content %}
-    <div class="box">
-        <section class="hero is-small is-dark">
-            <div class="hero-body">
-                <p class="title">{{ post.title }}</p>
-                <p class="subtitle">By {{ post.author }} | {{ post.created_at|date:"d-m-Y | H:i" }}</p>
-            </div> 
-        </section>
 
-        {% if post.image %}
-            <figure class="image is-16by9">
-                <img src="{{ post.image.url }}">
-            </figure>
-        {% endif %}
-      
-        <div class="content intro">
-            <p>{{ post.intro }}</p>
+ <div class="site__body">
+            <div class="page-header">
+                <div class="page-header__container container">
+                    <div class="page-header__breadcrumb">
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item">
+                                    <a href="index.html">Home</a>
+                                    <svg class="breadcrumb-arrow" width="6px" height="9px">
+                                        <use xlink:href="images/sprite.svg#arrow-rounded-right-6x9"></use>
+                                    </svg>
+                                </li>
+                                <li class="breadcrumb-item">
+                                    <a href="">Breadcrumb</a>
+                                    <svg class="breadcrumb-arrow" width="6px" height="9px">
+                                        <use xlink:href="images/sprite.svg#arrow-rounded-right-6x9"></use>
+                                    </svg>
+                                </li>
+                                <li class="breadcrumb-item active" aria-current="page">Article</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 col-lg-8">
+                        <div class="block post post--layout--classic">
+                            <div class="post__header post-header post-header--layout--classic">
+                                <div class="post-header__categories">
+                                    <a href="">Latest news</a>
+                                </div>
+                                <h1 class="post-header__title">{{ post.title }}</h1>
+                                <div class="post-header__meta">
+                                    <div class="post-header__meta-item">By <a href="">{{ post.author }}</a></div>
+                                    <div class="post-header__meta-item"><a href="">{{ post.created_at|date:"d-m-Y | H:i" }}</a></div>
+                                </div>
+                            </div>
+                            <div class="post__featured">
+                                <a href="">
+                                    <img src="{{post.image.url}}" alt="">
+                                </a>
+                            </div>
+                            <div class="post__content typography ">
+                                <p>{{ post.intro }}</p>
+                                <p>{{ post.body|convert_markdown|safe }}</p>
+                            </div>
+                            <div class="post__footer">
+                                <div class="post__tags-share-links">
+                                    <div class="post__tags tags">
+                                        <div class="tags__list">
+                                            <a href="">Promotion</a>
+                                            <a href="">Power Tool</a>
+                                            <a href="">Wrench</a>
+                                            <a href="">Electrodes</a>
+                                        </div>
+                                    </div>
+                                    <div class="post__share-links share-links">
+                                        <ul class="share-links__list">
+                                            <li class="share-links__item share-links__item--type--like"><a href="">Like</a></li>
+                                            <li class="share-links__item share-links__item--type--tweet"><a href="">Tweet</a></li>
+                                            <li class="share-links__item share-links__item--type--pin"><a href="">Pin It</a></li>
+                                            <li class="share-links__item share-links__item--type--counter"><a href="">4K</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="post-author">
+                                    <div class="post-author__avatar">
+                                        <a href=""><img src="images/avatars/avatar-1.jpg" alt=""></a>
+                                    </div>
+                                    <div class="post-author__info">
+                                        <div class="post-author__name">
+                                            <a href="">{{ post.author }}</a>
+                                        </div>
+                                        <div class="post-author__about">
+                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur suscipit suscipit mi, non
+                                            tempor nulla finibus eget. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-4">
+                        <div class="block block-sidebar block-sidebar--position--end">
+                            <div class="block-sidebar__item">
+                                <div class="widget-aboutus widget">
+                                    <h4 class="widget__title">About Blog</h4>
+                                    <div class="widget-aboutus__text">
+                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tincidunt, erat in malesuada aliquam, est erat faucibus purus,
+                                        eget viverra nulla sem vitae neque. Quisque id sodales libero.
+                                    </div>
+                                    <!-- social-links -->
+                                    <div class="social-links widget-aboutus__socials social-links--shape--rounded">
+                                        <ul class="social-links__list">
+                                            <li class="social-links__item">
+                                                <a class="social-links__link social-links__link--type--facebook" href="" target="_blank">
+                                                    <i class="fab fa-facebook-f"></i>
+                                                </a>
+                                            </li>
+                                            <li class="social-links__item">
+                                                <a class="social-links__link social-links__link--type--twitter" href="" target="_blank">
+                                                    <i class="fab fa-twitter"></i>
+                                                </a>
+                                            </li>
+                                            <li class="social-links__item">
+                                                <a class="social-links__link social-links__link--type--instagram" href="" target="_blank">
+                                                    <i class="fab fa-instagram"></i>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <!-- social-links / end -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-       
-        <div class="content">
-            <p>{{ post.body|convert_markdown|safe }}</p>
-        </div>
-    </div>
+  
 {% endblock %}

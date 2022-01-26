@@ -15,91 +15,19 @@
                                 <use xlink:href="images/sprite.svg#arrow-rounded-right-6x9"></use>
                             </svg>
                         </li>
-                        <li class="breadcrumb-item active" aria-current="page">My Account</li>
+                        <li class="breadcrumb-item active" aria-current="page">Register your store</li>
                     </ol>
                 </nav>
             </div>
-            <div class="page-header__title">
-                <h1>My Account</h1>
-            </div>
+            
         </div>
     </div>
-        <div class="row">
-            <div class="col-md-6 d-flex flex-column">
+       <div class="container">
+            <div class="row justify-content-center">
+            <div class="col-xl-5 col-lg-6 col-md-8">
+                <div class="card flex-grow-1 mb-0 mt-5">
                     <div class="card-body">
-                        <h3 class="card-title">Login</h3>
-                        <form method="post" action="{% url 'login' %}">
-                            {% csrf_token %}
-                            <input type="hidden" name="next" value="{{ next }}">
-                            <div class="field form-group">
-                                <label>Email address</label>
-                                <div class="control">
-                                    <input type="email" name="username" id="id_username" class="input form-control" placeholder="Enter email">
-                                </div>
-                            </div>
-                            <div class=" field form-group">
-                                <label>Password</label>
-                                <div class="control">
-                                    <input type="password" name="password" id="id_password" class="input form-control" placeholder="Password">
-                                </div>
-                                <small class="form-text text-muted">
-                                    <a href="{% url 'request_restore_password' %}">Forgotten Password</a>
-                                </small>
-                            </div>
-                            <div class="form-group">
-                                <div class="form-check">
-                                    <span class="form-check-input input-check">
-                                        <span class="input-check__body">
-                                            <input class="input-check__input" type="checkbox" id="login-remember">
-                                            <span class="input-check__box"></span>
-                                            <svg class="input-check__icon" width="9px" height="7px">
-                                                <use xlink:href="images/sprite.svg#check-9x7"></use>
-                                            </svg>
-                                        </span>
-                                    </span>
-                                    <label class="form-check-label" for="login-remember">Remember Me</label>
-                                </div>
-                            </div>
-                            {% if form.errors %}
-                    {% for field in form %}
-                        {% for error in field.errors %}
-                            <div class="alert alert-danger">
-                                <strong>{{ error|escape }}</strong>
-                            </div>
-                        {% endfor %}
-                    {% endfor %}
-                    {% for error in form.non_field_errors %}
-                        <div class="alert alert-danger">
-                            <strong>{{ error|escape }}</strong>
-                        </div>
-                    {% endfor %}
-                {% endif %}
-        
-                {% if messages %}
-                    <div class="messages">
-                        {% for message in messages %}
-                            <div class="alert alert-{{ message.tags }} alert-dismissible" role="alert">
-                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                                {{ message }}
-                            </div>
-                        {% endfor %}
-                    </div>
-                {% endif %}
-                <br>
-                            <div class="control">
-                                <a href="">
-                                    <button type="submit" class="button btn btn-primary mt-4">Login</button>
-                                </a>
-                            </div>
-                        </form>
-                    </div>
-            </div>
-            <div class="col-md-6 d-flex flex-column mt-4 mt-md-0">
-                <div class="card flex-grow-1 mb-0">
-                    <div class="card-body">
-                        <h3 class="card-title">Register as Vendor or <a href="{% url 'become_customer' %}">Customer</a></h3>
+                        <h3 class="card-title">Register your store</a></h3>
                         <form method="post" action="." enctype="multipart/form-data" >
                             {% csrf_token %}
                 
@@ -264,9 +192,11 @@
                                     </div>
                                 </div>
                         </form>
+                        <label class="form-check-label" for="login-remember">Already have account?<a href="{% url 'login' %}"> sign in here </a>
                     </div>
                 </div>
             </div>
+        </div>
         </div>
  </div>
 <script>

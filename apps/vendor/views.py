@@ -861,6 +861,9 @@ def order_detail(request,id):
 
 def vendor_order_detail(request,id):
     order=Order.objects.get(pk=id)
+    print(order.getCustomer())
+    for i in order.getCustomer():
+        print(i.address)
     return render(request,'vendor/vendor_order_details.html',{'order':order})
 
 class WishListView(TemplateView):

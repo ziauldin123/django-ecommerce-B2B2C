@@ -24,10 +24,12 @@
             </div>
         </div>
     </div>
-        <div class="row">
-            <div class="col-md-6 d-flex flex-column">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-xl-5 col-lg-6 col-md-8">
+                <div class="card flex-grow-1 mb-0 mt-5">
                     <div class="card-body">
-                        <h3 class="card-title">Login</h3>
+                        <h3 class="card-title">Customer Login</a></h3>
                         <form method="post" action=".">
                             {% csrf_token %}
                             <input type="hidden" name="next" value="{{ next }}">
@@ -94,75 +96,11 @@
                                 </a>
                             </div>
                         </form>
-                    </div>
-            </div>
-            <div class="col-md-6 d-flex flex-column mt-4 mt-md-0">
-                <div class="card flex-grow-1 mb-0">
-                    <div class="card-body">
-                        <h3 class="card-title">Register as Customer or <a href="{% url 'become_vendor' %}">Vendor</a></h3>
-                        <form method="post" action="{% url 'become_customer' %}">
-                            {% csrf_token %}
-                            <input type="hidden" name="next" value="{{ next }}">
-                            <div class="field form-group">
-                                 <div class="control" style="display: none;">
-                                     <input type="text" name="username" id="id_username" value="username">
-                                 </div>
-                            </div>
-                            <div class="field form-group">
-                                <label>Email</label>
-                                <div class="control">
-                                    <input type="email" class="input form-control" name="email" id="id_email" placeholder="Enter email">
-                                </div>
-                            </div>
-                            <div class="field form-group">
-                                <label>Username( Firstname & lastname)</label>
-                                <div class="control">
-                                    <input type="text" class="input form-control" name="customername" id="id_customername">
-                                </div>
-                            </div>
-                            <div class="field form-group">
-                                <label>Tin</label>
-                                <div class="control">
-                                    <input type="text" class="input form-control" name="company_code" id="id_company_code" placeholder="Enter TIN number">
-                                </div>
-                            </div>
-                            <div class="field form-group">
-                                <label>Address</label>
-                                <div class="control">
-                                    <input type="text" class="input form-control" name="address" id="id_address" placeholder="Enter Address">
-                                </div>
-                            </div>
-                            <div class="field form-group">
-                                <label>Phone</label>
-                                <div class="control">
-                                    <input type="text" class="input form-control" name="phone" id="id_phone" placeholder="Enter Phone Number">
-                                </div>
-                            </div>
-                            <div class="field form-group">
-                                <label>Password</label>
-                                <input type="password" class="input form-control" name="password1" id="id_password1" placeholder="Password">
-                            </div>
-                            <div class="field form-group">
-                                <label>Repeat Password</label>
-                                <div class="control">
-                                    <input type="password" class="input form-control" name="password2" id="id_password2" placeholder="Password">
-                                </div>
-                            </div>
-                            <div class="field form-group">
-                                <div class="control">
-                                    <input type="checkbox" name="is_privacy" value="True" id="is_privacy" required/>
-                                    <label>i agree terms & conditions
-                                </div>
-                            </div>
-                            <div class="field form-group">
-                                <div class="control">
-                                    <button type="submit" class="btn btn-primary mt-4">Register</button>
-                                </div>
-                            </div>
-                        </form>
+                        <label class="form-check-label" for="login-remember">Don't you have account?<a href="{% url 'become_customer' %}"> sign up here </a></label>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
  </div>
 {% endblock %}

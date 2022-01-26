@@ -35,9 +35,6 @@
                         <li class="account-nav__item ">
                             <a href="{% url 'orderhistory' %}">Order History</a>
                         </li>
-                        <li class="account-nav__item   account-nav__item--active ">
-                            <a href="/">Order Details</a>
-                        </li>
                         <li class="account-nav__item ">
                             <a href="{% url 'logout' %}">Logout</a>
                         </li>
@@ -125,18 +122,18 @@
                         <div class="card address-card address-card--featured">
                             <div class="address-card__body">
                                 <div class="address-card__badge address-card__badge--muted">Billing Address</div>
-                                <div class="address-card__name">{{order.first_name}}</div>
+                                <div class="address-card__name">{{request.session.username}}</div>
                                 <div class="address-card__row">
-                                    MTN Mobile Money | Airtel Money<br>
-                                    Jan 12, 2023<br>
+                                    <div class="address-card__row-title">Address</div>
+                                    {{request.session.address}}<br>
                                 </div>
                                 <div class="address-card__row">
                                     <div class="address-card__row-title">Phone Number</div>
-                                    <div class="address-card__row-content">{{order.phone}}</div>
+                                    <div class="address-card__row-content">{{request.session.phone}}</div>
                                 </div>
                                 <div class="address-card__row">
                                     <div class="address-card__row-title">Email Address</div>
-                                    <div class="address-card__row-content">{{order.email}}</div>
+                                    <div class="address-card__row-content">{{request.session.email}}</div>
                                 </div>
                             </div>
                         </div>

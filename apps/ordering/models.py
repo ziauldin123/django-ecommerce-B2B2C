@@ -1,3 +1,5 @@
+import email
+import re
 from django.contrib.auth.models import User
 from django.db import models
 from django.contrib.auth.models import User
@@ -9,7 +11,7 @@ from django.forms import ModelForm
 from apps.newProduct.models import Product, Variants
 
 
-from apps.vendor.models import Transporter, Vendor
+from apps.vendor.models import Customer, Transporter, Vendor
 # from apps.transporter.models import TransporterOrder
 from decimal import Decimal
 from django.conf import settings
@@ -112,10 +114,13 @@ class Order(models.Model):
     cell=models.CharField(max_length=100,null=True)
     delivery_address=models.CharField(max_length=170,null=True)
     delivery_cost=models.DecimalField(max_digits=13,decimal_places=2,default=0)
+    subtotal=models.DecimalField(max_digits=13,decimal_places=2,default=0)
+    vat=models.DecimalField(max_digits=100,decimal_places=2,default=0)
     delivery_type=models.CharField(max_length=100,null=True)
     company_code = models.CharField(max_length=100, default=000)
     coupon_discount=models.DecimalField(max_digits=13,decimal_places=2,default=0)
     paid_amount=models.DecimalField(max_digits=13,decimal_places=2,default=0)
+
     is_paid=models.BooleanField(default=False)
     vendors=models.ManyToManyField(Vendor,related_name='orders')
     shipped_date=models.DateTimeField(blank=True,null=True)
@@ -136,7 +141,8 @@ class Order(models.Model):
     def __str__(self):
         return self.first_name
     
-   
+    def getCustomer(self):
+        return Customer.objects.filter(email=self.email)
 
     def grand_paid_amount(self):
         return self.paid_amount + self.delivery_cost
