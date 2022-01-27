@@ -152,11 +152,13 @@
                                         {% if rs.product.is_vat == True %}vat incl.{% endif %}
                             </td>
                             <td class="cart-table__column cart-table__column--remove">
-                                <button type="button" class="btn btn-light btn-sm btn-svg-icon">
-                                    <svg width="12px" height="12px">
-                                        <use xlink:href="images/sprite.svg#cross-12"></use>
-                                    </svg>
-                                </button>
+                                <a href="/order/deletefromcart/{{ rs.id }}" onclick="return confirm('Delete ! Are you sure?')" >
+                                    <button type="button" class="btn btn-light btn-sm btn-svg-icon">
+                                        <svg width="12px" height="12px">
+                                            <use xlink:href="/static/templates/images/sprite.svg#cross-12"></use>
+                                        </svg>
+                                    </button>
+                                </a>
                             </td>
                         </tr>
                         {% endfor %}

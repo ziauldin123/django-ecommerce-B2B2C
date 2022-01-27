@@ -1030,7 +1030,7 @@
                             xlink:href="/static/templates/images/sprite.svg#heart-20"
                           ></use>
                         </svg>
-                        <span class="indicator__value">0</span>
+                        <span class="indicator__value">0{% if wishlist %} ({{ wishlist|length }}) {% else %} 0 {% endif %}</span>
                       </span>
                     </a>
                   </div>
@@ -1268,7 +1268,7 @@
                           <svg class="svg" width="20px" height="20px">
                             <use xlink:href="/static/templates/images/sprite.svg#heart-20"></use>
                           </svg>
-                          <span class="indicator__value">4</span>
+                          <span class="indicator__value">{% if wishlist %} ({{ wishlist|length }}) {% else %} 0 {% endif %}</span>
                         </span>
                       </a>
                       {% else %} 
@@ -1277,7 +1277,7 @@
                           <svg class="svg"  width="20px" height="20px">
                             <use xlink:href="/static/templates/images/sprite.svg#heart-20"></use>
                           </svg>
-                          <span class="indicator__value"></span>
+                          <span class="indicator__value">{% if wishlist %} ({{ wishlist|length }}) {% else %} 0 {% endif %}</span>
                         </span>
                       </a>
                       {% endif %}   
@@ -2183,11 +2183,13 @@
                     </span>
                 </div>
             </div>
-            <button type="button" class="dropcart__product-remove btn btn-light btn-sm btn-svg-icon">
+            <a href="/order/deletefromcart/{{ rs.id }}" onclick="return confirm('Delete ! Are you sure?')" >
+              <button type="button" class="dropcart__product-remove btn btn-light btn-sm btn-svg-icon">
                 <svg width="10px" height="10px">
                     <use xlink:href="/static/templates/images/sprite.svg#cross-10"></use>
                 </svg>
             </button>
+            </a>
         </div> 
           {% endfor %}
       </div>
