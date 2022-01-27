@@ -757,14 +757,40 @@ def edit_vendor(request):
 
 def vendors(request):
     vendors = Vendor.objects.filter(enabled=True)
+    if not request.user.is_anonymous:
+        cart = Cart(request)
+        current_user = request.user
+        # cart.clear()
+        shopcart = ShopCart.objects.filter(user_id=current_user.id)
+        total=cart.get_cart_cost()
+        tax=cart.get_cart_tax()
+        grandTotal=cart.get_cart_cost() + cart.get_cart_tax()
 
-    return render(request, 'vendor/vendors.html', {'vendors': vendors})
+    return render(request, 'vendor/vendors.html', {'vendors': vendors,
+            'shopcart':shopcart,
+            'subtotal':total,
+            'tax':tax,
+            'total':grandTotal})
 
 
 def vendor(request, slug):
     vendor = Vendor.objects.get(slug=slug)
+    if not request.user.is_anonymous:
+        cart = Cart(request)
+        current_user = request.user
+        # cart.clear()
+        shopcart = ShopCart.objects.filter(user_id=current_user.id)
+        total=cart.get_cart_cost()
+        tax=cart.get_cart_tax()
+        grandTotal=cart.get_cart_cost() + cart.get_cart_tax()
 
-    return render(request, 'vendor/vendor.html', {'vendor': vendor})
+    return render(request, 'vendor/vendor.html', 
+    {'vendor': vendor,
+    'shopcart':shopcart,
+    'subtotal':total,
+    'tax':tax,
+    'total':grandTotal
+    })
 
 
 def become_customer(request):
@@ -831,10 +857,23 @@ class MyAccount(TemplateView):
     template_name = 'customer/myaccount.html'
 
     def get(self, request, *args, **kwargs):
+        if not request.user.is_anonymous:
+            cart = Cart(request)
+            current_user = request.user
+            # cart.clear()
+            shopcart = ShopCart.objects.filter(user_id=current_user.id)
+            total=cart.get_cart_cost()
+            tax=cart.get_cart_tax()
+            grandTotal=cart.get_cart_cost() + cart.get_cart_tax()
+
         orders = account_service.calculate_order_sum(request.user.email)
         cart=Cart(request)
         tax=cart.get_cart_tax()
         context = self.get_context_data()
+        # context['shopcart'] = shopcart,
+        # context['subtotal']=total,
+        # context['tax']=tax,
+        # context['total']=grandTotal
         context['orders'] = orders
         context['user_id'] = request.user.id
         return self.render_to_response(context)
@@ -872,8 +911,23 @@ class WishListView(TemplateView):
     def get(self, request, *args, **kwargs):
         context = self.get_context_data(**kwargs)
         wishlist = UserWishList.objects.filter(user=kwargs['pk'])
+        if not request.user.is_anonymous:
+            cart = Cart(request)
+            current_user = request.user
+            # cart.clear()
+            shopcart = ShopCart.objects.filter(user_id=current_user.id)
+            total=cart.get_cart_cost()
+            tax=cart.get_cart_tax()
+            grandTotal=cart.get_cart_cost() + cart.get_cart_tax()
         
-        return render(request,'customer/wishlist.html',{'wishlist':wishlist})
+        return render(request,'customer/wishlist.html',
+        {
+            'wishlist':wishlist,
+            'shopcart':shopcart,
+            'subtotal':total,
+            'tax':tax,
+            'total':grandTotal
+            })
 
 def request_restore_password(request):
     if request.method == 'POST':
@@ -904,10 +958,26 @@ def request_restore_password(request):
             return redirect('activation_sent')
         else:
             print("Invalid")
+    
     else:
         form = RequestRestorePasswordForm()
 
-    return render(request, 'vendor/request_restore_password.html', {'form': form})
+        if not request.user.is_anonymous:
+            cart = Cart(request)
+            current_user = request.user
+            # cart.clear()
+            shopcart = ShopCart.objects.filter(user_id=current_user.id)
+            total=cart.get_cart_cost()
+            tax=cart.get_cart_tax()
+            grandTotal=cart.get_cart_cost() + cart.get_cart_tax()
+
+    return render(request, 'vendor/request_restore_password.html', {
+        'form': form,
+        'shopcart':shopcart,
+        'subtotal':total,
+        'tax':tax,
+        'total':grandTotal
+        })
 
 
 def restore_password(request):

@@ -33,6 +33,15 @@ def index(request):
 
 
 def product_detail(request, id, slug, vendor_slug, category_slug, subcategory_slug, subsubcategory_slug):
+    if not request.user.is_anonymous:
+        cart = Cart(request)
+        current_user = request.user
+        # cart.clear()
+        shopcart = ShopCart.objects.filter(user_id=current_user.id)
+        total=cart.get_cart_cost()
+        tax=cart.get_cart_tax()
+        grandTotal=cart.get_cart_cost() + cart.get_cart_tax()
+
     query = request.GET.get('q')
     mainProduct = []
     query = request.GET.get('q')
@@ -72,7 +81,11 @@ def product_detail(request, id, slug, vendor_slug, category_slug, subcategory_sl
     context = {'product': product, 'category': category,
                'subcategory': subcategory, 'subsubCategory': subsubCategory,
                'images': images, 'vendor_slug': slugV, 'similar_products': similar_products, 'comments': comments, 'mainProduct': mainProduct, 'customer': customer,
-               'is_comparing': product.id in request.session.get('comparing', [])}
+               'is_comparing': product.id in request.session.get('comparing', []),  
+               'shopcart':shopcart,
+               'subtotal':total,
+               'tax':tax,
+               'total':grandTotal}
     if product.variant != "None":  # pr has variantsu
         if request.method == 'POST':  # if we select color
             variant_id = request.POST.get('variantid')

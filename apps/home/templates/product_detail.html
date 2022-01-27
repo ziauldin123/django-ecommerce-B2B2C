@@ -46,7 +46,7 @@
                                             $('#appendHere').html(data.rendered_table);
                                         },
                                         error: function (data) {
-                                            alert("Got an error dude " + data);
+                                            alert("Got an error " + data);
                                         }
                                     });
                                 });
@@ -68,7 +68,7 @@
                                             $('#appendHere').html(data.rendered_table);
                                         },
                                         error: function (data) {
-                                            alert("Got an error dude " + data);
+                                            alert("Got an error " + data);
                                         }
                                     });
                                 });
@@ -373,29 +373,49 @@
                             {% endif %}
                             <li>Vendor:{{product.vendor}} </li>
                         </ul>
+                        
+                        <div class="product__prices">
+                            {% if product.is_variant %} 
+                            {% if variant.discount > 0 %} 
+                            Frw {{ variant.price }}{% if variant.unit_type %}/{{variant.unit_type.unit}}{% endif %}
+                            {% else %} 
+                            Frw {{ variant.price }}{% if variant.unit_type %}/{{variant.unit_type.unit}}{% endif %}
+                            {% endif %}
+                            {% else %} 
+                            {% if variant.discount > 0 %} 
+                            Frw {{ product.price }}{% if product.unit_type %}/{{product.unit_type.unit}}{% endif %}
+                            {% else %} 
+                            FRW {{ product.price }}{% if product.unit_type %}/{{product.unit_type.unit}}{% endif %}
+                            {% endif %}
+                            {% endif %}
+                        </span>
                     </div>
-                    <!-- .product__info / end -->
+                        <div>
+                          <!-- .product__info / end -->
                     <!-- .product__sidebar -->
                     {% if product.variant == 'Size-Color' %}
                     <div class="product-options" >
-                        <div class="size-option">
                             <form method="POST" id="post-form">
-                                <input type="hidden" name="productid" id="productid" value="{{ product.id }}">
-                                <span class="text-uppercase">Size :</span>
-                                {% csrf_token %}
-                                <select name="size" id="size">
-                                    {% for rs in sizes %}
-                                        <option {% if variant.size_id == rs.size_id %} selected {% endif %} value="{{ rs.size_id }}">{{ rs.size.name }}</option>
-                                    {% endfor %}
-                                </select>
-                            </form>
-                        </div>
-
+                            <li class="product__option-label">Size</li>
+                            {% csrf_token %}
+                            <div class="form-group product__option">
+                                <div class="input-radio-label">
+                                    <div class="input-radio-label__list">
+                                            <input type="hidden" name="productid" id="productid" value="{{ product.id }}">
+                                            {% for rs in sizes %}
+                                                  <label data-toggle="tooltip"  {% if variant.size_id == rs.size_id %} class="active" {% endif %}>
+                                                       <input type="radio" name="size" id="size" {% if variant.size_id == rs.size_id %} selected {% endif %} value="{{ rs.size_id }}">
+                                                       <a><span>{{rs.size.name}}</span></a>
+                                                   </label></br>
+                                            {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
                         <form method="post" action="?q=selectvariant" id="post-color">
                             {% csrf_token %}
                             <div id="appendHere">
                                 <input type="hidden" name="size" id="size" value="{{ size_id }}">
-                                <ul class="color-option" >
                                     <div class="form-group product__option">
                                         <label class="product__option-label">Color</label>
                                         <div class="input-radio-color">
@@ -405,12 +425,10 @@
                                                     <input type="radio" {% if variant.id == rs.id %} checked {% endif %} name="variantid" id="variantid" value="{{ rs.id }}" onchange="this.form.submit();">
                                                     <span></span>
                                                 </label>
-                                                <img src="{{ rs.image_variant.url}}" alt="" style="height:100px">
                                                 {% endfor %}
                                             </div>
                                         </div>
                                     </div>
-                                </ul>
                             </div>
 
                         </form>
@@ -420,7 +438,6 @@
                                             {% csrf_token %}
                                             <div id="appendHere">
                                                 <input type="hidden" name="size" id="size" value="{{ size_id }}">
-                                                <ul class="color-option" >
                                                     <li class="product__option-label">Size</li>
                                                     <div class="form-group product__option">
                                                         <div class="input-radio-label">
@@ -430,12 +447,10 @@
                                                                     <input type="radio" {% if variant.id == rs.id %} checked {% endif %} name="variantid" id="variantid" value="{{ rs.id }}" onchange="this.form.submit();">
                                                                     <a><span>{{rs.size}}</span></a>
                                                                 </label></br>
-                                                                <img src="{{ rs.image_variant.url}}" alt="" style="height:100px">
                                                                 {% endfor %}
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </ul>
                                             </div>
                                         </form>
                                         <br><br>
@@ -444,7 +459,6 @@
                                             {% csrf_token %}
                                             <div id="appendHere">
                                                 <input type="hidden" name="size" id="size" value="{{ size_id }}">
-                                                <ul class="color-option" >
                                                     <li class="product__option-label">Length</li>
                                                     <div class="form-group product__option">
                                                         <div class="input-radio-label">
@@ -454,12 +468,10 @@
                                                                     <input type="radio" {% if variant.id == rs.id %} checked {% endif %} name="variantid" id="variantid" value="{{ rs.id }}" onchange="this.form.submit();">
                                                                     <a><span>{{rs.length}}</span></a>
                                                                 </label></br>
-                                                                <img src="{{ rs.image_variant.url}}" alt="" style="height:100px">
                                                                 {% endfor %}
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </ul>
                                             </div>
                                         </form>
                                         <br><br> 
@@ -469,7 +481,6 @@
                                             {% csrf_token %}
                                             <div id="appendHere">
                                                 <input type="hidden" name="size" id="size" value="{{ size_id }}">
-                                                <ul class="color-option" >
                                                     <li class="product__option-label">Weight</li>
                                                     <div class="form-group product__option">
                                                         <div class="input-radio-label">
@@ -479,12 +490,10 @@
                                                                     <input type="radio" {% if variant.id == rs.id %} checked {% endif %} name="variantid" id="variantid" value="{{ rs.id }}" onchange="this.form.submit();">
                                                                     <a><span>{{rs.weight}}</span></a>
                                                                 </label></br>
-                                                                <img src="{{ rs.image_variant.url}}" alt="" style="height:100px">
                                                                 {% endfor %}
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </ul>
                                             </div>
                                         </form>
                                         <br><br>
@@ -493,7 +502,6 @@
                                             {% csrf_token %}
                                             <div id="appendHere">
                                                 <input type="hidden" name="size" id="size" value="{{ size_id }}">
-                                                <ul class="color-option" >
                                                     <li class="product__option-label">Width</li>
                                                     <div class="form-group product__option">
                                                         <div class="input-radio-label">
@@ -503,12 +511,10 @@
                                                                     <input type="radio" {% if variant.id == rs.id %} checked {% endif %} name="variantid" id="variantid" value="{{ rs.id }}" onchange="this.form.submit();">
                                                                     <a><span>{{rs.width}}</span></a>
                                                                 </label></br>
-                                                                <img src="{{ rs.image_variant.url}}" alt="" style="height:100px">
                                                                 {% endfor %}
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </ul>
                                             </div>
                                         </form>
                                         <br><br>  
@@ -517,7 +523,6 @@
                                             {% csrf_token %}
                                             <div id="appendHere">
                                                 <input type="hidden" name="size" id="size" value="{{ size_id }}">
-                                                <ul class="color-option" >
                                                     <div class="form-group product__option">
                                                         <label class="product__option-label">Color</label>
                                                         <div class="input-radio-color">
@@ -527,16 +532,14 @@
                                                                     <input type="radio" {% if variant.id == rs.id %} checked {% endif %} name="variantid" id="variantid" value="{{ rs.id }}" onchange="this.form.submit();">
                                                                     <span></span>
                                                                 </label>
-                                                                <img src="{{ rs.image_variant.url}}" alt="" style="height:100px">
                                                                 {% endfor %}
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </ul>
                                             </div>
-
                                         </form>
                     {% endif %}
+                        </div>
                     <div class="product__sidebar">
                         <div class="product__availability">
                             Availability: <span class="text-success">
@@ -547,22 +550,7 @@
                                 {% endif %}
                             </span>
                         </div>
-                        <div class="product__prices">
-                                {% if product.is_variant %} 
-                                {% if variant.discount > 0 %} 
-                                Frw {{ variant.price }}{% if variant.unit_type %}/{{variant.unit_type.unit}}{% endif %}
-                                {% else %} 
-                                Frw {{ variant.price }}{% if variant.unit_type %}/{{variant.unit_type.unit}}{% endif %}
-                                {% endif %}
-                                {% else %} 
-                                {% if variant.discount > 0 %} 
-                                Frw {{ product.price }}{% if product.unit_type %}/{{product.unit_type.unit}}{% endif %}
-                                {% else %} 
-                                FRW {{ product.price }}{% if product.unit_type %}/{{product.unit_type.unit}}{% endif %}
-                                {% endif %}
-                                {% endif %}
-                            </span>
-                        </div>
+                    </div>    
                         {% if product.is_variant %} 
                     <div class="form-group product__option">
                         <input type="hidden" name="variantid" id="variant_id" value="{{ variant.id }}">
@@ -643,13 +631,6 @@
                     </div>
                     <!-- .product__end -->
                     <div class="product__footer">
-                        <div class="product__tags tags">
-                            <div class="tags__list">
-                                <a href="">Mounts</a>
-                                <a href="">Electrodes</a>
-                                <a href="">Chainsaws</a>
-                            </div>
-                        </div>
                         <div class="product__share-links share-links">
                             <ul class="share-links__list">
                                 <li class="share-links__item share-links__item--type--like"><a href="">Like</a></li>

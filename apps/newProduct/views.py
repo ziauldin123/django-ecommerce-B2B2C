@@ -14,46 +14,6 @@ def index(request):
    return  HttpResponse("My Product Page")
 
 
-# def category(request,category_slug):
-#    category=get_object_or_404(Category,slug=category_slug)
-#    products=Product.objects.filter(visible=True)
-
-#    return render(
-#       request,
-#       'product/category.html',
-#       {
-#          'category':category,
-#          'products':products
-#       }
-#    )   
-
-# def subcategory(request,category_slug, subcategory_slug):
-#    category=get_object_or_404(SubCategory,slug=subcategory_slug)
-
-#    products=Product.objects.filter(visible=True)
-
-#    return render(
-#       request,
-#       'product/subcategory.html',
-#       {
-#          'category':category,
-#          'products':products
-#       }
-#    )
-
-# def subsubcategory(request,category_slug, subcategory_slug, subsubcategory_slug):
-#    category=get_object_or_404(SubSubCategory,slug=subsubcategory_slug)
-#    products=Product.objects.filter(visible=True)
-
-#    return render(
-#       request,
-#       'product/subsubcategory.html',
-#       {
-#          'category':category,
-#          'products':products
-#       }
-#    )
-
 def addcomment(request,id):
    url = request.META.get('HTTP_REFERER')  # get last url
    #return HttpResponse(url)

@@ -23,6 +23,15 @@ from apps.ordering.models import ShopCart, ShopCartForm
 
 
 def search(request):
+    if not request.user.is_anonymous:
+        cart = Cart(request)
+        current_user = request.user
+        # cart.clear()
+        shopcart = ShopCart.objects.filter(user_id=current_user.id)
+        total=cart.get_cart_cost()
+        tax=cart.get_cart_tax()
+        grandTotal=cart.get_cart_cost() + cart.get_cart_tax()
+
     form = SearchForm(request.GET)
     sorting = request.GET.get('sorting')
     if sorting == None:
@@ -85,7 +94,11 @@ def search(request):
             'query_height':query_height,
             'query_width':query_width,
             'query_length':query_length,
-            'max_amount':max_amount
+            'max_amount':max_amount,
+            'shopcart':shopcart,
+            'subtotal':total,
+            'tax':tax,
+            'total':grandTotal
         }
     )
 
@@ -243,6 +256,15 @@ class ComparingView(TemplateView):
     # template_name = 'product/comparing.html'
 
     def get(self, request, *args, **kwargs):
+        if not request.user.is_anonymous:
+            cart = Cart(request)
+            current_user = request.user
+            # cart.clear()
+            shopcart = ShopCart.objects.filter(user_id=current_user.id)
+            total=cart.get_cart_cost()
+            tax=cart.get_cart_tax()
+            grandTotal=cart.get_cart_cost() + cart.get_cart_tax()
+
         context = self.get_context_data(**kwargs)
         variants=[]
         products=[]
@@ -256,7 +278,14 @@ class ComparingView(TemplateView):
             print(product.id)
         for product in variants:
             print(product.id)    
-        return render(request,'product/comparing.html',{'products':products,'variants':variants})
+        return render(request,'product/comparing.html',
+        {'products':products,
+        'variants':variants,
+        'shopcart':shopcart,
+        'subtotal':total,
+        'tax':tax,
+        'total':grandTotal
+        })
 
     
 
@@ -385,6 +414,15 @@ class CollectionView(TemplateView):
 
 
 def category(request, category_slug):
+    if not request.user.is_anonymous:
+        cart = Cart(request)
+        current_user = request.user
+        # cart.clear()
+        shopcart = ShopCart.objects.filter(user_id=current_user.id)
+        total=cart.get_cart_cost()
+        tax=cart.get_cart_tax()
+        grandTotal=cart.get_cart_cost() + cart.get_cart_tax()
+
     print('category')
     category = get_object_or_404(Category, slug=category_slug)
 
@@ -481,12 +519,25 @@ def category(request, category_slug):
             'query_height':query_height,
             'query_width':query_width,
             'query_length':query_length,
-            'max_amount':max_amount
+            'max_amount':max_amount,
+            'shopcart':shopcart,
+            'subtotal':total,
+            'tax':tax,
+            'total':grandTotal
 
         }
     )
 
 def subcategory(request, category_slug, subcategory_slug):
+    if not request.user.is_anonymous:
+        cart = Cart(request)
+        current_user = request.user
+        # cart.clear()
+        shopcart = ShopCart.objects.filter(user_id=current_user.id)
+        total=cart.get_cart_cost()
+        tax=cart.get_cart_tax()
+        grandTotal=cart.get_cart_cost() + cart.get_cart_tax()
+
     category = get_object_or_404(SubCategory, slug=subcategory_slug)
     sub_category=SubSubCategory.objects.filter(sub_category=category).first()
     products = Product.objects.filter(visible=True,category=sub_category,status=True)
@@ -567,12 +618,25 @@ def subcategory(request, category_slug, subcategory_slug):
         'query_height':query_height,
         'query_width':query_width,
         'query_length':query_length,
-        'max_amount':max_amount
+        'max_amount':max_amount,
+        'shopcart':shopcart,
+        'subtotal':total,
+        'tax':tax,
+        'total':grandTotal
         }
     )
 
 
 def subsubcategory(request, category_slug, subcategory_slug, subsubcategory_slug):
+    if not request.user.is_anonymous:
+        cart = Cart(request)
+        current_user = request.user
+        # cart.clear()
+        shopcart = ShopCart.objects.filter(user_id=current_user.id)
+        total=cart.get_cart_cost()
+        tax=cart.get_cart_tax()
+        grandTotal=cart.get_cart_cost() + cart.get_cart_tax()
+        
     category = get_object_or_404(SubSubCategory, slug=subsubcategory_slug)
     products = Product.objects.filter(visible=True,category=category,status=True)
     for product in products:
@@ -654,7 +718,11 @@ def subsubcategory(request, category_slug, subcategory_slug, subsubcategory_slug
             'query_height':query_height,
             'query_width':query_width,
             'query_length':query_length,
-            'max_amount':max_amount
+            'max_amount':max_amount,
+            'shopcart':shopcart,
+            'subtotal':total,
+            'tax':tax,
+            'total':grandTotal
         }
     )
 

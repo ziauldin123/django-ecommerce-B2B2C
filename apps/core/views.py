@@ -88,6 +88,15 @@ def frontpage(request):
 
 
 def contact(request):
+    if not request.user.is_anonymous:
+        cart = Cart(request)
+        current_user = request.user
+        # cart.clear()
+        shopcart = ShopCart.objects.filter(user_id=current_user.id)
+        total=cart.get_cart_cost()
+        tax=cart.get_cart_tax()
+        grandTotal=cart.get_cart_cost() + cart.get_cart_tax()
+
     if request.method == 'POST':
         print('hello')
         name = request.POST.get('full-name')
@@ -109,28 +118,128 @@ def contact(request):
         send_mail(data['subject'], message, '', ['warehouse2fifty@gmail.com'])
         return HttpResponse('Thank you for your message, we will be in touch soon')
 
-    return render(request, 'core/contact.html')
+    return render(request, 'core/contact.html',
+    {
+        
+            'shopcart':shopcart,
+            'subtotal':total,
+            'tax':tax,
+            'total':grandTotal
+    })
 
 
 def about(request):
-    return render(request, 'core/about.html')
+    if not request.user.is_anonymous:
+        cart = Cart(request)
+        current_user = request.user
+        # cart.clear()
+        shopcart = ShopCart.objects.filter(user_id=current_user.id)
+        total=cart.get_cart_cost()
+        tax=cart.get_cart_tax()
+        grandTotal=cart.get_cart_cost() + cart.get_cart_tax()
+
+    return render(request, 'core/about.html',
+    {
+        
+            'shopcart':shopcart,
+            'subtotal':total,
+            'tax':tax,
+            'total':grandTotal
+    })
 
 
 def pricing(request):
-    return render(request, 'core/pricing.html')
+    if not request.user.is_anonymous:
+        cart = Cart(request)
+        current_user = request.user
+        # cart.clear()
+        shopcart = ShopCart.objects.filter(user_id=current_user.id)
+        total=cart.get_cart_cost()
+        tax=cart.get_cart_tax()
+        grandTotal=cart.get_cart_cost() + cart.get_cart_tax()
+
+    return render(request, 'core/pricing.html',
+    {
+        
+            'shopcart':shopcart,
+            'subtotal':total,
+            'tax':tax,
+            'total':grandTotal
+    })
 
 
 def frequently_asked_questions(request):
-    return render(request, 'core/frequently_asked_questions.html')
+    if not request.user.is_anonymous:
+        cart = Cart(request)
+        current_user = request.user
+        # cart.clear()
+        shopcart = ShopCart.objects.filter(user_id=current_user.id)
+        total=cart.get_cart_cost()
+        tax=cart.get_cart_tax()
+        grandTotal=cart.get_cart_cost() + cart.get_cart_tax()
+
+    return render(request, 'core/frequently_asked_questions.html',{
+        
+            'shopcart':shopcart,
+            'subtotal':total,
+            'tax':tax,
+            'total':grandTotal
+    })
 
 
 def termsandconditions(request):
-    return render(request, 'core/termsandconditions.html')
+    if not request.user.is_anonymous:
+        cart = Cart(request)
+        current_user = request.user
+        # cart.clear()
+        shopcart = ShopCart.objects.filter(user_id=current_user.id)
+        total=cart.get_cart_cost()
+        tax=cart.get_cart_tax()
+        grandTotal=cart.get_cart_cost() + cart.get_cart_tax()
+
+    return render(request, 'core/termsandconditions.html',
+    {
+        
+            'shopcart':shopcart,
+            'subtotal':total,
+            'tax':tax,
+            'total':grandTotal
+    })
 
 
 def privacy_policy(request):
-    return render(request, 'core/privacy_policy.html')
+    if not request.user.is_anonymous:
+        cart = Cart(request)
+        current_user = request.user
+        # cart.clear()
+        shopcart = ShopCart.objects.filter(user_id=current_user.id)
+        total=cart.get_cart_cost()
+        tax=cart.get_cart_tax()
+        grandTotal=cart.get_cart_cost() + cart.get_cart_tax()
+
+    return render(request, 'core/privacy_policy.html',{
+        
+            'shopcart':shopcart,
+            'subtotal':total,
+            'tax':tax,
+            'total':grandTotal
+    })
 
 
 def error_404_view(request, exception):
-    return render(request, 'core/404.html')
+    if not request.user.is_anonymous:
+        cart = Cart(request)
+        current_user = request.user
+        # cart.clear()
+        shopcart = ShopCart.objects.filter(user_id=current_user.id)
+        total=cart.get_cart_cost()
+        tax=cart.get_cart_tax()
+        grandTotal=cart.get_cart_cost() + cart.get_cart_tax()
+
+    return render(request, 'core/404.html',{
+        
+            'shopcart':shopcart,
+            'subtotal':total,
+            'tax':tax,
+            'total':grandTotal
+    })
