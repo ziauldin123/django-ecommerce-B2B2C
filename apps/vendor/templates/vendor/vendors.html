@@ -9,21 +9,7 @@
                 <div class="page-header__container container">
                     <div class="page-header__breadcrumb">
                         <nav aria-label="breadcrumb">
-                            <ol class="breadcrumb">
-                                <li class="breadcrumb-item">
-                                    <a href="index.html">Home</a>
-                                    <svg class="breadcrumb-arrow" width="6px" height="9px">
-                                        <use xlink:href="images/sprite.svg#arrow-rounded-right-6x9"></use>
-                                    </svg>
-                                </li>
-                                <li class="breadcrumb-item">
-                                    <a href="">Breadcrumb</a>
-                                    <svg class="breadcrumb-arrow" width="6px" height="9px">
-                                        <use xlink:href="images/sprite.svg#arrow-rounded-right-6x9"></use>
-                                    </svg>
-                                </li>
-                                <li class="breadcrumb-item active" aria-current="page">Vendors</li>
-                            </ol>
+                            
                         </nav>
                     </div>
                     <div class="page-header__title">
@@ -40,19 +26,15 @@
                                     <div class="products-list__body">
                                         {% for vendor in vendors %}
                                         <div class="products-list__item">
-                                            <div class="product-card product-card--hidden-actions ">
+                                            <div class="product-card  ">
                                                 <div class="product-card__image product-image">
                                                     <a href="{% url 'vendor' vendor.slug %}" class="product-image__body">
                                                         <img class="product-image__img" src="{{ vendor.logo.url }}" alt="">
                                                     </a>
                                                 </div>
-                                                <div class="product-card__info">
-                                                    <div class="product-card__name">
-                                                        <a href="{% url 'vendor' vendor.slug %}">{{ vendor.company_name }}</a>
-                                                    </div>
-                                                </div>
-                                                <div class="product-card__buttons">
-                                                        <a href="{% url 'vendor' vendor.slug %}"class="btn btn-primary product-card__addtocart" type="button">Visit Store</a>
+
+                                                <div class="pt-3">
+                                                    <a type="submit" class="btn btn-primary btn-lg btn-block" href="{% url 'vendor' vendor.slug %}">Visit {{ vendor.company_name }}</a>
                                                 </div>
                                             </div>
                                         </div>
