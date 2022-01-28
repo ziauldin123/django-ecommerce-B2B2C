@@ -108,18 +108,7 @@
             <div class="page-header__breadcrumb">
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item">
-                            <a href="/">Home</a>
-                            <svg class="breadcrumb-arrow" width="6px" height="9px">
-                                <use xlink:href="/static/templates/images/sprite.svg#arrow-rounded-right-6x9"></use>
-                            </svg>
-                        </li>
-                        <li class="breadcrumb-item">
-                            <a href="/category/{{ product.category.id }}/{{ product.category.slug }}">{{ product.category.title }}</a>
-                            <svg class="breadcrumb-arrow" width="6px" height="9px">
-                            </svg>
-                        </li>
-                        <li class="breadcrumb-item active" aria-current="page">{{ product.title }}</li>
+                        
                     </ol>
                 </nav>
             </div>
@@ -346,7 +335,9 @@
                                     </div>
                                 </div>
                             </div>
-                            <a href="">{{ product.countreview}} Reviews</a><span>/</span><a href="#tab-reviews">Write A Review</a>
+                            <div class="product__rating-legend">
+                                <a href="">{{ product.countreview}}  Reviews</a><span>/</span><a href="#tab-reviews">Write A Review</a>
+                            </div>
                         </div>
                         <div class="product__description">
                             {{ product.summary }}.
@@ -403,9 +394,9 @@
                                     <div class="input-radio-label__list">
                                             <input type="hidden" name="productid" id="productid" value="{{ product.id }}">
                                             {% for rs in sizes %}
-                                                  <label data-toggle="tooltip"  {% if variant.size_id == rs.size_id %} class="active" {% endif %}>
-                                                       <input type="radio" name="size" id="size" {% if variant.size_id == rs.size_id %} selected {% endif %} value="{{ rs.size_id }}">
-                                                       <a><span>{{rs.size.name}}</span></a>
+                                                  <label  data-toggle="tooltip"  {% if variant.size_id == rs.size_id %} class="active" {% endif %}>
+                                                       <input type="radio" name="size" id="size"  {% if variant.size_id == rs.size_id %} selected {% endif %} value="{{ rs.size_id }}">
+                                                       <span><a>{{rs.size.name}}</a></span>
                                                    </label></br>
                                             {% endfor %}
                                     </div>
@@ -445,7 +436,7 @@
                                                                 {% for rs in sizes %}
                                                                 <label data-toggle="tooltip"  {% if variant.id == rs.id %} class="active" {% endif %}>
                                                                     <input type="radio" {% if variant.id == rs.id %} checked {% endif %} name="variantid" id="variantid" value="{{ rs.id }}" onchange="this.form.submit();">
-                                                                    <a><span>{{rs.size}}</span></a>
+                                                                    <span><a>{{rs.size}}</a></span>
                                                                 </label></br>
                                                                 {% endfor %}
                                                             </div>
@@ -551,7 +542,7 @@
                             </span>
                         </div>
                     </div>    
-                        {% if product.is_variant %} 
+                    {% if product.is_variant %} 
                     <div class="form-group product__option">
                         <input type="hidden" name="variantid" id="variant_id" value="{{ variant.id }}">
                         <label class="product__option-label" for="product-quantity">Quantity</label>
@@ -641,620 +632,354 @@
                         </div>
                     </div>
             </div>
-            <div class="product-tabs  product-tabs--sticky">
-                <div class="product-tabs__list">
-                    <div class="product-tabs__list-body">
-                        <div class="product-tabs__list-container container">
-                            <a href="#tab-description" class="product-tabs__item product-tabs__item--active">Description</a>
-                            <a href="#tab-specification" class="product-tabs__item">Specification</a>
-                            <a href="#tab-reviews" class="product-tabs__item">Reviews</a>
-                        </div>
+        </div>
+        <div class="product-tabs  product-tabs--sticky">
+            <div class="product-tabs__list">
+                <div class="product-tabs__list-body">
+                    <div class="product-tabs__list-container container">
+                        <a href="#tab-description" class="product-tabs__item product-tabs__item--active">Description</a>
+                        <a href="#tab-specification" class="product-tabs__item">Specification</a>
+                        <a href="#tab-reviews" class="product-tabs__item">Reviews</a>
                     </div>
                 </div>
-                <div class="product-tabs__content">
-                    <div class="product-tabs__pane product-tabs__pane--active" id="tab-description">
-                        <div class="typography">
-                            <h3>Product Full Description</h3>
-                            {{ product.description|safe }}
+            </div>
+            <div class="product-tabs__content">
+                <div class="product-tabs__pane product-tabs__pane--active" id="tab-description">
+                    <div class="typography">
+                        <h3>Product Full Description</h3>
+                        {{ product.description|safe }}
+                    </div>
+                </div>
+                <div class="product-tabs__pane" id="tab-specification">
+                    {% if product.is_variant %} 
+                    <div class="spec">
+                        <h3 class="spec__header">Specification</h3>
+                        <div class="spec__section">
+                            <h4 class="spec__section-title">General</h4>
+                            {% if variant.size %}
+                            <div class="spec__row">
+                                <div class="spec__name">Size</div>
+                                <div class="spec__value">{{ variant.size }} mm</div>
+                            </div>
+                            {% endif %}
+                            {% if variant.color %}
+                            <div class="spec__row">
+                                <div class="spec__name">Color</div>
+                                <div class="spec__value">{{ variant.color }}</div>        
+                            </div>
+                            {% endif %}
+                            {% if variant.weight %}
+                            <div class="spec__row">
+                                <div class="spec__name">Weight</div>
+                                <div class="spec__value">{{ variant.weight }} mm</div>
+                            </div>
+                            {% endif %}
+                        </div>
+                        <div class="spec__section">
+                            <h4 class="spec__section-title">Dimensions</h4>
+                            {% if variant.length %}
+                            <div class="spec__row">
+                                <div class="spec__name">Length</div>
+                                <div class="spec__value">{{ variant.length }} mm</div>
+                            </div>
+                            {% endif %}
+                            {% if variant.width %}
+                            <div class="spec__row">
+                                <div class="spec__name">Width</div>
+                                <div class="spec__value">{{ variant.width }} mm</div>
+                            </div>
+                            {% endif %}
+                            {% if variant.height %}
+                            <div class="spec__row">
+                                <div class="spec__name">Height</div>
+                                <div class="spec__value">{{ variant.height }} mm</div>
+                             </div>
+                             {% endif %}
                         </div>
                     </div>
-                    <div class="product-tabs__pane" id="tab-specification">
-                        {% if product.is_variant %} 
-                        <div class="spec">
-                            <h3 class="spec__header">Specification</h3>
-                            <div class="spec__section">
-                                <h4 class="spec__section-title">General</h4>
-                                {% if variant.size %}
-                                <div class="spec__row">
-                                    <div class="spec__name">Size</div>
-                                    <div class="spec__value"></div>
-                                            {{ variant.size }} mm
-                                </div>
-                                {% endif %}
-                                {% if variant.color %}
-                                <div class="spec__row">
-                                    <div class="spec__name">Color</div>
-                                    <div class="spec__value"></div>
-                                            {{ variant.color }}
-                                </div>
-                                {% endif %}
-                                {% if variant.weight %}
-                                <div class="spec__row">
-                                    <div class="spec__name">Weight</div>
-                                    <div class="spec__value">
-                                            {{ variant.weight }} mm
-                                    </div>
-                                </div>
-                                {% endif %}
+                    {% else %} 
+                    <div class="spec">
+                        <h3 class="spec__header">Specification</h3>
+                        <div class="spec__section">
+                            <h4 class="spec__section-title">General</h4>
+                            {% if product.size %}
+                            <div class="spec__row">
+                                <div class="spec__name">Size</div>
+                                <div class="spec__value"></div>
+                                        {{ product.size }} mm
                             </div>
-                            <div class="spec__section">
-                                <h4 class="spec__section-title">Dimensions</h4>
-                                {% if variant.length %}
-                                <div class="spec__row">
-                                    <div class="spec__name">Length</div>
-                                    <div class="spec__value">
-                                            {{ variant.length }} mm
-                                    </div>
-                                </div>
-                                {% endif %}
-                                {% if variant.width %}
-                                <div class="spec__row">
-                                    <div class="spec__name">Width</div>
-                                    <div class="spec__value">
-                                            {{ variant.width }} mm
-                                    </div>
-                                </div>
-                                {% endif %}
-                                {% if variant.height %}
-                                <div class="spec__row">
-                                    <div class="spec__name">Height</div>
-                                    <div class="spec__value">
-                                            {{ variant.height }} mm
-                                        </div>
-                                 </div>
-                                 </div>
                             {% endif %}
-                            <div class="spec__disclaimer">
-                                Information on technical characteristics, the delivery set, the country of manufacture and the appearance
-                                of the goods is for reference only and is based on the latest information available at the time of publication.
+                            {% if product.color %}
+                            <div class="spec__row">
+                                <div class="spec__name">Color</div>
+                                <div class="spec__value"></div>
+                                        {{ product.color }}
                             </div>
-                        </div>
-                        {% else %} 
-                        <div class="spec">
-                            <h3 class="spec__header">Specification</h3>
-                            <div class="spec__section">
-                                <h4 class="spec__section-title">General</h4>
-                                {% if product.size %}
-                                <div class="spec__row">
-                                    <div class="spec__name">Size</div>
-                                    <div class="spec__value"></div>
-                                            {{ product.size }} mm
-                                </div>
-                                {% endif %}
-                                {% if product.color %}
-                                <div class="spec__row">
-                                    <div class="spec__name">Color</div>
-                                    <div class="spec__value"></div>
-                                            {{ product.color }}
-                                </div>
-                                {% endif %}
-                                {% if product.weight %}
-                                <div class="spec__row">
-                                    <div class="spec__name">Weight</div>
-                                    <div class="spec__value">
-                                            {{ product.weight }} mm
-                                    </div>
-                                </div>
-                                {% endif %}
-                            </div>
-                            <div class="spec__section">
-                                <h4 class="spec__section-title">Dimensions</h4>
-                                {% if product.length %}
-                                <div class="spec__row">
-                                    <div class="spec__name">Length</div>
-                                    <div class="spec__value">
-                                            {{ product.length }} mm
-                                    </div>
-                                </div>
-                                {% endif %}
-                                {% if product.width %}
-                                <div class="spec__row">
-                                    <div class="spec__name">Width</div>
-                                    <div class="spec__value">
-                                            {{ product.width }} mm
-                                    </div>
-                                </div>
-                                {% endif %}
-                                {% if product.height %}
-                                <div class="spec__row">
-                                    <div class="spec__name">Height</div>
-                                    <div class="spec__value">
-                                            {{ product.height }} mm
-                                        </div>
-                                 </div>
-                                 </div>
                             {% endif %}
-                            <div class="spec__disclaimer">
-                                Information on technical characteristics, the delivery set, the country of manufacture and the appearance
-                                of the goods is for reference only and is based on the latest information available at the time of publication.
+                            {% if product.weight %}
+                            <div class="spec__row">
+                                <div class="spec__name">Weight</div>
+                                <div class="spec__value">
+                                        {{ product.weight }} mm
+                                </div>
                             </div>
+                            {% endif %}
                         </div>
-                        {% endif %}
+                        <div class="spec__section">
+                            <h4 class="spec__section-title">Dimensions</h4>
+                            {% if product.length %}
+                            <div class="spec__row">
+                                <div class="spec__name">Length</div>
+                                <div class="spec__value">
+                                        {{ product.length }} mm
+                                </div>
+                            </div>
+                            {% endif %}
+                            {% if product.width %}
+                            <div class="spec__row">
+                                <div class="spec__name">Width</div>
+                                <div class="spec__value">
+                                        {{ product.width }} mm
+                                </div>
+                            </div>
+                            {% endif %}
+                            {% if product.height %}
+                            <div class="spec__row">
+                                <div class="spec__name">Height</div>
+                                <div class="spec__value">
+                                        {{ product.height }} mm
+                                    </div>
+                             </div>
+                             {% endif %}
+                        </div>
                     </div>
-                    <div class="product-tabs__pane" id="tab-reviews">
-                        <div class="reviews-view">
-                            <div class="reviews-view__list">
-                                <h3 class="reviews-view__header">Customer Reviews</h3>
-                                <div class="reviews-list">
-                                    <ol class="reviews-list__content">
-                                        {% for rs in comments %}
-                                        <li class="reviews-list__item">
-                                            <div class="review">
-                                                <div class="review__avatar"><img src="/static/templates/images/avatars/avatar-1.jpg" alt=""></div>
-                                                <div class="review__content">
-                                                    <div class="review__author">{{rs.subject}}</div>
-                                                    <div class="review__rating">
-                                                        <div class="rating">
-                                                            <div class="rating__body">
-                                                                <svg class="rating__star rating__star--active" width="13px" height="12px">
-                                                                    <g class="rating__fill">
-                                                                        <use xlink:href="/static/templates/images/sprite.svg#star-normal"></use>
-                                                                    </g>
-                                                                    <g class="rating__stroke">
-                                                                        <use xlink:href="/static/templates/images/sprite.svg#star-normal-stroke"></use>
-                                                                    </g>
-                                                                </svg>
-                                                                <div class="rating__star rating__star--only-edge rating__star--active">
-                                                                    <div class="rating__fill">
-                                                                        <div class="fake-svg-icon"></div>
-                                                                    </div>
-                                                                    <div class="rating__stroke">
-                                                                        <div class="fake-svg-icon"></div>
-                                                                    </div>
+                    {% endif %}
+                    <div class="spec__disclaimer">
+                        Information on technical characteristics, the delivery set, the country of manufacture and the appearance
+                        of the goods is for reference only and is based on the latest information available at the time of publication.
+                    </div>
+                </div>
+                <div class="product-tabs__pane" id="tab-reviews">
+                    <div class="reviews-view">
+                        <div class="reviews-view__list">
+                            <h3 class="reviews-view__header">Customer Reviews</h3>
+                            <div class="reviews-list">
+                                <ol class="reviews-list__content">
+                                    {% if comments %} 
+                                    {% for comment in comments %}
+                                    <li class="reviews-list__item">
+                                        <div class="review">
+                                            <div class="review__avatar"><img src="/static/templates/images/avatars/avatar-1.jpg" alt=""></div>
+                                            <div class="review__content">
+                                                <div class="review__author">{{comment.subject}}</div>
+                                                <div class="review__rating">
+                                                    <div class="rating">
+                                                        <div class="rating__body">
+                                                            
+                                                            {% if product.avaregeview > 0  %} 
+                                                            <svg class="rating__star rating__star--active" width="13px" height="12px">
+                                                                <g class="rating__fill">
+                                                                    <use xlink:href="/static/templates/images/sprite.svg#star-normal"></use>
+                                                                </g>
+                                                                <g class="rating__stroke">
+                                                                    <use xlink:href="/static/templates/images/sprite.svg#star-normal-stroke"></use>
+                                                                </g>
+                                                            </svg>
+                                                            <div class="rating__star rating__star--only-edge rating__star--active">
+                                                                <div class="rating__fill">
+                                                                    <div class="fake-svg-icon"></div>
                                                                 </div>
-                                                                <svg class="rating__star rating__star--active" width="13px" height="12px">
-                                                                    <g class="rating__fill">
-                                                                        <use xlink:href="/static/templates/images/sprite.svg#star-normal"></use>
-                                                                    </g>
-                                                                    <g class="rating__stroke">
-                                                                        <use xlink:href="/static/templates/images/sprite.svg#star-normal-stroke"></use>
-                                                                    </g>
-                                                                </svg>
-                                                                <div class="rating__star rating__star--only-edge rating__star--active">
-                                                                    <div class="rating__fill">
-                                                                        <div class="fake-svg-icon"></div>
-                                                                    </div>
-                                                                    <div class="rating__stroke">
-                                                                        <div class="fake-svg-icon"></div>
-                                                                    </div>
-                                                                </div>
-                                                                <svg class="rating__star rating__star--active" width="13px" height="12px">
-                                                                    <g class="rating__fill">
-                                                                        <use xlink:href="images/sprite.svg#star-normal"></use>
-                                                                    </g>
-                                                                    <g class="rating__stroke">
-                                                                        <use xlink:href="/static/templates/images/sprite.svg#star-normal-stroke"></use>
-                                                                    </g>
-                                                                </svg>
-                                                                <div class="rating__star rating__star--only-edge rating__star--active">
-                                                                    <div class="rating__fill">
-                                                                        <div class="fake-svg-icon"></div>
-                                                                    </div>
-                                                                    <div class="rating__stroke">
-                                                                        <div class="fake-svg-icon"></div>
-                                                                    </div>
-                                                                </div>
-                                                                <svg class="rating__star rating__star--active" width="13px" height="12px">
-                                                                    <g class="rating__fill">
-                                                                        <use xlink:href="/static/templates/images/sprite.svg#star-normal"></use>
-                                                                    </g>
-                                                                    <g class="rating__stroke">
-                                                                        <use xlink:href="/static/templates/images/sprite.svg#star-normal-stroke"></use>
-                                                                    </g>
-                                                                </svg>
-                                                                <div class="rating__star rating__star--only-edge rating__star--active">
-                                                                    <div class="rating__fill">
-                                                                        <div class="fake-svg-icon"></div>
-                                                                    </div>
-                                                                    <div class="rating__stroke">
-                                                                        <div class="fake-svg-icon"></div>
-                                                                    </div>
-                                                                </div>
-                                                                <svg class="rating__star " width="13px" height="12px">
-                                                                    <g class="rating__fill">
-                                                                        <use xlink:href="/static/templates/images/sprite.svg#star-normal"></use>
-                                                                    </g>
-                                                                    <g class="rating__stroke">
-                                                                        <use xlink:href="/static/templates/images/sprite.svg#star-normal-stroke"></use>
-                                                                    </g>
-                                                                </svg>
-                                                                <div class="rating__star rating__star--only-edge ">
-                                                                    <div class="rating__fill">
-                                                                        <div class="fake-svg-icon"></div>
-                                                                    </div>
-                                                                    <div class="rating__stroke">
-                                                                        <div class="fake-svg-icon"></div>
-                                                                    </div>
+                                                                <div class="rating__stroke">
+                                                                    <div class="fake-svg-icon"></div>
                                                                 </div>
                                                             </div>
+                                                            {% endif %}
+                                                            {% if product.avaregeview > 1  %} 
+                                                            <svg class="rating__star rating__star--active" width="13px" height="12px">
+                                                                <g class="rating__fill">
+                                                                    <use xlink:href="/static/templates/images/sprite.svg#star-normal"></use>
+                                                                </g>
+                                                                <g class="rating__stroke">
+                                                                    <use xlink:href="/static/templates/images/sprite.svg#star-normal-stroke"></use>
+                                                                </g>
+                                                            </svg>
+                                                            <div class="rating__star rating__star--only-edge rating__star--active">
+                                                                <div class="rating__fill">
+                                                                    <div class="fake-svg-icon"></div>
+                                                                </div>
+                                                                <div class="rating__stroke">
+                                                                    <div class="fake-svg-icon"></div>
+                                                                </div>
+                                                            </div>
+                                                            {% endif %}
+                                                            {% if product.avaregeview > 2  %} 
+                                                            <svg class="rating__star rating__star--active" width="13px" height="12px">
+                                                                <g class="rating__fill">
+                                                                    <use xlink:href="/static/templates/images/sprite.svg#star-normal"></use>
+                                                                </g>
+                                                                <g class="rating__stroke">
+                                                                    <use xlink:href="/static/templates/images/sprite.svg#star-normal-stroke"></use>
+                                                                </g>
+                                                            </svg>
+                                                            <div class="rating__star rating__star--only-edge rating__star--active">
+                                                                <div class="rating__fill">
+                                                                    <div class="fake-svg-icon"></div>
+                                                                </div>
+                                                                <div class="rating__stroke">
+                                                                    <div class="fake-svg-icon"></div>
+                                                                </div>
+                                                            </div>
+                                                            {% endif %}
+                                                            {% if product.avaregeview > 3  %} 
+                                                            <svg class="rating__star rating__star--active" width="13px" height="12px">
+                                                                <g class="rating__fill">
+                                                                    <use xlink:href="/static/templates/images/sprite.svg#star-normal"></use>
+                                                                </g>
+                                                                <g class="rating__stroke">
+                                                                    <use xlink:href="/static/templates/images/sprite.svg#star-normal-stroke"></use>
+                                                                </g>
+                                                            </svg>
+                                                            <div class="rating__star rating__star--only-edge rating__star--active">
+                                                                <div class="rating__fill">
+                                                                    <div class="fake-svg-icon"></div>
+                                                                </div>
+                                                                <div class="rating__stroke">
+                                                                    <div class="fake-svg-icon"></div>
+                                                                </div>
+                                                            </div>
+                                                            {% endif %}
+                                                            {% if product.avaregeview > 4  %} 
+                                                            <svg class="rating__star rating__star--active" width="13px" height="12px">
+                                                                <g class="rating__fill">
+                                                                    <use xlink:href="/static/templates/images/sprite.svg#star-normal"></use>
+                                                                </g>
+                                                                <g class="rating__stroke">
+                                                                    <use xlink:href="/static/templates/images/sprite.svg#star-normal-stroke"></use>
+                                                                </g>
+                                                            </svg>
+                                                            <div class="rating__star rating__star--only-edge rating__star--active">
+                                                                <div class="rating__fill">
+                                                                    <div class="fake-svg-icon"></div>
+                                                                </div>
+                                                                <div class="rating__stroke">
+                                                                    <div class="fake-svg-icon"></div>
+                                                                </div>
+                                                            </div>
+                                                            {% endif %}
                                                         </div>
                                                     </div>
-                                                    <div class="review__text">{{rs.comment}}</div>
-                                                    <div class="review__date">{{ rs.create_at}}</div>
                                                 </div>
+                                                <div class="review__text">{{comment.comment}}</div>
+                                                <div class="review__date">{{ comment.create_at}}</div>
                                             </div>
+                                        </div>
+                                    </li>
+                                    {% endfor %}
+                                    {% endif %}
+                                </ol>
+                                <div class="reviews-list__pagination">
+                                    <ul class="pagination justify-content-center">
+                                        <li class="page-item disabled">
+                                            <a class="page-link page-link--with-arrow" href="" aria-label="Previous">
+                                                <svg class="page-link__arrow page-link__arrow--left" aria-hidden="true" width="8px" height="13px">
+                                                    <use xlink:href="/static/templates/images/sprite.svg#arrow-rounded-left-8x13"></use>
+                                                </svg>
+                                            </a>
                                         </li>
-                                        {% endfor %}
-                                    </ol>
-                                    <div class="reviews-list__pagination">
-                                        <ul class="pagination justify-content-center">
-                                            <li class="page-item disabled">
-                                                <a class="page-link page-link--with-arrow" href="" aria-label="Previous">
-                                                    <svg class="page-link__arrow page-link__arrow--left" aria-hidden="true" width="8px" height="13px">
-                                                        <use xlink:href="/static/templates/images/sprite.svg#arrow-rounded-left-8x13"></use>
-                                                    </svg>
-                                                </a>
-                                            </li>
-                                            <li class="page-item"><a class="page-link" href="">1</a></li>
-                                            <li class="page-item active"><a class="page-link" href="">2 <span class="sr-only">(current)</span></a></li>
-                                            <li class="page-item"><a class="page-link" href="">3</a></li>
-                                            <li class="page-item">
-                                                <a class="page-link page-link--with-arrow" href="" aria-label="Next">
-                                                    <svg class="page-link__arrow page-link__arrow--right" aria-hidden="true" width="8px" height="13px">
-                                                        <use xlink:href="/static/templates/images/sprite.svg#arrow-rounded-right-8x13"></use>
-                                                    </svg>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            {% if messages %}
-                                        {% for message in messages %}
-                                            <div class="alert alert-{{message.tags}}" role="alert">
-                                                {{ message }}
-                                            </div>
-                                        {% endfor %}
-                                    {% endif %}
-                            <form class="reviews-view__form review-form" action="/newProduct/addcomment/{{ product.id }}" method="post">
-                                {% csrf_token %}
-                                <h3 class="reviews-view__header">Write A Review</h3>
-                                <div class="row">
-                                    <div class="col-12 col-lg-9 col-xl-8">
-                                        <div class="form-row">
-                                            <div class="input-rating">
-                                                <strong class="text-uppercase">Your Rating: </strong>
-                                                <div class="stars">
-                                                    <input type="radio" id="star5" name="rate" value="5" /><label for="star5"></label>
-                                                    <input type="radio" id="star4" name="rate" value="4" /><label for="star4"></label>
-                                                    <input type="radio" id="star3" name="rate" value="3" /><label for="star3"></label>
-                                                    <input type="radio" id="star2" name="rate" value="2" /><label for="star2"></label>
-                                                    <input type="radio" id="star1" name="rate" value="1" /><label for="star1"></label>
-                                                </div>
-                                            </div>
-                                            <div class="form-group col-md-4">
-                                                <label for="review-author">Subject</label>
-                                                <input type="text" name="subject"  class="form-control input" id="review-author" placeholder="Your Subject">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="review-text">Your Review</label>
-                                            <textarea class="form-control input" name="comment" id="review-text" rows="6"></textarea>
-                                        </div>
-                                        <div class="form-group mb-0">
-                                            {% if customer %} 
-                                            <button type="submit" class="btn btn-primary btn-lg">Post Your Review</button>
-                                            {% else %} 
-                                            You must be logged in to post comments
-                                            {% endif %}
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    </div>
-    <!-- .block-products-carousel -->
-    <div class="block block-products-carousel" data-layout="grid-5" data-mobile-grid-columns="2">
-        <div class="container">
-            <div class="block-header">
-                <h3 class="block-header__title">Related Products</h3>
-                <div class="block-header__divider"></div>
-                <div class="block-header__arrows-list">
-                    <button class="block-header__arrow block-header__arrow--left" type="button">
-                        <svg width="7px" height="11px">
-                            <use xlink:href="/static/templates/images/sprite.svg#arrow-rounded-left-7x11"></use>
-                        </svg>
-                    </button>
-                    <button class="block-header__arrow block-header__arrow--right" type="button">
-                        <svg width="7px" height="11px">
-                            <use xlink:href="/static/templates/images/sprite.svg#arrow-rounded-right-7x11"></use>
-                        </svg>
-                    </button>
-                </div>
-            </div>
-            <div class="block-products-carousel__slider">
-                <div class="block-products-carousel__preloader"></div>
-                <div class="owl-carousel">
-                    {% for product in similar_products %} 
-                    <div class="block-products-carousel__column">
-                        <div class="block-products-carousel__cell">
-                            <div class="product-card product-card--hidden-actions ">
-                                <button class="product-card__quickview" type="button">
-                                    <svg width="16px" height="16px">
-                                        <use xlink:href="/static/templates/images/sprite.svg#quickview-16"></use>
-                                    </svg>
-                                    <span class="fake-svg-icon"></span>
-                                </button>
-                                <div class="product-card__image product-image">
-                                    {% if product.is_variant %} 
-                                    <a href="{% url 'product' product.id product.slugV product.category.sub_category.category.slug product.category.sub_category.slug product.category.slug product.slug %}" class="product-image__body">
-                                        <img class="product-image__img" src="{{product.get_variant.image_variant.url }}" alt="">
-                                    </a>
-                                    {% else %} 
-                                    <a href="{% url 'product' product.id product.slugV product.category.sub_category.category.slug product.category.sub_category.slug product.category.slug product.slug %}" class="product-image__body">
-                                        <img class="product-image__img" src="{{ product.image.url }}" alt="">
-                                    </a>
-                                    {% endif %}
-                                </div>
-                                <div class="product-card__info">
-                                    <div class="product-card__name">
-                                        <a href="{% url 'product' product.id product.slugV product.category.sub_category.category.slug product.category.sub_category.slug product.category.slug product.slug %}">
-                                            {{product.title}}
-                                        </a>
-                                    </div>
-                                    <div class="product-card__rating">
-                                        <div class="product-card__rating-stars">
-                                            <div class="rating">
-                                                <div class="rating__body">
-                                                    {% if product.is_variant %} 
-                                                    {% if product.get_variant.avaregeview > 0 %} 
-                                                    <svg class="rating__star rating__star--active" width="13px" height="12px">
-                                                        <g class="rating__fill">
-                                                            <use xlink:href="/static/templates/images/sprite.svg#star-normal"></use>
-                                                        </g>
-                                                        <g class="rating__stroke">
-                                                            <use xlink:href="/static/templates/images/sprite.svg#star-normal-stroke"></use>
-                                                        </g>
-                                                    </svg>
-                                                    <div class="rating__star rating__star--only-edge rating__star--active">
-                                                        <div class="rating__fill">
-                                                            <div class="fake-svg-icon"></div>
-                                                        </div>
-                                                        <div class="rating__stroke">
-                                                            <div class="fake-svg-icon"></div>
-                                                        </div>
-                                                    </div>
-                                                    {% endif %}
-                                                    {% if product.get_variant.avaregeview > 1  %} 
-                                                    <svg class="rating__star rating__star--active" width="13px" height="12px">
-                                                        <g class="rating__fill">
-                                                            <use xlink:href="/static/templates/images/sprite.svg#star-normal"></use>
-                                                        </g>
-                                                        <g class="rating__stroke">
-                                                            <use xlink:href="/static/templates/images/sprite.svg#star-normal-stroke"></use>
-                                                        </g>
-                                                    </svg>
-                                                    <div class="rating__star rating__star--only-edge rating__star--active">
-                                                        <div class="rating__fill">
-                                                            <div class="fake-svg-icon"></div>
-                                                        </div>
-                                                        <div class="rating__stroke">
-                                                            <div class="fake-svg-icon"></div>
-                                                        </div>
-                                                    </div>
-                                                    {% endif %}
-                                                    {% if product.get_variant.avaregeview > 2  %} 
-                                                    <svg class="rating__star rating__star--active" width="13px" height="12px">
-                                                        <g class="rating__fill">
-                                                            <use xlink:href="/static/templates/images/sprite.svg#star-normal"></use>
-                                                        </g>
-                                                        <g class="rating__stroke">
-                                                            <use xlink:href="/static/templates/images/sprite.svg#star-normal-stroke"></use>
-                                                        </g>
-                                                    </svg>
-                                                    <div class="rating__star rating__star--only-edge rating__star--active">
-                                                        <div class="rating__fill">
-                                                            <div class="fake-svg-icon"></div>
-                                                        </div>
-                                                        <div class="rating__stroke">
-                                                            <div class="fake-svg-icon"></div>
-                                                        </div>
-                                                    </div>
-                                                    {% endif %}
-                                                    {% if product.get_variant.avaregeview > 3  %} 
-                                                    <svg class="rating__star rating__star--active" width="13px" height="12px">
-                                                        <g class="rating__fill">
-                                                            <use xlink:href="/static/templates/images/sprite.svg#star-normal"></use>
-                                                        </g>
-                                                        <g class="rating__stroke">
-                                                            <use xlink:href="/static/templates/images/sprite.svg#star-normal-stroke"></use>
-                                                        </g>
-                                                    </svg>
-                                                    <div class="rating__star rating__star--only-edge rating__star--active">
-                                                        <div class="rating__fill">
-                                                            <div class="fake-svg-icon"></div>
-                                                        </div>
-                                                        <div class="rating__stroke">
-                                                            <div class="fake-svg-icon"></div>
-                                                        </div>
-                                                    </div>
-                                                    {% endif %}
-                                                    {% if product.get_variant.avaregeview > 4  %} 
-                                                    <svg class="rating__star rating__star--active" width="13px" height="12px">
-                                                        <g class="rating__fill">
-                                                            <use xlink:href="/static/templates/images/sprite.svg#star-normal"></use>
-                                                        </g>
-                                                        <g class="rating__stroke">
-                                                            <use xlink:href="/static/templates/images/sprite.svg#star-normal-stroke"></use>
-                                                        </g>
-                                                    </svg>
-                                                    <div class="rating__star rating__star--only-edge rating__star--active">
-                                                        <div class="rating__fill">
-                                                            <div class="fake-svg-icon"></div>
-                                                        </div>
-                                                        <div class="rating__stroke">
-                                                            <div class="fake-svg-icon"></div>
-                                                        </div>
-                                                    </div>
-                                                    {% endif %}
-                                                    {% else %}
-                                                    {% if product.avaregeview > 0  %} 
-                                                    <svg class="rating__star rating__star--active" width="13px" height="12px">
-                                                        <g class="rating__fill">
-                                                            <use xlink:href="/static/templates/images/sprite.svg#star-normal"></use>
-                                                        </g>
-                                                        <g class="rating__stroke">
-                                                            <use xlink:href="/static/templates/images/sprite.svg#star-normal-stroke"></use>
-                                                        </g>
-                                                    </svg>
-                                                    <div class="rating__star rating__star--only-edge rating__star--active">
-                                                        <div class="rating__fill">
-                                                            <div class="fake-svg-icon"></div>
-                                                        </div>
-                                                        <div class="rating__stroke">
-                                                            <div class="fake-svg-icon"></div>
-                                                        </div>
-                                                    </div>
-                                                    {% endif %}
-                                                    {% if product.avaregeview > 1  %} 
-                                                    <svg class="rating__star rating__star--active" width="13px" height="12px">
-                                                        <g class="rating__fill">
-                                                            <use xlink:href="/static/templates/images/sprite.svg#star-normal"></use>
-                                                        </g>
-                                                        <g class="rating__stroke">
-                                                            <use xlink:href="/static/templates/images/sprite.svg#star-normal-stroke"></use>
-                                                        </g>
-                                                    </svg>
-                                                    <div class="rating__star rating__star--only-edge rating__star--active">
-                                                        <div class="rating__fill">
-                                                            <div class="fake-svg-icon"></div>
-                                                        </div>
-                                                        <div class="rating__stroke">
-                                                            <div class="fake-svg-icon"></div>
-                                                        </div>
-                                                    </div>
-                                                    {% endif %}
-                                                    {% if product.avaregeview > 2  %} 
-                                                    <svg class="rating__star rating__star--active" width="13px" height="12px">
-                                                        <g class="rating__fill">
-                                                            <use xlink:href="/static/templates/images/sprite.svg#star-normal"></use>
-                                                        </g>
-                                                        <g class="rating__stroke">
-                                                            <use xlink:href="/static/templates/images/sprite.svg#star-normal-stroke"></use>
-                                                        </g>
-                                                    </svg>
-                                                    <div class="rating__star rating__star--only-edge rating__star--active">
-                                                        <div class="rating__fill">
-                                                            <div class="fake-svg-icon"></div>
-                                                        </div>
-                                                        <div class="rating__stroke">
-                                                            <div class="fake-svg-icon"></div>
-                                                        </div>
-                                                    </div>
-                                                    {% endif %}
-                                                    {% if product.avaregeview > 3  %} 
-                                                    <svg class="rating__star rating__star--active" width="13px" height="12px">
-                                                        <g class="rating__fill">
-                                                            <use xlink:href="/static/templates/images/sprite.svg#star-normal"></use>
-                                                        </g>
-                                                        <g class="rating__stroke">
-                                                            <use xlink:href="/static/templates/images/sprite.svg#star-normal-stroke"></use>
-                                                        </g>
-                                                    </svg>
-                                                    <div class="rating__star rating__star--only-edge rating__star--active">
-                                                        <div class="rating__fill">
-                                                            <div class="fake-svg-icon"></div>
-                                                        </div>
-                                                        <div class="rating__stroke">
-                                                            <div class="fake-svg-icon"></div>
-                                                        </div>
-                                                    </div>
-                                                    {% endif %}
-                                                    {% if product.avaregeview > 4  %} 
-                                                    <svg class="rating__star rating__star--active" width="13px" height="12px">
-                                                        <g class="rating__fill">
-                                                            <use xlink:href="/static/templates/images/sprite.svg#star-normal"></use>
-                                                        </g>
-                                                        <g class="rating__stroke">
-                                                            <use xlink:href="/static/templates/images/sprite.svg#star-normal-stroke"></use>
-                                                        </g>
-                                                    </svg>
-                                                    <div class="rating__star rating__star--only-edge rating__star--active">
-                                                        <div class="rating__fill">
-                                                            <div class="fake-svg-icon"></div>
-                                                        </div>
-                                                        <div class="rating__stroke">
-                                                            <div class="fake-svg-icon"></div>
-                                                        </div>
-                                                    </div>
-                                                    {% endif %}
-                                                    {% endif %}
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="product-card__rating-legend">
-                                            {{ product.countreview}}  Reviews</div>
-                                    </div>
-                                    <ul class="product-card__features-list">
-                                        <li>Speed: 750 RPM</li>
-                                        <li>Power Source: Cordless-Electric</li>
-                                        <li>Battery Cell Type: Lithium</li>
-                                        <li>Voltage: 20 Volts</li>
-                                        <li>Battery Capacity: 2 Ah</li>
+                                        <li class="page-item"><a class="page-link" href="">1</a></li>
+                                        <li class="page-item active"><a class="page-link" href="">2 <span class="sr-only">(current)</span></a></li>
+                                        <li class="page-item"><a class="page-link" href="">3</a></li>
+                                        <li class="page-item">
+                                            <a class="page-link page-link--with-arrow" href="" aria-label="Next">
+                                                <svg class="page-link__arrow page-link__arrow--right" aria-hidden="true" width="8px" height="13px">
+                                                    <use xlink:href="/static/templates/images/sprite.svg#arrow-rounded-right-8x13"></use>
+                                                </svg>
+                                            </a>
+                                        </li>
                                     </ul>
                                 </div>
-                                <div class="product-card__actions">
-                                    <div class="product-card__availability">
-                                        Availability: <span class="text-success">In Stock</span>
+                            </div>
+                        </div>
+                        </div>
+                        <form class="reviews-view__form review-form" action="/newProduct/addcomment/{{ product.id }}" method="post">
+                            {% csrf_token %}
+                            <h3 class="reviews-view__header">Write A Review</h3>
+                            <div class="row">
+                                <div class="col-12 col-lg-9 col-xl-8">
+                                    <div class="form-group col-md-4">
+                                        <label for="review-author">Subject</label>
+                                        <input type="text" name="subject"  class="form-control input" id="review-author" placeholder="Your Subject">
                                     </div>
-                                    <div class="product-card__prices">
-                                        {% if product.is_variant %} 
-                                              {% if product.discount %} 
-                                                  <span class="product-card__new-price">{{product.get_variant.price}}</span>
-                                                  <span class="product-card__old-price">{{product.get_variant.discounted_price}}</span>
-                                              {% else %}
-                                                  <span class="product-card__old-price"></span>{{product.get_variant.price}}</span>
-                                              {% endif %}    
-                                        {% else %}
-                                             {% if product.discount  %} 
-                                                 <span class="product-card__new-price">{{product.price}}</span>
-                                                 <span class="product-card__old-price">{{product.get_discounted_price}}</span>
-                                             {% else %}
-                                                 <span class="product-card__old-price"></span>{{product.price}}</span>
-                                             {% endif %}
-                                        {% endif %}     
+                                    <div class="form-group">
+                                        <label for="review-text">Your Review</label>
+                                        <textarea class="form-control input" name="comment" id="review-text" rows="6"></textarea>
                                     </div>
-                                    <div class="product-card__buttons">
-                                        {% if product.is_variant %}
-                                        <a href="{% url 'product' product.id product.slugV product.category.sub_category.category.slug product.category.sub_category.slug product.category.slug product.slug %}"> 
-                                            <button class="btn btn-primary product-card__addtocart" type="button" >View Options</button>
-                                        </a>
-                                        {% else %}
-                                        <a onclick="addToCart('{{ product.id }}')">
-                                            {% if request.session.customer and product.quantity > 0 %}
-                                            <button class="btn btn-primary product-card__addtocart disabled" type="button" >Add To Cart</button>
-                                            {% else %} 
-                                            <button class="btn btn-primary product-card__addtocart " type="button" >Add To Cart</button>
-                                            {% endif %}
-                                        </a>
-                                        <div id="msg" class="mt-3"></div>
+                                    <div class="form-row form-group">
+                                        <div class="input-rating">
+                                            <strong class="text-uppercase">Your Rating: </strong>
+                                            <div class="stars">
+                                                <input type="radio" id="star5" name="rate" value="5" /><label for="star5"></label>
+                                                <input type="radio" id="star4" name="rate" value="4" /><label for="star4"></label>
+                                                <input type="radio" id="star3" name="rate" value="3" /><label for="star3"></label>
+                                                <input type="radio" id="star2" name="rate" value="2" /><label for="star2"></label>
+                                                <input type="radio" id="star1" name="rate" value="1" /><label for="star1"></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group mb-0">
+                                        {% if customer %} 
+                                        <button type="submit" class="btn btn-primary btn-lg">Post Your Review</button>
+                                        {% else %} 
+                                        You must be logged in to post comments
                                         {% endif %}
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    {% endfor %}
+                        </form>
                 </div>
             </div>
         </div>
-    </div>
+    </div
+    <!-- .block-products-carousel -->
+        <div class="container">
+            <div>
+                <div class="block-header">
+                    <h3 class="block-header__title">Related Products</h3>
+                    <div class="block-header__divider"></div>
+                    <div class="block-header__arrows-list">
+                        <button class="block-header__arrow block-header__arrow--left" type="button">
+                            <svg width="7px" height="11px">
+                                <use xlink:href="/static/templates/images/sprite.svg#arrow-rounded-left-7x11"></use>
+                            </svg>
+                        </button>
+                        <button class="block-header__arrow block-header__arrow--right" type="button">
+                            <svg width="7px" height="11px">
+                                <use xlink:href="/static/templates/images/sprite.svg#arrow-rounded-right-7x11"></use>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                <div class="shop-layout__content">
+                    <div class="block">
+                        <div class="products-view">
+                            <div class="products-view__list products-list" data-layout="grid-3-sidebar" data-with-features="false" data-mobile-grid-columns="2">
+                                <div class="products-list__body">
+                                    {% for product in similar_products %} 
+                        {% if product.vendor.enabled and product.visible and not product.is_variant %}
+                        {% include 'product/parts/list_item.html' %}
+                       {% elif product.vendor.enabled and product.visible and product.is_variant %} 
+                         {% if product.get_variant %} 
+                            {% include 'product/parts/list_item.html' %}
+                         {% endif %} 
+                      {% endif %}
+                        {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     <!-- .block-products-carousel / end -->
 </div>
 {% endblock %}

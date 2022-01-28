@@ -18,7 +18,6 @@ urlpatterns = [
      path('create-height/',forms.CreateHeight.as_view(),name='add_height',),
      path('create-size/',forms.CreateSize.as_view(),name='add_size',),
 
-
      path('become-vendor/', views.become_vendor, name='become_vendor'),
      path('products/',views.vendor_products, name='products'),
      path('order-history/',views.order_history,name='vendor_orders'),
@@ -54,5 +53,7 @@ urlpatterns = [
 
      path('vendors/', views.vendors, name='vendors'),
      path('vendor/<slug:slug>/', views.vendor, name='vendor'),
+     path('working_hours/', views.working_hours, name='working_hours'),
+     path('delivery_cost/', views.delivery_cost, name='delivery_cost'),
      
 ]

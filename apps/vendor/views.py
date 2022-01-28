@@ -136,7 +136,10 @@ def login_request(request):
 
             try:
                 vendor = Vendor.objects.get(email=username).company_name
+                logo = Vendor.objects.get(email=username).logo.url
                 request.session['username'] = vendor
+                request.session['logo'] = logo
+                
             except Exception as e:
                 pass
             
@@ -310,7 +313,7 @@ def vendor_admin(request):
         elif delivery_price is '':
             VendorDelivery.objects.filter(vendor=vendor).delete()
             return redirect('vendor_admin')
-
+ 
         day = request.POST.get("day")
         from_ = request.POST.get("from")
         to_ = request.POST.get("to")
@@ -320,7 +323,7 @@ def vendor_admin(request):
         hour.weekday = day
         hour.to_hour = to_
         hour.save()
-        return redirect('vendor_admin')
+        return redirect('working_hours')
     else:
         products = Product.objects.filter(vendor=vendor)
         variants = []
@@ -417,6 +420,72 @@ def vendor_admin(request):
                 'product_limit': product_limit
             }
         )
+
+@login_required
+def working_hours(request):
+    vendor = request.user.vendor
+
+    if request.method == 'POST':
+        day = request.POST.get("day")
+        from_ = request.POST.get("from")
+        to_ = request.POST.get("to")
+        hour = OpeningHours()
+        hour.vendor = vendor
+        hour.from_hour = from_
+        hour.weekday = day
+        hour.to_hour = to_
+        hour.save()
+        return redirect('working_hours')
+    else:
+        opening_hours = vendor.Opening.all()
+        form = OpeningHoursForm
+        if len(opening_hours) <= 0:
+            opening_hours = 0
+
+    return render(request,
+    'vendor/working_hours.html',{
+        'form': form,
+        'opening_hours': opening_hours,
+    }) 
+
+@login_required
+def delivery_cost(request):
+    vendor = request.user.vendor
+
+    if request.method == 'POST':
+        delivery_price = request.POST.get('delivery_price')
+        vendor_delivery = VendorDelivery.objects.filter(vendor=vendor).first()
+        print('dp:', delivery_price)
+        print(delivery_price is None)
+        if delivery_price:
+            if vendor_delivery:
+                vendor_delivery.price = delivery_price
+                vendor_delivery.save
+            else:
+                VendorDelivery.objects.create(
+                    vendor=vendor,price=delivery_price
+                )
+            return redirect('delivery_cost',vendor_slug=vendor)
+        elif delivery_price is '':
+            VendorDelivery.objects.filter(vendor=vendor).delete()
+            return redirect('delivery_cost')
+            
+    vendor_delivery = VendorDelivery.objects.filter(vendor=vendor).first()
+    delivery_price = vendor_delivery.price if vendor_delivery else ''
+    
+    print(vendor_delivery)
+    print(delivery_price) 
+
+    return render(
+        request,
+        'vendor/delivery_cost.html',
+        {
+            'vendor': vendor,
+            'vendor_delivery_price': delivery_price,
+        }
+    )        
+
+
 
 
 @ login_required

@@ -14,19 +14,12 @@
         color: cadetblue;
     }
 </style>
-{% include 'messages.html' %}
 <div class="page-header">
     <div class="page-header__container container">
         <div class="page-header__breadcrumb">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item">
-                        <a href="/">Home</a>
-                        <svg class="breadcrumb-arrow" width="6px" height="9px">
-                            <use xlink:href="images/sprite.svg#arrow-rounded-right-6x9"></use>
-                        </svg>
-                    </li>
-                    <li class="breadcrumb-item active" aria-current="page">My Account</li>
+                    
                 </ol>
             </nav>
         </div>
@@ -46,10 +39,18 @@
                             <a href="{% url 'vendor_admin' %}">Dashboard</a>
                         </li>
                         <li class="account-nav__item ">
-                            <a href="{% url 'vendor_orders' %}">Order History</a>
+                            <a href="{% url 'products' %}">Products</a>
                         </li>
                         <li class="account-nav__item ">
-                            <a href="{% url 'products' %}">Products</a>
+                            <a href="{% url 'vendor_orders' %}">Order History</a>
+                        </li>
+                        
+                        <li class="account-nav__item ">
+                            <a href="{% url 'working_hours' %}">Working Hours</a>
+                        </li>
+                        
+                        <li class="account-nav__item ">
+                            <a href="{% url 'delivery_cost' %}">Delivery Cost</a>
                         </li>
                         <li class="account-nav__item ">
                             <a href="{% url 'logout' %}">Logout</a>
@@ -110,88 +111,6 @@
                             <div class="address-card__row">
                                 <div class="address-card__row-title">Address</div>
                                 <div class="address-card__row-content">{{vendor.address}}</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="dashboard__orders card">
-                        <div class="card-header">
-                            <h5>Vendor Profile</h5>
-                        </div>
-                        <div class="card-divider"></div>
-                        <div class="card-table">
-                            <div class="table-responsive-sm">
-                                <table >
-                                    <strong style="margin-left: 30px;margin-top: 5px;">Working Hours :</strong>
-                                    <tbody>
-                                        {% if  opening_hours == 0 %}
-                                            <p>Opening hours are not defined yet</p>
-                                        {% else %}
-                                        {% for hours in opening_hours %}
-                                        <tr>
-                                            <td scope="row">{{hours}}</td>
-                                            <td>{{hours.from_hour}} <span style="margin: 0 20px;">-</span>{{hours.to_hour}}</td>
-                                            <td><a  href="{% url 'remove_opening' hours.id %}">Remove</a></td>
-                                        </tr>
-                                        {% endfor %}
-                                        {% endif %}
-                                    </tbody>
-                                </table>
-                        
-                                <form method="post" action="." enctype="multipart/form-data">
-                                    {% csrf_token %}
-                                    <div class="row" style="margin-left: 30px;margin-top: 5px;">
-                                    <label for="day">WeekDay:</label>
-                                    <select class="custom-select col-sm-3" style="margin-left: 30px;margin-top: 5px;" name="day" id="day">
-                                        <option value=1>Monday
-                                        </option>
-                                        <option value=2>Tuesday
-                                        </option>
-                                        <option value=3>Wednesday
-                                        </option>
-                                        <option value=4>Thrusday
-                                        </option>
-                                        <option value=5>Friday
-                                        </option>
-                                        <option value=6>Saturday
-                                        </option>
-                                        <option value=7>Sunday
-                                        </option>
-                                    </select>
-                                    </div>
-                                    <div style="margin-left: 30px;margin-top: 5px;">
-                                        <label for="from">From:</label>
-                                            <input class="form-control custom-select col-sm-3" style="margin-left: 55px;margin-top: 5px;" type="time" name="from" id="from">
-                        
-                        
-                                        <label for="to" style="margin-left: 5px;">To:</label>
-                                            <input class="form-control custom-select col-sm-3" style="margin-left: 5px;margin-top: 5px;" type="time" name="to" id="to">
-                        
-                        
-                                        <br>
-                                        <div>
-                                            <button type="submit" class="button btn btn-primary mt-4">Add Hours</button>
-                                        </div>
-                                    </div>
-                        
-                                </form>
-                        
-                            <form method="post" style="margin-left: 30px;margin-top: 5px;" action=".">
-                                {% csrf_token %}
-                        
-                                <div class="field">
-                                    <label>Delivery price</label>
-                        
-                                    <div class="control">
-                                        <input type="text" name="delivery_price" id="id_delivery" value="{{ vendor_delivery_price }}" class="input">
-                                    </div>
-                                </div>
-                        
-                                <div class="field">
-                                    <div class="control">
-                                        <button class="button btn btn-primary mt-4">Update delivery price</button>
-                                    </div>
-                                </div>
-                            </form>
                             </div>
                         </div>
                     </div>

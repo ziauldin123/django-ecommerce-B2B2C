@@ -29,14 +29,22 @@
                 <div class="account-nav flex-grow-1">
                     <h4 class="account-nav__title">Navigation</h4>
                     <ul>
-                        <li class="account-nav__item   ">
+                        <li class="account-nav__item  ">
                             <a href="{% url 'vendor_admin' %}">Dashboard</a>
                         </li>
-                        <li class="account-nav__item account-nav__item--active">
+                        <li class="account-nav__item account-nav__item--active ">
                             <a href="{% url 'products' %}">Products</a>
                         </li>
-                        <li class="account-nav__item">
+                        <li class="account-nav__item ">
                             <a href="{% url 'vendor_orders' %}">Order History</a>
+                        </li>
+                        
+                        <li class="account-nav__item ">
+                            <a href="{% url 'working_hours' %}">Working Hours</a>
+                        </li>
+                        
+                        <li class="account-nav__item ">
+                            <a href="{% url 'delivery_cost' %}">Delivery Cost</a>
                         </li>
                         <li class="account-nav__item ">
                             <a href="{% url 'logout' %}">Logout</a>
@@ -47,7 +55,6 @@
             <div class="col-12 col-lg-9 mt-4 mt-lg-0">
                 <div class="card">
                     <div class="card-header">
-                        <h5>My products</h5>
                         {% if product_limit %}
             <a href="{% url 'add_product' %}" class="button btn btn-primary mt-4">Add product</a>
             <a href="{% url 'add_product_without_variant' %}" class="button btn btn-primary mt-4">Add product with Variant</a>
@@ -56,6 +63,7 @@
             <h4 style="color:red">You have reached your products' limit. Kindly contact your account manager to increase your limit.</h4>
         {% endif %}
                     </div>
+                    <h5>My products</h5>
                     <div class="card-divider"></div>
                     <div class="card-table">
                         <div class="table-responsive-sm">

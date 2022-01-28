@@ -88,7 +88,10 @@ def product_detail(request, id, slug, vendor_slug, category_slug, subcategory_sl
     product.save()
     context = {'product': product, 'category': category,
                'subcategory': subcategory, 'subsubCategory': subsubCategory,
-               'images': images, 'vendor_slug': slugV, 'similar_products': similar_products, 'comments': comments, 'mainProduct': mainProduct, 'customer': customer,
+               'images': images, 'vendor_slug': slugV, 'similar_products': similar_products, 
+               'comments': comments, 
+               'mainProduct': mainProduct,
+               'customer': customer,
                'is_comparing': product.id in request.session.get('comparing', []),  
                'shopcart':shopcart,
                'subtotal':total,
@@ -133,6 +136,9 @@ def product_detail(request, id, slug, vendor_slug, category_slug, subcategory_sl
                 'SELECT * FROM newProduct_variants WHERE product_id=%s AND status=True AND visible=True GROUP BY height_id', [id])
             variant = Variants.objects.get(
                 id=variants[0].id, status=True, visible=True)
+        
+        for i in comments:
+            print(i.subject)
 
         context.update({'sizes': sizes, 'colors': colors, 'colors1': colors1, 'weight': weight, 'width': width, 'length': length, 'height': height, 'variant': variant, 'query': query,
                         'is_comparing': variant.id in request.session.get('comparing', []),
