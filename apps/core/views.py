@@ -64,6 +64,12 @@ def frontpage(request):
                     cart.add(product_id=rs.product.id,variant_id=rs.variant.id, user_id=current_user.id,
                          quantity=rs.quantity, update_quantity=True) 
     
+    else:
+        cart = 0
+        subtotal = 0
+        tax = 0
+        total = 0
+        grandTotal = 0
 
     return render(
         request,
@@ -96,6 +102,13 @@ def contact(request):
         total=cart.get_cart_cost()
         tax=cart.get_cart_tax()
         grandTotal=cart.get_cart_cost() + cart.get_cart_tax()
+    else:
+        cart = 0
+        subtotal = 0
+        tax = 0
+        total = 0
+        grandTotal = 0  
+        shopcart = None  
 
     if request.method == 'POST':
         print('hello')
@@ -137,6 +150,13 @@ def about(request):
         total=cart.get_cart_cost()
         tax=cart.get_cart_tax()
         grandTotal=cart.get_cart_cost() + cart.get_cart_tax()
+    else:
+        cart = 0
+        subtotal = 0
+        tax = 0
+        total = 0
+        grandTotal = 0  
+        shopcart = None  
 
     return render(request, 'core/about.html',
     {
@@ -157,6 +177,13 @@ def pricing(request):
         total=cart.get_cart_cost()
         tax=cart.get_cart_tax()
         grandTotal=cart.get_cart_cost() + cart.get_cart_tax()
+    else:
+        cart = 0
+        subtotal = 0
+        tax = 0
+        total = 0
+        grandTotal = 0   
+        shopcart = None 
 
     return render(request, 'core/pricing.html',
     {
@@ -177,6 +204,13 @@ def frequently_asked_questions(request):
         total=cart.get_cart_cost()
         tax=cart.get_cart_tax()
         grandTotal=cart.get_cart_cost() + cart.get_cart_tax()
+    else:
+        cart = 0
+        subtotal = 0
+        tax = 0
+        total = 0
+        grandTotal = 0 
+        shopcart = None   
 
     return render(request, 'core/frequently_asked_questions.html',{
         
@@ -197,6 +231,14 @@ def termsandconditions(request):
         tax=cart.get_cart_tax()
         grandTotal=cart.get_cart_cost() + cart.get_cart_tax()
 
+    else:
+        cart = 0
+        subtotal = 0
+        tax = 0
+        total = 0
+        grandTotal = 0  
+        shopcart = None  
+
     return render(request, 'core/termsandconditions.html',
     {
         
@@ -216,6 +258,13 @@ def privacy_policy(request):
         total=cart.get_cart_cost()
         tax=cart.get_cart_tax()
         grandTotal=cart.get_cart_cost() + cart.get_cart_tax()
+    else:
+        cart = 0
+        subtotal = 0
+        tax = 0
+        total = 0
+        grandTotal = 0    
+        shopcart = None
 
     return render(request, 'core/privacy_policy.html',{
         
@@ -235,6 +284,14 @@ def error_404_view(request, exception):
         total=cart.get_cart_cost()
         tax=cart.get_cart_tax()
         grandTotal=cart.get_cart_cost() + cart.get_cart_tax()
+
+    else:
+        cart = 0
+        subtotal = 0
+        tax = 0
+        total = 0
+        grandTotal = 0 
+        shopcart = None   
 
     return render(request, 'core/404.html',{
         

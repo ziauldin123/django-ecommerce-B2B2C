@@ -54,6 +54,14 @@ def product_detail(request, id, slug, vendor_slug, category_slug, subcategory_sl
         total=cart.get_cart_cost()
         tax=cart.get_cart_tax()
         grandTotal=cart.get_cart_cost() + cart.get_cart_tax()
+        
+    else:
+        cart = 0
+        subtotal = 0
+        tax = 0
+        total = 0
+        grandTotal = 0
+        shopcart = None    
 
     if product.status == False:
         messages.add_message(request, messages.ERROR,

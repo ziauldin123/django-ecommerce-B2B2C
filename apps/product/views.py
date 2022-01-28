@@ -264,6 +264,14 @@ class ComparingView(TemplateView):
             total=cart.get_cart_cost()
             tax=cart.get_cart_tax()
             grandTotal=cart.get_cart_cost() + cart.get_cart_tax()
+        else:
+            cart = 0
+            subtotal = 0
+            tax = 0
+            total = 0
+            grandTotal = 0
+            shopcart = None 
+           
 
         context = self.get_context_data(**kwargs)
         variants=[]
@@ -422,6 +430,13 @@ def category(request, category_slug):
         total=cart.get_cart_cost()
         tax=cart.get_cart_tax()
         grandTotal=cart.get_cart_cost() + cart.get_cart_tax()
+    else:
+        cart = 0
+        subtotal = 0
+        tax = 0
+        total = 0
+        grandTotal = 0
+        shopcart = None    
 
     print('category')
     category = get_object_or_404(Category, slug=category_slug)
@@ -537,6 +552,13 @@ def subcategory(request, category_slug, subcategory_slug):
         total=cart.get_cart_cost()
         tax=cart.get_cart_tax()
         grandTotal=cart.get_cart_cost() + cart.get_cart_tax()
+    else:
+        cart = 0
+        subtotal = 0
+        tax = 0
+        total = 0
+        grandTotal = 0
+        shopcart = None    
 
     category = get_object_or_404(SubCategory, slug=subcategory_slug)
     sub_category=SubSubCategory.objects.filter(sub_category=category).first()
@@ -636,6 +658,13 @@ def subsubcategory(request, category_slug, subcategory_slug, subsubcategory_slug
         total=cart.get_cart_cost()
         tax=cart.get_cart_tax()
         grandTotal=cart.get_cart_cost() + cart.get_cart_tax()
+    else:
+        cart = 0
+        subtotal = 0
+        tax = 0
+        total = 0
+        grandTotal = 0
+        shopcart = None    
         
     category = get_object_or_404(SubSubCategory, slug=subsubcategory_slug)
     products = Product.objects.filter(visible=True,category=category,status=True)

@@ -1018,7 +1018,7 @@
                     </button>
                   </div>
                   <div class="indicator indicator--mobile d-sm-flex d-none">
-                    <a href="wishlist.html" class="indicator__button">
+                    <a href="/users/customer/{{ request.user.id }}/wishlist/" class="indicator__button">
                       <span class="indicator__area">
                         <svg width="20px" height="20px">
                           <use
@@ -1035,7 +1035,9 @@
                         <svg width="20px" height="20px">
                           <use xlink:href="/static/templates/images/sprite.svg#cart-20"></use>
                         </svg>
-                        <span class="indicator__value">3</span>
+                         {% load myapptags %}
+                         {% shopcartcount user.id as count %}
+                        <span class="indicator__value">{{count}}</span>
                       </span>
                     </a>
                   </div>
@@ -1413,7 +1415,8 @@
       </header>
       <!-- desktop site__header / end -->
       <div class="site__body">
-        {% block content %} {% endblock %}
+        {% block content %}
+         {% endblock %}
       </div>
       <!-- site__footer -->
       <footer class="site__footer">
