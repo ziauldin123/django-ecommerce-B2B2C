@@ -19,16 +19,19 @@
                 </div>
             </div>
 
-             {% for post in posts %}
+             
             <div class="container">
                 <div class="row">
+                    
                     <div class="col-12 col-lg-8">
                         <div class="block">
                             <div class="posts-view">
                                 <div class="posts-view__list posts-list posts-list--layout--classic">
                                     <div class="posts-list__body">
                                         <div class="posts-list__item">
+                                            
                                             <div class="post-card post-card--layout--grid post-card--size--lg">
+                                                {% for post in posts %}
                                                 <div class="post-card__image">
                                                     <a href="{% url 'detail' post.slug  %}">
                                                         <img src="{{ post.image.url }}" alt="">
@@ -47,7 +50,9 @@
                                                         <a href="{% url 'detail' post.slug  %}" class="btn btn-secondary btn-sm">Read More</a>
                                                     </div>
                                                 </div>
+                                                {% endfor %}
                                             </div>
+                                            
                                         </div>
                                     </div>
                                 </div>
@@ -55,6 +60,7 @@
                             </div>
                         </div>
                     </div>
+                    
                     <div class="col-12 col-lg-4">
                         <div class="block block-sidebar block-sidebar--position--end">
                             <div class="block-sidebar__item">
@@ -91,6 +97,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-    {% endfor %}
+            
+        </div>  
 {% endblock %}
