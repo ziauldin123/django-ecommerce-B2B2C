@@ -1467,11 +1467,7 @@
                         <a href="{% url 'vendors' %}" class="footer-links__link">List of Vendors</a>
                       </li>
                       <li class="footer-links__item">
-                        {% if request.user.is_authenticated %} 
                         <a href="{% url 'pricing'  %}" class="footer-links__link">Pricing</a>
-                        {% else %} 
-                        <a href="" class="footer-links__link">Order History</a>
-                        {% endif %} 
                       </li>
                       
                     </ul>
