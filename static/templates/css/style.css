@@ -4890,7 +4890,7 @@ html:not([dir=rtl]) .noUi-horizontal .noUi-origin {
 }
 [dir=ltr] .departments__button {
   padding-right: 32px;
-  padding-left: 47px;
+  padding-left: 32px;
   text-align: left;
 }
 [dir=rtl] .departments__button {
@@ -4910,7 +4910,7 @@ html:not([dir=rtl]) .noUi-horizontal .noUi-origin {
   transition: fill 0.2s;
 }
 [dir=ltr] .departments__button-icon {
-  left: 16px;
+  left: 0px;
 }
 [dir=rtl] .departments__button-icon {
   right: 16px;
@@ -4936,7 +4936,7 @@ html:not([dir=rtl]) .noUi-horizontal .noUi-origin {
   width: 100%;
   padding-top: 42px;
   position: absolute;
-  background: #333;
+  background: rgb(35,47,62);
   -webkit-box-shadow: none;
           box-shadow: none;
   border-radius: 2px;
@@ -6665,8 +6665,8 @@ html:not([dir=rtl]) .noUi-horizontal .noUi-origin {
 }
 .search--location--header .search__input ~ .search__border {
   background: transparent;
-  -webkit-box-shadow: 0 0 0 2px #e5e5e5 inset;
-          box-shadow: 0 0 0 2px #e5e5e5 inset;
+  -webkit-box-shadow: 0 0 0 2px #131921 ;
+          box-shadow: 0 0 0 2px #131921 ;
 }
 .search--location--header .search__input:hover {
   color: inherit;
@@ -6688,14 +6688,14 @@ html:not([dir=rtl]) .noUi-horizontal .noUi-origin {
 }
 .search--location--header .search__input:hover ~ .search__border {
   background: transparent;
-  -webkit-box-shadow: 0 0 0 2px #d4d4d4 inset;
-          box-shadow: 0 0 0 2px #d4d4d4 inset;
+  -webkit-box-shadow: 0 0 0 2px #ffffff ;
+          box-shadow: 0 0 0 2px #ffffff ;
 }
 .search--location--header .search__input:hover ~ .search__button {
   fill: #bfbfbf;
 }
 .search--location--header .search__input:hover ~ .search__button:hover {
-  fill: #333;
+  fill: rgb(51, 51, 51);
 }
 .search--location--header .search__input:focus {
   outline: none;
@@ -6718,19 +6718,19 @@ html:not([dir=rtl]) .noUi-horizontal .noUi-origin {
 }
 .search--location--header .search__input:focus ~ .search__border {
   background: transparent;
-  -webkit-box-shadow: 0 0 0 2px #333 inset;
-          box-shadow: 0 0 0 2px #333 inset;
+  -webkit-box-shadow: 0 0 0 2px #131921 ;
+          box-shadow: 0 0 0 2px #131921 ;
 }
 .search--location--header .search__input:focus ~ .search__button {
   fill: #bfbfbf;
 }
 .search--location--header .search__input:focus ~ .search__button:hover {
-  fill: #333;
+  fill: rgb(255, 255, 255);
 }
 .search--location--header .search__button {
   border: none;
   padding: 0;
-  background: transparent;
+  background: #232F3E;
   -webkit-box-flex: 0;
       -ms-flex-positive: 0;
           flex-grow: 0;
@@ -6751,7 +6751,7 @@ html:not([dir=rtl]) .noUi-horizontal .noUi-origin {
 }
 .search--location--header .search__button:hover, .search--location--header .search__button:focus {
   outline: none;
-  fill: #333;
+  fill: rgb(255, 255, 255);
 }
 .search--location--header .search__suggestions {
   z-index: -1;
@@ -6785,8 +6785,7 @@ html:not([dir=rtl]) .noUi-horizontal .noUi-origin {
 .search--location--indicator .search__body {
   color: #333;
   background: #fff;
-  -webkit-box-shadow: 0 1px 15px rgba(0, 0, 0, 0.25);
-          box-shadow: 0 1px 15px rgba(0, 0, 0, 0.25);
+ 
   width: 340px;
 }
 .search--location--indicator .search__form {
@@ -7188,7 +7187,7 @@ html:not([dir=rtl]) .noUi-horizontal .noUi-origin {
 }
 
 .site-header__phone-number {
-  font-size: 20px;
+  font-size: 15px;
   font-weight: 700;
 }
 
@@ -7690,7 +7689,7 @@ html:not([dir=rtl]) .noUi-horizontal .noUi-origin {
 */
 .site-footer {
   margin-top: 16px;
-  background-color: rgb(19,25,33);
+  background-color: rgb(35,47,62);
   border-top: 1px solid #ebebeb;
   color: #fff;
 }

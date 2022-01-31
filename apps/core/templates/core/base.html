@@ -971,7 +971,7 @@
                       <input
                         class="search__input"
                         name="search"
-                        placeholder="Search over 10,000 products"
+                        placeholder=""
                         aria-label="Site search"
                         type="text"
                         autocomplete="off"
@@ -1061,7 +1061,7 @@
                 </svg>
                 <!-- logo / end -->
                 <a href="/">
-                  <img src="{% static 'templates/images/navbar_logo_white1.png' %}" alt="" width="130">
+                  <img src="{% static 'templates/images/navbar_logo_white1.png' %}" alt="" width="140">
                 </a>
             </div>
             <div class="site-header__search">
@@ -1216,14 +1216,14 @@
                   <div class="nav-panel__nav-links nav-links">
                     <ul class="nav-links__list">
                   
-                      <li class="nav-links__item nav-links__item--has-submenu">
+                      <li class="nav-links__item">
                         <a class="nav-links__item-link" href="{% url 'vendors' %}">
                           <div class="nav-links__item-body">
                             Stores
                           </div>
                         </a>
                       </li>
-                      <li class="nav-links__item nav-links__item--has-submenu">
+                      <li class="nav-links__item ">
                         <a
                           class="nav-links__item-link"
                           href="{% url 'blog' %}"
@@ -1233,7 +1233,7 @@
                           </div>
                         </a>
                       </li>
-                      <li class="nav-links__item nav-links__item--has-submenu">
+                      <li class="nav-links__item">
                         <a
                           class="nav-links__item-link"
                           href="{% url 'contact' %}"
@@ -1251,7 +1251,7 @@
                       {% if request.user.is_authenticated %} 
                       <a href="/users/customer/{{ request.user.id }}/wishlist/" class="indicator__button">
                         <span class="indicator__area">
-                          <svg class="svg" width="20px" height="20px">
+                          <svg class="svg" width="15px" height="15px">
                             <use xlink:href="/static/templates/images/sprite.svg#heart-20"></use>
                           </svg>
                           <span class="indicator__value">{% if wishlist %} {{ wishlist|length }} {% else %} 0 {% endif %}</span>
@@ -1260,7 +1260,7 @@
                       {% else %} 
                       <a href="" class="indicator__button">
                         <span class="indicator__area">
-                          <svg class="svg"  width="20px" height="20px">
+                          <svg class="svg"  width="15px" height="15px">
                             <use xlink:href="/static/templates/images/sprite.svg#heart-20"></use>
                           </svg>
                           <span class="indicator__value">{% if wishlist %} ({{ wishlist|length }}) {% else %} 0 {% endif %}</span>
@@ -1271,7 +1271,7 @@
                     <div class="indicator">
                       <a href="{% url 'product-comparing'  %}" class="indicator__button">
                         <span class="indicator__area">
-                          <svg class="svg" width="20px" height="20px">
+                          <svg class="svg" width="15px" height="15px">
                             <use xlink:href="/static/templates/images/sprite.svg#compare-16"></use>
                           </svg>
                           <span class="indicator__value">0</span>
@@ -1281,7 +1281,7 @@
                     <div class="indicator">
                       <a href="{% url 'shopcart' %}" class="indicator__button" data-open="offcanvas-cart">
                           <span class="indicator__area">
-                              <svg class="svg" width="20px" height="20px">
+                              <svg class="svg" width="15px" height="15px">
                                 <use xlink:href="/static/templates/images/sprite.svg#cart-20"></use>
                               </svg>
                               <span class="indicator__value">
@@ -1295,7 +1295,7 @@
                     <div class="indicator indicator--trigger--click">
                       <a class="indicator__button">
                         <span class="indicator__area">
-                          <svg class="svg" width="20px" height="20px">
+                          <svg class="svg" width="15px" height="15px">
                             <use xlink:href="/static/templates/images/sprite.svg#person-20"></use>
                           </svg>
                         </span>
@@ -1455,8 +1455,8 @@
                         <a href="{% url 'about' %}" class="footer-links__link">About Us</a>
                       </li>
                       <li class="footer-links__item">
-                        <a href="" class="footer-links__link"
-                          >Delivery Information</a
+                        <a href="{% url 'contact' %}" class="footer-links__link"
+                          >Contact Us</a
                         >
                       </li>
                       <li class="footer-links__item">
@@ -1482,36 +1482,16 @@
                     <h5 class="footer-links__title">Vendors</h5>
                     <ul class="footer-links__list">
                       <li class="footer-links__item">
-                        <a href="{% url 'vendors' %}" class="footer-links__link">Store Location</a>
+                        <a href="{% url 'vendors' %}" class="footer-links__link">List of Vendors</a>
                       </li>
                       <li class="footer-links__item">
                         {% if request.user.is_authenticated %} 
-                        <a href="{% url 'myaccount'  %}" class="footer-links__link">Order History</a>
+                        <a href="{% url 'pricing'  %}" class="footer-links__link">Pricing</a>
                         {% else %} 
                         <a href="" class="footer-links__link">Order History</a>
                         {% endif %} 
                       </li>
-                      <li class="footer-links__item">
-                        {% if request.user.is_authenticated %}
-                            <a href="/users/customer/{{ request.user.id }}/wishlist/" class="footer-links__link">Wish List</a>
-                        {% else %} 
-                             <a href="/" class="footer-links__link">Wish List</a>
-                        {% endif %} 
-                      </li>
-                      <li class="footer-links__item">
-                        <a href="" class="footer-links__link">Newsletter</a>
-                      </li>
-                      <li class="footer-links__item">
-                        <a href="" class="footer-links__link">Specials</a>
-                      </li>
-                      <li class="footer-links__item">
-                        <a href="" class="footer-links__link"
-                          >Gift Certificates</a
-                        >
-                      </li>
-                      <li class="footer-links__item">
-                        <a href="{% url 'pricing' %}" class="footer-links__link">Pricing</a>
-                      </li>
+                      
                     </ul>
                   </div>
                 </div>
