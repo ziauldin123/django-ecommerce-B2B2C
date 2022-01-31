@@ -16,6 +16,7 @@ from .forms import AddToCartForm, AddToCartInListForm, ReviewForm, SearchForm, T
 # from .models import Category, Collection, ProductImage, Review, SubCategory, SubSubCategory, Product
 from apps.newProduct.models import *
 
+
 from apps.cart.cart import Cart
 from .services.product_service import product_service
 from ..vendor.models import Customer, UserWishList
@@ -362,6 +363,8 @@ class WishListAddView(FormView):
             UserWishList.objects.filter(user=request.user, product=product).delete()
         else:
             UserWishList.objects.create(user=request.user,is_variant=False, product=product)
+
+        messages.success(request,"Product added to wishlist")    
         return self.redirect(product)
 
     def redirect(self, product: Product):
@@ -447,6 +450,9 @@ def category(request, category_slug):
     colors=Color.objects.all()
     weight=Weight.objects.all()
     length=Length.objects.all()
+    width=Width.objects.all()
+    size=Size.objects.all()
+    height=Height.objects.all()
 
     if request.method == 'POST':
         cart = Cart(request)
@@ -479,8 +485,6 @@ def category(request, category_slug):
     query_width=request.GET.get('width')
     query_length=request.GET.get('length')
 
-
-
     if not query:
         query=''
     if price_from ==None:
@@ -512,6 +516,7 @@ def category(request, category_slug):
         print(search_form.errors)
     print("filtered products", products)
     search_form = SearchForm(request.GET, products=products)
+    
 
     return render(
         request,
@@ -524,7 +529,10 @@ def category(request, category_slug):
             'brands':brands,
             'colors':colors,
             'weight':weight,
+            'width':width,
             'length':length,
+            'size':size,
+            'height':height,
             'sorting': sorting,
             'price_to':price_to,
             'price_from':price_from,

@@ -162,18 +162,68 @@
                         {% endif %}
                     </a>
                     {% endif %}
-                    <button class="btn btn-light btn-svg-icon btn-svg-icon--fake-svg product-card__wishlist" type="button">
-                        <svg width="16px" height="16px">
-                            <use xlink:href="/static/templates/images/sprite.svg#wishlist-16"></use>
-                        </svg>
-                        <span class="fake-svg-icon fake-svg-icon--wishlist-16"></span>
-                    </button>
-                    <button class="btn btn-light btn-svg-icon btn-svg-icon--fake-svg product-card__compare" type="button">
-                        <svg width="16px" height="16px">
-                            <use xlink:href="/static/templates/images/sprite.svg#compare-16"></use>
-                        </svg>
-                        <span class="fake-svg-icon fake-svg-icon--compare-16"></span>
-                    </button>
+                    {% if product.is_variant %} 
+                    <form action="" method="post">
+                        {% csrf_token %} 
+                        {% if request.session.customer %} 
+                        <input type="hidden" name="variantid" class="variantid" id="variantid" value="{{ variant.id }}">
+                        <button class=" button btn btn-light btn-svg-icon btn-svg-icon--fake-svg product-card__wishlist" type="button">
+                            <svg width="16px" height="16px">
+                                <use xlink:href="/static/templates/images/sprite.svg#wishlist-16"></use>
+                            </svg>
+                            <span class="fake-svg-icon fake-svg-icon--wishlist-16"></span>
+                        </button>
+                        {% else %} 
+                        <button class="button btn btn-light btn-svg-icon btn-svg-icon--fake-svg product-card__wishlist disabled" type="button">
+                            <svg width="16px" height="16px">
+                                <use xlink:href="/static/templates/images/sprite.svg#wishlist-16"></use>
+                            </svg>
+                            <span class="fake-svg-icon fake-svg-icon--wishlist-16"></span>
+                        </button>
+                        {% endif %} 
+                    </form>
+                    {% else %}
+                    <form method="post" action="{% url 'wishlist-add' product.id %}" >
+                        {% csrf_token %}
+                        {% if request.session.customer %}
+                        <button class=" button btn btn-light btn-svg-icon btn-svg-icon--fake-svg product-card__wishlist" type="button">
+                            <svg width="16px" height="16px">
+                                <use xlink:href="/static/templates/images/sprite.svg#wishlist-16"></use>
+                            </svg>
+                            <span class="fake-svg-icon fake-svg-icon--wishlist-16"></span>
+                        </button>
+                        {% else %} 
+                        <button class=" button btn btn-light btn-svg-icon btn-svg-icon--fake-svg product-card__wishlist disabled" type="button">
+                            <svg width="16px" height="16px">
+                                <use xlink:href="/static/templates/images/sprite.svg#wishlist-16"></use>
+                            </svg>
+                            <span class="fake-svg-icon fake-svg-icon--wishlist-16"></span>
+                        </button>
+                        {% endif %} 
+                    </form>
+                    {% endif %}
+                    {% if product.is_variant %} 
+                    <form  method="post">
+                        {% csrf_token %} 
+                        <input type="hidden" name="variantid" class="variantid" id="variantid" value="{{ variant.id }}">
+                        <button class="button compareBtn btn btn-light btn-svg-icon btn-svg-icon--fake-svg product-card__compare" type="button">
+                            <svg width="16px" height="16px">
+                                <use xlink:href="/static/templates/images/sprite.svg#compare-16"></use>
+                            </svg>
+                            <span class="fake-svg-icon fake-svg-icon--compare-16"></span>
+                        </button>
+                    </form>
+                    {% else %} 
+                    <form action="{% url 'product-compare' product.id %}" method="post">
+                        {% csrf_token %} 
+                        <button class="button btn btn-light btn-svg-icon btn-svg-icon--fake-svg product-card__compare" onclick="compare()" type="button">
+                            <svg width="16px" height="16px">
+                                <use xlink:href="/static/templates/images/sprite.svg#compare-16"></use>
+                            </svg>
+                            <span class="fake-svg-icon fake-svg-icon--compare-16"></span>
+                        </button>
+                    </form>
+                    {% endif %} 
                 </div>
                 </div>
             </div>

@@ -1070,8 +1070,8 @@
                 <div class="search__body">
                   <form class="search__form" method="get" action="{% url 'search' %}">
                     <input
-                      class="search__input"
-                      name="search"
+                      class="input search__input"
+                      name="query"
                       placeholder="Search over 10,000 products"
                       aria-label="Site search"
                       type="text"
@@ -1079,7 +1079,7 @@
                       value="{{ query }}"  required name="query"
                     />
                     <button
-                      class="search__button search__button--type--submit"
+                      class="button search__button search__button--type--submit"
                       type="submit"
                     >
                       <svg width="20px" height="20px">
