@@ -5955,7 +5955,7 @@ html:not([dir=rtl]) .noUi-horizontal .noUi-origin {
 }
 [dir=ltr] .mobile-header__logo {
   margin-right: 16px;
-  margin-left: 12px;
+  margin-left: 0px;
 }
 [dir=rtl] .mobile-header__logo {
   margin-left: 16px;

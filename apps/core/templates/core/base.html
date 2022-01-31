@@ -1355,7 +1355,7 @@
                             <div class="account-menu__divider"></div>
                             <a {% if request.user.vendor %} href="{% url 'vendor_admin'  %}" {% else %} href="{% url 'myaccount'  %}" {% endif %} class="account-menu__user">
                                 <div class="account-menu__user-avatar">
-                                    <img src="{% static 'templates/images/avatars/avatar-3.jpg' %}" alt="">
+                                     <img src="{{vendor.logo.url}}" alt="">
                                 </div>
                                 <div class="account-menu__user-info">
                                     <div class="account-menu__user-name">{{request.session.username}}</div>
@@ -1550,7 +1550,7 @@
             <div class="site-footer__bottom">
               <div class="site-footer__copyright">
                 <!-- copyright -->
-                Powered by Sokopark Ltd. 
+                © 2022 - Sokopark.com, Sokopark ltd., or its affiliates.
                 <!-- copyright / end -->
               </div>
               <div class="site-footer__payments">
@@ -1650,14 +1650,20 @@
                     </div>
                 </li>
                 <li class="mobile-links__item" data-collapse-item>
-                  <div class="mobile-links__item-title">
-                      {% if request.user.is_authenticated %} 
-                      <a href="{% url 'logout' %}" class="mobile-links__item-link">Logout</a>
-                      {% else %} 
-                      <a href="{% url 'login' %}" class="mobile-links__item-link">Login</a>
-                      {% endif %}
-                  </div>
-              </li>
+                    <div class="mobile-links__item-title">
+                        <a {% if request.user.vendor %} href="{% url 'vendor_admin'  %}" {% else %} href="{% url 'myaccount'  %}" {% endif %} class="mobile-links__item-link">Account</a>
+                    </div>
+                  </li>
+
+                <li class="mobile-links__item" data-collapse-item>
+                    <div class="mobile-links__item-title">
+                        {% if request.user.is_authenticated %} 
+                        <a href="{% url 'logout' %}" class="mobile-links__item-link">Logout</a>
+                        {% else %} 
+                        <a href="{% url 'login' %}" class="mobile-links__item-link">Login</a>
+                        {% endif %}
+                    </div>
+                </li>
             </ul>
         </div>
     </div>
