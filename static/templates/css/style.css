@@ -182,7 +182,7 @@ body {
   font-size: 16px;
   font-weight: 400;
   line-height: 1.5;
-  background: #fff;
+  background: F1F2F5;
   color: #333;
   -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
@@ -1061,7 +1061,7 @@ h6 {
 
 .btn-secondary.focus, .btn-secondary:focus, .btn-secondary:hover {
   border-color: #333;
-  background: #333;
+  background: #131921;
   color: #fff;
   fill: #fff;
 }
