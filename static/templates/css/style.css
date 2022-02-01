@@ -240,9 +240,11 @@ h5 {
 }
 
 h6 {
-  font-size: 16px;
-  font-weight: 700;
+  font-size: 14px;
+  font-weight: 400;
 }
+
+
 
 /*
 // .document
@@ -8214,8 +8216,9 @@ html:not([dir=rtl]) .noUi-horizontal .noUi-origin {
 .faq__section-body {
   border: 2px solid #f0f0f0;
   border-radius: 2px;
-  padding: 48px 44px;
+  padding: 20px 20px;
 }
+
 
 @media (max-width: 991px) {
   .faq__section + .faq__section {
