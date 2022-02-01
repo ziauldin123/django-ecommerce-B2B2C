@@ -183,10 +183,10 @@
                         {% endif %} 
                     </form>
                     {% else %}
-                    <form method="post" action="{% url 'wishlist-add' product.id %}" >
+                    <form method="post" action="{% url 'wishlist-add' product.id %}">
                         {% csrf_token %}
                         {% if request.session.customer %}
-                        <button class=" button btn btn-light btn-svg-icon btn-svg-icon--fake-svg product-card__wishlist" type="button">
+                        <button class="button btn btn-light btn-svg-icon btn-svg-icon--fake-svg product-card__wishlist" type="button">
                             <svg width="16px" height="16px">
                                 <use xlink:href="/static/templates/images/sprite.svg#wishlist-16"></use>
                             </svg>

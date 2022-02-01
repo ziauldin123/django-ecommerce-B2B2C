@@ -577,6 +577,9 @@ def subcategory(request, category_slug, subcategory_slug):
     colors=Color.objects.all()
     weight=Weight.objects.all()
     length=Length.objects.all()
+    width=Width.objects.all()
+    size=Size.objects.all()
+    height=Height.objects.all()
 
     if request.method == 'POST':
         cart = Cart(request)
@@ -639,6 +642,9 @@ def subcategory(request, category_slug, subcategory_slug):
         'colors':colors,
         'weight':weight,
         'length':length,
+        'width':width,
+        'size':size,
+        'height':height,
         'sorting': sorting,
         'price_to':price_to,
         'price_from':price_from,
@@ -683,6 +689,9 @@ def subsubcategory(request, category_slug, subcategory_slug, subsubcategory_slug
     colors=Color.objects.all()
     weight=Weight.objects.all()
     length=Length.objects.all()
+    width=Width.objects.all()
+    size=Size.objects.all()
+    height=Height.objects.all()
 
     if request.method == 'POST':
         cart = Cart(request)
@@ -746,6 +755,9 @@ def subsubcategory(request, category_slug, subcategory_slug, subsubcategory_slug
             'colors':colors,
             'weight':weight,
             'length':length,
+            'width':width,
+            'size':size,
+            'height':height,
             'sorting': sorting,
             'price_to':price_to,
             'price_from':price_from,
