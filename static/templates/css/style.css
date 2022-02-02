@@ -2584,7 +2584,7 @@ html:not([dir=rtl]) .noUi-horizontal .noUi-origin {
   border-radius: 3px;
 }
 .post-card--layout--grid.post-card--size--lg .post-card__info {
-  padding: 28px 36px 12px;
+  padding: 28px 0px 12px;
 }
 .post-card--layout--grid.post-card--size--lg .post-card__category {
   font-size: 15px;
@@ -2663,7 +2663,7 @@ html:not([dir=rtl]) .noUi-horizontal .noUi-origin {
     margin-top: 4px;
   }
   .post-card--layout--grid.post-card--size--lg .post-card__info {
-    padding: 10px 0;
+    padding: 0px 0;
   }
 }
 
@@ -4818,7 +4818,7 @@ html:not([dir=rtl]) .noUi-horizontal .noUi-origin {
   margin-right: 14px;
 }
 [dir=rtl] .account-menu__user-avatar {
-  margin-left: 14px;
+  margin-left: 50px;
 }
 .account-menu__user-avatar img {
   border-radius: 100%;

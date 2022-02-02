@@ -1,4 +1,5 @@
 {% extends 'core/base.html' %}
+{% load static %}
 
 {% block title %}About {% endblock  %}
 
@@ -6,7 +7,9 @@
 
 <div class="site__body">
     <div class="block about-us">
-        <div class="about-us__image"></div>
+        <div class="about-us__image">
+            <img src="{% static 'templates/images/black_wall-01.png' %}"/>
+        </div>
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-12 col-xl-10">
@@ -30,39 +33,39 @@
                                 <div class="owl-carousel">
                                     <div class="teammates__item teammate">
                                         <div class="teammate__avatar">
-                                            <img src="images/teammates/teammate-1.jpg" alt="">
+                                            <img src="{% static 'templates/images/fulfilment-01.png' %}"/>
                                         </div>
                                         <div class="teammate__name">Order management & fulfilment</div>
                                     </div>
                                     <div class="teammates__item teammate">
-                                        <div class="teammate__avatar">
-                                            <img src="images/teammates/teammate-2.jpg" alt="">
+                                        <div class="teammate__avatar">   
+                                            <img src="{% static 'templates/images/delivery-01.png' %}"/>
                                         </div>
                                         <div class="teammate__name">Shipping & delivery</div>
                                     </div>
                                     <div class="teammates__item teammate">
                                         <div class="teammate__avatar">
-                                            <img src="images/teammates/teammate-3.jpg" alt="">
+                                            <img src="{% static 'templates/images/service-01.png' %}"/>
                                         </div>
                                         <div class="teammate__name">Customer service</div>
                                     </div>
                                      <div class="teammates__item teammate">
                                         <div class="teammate__avatar">
-                                            <img src="images/teammates/teammate-1.jpg" alt="">
+                                            <img src="{% static 'templates/images/advisory-01.png' %}"/>
                                         </div>
                                         <div class="teammate__name">Advisory</div>
                                     </div>
                                     <div class="teammates__item teammate">
                                         <div class="teammate__avatar">
-                                            <img src="images/teammates/teammate-2.jpg" alt="">
+                                            <img src="{% static 'templates/images/advertising-01.png' %}"/>
                                         </div>
                                         <div class="teammate__name">Advertising & Promotion</div>
                                     </div>
                                     <div class="teammates__item teammate">
                                         <div class="teammate__avatar">
-                                            <img src="images/teammates/teammate-3.jpg" alt="">
+                                            <img src="{% static 'templates/images/storage-01.png' %}"/>
                                         </div>
-                                        <div class="teammate__name">Storage(available soon)</div>
+                                        <div class="teammate__name">Storage (available soon)</div>
                                     </div>
                                 </div>
                             </div>

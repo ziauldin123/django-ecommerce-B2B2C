@@ -11,38 +11,29 @@
                     <div class="faq__section">
                         <div class="hours__section-body">
                             <div class="row">
-                                <div class="faq__section-column col-12 col-lg-1">
+                                <div class="faq__section-column col-12 col-lg-3">
                                     <div class="account-menu__user-avatar">
-                                        <img src="{{vendor.logo.url}}" alt="">
+                                        <img src="{{vendor.logo.url}}" width="80">
                                     </div>
                                 </div>
-                                <div class="faq__section-column col-12 col-lg-2">
+                                <div class="faq__section-column col-12 col-lg-3">
                                     <div class="address-card__row-title">Company</div>
                                     <div class="address-card__row-content">
                                     {{ vendor.company_name }} 
                                     </div>
                                 </div>
-                                <div class="faq__section-column col-12 col-lg-2">
-                                    <div class="address-card__row-title">TIN</div>
-                                    <div class="address-card__row-content">
-                                    {{ vendor.company_code }} 
-                                    </div>
-                                </div>
-                                <div class="faq__section-column col-12 col-lg-5">
-                                    <div class="address-card__row-title">Address</div>
-                                    <div class="address-card__row-content">
-                                    {{ vendor.district }} - {{ vendor.sector }} - {{ vendor.cell }} - {{ vendor.village }} - {{ vendor.address }} 
-                                    </div>
-                                </div>
-                               
-                                <div class="faq__section-column col-12 col-lg-2">
+                                  <div class="faq__section-column col-12 col-lg-3">
                                     <div class="address-card__row-title">Phone number</div>
                                     <div class="address-card__row-content">
                                     {{ vendor.phone }}
                                     </div>
                                 </div>
-                                 
-                            </div>
+                                <div class="faq__section-column col-12 col-lg-3">
+                                    <div class="address-card__row-title">TIN</div>
+                                    <div class="address-card__row-content">
+                                    {{ vendor.company_code }} 
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -91,11 +82,23 @@
                     </div>
                     <div class="shop-layout__sidebar">
                         <div class="block block-sidebar block-sidebar--offcanvas--mobile">
-                           
-                            <div class="block-sidebar__body">
-                              
+                            <div class="block-sidebar__body">  
                                 <div class="block-sidebar__item">
-                                    <div class="widget-filters widget widget-filters--offcanvas--mobile" data-collapse data-collapse-opened-class="filter--opened">
+                                    <div class="widget-categories widget-categories--location--blog widget">
+                                        <h4 class="widget-filters__title widget__title">Location</h4>
+                                        <div class="widget-filters__list">
+                                            <div class="widget-filters__item">
+                                                <h6>District: {{ vendor.district }} </h6>
+                                                <h6>Sector: {{ vendor.sector }} </h6>
+                                                <h6> Cell: {{ vendor.cell }} </h6>
+                                                <h6>Village: {{ vendor.village }} </h6>
+                                                <h6> Address: {{ vendor.address }} </h6>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="block-sidebar__item">
+                                    <div class="widget-categories widget-categories--location--blog widget">
                                         <h4 class="widget-filters__title widget__title">Working Hours</h4>
                                         <div class="widget-filters__list">
                                             <div class="widget-filters__item">
@@ -108,9 +111,10 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                                
+                            </div>  
                         </div>
-                    </div>
+                    </div>  
                 </div>
             </div>
         </div>    
