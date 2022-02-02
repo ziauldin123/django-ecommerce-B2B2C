@@ -1,7 +1,9 @@
+import imp
 from django.shortcuts import get_object_or_404, redirect, render
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse, request
 from django.shortcuts import render
 from django.urls import reverse
+from django.db.models import Max
 # Create your views here.
 from django.template.loader import render_to_string
 from datetime import datetime
@@ -58,7 +60,9 @@ def product_detail(request, id, slug, vendor_slug, category_slug, subcategory_sl
     mainProduct = []
     query = request.GET.get('q')
     product = Product.objects.get(pk=id)
-    
+    max = product.product.all().aggregate(Max('rate'))
+    print(max)
+
     if not request.user.is_anonymous:
         cart = Cart(request)
         current_user = request.user
@@ -112,7 +116,8 @@ def product_detail(request, id, slug, vendor_slug, category_slug, subcategory_sl
                'tax':tax,
                'total':grandTotal,
                'wishlist':wishlist,
-               'total_compare':total_compare
+               'total_compare':total_compare,
+               'max':max
                }
     if product.variant != "None":  # pr has variantsu
         if request.method == 'POST':  # if we select color
@@ -154,7 +159,8 @@ def product_detail(request, id, slug, vendor_slug, category_slug, subcategory_sl
             variant = Variants.objects.get(
                 id=variants[0].id, status=True, visible=True)
         
-
+        
+           
         context.update({'sizes': sizes, 'colors': colors, 'colors1': colors1, 'weight': weight, 'width': width, 'length': length, 'height': height, 'variant': variant, 'query': query,
                         'is_comparing': variant.id in request.session.get('comparing', []),
                         'shopcart':shopcart,'subtotal':total,'tax':tax,'total':grandTotal})

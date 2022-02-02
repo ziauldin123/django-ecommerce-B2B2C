@@ -132,20 +132,26 @@
                     </span>
                 </div>
                 <div class="product-card__prices">
-                    {% if product.is_variant %} 
+                  FRW  {% if product.is_variant %} 
                           {% if product.discount %} 
                               <span class="product-card__new-price">{{product.get_variant.price}}</span>
                               <span class="product-card__old-price">{{product.get_variant.discounted_price}}</span>
                           {% else %}
                               <span class="product-card__old-price"></span>{{product.get_variant.price}}</span>
-                          {% endif %}    
+                          {% endif %} /
+                          {% if product.get_variant.unit_type %} 
+                            {{product.get_variant.unit_type.unit }}
+                          {% endif %}   
                     {% else %}
                          {% if product.discount  %} 
                              <span class="product-card__new-price">{{product.price}}</span>
                              <span class="product-card__old-price">{{product.get_discounted_price}}</span>
                          {% else %}
                              <span class="product-card__old-price"></span>{{product.price}}</span>
-                         {% endif %}
+                         {% endif %} / 
+                         {% if product.unit_type %} 
+                         {{product.unit_type.unit}}
+                         {% endif %} 
                     {% endif %}     
                 </div>
                 <div class="product-card__buttons">

@@ -78,7 +78,7 @@
                                                             <label class="filter-color__item">
                                                                 <span class="filter-color__check input-check-color  " style="color: {{color.code}};">
                                                                     <label class="input-check-color__body">
-                                                                        <input class="input-check-color__input" type="checkbox" checked>
+                                                                        <input class="input-check-color__input" type="checkbox">
                                                                         <span class="input-check-color__box"></span>
                                                                         <svg class="input-check-color__icon" width="12px" height="9px">
                                                                             <use xlink:href="/static/templates/images/sprite.svg#check-12x9"></use>
@@ -110,7 +110,7 @@
                                                             <label class="filter-list__item ">
                                                                 <span class="filter-list__input input-check">
                                                                     <span class="input-check__body">
-                                                                        <input class="input-check__input" type="checkbox" checked>
+                                                                        <input class="input-check__input" type="checkbox">
                                                                         <span class="input-check__box"></span>
                                                                         <svg class="input-check__icon" width="9px" height="7px">
                                                                             <use xlink:href="/static/templates/images/sprite.svg#check-9x7"></use>
@@ -177,7 +177,7 @@
                                                             <label class="filter-list__item  filter-list__item--disabled ">
                                                                 <span class="filter-list__input input-check">
                                                                     <span class="input-check__body">
-                                                                        <input class="input-check__input" type="checkbox" checked disabled>
+                                                                        <input class="input-check__input" type="checkbox"  disabled>
                                                                         <span class="input-check__box"></span>
                                                                         <svg class="input-check__icon" width="9px" height="7px">
                                                                             <use xlink:href="/static/templates/images/sprite.svg#check-9x7"></use>
@@ -211,7 +211,7 @@
                                                             <label class="filter-list__item  filter-list__item--disabled ">
                                                                 <span class="filter-list__input input-check">
                                                                     <span class="input-check__body">
-                                                                        <input class="input-check__input" type="checkbox" checked disabled>
+                                                                        <input class="input-check__input" type="checkbox" disabled>
                                                                         <span class="input-check__box"></span>
                                                                         <svg class="input-check__icon" width="9px" height="7px">
                                                                             <use xlink:href="/static/templates/images/sprite.svg#check-9x7"></use>
@@ -336,7 +336,9 @@
                             </div>
                         </div>
                         <h3>Search Results</h3>
-                        <div id="message" name="message" class="mt-3"></div>
+                        <div id="message" name="message" class="mt-3">
+                            
+                        </div>
                         <div class="products-view__list products-list" data-layout="grid-3-sidebar" data-with-features="false" data-mobile-grid-columns="2">
                             <div class="products-list__body">
                                 {% for product in products %} 
