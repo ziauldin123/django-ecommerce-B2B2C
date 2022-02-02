@@ -9,12 +9,13 @@ from apps.cart.cart import Cart
 from django.utils.crypto import get_random_string
 from apps.ordering.models import ShopCart,ShopCartForm,Order,OrderItem
 from apps.newProduct.models import Category,Product,Variants
-from apps.vendor.models import Customer, Profile
+from apps.vendor.models import Customer, Profile,UserWishList
 from apps.cart.models import District,Sector,Cell,Village
 from decimal import Decimal
 from django.views.decorators.cache import never_cache,cache_page
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
+
 @never_cache
 def index(request):
     return HttpResponse("Order Page")
@@ -114,6 +115,7 @@ def addtoshopcart(request,id):
 def shopcart(request):
     category = Category.objects.all()
     current_user = request.user
+    wishlist=UserWishList.objects.filter(user=current_user)
     cart = Cart(request)
 
     if request.method == 'POST':
@@ -150,19 +152,34 @@ def shopcart(request):
         total=cart.get_cart_cost()
         tax=cart.get_cart_tax()
         grandTotal=cart.get_cart_cost() + cart.get_cart_tax()
+        if  not request.session.get('comparing'):
+            comparing = 0
+        else:
+            comparing = request.session['comparing'].__len__()
+
+        if not request.session.get('comparing_variants'):
+            compare_var = 0
+        else:
+            compare_var = request.session['comparing_variants'].__len__()
+
+        total_compare = comparing + compare_var
 
         context={'shopcart': shopcart,
                 'category':category,
                 'total': round(total,2),
                 'tax':tax,
-                'grandTotal':grandTotal
+                'grandTotal':grandTotal,
+                'wishlist':wishlist,
+                'total_compare':total_compare
                 }
     else:
          context={'shopcart': None,
                 'category':None,
                 'total': None,
                 'tax':None,
-                'grandTotal':None
+                'grandTotal':None,
+                'wishlist':0,
+                'total_compare':0
                 }
     return render(request,'shopcart_products.html',context)
 

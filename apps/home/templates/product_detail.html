@@ -31,6 +31,7 @@
     
     $(document).on('change', '#post-form',function(e){
                                     e.preventDefault();
+                                    alert($('#size').val())
                                     $.ajax({
                                         type:'POST',
                                         url:'{% url "ajaxcolor" %}',
@@ -87,7 +88,8 @@
                                     })
                                 });
                                 $('body').on('click','.wish',function(){
-                                    var variant_id=$(this).closest('.wishlist').find('.variantid').val()
+                                    var variant_id=$(this).closest('.wishList').find('.variantid').val()
+                                    var product_id=$(this).closest('.wishList').find('.productid').val()
                                     var my_token='{{ csrf_token }}'
                                     $.ajax({
                                         method:"POST",
@@ -95,7 +97,8 @@
                                         context:this,
                                         data:{
                                             "csrfmiddlewaretoken": my_token,
-                                            'variant_id':variant_id
+                                            'variant_id':variant_id,
+                                            'product_id':product_id,
                                         },
                                     })
                                 })
@@ -382,27 +385,29 @@
                         </span>
                     </div>
                         <div>
-                          <!-- .product__info / end -->
+                    <!-- .product__info / end -->
                     <!-- .product__sidebar -->
                     {% if product.variant == 'Size-Color' %}
                     <div class="product-options" >
-                            <form method="POST" id="post-form">
-                            <li class="product__option-label">Size</li>
-                            {% csrf_token %}
-                            <div class="form-group product__option">
-                                <div class="input-radio-label">
-                                    <div class="input-radio-label__list">
-                                            <input type="hidden" name="productid" id="productid" value="{{ product.id }}">
-                                            {% for rs in sizes %}
-                                                  <label  data-toggle="tooltip"  {% if variant.size_id == rs.size_id %} class="active" {% endif %}>
-                                                       <input type="radio" name="size" id="size"  {% if variant.size_id == rs.size_id %} selected {% endif %} value="{{ rs.size_id }}">
-                                                       <span><a>{{rs.size.name}}</a></span>
-                                                   </label></br>
-                                            {% endfor %}
+                            <div class="size-option">
+                                <form method="POST" id="post-form">
+                                    <input type="hidden" name="productid" id="productid" value="{{ product.id }}">
+                                    <li class="product__option-label">Size</li>
+                                    {% csrf_token %}
+                                    <div class="form-group product__option">
+                                        <div class="input-radio-label">
+                                            <div class="input-radio-label__list">
+                                                    {% for rs in sizes %}
+                                                          <label data-toggle="tooltip"  {% if variant.size_id == rs.size_id %} class="active" {% endif %}>
+                                                            <input name="size" id="size"  value="{{rs.size.id}}" type="radio">
+                                                               <span><a>{{rs.size.name}}</a></span>
+                                                           </label>
+                                                    {% endfor %}
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
+                                </form>
                             </div>
-                        </form>
                         <form method="post" action="?q=selectvariant" id="post-color">
                             {% csrf_token %}
                             <div id="appendHere">
@@ -424,6 +429,48 @@
 
                         </form>
                     </div>
+                    {% elif product.variant == 'Wght-Color' %} 
+                    <div class="product-options" >
+                        <div class="size-option">
+                            <form method="POST" id="post-form1">
+                                <input type="hidden" name="productid" id="productid" value="{{ product.id }}">
+                                <li class="product__option-label">Weight</li>
+                                {% csrf_token %}
+                                <div class="form-group product__option">
+                                    <div class="input-radio-label">
+                                        <div class="input-radio-label__list">
+                                                {% for rs in weight %}
+                                                      <label data-toggle="tooltip"  {% if variant.weight_id == rs.weight_id %} class="active" {% endif %}>
+                                                        <input name="weight" id="weight" value="{{ rs.weight_id }}" type="radio"  {% if variant.weight_id == rs.weight_id %} selected {% endif %} />
+                                                           <span><a>{{rs.weight}}</a></span>
+                                                       </label>
+                                                {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    <form method="post" action="?q=selectvariant" id="post-color">
+                        {% csrf_token %}
+                        <div id="appendHere">
+                            <input type="hidden" name="weigt" id="weight" value="{{ weight_id }}">
+                                <div class="form-group product__option">
+                                    <label class="product__option-label">Color</label>
+                                    <div class="input-radio-color">
+                                        <div class="input-radio-color__list">
+                                            {% for rs in colors1 %} 
+                                            <label class="input-radio-color__item input-radio-color__item--white" style="color: {{rs.color.code}};" data-toggle="tooltip" title="{{rs.color}}">
+                                                <input type="radio" {% if variant.id == rs.id %} checked {% endif %} name="variantid" id="variantid" value="{{ rs.id }}" onchange="this.form.submit();">
+                                                <span></span>
+                                            </label>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+                        </div>
+
+                    </form>
+                </div>
                     {% elif product.variant == 'Size' %}
                                         <form method="post" action="?q=selectvariant" id="post-color">
                                             {% csrf_token %}
@@ -562,18 +609,36 @@
                                 {% endif %}
                             </div>
                             <div class="product__actions-item product__actions-item--wishlist">
-                                <button type="button" class="btn btn-secondary btn-svg-icon btn-lg" data-toggle="tooltip" title="Wishlist">
+                                {% if request.session.customer %}
+                                <div class="wishList">
+                                    <form action="" method="post">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="variantid" class="variantid" id="variantid" value="{{ variant.id }}">
+                                        <input type="hidden" name="productid" class="productid" id="productid" value="{{ product.id }}">
+                                        <button class="button btn btn-secondary btn-svg-icon btn-lg wish" data-toggle="tooltip" title="Wishlist">
+                                            <svg width="16px" height="16px">
+                                                <use xlink:href="/static/templates/images/sprite.svg#wishlist-16"></use>
+                                            </svg>
+                                        </button>
+                                    </form>
+                                </div> 
+                                {% else %} 
+                                <button type="button" class=" button btn btn-secondary btn-svg-icon btn-lg wish disabled" data-toggle="tooltip" title="Wishlist">
                                     <svg width="16px" height="16px">
                                         <use xlink:href="/static/templates/images/sprite.svg#wishlist-16"></use>
                                     </svg>
-                                </button>
+                                {% endif %}
                             </div>
                             <div class="product__actions-item product__actions-item--compare">
-                                <button type="button" class="btn btn-secondary btn-svg-icon btn-lg" data-toggle="tooltip" title="Compare">
-                                    <svg width="16px" height="16px">
-                                        <use xlink:href="/static/templates/images/sprite.svg#compare-16"></use>
-                                    </svg>
-                                </button>
+                                <div class="compare">
+                                    {% csrf_token %} 
+                                    <input type="hidden" name="variantid" class="variantid" id="variantid" value="{{ variant.id }}">
+                                    <button class="button btn btn-secondary btn-svg-icon btn-lg compareBtn" data-toggle="tooltip" title="Compare">
+                                        <svg width="16px" height="16px">
+                                            <use xlink:href="/static/templates/images/sprite.svg#compare-16"></use>
+                                        </svg>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                         <div id="message" name="message" class="mt-3">
@@ -598,18 +663,32 @@
                                 {% endif %}
                             </div>
                             <div class="product__actions-item product__actions-item--wishlist">
-                                <button type="button" class="btn btn-secondary btn-svg-icon btn-lg" data-toggle="tooltip" title="Wishlist">
-                                    <svg width="16px" height="16px">
-                                        <use xlink:href="/static/templates/images/sprite.svg#wishlist-16"></use>
-                                    </svg>
-                                </button>
+                                <form action="{% url 'wishlist-add' product.id %}" method="post">
+                                    {% csrf_token %}
+                                    {% if request.session.customer %} 
+                                    <button class="button btn btn-secondary btn-svg-icon btn-lg" data-toggle="tooltip" title="Wishlist">
+                                        <svg width="16px" height="16px">
+                                            <use xlink:href="/static/templates/images/sprite.svg#wishlist-16"></use>
+                                        </svg>
+                                    </button>
+                                    {% else %} 
+                                    <button type="button" class="btn btn-secondary btn-svg-icon btn-lg disabled" data-toggle="tooltip" title="Wishlist">
+                                        <svg width="16px" height="16px">
+                                            <use xlink:href="/static/templates/images/sprite.svg#wishlist-16"></use>
+                                        </svg>
+                                    </button>
+                                    {% endif %} 
+                                </form>
                             </div>
                             <div class="product__actions-item product__actions-item--compare">
-                                <button type="button" class="btn btn-secondary btn-svg-icon btn-lg" data-toggle="tooltip" title="Compare">
-                                    <svg width="16px" height="16px">
-                                        <use xlink:href="/static/templates/images/sprite.svg#compare-16"></use>
-                                    </svg>
-                                </button>
+                                <form action="{% url 'product-compare' product.id %}" method="post">
+                                    {% csrf_token %} 
+                                    <button class="btn btn-secondary btn-svg-icon btn-lg" data-toggle="tooltip" title="Compare"  onclick="compare()">
+                                        <svg width="16px" height="16px">
+                                            <use xlink:href="/static/templates/images/sprite.svg#compare-16"></use>
+                                        </svg>
+                                    </button>
+                                </form>
                             </div>
                         </div>
                     </div>

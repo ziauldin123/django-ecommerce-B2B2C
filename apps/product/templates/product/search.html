@@ -65,6 +65,38 @@
                                     <div class="widget-filters__item">
                                         <div class="filter filter--opened" data-collapse-item>
                                             <button type="button" class="filter__title" data-collapse-trigger>
+                                                Color
+                                                <svg class="filter__arrow" width="12px" height="7px">
+                                                    <use xlink:href="images/sprite.svg#arrow-rounded-down-12x7"></use>
+                                                </svg>
+                                            </button>
+                                            <div class="filter__body" data-collapse-content>
+                                                <div class="filter__container">
+                                                    <div class="filter-color">
+                                                        <div class="filter-color__list">
+                                                            {% for color in colors %}
+                                                            <label class="filter-color__item">
+                                                                <span class="filter-color__check input-check-color  " style="color: {{color.code}};">
+                                                                    <label class="input-check-color__body">
+                                                                        <input class="input-check-color__input" type="checkbox" checked>
+                                                                        <span class="input-check-color__box"></span>
+                                                                        <svg class="input-check-color__icon" width="12px" height="9px">
+                                                                            <use xlink:href="/static/templates/images/sprite.svg#check-12x9"></use>
+                                                                        </svg>
+                                                                        <span class="input-check-color__stick"></span>
+                                                                    </label>
+                                                                </span>
+                                                            </label> 
+                                                            {% endfor %}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="widget-filters__item">
+                                        <div class="filter filter--opened" data-collapse-item>
+                                            <button type="button" class="filter__title" data-collapse-trigger>
                                                 Brand
                                                 <svg class="filter__arrow" width="12px" height="7px">
                                                     <use xlink:href="/static/templates/images/sprite.svg#arrow-rounded-down-12x7"></use>
@@ -74,21 +106,7 @@
                                                 <div class="filter__container">
                                                     <div class="filter-list">
                                                         <div class="filter-list__list">
-                                                            <label class="filter-list__item ">
-                                                                <span class="filter-list__input input-check">
-                                                                    <span class="input-check__body">
-                                                                        <input class="input-check__input" type="checkbox">
-                                                                        <span class="input-check__box"></span>
-                                                                        <svg class="input-check__icon" width="9px" height="7px">
-                                                                            <use xlink:href="/static/templates/images/sprite.svg#check-9x7"></use>
-                                                                        </svg>
-                                                                    </span>
-                                                                </span>
-                                                                <span class="filter-list__title">
-                                                                    Wakita
-                                                                </span>
-                                                                <span class="filter-list__counter">7</span>
-                                                            </label>
+                                                            {% for brand in brands %} 
                                                             <label class="filter-list__item ">
                                                                 <span class="filter-list__input input-check">
                                                                     <span class="input-check__body">
@@ -100,24 +118,11 @@
                                                                     </span>
                                                                 </span>
                                                                 <span class="filter-list__title">
-                                                                    Zosch
+                                                                    {{brand}}
                                                                 </span>
                                                                 <span class="filter-list__counter">42</span>
                                                             </label>
-                                                            <label class="filter-list__item  filter-list__item--disabled ">
-                                                                <span class="filter-list__input input-check">
-                                                                    <span class="input-check__body">
-                                                                        <input class="input-check__input" type="checkbox" checked disabled>
-                                                                        <span class="input-check__box"></span>
-                                                                        <svg class="input-check__icon" width="9px" height="7px">
-                                                                            <use xlink:href="/static/templates/images/sprite.svg#check-9x7"></use>
-                                                                        </svg>
-                                                                    </span>
-                                                                </span>
-                                                                <span class="filter-list__title">
-                                                                    WeVALT
-                                                                </span>
-                                                            </label>
+                                                            {% endfor %}
                                                         </div>
                                                     </div>
                                                 </div>
@@ -136,6 +141,7 @@
                                                 <div class="filter__container">
                                                     <div class="filter-list">
                                                         <div class="filter-list__list">
+                                                            {% for weight in weight %} 
                                                             <label class="filter-list__item ">
                                                                 <span class="filter-list__input input-radio">
                                                                     <span class="input-radio__body">
@@ -144,33 +150,11 @@
                                                                     </span>
                                                                 </span>
                                                                 <span class="filter-list__title">
-                                                                    Wakita
+                                                                    {{weight}}
                                                                 </span>
                                                                 <span class="filter-list__counter">7</span>
                                                             </label>
-                                                            <label class="filter-list__item ">
-                                                                <span class="filter-list__input input-radio">
-                                                                    <span class="input-radio__body">
-                                                                        <input class="input-radio__input" name="filter_radio" type="radio">
-                                                                        <span class="input-radio__circle"></span>
-                                                                    </span>
-                                                                </span>
-                                                                <span class="filter-list__title">
-                                                                    Zosch
-                                                                </span>
-                                                                <span class="filter-list__counter">42</span>
-                                                            </label>
-                                                            <label class="filter-list__item  filter-list__item--disabled ">
-                                                                <span class="filter-list__input input-radio">
-                                                                    <span class="input-radio__body">
-                                                                        <input class="input-radio__input" name="filter_radio" type="radio" checked disabled>
-                                                                        <span class="input-radio__circle"></span>
-                                                                    </span>
-                                                                </span>
-                                                                <span class="filter-list__title">
-                                                                    WeVALT
-                                                                </span>
-                                                            </label>
+                                                            {% endfor %}
                                                         </div>
                                                     </div>
                                                 </div>
@@ -189,36 +173,7 @@
                                                 <div class="filter__container">
                                                     <div class="filter-list">
                                                         <div class="filter-list__list">
-                                                            <label class="filter-list__item ">
-                                                                <span class="filter-list__input input-check">
-                                                                    <span class="input-check__body">
-                                                                        <input class="input-check__input" type="checkbox">
-                                                                        <span class="input-check__box"></span>
-                                                                        <svg class="input-check__icon" width="9px" height="7px">
-                                                                            <use xlink:href="/static/templates/images/sprite.svg#check-9x7"></use>
-                                                                        </svg>
-                                                                    </span>
-                                                                </span>
-                                                                <span class="filter-list__title">
-                                                                    Wakita
-                                                                </span>
-                                                                <span class="filter-list__counter">7</span>
-                                                            </label>
-                                                            <label class="filter-list__item ">
-                                                                <span class="filter-list__input input-check">
-                                                                    <span class="input-check__body">
-                                                                        <input class="input-check__input" type="checkbox" checked>
-                                                                        <span class="input-check__box"></span>
-                                                                        <svg class="input-check__icon" width="9px" height="7px">
-                                                                            <use xlink:href="/static/templates/images/sprite.svg#check-9x7"></use>
-                                                                        </svg>
-                                                                    </span>
-                                                                </span>
-                                                                <span class="filter-list__title">
-                                                                    Zosch
-                                                                </span>
-                                                                <span class="filter-list__counter">42</span>
-                                                            </label>
+                                                            {% for width in width %} 
                                                             <label class="filter-list__item  filter-list__item--disabled ">
                                                                 <span class="filter-list__input input-check">
                                                                     <span class="input-check__body">
@@ -230,9 +185,10 @@
                                                                     </span>
                                                                 </span>
                                                                 <span class="filter-list__title">
-                                                                    WeVALT
+                                                                    {{width}}
                                                                 </span>
                                                             </label>
+                                                            {% endfor %}
                                                         </div>
                                                     </div>
                                                 </div>
@@ -251,36 +207,7 @@
                                                 <div class="filter__container">
                                                     <div class="filter-list">
                                                         <div class="filter-list__list">
-                                                            <label class="filter-list__item ">
-                                                                <span class="filter-list__input input-check">
-                                                                    <span class="input-check__body">
-                                                                        <input class="input-check__input" type="checkbox">
-                                                                        <span class="input-check__box"></span>
-                                                                        <svg class="input-check__icon" width="9px" height="7px">
-                                                                            <use xlink:href="/static/templates/images/sprite.svg#check-9x7"></use>
-                                                                        </svg>
-                                                                    </span>
-                                                                </span>
-                                                                <span class="filter-list__title">
-                                                                    Wakita
-                                                                </span>
-                                                                <span class="filter-list__counter">7</span>
-                                                            </label>
-                                                            <label class="filter-list__item ">
-                                                                <span class="filter-list__input input-check">
-                                                                    <span class="input-check__body">
-                                                                        <input class="input-check__input" type="checkbox" checked>
-                                                                        <span class="input-check__box"></span>
-                                                                        <svg class="input-check__icon" width="9px" height="7px">
-                                                                            <use xlink:href="/static/templates/images/sprite.svg#check-9x7"></use>
-                                                                        </svg>
-                                                                    </span>
-                                                                </span>
-                                                                <span class="filter-list__title">
-                                                                    Zosch
-                                                                </span>
-                                                                <span class="filter-list__counter">42</span>
-                                                            </label>
+                                                            {% for size in size %} 
                                                             <label class="filter-list__item  filter-list__item--disabled ">
                                                                 <span class="filter-list__input input-check">
                                                                     <span class="input-check__body">
@@ -292,9 +219,10 @@
                                                                     </span>
                                                                 </span>
                                                                 <span class="filter-list__title">
-                                                                    WeVALT
+                                                                    {{size}}
                                                                 </span>
                                                             </label>
+                                                            {% endfor %}
                                                         </div>
                                                     </div>
                                                 </div>
@@ -313,6 +241,7 @@
                                                 <div class="filter__container">
                                                     <div class="filter-list">
                                                         <div class="filter-list__list">
+                                                            {% for height in height %} 
                                                             <label class="filter-list__item ">
                                                                 <span class="filter-list__input input-check">
                                                                     <span class="input-check__body">
@@ -324,39 +253,11 @@
                                                                     </span>
                                                                 </span>
                                                                 <span class="filter-list__title">
-                                                                    Wakita
+                                                                    {{height}}
                                                                 </span>
                                                                 <span class="filter-list__counter">7</span>
                                                             </label>
-                                                            <label class="filter-list__item ">
-                                                                <span class="filter-list__input input-check">
-                                                                    <span class="input-check__body">
-                                                                        <input class="input-check__input" type="checkbox" checked>
-                                                                        <span class="input-check__box"></span>
-                                                                        <svg class="input-check__icon" width="9px" height="7px">
-                                                                            <use xlink:href="/static/templates/images/sprite.svg#check-9x7"></use>
-                                                                        </svg>
-                                                                    </span>
-                                                                </span>
-                                                                <span class="filter-list__title">
-                                                                    Zosch
-                                                                </span>
-                                                                <span class="filter-list__counter">42</span>
-                                                            </label>
-                                                            <label class="filter-list__item  filter-list__item--disabled ">
-                                                                <span class="filter-list__input input-check">
-                                                                    <span class="input-check__body">
-                                                                        <input class="input-check__input" type="checkbox" checked disabled>
-                                                                        <span class="input-check__box"></span>
-                                                                        <svg class="input-check__icon" width="9px" height="7px">
-                                                                            <use xlink:href="/static/templates/images/sprite.svg#check-9x7"></use>
-                                                                        </svg>
-                                                                    </span>
-                                                                </span>
-                                                                <span class="filter-list__title">
-                                                                    WeVALT
-                                                                </span>
-                                                            </label>
+                                                            {% endfor %}
                                                         </div>
                                                     </div>
                                                 </div>
@@ -375,6 +276,7 @@
                                                 <div class="filter__container">
                                                     <div class="filter-list">
                                                         <div class="filter-list__list">
+                                                            {% for length in length %}
                                                             <label class="filter-list__item ">
                                                                 <span class="filter-list__input input-check">
                                                                     <span class="input-check__body">
@@ -386,153 +288,11 @@
                                                                     </span>
                                                                 </span>
                                                                 <span class="filter-list__title">
-                                                                    Wakita
+                                                                    {{length}}
                                                                 </span>
                                                                 <span class="filter-list__counter">7</span>
                                                             </label>
-                                                            <label class="filter-list__item ">
-                                                                <span class="filter-list__input input-check">
-                                                                    <span class="input-check__body">
-                                                                        <input class="input-check__input" type="checkbox" checked>
-                                                                        <span class="input-check__box"></span>
-                                                                        <svg class="input-check__icon" width="9px" height="7px">
-                                                                            <use xlink:href="/static/templates/images/sprite.svg#check-9x7"></use>
-                                                                        </svg>
-                                                                    </span>
-                                                                </span>
-                                                                <span class="filter-list__title">
-                                                                    Zosch
-                                                                </span>
-                                                                <span class="filter-list__counter">42</span>
-                                                            </label>
-                                                            <label class="filter-list__item  filter-list__item--disabled ">
-                                                                <span class="filter-list__input input-check">
-                                                                    <span class="input-check__body">
-                                                                        <input class="input-check__input" type="checkbox" checked disabled>
-                                                                        <span class="input-check__box"></span>
-                                                                        <svg class="input-check__icon" width="9px" height="7px">
-                                                                            <use xlink:href="/static/templates/images/sprite.svg#check-9x7"></use>
-                                                                        </svg>
-                                                                    </span>
-                                                                </span>
-                                                                <span class="filter-list__title">
-                                                                    WeVALT
-                                                                </span>
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="widget-filters__item">
-                                        <div class="filter filter--opened" data-collapse-item>
-                                            <button type="button" class="filter__title" data-collapse-trigger>
-                                                Color
-                                                <svg class="filter__arrow" width="12px" height="7px">
-                                                    <use xlink:href="images/sprite.svg#arrow-rounded-down-12x7"></use>
-                                                </svg>
-                                            </button>
-                                            <div class="filter__body" data-collapse-content>
-                                                <div class="filter__container">
-                                                    <div class="filter-color">
-                                                        <div class="filter-color__list">
-                                                            <label class="filter-color__item">
-                                                                <span class="filter-color__check input-check-color  " style="color: #47cca0;">
-                                                                    <label class="input-check-color__body">
-                                                                        <input class="input-check-color__input" type="checkbox">
-                                                                        <span class="input-check-color__box"></span>
-                                                                        <svg class="input-check-color__icon" width="12px" height="9px">
-                                                                            <use xlink:href="/static/templates/images/sprite.svg#check-12x9"></use>
-                                                                        </svg>
-                                                                        <span class="input-check-color__stick"></span>
-                                                                    </label>
-                                                                </span>
-                                                            </label>
-                                                            <label class="filter-color__item">
-                                                                <span class="filter-color__check input-check-color  " style="color: #47cccc;">
-                                                                    <label class="input-check-color__body">
-                                                                        <input class="input-check-color__input" type="checkbox">
-                                                                        <span class="input-check-color__box"></span>
-                                                                        <svg class="input-check-color__icon" width="12px" height="9px">
-                                                                            <use xlink:href="/static/templates/images/sprite.svg#check-12x9"></use>
-                                                                        </svg>
-                                                                        <span class="input-check-color__stick"></span>
-                                                                    </label>
-                                                                </span>
-                                                            </label>
-                                                            <label class="filter-color__item">
-                                                                <span class="filter-color__check input-check-color  " style="color: #40bfff;">
-                                                                    <label class="input-check-color__body">
-                                                                        <input class="input-check-color__input" type="checkbox" disabled>
-                                                                        <span class="input-check-color__box"></span>
-                                                                        <svg class="input-check-color__icon" width="12px" height="9px">
-                                                                            <use xlink:href="/static/templates/images/sprite.svg#check-12x9"></use>
-                                                                        </svg>
-                                                                        <span class="input-check-color__stick"></span>
-                                                                    </label>
-                                                                </span>
-                                                            </label>
-                                                            <label class="filter-color__item">
-                                                                <span class="filter-color__check input-check-color  " style="color: #3d6dcc;">
-                                                                    <label class="input-check-color__body">
-                                                                        <input class="input-check-color__input" type="checkbox" checked>
-                                                                        <span class="input-check-color__box"></span>
-                                                                        <svg class="input-check-color__icon" width="12px" height="9px">
-                                                                            <use xlink:href="/static/templates/images/sprite.svg#check-12x9"></use>
-                                                                        </svg>
-                                                                        <span class="input-check-color__stick"></span>
-                                                                    </label>
-                                                                </span>
-                                                            </label>
-                                                            <label class="filter-color__item">
-                                                                <span class="filter-color__check input-check-color  " style="color: #7766cc;">
-                                                                    <label class="input-check-color__body">
-                                                                        <input class="input-check-color__input" type="checkbox">
-                                                                        <span class="input-check-color__box"></span>
-                                                                        <svg class="input-check-color__icon" width="12px" height="9px">
-                                                                            <use xlink:href="/static/templates/images/sprite.svg#check-12x9"></use>
-                                                                        </svg>
-                                                                        <span class="input-check-color__stick"></span>
-                                                                    </label>
-                                                                </span>
-                                                            </label>
-                                                            <label class="filter-color__item">
-                                                                <span class="filter-color__check input-check-color  " style="color: #b852cc;">
-                                                                    <label class="input-check-color__body">
-                                                                        <input class="input-check-color__input" type="checkbox">
-                                                                        <span class="input-check-color__box"></span>
-                                                                        <svg class="input-check-color__icon" width="12px" height="9px">
-                                                                            <use xlink:href="/static/templates/images/sprite.svg#check-12x9"></use>
-                                                                        </svg>
-                                                                        <span class="input-check-color__stick"></span>
-                                                                    </label>
-                                                                </span>
-                                                            </label>
-                                                            <label class="filter-color__item">
-                                                                <span class="filter-color__check input-check-color  " style="color: #e53981;">
-                                                                    <label class="input-check-color__body">
-                                                                        <input class="input-check-color__input" type="checkbox">
-                                                                        <span class="input-check-color__box"></span>
-                                                                        <svg class="input-check-color__icon" width="12px" height="9px">
-                                                                            <use xlink:href="/static/templates/images/sprite.svg#check-12x9"></use>
-                                                                        </svg>
-                                                                        <span class="input-check-color__stick"></span>
-                                                                    </label>
-                                                                </span>
-                                                            </label>
-                                                            <label class="filter-color__item">
-                                                                <span class="filter-color__check input-check-color  " style="color: #e53981;">
-                                                                    <label class="input-check-color__body">
-                                                                        <input class="input-check-color__input" type="checkbox">
-                                                                        <span class="input-check-color__box"></span>
-                                                                        <svg class="input-check-color__icon" width="12px" height="9px">
-                                                                            <use xlink:href="/static/templates/images/sprite.svg#check-12x9"></use>
-                                                                        </svg>
-                                                                        <span class="input-check-color__stick"></span>
-                                                                    </label>
-                                                                </span>
-                                                            </label>
+                                                            {% endfor %} 
                                                         </div>
                                                     </div>
                                                 </div>

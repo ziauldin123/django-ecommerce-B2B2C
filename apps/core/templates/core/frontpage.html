@@ -21,31 +21,34 @@
         });
     }
     $('body').on('click','.wish',function(){
-                                    var variant_id=$(this).closest('.wishlist').find('.variantid').val()
-                                    var my_token='{{ csrf_token }}'
-                                    $.ajax({
-                                        method:"POST",
-                                        url:"/variant/wishlist/",
-                                        context:this,
-                                        data:{
-                                            "csrfmiddlewaretoken": my_token,
-                                            'variant_id':variant_id
-                                        },
-                                    })
-                                })
-                                $('body').on('click','.compareBtn',function(){
-                                    var variant_id=$(this).closest('.compare').find('.variantid').val()
-                                    var my_token='{{ csrf_token }}'
-                                    $.ajax({
-                                        method:"POST",
-                                        url:"/variant/compare/",
-                                        context:this,
-                                        data:{
-                                            "csrfmiddlewaretoken": my_token,
-                                            'variant_id':variant_id
-                                        },
-                                    })
-                                });
+        var variant_id=$(this).closest('.wishList').find('.variantid').val()
+        var product_id=$(this).closest('.wishList').find('.productid').val()
+        var my_token='{{ csrf_token }}'
+        $.ajax({
+        method:"POST",
+        url:"/variant/wishlist/",
+        context:this,
+        data:{
+        "csrfmiddlewaretoken": my_token,
+        'variant_id':variant_id,
+        'product_id':product_id,
+            },
+                })
+    })
+                               
+    $('body').on('click','.compareBtn',function(){
+        var variant_id=$(this).closest('.compare').find('.variantid').val()
+        var my_token='{{ csrf_token }}'
+        $.ajax({
+            method:"POST",
+            url:"/variant/compare/",
+            context:this,
+            data:{
+                "csrfmiddlewaretoken": my_token,
+                'variant_id':variant_id
+                },
+                    })
+    });
 </script>
             {% include 'core/caroussel.html' %}
             <div class="block block-products-carousel" data-layout="grid-4" data-mobile-grid-columns="2">

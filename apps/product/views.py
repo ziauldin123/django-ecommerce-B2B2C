@@ -27,11 +27,23 @@ def search(request):
     if not request.user.is_anonymous:
         cart = Cart(request)
         current_user = request.user
+        wishlist=UserWishList.objects.filter(user=current_user)
         # cart.clear()
         shopcart = ShopCart.objects.filter(user_id=current_user.id)
         total=cart.get_cart_cost()
         tax=cart.get_cart_tax()
         grandTotal=cart.get_cart_cost() + cart.get_cart_tax()
+        if  not request.session.get('comparing'):
+            comparing = 0
+        else:
+            comparing = request.session['comparing'].__len__()
+
+        if not request.session.get('comparing_variants'):
+            compare_var = 0
+        else:
+            compare_var = request.session['comparing_variants'].__len__()
+
+        total_compare = comparing + compare_var
 
     form = SearchForm(request.GET)
     sorting = request.GET.get('sorting')
@@ -45,6 +57,9 @@ def search(request):
     colors=Color.objects.all()
     weight=Weight.objects.all()
     length=Length.objects.all()
+    width=Width.objects.all()
+    size=Size.objects.all()
+    height=Height.objects.all()
 
     query=request.GET.get('query')
     price_to=request.GET.get('price_to')
@@ -86,6 +101,9 @@ def search(request):
             'colors':colors,
             'weight':weight,
             'length':length,
+            'width':width,
+            'size':size,
+            'height':height,
             'sorting': sorting,
             'price_to':price_to,
             'price_from':price_from,
@@ -99,7 +117,9 @@ def search(request):
             'shopcart':shopcart,
             'subtotal':total,
             'tax':tax,
-            'total':grandTotal
+            'total':grandTotal,
+            'wishlist':wishlist,
+            'total_compare':total_compare
         }
     )
 
@@ -199,8 +219,10 @@ def product(request,id,vendor_slug,category_slug,subcategory_slug, subsubcategor
 
 class CompareView(View):
     def post(self, request, *args, **kwargs):
+        url=request.META.get('HTTP_REFERER')#get last url
         product_id = kwargs['pk']
         product = Product.objects.get(pk=product_id)
+        print(product)
         # session = request.session
         if not request.session.get('comparing'):
             request.session['comparing'] = []
@@ -222,9 +244,10 @@ class CompareView(View):
             print('limit')
             messages.success(request,"Your reach compare product limits(3)")
 
-        return redirect(product.get_url())
+        return redirect(url)
 
 def variantCompare(request):
+    url=request.META.get('HTTP_REFERER')#get last url
     if request.method=="POST":
         variantid=request.POST.get('variant_id')
         variant=Variants.objects.get(id=variantid)
@@ -249,7 +272,7 @@ def variantCompare(request):
             print('limit')
             messages.success(request,"Your reach compare product limits(3)")
 
-        return redirect(variant.get_url())
+        return redirect(url)
 
 
 
@@ -260,11 +283,25 @@ class ComparingView(TemplateView):
         if not request.user.is_anonymous:
             cart = Cart(request)
             current_user = request.user
+            wishlist=UserWishList.objects.filter(user=current_user)
             # cart.clear()
             shopcart = ShopCart.objects.filter(user_id=current_user.id)
             total=cart.get_cart_cost()
             tax=cart.get_cart_tax()
             grandTotal=cart.get_cart_cost() + cart.get_cart_tax()
+            if  not request.session.get('comparing'):
+                comparing = 0
+            else:
+                comparing = request.session['comparing'].__len__()
+            
+
+            if not request.session.get('comparing_variants'):
+                compare_var = 0
+            else:
+                compare_var = request.session['comparing_variants'].__len__()
+
+            total_compare = comparing + compare_var
+            
         else:
             cart = 0
             subtotal = 0
@@ -272,6 +309,8 @@ class ComparingView(TemplateView):
             total = 0
             grandTotal = 0
             shopcart = None 
+            wishlist = 0
+            total_compare = 0
            
 
         context = self.get_context_data(**kwargs)
@@ -286,14 +325,16 @@ class ComparingView(TemplateView):
         for product in products:
             print(product.id)
         for product in variants:
-            print(product.id)    
+            print(product.id)       
         return render(request,'product/comparing.html',
         {'products':products,
         'variants':variants,
         'shopcart':shopcart,
         'subtotal':total,
         'tax':tax,
-        'total':grandTotal
+        'total':grandTotal,
+        'wishlist':wishlist,
+        'total_compare':total_compare
         })
 
     
@@ -350,6 +391,7 @@ class WishListAddView(FormView):
     form_class = ReviewForm
 
     def post(self, request, *args, **kwargs):
+        url=request.META.get('HTTP_REFERER')#get last url
         product = Product.objects.get(pk=kwargs['pk'])
         try:
             request.user.customer
@@ -365,16 +407,14 @@ class WishListAddView(FormView):
             UserWishList.objects.create(user=request.user,is_variant=False, product=product)
 
         messages.success(request,"Product added to wishlist")    
-        return self.redirect(product)
+        return redirect(url)
 
-    def redirect(self, product: Product):
-        return redirect(
-            f'/{product.id}/{product.vendor.slug}/{product.category.sub_category.category.slug}/{product.category.sub_category.slug}/'
-            f'{product.category.slug}/{product.slug}/')
+    
 
 class WishlistAddVariant(FormView):
     form_class = ReviewForm
-    def post(self,request):
+    def post(self,request, *args, **kwargs):
+        url=request.META.get('HTTP_REFERER')#get last url
         if request.method=="POST":
             variantid=request.POST.get('variant_id')
             productid=request.POST.get('product_id')
@@ -391,12 +431,10 @@ class WishlistAddVariant(FormView):
 
             else:
                 UserWishList.objects.create(user=request.user, is_variant=True,product=product,variant=variant)
-            return self.redirect(variant)
 
-    def redirect(self, variant: Variants):
-        return redirect(
-            f'/{variant.product.id}/{variant.product.vendor.slug}/{variant.product.category.sub_category.category.slug}/{variant.product.category.sub_category.slug}/'
-            f'{variant.product.category.slug}/{variant.product.slug}/')
+        messages.success(request,"Product added to wishlist")    
+        return  redirect(url) 
+        
 
 
 def wishlistDelete(request,id):
@@ -428,18 +466,32 @@ def category(request, category_slug):
     if not request.user.is_anonymous:
         cart = Cart(request)
         current_user = request.user
+        wishlist=UserWishList.objects.filter(user=current_user)
         # cart.clear()
         shopcart = ShopCart.objects.filter(user_id=current_user.id)
         total=cart.get_cart_cost()
         tax=cart.get_cart_tax()
         grandTotal=cart.get_cart_cost() + cart.get_cart_tax()
+        if  not request.session.get('comparing'):
+            comparing = 0
+        else:
+            comparing = request.session['comparing'].__len__()
+
+        if not request.session.get('comparing_variants'):
+            compare_var = 0
+        else:
+            compare_var = request.session['comparing_variants'].__len__()
+
+        total_compare = comparing + compare_var
     else:
         cart = 0
         subtotal = 0
         tax = 0
         total = 0
         grandTotal = 0
-        shopcart = None    
+        shopcart = None
+        wishlist = 0
+        total_compare = 0    
 
     print('category')
     category = get_object_or_404(Category, slug=category_slug)
@@ -546,8 +598,9 @@ def category(request, category_slug):
             'shopcart':shopcart,
             'subtotal':total,
             'tax':tax,
-            'total':grandTotal
-
+            'total':grandTotal,
+            'wishlist':wishlist,
+            'total_compare':total_compare
         }
     )
 
@@ -555,18 +608,32 @@ def subcategory(request, category_slug, subcategory_slug):
     if not request.user.is_anonymous:
         cart = Cart(request)
         current_user = request.user
+        wishlist=UserWishList.objects.filter(user=current_user)
         # cart.clear()
         shopcart = ShopCart.objects.filter(user_id=current_user.id)
         total=cart.get_cart_cost()
         tax=cart.get_cart_tax()
         grandTotal=cart.get_cart_cost() + cart.get_cart_tax()
+        if  not request.session.get('comparing'):
+            comparing = 0
+        else:
+            comparing = request.session['comparing'].__len__()
+
+        if not request.session.get('comparing_variants'):
+            compare_var = 0
+        else:
+            compare_var = request.session['comparing_variants'].__len__()
+
+        total_compare = comparing + compare_var
     else:
         cart = 0
         subtotal = 0
         tax = 0
         total = 0
         grandTotal = 0
-        shopcart = None    
+        shopcart = None 
+        wishlist = 0
+        total_compare = 0   
 
     category = get_object_or_404(SubCategory, slug=subcategory_slug)
     sub_category=SubSubCategory.objects.filter(sub_category=category).first()
@@ -658,7 +725,9 @@ def subcategory(request, category_slug, subcategory_slug):
         'shopcart':shopcart,
         'subtotal':total,
         'tax':tax,
-        'total':grandTotal
+        'total':grandTotal,
+        'wishlist':wishlist,
+        'total_compare':total_compare
         }
     )
 
@@ -667,18 +736,32 @@ def subsubcategory(request, category_slug, subcategory_slug, subsubcategory_slug
     if not request.user.is_anonymous:
         cart = Cart(request)
         current_user = request.user
+        wishlist=UserWishList.objects.filter(user=current_user)
         # cart.clear()
         shopcart = ShopCart.objects.filter(user_id=current_user.id)
         total=cart.get_cart_cost()
         tax=cart.get_cart_tax()
         grandTotal=cart.get_cart_cost() + cart.get_cart_tax()
+        if  not request.session.get('comparing'):
+            comparing = 0
+        else:
+            comparing = request.session['comparing'].__len__()
+
+        if not request.session.get('comparing_variants'):
+            compare_var = 0
+        else:
+            compare_var = request.session['comparing_variants'].__len__()
+
+        total_compare = comparing + compare_var
     else:
         cart = 0
         subtotal = 0
         tax = 0
         total = 0
         grandTotal = 0
-        shopcart = None    
+        shopcart = None  
+        wishlist = 0
+        total_compare = 0  
         
     category = get_object_or_404(SubSubCategory, slug=subsubcategory_slug)
     products = Product.objects.filter(visible=True,category=category,status=True)
@@ -771,7 +854,9 @@ def subsubcategory(request, category_slug, subcategory_slug, subsubcategory_slug
             'shopcart':shopcart,
             'subtotal':total,
             'tax':tax,
-            'total':grandTotal
+            'total':grandTotal,
+            'wishlist':wishlist,
+            'total_compare':total_compare
         }
     )
 

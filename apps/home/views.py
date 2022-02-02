@@ -36,11 +36,23 @@ def product_detail(request, id, slug, vendor_slug, category_slug, subcategory_sl
     if not request.user.is_anonymous:
         cart = Cart(request)
         current_user = request.user
+        wishlist=UserWishList.objects.filter(user=current_user)
         # cart.clear()
         shopcart = ShopCart.objects.filter(user_id=current_user.id)
         total=cart.get_cart_cost()
         tax=cart.get_cart_tax()
         grandTotal=cart.get_cart_cost() + cart.get_cart_tax()
+        if  not request.session.get('comparing'):
+            comparing = 0
+        else:
+            comparing = request.session['comparing'].__len__()
+
+        if not request.session.get('comparing_variants'):
+            compare_var = 0
+        else:
+            compare_var = request.session['comparing_variants'].__len__()
+
+        total_compare = comparing + compare_var
 
     query = request.GET.get('q')
     mainProduct = []
@@ -61,7 +73,9 @@ def product_detail(request, id, slug, vendor_slug, category_slug, subcategory_sl
         tax = 0
         total = 0
         grandTotal = 0
-        shopcart = None    
+        shopcart = None 
+        wishlist = 0
+        total_compare = 0   
 
     if product.status == False:
         messages.add_message(request, messages.ERROR,
@@ -96,7 +110,10 @@ def product_detail(request, id, slug, vendor_slug, category_slug, subcategory_sl
                'shopcart':shopcart,
                'subtotal':total,
                'tax':tax,
-               'total':grandTotal}
+               'total':grandTotal,
+               'wishlist':wishlist,
+               'total_compare':total_compare
+               }
     if product.variant != "None":  # pr has variantsu
         if request.method == 'POST':  # if we select color
             variant_id = request.POST.get('variantid')
@@ -137,8 +154,6 @@ def product_detail(request, id, slug, vendor_slug, category_slug, subcategory_sl
             variant = Variants.objects.get(
                 id=variants[0].id, status=True, visible=True)
         
-        for i in comments:
-            print(i.subject)
 
         context.update({'sizes': sizes, 'colors': colors, 'colors1': colors1, 'weight': weight, 'width': width, 'length': length, 'height': height, 'variant': variant, 'query': query,
                         'is_comparing': variant.id in request.session.get('comparing', []),
