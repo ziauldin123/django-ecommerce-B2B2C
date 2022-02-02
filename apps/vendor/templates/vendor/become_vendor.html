@@ -4,30 +4,13 @@
 
 {% block content %}
 <div class="site__body">
-    <div class="page-header">
-        <div class="page-header__container container">
-            <div class="page-header__breadcrumb">
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item">
-                            <a href="/">Home</a>
-                            <svg class="breadcrumb-arrow" width="6px" height="9px">
-                                <use xlink:href="images/sprite.svg#arrow-rounded-right-6x9"></use>
-                            </svg>
-                        </li>
-                        <li class="breadcrumb-item active" aria-current="page">Register your store</li>
-                    </ol>
-                </nav>
-            </div>
-            
-        </div>
-    </div>
+    
        <div class="container">
             <div class="row justify-content-center">
             <div class="col-xl-5 col-lg-6 col-md-8">
                 <div class="card flex-grow-1 mb-0 mt-5">
                     <div class="card-body">
-                        <h3 class="card-title">Register your store</a></h3>
+                        <h3 class="card-title">Set up a vendor account</a></h3>
                         <form method="post" action="." enctype="multipart/form-data" >
                             {% csrf_token %}
                 
@@ -39,7 +22,7 @@
                                     </div>
                                 </div>
                 
-                                <div class="field">
+                                <div class="field form-group">
                                     <label>Email</label>
                 
                                     <div clas="control">
@@ -47,15 +30,23 @@
                                     </div>
                                 </div>
                 
-                                <div class="field">
+                                <div class="field form-group">
                                     <label>Company Name</label>
                 
                                     <div clas="control">
                                         <input type="text" class="input form-control" name="company_name" id="id_company_name">
                                     </div>
                                 </div>
+
+                                <div class="field form-group">
+                                    <label>Phone</label>
                 
-                                <div class="field">
+                                    <div clas="control">
+                                        <input type="text" class="input form-control" name="phone" id="id_phone">
+                                    </div>
+                                </div>
+                
+                                <div class="field form-group">
                                     <label>Company Code</label>
                 
                                     <div clas="control">
@@ -63,8 +54,8 @@
                                     </div>
                                 </div>
                 
-                            <label>Address</label>
-                                <div class="field" id="district">
+                           
+                                <div class="field form-group" id="district">
                                         <label>District</label>
                 
                                         <div class="control">
@@ -77,7 +68,7 @@
                                         </div>
                                     </div>
                 
-                                    <div class="field" id="sector">
+                                    <div class="field form-group" id="sector">
                                         <label>Sector</label>
                 
                                         <div class="control">
@@ -87,7 +78,7 @@
                                         </div>
                                     </div>
                 
-                                    <div class="field" id="cell">
+                                    <div class="field form-group" id="cell">
                                         <label>Cell</label>
                 
                                         <div class="control">
@@ -97,7 +88,7 @@
                                         </div>
                                     </div>
                 
-                                    <div class="field" id="village">
+                                    <div class="field form-group" id="village">
                                         <label>Village</label>
                 
                                         <div class="control">
@@ -106,7 +97,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="field" id="address">
+                                    <div class="field form-group" id="address">
                                         <label>Street No & House No.</label>
                 
                                         <div class="control">
@@ -114,15 +105,9 @@
                                         </div>
                                     </div>
                 
-                                <div class="field">
-                                    <label>Phone</label>
+                            
                 
-                                    <div clas="control">
-                                        <input type="text" class="input form-control" name="phone" id="id_phone">
-                                    </div>
-                                </div>
-                
-                                <div class="field">
+                               <div class="field form-group">
                                     <label>Upload Company Registration</label>
                 
                                     <div clas="control">
@@ -131,7 +116,7 @@
                                 </div>
                 
                 
-                                <div class="field">
+                                <div class="field form-group">
                                     <label>Password</label>
                 
                                     <div clas="control">
@@ -139,19 +124,20 @@
                                     </div>
                                 </div>
                 
-                                <div class="field">
-                                    <label>Confirm</label>
+                               <div class="field form-group">
+                                    <label>Confirm Password</label>
                 
                                     <div clas="control">
                                         <input type="password" class="input form-control" name="password2" id="id_password2">
                                     </div>
                                 </div>
+                                <br>
                 
                                 <div class="field">
                 
                                     <div clas="control">
                                         <input type="checkbox" name="is_privacy" value="True" id="is_privacy" required/>
-                                        <label>i agree terms & condition</label>
+                                        <label>I agree to Sokopark's <a href="{% url 'termsandconditions' %}">terms & conditions</a></label>
                 
                                     </div>
                                 </div>
@@ -192,7 +178,8 @@
                                     </div>
                                 </div>
                         </form>
-                        <label class="form-check-label" for="login-remember">Already have account?<a href="{% url 'login' %}"> sign in here </a>
+                        
+                        <label class="form-check-label" for="login-remember">Already have account?<a href="{% url 'login' %}"> Sign in here </a>
                     </div>
                 </div>
             </div>

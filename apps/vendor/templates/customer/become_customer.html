@@ -4,30 +4,13 @@
 
 {% block content %}
 <div class="site__body">
-    <div class="page-header">
-        <div class="page-header__container container">
-            <div class="page-header__breadcrumb">
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item">
-                            <a href="/">Home</a>
-                            <svg class="breadcrumb-arrow" width="6px" height="9px">
-                                <use xlink:href="images/sprite.svg#arrow-rounded-right-6x9"></use>
-                            </svg>
-                        </li>
-                        <li class="breadcrumb-item active" aria-current="page">Customer Sign Up</li>
-                    </ol>
-                </nav>
-            </div>
-            
-        </div>
-    </div>
+   
        <div class="container">
             <div class="row justify-content-center">
             <div class="col-xl-5 col-lg-6 col-md-8">
                 <div class="card flex-grow-1 mb-0 mt-5">
                     <div class="card-body">
-                        <h3 class="card-title">Customer Sign Up</a></h3>
+                        <h3 class="card-title">Set up a Customer account</a></h3>
                         <form method="post" action=".">
                            {% csrf_token %}
                            <input type="hidden" name="next" value="{{ next }}">
@@ -79,7 +62,7 @@
                            <div class="field form-group">
                                <div class="control">
                                    <input type="checkbox" name="is_privacy" value="True" id="is_privacy" required/>
-                                   <label>i agree terms & conditions
+                                  <label>I agree to Sokopark's <a href="{% url 'termsandconditions' %}">terms & conditions</a></label>
                                </div>
                            </div>
                            <div class="field form-group">
@@ -88,8 +71,8 @@
                                </div>
                            </div>
                        </form>
-                       <label class="form-check-label" for="login-remember">Already have account?<a href="{% url 'login' %}"> sign in here </a>
-                        <label class="form-check-label" for="login-remember">Register as vendor?<a href="{% url 'become_vendor' %}"> sign Up here </a> 
+                       <label class="form-check-label" for="login-remember">Already have account?<a href="{% url 'login' %}"> Sign in here </a>
+                        <label class="form-check-label" for="login-remember">Register as vendor?<a href="{% url 'become_vendor' %}"> Register here </a> 
                     </div>
                 </div>
             </div>
