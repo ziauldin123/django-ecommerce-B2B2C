@@ -1354,9 +1354,11 @@
                             {% else %}
                             <div class="account-menu__divider"></div>
                             <a {% if request.user.vendor %} href="{% url 'vendor_admin'  %}" {% else %} href="{% url 'myaccount'  %}" {% endif %} class="account-menu__user">
-                                <div class="account-menu__user-avatar">
+                              {% if request.user.vendor %}  
+                              <div class="account-menu__user-avatar">
                                      <img src="{{vendor.logo.url}}" alt="">
                                 </div>
+                              {% endif %}
                                 <div class="account-menu__user-info">
                                     <div class="account-menu__user-name">{{request.session.username}}</div>
                                     <div class="account-menu__user-email">{{request.session.email}}</div>

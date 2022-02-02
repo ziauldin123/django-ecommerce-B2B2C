@@ -35,32 +35,36 @@
                     <div class="dashboard__profile card profile-card">
                         <div class="card-body profile-card__body">
                            
-                            <div class="profile-card__name">{{ request.session.username }}</div>
-                            <div class="profile-card__email">{{ request.user.email }}</div>
+                            <div class="profile-card__name_customer">{{ request.session.username }}</div>
+                           
                         </div>
                     </div>
                     <div class="dashboard__address card address-card address-card--featured">
                         <div class="address-card__badge">Billing Address</div>
                         <div class="address-card__body">
-                            <div class="address-card__name">{{ request.session.username }}</div>
+                            <div class="address-card__row">
+                                <div class="address-card__row-title">Phone Number</div>
+                                <div class="address-card__row-content">{{ request.session.phone}}</div>
+                            </div>
+
+                             <div class="address-card__row">
+                                <div class="address-card__row-title">Email Address</div>
+                                <div class="address-card__row-content">{{ request.user.email }}</div>
+                            </div>
+                           
                             <div class="address-card__row">
                                 <div class="address-card__row-title">Address</div>
                                 <div class="address-card__row-content"> {{ request.session.address }}</div>
                             </div>
+
                             <div class="address-card__row">
                                 {% if request.session.company_code %} 
                                       <div class="address-card__row-title">TIN</div>
                                      <div class="address-card__row-content">{{ request.session.company_code}}</div>
                                 {% endif %}
                             </div>
-                            <div class="address-card__row">
-                                <div class="address-card__row-title">Phone Number</div>
-                                <div class="address-card__row-content">{{ request.session.phone}}</div>
-                            </div>
-                            <div class="address-card__row">
-                                <div class="address-card__row-title">Email Address</div>
-                                <div class="address-card__row-content">{{ request.user.email }}</div>
-                            </div>
+                            
+                           
                         </div>
                     </div>
                     <div class="dashboard__orders card">

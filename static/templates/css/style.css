@@ -11460,6 +11460,12 @@ html:not([dir=rtl]) .noUi-horizontal .noUi-origin {
   line-height: 20px;
 }
 
+.profile-card__name_customer {
+  font-weight: 500;
+  font-size: 30px;
+  line-height: 50px;
+}
+
 .profile-card__email {
   font-size: 15px;
   margin-bottom: 24px;
