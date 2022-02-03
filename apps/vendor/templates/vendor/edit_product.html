@@ -3,17 +3,43 @@
 {% block title %}Edit product | {% endblock %}
 
 {% block content %}
-    <h1 class="title">Edit product</h1>
+<style>
+    input[type=text],[type=number],[type=file], select {
+     width: 100%;
+     padding: 8px 20px;
+     cursor: pointer;
+     margin: 4px 0;
+     border: 1px solid #ccc;
+     border-radius: 4px;
+     box-sizing: border-box;
+   }
+   </style>
 
-    <form method="post" action="." enctype="multipart/form-data">
-        {% csrf_token %}
+<div class="site__body">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-xl-10 col-lg-6 col-md-8">
+                <div class="card flex-grow-1 mb-0 mt-5">
+                    <div class="card-body">
+                        <h1 class="title">Edit product</h1>
 
-        {{ form.as_p }}
+                            <form method="post" action="." enctype="multipart/form-data">
+                                {% csrf_token %}
 
-        <div class="field">
-            <div class="control">
-                <button class="button is-dark">Save changes</button>
+                                {{ form.as_p }}
+
+                                <div class="field">
+                                    <div class="control">
+                                        <button class="button is-dark">Save changes</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
-    </form>
+    </div>
+</div>
 {% endblock %}
