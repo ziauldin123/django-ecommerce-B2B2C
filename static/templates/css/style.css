@@ -15400,7 +15400,7 @@ html:not([dir=rtl]) .noUi-horizontal .noUi-origin {
 .block-slideshow__slide {
   position: relative;
   display: block;
-  color: inherit;
+  color: #fff;
 }
 .block-slideshow__slide:hover {
   color: inherit;
@@ -15491,7 +15491,7 @@ html:not([dir=rtl]) .noUi-horizontal .noUi-origin {
 }
 @media (min-width: 992px) and (max-width: 1199px) {
   .block-slideshow--layout--full .block-slideshow__slide-image--desktop {
-    background-position: -70px top;
+    background-position: 0px top;
   }
   [dir=ltr] .block-slideshow--layout--full .block-slideshow__slide-content {
     left: 56px;
