@@ -42,8 +42,8 @@
                         </div>
                         <h5 class="order-header__title">Order Reference #{{order.reference_number}}</h5>
                         <div class="order-header__subtitle">
-                            Was placed on <mark class="order-header__date">{{order.created_at}}</mark>
-                            and is currently <mark class="order-header__status">{{order.status}}</mark>.
+                            
+                            Status: <mark class="order-header__status">{{order.status}}</mark>
                         </div>
                         <br>
                         <b>Name:</b> {{ order.first_name }} {{ order.last_name }}<br>
@@ -113,7 +113,7 @@
                     <div class="col-sm-6 col-12 px-2 mt-sm-0 mt-3">
                         <div class="card address-card address-card--featured">
                             <div class="address-card__body">
-                                <div class="address-card__badge address-card__badge--muted">Billing Address</div>
+                                <div class="address-card__badge ">Billing Address</div>
                                 {% for customer in order.getCustomer %} 
                                  <div class="address-card__row">
                                     <div class="address-card__row-title">Customer</Address></div>
@@ -144,7 +144,7 @@
                     <div class="col-sm-6 col-12 px-2">
                         <div class="card address-card address-card--featured">
                             <div class="address-card__body">
-                                <div class="address-card__badge address-card__badge--muted">Shipping Address</div>
+                                <div class="address-card__badge ">Shipping Address</div>
                                 {% if order.delivery_type == 'Vendor_Delivery' %}
                                 <div class="address-card__row">
                                     <div class="address-card__row-title">District</div>

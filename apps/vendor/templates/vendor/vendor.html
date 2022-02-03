@@ -11,9 +11,9 @@
                     <div class="faq__section">
                         <div class="hours__section-body">
                             <div class="row">
-                                <div class="faq__section-column col-12 col-lg-3">
+                                <div class="faq__section-column col-12 col-lg-2">
                                     <div class="account-menu__user-avatar">
-                                        <img src="{{vendor.logo.url}}" width="80">
+                                        <img src="{{vendor.logo.url}}">
                                     </div>
                                 </div>
                                 <div class="faq__section-column col-12 col-lg-3">
@@ -23,12 +23,19 @@
                                     </div>
                                 </div>
                                   <div class="faq__section-column col-12 col-lg-3">
+                                    <div class="address-card__row-title">Email</div>
+                                    <div class="address-card__row-content">
+                                    {{ vendor.email }} 
+                                    </div>
+                                </div>
+                                <div class="faq__section-column col-12 col-lg-2">
                                     <div class="address-card__row-title">Phone number</div>
                                     <div class="address-card__row-content">
                                     {{ vendor.phone }}
                                     </div>
                                 </div>
-                                <div class="faq__section-column col-12 col-lg-3">
+                              
+                                <div class="faq__section-column col-12 col-lg-2">
                                     <div class="address-card__row-title">TIN</div>
                                     <div class="address-card__row-content">
                                     {{ vendor.company_code }} 
@@ -44,7 +51,7 @@
                     <div class="shop-layout__content">
                         <div class="block">
                             <div class="products-view">
-                                <div id="message" name="message" class="mt-3"></div>
+                                
                                 <div class="products-view__list products-list" data-layout="grid-3-sidebar" data-with-features="false" data-mobile-grid-columns="2">
                                     <div class="products-list__body">
                                         {% for product in vendor.newProducts.all %}
