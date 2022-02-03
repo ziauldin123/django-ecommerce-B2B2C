@@ -85,6 +85,9 @@
                                             "csrfmiddlewaretoken": my_token,
                                             'variant_id':variant_id
                                         },
+                                        success:function(data){
+                                            $("#my_compare").load(Location.href + " #my_compare");
+                                        }
                                     })
                                 });
                                 $('body').on('click','.wish',function(){
@@ -100,8 +103,18 @@
                                             'variant_id':variant_id,
                                             'product_id':product_id,
                                         },
+                                        success:function(data){
+                                            $("my_wishlist").load(Location.href + " #my_wishlist");
+                                        }
                                     })
                                 })
+
+        $('body').on('click','.wishBtn',function(){
+        $("my_wishlist").load(Location.href + " #my_wishlist");
+    })  
+    $('body').on('click','.compreBtn',function(){
+        $("my_compare").load(Location.href + " #my_compare");
+    })         
 
 </script>
 <div class="site__body">
@@ -554,7 +567,6 @@
                                         <div class="input-radio-label">
                                             <div class="input-radio-label__list">
                                                     {% for rs in sizes %}
-                                                       {{rs.size_id}}
                                                        <label data-toggle="tooltip"  {% if variant.size_id == rs.size_id %} class="active" {% endif %}>
                                                            <input type="radio" name="size" id="size" value="{{rs.size_id}}">
                                                            <span><a>{{rs.size.name}}</a></span>
@@ -823,7 +835,7 @@
                                 <form action="{% url 'wishlist-add' product.id %}" method="post">
                                     {% csrf_token %}
                                     {% if request.session.customer %} 
-                                    <button class="button btn btn-secondary btn-svg-icon btn-lg" data-toggle="tooltip" title="Wishlist">
+                                    <button class="button compreBtn btn btn-secondary btn-svg-icon btn-lg" data-toggle="tooltip" title="Wishlist">
                                         <svg width="16px" height="16px">
                                             <use xlink:href="/static/templates/images/sprite.svg#wishlist-16"></use>
                                         </svg>
@@ -840,7 +852,7 @@
                             <div class="product__actions-item product__actions-item--compare">
                                 <form action="{% url 'product-compare' product.id %}" method="post">
                                     {% csrf_token %} 
-                                    <button class="btn btn-secondary btn-svg-icon btn-lg" data-toggle="tooltip" title="Compare"  onclick="compare()">
+                                    <button class="btn wishBtn btn-secondary btn-svg-icon btn-lg" data-toggle="tooltip" title="Compare"  onclick="compare()">
                                         <svg width="16px" height="16px">
                                             <use xlink:href="/static/templates/images/sprite.svg#compare-16"></use>
                                         </svg>
@@ -1202,13 +1214,13 @@
                     <div class="products-view__list products-list" data-layout="grid-3-sidebar" data-with-features="false" data-mobile-grid-columns="2">
                         <div class="products-list__body">
                             {% for product in similar_products %} 
-                              {% if product.vendor.enabled and product.visible and not product.is_variant %}
-                                 {% include 'product/parts/list_item.html' %}
-                              {% elif product.vendor.enabled and product.visible and product.is_variant %} 
-                              {% if product.get_variant %} 
-                              {% include 'product/parts/list_item.html' %}
-                              {% endif %}   
-                               {% endif %}
+                            {% if product.vendor.enabled and product.visible and not product.is_variant %}
+                            {% include 'product/parts/list_item.html' %}
+                         {% elif product.vendor.enabled and product.visible and product.is_variant %} 
+                         {% if product.get_variant %} 
+                         {% include 'product/parts/list_item.html' %}
+                         {% endif %}   
+                          {% endif %}
                             {% endfor %}
                         </div>
                     </div>

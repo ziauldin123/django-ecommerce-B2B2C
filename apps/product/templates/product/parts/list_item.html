@@ -1,6 +1,7 @@
 {% load static %}
 
 <script>
+    
     function addToCart(pr_id) {
         console.log($("#coupon_code").val());
         $.ajax({
@@ -18,6 +19,46 @@
             }
         });
     }
+
+
+    $('body').on('click','.wish',function(){
+        var variant_id=$(this).closest('.wishList').find('.variantid').val()
+        var product_id=$(this).closest('.wishList').find('.productid').val()
+        var my_token='{{ csrf_token }}'
+        $.ajax({
+        method:"POST",
+        url:"/variant/wishlist/",
+        context:this,
+        data:{
+        "csrfmiddlewaretoken": my_token,
+        'variant_id':variant_id,
+        'product_id':product_id,
+            },
+            success:function(data){
+                                            $("my_wishlist").load(Location.href + " #my_wishlist");
+                                        }
+                })
+    })
+                               
+    $('body').on('click','.compareBtn',function(){
+        var variant_id=$(this).closest('.compare').find('.variantid').val()
+        var my_token='{{ csrf_token }}'
+        $.ajax({
+            method:"POST",
+            url:"/variant/compare/",
+            context:this,
+            data:{
+                "csrfmiddlewaretoken": my_token,
+                'variant_id':variant_id
+                },
+                success:function(data){
+                                            $("my_compare").load(Location.href + " #my-compare");
+                                        }
+                    })
+    });
+    $('body').on('click','.wishBtn',function(){
+        $("my_wishlist").load(Location.href + " #my_wishlist");
+    }) 
 </script>
 <div class="products-list__item">
     <div class="product-card product-card--hidden-actions ">
@@ -243,7 +284,7 @@
                             {% if request.session.customer %} 
                             <input type="hidden" name="variantid" class="variantid" id="variantid" value="{{ product.get_variant.id }}">
                             <input type="hidden" name="productid" class="productid" id="productid" value="{{ product.id }}">
-                            <button class="button btn btn-light btn-svg-icon btn-svg-icon--fake-svg product-card__wishlist wish" type="button">
+                            <button class="wish button btn btn-light btn-svg-icon btn-svg-icon--fake-svg product-card__wishlist wish" type="button">
                                 <svg width="16px" height="16px">
                                     <use xlink:href="/static/templates/images/sprite.svg#wishlist-16"></use>
                                 </svg>
@@ -263,7 +304,7 @@
                     <form method="post" action="{% url 'wishlist-add' product.id %}">
                         {% csrf_token %}
                         {% if request.session.customer %}
-                        <button class="button btn btn-light btn-svg-icon btn-svg-icon--fake-svg product-card__wishlist">
+                        <button class="button wishBtn btn btn-light btn-svg-icon btn-svg-icon--fake-svg product-card__wishlist">
                             <svg width="16px" height="16px">
                                 <use xlink:href="/static/templates/images/sprite.svg#wishlist-16"></use>
                             </svg>

@@ -353,7 +353,7 @@
                         </td>
                         <td class="wishlist__column wishlist__column--remove">
                             {% if product.variant %} 
-                            <a href="/wishlist/delete/{{ product.variant.id }}" onclick="return confirm('Delete ! Are you sure?')" >
+                            <a href="/wishlist/delete/{{ product.id }}" onclick="return confirm('Delete ! Are you sure?')" >
                                 <button type="button" class="btn btn-light btn-sm btn-svg-icon">
                                     <svg width="12px" height="12px">
                                         <use xlink:href="/static/templates/images/sprite.svg#cross-12"></use>
@@ -361,7 +361,7 @@
                                 </button>
                             </a>
                             {% else %} 
-                            <a href="/wishlist/delete/{{ product.product.id }}" onclick="return confirm('Delete ! Are you sure?')" >
+                            <a href="/wishlist/delete/{{ product.id }}" onclick="return confirm('Delete ! Are you sure?')" >
                                 <button type="button" class="btn btn-light btn-sm btn-svg-icon">
                                     <svg width="12px" height="12px">
                                         <use xlink:href="/static/templates/images/sprite.svg#cross-12"></use>

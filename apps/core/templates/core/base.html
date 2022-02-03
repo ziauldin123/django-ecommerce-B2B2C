@@ -1241,34 +1241,23 @@
                   </div>
                   <!-- .nav-links / end -->
                   <div class="nav-panel__indicators">
-                    <div class="indicator">
-                      {% if request.user.is_authenticated %} 
-                      <a href="/users/customer/{{ request.user.id }}/wishlist/" class="indicator__button">
+                    <div class="indicator" id="my_wishlist">
+                      <a {% if request.user.is_authenticated %} href="/users/customer/{{ request.user.id }}/wishlist/" {% else %} href="/" {% endif %} class="indicator__button">
                         <span class="indicator__area">
                           <svg class="svg" width="20px" height="20px">
                             <use xlink:href="/static/templates/images/sprite.svg#heart-20"></use>
                           </svg>
-                          <span class="indicator__value">{% if wishlist %} {{ wishlist|length }} {% else %} 0 {% endif %}</span>
+                          <span class="qty indicator__value">{% if wishlist %} {{ wishlist|length }} {% else %} 0 {% endif %}</span>
                         </span>
-                      </a>
-                      {% else %} 
-                      <a href="" class="indicator__button">
-                        <span class="indicator__area">
-                          <svg class="svg"  width="20px" height="20px">
-                            <use xlink:href="/static/templates/images/sprite.svg#heart-20"></use>
-                          </svg>
-                          <span class="indicator__value">{% if wishlist %} {{ wishlist|length }} {% else %} 0 {% endif %}</span>
-                        </span>
-                      </a>
-                      {% endif %}   
+                      </a> 
                     </div>
-                    <div class="indicator">
-                      <a href="{% url 'product-comparing'  %}" class="indicator__button">
+                    <div class="indicator" id="my_compare">
+                      <a href="{% url 'product-comparing' %}" class="indicator__button">
                         <span class="indicator__area">
                           <svg class="svg" width="20px" height="20px">
                             <use xlink:href="/static/templates/images/sprite.svg#compare-16"></use>
                           </svg>
-                          <span class="indicator__value">
+                          <span class="qty indicator__value">
                             {% if total_compare %} 
                             {{total_compare}}
                             {% else %} 
@@ -1278,13 +1267,13 @@
                         </span>
                       </a>   
                     </div>
-                    <div class="indicator">
+                    <div class="indicator" id="my_cart">
                       <a href="{% url 'shopcart' %}" class="indicator__button" data-open="offcanvas-cart">
                           <span class="indicator__area">
                               <svg class="svg" width="20px" height="20px">
                                 <use xlink:href="/static/templates/images/sprite.svg#cart-20"></use>
                               </svg>
-                              <span class="indicator__value">
+                              <span class="qty indicator__value">
                                {% load myapptags %}
                                {% shopcartcount user.id as count %}
                                 {{count}}
@@ -1292,7 +1281,7 @@
                           </span>
                       </a>
                   </div>
-                    <div class="indicator indicator--trigger--click">
+                    <div class="indicator indicator--trigger--click" >
                       <a href="account-login.html" class="indicator__button">
                         <span class="indicator__area">
                           <svg class="svg" width="20px" height="20px">

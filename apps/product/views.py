@@ -252,6 +252,7 @@ def variantCompare(request):
         variantid=request.POST.get('variant_id')
         variant=Variants.objects.get(id=variantid)
         
+        
 
         if not request.session.get('comparing'):
             request.session['comparing'] = []
@@ -268,10 +269,12 @@ def variantCompare(request):
         limit=not 3 <= (request.session['comparing_variants'].__len__() + request.session['comparing'].__len__())
         if limit:
             request.session['comparing_variants'].append(int(variantid))
+            messages.success(request,'Product added to compare')
         else:
             print('limit')
             messages.success(request,"Your reach compare product limits(3)")
 
+        
         return redirect(url)
 
 
@@ -431,6 +434,7 @@ class WishlistAddVariant(FormView):
 
             else:
                 UserWishList.objects.create(user=request.user, is_variant=True,product=product,variant=variant)
+                print(UserWishList.objects.filter(user=request.user, variant=variant))
 
         messages.success(request,"Product added to wishlist")    
         return  redirect(url) 
@@ -439,13 +443,7 @@ class WishlistAddVariant(FormView):
 
 def wishlistDelete(request,id):
     url=request.META.get('HTTP_REFERER')
-    if Product.objects.filter(pk=id):
-        product=Product.objects.get(pk=id)
-        UserWishList.objects.filter(user=request.user,product=product).delete()
-    else:
-        variant=Variants.objects.get(pk=id)
-        UserWishList.objects.filter(user=request.user,variant=variant).delete()
-
+    UserWishList.objects.filter(user=request.user,id=id).delete()
     messages.success(request,"Your item deleted from wishlist")
     return redirect(url)
 

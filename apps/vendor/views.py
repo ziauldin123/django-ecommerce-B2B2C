@@ -460,12 +460,12 @@ def delivery_cost(request):
         if delivery_price:
             if vendor_delivery:
                 vendor_delivery.price = delivery_price
-                vendor_delivery.save
+                vendor_delivery.save()
             else:
                 VendorDelivery.objects.create(
-                    vendor=vendor,price=delivery_price
-                )
-            return redirect('delivery_cost',vendor_slug=vendor)
+                    vendor=vendor, price=delivery_price
+                )    
+            return redirect('delivery_cost')
         elif delivery_price is '':
             VendorDelivery.objects.filter(vendor=vendor).delete()
             return redirect('delivery_cost')
@@ -475,7 +475,7 @@ def delivery_cost(request):
     
     print(vendor_delivery)
     print(delivery_price) 
-
+    
     return render(
         request,
         'vendor/delivery_cost.html',
@@ -975,7 +975,19 @@ class MyAccount(TemplateView):
     def get(self, request, *args, **kwargs):
         if not request.user.is_anonymous:
             cart = Cart(request)
-       
+            current_user = request.user
+            wishlist=UserWishList.objects.filter(user=current_user)
+            if  not request.session.get('comparing'):
+                comparing = 0
+            else:
+                comparing = request.session['comparing'].__len__()
+
+            if not request.session.get('comparing_variants'):
+                compare_var = 0
+            else:
+                compare_var = request.session['comparing_variants'].__len__()
+
+            total_compare = comparing + compare_var
               
 
         orders = account_service.calculate_order_sum(request.user.email)
@@ -983,6 +995,8 @@ class MyAccount(TemplateView):
         tax=cart.get_cart_tax()
         context = self.get_context_data()
         context['orders'] = orders
+        context['wishlist'] = wishlist
+        context['total_compare'] = total_compare
         context['user_id'] = request.user.id
         return self.render_to_response(context)
 
@@ -990,16 +1004,59 @@ class OrderHistory(TemplateView):
     template_name='customer/order_history.html'
 
     def get(self,request,*args,**kwargs):
+        if not request.user.is_anonymous:
+            cart = Cart(request)
+            current_user = request.user
+            wishlist=UserWishList.objects.filter(user=current_user)
+            if  not request.session.get('comparing'):
+                comparing = 0
+            else:
+                comparing = request.session['comparing'].__len__()
+
+            if not request.session.get('comparing_variants'):
+                compare_var = 0
+            else:
+                compare_var = request.session['comparing_variants'].__len__()
+
+            total_compare = comparing + compare_var
+
         orders =account_service.calculate_order_sum(request.user.email)
         cart=Cart(request)
         context = self.get_context_data()
         context['orders'] = orders
+        context['orders'] = orders
+        context['wishlist'] = wishlist
+        context['total_compare'] = total_compare
         context['user_id'] = request.user.id
         return self.render_to_response(context)
 
 def order_detail(request,id):
     order=Order.objects.get(pk=id)
-    return render(request,'customer/order_details.html',{'order':order})
+    if not request.user.is_anonymous:
+        cart = Cart(request)
+        current_user = request.user
+        wishlist=UserWishList.objects.filter(user=current_user)
+        if  not request.session.get('comparing'):
+            comparing = 0
+        else:
+            comparing = request.session['comparing'].__len__()
+
+        if not request.session.get('comparing_variants'):
+            compare_var = 0
+        else:
+            compare_var = request.session['comparing_variants'].__len__()
+
+        total_compare = comparing + compare_var
+
+    else:
+        wishlist = 0
+        total_compare = 0    
+
+    return render(request,'customer/order_details.html',{
+        'order':order,
+        'wishlist':wishlist,
+        'total_compare':total_compare
+        })
 
 def vendor_order_detail(request,id):
     order=Order.objects.get(pk=id)

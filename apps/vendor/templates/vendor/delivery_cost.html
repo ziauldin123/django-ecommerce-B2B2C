@@ -24,7 +24,7 @@
             </nav>
         </div>
         <div class="page-header__title">
-            <h1>My Account | Working Hours</h1>
+            <h1>My Account | Delivery Cost</h1>
         </div>
     </div>
 </div>
@@ -65,10 +65,8 @@
                             <div class="table-responsive-sm">
                                 <form method="post" style="margin-left: 30px;margin-top: 5px;" action=".">
                                     {% csrf_token %}
-                            
                                     <div class="field">
                                         <label>Delivery price</label>
-                            
                                         <div class="control">
                                             <input type="text" name="delivery_price" id="id_delivery" value="{{ vendor_delivery_price }}" class="input">
                                         </div>
