@@ -1,5 +1,5 @@
 {% extends 'core/base.html' %}
-{% block title %}My account | {{ request.session.username }} - {% endblock %}
+{% block title %}Comparing Products | {{ request.session.username }} - {% endblock %}
 {% include 'messages.html' %}
 <script>
     $('body').on('click','.deleteBtn',function(){
@@ -204,9 +204,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="compare-table__product-rating-legend">
-                                    7 Reviews
-                                </div>
+                                
                             </td>
                             {% endfor %} 
                             {% for product in variants %} 

@@ -8311,13 +8311,13 @@ html:not([dir=rtl]) .noUi-horizontal .noUi-origin {
 
 .address-card__badge {
   position: absolute;
-  background-color: #333;
+  background-color: #232F3E;
   color: #fff;
   font-size: 11px;
   font-weight: 500;
   text-transform: uppercase;
   padding: 4px 8px 2px;
-  top: -2px;
+  top: 0px;
 }
 [dir=ltr] .address-card__badge {
   right: 0.75rem;
@@ -8331,7 +8331,7 @@ html:not([dir=rtl]) .noUi-horizontal .noUi-origin {
 }
 
 .address-card__badge--muted {
-  background-color: #f0f0f0;
+  background-color: #232F3E;
   color: #333;
 }
 
