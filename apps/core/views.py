@@ -17,7 +17,7 @@ def frontpage(request):
     product = Product.objects.filter(status=True, visible=True)
     shopcart = ShopCart.objects.filter(user_id=current_user.id)
     posts = Post.objects.all()
-    
+
     if product:
         for i in product:
             if i.is_variant:
@@ -52,18 +52,17 @@ def frontpage(request):
         current_user = request.user
         # cart.clear()
         shopcart = ShopCart.objects.filter(user_id=current_user.id)
-        total=cart.get_cart_cost()
-        tax=cart.get_cart_tax()
-        grandTotal=cart.get_cart_cost() + cart.get_cart_tax()
+        total = cart.get_cart_cost()
+        tax = cart.get_cart_tax()
+        grandTotal = cart.get_cart_cost() + cart.get_cart_tax()
         if cart.__len__() == 0:
             for rs in shopcart:
                 if rs.variant is None:
-                    cart.add(product_id=rs.product.id,variant_id=None, user_id=current_user.id,
-                         quantity=rs.quantity, update_quantity=True) 
+                    cart.add(product_id=rs.product.id, variant_id=None, user_id=current_user.id,
+                             quantity=rs.quantity, update_quantity=True)
                 else:
-                    cart.add(product_id=rs.product.id,variant_id=rs.variant.id, user_id=current_user.id,
-                         quantity=rs.quantity, update_quantity=True) 
-    
+                    cart.add(product_id=rs.product.id, variant_id=rs.variant.id, user_id=current_user.id,
+                             quantity=rs.quantity, update_quantity=True)
 
     return render(
         request,
@@ -77,12 +76,12 @@ def frontpage(request):
             'featured_categories_products': featured_categories_products,
             'variants': variants,
             'var': var,
-            'posts':posts,
-            'cart':cart,
-            'shopcart':shopcart,
-            'subtotal':total,
-            'tax':tax,
-            'total':grandTotal
+            'posts': posts,
+            'cart': cart,
+            'shopcart': shopcart,
+            'subtotal': total,
+            'tax': tax,
+            'total': grandTotal
         }
     )
 
@@ -107,7 +106,7 @@ def contact(request):
         From: {}
         '''.format(data['message'], data['email'])
         send_mail(data['subject'], message, '', ['warehouse2fifty@gmail.com'])
-        return HttpResponse('Thank you for your message, we will be in touch soon')
+        return render(request, 'core/contact.html')
 
     return render(request, 'core/contact.html')
 
