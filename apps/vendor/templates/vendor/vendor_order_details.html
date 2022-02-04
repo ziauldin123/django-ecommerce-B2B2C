@@ -84,22 +84,33 @@
                                         <th>Coupon</th>
                                         {% if order.used_coupon %}
                                                <td>{{ order.used_coupon }} </td>
-                                               <td><strong>{{ order.coupon_discount }}%</strong></td>
+                                               <td></td>
+                                               <td><strong>Frw {{ order.coupon_discount }}%</strong></td>
                                         {% else %}
-                                                 <td> - </td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td> - </td>
+
                                         {% endif %}
                                     </tr>
                                     {% if order.delivery_type == 'Vendor_Delivery' %}
                                     <tr>
                                         <th>Delivery Cost</th>
                                         {% get_order_delivery_cost order user as order_delivery_cost %}
-                                          <td>{{order_delivery_cost}}</td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                          <td>Frw {{order_delivery_cost}}</td>
                                     </tr>
                                     {% endif %}
                                     <tr>
                                         <th>Total</th>
                                         {% get_total_order_cost order user as total_cost_order %}
-                                            <td><strong>{{ total_cost_order }}</strong></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                            <td><strong>Frw {{ total_cost_order }}</strong></td>
                                     </tr>
                                 </tbody>
                                 <tfoot>
