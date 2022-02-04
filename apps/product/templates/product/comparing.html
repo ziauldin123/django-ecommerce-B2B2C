@@ -1,5 +1,5 @@
 {% extends 'core/base.html' %}
-{% block title %}Comparing Products | {{ request.session.username }} - {% endblock %}
+{% block title %}Comparing Products{{ request.session.username }} - {% endblock %}
 {% include 'messages.html' %}
 <script>
     $('body').on('click','.deleteBtn',function(){
