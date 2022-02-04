@@ -1021,8 +1021,8 @@ h6 {
 }
 
 .btn-primary.focus, .btn-primary:focus, .btn-primary:hover {
-  border-color: #4d4d4d;
-  background: #4d4d4d;
+  border-color: #131921;
+  background: #131921;
   color: #fff;
   fill: #fff;
 }
@@ -1034,8 +1034,8 @@ h6 {
           box-shadow: none;
 }
 .btn-primary:not(:disabled):not(.disabled):active, .btn-primary:not(:disabled):not(.disabled).active {
-  border-color: #333;
-  background: #333;
+  border-color: #232F3E;
+  background: #232F3E;
   color: #fff;
   fill: #fff;
 }
@@ -1047,8 +1047,8 @@ h6 {
           box-shadow: none;
 }
 .btn-primary, .btn-primary.disabled, .btn-primary:disabled {
-  border-color: #333;
-  background: #333;
+  border-color: #232F3E;
+  background: #232F3E;
   color: #fff;
   fill: #fff;
 }
@@ -1057,12 +1057,12 @@ h6 {
 }
 .btn-primary.btn-loading:not(:disabled):not(.disabled), .btn-primary.btn-loading:not(:disabled):not(.disabled):active, .btn-primary.btn-loading:not(:disabled):not(.disabled).active {
   cursor: default;
-  border-color: #333;
-  background: #333;
+  border-color: #232F3E;
+  background: #232F3E;
 }
 
 .btn-secondary.focus, .btn-secondary:focus, .btn-secondary:hover {
-  border-color: #333;
+  border-color: #131921;
   background: #131921;
   color: #fff;
   fill: #fff;
