@@ -12835,10 +12835,12 @@ html:not([dir=rtl]) .noUi-horizontal .noUi-origin {
   font-size: 30px;
   line-height: 1;
   font-weight: 700;
+  color: #ffffff;
 }
 
 .block-banner__text {
   padding-top: 8px;
+  color: #ffffff;
 }
 
 .block-banner__button {

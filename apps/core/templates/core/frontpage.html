@@ -27,7 +27,7 @@
             <div class="block block-products-carousel" data-layout="grid-4" data-mobile-grid-columns="2">
                 <div class="container">
                     <div class="block-header">
-                        <h3 class="block-header__title">Featured Products</h3>
+                        <h3 class="block-header__title">Featured products</h3>
                         <div class="block-header__divider"></div>
                         <div class="block-header__arrows-list">
                             <button class="block-header__arrow block-header__arrow--left" type="button">
@@ -66,12 +66,12 @@
             <div class="block block-banner">
                 <div class="container">
                     <a href="" class="block-banner__body">
-                        <div class="block-banner__image block-banner__image--desktop" style="background-image: url('{% static 'templates/images/ad_test_1.png' %}')"></div> 
+                        <div class="block-banner__image block-banner__image--desktop" style="background-image: url('{% static 'templates/images/small_ad_1.png' %}')"></div> 
                         <div class="block-banner__image block-banner__image--mobile" style="background-image: url('images/banners/banner-1-mobile.jpg')"></div>
-                        <div class="block-banner__title">Hundreds <br class="block-banner__mobile-br" > Hand Tools</div>
-                        <div class="block-banner__text">Hammers, Chisels, Universal Pliers, Nippers, Jigsaws, Saws</div>
+                        <div class="block-banner__title">The Tool <br class="block-banner__mobile-br" > Store</div>
+                        <div class="block-banner__text"></div>
                         <div class="block-banner__button">
-                            <span class="btn btn-sm btn-primary">Shop Now</span>
+                            <span class="btn btn-sm btn-primary">Shop with us now</span>
                         </div>
                     </a>
                 </div>
@@ -81,7 +81,7 @@
             <div class="block block-products-carousel" data-layout="grid-4" data-mobile-grid-columns="2">
                 <div class="container">
                     <div class="block-header">
-                        <h3 class="block-header__title">Best Seller</h3>
+                        <h3 class="block-header__title">Popular products</h3>
                         <div class="block-header__divider"></div>
                         <div class="block-header__arrows-list">
                             <button class="block-header__arrow block-header__arrow--left" type="button">
@@ -120,7 +120,7 @@
                 <div class="container">
                     <div class="block-header">
                         {% for category in featured_categories %}
-                        <h3 class="block-header__title">Featured Category- {{category.title}}</h3>
+                        <h3 class="block-header__title">{{category.title}}</h3>
                         {% endfor %}
                         <div class="block-header__divider"></div>
                         <div class="block-header__arrows-list">
@@ -159,7 +159,7 @@
             <div class="block block-products-carousel" data-layout="grid-4" data-mobile-grid-columns="2">
                 <div class="container">
                     <div class="block-header">
-                        <h3 class="block-header__title">New Arrival</h3>
+                        <h3 class="block-header__title">Latest additions</h3>
                         <div class="block-header__divider"></div>
                         <div class="block-header__arrows-list">
                             <button class="block-header__arrow block-header__arrow--left" type="button">
@@ -197,7 +197,7 @@
             <div class="block block-posts" data-layout="list" data-mobile-columns="1">
                 <div class="container">
                     <div class="block-header">
-                        <h3 class="block-header__title">Latest News</h3>
+                        <h3 class="block-header__title">Latest posts</h3>
                         <div class="block-header__divider"></div>
                         <div class="block-header__arrows-list">
                             <button class="block-header__arrow block-header__arrow--left" type="button">
