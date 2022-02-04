@@ -1,7 +1,7 @@
 {% extends 'core/base.html' %}
 {% load static %}
 {% load bootstrap4 %}
-{% block title %} {{ product.title }} {% endblock %}
+{% block title %} {{ product.title }} - {% endblock %}
 {% block description %} {{ product.description }} {% endblock %}
 {% block keywords %} {{ product.keywords }} {% endblock %}
 {% block content %}
@@ -105,24 +105,7 @@
     <!-- BREADCRUMB -->
     <div class="page-header">
         <div class="page-header__container container">
-            <div class="page-header__breadcrumb">
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item">
-                            <a href="/">Home</a>
-                            <svg class="breadcrumb-arrow" width="6px" height="9px">
-                                <use xlink:href="/static/templates/images/sprite.svg#arrow-rounded-right-6x9"></use>
-                            </svg>
-                        </li>
-                        <li class="breadcrumb-item">
-                            <a href="/category/{{ product.category.id }}/{{ product.category.slug }}">{{ product.category.title }}</a>
-                            <svg class="breadcrumb-arrow" width="6px" height="9px">
-                            </svg>
-                        </li>
-                        <li class="breadcrumb-item active" aria-current="page">{{ product.title }}</li>
-                    </ol>
-                </nav>
-            </div>
+            
         </div>
     </div>
     <!-- /BREADCRUMB -->
@@ -371,7 +354,7 @@
                                 {{product.brand}}
                             </a></li>
                             {% endif %}
-                            <li>Vendor:{{product.vendor}} </li>
+                            <li>Vendor: {{product.vendor}} </li>
                         </ul>
                     </div>
                     <!-- .product__info / end -->
@@ -558,7 +541,7 @@
                                 {% if variant.discount > 0 %} 
                                 Frw {{ product.price }}{% if product.unit_type %}/{{product.unit_type.unit}}{% endif %}
                                 {% else %} 
-                                FRW {{ product.price }}{% if product.unit_type %}/{{product.unit_type.unit}}{% endif %}
+                                Frw {{ product.price }}{% if product.unit_type %}/{{product.unit_type.unit}}{% endif %}
                                 {% endif %}
                                 {% endif %}
                             </span>
@@ -645,19 +628,15 @@
                     <div class="product__footer">
                         <div class="product__tags tags">
                             <div class="tags__list">
-                                <a href="">Mounts</a>
-                                <a href="">Electrodes</a>
-                                <a href="">Chainsaws</a>
+                                  {% if product.pickup_available == True %}
+                                <a href="">Pickup available</a>
+                                {% endif %}
+                                {% if product.is_free_delivery == True %}
+                                <a href="">Free Delivery</a>
+                                {% endif %}
                             </div>
                         </div>
-                        <div class="product__share-links share-links">
-                            <ul class="share-links__list">
-                                <li class="share-links__item share-links__item--type--like"><a href="">Like</a></li>
-                                <li class="share-links__item share-links__item--type--tweet"><a href="">Tweet</a></li>
-                                <li class="share-links__item share-links__item--type--pin"><a href="">Pin It</a></li>
-                                <li class="share-links__item share-links__item--type--counter"><a href="">4K</a></li>
-                            </ul>
-                        </div>
+                        
                     </div>
             </div>
             <div class="product-tabs  product-tabs--sticky">
