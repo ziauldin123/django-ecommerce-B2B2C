@@ -146,11 +146,11 @@
                             </div>
                         </div>
                     </div>
+                     {% if order.delivery_type == 'Vendor_Delivery' %}
                     <div class="col-sm-6 col-12 px-2">
                         <div class="card address-card address-card--featured">
                             <div class="address-card__body">
                                 <div class="address-card__badge ">Shipping Address</div>
-                                {% if order.delivery_type == 'Vendor_Delivery' %}
                                 <div class="address-card__row">
                                     <div class="address-card__row-title">District</div>
                                     <div class="address-card__row-content">{{order.district}}</div>
