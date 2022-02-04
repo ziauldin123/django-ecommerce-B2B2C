@@ -1,3 +1,4 @@
+from email import message
 import random
 from copy import copy
 
@@ -234,12 +235,14 @@ class CompareView(View):
         if product_id in request.session['comparing']:
             print('in')
             request.session['comparing'].remove(product_id)
+            messages.success(request,"Product removed from compare list")
             print(request.session['comparing'])
-            return redirect(product.get_url())
+            return redirect(url)
         print('thererer')
         limit=not 3 <= (request.session['comparing_variants'].__len__() + request.session['comparing'].__len__())
         if limit:
             request.session['comparing'].append(product_id)
+            messages.success(request,"Product Added to compare")
         else:
             print('limit')
             messages.success(request,"Your reach compare product limits(3)")
@@ -252,30 +255,27 @@ def variantCompare(request):
         variantid=request.POST.get('variant_id')
         variant=Variants.objects.get(id=variantid)
         
-        
-
         if not request.session.get('comparing'):
             request.session['comparing'] = []
 
         if not request.session.get('comparing_variants'):
             request.session['comparing_variants']=[]
 
-        if variantid in request.session['comparing_variants']:
+        if int(variantid) in request.session['comparing_variants']:
             print('in')
-            request.session['comparing_variants'].remove(variantid)
-            print(request.session['comparing_variants'])
-            return redirect(variant.get_url())
+            request.session['comparing_variants'].remove(int(variantid))
+            messages.success(request, "Your item removed to compare list.")
+            return redirect(url)
         print('thererer')
         limit=not 3 <= (request.session['comparing_variants'].__len__() + request.session['comparing'].__len__())
         if limit:
             request.session['comparing_variants'].append(int(variantid))
             messages.success(request,'Product added to compare')
+            return redirect(url)
         else:
             print('limit')
-            messages.success(request,"Your reach compare product limits(3)")
-
-        
-        return redirect(url)
+            messages.success(request,"Your reach compare product limits(3)")       
+    return redirect(url)
 
 
 
@@ -406,10 +406,11 @@ class WishListAddView(FormView):
         print(is_already_in_wishlist)
         if is_already_in_wishlist:
             UserWishList.objects.filter(user=request.user, product=product).delete()
+            messages.success(request,"Product removed from wishlist")
         else:
             UserWishList.objects.create(user=request.user,is_variant=False, product=product)
-
-        messages.success(request,"Product added to wishlist")    
+            messages.success(request,"Product added to wishlist")   
+          
         return redirect(url)
 
     
@@ -431,12 +432,13 @@ class WishlistAddVariant(FormView):
             is_already_in_wishlist = UserWishList.objects.filter(user=request.user, variant=variant)
             if is_already_in_wishlist:
                 UserWishList.objects.filter(user=request.user,variant=variant).delete()
-
+                messages.success(request,"Product removed from wishlist")
             else:
                 UserWishList.objects.create(user=request.user, is_variant=True,product=product,variant=variant)
                 print(UserWishList.objects.filter(user=request.user, variant=variant))
+                messages.success(request,"Product added to wishlist") 
 
-        messages.success(request,"Product added to wishlist")    
+           
         return  redirect(url) 
         
 
@@ -566,7 +568,6 @@ def category(request, category_slug):
         print(search_form.errors)
     print("filtered products", products)
     search_form = SearchForm(request.GET, products=products)
-    
 
     return render(
         request,

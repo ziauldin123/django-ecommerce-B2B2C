@@ -472,10 +472,8 @@ def delivery_cost(request):
             
     vendor_delivery = VendorDelivery.objects.filter(vendor=vendor).first()
     delivery_price = vendor_delivery.price if vendor_delivery else ''
-    
     print(vendor_delivery)
     print(delivery_price) 
-    
     return render(
         request,
         'vendor/delivery_cost.html',
@@ -484,9 +482,6 @@ def delivery_cost(request):
             'vendor_delivery_price': delivery_price,
         }
     )        
-
-
-
 
 @ login_required
 def remove_opening(request, pk):
@@ -740,7 +735,6 @@ def edit_product(request, pk):
             form = VariantForm(instance=variant)
 
         return render(request, 'vendor/edit_product.html', {'form': form, 'variant': variant})
-
 
 @ login_required
 def delete_product(request, pk):
@@ -1023,7 +1017,6 @@ class OrderHistory(TemplateView):
         orders =account_service.calculate_order_sum(request.user.email)
         cart=Cart(request)
         context = self.get_context_data()
-        context['orders'] = orders
         context['orders'] = orders
         context['wishlist'] = wishlist
         context['total_compare'] = total_compare

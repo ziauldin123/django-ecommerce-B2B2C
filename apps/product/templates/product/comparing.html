@@ -1,6 +1,5 @@
 {% extends 'core/base.html' %}
 {% block title %}My account | {{ request.session.username }} - {% endblock %}
-{% include 'messages.html' %}
 <script>
     $('body').on('click','.deleteBtn',function(){
         var product_id=$(this).closest('.delete').find('.prod_id').val();

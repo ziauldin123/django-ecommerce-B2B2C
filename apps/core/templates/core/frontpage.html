@@ -33,6 +33,9 @@
         'variant_id':variant_id,
         'product_id':product_id,
             },
+            success:function(data){
+                $("#my_wishlist").load(Location.href + " #my_wishlist");
+                    }
                 })
     })
                                
@@ -47,8 +50,14 @@
                 "csrfmiddlewaretoken": my_token,
                 'variant_id':variant_id
                 },
+                success: function(data){
+                    $("#my_compare").load(Location.href + " #my_compare");
+                     }
                     })
     });
+    $('body').on('click','.wishBtn',function(){
+        $("my_wishlist").load(Location.href + " #my_wishlist");
+    })
 </script>
             {% include 'core/caroussel.html' %}
             <div class="block" data-layout="grid-2" data-mobile-grid-columns="2">
