@@ -42,15 +42,9 @@
                         </div>
                         <h5 class="order-header__title">Order Reference #{{order.reference_number}}</h5>
                         <div class="order-header__subtitle">
-                            
-                            Status: <mark class="order-header__status">{{order.status}}</mark>
-                        </div>
-                        <br>
-                        <b>Name:</b> {{ order.first_name }} {{ order.last_name }}<br>
-                        <b>Address:</b> {{ order.address }}<br>
-                        <b>E-mail:</b> {{ order.email }}<br>
-                        <b>Phone:</b> {{ order.phone }} <br>
-                        <b>Created at:</b> {{ order.created_at }}
+                            Was placed on <mark class="order-header__date">{{order.created_at}}</mark>
+                            and is currently <mark class="order-header__status">{{order.status}}</mark>.
+                        </div>    
                     </div>
                     <div class="card-divider"></div>
                     <div class="card-table">
