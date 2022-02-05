@@ -643,6 +643,7 @@ h6 {
       -ms-flex-align: center;
           align-items: center;
   margin-bottom: 24px;
+ 
 }
 
 .block-header__title {
@@ -12956,6 +12957,7 @@ html:not([dir=rtl]) .noUi-horizontal .noUi-origin {
 .block-empty__body {
   text-align: center;
   padding: 18px 0 60px;
+
 }
 
 .block-empty__message {
@@ -15472,7 +15474,7 @@ html:not([dir=rtl]) .noUi-horizontal .noUi-origin {
 @media (min-width: 768px) {
   .block-slideshow--layout--full .block-slideshow__body,
 .block-slideshow--layout--full .block-slideshow__slide {
-    height: 440px;
+    height: 480px;
   }
   .block-slideshow--layout--full .block-slideshow__slide-content {
     bottom: 54px;
