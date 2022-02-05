@@ -13039,7 +13039,7 @@ html:not([dir=rtl]) .noUi-horizontal .noUi-origin {
       -ms-flex-direction: column;
           flex-direction: column;
   background: #f7f7f7;
-  border-radius: 3px;
+  border-radius: 5px;
   text-align: center;
   -webkit-box-align: center;
       -ms-flex-align: center;
@@ -13087,6 +13087,7 @@ html:not([dir=rtl]) .noUi-horizontal .noUi-origin {
 
 .block-features--layout--classic {
   margin-top: -20px;
+  margin-bottom: 20px;
 }
 .block-features--layout--classic .block-features__divider {
   -ms-flex-negative: 0;
@@ -15470,6 +15471,7 @@ html:not([dir=rtl]) .noUi-horizontal .noUi-origin {
 
 .block-slideshow--layout--full {
   margin-top: 20px;
+  
 }
 @media (min-width: 768px) {
   .block-slideshow--layout--full .block-slideshow__body,
