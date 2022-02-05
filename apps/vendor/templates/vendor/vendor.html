@@ -8,10 +8,42 @@
         <div class="site__body">
             <div class="block block-banner">
                 <div class="container">
-                    <a class="block-banner__body">
-                        <div class="block-banner__image block-banner__image--desktop" style="background-image: url('{% static 'templates/images/vendor_logo-01.png' %}')"></div> 
-                        <div class="block-banner__image block-banner__image--mobile" style="background-image: url('images/banners/banner-1-mobile.jpg')"></div>   
-                    </a>
+                     <div class="faq__section">
+                        <div class="hours__section-body">
+                            <div class="row">
+                                <div class="faq__section-column col-12 col-lg-2">
+                                    <div class="account-menu__user-avatar">
+                                        <img src="{{vendor.logo.url}}">
+                                    </div>
+                                </div>
+                                <div class="faq__section-column col-12 col-lg-3">
+                                    <div class="address-card__row-title">Company</div>
+                                    <div class="address-card__row-content">
+                                    {{ vendor.company_name }} 
+                                    </div>
+                                </div>
+                                  <div class="faq__section-column col-12 col-lg-3">
+                                    <div class="address-card__row-title">Email</div>
+                                    <div class="address-card__row-content">
+                                    {{ vendor.email }} 
+                                    </div>
+                                </div>
+                                <div class="faq__section-column col-12 col-lg-2">
+                                    <div class="address-card__row-title">Phone number</div>
+                                    <div class="address-card__row-content">
+                                    {{ vendor.phone }}
+                                    </div>
+                                </div>
+                              
+                                <div class="faq__section-column col-12 col-lg-2">
+                                    <div class="address-card__row-title">TIN</div>
+                                    <div class="address-card__row-content">
+                                    {{ vendor.company_code }} 
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             
@@ -59,19 +91,7 @@
                     <div class="shop-layout__sidebar">
                         <div class="block block-sidebar block-sidebar--offcanvas--mobile">
                             <div class="block-sidebar__body">  
-                                <div class="block-sidebar__item">
-                                    <div class="widget-categories widget-categories--location--blog widget">
-                                        <h4 class="widget-filters__title widget__title">Basic Info</h4>
-                                        <div class="widget-filters__list">
-                                            <div class="widget-filters__item">
-                                                <h6>Name: {{ vendor.company_name }}  </h6>
-                                                <h6>Email: {{ vendor.email }}  </h6>
-                                                <h6>Phone: {{ vendor.phone }} </h6>
-                                                <h6>TIN: {{ vendor.company_code }}  </h6>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                               
                                  <div class="block-sidebar__item">
                                     <div class="widget-categories widget-categories--location--blog widget">
                                         <h4 class="widget-filters__title widget__title">Location</h4>
