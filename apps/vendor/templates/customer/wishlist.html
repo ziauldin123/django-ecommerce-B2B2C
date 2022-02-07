@@ -1,54 +1,24 @@
 {% extends 'core/base.html' %}
 {% block title %} {{ request.session.username }}'s wishlist  - {% endblock %}
-
-<script>
-    
+{% block content %} 
+<script>   
     function addToCart(pr_id) {
-        event.preventDefault(); //so that we stop normal form submit.
+        console.log($("#coupon_code").val());
         $.ajax({
             type: "GET",
             url: "/order/addtoshopcart/" + pr_id,
             success: function (data) {
                 console.log(data);
                 $("#my_cart").load(location.href + " #my_cart");
-                $("#msg").append(
+                $("#message").append(
                     '<div class="alert alert-success hideit alertSuc">added in cart successfully.</div >')
                 setTimeout(function () {
-                    $("#msg").load(location.href + " #msg");
+                    $("#message").load(location.href + " #message");
                 }, 1000);
-
             }
         });
     }
-
-    function addToVariantCart(pr_id) {
-        event.preventDefault(); //so that we stop normal form submit.
-        var_id = $("#variant_id").val();
-        // var_id=document.getElementById('variant_id').val();
-        pq = $("#quantity").val();
-        console.log($("#variant_id").val())
-        $.ajax({
-            type: "POST",
-            url: "/order/addtoshopcart/" + pr_id,
-            data:{
-                'variantid':var_id,
-                'quantity':pq,
-            },
-            success: function (data) {
-                console.log(data);
-                $("#my_cart").load(location.href + " #my_cart");
-                $("#msg").append(
-                    '<div class="alert alert-success hideit alertSuc">added in cart successfully.</div >')
-                setTimeout(function () {
-                    $("#msg").load(location.href + " #msg");
-                }, 1000);
-
-            }
-        });
-    }
-
 </script>
-{% block content %} 
 <div class="site__body">
     <div class="page-header">
         <div class="page-header__container container">
@@ -69,6 +39,9 @@
                 <h1>Wish List</h1>
             </div>
         </div>
+    </div>
+    <div id="message" name="message" class="mt-3">
+
     </div>
     <div class="block">
         <div class="container">
@@ -345,9 +318,13 @@
                         </td>
                         <td class="wishlist__column wishlist__column--tocart">
                             {% if product.variant %} 
-                                <button type="button" {% if product.variant.quantity < 1  %} disabled {% endif %}  class="btn btn-primary btn-sm">Add To Cart</button>
+                            <a href="{% url 'product' product.product.id product.product.slugV product.product.category.sub_category.category.slug product.product.category.sub_category.slug product.product.category.slug product.product.slug %}">
+                                <button type="button" class="btn btn-primary btn-sm">View Options</button>
+                            </a>
                             {% else %} 
-                                <button type="button" class="btn btn-primary btn-sm" {% if product.product.quantity < 1  %} disabled {% endif %}  >Add To Cart</button>
+                                <a onclick="addToCart('{{ product.product.id }}')" class="add-to-cart">
+                                    <button type="button" class="product-card__addtocart btn btn-primary btn-sm" {% if product.product.quantity < 1  %} disabled {% endif %}  >Add To Cart</button>
+                                </a>
                             {% endif %}
                         </td>
                         <td class="wishlist__column wishlist__column--remove">

@@ -1,5 +1,6 @@
 {% extends 'core/base.html' %}
 {% block title %}My account | {{ request.session.username }} - {% endblock %}
+{% block content %}
 <script>
     $('body').on('click','.deleteBtn',function(){
         var product_id=$(this).closest('.delete').find('.prod_id').val();
@@ -14,52 +15,23 @@
             }
         })
     })
-
     function addToCart(pr_id) {
-        event.preventDefault(); //so that we stop normal form submit.
+        console.log($("#coupon_code").val());
         $.ajax({
             type: "GET",
             url: "/order/addtoshopcart/" + pr_id,
             success: function (data) {
                 console.log(data);
                 $("#my_cart").load(location.href + " #my_cart");
-                $("#msg").append(
+                $("#message").append(
                     '<div class="alert alert-success hideit alertSuc">added in cart successfully.</div >')
                 setTimeout(function () {
-                    $("#msg").load(location.href + " #msg");
+                    $("#message").load(location.href + " #message");
                 }, 1000);
-
             }
         });
-    }
-
-        function addToVariantCart(pr_id) {
-        event.preventDefault(); //so that we stop normal form submit.
-        var_id = $("#variant_id").val();
-        pq = $("#quantity").val();
-        console.log(var_id,pq)
-        $.ajax({
-            type: "POST",
-            url: "/order/addtoshopcart/" + pr_id,
-            data:{
-                'variantid':var_id,
-                'quantity':pq
-            },
-            success: function (data) {
-                console.log(data);
-                $("#my_cart").load(location.href + " #my_cart");
-                $("#msg").append(
-                    '<div class="alert alert-success hideit alertSuc">added in cart successfully.</div >')
-                setTimeout(function () {
-                    $("#msg").load(location.href + " #msg");
-                }, 1000);
-
-            }
-        });
-    }
-
-</script>    
-{% block content %}
+    } 
+</script>
 <div class="site__body">
     <div class="page-header">
         <div class="page-header__container container">
@@ -80,6 +52,9 @@
                 <h1>Compare</h1>
             </div>
         </div>
+    </div>
+    <div id="message" name="message" class="mt-3">
+
     </div>
     <div class="block">
         <div class="container">
@@ -446,16 +421,14 @@
                         <tr>
                             <th>Add To Cart</th>
                             {% for product in products %}
-                             <a href="/order/addtoshopcart/{{ product.id }}" class="primary-btn add-to-cart">
-                                <td><button class="btn btn-primary" {% if product.quantity < 1  %} disabled {% endif %}>Add To Cart</button></td>
+                            <td>
+                             <a onclick="addToCart('{{ product.id }}')" class="add-to-cart">
+                                <button type="button" class="product-card__addtocart btn btn-primary" {% if product.quantity < 1  %} disabled {% endif %}>Add To Cart</button>
                              </a>
+                            </td>
                             {% endfor %} 
                             {% for product in variants %}
-                            <form method="post" action=".">
-                                {% csrf_token %}
-                                <input type="hidden" class="input" name="quantity" value="1" > 
-                            <td><button class="btn btn-primary" {% if product.quantity < 1  %} disabled {% endif %} name="id" value="{{ product.id }}">Add To Cart</button></td>
-                            </form>
+                            <td><button class="btn btn-primary"><a href="{% url 'product' product.product.id product.product.slugV product.product.category.sub_category.category.slug product.product.category.sub_category.slug product.product.category.slug product.product.slug %}" style="color: white;">View Options</a></button></td>
                             {% endfor %}
                         </tr>
                         <tr>

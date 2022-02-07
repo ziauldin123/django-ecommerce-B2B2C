@@ -566,10 +566,10 @@
                                     <div class="form-group product__option">
                                         <div class="input-radio-label">
                                             <div class="input-radio-label__list">
-                                                    {% for rs in sizes %}
-                                                       <label data-toggle="tooltip"  {% if variant.size_id == rs.size_id %} class="active" {% endif %}>
-                                                           <input type="radio" name="size" id="size" value="{{rs.size_id}}">
-                                                           <span><a>{{rs.size.name}}</a></span>
+                                                    {% for size in sizes %}
+                                                       <label data-toggle="tooltip"  {% if variant.size_id == size.size_id %} class="active" {% endif %}>
+                                                           <input  name="size" id="size" value="{{ size.size_id }}">
+                                                           <span><a>{{size.size.name}}</a></span>
                                                        </label>
                                                     {% endfor %}
                                             </div>
