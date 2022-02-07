@@ -194,7 +194,7 @@
             </div>
             <!-- .block-products-carousel / end -->
             <!-- .block-posts -->
-            <div class="block block-posts" data-layout="list" data-mobile-columns="1">
+            <div class="block block-posts" data-layout="grid-3" data-mobile-columns="1">
                 <div class="container">
                     <div class="block-header">
                         <h3 class="block-header__title">Latest posts</h3>
@@ -213,32 +213,30 @@
                         </div>
                     </div>
                     <div class="block-posts__slider">
-                        {% for post in posts %} 
                         <div class="owl-carousel">
-                            <div class="post-card  ">
+                            {% for post in posts %}
+                            <div class="post-card  ">   
                                 <div class="post-card__image">
                                     <a href="{% url 'detail' post.slug  %}">
-                                        <img src="{{post.image.url}}" alt="">
+                                      <img src="{{post.image.url}}"alt="">
                                     </a>
                                 </div>
                                 <div class="post-card__info">
                                     <div class="post-card__category">
-                                        <a href="{% url 'detail' post.slug  %}">{{post.title}}</a>
+                                        <a href="">Special Offers</a>
                                     </div>
                                     <div class="post-card__name">
                                         <a href="{% url 'detail' post.slug  %}">{{post.title}}</a>
                                     </div>
                                     <div class="post-card__date">{{post.created_at}}</div>
-                                    <div class="post-card__content">
-                                        {{post.intro}}
-                                    </div>
+                                   
                                     <div class="post-card__read-more">
-                                        <a href="{% url 'detail' post.slug  %}" class="btn btn-secondary btn-sm">Read More</a>
+                                       <a href="{% url 'detail' post.slug  %}" class="btn btn-secondary btn-sm">Read More</a>
                                     </div>
-                                </div>
+                                </div> 
                             </div>
+                            {% endfor %}   
                         </div>
-                        {% endfor %}
                     </div>
                 </div>
             </div>

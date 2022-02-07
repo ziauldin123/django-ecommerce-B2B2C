@@ -124,7 +124,7 @@
             items: 1,
             nav: false,
             dots: true,
-            loop: true,
+            loop: false,
             rtl: isRTL()
         });
     });
@@ -137,7 +137,7 @@
         $('.block-brands__slider .owl-carousel').owlCarousel({
             nav: false,
             dots: false,
-            loop: true,
+            loop: false,
             rtl: isRTL(),
             responsive: {
                 1200: { items: 6 },
@@ -160,7 +160,7 @@
                 margin: 30,
                 nav: false,
                 dots: false,
-                loop: true,
+                loop: false,
                 rtl: isRTL()
             };
             const layoutOptions = {
@@ -409,7 +409,7 @@
                     /**/
                     /**/     newItemsArray.push(randomItem);
                         /**/
-}
+                    }
                     /**/ items = $(newItemsArray);
                     /*** this is ONLY_FOR_DEMO! / end */
 
