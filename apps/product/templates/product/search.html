@@ -20,7 +20,12 @@
             },
             success:function(data){
                 $("#my_wishlist").load(Location.href + " #my_wishlist");
-                    }
+                setTimeout(function(){
+                        location.reload()
+                    },2000);
+                    $("#message").append(
+                    '<div class="alert alert-success hideit alertSuc">Product added to wishlist.</div >')
+                    }    
                 })
     })
                                
@@ -37,6 +42,11 @@
                 },
                 success: function(data){
                     $("#my_compare").load(Location.href + " #my_compare");
+                    setTimeout(function(){
+                        location.reload()
+                    },2000);
+                    $("#message").append(
+                    '<div class="alert alert-success hideit alertSuc">Product added to compare list.</div >')
                      }
                     })
     });
@@ -45,6 +55,9 @@
     }) 
 </script>
 <div class="site__body">
+    <div id="message" name="message" class="mt-3">
+
+    </div>
     <div class="page-header">
         <div class="page-header__container container">
             <div class="page-header__breadcrumb">
