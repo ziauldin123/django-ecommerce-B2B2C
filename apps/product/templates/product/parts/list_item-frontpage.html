@@ -2,12 +2,6 @@
 <div class="block-products-carousel__column">
     <div class="block-products-carousel__cell">
         <div class="product-card product-card--hidden-actions ">
-            <button class="product-card__quickview" type="button">
-                <svg width="16px" height="16px">
-                    <use xlink:href="/static/templates/images/sprite.svg#quickview-16"></use>
-                </svg>
-                <span class="fake-svg-icon"></span>
-            </button>
             <div class="product-card__image product-image">
                 <a href="{% url 'product' product.id product.slugV product.category.sub_category.category.slug product.category.sub_category.slug product.category.slug product.slug %}" class="product-image__body">
                     {% if product.is_variant %} 
