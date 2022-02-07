@@ -2869,8 +2869,8 @@ html:not([dir=rtl]) .noUi-horizontal .noUi-origin {
 .product-card:hover::before {
   -webkit-transition-duration: 0s;
           transition-duration: 0s;
-  -webkit-box-shadow: 0 0 0 2px #d9d9d9 inset;
-          box-shadow: 0 0 0 2px #d9d9d9 inset;
+  -webkit-box-shadow: 0 0 0 1px #d9d9d9 inset;
+          box-shadow: 0 0 0 1px #d9d9d9 inset;
   z-index: 2;
 }
 .product-card:hover .product-card__quickview {
@@ -7882,7 +7882,6 @@ html:not([dir=rtl]) .noUi-horizontal .noUi-origin {
 // .about-us
 */
 .about-us__image {
-  background-image: url("../images/aboutus.jpg");
   background-size: cover;
   background-position: bottom center;
   height: 500px;
@@ -7927,6 +7926,7 @@ html:not([dir=rtl]) .noUi-horizontal .noUi-origin {
       -ms-flex-pack: center;
           justify-content: center;
 }
+
 .teammates .owl-carousel .owl-dots.disabled {
   display: none;
 }
