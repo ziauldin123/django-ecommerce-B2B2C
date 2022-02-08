@@ -1,13 +1,9 @@
-<div class="newsletter-wrapper" id="newsletter-wrapper">
-    <form v-on:submit.prevent="onSubmit">
-        <div class="field has-addons">
-            <div class="control">
-                <input type="email" v-model="email" name="email" class="input form-control" placeholder="Your e-mail address.">
-            </div>
-            <div class="control">
-                <button class="button btn btn-secondary mt-4">Submit</button>
-            </div>
-        </div>
+<div class="site-footer__widget footer-newsletter">
+    <form v-on:submit.prevent="onSubmit" class="footer-newsletter__form">
+
+        <input type="email" v-model="email" class="input form-control" id="footer-newsletter-address" placeholder="Email Address...">
+        <button class="footer-newsletter__form-button btn btn-secondary">Subscribe</button>
+         
     </form>
     <div class="notification is-dark" v-if="showSuccess">
         Your e-mail address has been added to the subscribers' list.
