@@ -61,7 +61,6 @@ def product_detail(request, id, slug, vendor_slug, category_slug, subcategory_sl
     query = request.GET.get('q')
     product = Product.objects.get(pk=id)
     max = product.product.all().aggregate(Max('rate'))
-    print(max)
 
     if not request.user.is_anonymous:
         cart = Cart(request)
@@ -158,7 +157,6 @@ def product_detail(request, id, slug, vendor_slug, category_slug, subcategory_sl
                 'SELECT * FROM newProduct_variants WHERE product_id=%s AND status=True AND visible=True GROUP BY height_id', [id])
             variant = Variants.objects.get(
                 id=variants[0].id, status=True, visible=True)
-        
         
            
         context.update({'sizes': sizes, 'colors': colors, 'colors1': colors1, 'weight': weight, 'width': width, 'length': length, 'height': height, 'variant': variant, 'query': query,

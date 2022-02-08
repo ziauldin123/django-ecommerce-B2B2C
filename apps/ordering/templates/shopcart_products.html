@@ -43,7 +43,6 @@
 
                     },
                     success:function(response){
-                        // setTimeout('location.reload()')
                         $("#cart_table").load(location.href + " #cart_table");
                     }
                 });
@@ -74,7 +73,7 @@
             </div>
         </div>
         <div class="cart block" id="cart_table">
-            <div class="container" id="cart_table">
+            <div class="container">
                 <table class="cart__table cart-table">
                     <thead class="cart-table__head">
                         <tr class="cart-table__row">

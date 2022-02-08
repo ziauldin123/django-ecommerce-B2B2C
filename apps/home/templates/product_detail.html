@@ -28,38 +28,35 @@
             }
         });
     }
-    
-    $(document).on('change', '#post-form',function(e){
-                                    e.preventDefault();
-                                    alert($('#size').val())
-                                    $.ajax({
-                                        type:'POST',
-                                        url:'{% url "ajaxcolor" %}',
-                                        data:{
-                                            productid:$('#productid').val(),
-                                            size:$('#size').val(),
-                                            csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
-                                            action: 'post'
-                                        },
-                                        data_type : 'html',
-                                        success: function (data) {
-                                            console.log("success");
-                                            $('#appendHere').html(data.rendered_table);
-                                        },
-                                        error: function (data) {
-                                            alert("Got an error " + data);
+
+    function size(size_id){     
+        $.ajax({
+            type:'POST',
+            url:'{% url "ajaxcolor" %}',
+            data:{
+                productid:$('#productid').val(),
+                size:size_id,
+                csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+                action: 'post'
+                        },
+                data_type : 'html',
+                    success: function (data) {
+                    console.log("success");
+                    $('#appendHere').html(data.rendered_table);
+                    },
+                    error: function (data) {
+                    alert("Got an error " + data);
                                         }
                                     });
-                                });
+    }
 
-                                $(document).on('change', '#post-form1',function(e){
-                                    e.preventDefault();
-                                    $.ajax({
+    function weight(weight_id){
+        $.ajax({
                                         type:'POST',
                                         url:'{% url "ajaxcolor-weight" %}',
                                         data:{
                                             productid:$('#productid').val(),
-                                            weigth:$('#weight').val(),
+                                            weigth:weight_id,
                                             csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
                                             action: 'post'
                                         },
@@ -72,7 +69,52 @@
                                             alert("Got an error " + data);
                                         }
                                     });
-                                });
+    }
+    
+    // $(document).on('change', '#post-form',function(e){
+    //                                 e.preventDefault();
+    //                                 alert($('#size').val())
+    //                                 $.ajax({
+    //                                     type:'POST',
+    //                                     url:'{% url "ajaxcolor" %}',
+    //                                     data:{
+    //                                         productid:$('#productid').val(),
+    //                                         size:$('#size').val(),
+    //                                         csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+    //                                         action: 'post'
+    //                                     },
+    //                                     data_type : 'html',
+    //                                     success: function (data) {
+    //                                         console.log("success");
+    //                                         $('#appendHere').html(data.rendered_table);
+    //                                     },
+    //                                     error: function (data) {
+    //                                         alert("Got an error " + data);
+    //                                     }
+    //                                 });
+    //                             });
+
+                                // $(document).on('change', '#post-form1',function(e){
+                                //     e.preventDefault();
+                                //     $.ajax({
+                                //         type:'POST',
+                                //         url:'{% url "ajaxcolor-weight" %}',
+                                //         data:{
+                                //             productid:$('#productid').val(),
+                                //             weigth:$('#weight').val(),
+                                //             csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+                                //             action: 'post'
+                                //         },
+                                //         data_type : 'html',
+                                //         success: function (data) {
+                                //             console.log("success");
+                                //             $('#appendHere').html(data.rendered_table);
+                                //         },
+                                //         error: function (data) {
+                                //             alert("Got an error " + data);
+                                //         }
+                                //     });
+                                // });
 
                                 $('body').on('click','.compareBtn',function(){
                                     var variant_id=$(this).closest('.compare').find('.variantid').val()
@@ -566,11 +608,10 @@
                                     <div class="form-group product__option">
                                         <div class="input-radio-label">
                                             <div class="input-radio-label__list">
-                                                    {% for size in sizes %}
-                                                       <label data-toggle="tooltip"  {% if variant.size_id == size.size_id %} class="active" {% endif %}>
-                                                           <input  name="size" id="size" value="{{ size.size_id }}">
-                                                           <span><a>{{size.size.name}}</a></span>
-                                                       </label>
+                                                    {% for rs in sizes %}
+                                                        <label data-toggle="tooltip"  {% if variant.size_id == rs.size.id %} class="active" {% endif %}>
+                                                            <span class="radio"><a onclick="size('{{rs.size_id}}')">{{rs.size.name}}</a></span>
+                                                        </label>
                                                     {% endfor %}
                                             </div>
                                         </div>
@@ -609,10 +650,9 @@
                                     <div class="input-radio-label">
                                         <div class="input-radio-label__list">
                                                 {% for rs in weight %}
-                                                      <label data-toggle="tooltip"  {% if variant.weight_id == rs.weight_id %} class="active" {% endif %}>
-                                                        <input name="weight" id="weight" value="{{ rs.weight.id }}" type="radio"  {% if variant.weight_id == rs.weight_id %} selected {% endif %} />
-                                                           <span><a>{{rs.weight}}</a></span>
-                                                       </label>
+                                                <label data-toggle="tooltip"  {% if variant.weight_id == rs.weight_id %} class="active" {% endif %}>
+                                                    <span class="radio"><a onclick="weight('{{rs.weight_id }}')">{{rs.weight}}</a></span>
+                                                </label>
                                                 {% endfor %}
                                         </div>
                                     </div>
