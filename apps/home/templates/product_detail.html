@@ -329,7 +329,9 @@
                                     </div>
                                 </div>
                             </div>
-                            <a href="">{{ product.countreview}} Reviews</a><span>/</span><a href="#tab-reviews">Write A Review</a>
+                            <div class="product__rating-legend">
+                                <a href="">{{ product.countreview}} Reviews</a><span>/</span><a href="#tab-reviews">Write A Review</a>
+                            </div>
                         </div>
                         <div class="product__description">
                             {{ product.summary }}.
@@ -344,9 +346,9 @@
                         <ul class="product__meta">
                             <li class="product__meta-availability">Availability: <span class="text-success">
                                 {% if product.is_variant %} 
-                                {% if variant.quantity > 0  %} In Stock {% else %} Out of Stock {% endif %}
+                                {% if variant.quantity > 0  %} In Stock {% else %} <span class="text-danger">Out of Stock</span> {% endif %}
                                 {% else %} 
-                                {% if product.quantity > 0  %} In Stock {% else %} Out of Stock {% endif %}
+                                {% if product.quantity > 0  %} In Stock {% else %} <span class="text-danger">Out of Stock</span {% endif %}
                                 {% endif %}
                             </span></li>
                             {% if product.brand %}
@@ -958,6 +960,7 @@
     </div>
 
     </div>
+    <br>
     <!-- .block-products-carousel -->
     <div class="block block-products-carousel" data-layout="grid-5" data-mobile-grid-columns="2">
         <div class="container">
