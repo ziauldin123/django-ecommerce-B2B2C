@@ -229,6 +229,10 @@
                                         <a href="{% url 'detail' post.slug  %}">{{post.title}}</a>
                                     </div>
                                     <div class="post-card__date">{{post.created_at}}</div>
+
+                                    <div class="post-card__content">
+                                       {{post.intro}}.
+                                    </div>
                                    
                                     <div class="post-card__read-more">
                                        <a href="{% url 'detail' post.slug  %}" class="btn btn-secondary btn-sm">Read More</a>

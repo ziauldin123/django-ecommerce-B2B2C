@@ -18,18 +18,16 @@
             </div>
 
              
-            <div class="container">
+           <div class="container">
                 <div class="row">
-                    
                     <div class="col-12 col-lg-8">
                         <div class="block">
                             <div class="posts-view">
-                                <div class="posts-view__list posts-list posts-list--layout--classic">
+                                <div class="posts-view__list posts-list posts-list--layout--list">
                                     <div class="posts-list__body">
+                                         {% for post in posts%}
                                         <div class="posts-list__item">
-                                            
-                                            <div class="post-card post-card--layout--grid post-card--size--lg">
-                                                {% for post in posts %}
+                                             <div class="post-card post-card--layout--list post-card--size--nl">
                                                 <div class="post-card__image">
                                                     <a href="{% url 'detail' post.slug  %}">
                                                         <img src="{{ post.image.url }}" alt="">
@@ -48,14 +46,11 @@
                                                         <a href="{% url 'detail' post.slug  %}" class="btn btn-secondary btn-sm">Read More</a>
                                                     </div>
                                                 </div>
-                                                {% endfor %}
-                                            </div>
-                                            
+                                            </div>  
                                         </div>
-                                        <hr>
+                                        {% endfor %}
                                     </div>
-                                </div>
-                                
+                                </div>   
                             </div>
                         </div>
                     </div>
@@ -64,32 +59,12 @@
                         <div class="block block-sidebar block-sidebar--position--end">
                             <div class="block-sidebar__item">
                                 <div class="widget-aboutus widget">
-                                    <h4 class="widget__title">About Blog</h4>
+                                    <h4 class="widget__title">About Soko Blog</h4>
                                     <div class="widget-aboutus__text">
                                         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tincidunt, erat in malesuada aliquam, est erat faucibus purus,
                                         eget viverra nulla sem vitae neque. Quisque id sodales libero.
                                     </div>
-                                    <!-- social-links -->
-                                    <div class="social-links widget-aboutus__socials social-links--shape--rounded">
-                                        <ul class="social-links__list">
-                                            <li class="social-links__item">
-                                                <a class="social-links__link social-links__link--type--facebook" href="" target="_blank">
-                                                    <i class="fab fa-facebook-f"></i>
-                                                </a>
-                                            </li>
-                                            <li class="social-links__item">
-                                                <a class="social-links__link social-links__link--type--twitter" href="" target="_blank">
-                                                    <i class="fab fa-twitter"></i>
-                                                </a>
-                                            </li>
-                                            <li class="social-links__item">
-                                                <a class="social-links__link social-links__link--type--instagram" href="" target="_blank">
-                                                    <i class="fab fa-instagram"></i>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <!-- social-links / end -->
+                                  
                                 </div>
                             </div>
                         </div>

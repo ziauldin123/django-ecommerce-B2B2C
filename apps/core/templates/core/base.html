@@ -1478,71 +1478,14 @@
                     </ul>
                   </div>
                 </div>
-                <div class="col-12 col-md-12 col-lg-4">
+                 <div class="col-12 col-md-12 col-lg-4">
                   <div id="newsletter-wrapper" class="newsletter-wrapper site-footer__widget footer-newsletter">
                     <h5 class="footer-newsletter__title">Newsletter</h5>
                     <div class="footer-newsletter__text">
-                     Subscribe to our newsletter and enjoy the latest products and offers from Sokopark.
+                      Praesent pellentesque volutpat ex, vitae auctor lorem
+                      pulvinar mollis felis at lacinia.
                     </div>
                     {% include 'parts/newsletter.html' %}
-                    <div
-                      class="footer-newsletter__text footer-newsletter__text--social"
-                    >
-                      Follow us on social networks
-                    </div>
-                    <!-- social-links -->
-                    <div
-                      class="social-links footer-newsletter__social-links social-links--shape--circle"
-                    >
-                      <ul class="social-links__list">
-                        <li class="social-links__item">
-                          <a
-                            class="social-links__link social-links__link--type--rss"
-                            href=""
-                            target="_blank"
-                          >
-                            <i class="fas fa-rss"></i>
-                          </a>
-                        </li>
-                        <li class="social-links__item">
-                          <a
-                            class="social-links__link social-links__link--type--youtube"
-                            href=""
-                            target="_blank"
-                          >
-                            <i class="fab fa-youtube"></i>
-                          </a>
-                        </li>
-                        <li class="social-links__item">
-                          <a
-                            class="social-links__link social-links__link--type--facebook"
-                            href=""
-                            target="_blank"
-                          >
-                            <i class="fab fa-facebook-f"></i>
-                          </a>
-                        </li>
-                        <li class="social-links__item">
-                          <a
-                            class="social-links__link social-links__link--type--twitter"
-                            href=""
-                            target="_blank"
-                          >
-                            <i class="fab fa-twitter"></i>
-                          </a>
-                        </li>
-                        <li class="social-links__item">
-                          <a
-                            class="social-links__link social-links__link--type--instagram"
-                            href=""
-                            target="_blank"
-                          >
-                            <i class="fab fa-instagram"></i>
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-                    <!-- social-links / end -->
                   </div>
                 </div>
               </div>
@@ -1550,7 +1493,7 @@
             <div class="site-footer__bottom">
               <div class="site-footer__copyright">
                 <!-- copyright -->
-                © 2022 - Sokopark Ltd., sokopark.com, or its affiliates.
+                Powered by Sokopark Ltd. 
                 <!-- copyright / end -->
               </div>
               <div class="site-footer__payments">
@@ -1561,7 +1504,21 @@
               </div>
             </div>
           </div>
-          
+          <div class="totop">
+            <div class="totop__body">
+              <div class="totop__start"></div>
+              <div class="totop__container container"></div>
+              <div class="totop__end">
+                <button type="button" class="totop__button">
+                  <svg width="13px" height="8px">
+                    <use
+                      xlink:href="/static/templates/images/sprite.svg#arrow-rounded-up-13x8"
+                    ></use>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       </footer>
       <!-- site__footer / end -->
@@ -1588,10 +1545,14 @@
         </div>
         <div class="mobilemenu__content">
             <ul class="mobile-links mobile-links--level--0" data-collapse data-collapse-opened-class="mobile-links__item--open">
-                
                 <li class="mobile-links__item" data-collapse-item>
                     <div class="mobile-links__item-title">
-                        <a href="" class="mobile-links__item-link">Shop by category</a>
+                        <a href="/" class="mobile-links__item-link">Home</a>
+                    </div>
+                </li>
+                <li class="mobile-links__item" data-collapse-item>
+                    <div class="mobile-links__item-title">
+                        <a href="" class="mobile-links__item-link">Categories</a>
                         <button class="mobile-links__item-toggle" type="button" data-collapse-trigger>
                             <svg class="mobile-links__item-arrow" width="12px" height="7px">
                                 <use xlink:href="/static/templates/images/sprite.svg#arrow-rounded-down-12x7"></use>
@@ -1646,24 +1607,18 @@
                 </li>
                 <li class="mobile-links__item" data-collapse-item>
                     <div class="mobile-links__item-title">
-                        <a href="{% url 'contact' %}" class="mobile-links__item-link">Contact Us</a>
+                        <a href="{% url 'contact' %}" class="mobile-links__item-link">contact-us</a>
                     </div>
                 </li>
                 <li class="mobile-links__item" data-collapse-item>
-                    <div class="mobile-links__item-title">
-                        <a {% if request.user.vendor %} href="{% url 'vendor_admin'  %}" {% else %} href="{% url 'myaccount'  %}" {% endif %} class="mobile-links__item-link">Account</a>
-                    </div>
-                  </li>
-
-                <li class="mobile-links__item" data-collapse-item>
-                    <div class="mobile-links__item-title">
-                        {% if request.user.is_authenticated %} 
-                        <a href="{% url 'logout' %}" class="mobile-links__item-link">Logout</a>
-                        {% else %} 
-                        <a href="{% url 'login' %}" class="mobile-links__item-link">Login</a>
-                        {% endif %}
-                    </div>
-                </li>
+                  <div class="mobile-links__item-title">
+                      {% if request.user.is_authenticated %} 
+                      <a href="{% url 'logout' %}" class="mobile-links__item-link">Logout</a>
+                      {% else %} 
+                      <a href="{% url 'login' %}" class="mobile-links__item-link">Login</a>
+                      {% endif %}
+                  </div>
+              </li>
             </ul>
         </div>
     </div>
