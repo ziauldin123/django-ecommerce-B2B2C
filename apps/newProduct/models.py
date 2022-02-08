@@ -284,7 +284,7 @@ class Product(models.Model):
             else:
                 return float((18*self.price)/100)
         else:
-            return 0            
+            return 0
 
     def get_discounted_price(self):
         discounted_price = float(self.price-((self.discount*self.price)/100))
@@ -336,7 +336,7 @@ class Images(models.Model):
         return self.name
 
     class Meta:
-        verbose_name_plural = "Galley"
+        verbose_name_plural = "Gallery"
         verbose_name = "Images"
 
     def imagename(self):
