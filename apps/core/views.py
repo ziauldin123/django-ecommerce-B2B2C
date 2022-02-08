@@ -133,3 +133,7 @@ def privacy_policy(request):
 
 def error_404_view(request, exception):
     return render(request, 'core/404.html')
+
+
+def vendor_guidelines(request):
+    return render(request, 'core/vendor_guidelines.html')
