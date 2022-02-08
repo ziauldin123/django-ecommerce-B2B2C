@@ -539,7 +539,8 @@
                                 {% endif %}
                                 {% else %} 
                                 {% if variant.discount > 0 %} 
-                                Frw {{ product.price }}{% if product.unit_type %}/{{product.unit_type.unit}}{% endif %}
+                                Frw {{ product.price }}{% if product.unit_type %}/{{product.unit_type.unit}}
+                                {% endif %}
                                 {% else %} 
                                 Frw {{ product.price }}{% if product.unit_type %}/{{product.unit_type.unit}}{% endif %}
                                 {% endif %}

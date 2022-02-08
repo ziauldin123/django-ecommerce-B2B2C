@@ -124,8 +124,11 @@
             items: 1,
             nav: false,
             dots: true,
-            loop: false,
-            rtl: isRTL()
+            loop: true,
+            rtl: isRTL(),
+            autoplay: true,
+            autoplayTimeout: 3000,
+            autoplayHoverPause: true
         });
     });
 
