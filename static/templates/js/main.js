@@ -127,8 +127,10 @@
             loop: true,
             rtl: isRTL(),
             autoplay: true,
-            autoplayTimeout: 3000,
-            autoplayHoverPause: true
+            autoplayTimeout: 4000,
+            autoplayHoverPause: true,
+            animateIn: 'fadeIn',
+            animateOut: 'fadeOut',
         });
     });
 
