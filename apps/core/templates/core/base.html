@@ -1130,7 +1130,7 @@
                                 </svg>
                               </a>
                               <div
-                                class="departments__submenu departments__submenu--type--megamenu departments__submenu--size--xl"
+                                class="departments__submenu departments__submenu--type--megamenu departments__submenu--size--nl"
                               >
                                 <!-- .megamenu -->
                                 <div class="megamenu megamenu--departments">
@@ -1141,11 +1141,12 @@
                                     "
                                   >
                                     <div class="row">
-                                      <div class="col-3">
+                                      {% for subcategory in category.children %}
+                                      <div class="col-6">
                                         <ul
                                           class="megamenu__links megamenu__links--level--0"
                                         >
-                                          {% for subcategory in category.children %}
+                                          
                                            {% if subcategory.has_children %}
                                           <li
                                             class="megamenu__item megamenu__item--with-submenu"
@@ -1164,10 +1165,13 @@
                                             </ul>
                                           </li>
                                           {% else %}
-                                          <a href="{% url 'subcategory' category.slug subcategory.slug %}">{{subcategory.title}}</a>
-                                          {% endif %} {% endfor %}
+                                          <li class="megamenu__item">
+                                            <a href="{% url 'subcategory' category.slug subcategory.slug %}">{{subcategory.title}}</a>
+                                          </li>
+                                          {% endif %} 
                                         </ul>
                                       </div>
+                                      {% endfor %}
                                     </div>
                                   </div>
                                 </div>

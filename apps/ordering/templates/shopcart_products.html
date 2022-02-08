@@ -128,9 +128,14 @@
                             <td class="cart-table__column cart-table__column--quantity" data-title="Quantity">
                                 <div class="product_data input-number">
                                     <input type="hidden" class="prod_id" value="{{rs.id}}">
-                                    <input class="input changeQty form-control input-number__input" id="quantity" name="quantity"  type="number" min="1" {% if rs.product.is_variant %} max="{{ rs.variant.quantity }}" {% else %} max="{{ rs.product.quantity }}" {% endif %} value="{{rs.quantity}}">
+
+                                    <input class="changeQty input form-control input-number__input" id="quantity" name="quantity"  type="number" 
+                                    min="1" {% if rs.product.is_variant %} max="{{ rs.variant.quantity }}"
+                                    {% else %} max="{{ rs.product.quantity }}" {% endif %} value="{{rs.quantity}}">
+
                                     <div class="input-number__add"></div>
                                     <div class="input-number__sub"></div>
+                                    
                                 </div>
                             </td>
                             <td class="total cart-table__column cart-table__column--total" data-title="Total">

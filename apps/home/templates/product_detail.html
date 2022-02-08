@@ -70,51 +70,6 @@
                                         }
                                     });
     }
-    
-    // $(document).on('change', '#post-form',function(e){
-    //                                 e.preventDefault();
-    //                                 alert($('#size').val())
-    //                                 $.ajax({
-    //                                     type:'POST',
-    //                                     url:'{% url "ajaxcolor" %}',
-    //                                     data:{
-    //                                         productid:$('#productid').val(),
-    //                                         size:$('#size').val(),
-    //                                         csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
-    //                                         action: 'post'
-    //                                     },
-    //                                     data_type : 'html',
-    //                                     success: function (data) {
-    //                                         console.log("success");
-    //                                         $('#appendHere').html(data.rendered_table);
-    //                                     },
-    //                                     error: function (data) {
-    //                                         alert("Got an error " + data);
-    //                                     }
-    //                                 });
-    //                             });
-
-                                // $(document).on('change', '#post-form1',function(e){
-                                //     e.preventDefault();
-                                //     $.ajax({
-                                //         type:'POST',
-                                //         url:'{% url "ajaxcolor-weight" %}',
-                                //         data:{
-                                //             productid:$('#productid').val(),
-                                //             weigth:$('#weight').val(),
-                                //             csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
-                                //             action: 'post'
-                                //         },
-                                //         data_type : 'html',
-                                //         success: function (data) {
-                                //             console.log("success");
-                                //             $('#appendHere').html(data.rendered_table);
-                                //         },
-                                //         error: function (data) {
-                                //             alert("Got an error " + data);
-                                //         }
-                                //     });
-                                // });
 
                                 $('body').on('click','.compareBtn',function(){
                                     var variant_id=$(this).closest('.compare').find('.variantid').val()
