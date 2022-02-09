@@ -49,7 +49,7 @@
                                 <thead class="checkout__totals-header">
                                     <tr>
                                         <th>Product</th>
-                                        <th>Total(vat incl.)</th>
+                                        <th>Total (vat incl.)</th>
                                     </tr>
                                 </thead>
                                 <tbody class="checkout__totals-products">
@@ -101,10 +101,7 @@
                                     {% if coupon.code != None %}
                                     <tr>
                                         <th>Coupon</th>
-                                        <td>{% if coupon.code != None %}
-                                                 {{ coupon.code }}
-                                            {% endif %}
-                                        </td>
+                                    
                                         <td>
                                             {% if coupon.code != None %}
                                                 - {{ coupon.discount }} %
@@ -125,7 +122,7 @@
                                 </tbody>
                                 <tfoot class="checkout__totals-footer">
                                     <tr>
-                                        <th>Total</th>
+                                        <th>Total (vat inclusive)</th>
                                         <td><span id="total_cost">Frw {{ cart.get_total_cost }}</span></td>
                                     </tr>
                                 </tfoot>
