@@ -135,17 +135,6 @@ def error_404_view(request, exception):
     return render(request, 'core/404.html')
 
 
-<<<<<<< HEAD
-        'shopcart': shopcart,
-        'subtotal': total,
-        'tax': tax,
-        'total': grandTotal,
-        'wishlist': wishlist,
-        'total_compare': total_compare
-    })
-<<<<<<< HEAD
-
-
 def vendor_guidelines(request):
     if not request.user.is_anonymous:
         cart = Cart(request)
@@ -186,9 +175,3 @@ def vendor_guidelines(request):
         'wishlist': wishlist,
         'total_compare': total_compare
     })
-=======
-def vendor_guidelines(request):
-    return render(request, 'core/vendor_guidelines.html')
->>>>>>> parent of 45e1692... Merge branch 'feature/1y8nfz6' into frontend1
-=======
->>>>>>> parent of d160c19... Update views.py
