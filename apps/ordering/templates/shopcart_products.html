@@ -1,5 +1,5 @@
 {% extends 'core/base.html' %}
-{% block title %} Shop Cart {% endblock %}
+{% block title %} Cart {% endblock %}
 {% block description %} {{ setting.description }} {% endblock %}
 {% block keywords %} {{ setting.keywords }} {% endblock %}
 {% block content %}
@@ -56,19 +56,11 @@
             <div class="page-header__container container">
                 <div class="page-header__breadcrumb">
                     <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item">
-                                <a href="/">Home</a>
-                                <svg class="breadcrumb-arrow" width="6px" height="9px">
-                                    <use xlink:href="/static/templates/images/sprite.svg#arrow-rounded-right-6x9"></use>
-                                </svg>
-                            </li>
-                            <li class="breadcrumb-item active" aria-current="page">Shopping Cart</li>
-                        </ol>
+                       
                     </nav>
                 </div>
                 <div class="page-header__title">
-                    <h1>Shopping Cart</h1>
+                    <h3>Cart</h3>
                 </div>
             </div>
         </div>
@@ -120,10 +112,10 @@
                             </td>
                             <td class="cart-table__column cart-table__column--price" data-title="Price">
                                 {% if rs.product.variant == 'None' %}
-                                            {{ rs.product.price }}
+                                            Frw {{ rs.product.price }}
                                         {% else %}
-                                            {{ rs.variant.price }}
-                                        {% endif %} FRW
+                                            Frw {{ rs.variant.price }}
+                                        {% endif %} 
                             </td>
                             <td class="cart-table__column cart-table__column--quantity" data-title="Quantity">
                                 <div class="product_data input-number">
@@ -143,16 +135,16 @@
                                             {% if rs.product.discount > 0 %}
                                                 {{ rs.prodct_dicount_amount }}
                                             {% else %}
-                                                {{ rs.amount }}
+                                                Frw {{ rs.amount }}
                                             {% endif %}
                                         {% else %}
                                             {% if rs.variant.discount > 0 %}
-                                                {{ rs.var_dicount_amount }}
+                                                Frw {{ rs.var_dicount_amount }}
                                             {% else %}
-                                                {{ rs.varamount }}
+                                                 {{ rs.varamount }}
                                             {% endif %}
                                         {% endif %} 
-                                        {% if rs.product.is_vat == True %}vat incl.{% endif %}
+                                        {% if rs.product.is_vat == True %}{% endif %}
                             </td>
                             <td class="cart-table__column cart-table__column--remove">
                                 <a href="/order/deletefromcart/{{ rs.id }}" onclick="return confirm('Delete ! Are you sure?')" >
@@ -171,40 +163,35 @@
                     <form class="cart__coupon-form">
                         <label for="input-coupon-code" class="sr-only">Password</label>
                         <input type="text" class="form-control"  name="coupon_code" id="coupon_code" placeholder="Coupon Code">
-                        <button type="button" class="btn btn-primary  is-success"  onclick="applyCoupon()" >Apply Coupon</button>
+                        <button type="button" class="btn btn-secondary "  onclick="applyCoupon()" >Apply Coupon</button>
                     </form>
                     <div class="cart__buttons">
-                        <a href="/" class="btn btn-light">Continue Shopping</a>
+                        <a href="/" class="btn btn-secondary">Continue Shopping</a>
                     </div>
                 </div>
                 <div class="row justify-content-end pt-5">
                     <div class="col-12 col-md-7 col-lg-6 col-xl-5">
                         <div class="card">
                             <div class="card-body">
-                                <h3 class="card-title">Cart Totals</h3>
+                                
                                 <table class="cart__totals">
                                     <thead class="cart__totals-header">
-                                        <tr>
-                                            <th>Tax</th>
-                                            <td>
-                                                {{ tax }} FRW
-                                            </td>
-                                        </tr>
+                                        
                                         <tr>
                                             <th>Subtotal</th>
-                                            <td>{{ total }} FRW</td>
+                                            <td>Frw {{ total }}</td>
                                         </tr>
                                     </thead>
                                     <tfoot class="cart__totals-footer">
                                         <tr>
                                             <th>Total</th>
                                             <td>
-                                                <span id="total_cost_with_coupon" name="total_cost_with_coupon">{{total}}FRW</span>
+                                                <span id="total_cost_with_coupon" name="total_cost_with_coupon">Frw {{total}}</span>
                                             </td>
                                         </tr>
                                     </tfoot>
                                 </table>
-                                <a class="btn btn-primary btn-xl btn-block cart__checkout-button" href="{% url 'contact_info' %}"">Proceed to checkout</a>
+                                <a class="btn btn-primary btn-block cart__checkout-button" href="{% url 'contact_info' %}"">Proceed to checkout</a>
                             </div>
                         </div>
                     </div>

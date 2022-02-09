@@ -2,55 +2,29 @@
 {% load mathfilters %}
 
 
-{% block title %} Order Info | {% endblock %}
+{% block title %} Delivery {% endblock %}
 
 {% block content %}
-<style>
-    input[type=text],[type=number],[type=file],[type=email],[type=textarea], select {
-     width: 100%;
-     padding: 8px 20px;
-     cursor: pointer;
-     margin: 4px 0;
-     border: 1px solid #ccc;
-     border-radius: 4px;
-     box-sizing: border-box;
-   }
-   </style>
+
+
 <div class="site__body">
     <div class="page-header">
         <div class="page-header__container container">
             <div class="page-header__breadcrumb">
                 <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item">
-                            <a href="/">Home |</a>
-                            <svg class="breadcrumb-arrow" width="6px" height="9px">
-                                <use xlink:href="images/sprite.svg#arrow-rounded-right-6x9"></use>
-                            </svg>
-                        </li>
-                        <li class="breadcrumb-item">
-                            <a href="{% url 'shopcart' %}">ShoppingCart | </a>
-                            <svg class="breadcrumb-arrow" width="6px" height="9px">
-                                <use xlink:href="images/sprite.svg#arrow-rounded-right-6x9"></use>
-                            </svg>
-                        </li>
-                        <li class="breadcrumb-item active" aria-current="page">Order Info</li>
-                    </ol>
+                    
                 </nav>
             </div>
-            <div class="page-header__title">
-                <h1>Order Info</h1>
-            </div>
+           
         </div>
     </div>
     <div class="checkout block">
         <div class="container">
             <div class="row">
-                <div class="col-12 mb-3"></div>
                 <div class="col-12 col-lg-6 col-xl-7">
                     <div class="card mb-lg-0">
                         <div class="card-body">
-                            <h3 class="card-title">Contact details</h3>
+                             <h3 class="card-title">Billing details</h3>
                             <form method="POST" action="" id="contact-form">
                                 {% csrf_token %}
                         
@@ -72,46 +46,43 @@
                                 </div>
                                 {% endif %}
                 
-                                        <div class="field form-row">
+                                        <div class="form-row">
                                             <div class="form-group col-md-6">
                                                 <label for="checkout-first-name">First name</label>
-                                                <input class="input" type="text" name="first_name" value="{% if request.user.is_authenticated and cart_user.customername %}{{ cart_user.customername.split | first }}{% endif %}">
+                                                <input class="form-control" type="text" name="first_name" value="{% if request.user.is_authenticated and cart_user.customername %}{{ cart_user.customername.split | first }}{% endif %}" disabled>
                                             </div>
                                             <div class="form-group col-md-6">
                                                 <label for="checkout-first-name">Last name</label>
-                                                <input class="input" type="text" name="last_name"
-                                                    value="{% if request.user.is_authenticated %}{{ cart_user.customername.split | last }}{% endif %}">
+                                                <input class="form-control" type="text" name="last_name"
+                                                    value="{% if request.user.is_authenticated %}{{ cart_user.customername.split | last }}{% endif %}"disabled>
                                             </div>
                                         </div> 
-                                        <div class="field form-row">
+                                        <div class="form-row">
                                             <div class="form-group col-md-6">
                                                 <label for="checkout-first-name">Email</label>
-                                                <input class="input" type="email" name="email"
-                                                    value="{% if request.user.is_authenticated %}{{ cart_user.email }}{% endif %}">
+                                                <input class="form-control"type="email" name="email"
+                                                    value="{% if request.user.is_authenticated %}{{ cart_user.email }}{% endif %}"disabled>
                                             </div>
                                             <div class="form-group col-md-6">
                                                 <label for="checkout-first-name">Phone</label>
                                                 
-                                                <input class="input" type="text" name="phone"
-                                                    value="{% if request.user.is_authenticated %}{{ cart_user.phone }}{% endif %}">
+                                                <input class="form-control" type="text" name="phone"
+                                                    value="{% if request.user.is_authenticated %}{{ cart_user.phone }}{% endif %}"disabled>
                                             </div>
                                         </div>
-                                        <div class="field form-row">
+                                        <div class="form-row">
                                             <div class="form-group col-md-6">
                                                 <label for="checkout-first-name">Address</label>
-                                                <input class="input" type="text" name="address"
-                                                    value="{% if request.user.is_authenticated %}{{ cart_user.address }}{% endif %}">
+                                                <input class="form-control" type="text" name="address"
+                                                    value="{% if request.user.is_authenticated %}{{ cart_user.address }}{% endif %}"disabled>
                                             </div>
                                         </div>
-                                        <h3 class="subtitle">Delivery Info</h3>
+                                        <h3 class="subtitle">Delivery type</h3>
                         
-                                        <div class="field">
-                                            <div class="field">
-                                                <label>What do you want?</label>
-                                            </div>
-                        
+                                        <div class="payment-methods">
                                             {% for choice in form.delivery_option %}
                                             {% if choice.choice_label == "Pick up from Store" and not pickup_available %}
+
                                                 <div class="field" style="display: none;">
                                                 {% else %}
                                                 <div class="field">
@@ -120,13 +91,15 @@
                                                     {{ choice.choice_label }}
                                                 </div>
                                                 {% endfor %}
-                        
-                                            </div>
-                                            <div class="field" id="district">
+                                        </div>
+
+                                            <h3 class="subtitle">Delivery address</h3>
+
+                                            <div class="form-group" id="district">
                                                 <label>District</label>
                         
-                                                <div class="control">
-                                                    <select class="select" name="district" id="id_district">
+                                                <div class="form-group">
+                                                    <select class="form-control select" name="district" id="id_district">
                                                         <option value="" selected>---Select District---</option>
                                                         {% for entry in districts %}
                                                         <option value="{{ entry.id }}">{{ entry.district }}</option>
@@ -135,41 +108,41 @@
                                                 </div>
                                             </div>
                         
-                                            <div class="field" id="sector">
+                                            <div class="form-group" id="sector">
                                                 <label>Sector</label>
                         
                                                 <div class="control">
-                                                    <select class="select" name="sector" id="id_sector">
+                                                    <select class="form-control select" name="sector" id="id_sector">
                                                         <option value="" selected>---Select Sector---</option>
                                                     </select>
                                                 </div>
                                             </div>
                         
-                                            <div class="field" id="cell">
+                                            <div class="form-group" id="cell">
                                                 <label>Cell</label>
                         
                                                 <div class="control">
-                                                    <select class="select" name="cell" id="id_cell">
+                                                    <select class="form-control select" name="cell" id="id_cell">
                                                         <option value="" selected>---Select Cell---</option>
                                                     </select>
                                                 </div>
                                             </div>
                         
-                                            <div class="field" id="village">
+                                            <div class="form-group" id="village">
                                                 <label>Village</label>
                         
                                                 <div class="control">
-                                                    <select class="select" name="village" id="id_village">
+                                                    <select class="form-control select" name="village" id="id_village">
                                                         <option value="" selected>---Select Village---</option>
                                                     </select>
                                                 </div>
                                             </div>
                         
-                                            <div class="field" id="address">
-                                                <label>Street No & House No.</label>
+                                            <div class="form-group" id="address">
+                                                 <label for="checkout-city">Street No & House No.</label>
                         
                                                 <div class="control">
-                                                    <input type="textarea" class="textarea" name="delivery_address" id="delivery_address"
+                                                    <input type="text" class="form-control" name="delivery_address" id="delivery_address"
                                                         value="">
                                                 </div>
                                             </div>
@@ -206,7 +179,7 @@
                                 <thead class="checkout__totals-header">
                                     <tr>
                                         <th>Product</th>
-                                        <th>Total</th>
+                                        <th>Total (vat incl.)</th>
                                     </tr>
                                 </thead>
                                 <tbody class="checkout__totals-products">
@@ -229,9 +202,9 @@
                                          {% endif %}</td>
                                         <td>{% if rs.product.variant == 'None' %}
                                             {% if rs.product.discount > 0 %}
-                                                {{ rs.prodct_dicount_amount }}
+                                                Frw {{ rs.prodct_dicount_amount }}
                                             {% else %}
-                                                {{ rs.amount }}
+                                                Frw {{ rs.amount }}
                                             {% endif %}
                                         {% else %}
                                             {% if rs.variant.discount > 0 %}
@@ -240,30 +213,22 @@
                                                 {{ rs.varamount }}
                                             {% endif %}
                 
-                                        {% endif %} FRW
-                                        {% if rs.product.is_vat == True %}vat incl.{% endif %}</td>
+                                        {% endif %}
+                                        {% if rs.product.is_vat == True %}{% endif %}</td>
                                     </tr>
                                     {% endfor %}
                                 </tbody>
                                 <tbody class="checkout__totals-subtotals">
-                                    <tr>
-                                        <th>VAT</th>
-                                        <td>{{ tax }} FRw</td>
-                                      </tr>
-                                    <tr>
+                                    
                                         <th>Subtotal</th>
-                                        <td>${{ sub_total }}</td>
+                                        <td>Frw {{ sub_total }}</td>
                                     </tr> 
                                     {% if coupon.code != None %}
                                     <tr>
-                                        <th>Coupon</th>
-                                        <td>{% if coupon.code != None %}
-                                                 {{ coupon.code }}
-                                            {% endif %}
-                                        </td>
+                                        <th>Coupon</th>    
                                         <td>
                                             {% if coupon.code != None %}
-                                                - {{ coupon.discount }} %
+                                                 - ({{ coupon.discount }} %)
                                             {% endif %}
                                         </td>
                                     </tr>
@@ -272,7 +237,7 @@
                                 <tfoot class="checkout__totals-footer">
                                     <tr>
                                         <th>Total</th>
-                                        <td><span id="total_cost_with_coupon">{{ total }} FRW </span></td>
+                                        <td><span id="total_cost_with_coupon">Frw {{ total }}</span></td>
                                     </tr>
                                 </tfoot>
                             </table>
