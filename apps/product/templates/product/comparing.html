@@ -1,5 +1,5 @@
 {% extends 'core/base.html' %}
-{% block title %}My account | {{ request.session.username }} - {% endblock %}
+{% block title %}Comparison{% endblock %}
 {% block content %}
 <script>
     $('body').on('click','.deleteBtn',function(){
@@ -37,25 +37,15 @@
         <div class="page-header__container container">
             <div class="page-header__breadcrumb">
                 <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item">
-                            <a href="/">Home</a>
-                            <svg class="breadcrumb-arrow" width="6px" height="9px">
-                                <use xlink:href="/static/templates/images/sprite.svg#arrow-rounded-right-6x9"></use>
-                            </svg>
-                        </li>
-                        <li class="breadcrumb-item active" aria-current="page">Compare</li>
-                    </ol>
+                   
                 </nav>
             </div>
             <div class="page-header__title">
-                <h1>Compare</h1>
+                <h3>Comparison</h3>
             </div>
         </div>
     </div>
-    <div id="message" name="message" class="mt-3">
-
-    </div>
+  
     <div class="block">
         <div class="container">
             <div class="table-responsive">
@@ -405,10 +395,10 @@
                             <th>Price</th>
                             {% for product in products %} 
                             <td>{% if product.discount %} 
-                                {{product.get_discounted_price}}
+                                Frw {{product.get_discounted_price}}
                               {% else %} 
-                               {{product.price}}
-                              {% endif %}   FRW</td>
+                              Frw  {{product.price}}
+                              {% endif %}   </td>
                             {% endfor %} 
                             {% for product in variants %}
                             <td>{% if product.discount %} 
@@ -419,7 +409,7 @@
                             {% endfor %}
                         </tr>
                         <tr>
-                            <th>Add To Cart</th>
+                            <th></th>
                             {% for product in products %}
                             <td>
                              <a onclick="addToCart('{{ product.id }}')" class="add-to-cart">

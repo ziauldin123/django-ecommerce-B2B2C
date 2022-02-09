@@ -291,18 +291,18 @@
                                 {% endif %}    
                             </div>
                         </td>
-                        <td class="wishlist__column wishlist__column--price">$
+                        <td class="wishlist__column wishlist__column--price"> 
                             {% if product.variant %} 
                     {% if product.variant.discount %} 
-                      {{product.variant.get_discounted_price}}
+                      Frw {{product.variant.get_discounted_price}}
                     {% else %} 
                      {{product.variant.price}}
                     {% endif %}
                     {% else %} 
                     {% if product.product.discount %} 
-                      {{product.product.get_discounted_price}}
+                    Frw {{product.product.get_discounted_price}}
                     {% else %} 
-                     {{product.product.price}}
+                     Frw {{product.product.price}}
                     {% endif %}
                     {% endif %}
                         </td>
