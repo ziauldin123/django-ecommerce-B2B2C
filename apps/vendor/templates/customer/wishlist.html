@@ -24,7 +24,7 @@
         <div class="page-header__container container">
             <div class="page-header__breadcrumb">
                 <nav aria-label="breadcrumb">
-                    
+                
                 </nav>
             </div>
             <div class="page-header__title">
@@ -32,7 +32,7 @@
             </div>
         </div>
     </div>
-   
+  
     <div class="block">
         <div class="container">
             <table class="wishlist">
@@ -291,18 +291,18 @@
                                 {% endif %}    
                             </div>
                         </td>
-                        <td class="wishlist__column wishlist__column--price"> 
+                        <td class="wishlist__column wishlist__column--price">$
                             {% if product.variant %} 
                     {% if product.variant.discount %} 
-                      Frw {{product.variant.get_discounted_price}}
+                      {{product.variant.get_discounted_price}}
                     {% else %} 
                      {{product.variant.price}}
                     {% endif %}
                     {% else %} 
                     {% if product.product.discount %} 
-                    Frw {{product.product.get_discounted_price}}
+                      {{product.product.get_discounted_price}}
                     {% else %} 
-                     Frw {{product.product.price}}
+                     {{product.product.price}}
                     {% endif %}
                     {% endif %}
                         </td>
