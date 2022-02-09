@@ -1,3 +1,23 @@
+from django.contrib.auth.views import (
+    LogoutView as BaseLogoutView, PasswordChangeView as BasePasswordChangeView,
+    PasswordResetDoneView as BasePasswordResetDoneView, PasswordResetConfirmView as BasePasswordResetConfirmView,
+)
+from django.core.mail import send_mail
+from django.core.exceptions import ObjectDoesNotExist
+from django.template.loader import render_to_string
+from .tokens import account_activation_token
+from .services.account_service import account_service
+from django.utils.http import urlsafe_base64_encode
+from django.utils.encoding import force_bytes
+from django.utils.http import urlsafe_base64_decode
+from django.db import IntegrityError
+from django.utils.encoding import force_text
+from .forms import ProductForm, TransporterSignUpForm, ProductImageForm, VariantForm, VendorSignUpForm, CustomerSignUpForm, RestorePasswordForm, RequestRestorePasswordForm, OpeningHoursForm, ProductWithVariantForm
+from apps.ordering.models import Order, OrderItem
+from apps.newProduct.models import Color, Height, Images, Length, Product, Size, Variants, Weight, Width, UnitTypes
+from .models import Profile, Transporter, UserWishList, Vendor, Customer, OpeningHours, VendorDelivery
+from apps.vendor.models import VendorDelivery
+from apps.ordering.models import OrderItem, ShopCart, ShopCartForm
 import code
 import re
 from django.http.response import HttpResponse
@@ -18,33 +38,7 @@ from django.contrib.auth.models import User, Permission
 from django import template
 from apps.cart.cart import Cart
 register = template.Library()
-from apps.cart.cart import Cart
-from apps.ordering.models import OrderItem, ShopCart, ShopCartForm
-from apps.vendor.models import VendorDelivery
-from .models import Profile, Transporter, UserWishList, Vendor, Customer, OpeningHours, VendorDelivery
 # from apps.product.models import Product, ProductImage
-from apps.newProduct.models import Color, Height, Images, Length, Product, Size, Variants, Weight, Width, UnitTypes
-from apps.ordering.models import Order, OrderItem
-from .forms import ProductForm, TransporterSignUpForm, ProductImageForm, VariantForm, VendorSignUpForm, CustomerSignUpForm, RestorePasswordForm, RequestRestorePasswordForm, OpeningHoursForm, ProductWithVariantForm
-from django.utils.encoding import force_text
-
-from django.db import IntegrityError
-from django.utils.http import urlsafe_base64_decode
-from django.utils.encoding import force_bytes
-from django.utils.http import urlsafe_base64_encode
-
-from .services.account_service import account_service
-from .tokens import account_activation_token
-from django.template.loader import render_to_string
-
-from django.core.exceptions import ObjectDoesNotExist
-
-from django.core.mail import send_mail
-
-from django.contrib.auth.views import (
-    LogoutView as BaseLogoutView, PasswordChangeView as BasePasswordChangeView,
-    PasswordResetDoneView as BasePasswordResetDoneView, PasswordResetConfirmView as BasePasswordResetConfirmView,
-)
 
 
 def login_request(request):
@@ -136,10 +130,13 @@ def login_request(request):
 
             try:
                 vendor = Vendor.objects.get(email=username).company_name
+                logo = Vendor.objects.get(email=username).logo.url
                 request.session['username'] = vendor
+                request.session['logo'] = logo
+
             except Exception as e:
                 pass
-            
+
             messages.info(request, f"You are now logged in as { username }.")
             return redirect("vendor_admin")
 
@@ -227,36 +224,38 @@ def become_vendor(request):
         form = VendorSignUpForm(request.POST)
         if form.is_valid():
             if User.objects.filter(username=form.cleaned_data.get('email')).exists():
-                user=User.objects.get(username=form.cleaned_data.get('email'))
+                user = User.objects.get(
+                    username=form.cleaned_data.get('email'))
             else:
                 user = form.save(commit=False)
                 user.username = form.cleaned_data.get('email')
                 user.is_active = False
                 user.save()
             if not Profile.objects.filter(email=form.cleaned_data.get('email')).exists():
-                profile=Profile(user=user,email=form.cleaned_data.get('email'))
+                profile = Profile(
+                    user=user, email=form.cleaned_data.get('email'))
                 profile.save()
 
             district_id = form.cleaned_data['district']
             sector_id = form.cleaned_data['sector']
             cell_id = form.cleaned_data['cell']
             village_id = form.cleaned_data['village']
-            company_registration=request.FILES.get('reg_image')
-            privacy_checked= request.POST.get('is_privacy')
+            company_registration = request.FILES.get('reg_image')
+            privacy_checked = request.POST.get('is_privacy')
             print("privACY", privacy_checked)
 
             vendor = Vendor(email=form.cleaned_data.get('email'),
-                company_name=form.cleaned_data.get('company_name'),
-                company_code=form.cleaned_data.get('company_code'),
-                village_id=village_id,
-                district_id=district_id,
-                sector_id=sector_id,
-                cell_id=cell_id,
-                address=form.cleaned_data.get('address'),
-                phone=form.cleaned_data.get('phone'),
-                company_registration=company_registration,
-                privacy_checked=privacy_checked,
-                user=user)
+                            company_name=form.cleaned_data.get('company_name'),
+                            company_code=form.cleaned_data.get('company_code'),
+                            village_id=village_id,
+                            district_id=district_id,
+                            sector_id=sector_id,
+                            cell_id=cell_id,
+                            address=form.cleaned_data.get('address'),
+                            phone=form.cleaned_data.get('phone'),
+                            company_registration=company_registration,
+                            privacy_checked=privacy_checked,
+                            user=user)
             vendor.save()
 
             current_site = get_current_site(request)
@@ -320,7 +319,7 @@ def vendor_admin(request):
         hour.weekday = day
         hour.to_hour = to_
         hour.save()
-        return redirect('vendor_admin')
+        return redirect('working_hours')
     else:
         products = Product.objects.filter(vendor=vendor)
         variants = []
@@ -419,6 +418,70 @@ def vendor_admin(request):
         )
 
 
+@login_required
+def working_hours(request):
+    vendor = request.user.vendor
+
+    if request.method == 'POST':
+        day = request.POST.get("day")
+        from_ = request.POST.get("from")
+        to_ = request.POST.get("to")
+        hour = OpeningHours()
+        hour.vendor = vendor
+        hour.from_hour = from_
+        hour.weekday = day
+        hour.to_hour = to_
+        hour.save()
+        return redirect('working_hours')
+    else:
+        opening_hours = vendor.Opening.all()
+        form = OpeningHoursForm
+        if len(opening_hours) <= 0:
+            opening_hours = 0
+
+    return render(request,
+                  'vendor/working_hours.html', {
+                      'form': form,
+                      'opening_hours': opening_hours,
+                  })
+
+
+@login_required
+def delivery_cost(request):
+    vendor = request.user.vendor
+
+    if request.method == 'POST':
+        delivery_price = request.POST.get('delivery_price')
+        vendor_delivery = VendorDelivery.objects.filter(vendor=vendor).first()
+        print('dp:', delivery_price)
+        print(delivery_price is None)
+        if delivery_price:
+            if vendor_delivery:
+                vendor_delivery.price = delivery_price
+                vendor_delivery.save()
+            else:
+                VendorDelivery.objects.create(
+                    vendor=vendor, price=delivery_price
+                )
+            return redirect('delivery_cost')
+        elif delivery_price is '':
+            VendorDelivery.objects.filter(vendor=vendor).delete()
+            return redirect('delivery_cost')
+
+    vendor_delivery = VendorDelivery.objects.filter(vendor=vendor).first()
+    delivery_price = vendor_delivery.price if vendor_delivery else ''
+    print(vendor_delivery)
+    print(delivery_price)
+    return render(
+        request,
+        'vendor/delivery_cost.html',
+        {
+            'vendor': vendor,
+            'vendor_delivery_price': delivery_price,
+        }
+    )
+
+
 @ login_required
 def remove_opening(request, pk):
     vendor = request.user.vendor
@@ -426,26 +489,28 @@ def remove_opening(request, pk):
     opening.delete()
     return redirect('vendor_admin')
 
+
 @login_required
 def vendor_products(request):
     vendor = request.user.vendor
-    products=products = Product.objects.filter(vendor=vendor)
+    products = products = Product.objects.filter(vendor=vendor)
     variants = []
     for pr in products:
         if pr.variant != 'None':
             variants = Variants.objects.filter(product=pr.id)
     product_limit = not vendor.products_limit <= ((products.__len__(
-        ) + vendor.variants_vendor.all().__len__()) - Product.objects.filter(vendor=vendor, is_variant=True).__len__())        
+    ) + vendor.variants_vendor.all().__len__()) - Product.objects.filter(vendor=vendor, is_variant=True).__len__())
 
-    return render(request,'vendor/products.html',
-    {'product_limit': product_limit,
-    'products':products,
-    'variants':variants})        
+    return render(request, 'vendor/products.html',
+                  {'product_limit': product_limit,
+                   'products': products,
+                   'variants': variants})
+
 
 @login_required
 def order_history(request):
     vendor = request.user.vendor
-    orders=vendor.orders.all()
+    orders = vendor.orders.all()
 
     for order in orders:
         order.vendor_amount = 0
@@ -465,12 +530,12 @@ def order_history(request):
         for item in order.items.all():
             if item.vendor == request.user.vendor:
                 if item.vendor_paid:
-                    order.vendor_paid_amount +=item.get_total_price()
+                    order.vendor_paid_amount += item.get_total_price()
                 else:
-                    order.vendor_amount +=item.get_total_price()  
-                    order.fully_paid = False 
+                    order.vendor_amount += item.get_total_price()
+                    order.fully_paid = False
     vendor_delivery = VendorDelivery.objects.filter(vendor=vendor).first()
-    delivery_price = vendor_delivery.price if vendor_delivery else ''                             
+    delivery_price = vendor_delivery.price if vendor_delivery else ''
 
     user = request.user
     v = Vendor.objects.get(email=user)
@@ -478,7 +543,7 @@ def order_history(request):
     vendor_item_price = 0
     vendor_items_total_price = 0
     total_quantity = 0
-    delivery_cost = 0 
+    delivery_cost = 0
 
     for i in orders:
         orderItems = i.items.all()
@@ -489,28 +554,30 @@ def order_history(request):
                 total_quantity = items.quantity
                 if not items.product.is_free_delivery:
                     if i.delivery_type == "Vendor_Delivery":
-                        delivery_cost = VendorDelivery.objects.get(vendor=vendor).price
+                        delivery_cost = VendorDelivery.objects.get(
+                            vendor=vendor).price
                         is_delivery = True
                         if delivery_cost == None:
                             delivery_cost = False
                     else:
                         delivery_cost = 0
                         is_delivery = False
-        total_cost = float(vendor_items_total_price-(order.coupon_discount*vendor_items_total_price/100))
+        total_cost = float(vendor_items_total_price -
+                           (order.coupon_discount*vendor_items_total_price/100))
         total_cost += float(delivery_cost)
 
     vendor_items_total_price = round(Decimal(vendor_items_total_price), 2)
-    total_cost = round(Decimal(vendor_items_total_price), 2) 
+    total_cost = round(Decimal(vendor_items_total_price), 2)
 
     return render(
         request,
-        'vendor/orders-history.html',{
-           'vendor': vendor,
-            'vendor_delivery_price': delivery_price, 
+        'vendor/orders-history.html', {
+            'vendor': vendor,
+            'vendor_delivery_price': delivery_price,
             'orders': orders,
         }
-    )                   
-                                    
+    )
+
 
 @ login_required
 def add_product(request):
@@ -606,7 +673,7 @@ def add_variant(request):
         if variant_form.is_valid():
             variant = variant_form.save(commit=False)
             variant.vendor = request.user.vendor
-            variant.is_vat=True
+            variant.is_vat = True
             if len(Product.objects.filter(vendor=vendor)) < vendor.products_limit:
                 variant.save()
                 request, messages.SUCCESS, "The product variant {} is successfully added ".format(
@@ -632,7 +699,7 @@ def add_variant(request):
 
     return render(request, 'vendor/add_variant.html', {'form': variant_form, 'product': product,
                                                        'color': color, 'size': size,
-                                                       'weight': weight, 'length': length,'height':height,
+                                                       'weight': weight, 'length': length, 'height': height,
                                                        'width': width, 'images': images,
                                                        'unitType': unitTpye})
 
@@ -757,14 +824,87 @@ def edit_vendor(request):
 
 def vendors(request):
     vendors = Vendor.objects.filter(enabled=True)
+    if not request.user.is_anonymous:
+        cart = Cart(request)
+        current_user = request.user
+        wishlist = UserWishList.objects.filter(user=current_user)
+        # cart.clear()
+        shopcart = ShopCart.objects.filter(user_id=current_user.id)
+        total = cart.get_cart_cost()
+        tax = cart.get_cart_tax()
+        grandTotal = cart.get_cart_cost() + cart.get_cart_tax()
+        if not request.session.get('comparing'):
+            comparing = 0
+        else:
+            comparing = request.session['comparing'].__len__()
 
-    return render(request, 'vendor/vendors.html', {'vendors': vendors})
+        if not request.session.get('comparing_variants'):
+            compare_var = 0
+        else:
+            compare_var = request.session['comparing_variants'].__len__()
+
+        total_compare = comparing + compare_var
+    else:
+        cart = 0
+        subtotal = 0
+        tax = 0
+        total = 0
+        grandTotal = 0
+        shopcart = None
+        wishlist = 0
+        total_compare = 0
+
+    return render(request, 'vendor/vendors.html', {'vendors': vendors,
+                                                   'shopcart': shopcart,
+                                                   'subtotal': total,
+                                                   'tax': tax,
+                                                   'total': grandTotal,
+                                                   'wishlist': wishlist,
+                                                   'total_compare': total_compare
+                                                   })
 
 
 def vendor(request, slug):
     vendor = Vendor.objects.get(slug=slug)
+    if not request.user.is_anonymous:
+        cart = Cart(request)
+        current_user = request.user
+        wishlist = UserWishList.objects.filter(user=current_user)
+        # cart.clear()
+        shopcart = ShopCart.objects.filter(user_id=current_user.id)
+        total = cart.get_cart_cost()
+        tax = cart.get_cart_tax()
+        grandTotal = cart.get_cart_cost() + cart.get_cart_tax()
+        if not request.session.get('comparing'):
+            comparing = 0
+        else:
+            comparing = request.session['comparing'].__len__()
 
-    return render(request, 'vendor/vendor.html', {'vendor': vendor})
+        if not request.session.get('comparing_variants'):
+            compare_var = 0
+        else:
+            compare_var = request.session['comparing_variants'].__len__()
+
+        total_compare = comparing + compare_var
+    else:
+        cart = 0
+        subtotal = 0
+        tax = 0
+        total = 0
+        grandTotal = 0
+        shopcart = None
+        wishlist = 0
+        total_compare = 0
+
+    return render(request, 'vendor/vendor.html',
+                  {'vendor': vendor,
+                   'shopcart': shopcart,
+                   'subtotal': total,
+                   'tax': tax,
+                   'total': grandTotal,
+                   'wishlist': wishlist,
+                   'total_compare': total_compare
+                   })
 
 
 def become_customer(request):
@@ -776,31 +916,31 @@ def become_customer(request):
 
         if form.is_valid():
             if User.objects.filter(username=form.cleaned_data.get('email')).exists():
-                user=User.objects.get(username=form.cleaned_data.get('email'))
+                user = User.objects.get(
+                    username=form.cleaned_data.get('email'))
             else:
                 user = form.save(commit=False)
                 user.username = form.cleaned_data.get('email')
                 user.is_active = False
                 user.save()
             if not Profile.objects.filter(email=form.cleaned_data.get('email')).exists():
-                profile=Profile(user=user,email=form.cleaned_data.get('email'))
+                profile = Profile(
+                    user=user, email=form.cleaned_data.get('email'))
                 profile.save()
 
-            privacy_checked= request.POST.get('is_privacy')
+            privacy_checked = request.POST.get('is_privacy')
             print("privACY", privacy_checked)
 
-            customer=Customer(
-                    customername = form.cleaned_data.get('customername'),
-                    email = form.cleaned_data.get('email'),
-                    address = form.cleaned_data.get('address'),
-                    phone = form.cleaned_data.get('phone'),
-                    company_code = form.cleaned_data.get('company_code'),
-                    privacy_checked=privacy_checked,
-                    user=user
-                )
+            customer = Customer(
+                customername=form.cleaned_data.get('customername'),
+                email=form.cleaned_data.get('email'),
+                address=form.cleaned_data.get('address'),
+                phone=form.cleaned_data.get('phone'),
+                company_code=form.cleaned_data.get('company_code'),
+                privacy_checked=privacy_checked,
+                user=user
+            )
             customer.save()
-
-
 
             current_site = get_current_site(request)
             subject = 'Please Activate Your Account'
@@ -831,40 +971,99 @@ class MyAccount(TemplateView):
     template_name = 'customer/myaccount.html'
 
     def get(self, request, *args, **kwargs):
+        if not request.user.is_anonymous:
+            cart = Cart(request)
+            current_user = request.user
+            wishlist = UserWishList.objects.filter(user=current_user)
+            if not request.session.get('comparing'):
+                comparing = 0
+            else:
+                comparing = request.session['comparing'].__len__()
+
+            if not request.session.get('comparing_variants'):
+                compare_var = 0
+            else:
+                compare_var = request.session['comparing_variants'].__len__()
+
+            total_compare = comparing + compare_var
+
         orders = account_service.calculate_order_sum(request.user.email)
-        cart=Cart(request)
-        tax=cart.get_cart_tax()
+        cart = Cart(request)
+        tax = cart.get_cart_tax()
         context = self.get_context_data()
         context['orders'] = orders
+        context['wishlist'] = wishlist
+        context['total_compare'] = total_compare
         context['user_id'] = request.user.id
         return self.render_to_response(context)
-        # return render(
-        #     request,
-        #     'customer/myaccount.html',
-        #     {'orders': orders}
-        # )
+
 
 class OrderHistory(TemplateView):
-    template_name='customer/order_history.html'
+    template_name = 'customer/order_history.html'
 
-    def get(self,request,*args,**kwargs):
-        orders =account_service.calculate_order_sum(request.user.email)
-        cart=Cart(request)
+    def get(self, request, *args, **kwargs):
+        if not request.user.is_anonymous:
+            cart = Cart(request)
+            current_user = request.user
+            wishlist = UserWishList.objects.filter(user=current_user)
+            if not request.session.get('comparing'):
+                comparing = 0
+            else:
+                comparing = request.session['comparing'].__len__()
+
+            if not request.session.get('comparing_variants'):
+                compare_var = 0
+            else:
+                compare_var = request.session['comparing_variants'].__len__()
+
+            total_compare = comparing + compare_var
+
+        orders = account_service.calculate_order_sum(request.user.email)
+        cart = Cart(request)
         context = self.get_context_data()
         context['orders'] = orders
+        context['wishlist'] = wishlist
+        context['total_compare'] = total_compare
         context['user_id'] = request.user.id
         return self.render_to_response(context)
 
-def order_detail(request,id):
-    order=Order.objects.get(pk=id)
-    return render(request,'customer/order_details.html',{'order':order})
 
-def vendor_order_detail(request,id):
-    order=Order.objects.get(pk=id)
+def order_detail(request, id):
+    order = Order.objects.get(pk=id)
+    if not request.user.is_anonymous:
+        cart = Cart(request)
+        current_user = request.user
+        wishlist = UserWishList.objects.filter(user=current_user)
+        if not request.session.get('comparing'):
+            comparing = 0
+        else:
+            comparing = request.session['comparing'].__len__()
+
+        if not request.session.get('comparing_variants'):
+            compare_var = 0
+        else:
+            compare_var = request.session['comparing_variants'].__len__()
+
+        total_compare = comparing + compare_var
+
+    else:
+        wishlist = 0
+        total_compare = 0
+
+    return render(request, 'customer/order_details.html', {
+        'order': order,
+        'wishlist': wishlist,
+        'total_compare': total_compare
+    })
+
+
+def vendor_order_detail(request, id):
+    order = Order.objects.get(pk=id)
     print(order.getCustomer())
     for i in order.getCustomer():
         print(i.address)
-    return render(request,'vendor/vendor_order_details.html',{'order':order})
+    return render(request, 'vendor/vendor_order_details.html', {'order': order})
+
 
 class WishListView(TemplateView):
     # template_name = 'customer/wishlist.html'
@@ -872,8 +1071,46 @@ class WishListView(TemplateView):
     def get(self, request, *args, **kwargs):
         context = self.get_context_data(**kwargs)
         wishlist = UserWishList.objects.filter(user=kwargs['pk'])
-        
-        return render(request,'customer/wishlist.html',{'wishlist':wishlist})
+        if not request.user.is_anonymous:
+            cart = Cart(request)
+            current_user = request.user
+            # cart.clear()
+            shopcart = ShopCart.objects.filter(user_id=current_user.id)
+            total = cart.get_cart_cost()
+            tax = cart.get_cart_tax()
+            grandTotal = cart.get_cart_cost() + cart.get_cart_tax()
+            if not request.session.get('comparing'):
+                comparing = 0
+            else:
+                comparing = request.session['comparing'].__len__()
+
+            if not request.session.get('comparing_variants'):
+                compare_var = 0
+            else:
+                compare_var = request.session['comparing_variants'].__len__()
+
+            total_compare = comparing + compare_var
+        else:
+            cart = 0
+            subtotal = 0
+            tax = 0
+            total = 0
+            grandTotal = 0
+            shopcart = None
+            wishlist = 0
+            total_compare = 0
+
+        return render(request, 'customer/wishlist.html',
+                      {
+                          'wishlist': wishlist,
+                          'shopcart': shopcart,
+                          'subtotal': total,
+                          'tax': tax,
+                          'total': grandTotal,
+                          'wishlist': wishlist,
+                          'total_compare': total_compare
+                      })
+
 
 def request_restore_password(request):
     if request.method == 'POST':
@@ -904,10 +1141,49 @@ def request_restore_password(request):
             return redirect('activation_sent')
         else:
             print("Invalid")
+
     else:
         form = RequestRestorePasswordForm()
 
-    return render(request, 'vendor/request_restore_password.html', {'form': form})
+        if not request.user.is_anonymous:
+            cart = Cart(request)
+            current_user = request.user
+            wishlist = UserWishList.objects.filter(user=current_user)
+            # cart.clear()
+            shopcart = ShopCart.objects.filter(user_id=current_user.id)
+            total = cart.get_cart_cost()
+            tax = cart.get_cart_tax()
+            grandTotal = cart.get_cart_cost() + cart.get_cart_tax()
+            if not request.session.get('comparing'):
+                comparing = 0
+            else:
+                comparing = request.session['comparing'].__len__()
+
+            if not request.session.get('comparing_variants'):
+                compare_var = 0
+            else:
+                compare_var = request.session['comparing_variants'].__len__()
+
+            total_compare = comparing + compare_var
+        else:
+            cart = 0
+            subtotal = 0
+            tax = 0
+            total = 0
+            grandTotal = 0
+            shopcart = None
+            wishlist = 0
+            total_compare = 0
+
+    return render(request, 'vendor/request_restore_password.html', {
+        'form': form,
+        'shopcart': shopcart,
+        'subtotal': total,
+        'tax': tax,
+        'total': grandTotal,
+        'wishlist': wishlist,
+        'total_compare': total_compare
+    })
 
 
 def restore_password(request):
@@ -943,19 +1219,17 @@ def become_transporter(request):
             user.username = form.cleaned_data.get('email')
             user.save()
 
-            profile=Profile(user=user,email=form.cleaned_data.get('email'))
+            profile = Profile(user=user, email=form.cleaned_data.get('email'))
             profile.save()
 
-            transporter=Transporter(transporter_name=form.cleaned_data.get('transporter_name'),
-                    email=form.cleaned_data.get('email'),
-                    phone=form.cleaned_data.get('phone'),
-                    number_plate=form.cleaned_data.get('number_plate'),
-                    user=user
-                )
+            transporter = Transporter(transporter_name=form.cleaned_data.get('transporter_name'),
+                                      email=form.cleaned_data.get('email'),
+                                      phone=form.cleaned_data.get('phone'),
+                                      number_plate=form.cleaned_data.get(
+                                          'number_plate'),
+                                      user=user
+                                      )
             transporter.save()
-
-
-
 
             current_site = get_current_site(request)
             subject = 'Please Activate Your Account'
@@ -977,7 +1251,7 @@ def become_transporter(request):
 
     return render(request, 'become_transporter.html', {'form': form})
 
+
 @register.simple_tag()
 def multiply(qty, unit_price, *args, **kwargs):
     return qty * unit_price
-
