@@ -3,7 +3,6 @@
 {% block description %} {{ setting.description }} {% endblock %}
 {% block keywords %} {{ setting.keywords }} {% endblock %}
 {% block content %}
-    <!-- BREADCRUMB -->
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script>
         function applyCoupon() {
@@ -32,7 +31,7 @@
             var product_id=$(this).closest('.product_data').find('.prod_id').val();
             var product_qty=$(this).closest('.product_data').find('.input').val();
             var max = parseInt($(this).closest('.product_data').find('.input').attr('max'));
-            if (product_qty <= max && product_qty >=0) {
+            if (product_qty <= max && product_qty >= 0) {
                 $.ajax({
                     method:"POST",
                     cache: false,
@@ -48,7 +47,6 @@
                 });
             }
         });
-
 
     </script>
     <div class="site__body">
@@ -123,13 +121,22 @@
                                             {{ rs.product.price }}
                                         {% else %}
                                             {{ rs.variant.price }}
-                                        {% endif %} FRW
+                                        {% endif %}  FRW  / 
+                                        {% if rs.product.variant == 'None' %}
+                                        {% if rs.product.unit_type %}
+                                          {{ rs.product.unit_type.unit }}
+                                         {% endif %}
+                                     {% else %}
+                                        {% if rs.variant.unit_type %}
+                                         {{ rs.variant.unit_type.unit }}
+                                         {% endif %}
+                                     {% endif %}
                             </td>
                             <td class="cart-table__column cart-table__column--quantity" data-title="Quantity">
                                 <div class="product_data input-number">
                                     <input type="hidden" class="prod_id" value="{{rs.id}}">
 
-                                    <input class="changeQty input form-control input-number__input" id="quantity" name="quantity"  type="number" 
+                                    <input class="changeQty input form-control input-number__input" id="quantity" name="quantity"  type="number"
                                     min="1" {% if rs.product.is_variant %} max="{{ rs.variant.quantity }}"
                                     {% else %} max="{{ rs.product.quantity }}" {% endif %} value="{{rs.quantity}}">
 
@@ -151,7 +158,7 @@
                                             {% else %}
                                                 {{ rs.varamount }}
                                             {% endif %}
-                                        {% endif %} 
+                                        {% endif %} FRW 
                                         {% if rs.product.is_vat == True %}vat incl.{% endif %}
                             </td>
                             <td class="cart-table__column cart-table__column--remove">
@@ -212,5 +219,4 @@
             </div>
         </div>
     </div>
-
 {% endblock %}
