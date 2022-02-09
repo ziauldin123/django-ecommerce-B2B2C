@@ -44,7 +44,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     re_path(r'^ckeditor/', include('ckeditor_uploader.urls')),
     path('users/', include('apps.vendor.urls')),
-    path('home/',include('apps.home.urls')),
+     path('home/',include('apps.home.urls')),
     path('cart/', include('apps.cart.urls')),
     path('blog/', include('apps.blog.urls')),
     path('transporter/',include('apps.transporter.urls')),

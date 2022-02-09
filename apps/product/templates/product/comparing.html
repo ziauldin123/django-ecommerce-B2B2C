@@ -15,23 +15,52 @@
             }
         })
     })
+
     function addToCart(pr_id) {
-        console.log($("#coupon_code").val());
+        event.preventDefault(); //so that we stop normal form submit.
         $.ajax({
             type: "GET",
             url: "/order/addtoshopcart/" + pr_id,
             success: function (data) {
                 console.log(data);
                 $("#my_cart").load(location.href + " #my_cart");
-                $("#message").append(
+                $("#msg").append(
                     '<div class="alert alert-success hideit alertSuc">added in cart successfully.</div >')
                 setTimeout(function () {
-                    $("#message").load(location.href + " #message");
+                    $("#msg").load(location.href + " #msg");
                 }, 1000);
+
             }
         });
-    } 
-</script>
+    }
+
+        function addToVariantCart(pr_id) {
+        event.preventDefault(); //so that we stop normal form submit.
+        var_id = $("#variant_id").val();
+        pq = $("#quantity").val();
+        console.log(var_id,pq)
+        $.ajax({
+            type: "POST",
+            url: "/order/addtoshopcart/" + pr_id,
+            data:{
+                'variantid':var_id,
+                'quantity':pq
+            },
+            success: function (data) {
+                console.log(data);
+                $("#my_cart").load(location.href + " #my_cart");
+                $("#msg").append(
+                    '<div class="alert alert-success hideit alertSuc">added in cart successfully.</div >')
+                setTimeout(function () {
+                    $("#msg").load(location.href + " #msg");
+                }, 1000);
+
+            }
+        });
+    }
+
+</script>    
+{% block content %}
 <div class="site__body">
     <div class="page-header">
         <div class="page-header__container container">
@@ -45,9 +74,6 @@
             </div>
         </div>
     </div>
-    <div id="message" name="message" class="mt-3">
-
-    </div>
     <div class="block">
         <div class="container">
             <div class="table-responsive">
@@ -57,25 +83,25 @@
                             <th>Product</th>
                             {% for product in products %} 
                             <td>
-                                <a class="compare-table__product-link" href="{% url 'product' product.id product.slugV product.category.sub_category.category.slug product.category.sub_category.slug product.category.slug product.slug %}">
+                                <a class="compare-table__product-link" href="product.html">
                                     <div class="compare-table__product-image product-image">
                                         <div class="product-image__body">
-                                            <img class="product-image__img" src="{{product.image.url}}" alt="">
+                                            <img class="product-image__img" src="/static/templates/images/products/product-1.jpg" alt="">
                                         </div>
                                     </div>
-                                    <div class="compare-table__product-name">{{product.title}}</div>
+                                    <div class="compare-table__product-name">Electric Planer Brandix KL370090G 300 Watts</div>
                                 </a>
                             </td>
                             {% endfor %} 
                             {% for product in variants %} 
                             <td>
-                                <a class="compare-table__product-link" >
+                                <a class="compare-table__product-link" href="product.html">
                                     <div class="compare-table__product-image product-image">
                                         <div class="product-image__body">
-                                            <img class="product-image__img" src="{{product.image_variant.url}}" alt="">
+                                            <img class="product-image__img" src="/static/templates/images/products/product-1.jpg" alt="">
                                         </div>
                                     </div>
-                                    <div class="compare-table__product-name">{{product.title}}</div>
+                                    <div class="compare-table__product-name">Electric Planer Brandix KL370090G 300 Watts</div>
                                 </a>
                             </td>
                             {% endfor %}
@@ -373,193 +399,73 @@
                         <tr>
                             <th>Availability</th>
                             {% for product in products %} 
-                                <td><span class="compare-table__product-badge badge badge-success">
-                                    {% if product.quantiy > 0 %} 
-                                    In Stock 
-                                    {% else %} 
-                                    Out Stock
-                                    {% endif %}
-                                </span></td>
+                                <td><span class="compare-table__product-badge badge badge-success">In Stock</span></td>
                             {% endfor %}
                             {% for product in variants %}
-                               <td><span class="compare-table__product-badge badge badge-success">
-                                   {% if product.quantity > 0 %} 
-                                   In Stock
-                                   {% else %} 
-                                   Out Stock
-                                   {% endif %}
-                               </span></td>
+                               <td><span class="compare-table__product-badge badge badge-success">In Stock</span></td>
                             {% endfor %}
                         </tr>
                         <tr>
                             <th>Price</th>
                             {% for product in products %} 
-                            <td>{% if product.discount %} 
-                                {{product.get_discounted_price}}
-                              {% else %} 
-                               {{product.price}}
-                              {% endif %}   FRW</td>
+                            <td>$749.00</td>
                             {% endfor %} 
                             {% for product in variants %}
-                            <td>{% if product.discount %} 
-                                {{product.get_discounted_price}}
-                              {% else %} 
-                               {{product.price}}
-                              {% endif %}    FRW</td>
+                            <td>$749.00</td>
                             {% endfor %}
                         </tr>
                         <tr>
                             <th>Add To Cart</th>
-                            {% for product in products %}
-                            <td>
-                             <a onclick="addToCart('{{ product.id }}')" class="add-to-cart">
-                                <button type="button" class="product-card__addtocart btn btn-primary" {% if product.quantity < 1  %} disabled {% endif %}>Add To Cart</button>
-                             </a>
-                            </td>
+                            {% for product in products %} 
+                            <td><button class="btn btn-primary">Add To Cart</button></td>
                             {% endfor %} 
-                            {% for product in variants %}
-                            <td><button class="btn btn-primary"><a href="{% url 'product' product.product.id product.product.slugV product.product.category.sub_category.category.slug product.product.category.sub_category.slug product.product.category.slug product.product.slug %}" style="color: white;">View Options</a></button></td>
+                            {% for product in variants %} 
+                            <td><button class="btn btn-primary">Add To Cart</button></td>
+                            {% endfor %}
+                        </tr>
+                        <tr>
+                            <th>SKU</th>
+                            {% for product in products %} 
+                            <td>83690/32</td>
+                            {% endfor %} 
+                            {% for product in variants %} 
+                            <td>83690/32</td>
                             {% endfor %}
                         </tr>
                         <tr>
                             <th>Weight</th>
                             {% for product in products %} 
-                            <td>
-                                {% if product.weight %} 
-                                {{product.weight}}
-                                {% else %} 
-                                 - 
-                                 {% endif %}
-                            Kg</td>
+                            <td>15 Kg</td>
                             {% endfor %}
                             {% for product in variants %} 
-                            <td>
-                                {% if product.weight %} 
-                                {{product.weight}}
-                                {% else %} 
-                                 - 
-                                 {% endif %} Kg</td>
+                            <td>15 Kg</td>
                             {% endfor %}
                         </tr>
                         <tr>
                             <th>Color</th>
                             {% for product in products %} 
-                            <td>
-                                {% if product.color %} 
-                                {{product.color}}
-                                {% else %} 
-                                 - 
-                                 {% endif %}
-                            </td>
+                            <td>Red</td>
                             {% endfor %} 
                             {% for product in variants %} 
-                            <td>
-                                {% if product.color %} 
-                                {{product.color}}
-                                {% else %} 
-                                 - 
-                                 {% endif %}
-                            </td>
+                            <td>Red</td>
                             {% endfor %}
                         </tr>
                         <tr>
-                            <th>Width</th>
+                            <th>Material</th>
                             {% for product in products %} 
-                            <td>
-                                {% if product.width %} 
-                                {{product.width}}
-                                {% else %} 
-                                 - 
-                                 {% endif %}
-                            </td>
+                            <td>Wood</td>
                             {% endfor %} 
                             {% for product in variants %} 
-                            <td>
-                                {% if product.width %} 
-                                {{product.width}}
-                                {% else %} 
-                                 - 
-                                 {% endif %}
-                            </td>
-                            {% endfor %}
-                        </tr>
-                        <tr>
-                            <th>Length</th>
-                            {% for product in products %} 
-                            <td>
-                                {% if product.length %} 
-                                {{product.length}}
-                                {% else %} 
-                                 - 
-                                 {% endif %}
-                            </td>
-                            {% endfor %} 
-                            {% for product in variants %} 
-                            <td>
-                                {% if product.length %} 
-                                {{product.length}}
-                                {% else %} 
-                                 - 
-                                 {% endif %}
-                            </td>
-                            {% endfor %}
-                        </tr>
-                        <tr>
-                            <th>Height</th>
-                            {% for product in products %} 
-                            <td>
-                                {% if product.height %} 
-                                {{product.}}
-                                {% else %} 
-                                 - 
-                                 {% endif %}
-                            </td>
-                            {% endfor %} 
-                            {% for product in variants %} 
-                            <td>
-                                {% if product.height %} 
-                                {{product.height}}
-                                {% else %} 
-                                 - 
-                                 {% endif %}
-                            </td>
-                            {% endfor %}
-                        </tr>
-                        <tr>
-                            <th>Size</th>
-                            {% for product in products %} 
-                            <td>
-                                {% if product.size %} 
-                                {{product.size}}
-                                {% else %} 
-                                 - 
-                                 {% endif %}
-                            </td>
-                            {% endfor %} 
-                            {% for product in variants %} 
-                            <td>
-                                {% if product.size %} 
-                                {{product.size}}
-                                {% else %} 
-                                 - 
-                                 {% endif %}
-                            </td>
+                            <td>Wood</td>
                             {% endfor %}
                         </tr>
                         <tr>
                             <th></th>
                             {% for product in products %} 
-                            <td>
-                                <a href="/compare/delete/{{ product.id }}" onclick="return confirm('Delete ! Are you sure?')">
-                                    <button class="btn btn-secondary btn-sm">Remove</button>
-                                </a>
-                            </td>
+                            <td><button class="btn btn-secondary btn-sm">Remove</button></td>
                             {% endfor %} 
                             {% for product in variants %} 
-                            <td><a href="/compare/deletevariant/{{ product.id }}" onclick="return confirm('Delete ! Are you sure?')">
-                                <button class="btn btn-secondary btn-sm">Remove</button>
-                            </a>
-                        </td>
+                            <td><button class="btn btn-secondary btn-sm">Remove</button></td>
                             {% endfor %}
                         </tr>
                     </tbody>

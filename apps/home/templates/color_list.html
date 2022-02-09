@@ -1,14 +1,13 @@
 <input type="hidden" name="size" id="size" value="{{ size_id }}">
-    <div class="form-group product__option">
-        <label class="product__option-label">Color</label>
-        <div class="input-radio-color">
-            <div class="input-radio-color__list">
-                {% for rs in colors %} 
-                <label class="input-radio-color__item input-radio-color__item--white" style="color: {{rs.color.code}};" data-toggle="tooltip" title="{{rs.color}}">
-                    <input type="radio" {% if variant.id == rs.id %} checked {% endif %} name="variantid" id="variantid" value="{{ rs.id }}" onchange="this.form.submit();">
-                    <span></span>
-                </label>
-                {% endfor %}
-            </div>
-        </div>
-    </div>
+<ul class="color-option" >
+    <li><span class="text-uppercase">Color:</span></li>
+    {% for rs in colors %}
+        <input type="radio" name="variantid" id="variantid" value="{{ rs.id }}" onchange="this.form.submit();">
+        <li >
+            <a href="#" style="background-color:{{ rs.color.code }}; color: #D9D9D9; text-shadow: 1px 1px #000000; width: 70px" >
+                {{ rs.color }} ${{ rs.price }}
+            </a>
+            <img src="{{ rs.image }}" style="height: 70px">
+        </li>
+    {% endfor %}
+</ul>

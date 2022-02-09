@@ -3,6 +3,7 @@
 {% block description %} {{ setting.description }} {% endblock %}
 {% block keywords %} {{ setting.keywords }} {% endblock %}
 {% block content %}
+{% include 'messages.html' %}
     <!-- BREADCRUMB -->
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script>
@@ -43,6 +44,7 @@
 
                     },
                     success:function(response){
+                        // setTimeout('location.reload()')
                         $("#cart_table").load(location.href + " #cart_table");
                     }
                 });
@@ -58,9 +60,9 @@
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item">
-                                <a href="/">Home</a>
+                                <a href="index.html">Home</a>
                                 <svg class="breadcrumb-arrow" width="6px" height="9px">
-                                    <use xlink:href="/static/templates/images/sprite.svg#arrow-rounded-right-6x9"></use>
+                                    <use xlink:href="images/sprite.svg#arrow-rounded-right-6x9"></use>
                                 </svg>
                             </li>
                             <li class="breadcrumb-item active" aria-current="page">Shopping Cart</li>
@@ -73,7 +75,7 @@
             </div>
         </div>
         <div class="cart block" id="cart_table">
-            <div class="container">
+            <div class="container" id="cart_table">
                 <table class="cart__table cart-table">
                     <thead class="cart-table__head">
                         <tr class="cart-table__row">
@@ -180,21 +182,30 @@
                                 <table class="cart__totals">
                                     <thead class="cart__totals-header">
                                         <tr>
-                                            <th>Tax</th>
+                                            <th>Subtotal</th>
+                                            <td>${{ total }}</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="cart__totals-body">
+                                        <tr>
+                                            <th>Shipping</th>
                                             <td>
-                                                {{ tax }} FRW
+                                                $25.00
+                                                <div class="cart__calc-shipping"><a href="#">Calculate Shipping</a></div>
                                             </td>
                                         </tr>
                                         <tr>
-                                            <th>Subtotal</th>
-                                            <td>{{ total }} FRW</td>
+                                            <th>Tax</th>
+                                            <td>
+                                                ${{ tax }}
+                                            </td>
                                         </tr>
-                                    </thead>
+                                    </tbody>
                                     <tfoot class="cart__totals-footer">
                                         <tr>
                                             <th>Total</th>
-                                            <td>
-                                                <span id="total_cost_with_coupon" name="total_cost_with_coupon">{{total}}FRW</span>
+                                            <td>$
+                                                <span id="total_cost_with_coupon" name="total_cost_with_coupon">{{total}}</span>
                                             </td>
                                         </tr>
                                     </tfoot>

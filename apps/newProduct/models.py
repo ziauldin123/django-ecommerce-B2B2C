@@ -1,4 +1,3 @@
-from itertools import product
 import os
 # from ckeditor_uploader.fields import RichTextUploadingField
 from django.db.models.deletion import CASCADE, SET_NULL
@@ -257,7 +256,6 @@ class Product(models.Model):
             cnt = int(reviews["count"])
         return cnt
 
-
     def get_thumbnail(self):
         try:
             product_image = self.image
@@ -307,7 +305,7 @@ class Comment(models.Model):
         ('True', 'True'),
         ('False', 'False'),
     )
-    product = models.ForeignKey(Product, related_name='product', on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     subject = models.CharField(max_length=50, blank=True)
     comment = models.CharField(max_length=250, blank=True)

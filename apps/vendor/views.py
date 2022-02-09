@@ -136,10 +136,7 @@ def login_request(request):
 
             try:
                 vendor = Vendor.objects.get(email=username).company_name
-                logo = Vendor.objects.get(email=username).logo.url
                 request.session['username'] = vendor
-                request.session['logo'] = logo
-                
             except Exception as e:
                 pass
             
@@ -313,7 +310,7 @@ def vendor_admin(request):
         elif delivery_price is '':
             VendorDelivery.objects.filter(vendor=vendor).delete()
             return redirect('vendor_admin')
- 
+
         day = request.POST.get("day")
         from_ = request.POST.get("from")
         to_ = request.POST.get("to")
@@ -323,7 +320,7 @@ def vendor_admin(request):
         hour.weekday = day
         hour.to_hour = to_
         hour.save()
-        return redirect('working_hours')
+        return redirect('vendor_admin')
     else:
         products = Product.objects.filter(vendor=vendor)
         variants = []
@@ -421,67 +418,6 @@ def vendor_admin(request):
             }
         )
 
-@login_required
-def working_hours(request):
-    vendor = request.user.vendor
-
-    if request.method == 'POST':
-        day = request.POST.get("day")
-        from_ = request.POST.get("from")
-        to_ = request.POST.get("to")
-        hour = OpeningHours()
-        hour.vendor = vendor
-        hour.from_hour = from_
-        hour.weekday = day
-        hour.to_hour = to_
-        hour.save()
-        return redirect('working_hours')
-    else:
-        opening_hours = vendor.Opening.all()
-        form = OpeningHoursForm
-        if len(opening_hours) <= 0:
-            opening_hours = 0
-
-    return render(request,
-    'vendor/working_hours.html',{
-        'form': form,
-        'opening_hours': opening_hours,
-    }) 
-
-@login_required
-def delivery_cost(request):
-    vendor = request.user.vendor
-
-    if request.method == 'POST':
-        delivery_price = request.POST.get('delivery_price')
-        vendor_delivery = VendorDelivery.objects.filter(vendor=vendor).first()
-        print('dp:', delivery_price)
-        print(delivery_price is None)
-        if delivery_price:
-            if vendor_delivery:
-                vendor_delivery.price = delivery_price
-                vendor_delivery.save()
-            else:
-                VendorDelivery.objects.create(
-                    vendor=vendor, price=delivery_price
-                )    
-            return redirect('delivery_cost')
-        elif delivery_price is '':
-            VendorDelivery.objects.filter(vendor=vendor).delete()
-            return redirect('delivery_cost')
-            
-    vendor_delivery = VendorDelivery.objects.filter(vendor=vendor).first()
-    delivery_price = vendor_delivery.price if vendor_delivery else ''
-    print(vendor_delivery)
-    print(delivery_price) 
-    return render(
-        request,
-        'vendor/delivery_cost.html',
-        {
-            'vendor': vendor,
-            'vendor_delivery_price': delivery_price,
-        }
-    )        
 
 @ login_required
 def remove_opening(request, pk):
@@ -736,6 +672,7 @@ def edit_product(request, pk):
 
         return render(request, 'vendor/edit_product.html', {'form': form, 'variant': variant})
 
+
 @ login_required
 def delete_product(request, pk):
     # vendor = request.user.vendor
@@ -820,87 +757,14 @@ def edit_vendor(request):
 
 def vendors(request):
     vendors = Vendor.objects.filter(enabled=True)
-    if not request.user.is_anonymous:
-        cart = Cart(request)
-        current_user = request.user
-        wishlist=UserWishList.objects.filter(user=current_user)
-        # cart.clear()
-        shopcart = ShopCart.objects.filter(user_id=current_user.id)
-        total=cart.get_cart_cost()
-        tax=cart.get_cart_tax()
-        grandTotal=cart.get_cart_cost() + cart.get_cart_tax()
-        if  not request.session.get('comparing'):
-            comparing = 0
-        else:
-            comparing = request.session['comparing'].__len__()
 
-        if not request.session.get('comparing_variants'):
-            compare_var = 0
-        else:
-            compare_var = request.session['comparing_variants'].__len__()
-
-        total_compare = comparing + compare_var
-    else:
-        cart = 0
-        subtotal = 0
-        tax = 0
-        total = 0
-        grandTotal = 0
-        shopcart = None 
-        wishlist = 0
-        total_compare = 0    
-
-    return render(request, 'vendor/vendors.html', {'vendors': vendors,
-            'shopcart':shopcart,
-            'subtotal':total,
-            'tax':tax,
-            'total':grandTotal,
-            'wishlist':wishlist,
-            'total_compare':total_compare
-            })
+    return render(request, 'vendor/vendors.html', {'vendors': vendors})
 
 
 def vendor(request, slug):
     vendor = Vendor.objects.get(slug=slug)
-    if not request.user.is_anonymous:
-        cart = Cart(request)
-        current_user = request.user
-        wishlist=UserWishList.objects.filter(user=current_user)
-        # cart.clear()
-        shopcart = ShopCart.objects.filter(user_id=current_user.id)
-        total=cart.get_cart_cost()
-        tax=cart.get_cart_tax()
-        grandTotal=cart.get_cart_cost() + cart.get_cart_tax()
-        if  not request.session.get('comparing'):
-            comparing = 0
-        else:
-            comparing = request.session['comparing'].__len__()
 
-        if not request.session.get('comparing_variants'):
-            compare_var = 0
-        else:
-            compare_var = request.session['comparing_variants'].__len__()
-
-        total_compare = comparing + compare_var
-    else:
-        cart = 0
-        subtotal = 0
-        tax = 0
-        total = 0
-        grandTotal = 0
-        shopcart = None   
-        wishlist = 0
-        total_compare = 0   
-
-    return render(request, 'vendor/vendor.html', 
-    {'vendor': vendor,
-    'shopcart':shopcart,
-    'subtotal':total,
-    'tax':tax,
-    'total':grandTotal,
-    'wishlist':wishlist,
-    'total_compare':total_compare
-    })
+    return render(request, 'vendor/vendor.html', {'vendor': vendor})
 
 
 def become_customer(request):
@@ -967,89 +831,33 @@ class MyAccount(TemplateView):
     template_name = 'customer/myaccount.html'
 
     def get(self, request, *args, **kwargs):
-        if not request.user.is_anonymous:
-            cart = Cart(request)
-            current_user = request.user
-            wishlist=UserWishList.objects.filter(user=current_user)
-            if  not request.session.get('comparing'):
-                comparing = 0
-            else:
-                comparing = request.session['comparing'].__len__()
-
-            if not request.session.get('comparing_variants'):
-                compare_var = 0
-            else:
-                compare_var = request.session['comparing_variants'].__len__()
-
-            total_compare = comparing + compare_var
-              
-
         orders = account_service.calculate_order_sum(request.user.email)
         cart=Cart(request)
         tax=cart.get_cart_tax()
         context = self.get_context_data()
         context['orders'] = orders
-        context['wishlist'] = wishlist
-        context['total_compare'] = total_compare
         context['user_id'] = request.user.id
         return self.render_to_response(context)
+        # return render(
+        #     request,
+        #     'customer/myaccount.html',
+        #     {'orders': orders}
+        # )
 
 class OrderHistory(TemplateView):
     template_name='customer/order_history.html'
 
     def get(self,request,*args,**kwargs):
-        if not request.user.is_anonymous:
-            cart = Cart(request)
-            current_user = request.user
-            wishlist=UserWishList.objects.filter(user=current_user)
-            if  not request.session.get('comparing'):
-                comparing = 0
-            else:
-                comparing = request.session['comparing'].__len__()
-
-            if not request.session.get('comparing_variants'):
-                compare_var = 0
-            else:
-                compare_var = request.session['comparing_variants'].__len__()
-
-            total_compare = comparing + compare_var
-
         orders =account_service.calculate_order_sum(request.user.email)
         cart=Cart(request)
         context = self.get_context_data()
         context['orders'] = orders
-        context['wishlist'] = wishlist
-        context['total_compare'] = total_compare
         context['user_id'] = request.user.id
         return self.render_to_response(context)
 
 def order_detail(request,id):
     order=Order.objects.get(pk=id)
-    if not request.user.is_anonymous:
-        cart = Cart(request)
-        current_user = request.user
-        wishlist=UserWishList.objects.filter(user=current_user)
-        if  not request.session.get('comparing'):
-            comparing = 0
-        else:
-            comparing = request.session['comparing'].__len__()
-
-        if not request.session.get('comparing_variants'):
-            compare_var = 0
-        else:
-            compare_var = request.session['comparing_variants'].__len__()
-
-        total_compare = comparing + compare_var
-
-    else:
-        wishlist = 0
-        total_compare = 0    
-
-    return render(request,'customer/order_details.html',{
-        'order':order,
-        'wishlist':wishlist,
-        'total_compare':total_compare
-        })
+    return render(request,'customer/order_details.html',{'order':order})
 
 def vendor_order_detail(request,id):
     order=Order.objects.get(pk=id)
@@ -1064,45 +872,8 @@ class WishListView(TemplateView):
     def get(self, request, *args, **kwargs):
         context = self.get_context_data(**kwargs)
         wishlist = UserWishList.objects.filter(user=kwargs['pk'])
-        if not request.user.is_anonymous:
-            cart = Cart(request)
-            current_user = request.user
-            # cart.clear()
-            shopcart = ShopCart.objects.filter(user_id=current_user.id)
-            total=cart.get_cart_cost()
-            tax=cart.get_cart_tax()
-            grandTotal=cart.get_cart_cost() + cart.get_cart_tax()
-            if  not request.session.get('comparing'):
-               comparing = 0
-            else:
-                comparing = request.session['comparing'].__len__()
-
-            if not request.session.get('comparing_variants'):
-                compare_var = 0
-            else:
-                compare_var = request.session['comparing_variants'].__len__()
-
-            total_compare = comparing + compare_var
-        else:
-            cart = 0
-            subtotal = 0
-            tax = 0
-            total = 0
-            grandTotal = 0
-            shopcart = None 
-            wishlist = 0
-            total_compare = 0   
         
-        return render(request,'customer/wishlist.html',
-        {
-            'wishlist':wishlist,
-            'shopcart':shopcart,
-            'subtotal':total,
-            'tax':tax,
-            'total':grandTotal,
-            'wishlist':wishlist,
-            'total_compare':total_compare
-            })
+        return render(request,'customer/wishlist.html',{'wishlist':wishlist})
 
 def request_restore_password(request):
     if request.method == 'POST':
@@ -1133,49 +904,10 @@ def request_restore_password(request):
             return redirect('activation_sent')
         else:
             print("Invalid")
-    
     else:
         form = RequestRestorePasswordForm()
 
-        if not request.user.is_anonymous:
-            cart = Cart(request)
-            current_user = request.user
-            wishlist=UserWishList.objects.filter(user=current_user)
-            # cart.clear()
-            shopcart = ShopCart.objects.filter(user_id=current_user.id)
-            total=cart.get_cart_cost()
-            tax=cart.get_cart_tax()
-            grandTotal=cart.get_cart_cost() + cart.get_cart_tax()
-            if  not request.session.get('comparing'):
-                comparing = 0
-            else:
-                comparing = request.session['comparing'].__len__()
-
-            if not request.session.get('comparing_variants'):
-                compare_var = 0
-            else:
-                compare_var = request.session['comparing_variants'].__len__()
-
-            total_compare = comparing + compare_var
-        else:
-            cart = 0
-            subtotal = 0
-            tax = 0
-            total = 0
-            grandTotal = 0
-            shopcart = None
-            wishlist = 0
-            total_compare = 0    
-
-    return render(request, 'vendor/request_restore_password.html', {
-        'form': form,
-        'shopcart':shopcart,
-        'subtotal':total,
-        'tax':tax,
-        'total':grandTotal,
-        'wishlist':wishlist,
-        'total_compare':total_compare
-        })
+    return render(request, 'vendor/request_restore_password.html', {'form': form})
 
 
 def restore_password(request):

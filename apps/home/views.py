@@ -1,9 +1,7 @@
-import imp
 from django.shortcuts import get_object_or_404, redirect, render
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse, request
 from django.shortcuts import render
 from django.urls import reverse
-from django.db.models import Max
 # Create your views here.
 from django.template.loader import render_to_string
 from datetime import datetime
@@ -35,33 +33,11 @@ def index(request):
 
 
 def product_detail(request, id, slug, vendor_slug, category_slug, subcategory_slug, subsubcategory_slug):
-    if not request.user.is_anonymous:
-        cart = Cart(request)
-        current_user = request.user
-        wishlist=UserWishList.objects.filter(user=current_user)
-        # cart.clear()
-        shopcart = ShopCart.objects.filter(user_id=current_user.id)
-        total=cart.get_cart_cost()
-        tax=cart.get_cart_tax()
-        grandTotal=cart.get_cart_cost() + cart.get_cart_tax()
-        if  not request.session.get('comparing'):
-            comparing = 0
-        else:
-            comparing = request.session['comparing'].__len__()
-
-        if not request.session.get('comparing_variants'):
-            compare_var = 0
-        else:
-            compare_var = request.session['comparing_variants'].__len__()
-
-        total_compare = comparing + compare_var
-
     query = request.GET.get('q')
     mainProduct = []
     query = request.GET.get('q')
     product = Product.objects.get(pk=id)
-    max = product.product.all().aggregate(Max('rate'))
-
+    
     if not request.user.is_anonymous:
         cart = Cart(request)
         current_user = request.user
@@ -69,16 +45,6 @@ def product_detail(request, id, slug, vendor_slug, category_slug, subcategory_sl
         total=cart.get_cart_cost()
         tax=cart.get_cart_tax()
         grandTotal=cart.get_cart_cost() + cart.get_cart_tax()
-        
-    else:
-        cart = 0
-        subtotal = 0
-        tax = 0
-        total = 0
-        grandTotal = 0
-        shopcart = None 
-        wishlist = 0
-        total_compare = 0   
 
     if product.status == False:
         messages.add_message(request, messages.ERROR,
@@ -105,19 +71,8 @@ def product_detail(request, id, slug, vendor_slug, category_slug, subcategory_sl
     product.save()
     context = {'product': product, 'category': category,
                'subcategory': subcategory, 'subsubCategory': subsubCategory,
-               'images': images, 'vendor_slug': slugV, 'similar_products': similar_products, 
-               'comments': comments, 
-               'mainProduct': mainProduct,
-               'customer': customer,
-               'is_comparing': product.id in request.session.get('comparing', []),  
-               'shopcart':shopcart,
-               'subtotal':total,
-               'tax':tax,
-               'total':grandTotal,
-               'wishlist':wishlist,
-               'total_compare':total_compare,
-               'max':max
-               }
+               'images': images, 'vendor_slug': slugV, 'similar_products': similar_products, 'comments': comments, 'mainProduct': mainProduct, 'customer': customer,
+               'is_comparing': product.id in request.session.get('comparing', [])}
     if product.variant != "None":  # pr has variantsu
         if request.method == 'POST':  # if we select color
             variant_id = request.POST.get('variantid')
@@ -157,8 +112,7 @@ def product_detail(request, id, slug, vendor_slug, category_slug, subcategory_sl
                 'SELECT * FROM newProduct_variants WHERE product_id=%s AND status=True AND visible=True GROUP BY height_id', [id])
             variant = Variants.objects.get(
                 id=variants[0].id, status=True, visible=True)
-        
-           
+
         context.update({'sizes': sizes, 'colors': colors, 'colors1': colors1, 'weight': weight, 'width': width, 'length': length, 'height': height, 'variant': variant, 'query': query,
                         'is_comparing': variant.id in request.session.get('comparing', []),
                         'shopcart':shopcart,'subtotal':total,'tax':tax,'total':grandTotal})
