@@ -41,8 +41,8 @@
     <div class="checkout block">
         <div class="container">
             <div class="row"> 
-                <div class="col-12 col-lg-9 mt-4 mt-lg-0">
-                    <div class="card mb-0">
+                <div class="col-12 col-lg-8 mt-4 mt-lg-0">
+                    <div class="card mb-3">
                         <div class="card-body">
                             <h3 class="card-title">Your Order</h3>
                             <table class="checkout__totals">
@@ -122,7 +122,7 @@
                                 </tbody>
                                 <tfoot class="checkout__totals-footer">
                                     <tr>
-                                        <th>Total (vat inclusive)</th>
+                                        <th>TOTAL</th>
                                         <td><span id="total_cost">Frw {{ cart.get_total_cost }}</span></td>
                                     </tr>
                                 </tfoot>
@@ -131,35 +131,50 @@
                     </div>
                 </div>
                 
-                 
-                <div class="form-group">
-                    <form method="post" action="" id="payment-form">
-                        {% csrf_token %}
-                        {% if cart.get_delivery_type == 'store' %}
-                        <div>
-                            pay now <input type="checkbox" name="pay_now" checked onclick="showMe()">
+
+                <div class="col-12 col-lg-4 mt-4 mt-lg-0">
+                    <div class="card mb-0">
+                        <div class="card-body">
+                            <form method="post" action="" id="payment-form">
+                                {% csrf_token %}
+                                {% if cart.get_delivery_type == 'store' %}
+                                <div>
+                                    pay now <input type="checkbox" name="pay_now" checked onclick="showMe()">
+                                </div>
+                                {% endif %}
+                                <!--        <div id="card-element">-->
+                                <!--            {{ form.as_p }}-->
+                                            <!-- A Stripe Element will be inserted here -->
+                                <!--        </div>-->
+                                <div id="pay-form">
+                                    <style>
+                                        input[type=text],[type=number],[type=file],[type=email],[type=textarea], select {
+                                        width: 100%;
+                                        padding: 8px 20px;
+                                        cursor: pointer;
+                                        margin: 4px 0;
+                                        border: 1px solid #ccc;
+                                        border-radius: 4px;
+                                        box-sizing: border-box;
+                                    }
+                                    </style>
+                                {{ form.as_p }}
+                                </div>
+                        
+                                {% if messages %}
+                                    {% for message in messages %}
+                                        <div class="notification is-danger">{{ message }}</div>
+                                    {% endfor %}
+                                {% endif %}
+                        
+                                <div class="field">
+                                    <div class="control">
+                                        <button class="button btn btn-primary mt-4" onclick="this.disabled=true; this.form.submit();">Confirm Order</button>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
-                        {% endif %}
-                    <!--        <div id="card-element">-->
-                    <!--            {{ form.as_p }}-->
-                                <!-- A Stripe Element will be inserted here -->
-                    <!--        </div>-->
-                        <div id="pay-form">
-                        {{ form.as_p }}
-                        </div>
-                
-                        {% if messages %}
-                            {% for message in messages %}
-                                <div class="notification is-danger">{{ message }}</div>
-                            {% endfor %}
-                        {% endif %}
-                
-                        <div class="field">
-                            <div class="control">
-                                <button class="button btn btn-primary mt-4" onclick="this.disabled=true; this.form.submit();">Confirm Order</button>
-                            </div>
-                        </div>
-                    </form>
+                    </div>
                 </div>
             </div>
         </div>
