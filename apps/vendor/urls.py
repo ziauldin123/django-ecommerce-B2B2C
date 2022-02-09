@@ -8,6 +8,7 @@ urlpatterns = [
      path("select2/", include("django_select2.urls")),
      path('customer/<int:pk>/wishlist/',
           views.WishListView.as_view(), name='wishlist'),
+     path('delivery_cost/', views.delivery_cost, name='delivery_cost'),
      path('vendor_admin/', views.vendor_admin, name='vendor_admin'),
 
      path('create-length/',forms.CreateLength.as_view(),name='add_length',),
@@ -17,7 +18,6 @@ urlpatterns = [
      path('create-weight/',forms.CreateWeight.as_view(),name='add_weight',),
      path('create-height/',forms.CreateHeight.as_view(),name='add_height',),
      path('create-size/',forms.CreateSize.as_view(),name='add_size',),
-
 
      path('become-vendor/', views.become_vendor, name='become_vendor'),
      path('products/',views.vendor_products, name='products'),
@@ -54,5 +54,6 @@ urlpatterns = [
 
      path('vendors/', views.vendors, name='vendors'),
      path('vendor/<slug:slug>/', views.vendor, name='vendor'),
+     path('working_hours/', views.working_hours, name='working_hours')
      
 ]

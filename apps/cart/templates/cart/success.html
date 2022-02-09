@@ -3,5 +3,25 @@
 {% block title %}Order Confirmed{% endblock %}
 
 {% block content %}
-    <h1 class="title has-text-centered">Thank for your order. You will receive a confirmation e-mail shortly.</h1>
+    <div class="site__body">
+        <div class="block order-success">
+            <div class="container">
+               <div class="order-success__body">
+                <div class="order-success__header">
+                    <svg class="order-success__icon" width="100" height="100">
+                        <use xlink:href="/static/templates/images/sprite.svg#check-100"></use>
+                    </svg>
+                    <h1 class="order-success__title">Thank you</h1>
+                    <div class="order-success__subtitle">Your order has been received</div>
+                    <div class="order-success__actions">
+                        <a href="/" class="btn btn-xs btn-secondary">Go To Homepage</a>
+                    </div>
+                    <div class="order-success__actions">
+                        <a href="{% url 'myaccount' %}" class="btn btn-xs btn-secondary">Go To My Account</a>
+                    </div>
+                </div>
+               </div> 
+            </div>
+        </div>
+    </div>
 {% endblock %}
