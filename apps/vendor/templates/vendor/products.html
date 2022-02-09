@@ -48,7 +48,7 @@
             <a href="{% url 'add_product_without_variant' %}" class="button btn btn-primary mt-4">Add product with Variant</a>
             <a href="{% url 'add_variant' %}" class="button btn btn-primary mt-4">Add product Variants</a>
         {% else %}
-            <h4 style="color:red">You have reached your products' limit. Kindly contact your account manager to increase your limit.</h4>
+            <div class="address-card__row-title">You cannot add more products. Kindly contact your account manager to increase your limit.</div>
         {% endif %}
                     </div>
                     <div class="card-divider"></div>
