@@ -31,7 +31,7 @@ def frontpage(request):
     newest_products = Product.objects.filter(
         status=True, visible=True).order_by('-id')[:4]
     featured_products = Product.objects.filter(
-        status=True, visible=True, is_featured=True)[0:4]
+        status=True, visible=True, is_featured=True)[0:8]
     featured_categories = Category.objects.filter(is_featured=True)
     featured_categories_products = []
     for category in featured_categories:

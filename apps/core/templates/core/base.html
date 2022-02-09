@@ -939,7 +939,7 @@
                   class="search search--location--mobile-header mobile-header__search"
                 >
                   <div class="search__body">
-                    <form class="search__form" action="">
+                    <form class="search__form"method="get" action="{% url 'search' %}">
                       <input
                         class="search__input"
                         name="search"
@@ -1051,8 +1051,8 @@
                 <div class="search__body">
                   <form class="search__form" method="get" action="{% url 'search' %}">
                     <input
-                      class="search__input"
-                      name="search"
+                      class="input search__input"
+                      name="query"
                       placeholder=""
                       aria-label="Site search"
                       type="text"
@@ -1060,7 +1060,7 @@
                       value="{{ query }}"  required name="query"
                     />
                     <button
-                      class="search__button search__button--type--submit"
+                       class="button search__button search__button--type--submit"
                       type="submit"
                     >
                       <svg width="20px" height="20px">
@@ -1228,45 +1228,40 @@
                     </ul>
                   </div>
                   <!-- .nav-links / end -->
-                  <div class="nav-panel__indicators">
-                    <div class="indicator">
-                      {% if request.user.is_authenticated %} 
-                      <a href="/users/customer/{{ request.user.id }}/wishlist/" class="indicator__button">
+                   <div class="nav-panel__indicators">
+                    <div class="indicator" id="my_wishlist">
+                      <a {% if request.user.is_authenticated %} href="/users/customer/{{ request.user.id }}/wishlist/" {% else %} href="/" {% endif %} class="indicator__button">
                         <span class="indicator__area">
                           <svg class="svg" width="15px" height="15px">
                             <use xlink:href="/static/templates/images/sprite.svg#heart-20"></use>
                           </svg>
-                          <span class="indicator__value">{% if wishlist %} {{ wishlist|length }} {% else %} 0 {% endif %}</span>
+                          <span class="qty indicator__value">{% if wishlist %} {{ wishlist|length }} {% else %} 0 {% endif %}</span>
                         </span>
-                      </a>
-                      {% else %} 
-                      <a href="" class="indicator__button">
-                        <span class="indicator__area">
-                          <svg class="svg"  width="15px" height="15px">
-                            <use xlink:href="/static/templates/images/sprite.svg#heart-20"></use>
-                          </svg>
-                          <span class="indicator__value">{% if wishlist %} ({{ wishlist|length }}) {% else %} 0 {% endif %}</span>
-                        </span>
-                      </a>
-                      {% endif %}   
+                      </a> 
                     </div>
-                    <div class="indicator">
-                      <a href="{% url 'product-comparing'  %}" class="indicator__button">
+                    <div class="indicator" id="my_compare">
+                      <a href="{% url 'product-comparing' %}" class="indicator__button">
                         <span class="indicator__area">
                           <svg class="svg" width="15px" height="15px">
                             <use xlink:href="/static/templates/images/sprite.svg#compare-16"></use>
                           </svg>
-                          <span class="indicator__value">0</span>
+                          <span class="qty indicator__value">
+                            {% if total_compare %} 
+                            {{total_compare}}
+                            {% else %} 
+                            0
+                            {% endif %}
+                          </span>
                         </span>
                       </a>   
                     </div>
-                    <div class="indicator">
-                      <a href="{% url 'shopcart' %}" class="indicator__button" data-open="offcanvas-cart">
+                    <div class="indicator" id="my_cart">
+                      <a class="indicator__button" data-open="offcanvas-cart">
                           <span class="indicator__area">
                               <svg class="svg" width="15px" height="15px">
                                 <use xlink:href="/static/templates/images/sprite.svg#cart-20"></use>
                               </svg>
-                              <span class="indicator__value">
+                              <span class="qty indicator__value">
                                {% load myapptags %}
                                {% shopcartcount user.id as count %}
                                 {{count}}
@@ -1332,19 +1327,7 @@
                                       </div>
                                   {% endfor %}
                             {% endif %}
-  
-                            {% if messages %}
-                                <div class="messages">
-                                   {% for message in messages %}
-                                      <div class="alert alert-{{ message.tags }} alert-dismissible" role="alert">
-                                      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                     </button>
-                                          {{ message }}
-                                       </div>
-                                   {% endfor %}
-                               </div>
-                           {% endif %}
+
                            <br>
                                 <div class="form-group account-menu__form-button field">
                                     <button type="submit" class="button btn btn-primary btn-sm">Login</button>
@@ -1356,7 +1339,7 @@
                             <a {% if request.user.vendor %} href="{% url 'vendor_admin'  %}" {% else %} href="{% url 'myaccount'  %}" {% endif %} class="account-menu__user">
                               {% if request.user.vendor %}  
                               <div class="account-menu__user-avatar">
-                                     <img src="{{vendor.logo.url}}" alt="">
+                                     <img src="{{request.session.logo}}" alt="">
                                 </div>
                               {% endif %}
                                 <div class="account-menu__user-info">
@@ -1367,15 +1350,14 @@
                             <div class="account-menu__divider"></div>
                             <ul class="account-menu__links">
                                 {% if request.user.vendor %} 
-                                <li><a href="{% url 'vendor_admin'  %}">Edit Profile</a></li>
-                                <li><a href="{% url 'vendor_admin'  %}">Order History</a></li>
-                                <li><a href="{% url 'vendor_admin'  %}">Addresses</a></li>
-                                <li><a href="{% url 'request_restore_password' %}">Password</a></li>
+                                <li><a href="{% url 'vendor_admin'  %}">Dashboard</a></li>
+                                <li><a href="{% url 'vendor_orders' %}">Order History</a></li>
+                                <li><a href="{% url 'products' %}">Products</a></li>
+                                <li><a href="{% url 'working_hours' %}">Working Hours</a></li>
+                                <li><a href="{% url 'delivery_cost' %}">Delivery Cost</a></li>
                                 {% else %} 
-                                <li><a href="{% url 'myaccount'  %}">Edit Profile</a></li>
-                                <li><a href="{% url 'myaccount'  %}">Order History</a></li>
-                                <li><a href="{% url 'myaccount'  %}">Addresses</a></li>
-                                <li><a href="{% url 'request_restore_password' %}">Password</a></li>
+                               <li><a href="{% url 'myaccount' %}">My Account</a></li>
+                                <li><a href="{% url 'orderhistory'  %}">Order History</a></li>
                                 {% endif %}
                             </ul>
                             <div class="account-menu__divider"></div>
@@ -1392,7 +1374,15 @@
         </div>
       </header>
       <!-- desktop site__header / end -->
-      <div class="site__body">
+        <div class="site__body">
+          {% if messages %}
+                    {% for message in messages %}
+                        <div class="messages alert alert-{{message.tags}}" role="alert">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                            {{ message |safe }}
+                        </div>
+                    {% endfor %}
+            {% endif %}
         {% block content %}
          {% endblock %}
       </div>
