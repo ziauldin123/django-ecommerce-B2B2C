@@ -46,7 +46,7 @@ def frontpage(request):
     popular_products = Product.objects.filter(
         status=True, visible=True).order_by('-num_visits')[0:4]
     recently_viewed_products = Product.objects.filter(status=True, visible=True).order_by(
-        '-last_visit')[0:4]
+        '-last_visit')[0:5]
 
     if not request.user.is_anonymous:
         cart = Cart(request)
