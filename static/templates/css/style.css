@@ -7835,7 +7835,7 @@ html:not([dir=rtl]) .noUi-horizontal .noUi-origin {
   border: none;
   cursor: pointer;
   color: #fff;
-  background: #333;
+  background: #131921;
   fill: currentColor;
   -ms-flex-negative: 0;
       flex-shrink: 0;
@@ -7855,13 +7855,13 @@ html:not([dir=rtl]) .noUi-horizontal .noUi-origin {
 }
 @media (hover: hover) {
   .totop__button:hover {
-    color: #fff;
-    background: #4d4d4d;
+    color: #131921;
+    background: #fff;
   }
 }
 .totop__button:active {
   color: #fff;
-  background: #333;
+  background: #131921;
 }
 .totop__button svg {
   margin-top: -2px;
