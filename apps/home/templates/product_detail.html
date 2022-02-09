@@ -523,112 +523,103 @@
                                         </form>
                     {% endif %}
                     <div class="product__sidebar">
-                        <div class="product__availability">
-                            Availability: <span class="text-success">
-                                {% if product.is_variant %} 
-                                {% if variant.quantity > 0  %} In Stock {% else %} Out of Stock {% endif %}
-                                {% else %} 
-                                {% if product.quantity > 0  %} In Stock {% else %} Out of Stock {% endif %}
-                                {% endif %}
-                            </span>
-                        </div>
+                        
                         <div class="product__prices">
                                 {% if product.is_variant %} 
-                                {% if variant.discount > 0 %} 
-                                Frw {{ variant.price }}{% if variant.unit_type %}/{{variant.unit_type.unit}}{% endif %}
-                                {% else %} 
-                                Frw {{ variant.price }}{% if variant.unit_type %}/{{variant.unit_type.unit}}{% endif %}
-                                {% endif %}
-                                {% else %} 
-                                {% if variant.discount > 0 %} 
-                                Frw {{ product.price }}{% if product.unit_type %}/{{product.unit_type.unit}}
-                                {% endif %}
-                                {% else %} 
-                                Frw {{ product.get_discounted_price }}{% if product.unit_type %}/{{product.unit_type.unit}}
-                                <span class="product-card__old-price">Frw {{product.price}}</span>
-                                {% endif %}
-                                {% endif %}
-                                {% endif %}
+                                    {% if product.discount %} 
+                                        <span class="product-card__new-price">Frw {{product.get_variant.discounted_price}}/{{product.unit_type.unit}}</span>
+                                        <span class="product-card__old-price"> {{product.get_variant.price}}</span>
+                                    {% else %}
+                                        <span class="product-card__old-price"></span>Frw {{product.get_variant.price}}/{{product.unit_type.unit}}</span>
+                                    {% endif %}    
+                                {% else %}
+                                    {% if product.discount  %} 
+                                        <span class="product-card__new-price">Frw {{product.get_discounted_price}}/{{product.unit_type.unit}}</span>
+                                        <span class="product-card__old-price"> {{product.price}}</span>
+                                    {% else %}
+                                        <span class="product-card__old-price"></span>Frw {{product.price}}/{{product.unit_type.unit}}</span>
+                                    {% endif %}
+                                {% endif %}     
                             </span>
                         </div>
                         {% if product.is_variant %} 
-                    <div class="form-group product__option">
-                        <input type="hidden" name="variantid" id="variant_id" value="{{ variant.id }}">
-                        <label class="product__option-label" for="product-quantity">Quantity</label>
-                        <div class="product__actions">
-                            <div class="product__actions-item">
-                                <div class="input-number product__quantity">
-                                    <input id="quantity" class="input input-number__input form-control form-control-lg" name="quantity" type="number" min="1" max="{{variant.quantity}}" value="1">
-                                    <div class="input-number__add"></div>
-                                    <div class="input-number__sub"></div>
+                        <div class="form-group product__option">
+                            <input type="hidden" name="variantid" id="variant_id" value="{{ variant.id }}">
+                            <label class="product__option-label" for="product-quantity">Quantity</label>
+                            <div class="product__actions">
+                                <div class="product__actions-item">
+                                    <div class="input-number product__quantity">
+                                        <input id="quantity" class="input input-number__input form-control form-control-lg" name="quantity" type="number" min="1" max="{{variant.quantity}}" value="1">
+                                        <div class="input-number__add"></div>
+                                        <div class="input-number__sub"></div>
+                                    </div>
+                                </div>
+                                <div class="product__actions-item product__actions-item--addtocart">
+                                    {% if request.user.customer %} 
+                                        <button onclick="add_To_Cart('{{ product.id }}')"{% if variant.quantity < 1  %} disabled {% endif %} class="btn btn-primary btn-lg add-to-cart">Add to cart</button>
+                                    {% else %} 
+                                        <button class="btn btn-primary btn-lg disabled">Add to cart</button>
+                                    {% endif %}
+                                </div>
+                                <div class="product__actions-item product__actions-item--wishlist">
+                                    <button type="button" class="btn btn-secondary btn-svg-icon btn-lg" data-toggle="tooltip" title="Wishlist">
+                                        <svg width="16px" height="16px">
+                                            <use xlink:href="/static/templates/images/sprite.svg#wishlist-16"></use>
+                                        </svg>
+                                    </button>
+                                </div>
+                                <div class="product__actions-item product__actions-item--compare">
+                                    <button type="button" class="btn btn-secondary btn-svg-icon btn-lg" data-toggle="tooltip" title="Compare">
+                                        <svg width="16px" height="16px">
+                                            <use xlink:href="/static/templates/images/sprite.svg#compare-16"></use>
+                                        </svg>
+                                    </button>
                                 </div>
                             </div>
-                            <div class="product__actions-item product__actions-item--addtocart">
-                                {% if request.user.customer %} 
-                                    <button onclick="add_To_Cart('{{ product.id }}')"{% if variant.quantity < 1  %} disabled {% endif %} class="btn btn-primary btn-lg add-to-cart">Add to cart</button>
-                                {% else %} 
-                                     <button class="btn btn-primary btn-lg disabled">Add to cart</button>
-                                {% endif %}
-                            </div>
-                            <div class="product__actions-item product__actions-item--wishlist">
-                                <button type="button" class="btn btn-secondary btn-svg-icon btn-lg" data-toggle="tooltip" title="Wishlist">
-                                    <svg width="16px" height="16px">
-                                        <use xlink:href="/static/templates/images/sprite.svg#wishlist-16"></use>
-                                    </svg>
-                                </button>
-                            </div>
-                            <div class="product__actions-item product__actions-item--compare">
-                                <button type="button" class="btn btn-secondary btn-svg-icon btn-lg" data-toggle="tooltip" title="Compare">
-                                    <svg width="16px" height="16px">
-                                        <use xlink:href="/static/templates/images/sprite.svg#compare-16"></use>
-                                    </svg>
-                                </button>
+                            <div id="message" name="message" class="mt-3">
                             </div>
                         </div>
-                        <div id="message" name="message" class="mt-3">
-                        </div>
-                    </div>
                     {% else %} 
-                    <div class="form-group product__option">
-                        <label class="product__option-label" for="product-quantity">Quantity</label>
-                        <div class="product__actions">
-                            <div class="product__actions-item">
-                                <div class="input-number product__quantity">
-                                    <input class="input input-number__input form-control form-control-lg" name="quantity" id="quantity"  type="number"  min="1" max="{{product.quantity}}" value="1">
-                                    <div class="input-number__add"></div>
-                                    <div class="input-number__sub"></div>
+                        <div class="form-group product__option">
+                            <label class="product__option-label" for="product-quantity">Quantity</label>
+                            <div class="product__actions">
+                                <div class="product__actions-item">
+                                    <div class="input-number product__quantity">
+                                        <input class="input input-number__input form-control form-control-lg" name="quantity" id="quantity"  type="number"  min="1" max="{{product.quantity}}" value="1">
+                                        <div class="input-number__add"></div>
+                                        <div class="input-number__sub"></div>
+                                    </div>
+                                </div>
+                                <div class="product__actions-item product__actions-item--addtocart">
+                                    {% if request.user.customer %} 
+                                        <button onclick="add_To_Cart('{{ product.id }}')" {% if product.quantity < 1  %} disabled {% endif %} class="add-to-cart btn btn-primary btn-lg">Add to cart</button>
+                                    {% else %} 
+                                        <button class="btn btn-primary btn-lg disabled">Add to cart</button>
+                                    {% endif %}
+                                </div>
+                                <div class="product__actions-item product__actions-item--wishlist">
+                                    <button type="button" class="btn btn-secondary btn-svg-icon btn-lg" data-toggle="tooltip" title="Wishlist">
+                                        <svg width="16px" height="16px">
+                                            <use xlink:href="/static/templates/images/sprite.svg#wishlist-16"></use>
+                                        </svg>
+                                    </button>
+                                </div>
+                                <div class="product__actions-item product__actions-item--compare">
+                                    <button type="button" class="btn btn-secondary btn-svg-icon btn-lg" data-toggle="tooltip" title="Compare">
+                                        <svg width="16px" height="16px">
+                                            <use xlink:href="/static/templates/images/sprite.svg#compare-16"></use>
+                                        </svg>
+                                    </button>
                                 </div>
                             </div>
-                            <div class="product__actions-item product__actions-item--addtocart">
-                                {% if request.user.customer %} 
-                                     <button onclick="add_To_Cart('{{ product.id }}')" {% if product.quantity < 1  %} disabled {% endif %} class="add-to-cart btn btn-primary btn-lg">Add to cart</button>
-                                {% else %} 
-                                      <button class="btn btn-primary btn-lg disabled">Add to cart</button>
-                                {% endif %}
-                            </div>
-                            <div class="product__actions-item product__actions-item--wishlist">
-                                <button type="button" class="btn btn-secondary btn-svg-icon btn-lg" data-toggle="tooltip" title="Wishlist">
-                                    <svg width="16px" height="16px">
-                                        <use xlink:href="/static/templates/images/sprite.svg#wishlist-16"></use>
-                                    </svg>
-                                </button>
-                            </div>
-                            <div class="product__actions-item product__actions-item--compare">
-                                <button type="button" class="btn btn-secondary btn-svg-icon btn-lg" data-toggle="tooltip" title="Compare">
-                                    <svg width="16px" height="16px">
-                                        <use xlink:href="/static/templates/images/sprite.svg#compare-16"></use>
-                                    </svg>
-                                </button>
-                            </div>
                         </div>
-                    </div>
                     <div id="message" name="message" class="mt-3">
                     </div>
                     {% endif %}
                         <!-- .product__options -->
                         
                         <!-- .product__options / end -->
-                    </div>
+        </div>
                     <!-- .product__end -->
                     <div class="product__footer">
                         <div class="product__tags tags">
