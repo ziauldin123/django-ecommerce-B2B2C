@@ -93,25 +93,22 @@
 
                     </div>
                    <div class="block-products-carousel__slider">
-                        <div class="block-products-carousel__slider">
-                            <div class="block-products-carousel__preloader"></div>
-                                <div class="products-view__list products-list" data-layout="grid-3-sidebar" data-with-features="false" data-mobile-grid-columns="2">
-                                    <div class="products-list__body">
-                                        {% for product in featured_products %} 
-                                          {% if product.vendor.enabled and product.visible and not product.is_variant %}
-                                             {% include 'product/parts/list_item.html' %}
-                                          {% elif product.vendor.enabled and product.visible and product.is_variant %} 
-                                          {% if product.get_variant %} 
-                                          {% include 'product/parts/list_item.html' %}
-                                          {% endif %}   
-                                           {% endif %}
-                                        {% endfor %}
-                                    </div>
-                                </div>
+                        <div class="block-products-carousel__preloader"></div>
+                        <div class="owl-carousel">
+                            {% for product in popular_products %} 
+                            {% if product.vendor.enabled and product.visible and not product.is_variant %}
+                                 {% include 'product/parts/list_item-frontpage.html' %}
+                                {% elif product.vendor.enabled and product.visible and product.is_variant %} 
+                                  {% if product.get_variant %} 
+                                     {% include 'product/parts/list_item-frontpage.html' %}
+                                  {% endif %} 
+                               {% endif %}   
+                            {% endfor %}         
+                            </div>
                         </div>
                     </div>
-                    </div>
-                </div>  
+                </div>
+            </div>  
 <!-- .block-products-carousel / end -->
             <!-- .block-banner -->
             <div class="block block-banner">
