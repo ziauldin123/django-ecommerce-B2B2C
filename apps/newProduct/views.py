@@ -30,7 +30,7 @@ def addcomment(request, id):
             data.user_id = current_user.id
             data.save()  # save data to table
             messages.success(
-                request, "Your review has ben sent. Thank you for your interest.")
+                request, "Your review has been submitted.")
             return HttpResponseRedirect(url)
 
     return HttpResponseRedirect(url)
