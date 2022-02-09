@@ -290,14 +290,14 @@
                 {% if product.is_variant %} 
                     {% if product.get_variant.discount > 0  %} 
                         <span class="product-card__new-price">Frw {{ product.get_variant.get_discounted_price }}/{{product.unit_type.unit}}</span>
-                        <span class="product-card__old-price">Frw { product.get_variant.price }}</span>
+                        <span class="product-card__old-price">Frw {{ product.get_variant.price }}</span>
                     {% else %}
                         <span></span>Frw {{product.get_variant.price}}/{{product.unit_type.unit}}</span>
                     {% endif %}    
                     {% else %}
                     {% if product.discount > 0 %} 
                         <span class="product-card__new-price">Frw {{product.get_discounted_price}}/{{product.unit_type.unit}}</span>
-                        <span class="product-card__old-price">Frw {{product.price}}</span>
+                        <span class="product-card__old-price">{{product.price}}</span>
                     {% else %}
                         <span >Frw {{product.price}}/{{product.unit_type.unit}}</span>
                     {% endif %}

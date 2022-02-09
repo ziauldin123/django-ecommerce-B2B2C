@@ -544,7 +544,9 @@
                                 Frw {{ product.price }}{% if product.unit_type %}/{{product.unit_type.unit}}
                                 {% endif %}
                                 {% else %} 
-                                Frw {{ product.price }}{% if product.unit_type %}/{{product.unit_type.unit}}{% endif %}
+                                Frw {{ product.get_discounted_price }}{% if product.unit_type %}/{{product.unit_type.unit}}
+                                <span class="product-card__old-price">Frw {{product.price}}</span>
+                                {% endif %}
                                 {% endif %}
                                 {% endif %}
                             </span>
@@ -631,15 +633,14 @@
                     <div class="product__footer">
                         <div class="product__tags tags">
                             <div class="tags__list">
-                                  {% if product.pickup_available == True %}
+                                {% if product.pickup_available == True %}
                                 <a>Pickup available</a>
                                 {% endif %}
                                 {% if product.is_free_delivery == True %}
                                 <a>Free Delivery</a>
                                 {% endif %}
                             </div>
-                        </div>
-                        
+                        </div>       
                     </div>
             </div>
             <div class="product-tabs  product-tabs--sticky">
@@ -669,7 +670,7 @@
                                 <div class="spec__row">
                                     <div class="spec__name">Size</div>
                                     <div class="spec__value"></div>
-                                            {{ variant.size }} mm
+                                            {{ variant.size }}
                                 </div>
                                 {% endif %}
                                 {% if variant.color %}
@@ -683,7 +684,7 @@
                                 <div class="spec__row">
                                     <div class="spec__name">Weight</div>
                                     <div class="spec__value">
-                                            {{ variant.weight }} mm
+                                            {{ variant.weight }} cm
                                     </div>
                                 </div>
                                 {% endif %}
@@ -694,7 +695,7 @@
                                 <div class="spec__row">
                                     <div class="spec__name">Length</div>
                                     <div class="spec__value">
-                                            {{ variant.length }} mm
+                                            {{ variant.length }} cm
                                     </div>
                                 </div>
                                 {% endif %}
@@ -702,7 +703,7 @@
                                 <div class="spec__row">
                                     <div class="spec__name">Width</div>
                                     <div class="spec__value">
-                                            {{ variant.width }} mm
+                                            {{ variant.width }} cm
                                     </div>
                                 </div>
                                 {% endif %}
@@ -710,7 +711,7 @@
                                 <div class="spec__row">
                                     <div class="spec__name">Height</div>
                                     <div class="spec__value">
-                                            {{ variant.height }} mm
+                                            {{ variant.height }} cm
                                         </div>
                                  </div>
                                  </div>
@@ -729,7 +730,7 @@
                                 <div class="spec__row">
                                     <div class="spec__name">Size</div>
                                     <div class="spec__value"></div>
-                                            {{ product.size }} mm
+                                            {{ product.size }}
                                 </div>
                                 {% endif %}
                                 {% if product.color %}
@@ -743,7 +744,7 @@
                                 <div class="spec__row">
                                     <div class="spec__name">Weight</div>
                                     <div class="spec__value">
-                                            {{ product.weight }} mm
+                                            {{ product.weight }} cm
                                     </div>
                                 </div>
                                 {% endif %}
@@ -754,7 +755,7 @@
                                 <div class="spec__row">
                                     <div class="spec__name">Length</div>
                                     <div class="spec__value">
-                                            {{ product.length }} mm
+                                            {{ product.length }} cm
                                     </div>
                                 </div>
                                 {% endif %}
@@ -762,7 +763,7 @@
                                 <div class="spec__row">
                                     <div class="spec__name">Width</div>
                                     <div class="spec__value">
-                                            {{ product.width }} mm
+                                            {{ product.width }} cm
                                     </div>
                                 </div>
                                 {% endif %}
@@ -770,7 +771,7 @@
                                 <div class="spec__row">
                                     <div class="spec__name">Height</div>
                                     <div class="spec__value">
-                                            {{ product.height }} mm
+                                            {{ product.height }} cm
                                         </div>
                                  </div>
                                  </div>
@@ -911,12 +912,12 @@
                                 </div>
                             </div>
                             {% if messages %}
-                                        {% for message in messages %}
-                                            <div class="alert alert-{{message.tags}}" role="alert">
-                                                {{ message }}
-                                            </div>
-                                        {% endfor %}
-                                    {% endif %}
+                                {% for message in messages %}
+                                    <div class="alert alert-{{message.tags}}" role="alert">
+                                        {{ message }}
+                                    </div>
+                                {% endfor %}
+                            {% endif %}
                             <form class="reviews-view__form review-form" action="/newProduct/addcomment/{{ product.id }}" method="post">
                                 {% csrf_token %}
                                 <h3 class="reviews-view__header">Write A Review</h3>
@@ -960,7 +961,7 @@
     </div>
 
     </div>
-    <br>
+   
     <!-- .block-products-carousel -->
     <div class="block block-products-carousel" data-layout="grid-5" data-mobile-grid-columns="2">
         <div class="container">
@@ -1217,7 +1218,7 @@
                                     </div>
                                     <div class="product-card__prices">
                                         {% if product.is_variant %} 
-                                              {% if product.discount %} 
+                                               {% if product.get_variant.discount > 0  %} 
                                                   <span class="product-card__new-price">{{product.get_variant.price}}</span>
                                                   <span class="product-card__old-price">{{product.get_variant.discounted_price}}</span>
                                               {% else %}

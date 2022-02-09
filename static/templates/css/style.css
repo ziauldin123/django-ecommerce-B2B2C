@@ -3041,11 +3041,11 @@ html:not([dir=rtl]) .noUi-horizontal .noUi-origin {
 }
 
 .product-card__new-price {
-  color: #ff2626;
+  color: #28A745;
 }
 
 .product-card__old-price {
-  color: #b3b3b3;
+  color: #DC3546;
   font-weight: 400;
   font-size: 13px;
   text-decoration: line-through;
