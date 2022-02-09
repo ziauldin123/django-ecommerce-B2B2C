@@ -10,6 +10,7 @@ from django.db import models
 from django.utils.safestring import mark_safe
 from mptt.fields import TreeForeignKey
 from mptt.models import MPTTModel
+from django.db.models import Max
 from django.urls import reverse
 from django.utils.text import slugify
 from autoslug import AutoSlugField
@@ -256,6 +257,13 @@ class Product(models.Model):
         if reviews["count"] is not None:
             cnt = int(reviews["count"])
         return cnt
+    
+    def  maxrating(self):
+        rate = Comment.objects.filter(
+            product=self, status='True').aggregate(Max('rate'))
+
+        return rate    
+
 
 
     def get_thumbnail(self):

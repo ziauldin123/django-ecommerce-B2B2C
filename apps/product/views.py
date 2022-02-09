@@ -223,6 +223,9 @@ class CompareView(View):
         url=request.META.get('HTTP_REFERER')#get last url
         product_id = kwargs['pk']
         product = Product.objects.get(pk=product_id)
+        if product.vendor.enabled == False:
+            messages.success(request,"Product not available")
+            redirect(url)
         print(product)
         # session = request.session
         if not request.session.get('comparing'):
@@ -254,7 +257,11 @@ def variantCompare(request):
     if request.method=="POST":
         variantid=request.POST.get('variant_id')
         variant=Variants.objects.get(id=variantid)
-        
+
+        if variant.product.vendor.enabled == False:
+            messages.success(request,"Product not available")
+            redirect(url)
+
         if not request.session.get('comparing'):
             request.session['comparing'] = []
 
@@ -396,6 +403,11 @@ class WishListAddView(FormView):
     def post(self, request, *args, **kwargs):
         url=request.META.get('HTTP_REFERER')#get last url
         product = Product.objects.get(pk=kwargs['pk'])
+
+        if product.vendor.enabled == False:
+            messages.success(request,"Product not available")
+            redirect(url)
+
         try:
             request.user.customer
         except:
@@ -424,6 +436,10 @@ class WishlistAddVariant(FormView):
             productid=request.POST.get('product_id')
             variant=Variants.objects.get(pk=variantid)
             product=Product.objects.get(id=productid)
+
+            if product.vendor.enabled == False:
+                messages.success(request,"Product not available")
+                redirect(url)
             try:
                 request.user.customer
 

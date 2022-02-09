@@ -95,91 +95,260 @@
                                 <div class="compare-table__product-rating">
                                     <div class="rating">
                                         <div class="rating__body">
-                                            <svg class="rating__star rating__star--active" width="13px" height="12px">
-                                                <g class="rating__fill">
-                                                    <use xlink:href="/static/templates/images/sprite.svg#star-normal"></use>
-                                                </g>
-                                                <g class="rating__stroke">
-                                                    <use xlink:href="/static/templates/images/sprite.svg#star-normal-stroke"></use>
-                                                </g>
-                                            </svg>
-                                            <div class="rating__star rating__star--only-edge rating__star--active">
-                                                <div class="rating__fill">
-                                                    <div class="fake-svg-icon"></div>
-                                                </div>
-                                                <div class="rating__stroke">
-                                                    <div class="fake-svg-icon"></div>
-                                                </div>
+                                        {% if product.maxrating.rate__max == 1 %} 
+                                        <svg class="rating__star rating__star--active" width="13px" height="12px">
+                                            <g class="rating__fill">
+                                                <use xlink:href="/static/templates/images/sprite.svg#star-normal"></use>
+                                            </g>
+                                            <g class="rating__stroke">
+                                                <use xlink:href="/static/templates/images/sprite.svg#star-normal-stroke"></use>
+                                            </g>
+                                        </svg>
+                                        <div class="rating__star rating__star--only-edge rating__star--active">
+                                            <div class="rating__fill">
+                                                <div class="fake-svg-icon"></div>
                                             </div>
-                                            <svg class="rating__star rating__star--active" width="13px" height="12px">
-                                                <g class="rating__fill">
-                                                    <use xlink:href="/static/templates/images/sprite.svg#star-normal"></use>
-                                                </g>
-                                                <g class="rating__stroke">
-                                                    <use xlink:href="/static/templates/images/sprite.svg#star-normal-stroke"></use>
-                                                </g>
-                                            </svg>
-                                            <div class="rating__star rating__star--only-edge rating__star--active">
-                                                <div class="rating__fill">
-                                                    <div class="fake-svg-icon"></div>
-                                                </div>
-                                                <div class="rating__stroke">
-                                                    <div class="fake-svg-icon"></div>
-                                                </div>
+                                            <div class="rating__stroke">
+                                                <div class="fake-svg-icon"></div>
                                             </div>
-                                            <svg class="rating__star rating__star--active" width="13px" height="12px">
-                                                <g class="rating__fill">
-                                                    <use xlink:href="/static/templates/images/sprite.svg#star-normal"></use>
-                                                </g>
-                                                <g class="rating__stroke">
-                                                    <use xlink:href="/static/templates/images/sprite.svg#star-normal-stroke"></use>
-                                                </g>
-                                            </svg>
-                                            <div class="rating__star rating__star--only-edge rating__star--active">
-                                                <div class="rating__fill">
-                                                    <div class="fake-svg-icon"></div>
-                                                </div>
-                                                <div class="rating__stroke">
-                                                    <div class="fake-svg-icon"></div>
-                                                </div>
+                                        </div>
+                                        {% elif product.maxrating.rate__max == 2 %} 
+                                        <svg class="rating__star rating__star--active" width="13px" height="12px">
+                                            <g class="rating__fill">
+                                                <use xlink:href="/static/templates/images/sprite.svg#star-normal"></use>
+                                            </g>
+                                            <g class="rating__stroke">
+                                                <use xlink:href="/static/templates/images/sprite.svg#star-normal-stroke"></use>
+                                            </g>
+                                        </svg>
+                                        <div class="rating__star rating__star--only-edge rating__star--active">
+                                            <div class="rating__fill">
+                                                <div class="fake-svg-icon"></div>
                                             </div>
-                                            <svg class="rating__star rating__star--active" width="13px" height="12px">
-                                                <g class="rating__fill">
-                                                    <use xlink:href="/static/templates/images/sprite.svg#star-normal"></use>
-                                                </g>
-                                                <g class="rating__stroke">
-                                                    <use xlink:href="/static/templates/images/sprite.svg#star-normal-stroke"></use>
-                                                </g>
-                                            </svg>
-                                            <div class="rating__star rating__star--only-edge rating__star--active">
-                                                <div class="rating__fill">
-                                                    <div class="fake-svg-icon"></div>
-                                                </div>
-                                                <div class="rating__stroke">
-                                                    <div class="fake-svg-icon"></div>
-                                                </div>
+                                            <div class="rating__stroke">
+                                                <div class="fake-svg-icon"></div>
                                             </div>
-                                            <svg class="rating__star " width="13px" height="12px">
-                                                <g class="rating__fill">
-                                                    <use xlink:href="/static/templates/images/sprite.svg#star-normal"></use>
-                                                </g>
-                                                <g class="rating__stroke">
-                                                    <use xlink:href="/static/templates/images/sprite.svg#star-normal-stroke"></use>
-                                                </g>
-                                            </svg>
-                                            <div class="rating__star rating__star--only-edge ">
-                                                <div class="rating__fill">
-                                                    <div class="fake-svg-icon"></div>
-                                                </div>
-                                                <div class="rating__stroke">
-                                                    <div class="fake-svg-icon"></div>
-                                                </div>
+                                        </div>
+                                        <svg class="rating__star rating__star--active" width="13px" height="12px">
+                                            <g class="rating__fill">
+                                                <use xlink:href="/static/templates/images/sprite.svg#star-normal"></use>
+                                            </g>
+                                            <g class="rating__stroke">
+                                                <use xlink:href="/static/templates/images/sprite.svg#star-normal-stroke"></use>
+                                            </g>
+                                        </svg>
+                                        <div class="rating__star rating__star--only-edge rating__star--active">
+                                            <div class="rating__fill">
+                                                <div class="fake-svg-icon"></div>
                                             </div>
+                                            <div class="rating__stroke">
+                                                <div class="fake-svg-icon"></div>
+                                            </div>
+                                        </div>
+                                        {% elif product.maxrating.rate__max == 3 %} 
+                                        <svg class="rating__star rating__star--active" width="13px" height="12px">
+                                            <g class="rating__fill">
+                                                <use xlink:href="/static/templates/images/sprite.svg#star-normal"></use>
+                                            </g>
+                                            <g class="rating__stroke">
+                                                <use xlink:href="/static/templates/images/sprite.svg#star-normal-stroke"></use>
+                                            </g>
+                                        </svg>
+                                        <div class="rating__star rating__star--only-edge rating__star--active">
+                                            <div class="rating__fill">
+                                                <div class="fake-svg-icon"></div>
+                                            </div>
+                                            <div class="rating__stroke">
+                                                <div class="fake-svg-icon"></div>
+                                            </div>
+                                        </div>
+                                        <svg class="rating__star rating__star--active" width="13px" height="12px">
+                                            <g class="rating__fill">
+                                                <use xlink:href="/static/templates/images/sprite.svg#star-normal"></use>
+                                            </g>
+                                            <g class="rating__stroke">
+                                                <use xlink:href="/static/templates/images/sprite.svg#star-normal-stroke"></use>
+                                            </g>
+                                        </svg>
+                                        <div class="rating__star rating__star--only-edge rating__star--active">
+                                            <div class="rating__fill">
+                                                <div class="fake-svg-icon"></div>
+                                            </div>
+                                            <div class="rating__stroke">
+                                                <div class="fake-svg-icon"></div>
+                                            </div>
+                                        </div>
+                                        <svg class="rating__star rating__star--active" width="13px" height="12px">
+                                            <g class="rating__fill">
+                                                <use xlink:href="/static/templates/images/sprite.svg#star-normal"></use>
+                                            </g>
+                                            <g class="rating__stroke">
+                                                <use xlink:href="/static/templates/images/sprite.svg#star-normal-stroke"></use>
+                                            </g>
+                                        </svg>
+                                        <div class="rating__star rating__star--only-edge rating__star--active">
+                                            <div class="rating__fill">
+                                                <div class="fake-svg-icon"></div>
+                                            </div>
+                                            <div class="rating__stroke">
+                                                <div class="fake-svg-icon"></div>
+                                            </div>
+                                        </div>
+                                        {% elif product.maxrating.rate__max == 4 %} 
+                                        <svg class="rating__star rating__star--active" width="13px" height="12px">
+                                            <g class="rating__fill">
+                                                <use xlink:href="/static/templates/images/sprite.svg#star-normal"></use>
+                                            </g>
+                                            <g class="rating__stroke">
+                                                <use xlink:href="/static/templates/images/sprite.svg#star-normal-stroke"></use>
+                                            </g>
+                                        </svg>
+                                        <div class="rating__star rating__star--only-edge rating__star--active">
+                                            <div class="rating__fill">
+                                                <div class="fake-svg-icon"></div>
+                                            </div>
+                                            <div class="rating__stroke">
+                                                <div class="fake-svg-icon"></div>
+                                            </div>
+                                        </div>
+                                        <svg class="rating__star rating__star--active" width="13px" height="12px">
+                                            <g class="rating__fill">
+                                                <use xlink:href="/static/templates/images/sprite.svg#star-normal"></use>
+                                            </g>
+                                            <g class="rating__stroke">
+                                                <use xlink:href="/static/templates/images/sprite.svg#star-normal-stroke"></use>
+                                            </g>
+                                        </svg>
+                                        <div class="rating__star rating__star--only-edge rating__star--active">
+                                            <div class="rating__fill">
+                                                <div class="fake-svg-icon"></div>
+                                            </div>
+                                            <div class="rating__stroke">
+                                                <div class="fake-svg-icon"></div>
+                                            </div>
+                                        </div>
+                                        <svg class="rating__star rating__star--active" width="13px" height="12px">
+                                            <g class="rating__fill">
+                                                <use xlink:href="/static/templates/images/sprite.svg#star-normal"></use>
+                                            </g>
+                                            <g class="rating__stroke">
+                                                <use xlink:href="/static/templates/images/sprite.svg#star-normal-stroke"></use>
+                                            </g>
+                                        </svg>
+                                        <div class="rating__star rating__star--only-edge rating__star--active">
+                                            <div class="rating__fill">
+                                                <div class="fake-svg-icon"></div>
+                                            </div>
+                                            <div class="rating__stroke">
+                                                <div class="fake-svg-icon"></div>
+                                            </div>
+                                        </div>
+                                        <svg class="rating__star rating__star--active" width="13px" height="12px">
+                                            <g class="rating__fill">
+                                                <use xlink:href="/static/templates/images/sprite.svg#star-normal"></use>
+                                            </g>
+                                            <g class="rating__stroke">
+                                                <use xlink:href="/static/templates/images/sprite.svg#star-normal-stroke"></use>
+                                            </g>
+                                        </svg>
+                                        <div class="rating__star rating__star--only-edge rating__star--active">
+                                            <div class="rating__fill">
+                                                <div class="fake-svg-icon"></div>
+                                            </div>
+                                            <div class="rating__stroke">
+                                                <div class="fake-svg-icon"></div>
+                                            </div>
+                                        </div>
+                                        {% elif product.maxrating.rate__max == 5 %} 
+                                        <svg class="rating__star rating__star--active" width="13px" height="12px">
+                                            <g class="rating__fill">
+                                                <use xlink:href="/static/templates/images/sprite.svg#star-normal"></use>
+                                            </g>
+                                            <g class="rating__stroke">
+                                                <use xlink:href="/static/templates/images/sprite.svg#star-normal-stroke"></use>
+                                            </g>
+                                        </svg>
+                                        <div class="rating__star rating__star--only-edge rating__star--active">
+                                            <div class="rating__fill">
+                                                <div class="fake-svg-icon"></div>
+                                            </div>
+                                            <div class="rating__stroke">
+                                                <div class="fake-svg-icon"></div>
+                                            </div>
+                                        </div>
+                                        <svg class="rating__star rating__star--active" width="13px" height="12px">
+                                            <g class="rating__fill">
+                                                <use xlink:href="/static/templates/images/sprite.svg#star-normal"></use>
+                                            </g>
+                                            <g class="rating__stroke">
+                                                <use xlink:href="/static/templates/images/sprite.svg#star-normal-stroke"></use>
+                                            </g>
+                                        </svg>
+                                        <div class="rating__star rating__star--only-edge rating__star--active">
+                                            <div class="rating__fill">
+                                                <div class="fake-svg-icon"></div>
+                                            </div>
+                                            <div class="rating__stroke">
+                                                <div class="fake-svg-icon"></div>
+                                            </div>
+                                        </div>
+                                        <svg class="rating__star rating__star--active" width="13px" height="12px">
+                                            <g class="rating__fill">
+                                                <use xlink:href="/static/templates/images/sprite.svg#star-normal"></use>
+                                            </g>
+                                            <g class="rating__stroke">
+                                                <use xlink:href="/static/templates/images/sprite.svg#star-normal-stroke"></use>
+                                            </g>
+                                        </svg>
+                                        <div class="rating__star rating__star--only-edge rating__star--active">
+                                            <div class="rating__fill">
+                                                <div class="fake-svg-icon"></div>
+                                            </div>
+                                            <div class="rating__stroke">
+                                                <div class="fake-svg-icon"></div>
+                                            </div>
+                                        </div>
+                                        <svg class="rating__star rating__star--active" width="13px" height="12px">
+                                            <g class="rating__fill">
+                                                <use xlink:href="/static/templates/images/sprite.svg#star-normal"></use>
+                                            </g>
+                                            <g class="rating__stroke">
+                                                <use xlink:href="/static/templates/images/sprite.svg#star-normal-stroke"></use>
+                                            </g>
+                                        </svg>
+                                        <div class="rating__star rating__star--only-edge rating__star--active">
+                                            <div class="rating__fill">
+                                                <div class="fake-svg-icon"></div>
+                                            </div>
+                                            <div class="rating__stroke">
+                                                <div class="fake-svg-icon"></div>
+                                            </div>
+                                        </div>
+                                        <svg class="rating__star rating__star--active" width="13px" height="12px">
+                                            <g class="rating__fill">
+                                                <use xlink:href="/static/templates/images/sprite.svg#star-normal"></use>
+                                            </g>
+                                            <g class="rating__stroke">
+                                                <use xlink:href="/static/templates/images/sprite.svg#star-normal-stroke"></use>
+                                            </g>
+                                        </svg>
+                                        <div class="rating__star rating__star--only-edge rating__star--active">
+                                            <div class="rating__fill">
+                                                <div class="fake-svg-icon"></div>
+                                            </div>
+                                            <div class="rating__stroke">
+                                                <div class="fake-svg-icon"></div>
+                                            </div>
+                                        </div>
+                                        {% endif %} 
                                         </div>
                                     </div>
                                 </div>
                                 <div class="compare-table__product-rating-legend">
-                                    7 Reviews
+                                    {% if product.countreview %}
+                                        {{product.countreview}}
+                                                Reviews
+                                    {% endif %}
                                 </div>
                             </td>
                             {% endfor %} 
@@ -188,8 +357,7 @@
                                 <div class="compare-table__product-rating">
                                     <div class="rating">
                                         <div class="rating__body">
-                                            {% if product.is_variant %} 
-                                            {% if product.get_variant.avaregeview > 0 %} 
+                                            {% if product.product.maxrating.rate__max == 1 %} 
                                             <svg class="rating__star rating__star--active" width="13px" height="12px">
                                                 <g class="rating__fill">
                                                     <use xlink:href="/static/templates/images/sprite.svg#star-normal"></use>
@@ -206,8 +374,7 @@
                                                     <div class="fake-svg-icon"></div>
                                                 </div>
                                             </div>
-                                            {% endif %}
-                                            {% if product.get_variant.avaregeview > 1  %} 
+                                            {% elif product.product.maxrating.rate__max == 2 %} 
                                             <svg class="rating__star rating__star--active" width="13px" height="12px">
                                                 <g class="rating__fill">
                                                     <use xlink:href="/static/templates/images/sprite.svg#star-normal"></use>
@@ -224,8 +391,6 @@
                                                     <div class="fake-svg-icon"></div>
                                                 </div>
                                             </div>
-                                            {% endif %}
-                                            {% if product.get_variant.avaregeview > 2  %} 
                                             <svg class="rating__star rating__star--active" width="13px" height="12px">
                                                 <g class="rating__fill">
                                                     <use xlink:href="/static/templates/images/sprite.svg#star-normal"></use>
@@ -242,8 +407,7 @@
                                                     <div class="fake-svg-icon"></div>
                                                 </div>
                                             </div>
-                                            {% endif %}
-                                            {% if product.get_variant.avaregeview > 3  %} 
+                                            {% elif product.product.maxrating.rate__max == 3 %} 
                                             <svg class="rating__star rating__star--active" width="13px" height="12px">
                                                 <g class="rating__fill">
                                                     <use xlink:href="/static/templates/images/sprite.svg#star-normal"></use>
@@ -260,8 +424,6 @@
                                                     <div class="fake-svg-icon"></div>
                                                 </div>
                                             </div>
-                                            {% endif %}
-                                            {% if product.get_variant.avaregeview > 4  %} 
                                             <svg class="rating__star rating__star--active" width="13px" height="12px">
                                                 <g class="rating__fill">
                                                     <use xlink:href="/static/templates/images/sprite.svg#star-normal"></use>
@@ -278,9 +440,6 @@
                                                     <div class="fake-svg-icon"></div>
                                                 </div>
                                             </div>
-                                            {% endif %}
-                                            {% else %}
-                                            {% if product.avaregeview > 0  %} 
                                             <svg class="rating__star rating__star--active" width="13px" height="12px">
                                                 <g class="rating__fill">
                                                     <use xlink:href="/static/templates/images/sprite.svg#star-normal"></use>
@@ -297,8 +456,7 @@
                                                     <div class="fake-svg-icon"></div>
                                                 </div>
                                             </div>
-                                            {% endif %}
-                                            {% if product.avaregeview > 1  %} 
+                                            {% elif product.product.maxrating.rate__max == 4 %} 
                                             <svg class="rating__star rating__star--active" width="13px" height="12px">
                                                 <g class="rating__fill">
                                                     <use xlink:href="/static/templates/images/sprite.svg#star-normal"></use>
@@ -315,8 +473,6 @@
                                                     <div class="fake-svg-icon"></div>
                                                 </div>
                                             </div>
-                                            {% endif %}
-                                            {% if product.avaregeview > 2  %} 
                                             <svg class="rating__star rating__star--active" width="13px" height="12px">
                                                 <g class="rating__fill">
                                                     <use xlink:href="/static/templates/images/sprite.svg#star-normal"></use>
@@ -333,8 +489,6 @@
                                                     <div class="fake-svg-icon"></div>
                                                 </div>
                                             </div>
-                                            {% endif %}
-                                            {% if product.avaregeview > 3  %} 
                                             <svg class="rating__star rating__star--active" width="13px" height="12px">
                                                 <g class="rating__fill">
                                                     <use xlink:href="/static/templates/images/sprite.svg#star-normal"></use>
@@ -351,8 +505,6 @@
                                                     <div class="fake-svg-icon"></div>
                                                 </div>
                                             </div>
-                                            {% endif %}
-                                            {% if product.avaregeview > 4  %} 
                                             <svg class="rating__star rating__star--active" width="13px" height="12px">
                                                 <g class="rating__fill">
                                                     <use xlink:href="/static/templates/images/sprite.svg#star-normal"></use>
@@ -369,13 +521,96 @@
                                                     <div class="fake-svg-icon"></div>
                                                 </div>
                                             </div>
-                                            {% endif %}
-                                            {% endif %}
-                                        </div>
+                                            {% elif product.product.maxrating.rate__max == 5 %} 
+                                            <svg class="rating__star rating__star--active" width="13px" height="12px">
+                                                <g class="rating__fill">
+                                                    <use xlink:href="/static/templates/images/sprite.svg#star-normal"></use>
+                                                </g>
+                                                <g class="rating__stroke">
+                                                    <use xlink:href="/static/templates/images/sprite.svg#star-normal-stroke"></use>
+                                                </g>
+                                            </svg>
+                                            <div class="rating__star rating__star--only-edge rating__star--active">
+                                                <div class="rating__fill">
+                                                    <div class="fake-svg-icon"></div>
+                                                </div>
+                                                <div class="rating__stroke">
+                                                    <div class="fake-svg-icon"></div>
+                                                </div>
+                                            </div>
+                                            <svg class="rating__star rating__star--active" width="13px" height="12px">
+                                                <g class="rating__fill">
+                                                    <use xlink:href="/static/templates/images/sprite.svg#star-normal"></use>
+                                                </g>
+                                                <g class="rating__stroke">
+                                                    <use xlink:href="/static/templates/images/sprite.svg#star-normal-stroke"></use>
+                                                </g>
+                                            </svg>
+                                            <div class="rating__star rating__star--only-edge rating__star--active">
+                                                <div class="rating__fill">
+                                                    <div class="fake-svg-icon"></div>
+                                                </div>
+                                                <div class="rating__stroke">
+                                                    <div class="fake-svg-icon"></div>
+                                                </div>
+                                            </div>
+                                            <svg class="rating__star rating__star--active" width="13px" height="12px">
+                                                <g class="rating__fill">
+                                                    <use xlink:href="/static/templates/images/sprite.svg#star-normal"></use>
+                                                </g>
+                                                <g class="rating__stroke">
+                                                    <use xlink:href="/static/templates/images/sprite.svg#star-normal-stroke"></use>
+                                                </g>
+                                            </svg>
+                                            <div class="rating__star rating__star--only-edge rating__star--active">
+                                                <div class="rating__fill">
+                                                    <div class="fake-svg-icon"></div>
+                                                </div>
+                                                <div class="rating__stroke">
+                                                    <div class="fake-svg-icon"></div>
+                                                </div>
+                                            </div>
+                                            <svg class="rating__star rating__star--active" width="13px" height="12px">
+                                                <g class="rating__fill">
+                                                    <use xlink:href="/static/templates/images/sprite.svg#star-normal"></use>
+                                                </g>
+                                                <g class="rating__stroke">
+                                                    <use xlink:href="/static/templates/images/sprite.svg#star-normal-stroke"></use>
+                                                </g>
+                                            </svg>
+                                            <div class="rating__star rating__star--only-edge rating__star--active">
+                                                <div class="rating__fill">
+                                                    <div class="fake-svg-icon"></div>
+                                                </div>
+                                                <div class="rating__stroke">
+                                                    <div class="fake-svg-icon"></div>
+                                                </div>
+                                            </div>
+                                            <svg class="rating__star rating__star--active" width="13px" height="12px">
+                                                <g class="rating__fill">
+                                                    <use xlink:href="/static/templates/images/sprite.svg#star-normal"></use>
+                                                </g>
+                                                <g class="rating__stroke">
+                                                    <use xlink:href="/static/templates/images/sprite.svg#star-normal-stroke"></use>
+                                                </g>
+                                            </svg>
+                                            <div class="rating__star rating__star--only-edge rating__star--active">
+                                                <div class="rating__fill">
+                                                    <div class="fake-svg-icon"></div>
+                                                </div>
+                                                <div class="rating__stroke">
+                                                    <div class="fake-svg-icon"></div>
+                                                </div>
+                                            </div>
+                                            {% endif %} 
+                                            </div>
                                     </div>
                                 </div>
                                 <div class="compare-table__product-rating-legend">
-                                    7 Reviews
+                                    {% if product.product.countreview %}
+                                        {{product.product.countreview}} 
+                                            Reviews
+                                    {% endif %}
                                 </div>
                             </td>
                             {% endfor %}
@@ -384,7 +619,7 @@
                             <th>Availability</th>
                             {% for product in products %} 
                                 <td><span class="compare-table__product-badge badge badge-success">
-                                    {% if product.quantiy > 0 %} 
+                                    {% if product.quantity > 0 %} 
                                     In Stock 
                                     {% else %} 
                                     Out Stock

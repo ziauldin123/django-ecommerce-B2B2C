@@ -1019,7 +1019,7 @@
                       </span>
                     </button>
                   </div>
-                  <div class="indicator indicator--mobile d-sm-flex d-none">
+                  <div class="indicator indicator--mobile d-sm-flex d-none" id="my_wishlist">
                     <a href="/users/customer/{{ request.user.id }}/wishlist/" class="indicator__button">
                       <span class="indicator__area">
                         <svg width="20px" height="20px">
@@ -1027,11 +1027,11 @@
                             xlink:href="/static/templates/images/sprite.svg#heart-20"
                           ></use>
                         </svg>
-                        <span class="indicator__value">0{% if wishlist %} ({{ wishlist|length }}) {% else %} 0 {% endif %}</span>
+                        <span class="indicator__value">{% if wishlist %} ({{ wishlist|length }}) {% else %} 0 {% endif %}</span>
                       </span>
                     </a>
                   </div>
-                  <div class="indicator indicator--mobile">
+                  <div class="indicator indicator--mobile" id="my_cart">
                     <a href="" data-open="offcanvas-cart" class="indicator__button">
                       <span class="indicator__area">
                         <svg width="20px" height="20px">

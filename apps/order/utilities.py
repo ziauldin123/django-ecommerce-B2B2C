@@ -31,7 +31,9 @@ def checkout(
     delivery_type,
     cart_cost,
     coupon_code,
-    is_paid_now
+    is_paid_now,
+    vat_cost,
+    subtotal
 ):
     print(" === coupon code = ", coupon_code)
     coupon_discount = 0
@@ -52,6 +54,18 @@ def checkout(
             Decimal(cart_cost) * (100 - coupon_discount) / 100
         paid_amount = cart.get_cart_cost_with_coupen()
         print("paid amount = ", paid_amount)
+        
+        vat_cost = 0
+        subtotal = 0
+
+        for item in Cart(request):
+            vat_cost += Decimal(item['tax'])
+            vat = round(Decimal(vat_cost), 2)
+            subtotal += Decimal(item['product']
+                                       ['total_price'] * item['quantity'])
+            subtotal = round(Decimal(subtotal), 2)
+
+        print(vat_cost)
         order = Order.objects.create(
             first_name=first_name,
             last_name=last_name,
@@ -67,6 +81,8 @@ def checkout(
             delivery_cost=delivery_cost,
             delivery_type=delivery_type,
             paid_amount=paid_amount,
+            vat=vat_cost,
+            subtotal=subtotal,
             used_coupon=coupon_code,
             coupon_discount=coupon_discount,
             is_paid=is_paid_now

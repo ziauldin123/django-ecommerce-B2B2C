@@ -90,7 +90,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {% for order in orders %} 
+                                        {% for order in orders|slice:"0:3" %} 
                                         <tr> 
                                             <td><a href="/customer/order-detail/{{ order.id }}">{{order.reference_number}}</a></td>
                                             <td>{{order.created_at }}</td>

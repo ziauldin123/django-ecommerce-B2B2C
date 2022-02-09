@@ -61,7 +61,6 @@ def product_detail(request, id, slug, vendor_slug, category_slug, subcategory_sl
     query = request.GET.get('q')
     product = Product.objects.get(pk=id)
     max = product.product.all().aggregate(Max('rate'))
-
     if not request.user.is_anonymous:
         cart = Cart(request)
         current_user = request.user
@@ -84,6 +83,11 @@ def product_detail(request, id, slug, vendor_slug, category_slug, subcategory_sl
         messages.add_message(request, messages.ERROR,
                              "Product is not available")
         return redirect('/')
+
+    if product.vendor.enabled == False:
+        messages.add_message(request, messages.ERROR,
+                             "Product is not available")
+        return redirect('/')    
 
     variant = Variants.objects.filter(product_id=id, status=True, visible=True)
     category = Category.objects.all()

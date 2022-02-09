@@ -596,8 +596,8 @@ def add_product(request):
                     request, messages.SUCCESS, "The product {} is successfully added and now under review".format(product.title))
                 return redirect('vendor_admin')
             else:
-                messages.add_message(request, messages.ERROR,
-                                     "* You have reached your products' limit.")
+                messages.add_message(
+                    request, messages.ERROR, "You can't add new product.you reached product limit")
                 return redirect('vendor_admin')
 
         else:
@@ -609,8 +609,6 @@ def add_product(request):
         vendor = request.user.vendor
         products = len(Product.objects.filter(vendor=vendor))
         print(" vendor:: products  ", products,  vendor.products_limit)
-        messages.add_message(request, messages.ERROR,
-                             "* You have reached your products' limit.")
         form = ProductForm()
 
     return render(request, 'vendor/add_product.html', {'form': form})
@@ -634,8 +632,8 @@ def add_product_with_variant(request):
                     request, messages.SUCCESS, "The product {} is successfully added and now under review".format(product.title))
                 return redirect('add_variant')
             else:
-                messages.add_message(request, messages.ERROR,
-                                     "*You have reached your products' limit.")
+                messages.add_message(
+                    request, messages.ERROR, "You can't add new product.you reached product limit")
                 return redirect('vendor_admin')
         else:
             messages.add_message(request, messages.ERROR,
@@ -645,8 +643,6 @@ def add_product_with_variant(request):
         vendor = request.user.vendor
         products = len(Product.objects.filter(vendor=vendor))
         print("vendor::products", products, vendor.products_limit)
-        messages.add_message(request, messages.ERROR,
-                             "* You have reached your products' limit.")
         form = ProductWithVariantForm()
 
     return render(request, 'vendor/add_product.html', {'form': form})
@@ -678,8 +674,8 @@ def add_variant(request):
                 print(variant_form.cleaned_data['title'])
                 return redirect('vendor_admin')
             else:
-                messages.add_message(request, messages.ERROR,
-                                     "*You have reached your products' limit.")
+                messages.add_message(
+                    request, messages.ERROR, "You can't add new product.you reached product limit")
                 return redirect('vendor_admin')
         else:
             messages.add_message(request, messages.ERROR,
@@ -690,8 +686,6 @@ def add_variant(request):
         vendor = request.user.vendor
         products = len(Product.objects.filter(vendor=vendor))
         print(" vendor:: products  ", products,  vendor.products_limit)
-        messages.add_message(request, messages.ERROR,
-                             "* You have reached your products' limit.")
         form = ProductForm()
 
     return render(request, 'vendor/add_variant.html', {'form': variant_form, 'product': product,

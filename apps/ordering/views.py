@@ -31,6 +31,10 @@ def addtoshopcart(request,id):
     variantid = request.POST.get('variantid')
     # variant = Variants.objects.get(id=variantid)
 
+    if product.vendor.enabled != True:
+        messages.success(request,'Product not available')
+        return redirect(url)
+
     customer=Customer.objects.filter(email=current_user)
     print("variant id", variantid)
 
@@ -46,13 +50,11 @@ def addtoshopcart(request,id):
     else:
         #No Variant
         variant=None
-
         checkinproduct = ShopCart.objects.filter(product_id=id, user_id=current_user)# check product in cart
         if checkinproduct:
             control = 1 #product is in cart
         else:
             control = 0 #product is not in cart
-
 
     if request.method == 'POST': #if there is a post
         print("control",control)
