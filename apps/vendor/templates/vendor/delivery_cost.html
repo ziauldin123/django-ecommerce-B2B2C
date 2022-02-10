@@ -2,7 +2,7 @@
 {% load static %}
 {% load get_vendor_order_cost %}
 {% load mathfilters %}
-{% block title %}Delivery price - {{ request.session.username }} - {% endblock %}
+{% block title %}Delivery price - {{ request.session.username }} {% endblock %}
 
 {% block content %}
 
@@ -49,15 +49,14 @@
                     </ul>
                 </div>
             </div>
-            <div class="col-20 col-lg-8 mt-14 mt-lg-0">
-                <div class="dashboard">
-                    <div class="dashboard__orders card">
-                         <div class="card-header">
+            <div class="col-12 col-lg-9 mt-4 mt-lg-0">
+                <div class="card">
+                        <div class="card-header">
                             <h5>Delivery Price</h5>
                         </div>
                         <div class="card-table">
                             <div class="table-responsive-sm">
-                                <form method="post" style="margin-left: 30px;margin-top: 5px;" action=".">
+                                <form method="post" style="margin-left: 30px;" action=".">
                                     {% csrf_token %}
                                     <div class="field">
                                        
@@ -74,9 +73,7 @@
                                     </div>
                                 </form>
                             </div>
-                        </div>
-                    </div>
-                    </div>
+                        </div>   
                 </div>
             </div>
         </div>
