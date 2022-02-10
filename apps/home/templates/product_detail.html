@@ -511,13 +511,7 @@
                         <div class="product__description">
                             {{ product.summary }}.
                         </div>
-                        <ul class="product__features">
-                            <li>Speed: 750 RPM</li>
-                            <li>Power Source: Cordless-Electric</li>
-                            <li>Battery Cell Type: Lithium</li>
-                            <li>Voltage: 20 Volts</li>
-                            <li>Battery Capacity: 2 Ah</li>
-                        </ul>
+                       
                         <ul class="product__meta">
                             <li class="product__meta-availability">Availability: <span class="text-success">
                                 {% if product.is_variant %} 
@@ -1150,34 +1144,39 @@
                         <form class="reviews-view__form review-form" action="/newProduct/addcomment/{{ product.id }}" method="post">
                             {% csrf_token %}
                             <h3 class="reviews-view__header">Write A Review</h3>
-                            <div class="row form-row"> 
-                                <div class="form-group col-md-4">
-                                    <div class="input-rating">
-                                    <label for="review-stars">Review Stars</label>
-                                    <select id="review-stars" name="rate" class="stars form-control">
-                                        <option id="star5" name="rate" value="5">5 Stars Rating</option>
-                                        <option id="star4" name="rate" value="4">4 Stars Rating</option>
-                                        <option id="star3" name="rate" value="3">3 Stars Rating</option>
-                                        <option id="star2" name="rate" value="2">2 Stars Rating</option>
-                                        <option id="star1" name="rate" value="1">1 Stars Rating</option>
-                                    </select>
+                            <div class="row">
+                                <div class="col-12 col-lg-9 col-xl-8">
+                                    <div class="row form-row"> 
+                                        <div class="form-group col-md-6">
+                                            <div class="input-rating">
+                                            <label for="review-stars">Review Stars</label>
+                                            <select id="review-stars" name="rate" class="stars form-control">
+                                                <option id="star5" name="rate" value="5">5 Stars Rating</option>
+                                                <option id="star4" name="rate" value="4">4 Stars Rating</option>
+                                                <option id="star3" name="rate" value="3">3 Stars Rating</option>
+                                                <option id="star2" name="rate" value="2">2 Stars Rating</option>
+                                                <option id="star1" name="rate" value="1">1 Stars Rating</option>
+                                            </select>
+                                            </div>
+                                        </div>
+                                            <div class="form-group col-md-6">
+                                                <label for="review-author">Subject</label>
+                                                <input type="text" name="subject"  class="form-control input" id="review-author" placeholder="Your Subject">
+                                            </div>
                                     </div>
-                                </div>
-                                    <div class="form-group col-md-4">
-                                        <label for="review-author">Subject</label>
-                                        <input type="text" name="subject"  class="form-control input" id="review-author" placeholder="Your Subject">
-                                    </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="review-text">Your Review</label>
-                                <textarea class="form-control input" name="comment" id="review-text" rows="6"></textarea>
-                            </div>
-                            <div class="form-group mb-0">
-                                {% if customer %} 
-                                <button type="submit" class="btn btn-primary btn-lg">Post Your Review</button>
-                                {% else %} 
-                                You must be logged in to post comments
-                                {% endif %}
+                               
+                            
+                                        <div class="form-group">
+                                            <label for="review-text">Your Review</label>
+                                            <textarea class="form-control input" name="comment" id="review-text" rows="6"></textarea>
+                                        </div>
+                                        <div class="form-group mb-0">
+                                            {% if customer %} 
+                                            <button type="submit" class="btn btn-primary btn-lg">Post Your Review</button>
+                                            {% else %} 
+                                            You must be logged in to post comments
+                                            {% endif %}
+                                        </div>
                             </div>
                         </form>
                 </div>
