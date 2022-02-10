@@ -79,6 +79,9 @@ class SubSubCategory(MPTTModel):
     def __str__(self):
         return self.title
 
+    class Meta:
+        verbose_name_plural = 'Sub_subcategories'
+
     class MPTTMeta:
         order_insertion_by = ['title']
 
@@ -150,6 +153,9 @@ class UnitTypes(models.Model):
 
     def __str__(self):
         return "{} {}".format(self.name, self.unit)
+
+    class Meta:
+        verbose_name_plural = 'Unit_Types'
 
 
 class Brand(models.Model):
@@ -338,7 +344,7 @@ class Images(models.Model):
         return self.name
 
     class Meta:
-        verbose_name_plural = "Galley"
+        verbose_name_plural = "Gallery"
         verbose_name = "Images"
 
     def imagename(self):
@@ -382,6 +388,9 @@ class Variants(models.Model):
 
     def __str__(self):
         return self.title
+
+    class Meta:
+        verbose_name_plural = 'Variants'
 
     def get_url(self):
         return f'/{self.product.id}/{self.product.vendor.slug}/{self.product.category.sub_category.category.slug}/{self.product.category.sub_category.slug}/{self.product.category.slug}/{self.product.slug}/'
