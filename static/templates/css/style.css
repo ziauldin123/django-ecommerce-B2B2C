@@ -7520,7 +7520,7 @@ html:not([dir=rtl]) .noUi-horizontal .noUi-origin {
   list-style: none;
   margin: 0;
   padding: 0;
-  color: #fff;
+  color: #ccc;
 }
 [dir=ltr] .footer-contacts__text {
   padding-right: 20px;
@@ -7545,6 +7545,7 @@ html:not([dir=rtl]) .noUi-horizontal .noUi-origin {
 .footer-contacts__contacts li {
   padding: 4px 0;
   position: relative;
+  color: #ccc;
 }
 
 .footer-contacts__icon {
@@ -7588,12 +7589,13 @@ html:not([dir=rtl]) .noUi-horizontal .noUi-origin {
   margin: 0;
 }
 .footer-links__list a {
-  color: inherit;
+  color: #ccc;
   -webkit-transition: 0.15s;
   transition: 0.15s;
 }
 .footer-links__list a:hover {
-  color: #1a66ff;
+  color: #ffffff;
+  text-decoration: underline;
 }
 
 @media (max-width: 767px) {
@@ -7617,6 +7619,7 @@ html:not([dir=rtl]) .noUi-horizontal .noUi-origin {
   font-size: 15px;
   line-height: 22px;
   margin-bottom: 14px;
+  color: #ccc;
 }
 
 .footer-newsletter__text--social {
