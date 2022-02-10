@@ -1336,11 +1336,11 @@
                             </form>
                             {% else %}
                             <div class="account-menu__divider"></div>
-                            <a {% if request.user.vendor %} href="{% url 'vendor_admin'  %}" {% else %} href="{% url 'myaccount'  %}" {% endif %} class="account-menu__user">
+                            <a {% if request.user.vendor %} {% else %}  {% endif %} class="account-menu__user">
                               {% if request.user.vendor %}  
-                              <div class="account-menu__user-avatar">
-                                     <img src="{{request.session.logo}}" alt="">
-                                </div>
+                                <div class="account-menu__user-avatar">
+                                  <img src="{{request.session.logo}}" alt=""> 
+                                </div>   
                               {% endif %}
                                 <div class="account-menu__user-info">
                                     <div class="account-menu__user-name">{{request.session.username}}</div>
