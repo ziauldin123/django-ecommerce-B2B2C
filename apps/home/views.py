@@ -43,7 +43,7 @@ def product_detail(request, id, slug, vendor_slug, category_slug, subcategory_sl
         shopcart = ShopCart.objects.filter(user_id=current_user.id)
         total=cart.get_cart_cost()
         tax=cart.get_cart_tax()
-        grandTotal=cart.get_cart_cost() + cart.get_cart_tax()
+        grandTotal=cart.get_cart_cost
         if  not request.session.get('comparing'):
             comparing = 0
         else:
@@ -67,7 +67,7 @@ def product_detail(request, id, slug, vendor_slug, category_slug, subcategory_sl
         shopcart = ShopCart.objects.filter(user_id=current_user.id)
         total=cart.get_cart_cost()
         tax=cart.get_cart_tax()
-        grandTotal=cart.get_cart_cost() + cart.get_cart_tax()
+        grandTotal=cart.get_cart_cost()
         
     else:
         cart = 0

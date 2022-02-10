@@ -122,7 +122,6 @@ def shopcart(request):
 
     if request.method == 'POST':
         if request.user.is_authenticated:
-            # messages.success(request, 'Thank you for your order')
             if "id_quantity" in request.POST:
                 print("coupon code = ", request.POST["coupon_code"])
                 print("coupon value = ", request.POST["coupon_discount"])
@@ -168,7 +167,7 @@ def shopcart(request):
 
         context={'shopcart': shopcart,
                 'category':category,
-                'total': round(total,2),
+                'subtotal': round(total,2),
                 'tax':tax,
                 'grandTotal':grandTotal,
                 'wishlist':wishlist,
@@ -194,9 +193,7 @@ def deletefromcart(request,id):
 
     cart.delete_product(shopcart.id)
 
-
     ShopCart.objects.filter(id=id).delete()
-
 
     messages.success(request, "Your item deleted form Shopcart.")
     return HttpResponseRedirect("/shopcart")

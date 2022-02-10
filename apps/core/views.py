@@ -57,7 +57,7 @@ def frontpage(request):
         shopcart = ShopCart.objects.filter(user_id=current_user.id)
         total=cart.get_cart_cost()
         tax=cart.get_cart_tax()
-        grandTotal=cart.get_cart_cost() + cart.get_cart_tax()
+        grandTotal=cart.get_cart_cost() 
         if cart.__len__() == 0:
             for rs in shopcart:
                 if rs.variant is None:

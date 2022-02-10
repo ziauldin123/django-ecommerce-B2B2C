@@ -21,15 +21,17 @@
             success: function (data) {
                 console.log(data);
                 $("#my_cart").load(location.href + " #my_cart");
+                $("#mycart").load(location.href + " #mycart");
+                $("#cart_table").load(location.href + " #cart_table");
                 $("#message").append(
-                    '<div class="alert alert-success hideit alertSuc">added in cart successfully.</div >')
+                    '<div class="alert alert-success hideit alertSuc">added in cart successfully.</div >');
                 setTimeout(function () {
                     $("#message").load(location.href + " #message");
                 }, 1000);
             }
         });
          }
-         else{
+         else {
             console.log('Out')
             $("#message").append(
                     `<div class="alert alert-info alert-dismissable">

@@ -221,7 +221,7 @@
                                                     <tr>
                                                         <td align="left" valign="top"
                                                             style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px;">
-                                                            <p style="font-weight: 800;">Delivery Address</p>
+                                                            <p style="font-weight: 800;">{% if order.delivery_type == 'store' %} Pick Up Address {% else %} delivery Address {% endif %}</p>
                                                             <p>District:{{order.district}}<br>Sector:{{order.sector}}<br>Cell:{{order.cell}}<br>Village:{{order.village}}<br>Address:{{order.delivery_address}}<br></p>
                                                         </td>
                                                     </tr>
