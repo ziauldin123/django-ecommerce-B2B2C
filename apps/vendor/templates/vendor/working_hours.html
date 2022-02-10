@@ -66,35 +66,35 @@
                                                 {% endif %}
                                             </tbody>
                                         </table>
-                                
+                                        <hr>
                                         <form method="post" action="." enctype="multipart/form-data">
                                             {% csrf_token %}
-                                            <div class="row" style="margin-left: 30px;margin-top: 5px;">
-                                            <label for="day">WeekDay:</label>
-                                            <select class="custom-select col-sm-3" style="margin-left: 30px;margin-top: 5px;" name="day" id="day">
-                                                <option value=1>Monday
-                                                </option>
-                                                <option value=2>Tuesday
-                                                </option>
-                                                <option value=3>Wednesday
-                                                </option>
-                                                <option value=4>Thrusday
-                                                </option>
-                                                <option value=5>Friday
-                                                </option>
-                                                <option value=6>Saturday
-                                                </option>
-                                                <option value=7>Sunday
-                                                </option>
-                                            </select>
+                                             <div class="form-group" style="margin-left: 30px;margin-top: 5px;">
+                                                <label>Days:</label>
+                                                    <select class="custom-select col-sm-2" style="margin-left: 30px;" name="day" id="day">
+                                                        <option value=1>Monday
+                                                        </option>
+                                                        <option value=2>Tuesday
+                                                        </option>
+                                                        <option value=3>Wednesday
+                                                        </option>
+                                                        <option value=4>Thrusday
+                                                        </option>
+                                                        <option value=5>Friday
+                                                        </option>
+                                                        <option value=6>Saturday
+                                                        </option>
+                                                        <option value=7>Sunday
+                                                        </option>
+                                                    </select>
                                             </div>
-                                            <div style="margin-left: 30px;margin-top: 5px;">
+                                            <div class="form-group" style="margin-left: 30px;margin-top: 5px;">
                                                 <label for="from">From:</label>
-                                                    <input class="form-control custom-select col-sm-3" style="margin-left: 55px;margin-top: 5px;" type="time" name="from" id="from">
+                                                    <input class="form-control custom-select col-sm-2" style="margin-left: 30px;margin-top: 5px;" type="time" name="from" id="from">
                                 
                                 
                                                 <label for="to" style="margin-left: 5px;">To:</label>
-                                                    <input class="form-control custom-select col-sm-3" style="margin-left: 5px;margin-top: 5px;" type="time" name="to" id="to">
+                                                    <input class="form-control custom-select col-sm-2" style="margin-left: 5px;margin-top: 5px;" type="time" name="to" id="to">
                                 
                                 
                                                 <div class="row">
