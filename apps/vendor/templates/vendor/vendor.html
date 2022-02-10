@@ -90,37 +90,33 @@
                     </div>
                     <div class="shop-layout__sidebar">
                         <div class="block block-sidebar block-sidebar--offcanvas--mobile">
-                            <div class="block-sidebar__body">  
-                               
+                            <div class="block-sidebar__body">       
                                  <div class="block-sidebar__item">
-                                    <div class="widget-categories widget-categories--location--blog widget">
-                                        <h4 class="widget-filters__title widget__title">Location</h4>
-                                        <div class="widget-filters__list">
-                                            <div class="widget-filters__item">
-                                                <h6>District: {{ vendor.district }} </h6>
-                                                <h6>Sector: {{ vendor.sector }} </h6>
-                                                <h6> Cell: {{ vendor.cell }} </h6>
-                                                <h6>Village: {{ vendor.village }} </h6>
-                                                <h6> Address: {{ vendor.address }} </h6>
-                                            </div>
-                                        </div>
+                                    <div class="widget-aboutus widget">
+                                        <h4 class="widget__title">Location</h4>
+                                        <hr>
+                                        <div class="widget-aboutus__text">
+                                            <h6>District: {{ vendor.district }} </h6>
+                                            <h6>Sector: {{ vendor.sector }} </h6>
+                                            <h6> Cell: {{ vendor.cell }} </h6>
+                                            <h6>Village: {{ vendor.village }} </h6>
+                                            <h6> Address: {{ vendor.address }} </h6>
+                                        </div>  
                                     </div>
                                 </div>
                                 <div class="block-sidebar__item">
-                                    <div class="widget-categories widget-categories--location--blog widget">
-                                        <h4 class="widget-filters__title widget__title">Working Hours</h4>
-                                        <div class="widget-filters__list">
-                                            <div class="widget-filters__item">
-                                                {% for hours in vendor.Opening.all %}
-                                                    <h6>
-                                                        {{hours}}: {{hours.from_hour}} to {{hours.to_hour}}
-                                                    </h6>
-                                                {% endfor %} 
-                                            </div>
-                                        </div>
+                                    <div class="widget-aboutus widget">
+                                        <h4 class="widget__title">Working Hours</h4>
+                                        <hr>
+                                        <div class="widget-aboutus__text">
+                                            {% for hours in vendor.Opening.all %}
+                                                <h6>
+                                                    {{hours}}: {{hours.from_hour}} to {{hours.to_hour}}
+                                                </h6>
+                                            {% endfor %} 
+                                        </div>   
                                     </div>
-                                </div>
-                                
+                                </div>       
                             </div>  
                         </div>
                     </div>  
