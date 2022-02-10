@@ -10,12 +10,13 @@
          event.preventDefault(); //so that we stop normal form submit.
          var_id = $("#variant_id").val();
          pq = $("#quantity").val()
-         console.log(var_id)
-         $.ajax({
+         maxQty = $("#quantity").attr('max')
+         if ( pq <= maxQty && pq > 0) {
+            $.ajax({
             url: "/order/addtoshopcart/" + pr_id,
             type: 'POST',
             data: {'variantid': var_id,
-                'quantity':pq
+                   'quantity':pq
             },
             success: function (data) {
                 console.log(data);
@@ -27,6 +28,16 @@
                 }, 1000);
             }
         });
+         }
+         else{
+            console.log('Out')
+            $("#message").append(
+                    `<div class="alert alert-success hideit alertSuc"> only ${maxQty}  available in Stock.</div>`
+                )
+            // setTimeout(function () {
+            //     $("#message").remove()
+            // },10000)  
+         }
     }
 
     function size(size_id){     
@@ -809,7 +820,7 @@
                     <div class="form-group product__option">
                         <label class="product__option-label" for="product-quantity">Quantity</label>
                         <div class="product__actions">
-                            <div class="product__actions-item">
+                            <div class="product product__actions-item">
                                 <div class="input-number product__quantity">
                                     <input class="input input-number__input form-control form-control-lg" name="quantity" id="quantity"  type="number"  min="1" max="{{product.quantity}}" value="1">
                                     <div class="input-number__add"></div>

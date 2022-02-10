@@ -3,7 +3,6 @@
 {% block description %} {{ setting.description }} {% endblock %}
 {% block keywords %} {{ setting.keywords }} {% endblock %}
 {% block content %}
-    <!-- BREADCRUMB -->
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script>
         function applyCoupon() {
@@ -32,7 +31,7 @@
             var product_id=$(this).closest('.product_data').find('.prod_id').val();
             var product_qty=$(this).closest('.product_data').find('.input').val();
             var max = parseInt($(this).closest('.product_data').find('.input').attr('max'));
-            if (product_qty <= max && product_qty >=0) {
+            if (product_qty <= max && product_qty >= 0) {
                 $.ajax({
                     method:"POST",
                     cache: false,
@@ -48,7 +47,6 @@
                 });
             }
         });
-
 
     </script>
     <div class="site__body">
@@ -199,5 +197,4 @@
             </div>
         </div>
     </div>
-
 {% endblock %}
