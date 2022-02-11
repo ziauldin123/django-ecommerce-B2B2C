@@ -240,7 +240,8 @@ class CompareView(View):
         if product_id in request.session['comparing']:
             print('in')
             request.session['comparing'].remove(product_id)
-            messages.success(request, "Product removed from compare list")
+            messages.warning(
+                request, "A product has been removed from comparison")
             print(request.session['comparing'])
             return redirect(url)
         print('thererer')
@@ -352,7 +353,7 @@ def deleteCompare(request, id):
     url = request.META.get('HTTP_REFERER')
     request.session['comparing'].remove(id)
 
-    messages.success(request, "A product has been removed from comparison")
+    messages.warning(request, "A product has been removed from comparison")
     return redirect(url)
 
 
@@ -363,7 +364,7 @@ def deleteVariantCompare(request, id):
 
     request.session['comparing_variants'].remove(id)
 
-    messages.success(request, "A product has been removed from comparison")
+    messages.warning(request, "A product has been removed from comparison")
     return redirect(url)
 
 
@@ -415,7 +416,8 @@ class WishListAddView(FormView):
         if is_already_in_wishlist:
             UserWishList.objects.filter(
                 user=request.user, product=product).delete()
-            messages.success(request, "Product removed from wishlist")
+            messages.warning(
+                request, "A product has been removed from your wishlist")
         else:
             UserWishList.objects.create(
                 user=request.user, is_variant=False, product=product)
@@ -444,7 +446,8 @@ class WishlistAddVariant(FormView):
             if is_already_in_wishlist:
                 UserWishList.objects.filter(
                     user=request.user, variant=variant).delete()
-                messages.success(request, "Product removed from wishlist")
+                messages.warning(
+                    request, "A product has removed from your wishlist")
             else:
                 UserWishList.objects.create(
                     user=request.user, is_variant=True, product=product, variant=variant)
@@ -458,7 +461,7 @@ class WishlistAddVariant(FormView):
 def wishlistDelete(request, id):
     url = request.META.get('HTTP_REFERER')
     UserWishList.objects.filter(user=request.user, id=id).delete()
-    messages.success(request, "An product has been removed from your wishlist")
+    messages.warning(request, "An product has been removed from your wishlist")
     return redirect(url)
 
 
