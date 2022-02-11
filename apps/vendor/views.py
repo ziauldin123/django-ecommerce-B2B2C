@@ -159,7 +159,7 @@ def logout_request(request):
     return redirect('frontpage')
 
 
-def email_user(who, subject, message, from_email=None, **kwargs):
+def email_user(who, subject, message, from_email=settings.DEFAULT_EMAIL_FROM, **kwargs):
     """Send an email to this user."""
     send_mail(subject, message, from_email, [who.email], **kwargs)
 
