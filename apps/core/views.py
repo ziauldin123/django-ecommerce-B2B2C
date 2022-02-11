@@ -164,12 +164,9 @@ def contact(request):
         From: {}
         '''.format(data['message'], data['email'])
         send_mail(subject, message, from_email, ['info@sokopark.com'])
-        print('msg')
-        return HttpResponse('Thank you for your message, we will be in touch soon')
 
     return render(request, 'core/contact.html',
                   {
-
                       'shopcart': shopcart,
                       'subtotal': total,
                       'tax': tax,
