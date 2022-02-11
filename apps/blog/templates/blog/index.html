@@ -35,7 +35,7 @@
                                             </div>
                                             <div class="post-card__info">
                                                 <div class="post-card__category">
-                                                    {{ post.author }}
+                                                    By {{ post.author }}
                                                 </div>
                                                 <div class="post-card__name">
                                                     <a href="{% url 'detail' post.slug  %}">{{ post.title }}</a>

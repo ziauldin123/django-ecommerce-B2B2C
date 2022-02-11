@@ -7350,13 +7350,13 @@ html:not([dir=rtl]) .noUi-horizontal .noUi-origin {
 */
 .topbar {
   height: 34px;
-  background: transparent;
+  background: #232F3E;
   -webkit-box-shadow: none;
           box-shadow: none;
-  border-bottom: 1px solid #ebebeb;
+ 
   font-size: 14px;
   line-height: 14px;
-  color: #8c8c8c;
+  color: #fff;
   position: relative;
   z-index: 20;
 }

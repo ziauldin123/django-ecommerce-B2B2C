@@ -275,7 +275,7 @@
                                     <div class="post-card__name">
                                         <a href="{% url 'detail' post.slug  %}">{{post.title}}</a>
                                     </div>
-                                    <div class="post-card__date">{{post.created_at}}</div>
+                                    <div class="post-card__date">By {{ post.author }} | {{post.created_at}}</div>
 
                                     <div class="post-card__content">
                                        {{post.intro}}
