@@ -3,6 +3,7 @@ from django.http import request
 from django.shortcuts import render
 from apps.cart.cart import Cart
 from apps.ordering.models import ShopCart
+from django.conf import settings
 from django.core.mail import send_mail
 
 # from apps.product.models import Product, Category, SubCategory, SubSubCategory
@@ -148,19 +149,22 @@ def contact(request):
         email = request.POST.get('email')
         subject = request.POST.get('subject')
         message = request.POST.get('message')
+        from_email = settings.DEFAULT_EMAIL_FROM
 
         data = {
             'name': name,
             'email': email,
             'subject': subject,
-            'message': message
+            'message': message,
+            "from_email": from_email,
         }
         message = '''
         New message: {}
 
         From: {}
         '''.format(data['message'], data['email'])
-        send_mail(data['subject'], message, '', ['warehouse2fifty@gmail.com'])
+        send_mail(subject, message, from_email, ['info@sokopark.com'])
+        print('msg')
         return HttpResponse('Thank you for your message, we will be in touch soon')
 
     return render(request, 'core/contact.html',
