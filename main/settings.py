@@ -43,6 +43,16 @@ CART_SESSION_ID = 'cart'
 COUPON_SESSION_ID = 'coupon'
 SESSION_SAVE_EVERY_REQUEST = True
 
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'warehouse2fifty@gmail.com'
+EMAIL_HOST_PASSWORD = 'Warehousedistrict2021'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+DEFAULT_EMAIL_FROM = ''
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -67,7 +77,6 @@ INSTALLED_APPS = [
     'apps.product',
     'apps.vendor',
     'apps.blog',
-    'apps.dashboard',
     'apps.coupon',
     'apps.newProduct',
     'apps.home',
@@ -83,10 +92,6 @@ INSTALLED_APPS = [
     'bootstrap4',
     'django_addanother',
     'django_select2',
-    "compressor",
-    'storages',
-    "collectfast",
-    'django_ses',
 
 
 ]
@@ -180,79 +185,15 @@ DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
-EMAIL_BACKEND = 'django_ses.SESBackend'
-DEFAULT_EMAIL_FROM = 'customerservice@sokopark.com'
-SERVER_EMAIL = 'customerservice@sokopark.com'
-
-AWS_SES_REGION_NAME = 'eu-west-1'
-AWS_SES_REGION_ENDPOINT = 'email.eu-west-1.amazonaws.com'
-
-
-AWS_ACCESS_KEY_ID = 'AKIA2K3OSTWJYNYQ6Q5W'
-AWS_SECRET_ACCESS_KEY = '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'
-AWS_STORAGE_BUCKET_NAME = 'sokopark'
-AWS_S3_REGION_NAME = 'af-south-1'
-AWS_S3_CUSTOM_DOMAIN = '%s.s3.af-south-1.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
-AWS_PRELOAD_METADATA = True
-AWS_DEFAULT_ACL = None
-AWS_S3_SECURE_URLS = True
-AWS_EXPIRY = 60 * 60 * 24 * 7
-AWS_S3_OBJECT_PARAMETERS = {
-    'CacheControl': 'max-age={}, s-maxage={}, must-revalidate'.format(AWS_EXPIRY, AWS_EXPIRY)
-}
-AWS_LOCATION = 'static'
-AWS_IS_GZIPPED = True
-COLLECTFAST_THREADS = 20
+STATIC_URL = '/static/'
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'apps/dashboard/static'),
+    os.path.join(BASE_DIR, 'static'),
 ]
-
-COMPRESS_ROOT = os.path.join(BASE_DIR, "static")
-STATIC_ROOT = os.path.join(BASE_DIR, "static")
-MEDIA_ROOT = os.path.join(BASE_DIR, "media")
-
-if not DEBUG:
-    STATICFILES_LOCATION = 'static'
-    DEFAULT_FILE_STORAGE = 'main.s3utils.MediaS3Boto3Storage'
-    STATICFILES_STORAGE = 'main.s3utils.CachedS3Boto3Storage'
-    COLLECTFAST_STRATEGY = "collectfast.strategies.boto3.Boto3Strategy"
-    COMPRESS_STORAGE = STATICFILES_STORAGE
-    STATIC_URL = 'https://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION)
-    COMPRESS_URL = STATIC_URL
-else:
-    STATIC_URL = '/static/'
-    MEDIA_URL = '/media/'
-
-
-# STATIC_ROOT = "/home/ubuntu/static/"
-COMPRESS_ENABLED = True
-COMPRESS_CSS_HASHING_METHOD = 'content'
-COMPRESS_CSS_FILTERS = ['compressor.filters.css_default.CssAbsoluteFilter',
-                        'compressor.filters.cssmin.CSSMinFilter']
-COMPRESS_JS_FILTERS = ['compressor.filters.jsmin.JSMinFilter']
-COMPRESS_PARSER = 'compressor.parser.HtmlParser'
-HTML_MINIFY = True
-KEEP_COMMENTS_ON_MINIFYING = False
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-    # other finders..
-    'compressor.finders.CompressorFinder',
+
 )
-
-GZIP_CONTENT_TYPES = (
-    'text/css',
-    'application/javascript',
-    'application/x-javascript',
-    'text/javascript'
-)
-
-
-CKEDITOR_UPLOAD_PATH = 'images/'
-CKEDITOR_ALLOW_NONIMAGE_FILES = False
-
-CKEDITOR_JQUERY_URL = 'https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js'
-CKEDITOR_IMAGE_BACKEND = "pillow"
 
 # RELATIVES_CACHE_KEY = 'relatives_cache'
 # RELATIVES_CACHE_TIME = int(60*60*24)
@@ -267,6 +208,8 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 # )
 
 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 CKEDITOR_UPLOAD_PATH = 'images/'
 CKEDITOR_ALLOW_NONIMAGE_FILES = False
 
