@@ -67,7 +67,6 @@ INSTALLED_APPS = [
     'apps.product',
     'apps.vendor',
     'apps.blog',
-    'apps.dashboard',
     'apps.coupon',
     'apps.newProduct',
     'apps.home',
