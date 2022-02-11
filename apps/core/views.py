@@ -3,6 +3,7 @@ from django.http import request
 from django.shortcuts import render
 from apps.cart.cart import Cart
 from apps.ordering.models import ShopCart
+from django.contrib import messages
 from django.conf import settings
 from django.core.mail import send_mail
 
@@ -164,6 +165,9 @@ def contact(request):
         From: {}
         '''.format(data['message'], data['email'])
         send_mail(subject, message, from_email, ['info@sokopark.com'])
+
+        messages.success(
+            request, ('Your message has been sent. We will get back to you as quickly as possible. Thank you.'))
 
     return render(request, 'core/contact.html',
                   {

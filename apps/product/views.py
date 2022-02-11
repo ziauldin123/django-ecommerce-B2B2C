@@ -352,7 +352,7 @@ def deleteCompare(request, id):
     url = request.META.get('HTTP_REFERER')
     request.session['comparing'].remove(id)
 
-    messages.success(request, "Your item deleted from compare")
+    messages.success(request, "A product has been removed from comparison")
     return redirect(url)
 
 
@@ -363,7 +363,7 @@ def deleteVariantCompare(request, id):
 
     request.session['comparing_variants'].remove(id)
 
-    messages.success(request, "Your item deleted from compare")
+    messages.success(request, "A product has been removed from comparison")
     return redirect(url)
 
 
@@ -458,7 +458,7 @@ class WishlistAddVariant(FormView):
 def wishlistDelete(request, id):
     url = request.META.get('HTTP_REFERER')
     UserWishList.objects.filter(user=request.user, id=id).delete()
-    messages.success(request, "Your item deleted from wishlist")
+    messages.success(request, "An product has been removed from your wishlist")
     return redirect(url)
 
 
