@@ -387,8 +387,10 @@
           <!--<div class="site-header__topbar topbar">
                     <div class="topbar__container container">
                         <div class="topbar__row">   
-                          <marquee behavior="loop" direction="left"><strong>We are still adding products. Making orders will be available soon. Thank you.</strong></marquee>
-                        </div>
+                          <marquee behavior="loop" direction="left">
+                            <strong>We are still adding products. Making orders will be available soon. Thank you.</strong> 
+                          </marquee>
+                        </div>      
                     </div>
                 </div>-->
           <div class="site-header__middle container">
@@ -661,20 +663,7 @@
                                         <a href="{% url 'request_restore_password' %}" class="account-menu__form-forgot-link">Forgot?</a>
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                  <div class="form-check">
-                                      <span class="form-check-input input-check">
-                                          <span class="input-check__body">
-                                              <input class="input-check__input" type="checkbox" id="login-remember">
-                                              <span class="input-check__box"></span>
-                                              <svg class="input-check__icon" width="9px" height="7px">
-                                                  <use xlink:href="/static/templates/images/sprite.svg#check-9x7"></use>
-                                              </svg>
-                                          </span>
-                                      </span>
-                                      <label class="form-check-label" for="login-remember">Remember Me</label>
-                                  </div>
-                              </div>
+                               
                                 {% if form.errors %}
                                      {% for field in form %}
                                           {% for error in field.errors %}
@@ -690,7 +679,6 @@
                                   {% endfor %}
                             {% endif %}
 
-                           <br>
                                 <div class="form-group account-menu__form-button field">
                                     <button type="submit" class="button btn btn-primary btn-sm">Login</button>
                                 </div>
@@ -846,7 +834,7 @@
             <div class="site-footer__bottom">
               <div class="site-footer__copyright">
                 <!-- copyright -->
-                © 2022 - Sokopark Ltd., Sokopark.com or its affiliates.
+                © Copyright 2022 - Sokopark Ltd., Sokopark.com or its affiliates.
                 <!-- copyright / end -->
               </div>
               <div class="site-footer__payments">

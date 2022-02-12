@@ -22,47 +22,47 @@
                            <div class="field form-group">
                                <label>Email</label>
                                <div class="control">
-                                   <input type="email" class="input form-control" name="email" id="id_email" placeholder="Enter email">
+                                   <input type="email" class="input form-control" name="email" id="id_email">
                                </div>
                            </div>
                            <div class="field form-group">
-                               <label>Username( Firstname & lastname)</label>
+                               <label>Username (first name & last name)</label>
                                <div class="control">
                                    <input type="text" class="input form-control" name="customername" id="id_customername">
                                </div>
                            </div>
                            <div class="field form-group">
-                               <label>Tin</label>
+                               <label>Tin (optional)</label>
                                <div class="control">
-                                   <input type="text" class="input form-control" name="company_code" id="id_company_code" placeholder="Enter TIN number">
+                                   <input type="text" class="input form-control" name="company_code" id="id_company_code">
                                </div>
                            </div>
                            <div class="field form-group">
                                <label>Address</label>
                                <div class="control">
-                                   <input type="text" class="input form-control" name="address" id="id_address" placeholder="Enter Address">
+                                   <input type="text" class="input form-control" name="address" id="id_address">
                                </div>
                            </div>
                            <div class="field form-group">
                                <label>Phone</label>
                                <div class="control">
-                                   <input type="text" class="input form-control" name="phone" id="id_phone" placeholder="Enter Phone Number">
+                                   <input type="text" class="input form-control" name="phone" id="id_phone" >
                                </div>
                            </div>
                            <div class="field form-group">
                                <label>Password</label>
-                               <input type="password" class="input form-control" name="password1" id="id_password1" placeholder="Password">
+                               <input type="password" class="input form-control" name="password1" id="id_password1" >
                            </div>
                            <div class="field form-group">
                                <label>Repeat Password</label>
                                <div class="control">
-                                   <input type="password" class="input form-control" name="password2" id="id_password2" placeholder="Password">
+                                   <input type="password" class="input form-control" name="password2" id="id_password2">
                                </div>
                            </div>
                            <div class="field form-group">
                                <div class="control">
                                    <input type="checkbox" name="is_privacy" value="True" id="is_privacy" required/>
-                                  <label>I agree to Sokopark's <a href="{% url 'termsandconditions' %}">terms & conditions</a></label>
+                                  <label>I agree to Sokopark's <a href="{% url 'termsandconditions' %}">terms & conditions</a>.</label>
                                </div>
                            </div>
                            <div class="field form-group">
@@ -71,7 +71,7 @@
                                </div>
                            </div>
                        </form>
-                       <label class="form-check-label" for="login-remember">Already have account?<a href="{% url 'login' %}"> Sign in here </a>
+                        <label class="form-check-label" for="login-remember">Already have account?<a href="{% url 'login' %}"> Sign in here </a>
                         <label class="form-check-label" for="login-remember">Register as vendor?<a href="{% url 'become_vendor' %}"> Register here </a> 
                     </div>
                 </div>
