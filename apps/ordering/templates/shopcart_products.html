@@ -62,6 +62,7 @@
                 </div>
             </div>
         </div>
+         {% if cart %}
         <div class="cart block" id="cart_table">
             <div class="container">
                 <table class="cart__table cart-table">
@@ -196,5 +197,13 @@
                 </div>
             </div>
         </div>
+        {% else %}
+        <div class="block-empty__body">
+                <div class="block-empty__message">Your shopping cart is empty!</div>
+                <div class="block-empty__actions">
+                    <a class="btn btn-primary btn-sm" href="/">Start shopping</a>
+                </div>
+            </div>
+    {% endif %}    
     </div>
 {% endblock %}
