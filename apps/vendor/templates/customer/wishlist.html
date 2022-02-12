@@ -35,7 +35,8 @@
             </div>
         </div>
     </div>
-   
+
+    {% if wishlist %}
     <div class="block">
         <div class="container">
             <table class="wishlist">
@@ -345,5 +346,15 @@
             </table>
         </div>
     </div>
+      {% else %}
+        <div class="block-empty__body">
+            <div class="block-empty__message">There are no products in your wishlist.</div>
+            <div class="block-empty__actions">
+                <a class="btn btn-primary btn-sm" href="/">Return home</a>
+            </div>
+        </div>
+        {% endif %} 
+    
+
 </div>       
 {% endblock %}
