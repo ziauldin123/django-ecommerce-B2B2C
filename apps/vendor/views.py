@@ -965,6 +965,10 @@ class MyAccount(TemplateView):
             cart = Cart(request)
             current_user = request.user
             wishlist=UserWishList.objects.filter(user=current_user)
+            shopcart = ShopCart.objects.filter(user_id=current_user.id)
+            total=cart.get_cart_cost()
+            tax=cart.get_cart_tax()
+            grandTotal=cart.get_cart_cost()
             if  not request.session.get('comparing'):
                 comparing = 0
             else:
@@ -983,7 +987,9 @@ class MyAccount(TemplateView):
         tax=cart.get_cart_tax()
         context = self.get_context_data()
         context['orders'] = orders
+        context['shopcart'] = shopcart
         context['wishlist'] = wishlist
+        context['subtotal'] = total
         context['total_compare'] = total_compare
         context['user_id'] = request.user.id
         return self.render_to_response(context)
@@ -996,6 +1002,10 @@ class OrderHistory(TemplateView):
             cart = Cart(request)
             current_user = request.user
             wishlist=UserWishList.objects.filter(user=current_user)
+            shopcart = ShopCart.objects.filter(user_id=current_user.id)
+            total=cart.get_cart_cost()
+            tax=cart.get_cart_tax()
+            grandTotal=cart.get_cart_cost()
             if  not request.session.get('comparing'):
                 comparing = 0
             else:
@@ -1013,6 +1023,8 @@ class OrderHistory(TemplateView):
         context = self.get_context_data()
         context['orders'] = orders
         context['wishlist'] = wishlist
+        context['shopcart'] = shopcart
+        context['subtotal'] = total
         context['total_compare'] = total_compare
         context['user_id'] = request.user.id
         return self.render_to_response(context)
@@ -1023,6 +1035,10 @@ def order_detail(request,id):
         cart = Cart(request)
         current_user = request.user
         wishlist=UserWishList.objects.filter(user=current_user)
+        shopcart = ShopCart.objects.filter(user_id=current_user.id)
+        total=cart.get_cart_cost()
+        tax=cart.get_cart_tax()
+        grandTotal=cart.get_cart_cost()
         if  not request.session.get('comparing'):
             comparing = 0
         else:
@@ -1042,6 +1058,8 @@ def order_detail(request,id):
     return render(request,'customer/order_details.html',{
         'order':order,
         'wishlist':wishlist,
+        'shopcart': shopcart,
+        'subtotal': total,
         'total_compare':total_compare
         })
 

@@ -1165,8 +1165,8 @@
                                           </ul>
                                         </li>
                                         {% else %}
-                                        <li class="megamenu__item">
-                                          <a href="{% url 'subcategory' category.slug subcategory.slug %}">{{subcategory.title}}</a>
+                                        <li class="megamenu__item" style="padding-top: 20px;">
+                                          <a  href="{% url 'subcategory' category.slug subcategory.slug %}">{{subcategory.title}}</a>
                                         </li>
                                         {% endif %} 
                                       </ul>

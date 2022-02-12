@@ -46,6 +46,16 @@ def search(request):
 
         total_compare = comparing + compare_var
 
+    else:
+        cart = 0
+        subtotal = 0
+        tax = 0
+        total = 0
+        grandTotal = 0
+        shopcart = None 
+        wishlist = 0
+        total_compare = 0    
+
     form = SearchForm(request.GET)
     sorting = request.GET.get('sorting')
     if sorting == None:
