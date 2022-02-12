@@ -168,6 +168,10 @@ def activation_sent_view(request):
     return render(request, 'activation_sent.html')
 
 
+def changing_password_view(request):
+    return render(request, 'changing_password.html')
+
+
 def activate(request, uidb64, token):
     try:
         uid = force_text(urlsafe_base64_decode(uidb64))
@@ -1138,7 +1142,7 @@ def request_restore_password(request):
             messages.success(
                 request, ('Please check your email for verification'))
 
-            return redirect('activation_sent')
+            return redirect('changing_password')
         else:
             print("Invalid")
 
