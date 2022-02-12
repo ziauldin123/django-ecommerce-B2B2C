@@ -18,8 +18,8 @@
                                 </div>
                                 <h1 class="post-header__title">{{ post.title }}</h1>
                                 <div class="post-header__meta">
-                                    <div class="post-header__meta-item">By <a >{{ post.author }}</a></div>
-                                    <div class="post-header__meta-item"><a>{{ post.created_at|date:"d-m-Y | H:i" }}</a></div>
+                                    <div class="post-header__meta-item">By {{ post.author }}</div>
+                                    <div class="post-header__meta-item">{{ post.created_at|date:"d-m-Y | H:i" }}</div>
                                 </div>
                             </div>
                             <div class="post__featured">
@@ -55,8 +55,7 @@
                                             <a href="">{{ post.author }}</a>
                                         </div>
                                         <div class="post-author__about">
-                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur suscipit suscipit mi, non
-                                            tempor nulla finibus eget. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                                           {{ post.author_detail }}
                                         </div>
                                     </div>
                                 </div>
