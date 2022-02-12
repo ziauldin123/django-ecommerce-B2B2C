@@ -1042,7 +1042,7 @@
                     </span>
                 </div>
             </div>
-            <a href="/order/deletefromcart/{{ rs.id }}" onclick="return confirm('Delete ! Are you sure?')" >
+            <a href="{% url 'deletefromcart' product.id %}" onclick="return confirm('Delete ! Are you sure?')" >
               <button type="button" class="dropcart__product-remove btn btn-light btn-sm btn-svg-icon">
                 <svg width="10px" height="10px">
                     <use xlink:href="/static/templates/images/sprite.svg#cross-10"></use>
