@@ -241,7 +241,7 @@ class CompareView(View):
             print('in')
             request.session['comparing'].remove(product_id)
             messages.warning(
-                request, "A product has been removed from comparison")
+                request, "A product has been removed from comparison.")
             print(request.session['comparing'])
             return redirect(url)
         print('thererer')
@@ -249,10 +249,12 @@ class CompareView(View):
         ) + request.session['comparing'].__len__())
         if limit:
             request.session['comparing'].append(product_id)
-            messages.success(request, "Product Added to compare")
+            messages.success(
+                request, "A product has been added to comparison.")
         else:
             print('limit')
-            messages.success(request, "Your reach compare product limits(3)")
+            messages.warning(
+                request, "You can only compare 3 products maximum.")
 
         return redirect(url)
 
@@ -353,7 +355,7 @@ def deleteCompare(request, id):
     url = request.META.get('HTTP_REFERER')
     request.session['comparing'].remove(id)
 
-    messages.warning(request, "A product has been removed from comparison")
+    messages.warning(request, "A product has been removed from comparison.")
     return redirect(url)
 
 
@@ -364,7 +366,7 @@ def deleteVariantCompare(request, id):
 
     request.session['comparing_variants'].remove(id)
 
-    messages.warning(request, "A product has been removed from comparison")
+    messages.warning(request, "A product has been removed from comparison.")
     return redirect(url)
 
 
@@ -417,11 +419,12 @@ class WishListAddView(FormView):
             UserWishList.objects.filter(
                 user=request.user, product=product).delete()
             messages.warning(
-                request, "A product has been removed from your wishlist")
+                request, "A product has been removed from your wishlist.")
         else:
             UserWishList.objects.create(
                 user=request.user, is_variant=False, product=product)
-            messages.success(request, "Product added to wishlist")
+            messages.success(
+                request, "A product has been added to your wishlist.")
 
         return redirect(url)
 
@@ -447,13 +450,14 @@ class WishlistAddVariant(FormView):
                 UserWishList.objects.filter(
                     user=request.user, variant=variant).delete()
                 messages.warning(
-                    request, "A product has removed from your wishlist")
+                    request, "A product has been removed from your wishlist.")
             else:
                 UserWishList.objects.create(
                     user=request.user, is_variant=True, product=product, variant=variant)
                 print(UserWishList.objects.filter(
                     user=request.user, variant=variant))
-                messages.success(request, "Product added to wishlist")
+                messages.success(
+                    request, "A product has been added to your wishlist.")
 
         return redirect(url)
 
@@ -461,7 +465,8 @@ class WishlistAddVariant(FormView):
 def wishlistDelete(request, id):
     url = request.META.get('HTTP_REFERER')
     UserWishList.objects.filter(user=request.user, id=id).delete()
-    messages.warning(request, "An product has been removed from your wishlist")
+    messages.warning(
+        request, "An product has been removed from your wishlist.")
     return redirect(url)
 
 
