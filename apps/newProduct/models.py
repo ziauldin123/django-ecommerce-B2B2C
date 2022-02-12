@@ -240,7 +240,8 @@ class Product(models.Model):
             return ""
 
     def get_absolute_url(self):
-        return reverse('category_detail', kwargs={'slug': self.slug})
+        # return reverse('category_detail', kwargs={'slug': self.slug})
+        return '/%s/%s' % (self.category.slug, self.slug)
 
     def avaregeview(self):
         reviews = Comment.objects.filter(

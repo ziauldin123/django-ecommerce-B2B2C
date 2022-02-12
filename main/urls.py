@@ -31,13 +31,14 @@ from django.conf.urls import url
 
 from django.contrib.sitemaps.views import sitemap
 
-from .sitemaps import StaticViewSitemap, ProductSitemap, PostSitemap
+from .sitemaps import  StaticViewSitemap,  PostSitemap, CategorySitemap, ProductSitemap
 
 
 from apps.vendor import views as vendor_views
 
-sitemaps = {'static': StaticViewSitemap,
-            'product': ProductSitemap,  'post': PostSitemap}
+sitemaps = {'static': StaticViewSitemap, 'post': PostSitemap,
+              'category':CategorySitemap, 'product':ProductSitemap
+            }
 
 
 urlpatterns = [
@@ -75,16 +76,22 @@ urlpatterns = [
         new.subsubcategory,
         name='subsubcategory'
     ),
-
-    path('sitemap.xml', sitemap, {'sitemaps': sitemaps},
+    path('sitemap.xml', sitemap, {'sitemaps':sitemaps},
          name='django.contrib.sitemaps.view.sitemap'),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 # if settings.DEBUG:
 urlpatterns += [url(r'media/(?P<path>.*)$', serve,
-                    {'document_root': settings.MEDIA_ROOT, }), ]
+                    {'document_root': settings.MEDIA_ROOT,}), ]
 
 # if settings.DEBUG:
 urlpatterns += [url(r'static/(?P<path>.*)$', serve,
                     {'document_root': settings.STATIC_ROOT, }), ]
+
+# html sitemap
+# urlpatterns += [url(r'^sitemap/','django.contrib.sitemaps.views.sitemap', \
+#                       {'sitemaps'      : sitemaps,
+#                        'template_name' : 'core/sitemaps.html',
+#                        'mimetype'      : 'None'}),]
+

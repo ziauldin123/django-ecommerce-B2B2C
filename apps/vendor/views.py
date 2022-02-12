@@ -1,4 +1,5 @@
 import code
+from distutils import command
 import re
 from django.http.response import HttpResponse
 from django.views.generic import TemplateView
@@ -40,6 +41,7 @@ from django.template.loader import render_to_string
 from django.core.exceptions import ObjectDoesNotExist
 
 from django.core.mail import send_mail
+from django.core.paginator import (Paginator,PageNotAnInteger,EmptyPage)
 
 from django.contrib.auth.views import (
     LogoutView as BaseLogoutView, PasswordChangeView as BasePasswordChangeView,
@@ -509,7 +511,16 @@ def vendor_products(request):
 @login_required
 def order_history(request):
     vendor = request.user.vendor
-    orders=vendor.orders.all()
+    orders_list=vendor.orders.all()
+    paginator = Paginator(orders_list,7)
+    page = request.GET.get('page')
+
+    try:
+        orders = paginator.page(page)
+    except PageNotAnInteger:
+        orders = paginator.page(1)
+    except EmptyPage:
+        orders = paginator.page(paginator.num_pages)        
 
     for order in orders:
         order.vendor_amount = 0
@@ -813,7 +824,17 @@ def edit_vendor(request):
 
 
 def vendors(request):
-    vendors = Vendor.objects.filter(enabled=True)
+    vendors_list = Vendor.objects.filter(enabled=True)
+    paginator = Paginator(vendors_list,5)
+    page = request.GET.get('page')
+
+    try:
+        vendors=paginator.page(page)
+    except PageNotAnInteger:
+        vendors=paginator.page(1)
+    except EmptyPage:
+        vendors=paginator.page(paginator.num_pages)        
+
     if not request.user.is_anonymous:
         cart = Cart(request)
         current_user = request.user
@@ -1018,7 +1039,17 @@ class OrderHistory(TemplateView):
 
             total_compare = comparing + compare_var
 
-        orders =account_service.calculate_order_sum(request.user.email)
+        orders_list =account_service.calculate_order_sum(request.user.email)
+        paginator = Paginator(orders_list,7)
+        page=request.GET.get('page')
+
+        try:
+            orders=paginator.page(page)
+        except PageNotAnInteger:
+            orders=paginator.page(1)
+        except EmptyPage:
+            orders=paginator.page(paginator.num_pages)        
+
         cart=Cart(request)
         context = self.get_context_data()
         context['orders'] = orders

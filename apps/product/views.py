@@ -1,4 +1,5 @@
 from email import message
+import imp
 import random
 from copy import copy
 
@@ -16,6 +17,7 @@ from django.views.generic import FormView, TemplateView
 from .forms import AddToCartForm, AddToCartInListForm, ReviewForm, SearchForm, TestForm
 # from .models import Category, Collection, ProductImage, Review, SubCategory, SubSubCategory, Product
 from apps.newProduct.models import *
+from django.core.paginator import (PageNotAnInteger,EmptyPage,Paginator)
 
 
 from apps.cart.cart import Cart
@@ -62,6 +64,8 @@ def search(request):
         sorting=("-created_at")
 
     products = Product.objects.filter(status=True,visible=True)
+          
+
     for product in products:
         variants = Variants.objects.filter(product=product)
     brands=Brand.objects.all()
@@ -96,7 +100,16 @@ def search(request):
         for product in products:
             if Variants.objects.filter(product_id=product.id).exists():
                 variants_id.append(product.id)
-        products = product_service.filter_products(products,variants_id,sorting=sorting, **form.cleaned_data)
+        products_list = product_service.filter_products(products,variants_id,sorting=sorting, **form.cleaned_data)
+        paginator = Paginator(products_list,7)
+        page = request.GET.get('page')
+
+        try:
+           products = paginator.page(page)
+        except PageNotAnInteger:
+            products = paginator.page(1)
+        except EmptyPage:
+            products = paginator.page(paginator.num_pages)  
     else:
         print(form.errors)
     form = SearchForm(request.GET, products=products)
@@ -589,7 +602,17 @@ def category(request, category_slug):
             if Variants.objects.filter(product_id=product.id).exists():
                 variants_id.append(product.id)
         # print("on form valid",search_form.cleaned_data)
-        products = product_service.filter_products(products,variants_id, sorting=sorting, **search_form.cleaned_data)
+        products_list = product_service.filter_products(products,variants_id, sorting=sorting, **search_form.cleaned_data)
+        paginator = Paginator(products_list,6) 
+        page = request.GET.get('page')
+
+        try:
+           products = paginator.page(page)
+        except PageNotAnInteger:
+           products = paginator.page(1)
+        except EmptyPage:
+            products = paginator.page(paginator.num_pages)
+
     else:
         print(search_form.errors)
     print("filtered products", products)
@@ -721,8 +744,17 @@ def subcategory(request, category_slug, subcategory_slug):
         for product in products:
             if Variants.objects.filter(product_id=product.id).exists():
                 variants_id.append(product.id)
-        products = product_service.filter_products(products,variants_id, sorting=sorting, **search_form.cleaned_data)
+        products_list = product_service.filter_products(products,variants_id, sorting=sorting, **search_form.cleaned_data)
         print("product",products)
+        paginator = Paginator(products_list,6) 
+        page = request.GET.get('page')
+
+        try:
+           products = paginator.page(page)
+        except PageNotAnInteger:
+           products = paginator.page(1)
+        except EmptyPage:
+            products = paginator.page(paginator.num_pages)
     else:
         print(search_form.errors)
     search_form = SearchForm(request.GET, products=products)
@@ -810,7 +842,7 @@ def subsubcategory(request, category_slug, subcategory_slug, subsubcategory_slug
             product_slug = form.cleaned_data['slug']
 
             product = get_object_or_404(
-                Product, category__slug=subsubcategory_slug, slug=product_slug,status=True)
+                Product, category__slug=subsubcategory_slug, slug=product_slug,status=True)    
             product.num_visits = product.num_visits + 1
             product.last_visit = datetime.now()
             product.save()
@@ -847,7 +879,16 @@ def subsubcategory(request, category_slug, subcategory_slug, subsubcategory_slug
         for product in products:
             if Variants.objects.filter(product_id=product.id).exists():
                 variants_id.append(product.id)
-        products = product_service.filter_products(products,variants_id, sorting=sorting, **search_form.cleaned_data)
+        products_list = product_service.filter_products(products,variants_id, sorting=sorting, **search_form.cleaned_data)
+        paginator = Paginator(products_list,6) 
+        page = request.GET.get('page')
+
+        try:
+           products = paginator.page(page)
+        except PageNotAnInteger:
+           products = paginator.page(1)
+        except EmptyPage:
+            products = paginator.page(paginator.num_pages)
 
         print("product",products)
     else:

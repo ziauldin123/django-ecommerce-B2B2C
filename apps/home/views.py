@@ -1,4 +1,5 @@
 import imp
+from django.contrib.sitemaps import Sitemap
 from django.shortcuts import get_object_or_404, redirect, render
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse, request
 from django.shortcuts import render
@@ -16,6 +17,7 @@ from apps.ordering.models import ShopCart
 
 from apps.newProduct.models import Category, Comment, Product, SubCategory, SubSubCategory, Images, Comment, Variants
 from apps.vendor.models import UserWishList, Customer
+from django.core.paginator import (Paginator,EmptyPage,PageNotAnInteger)
 # Create your views here.
 
 
@@ -104,7 +106,16 @@ def product_detail(request, id, slug, vendor_slug, category_slug, subcategory_sl
     if len(similar_products) >= 4:
         similar_products = random.sample(similar_products, 4)
 
-    comments = Comment.objects.filter(product_id=id, status='True')
+    comments_list = Comment.objects.filter(product_id=id, status='True')
+    paginator = Paginator(comments_list,2) 
+    page = request.GET.get('page')
+
+    try:
+        comments = paginator.page(page)
+    except PageNotAnInteger:
+        comments = paginator.page(1)
+    except EmptyPage:
+        comments = paginator.page(paginator.num_pages)        
 
     product.save()
     context = {'product': product, 'category': category,
