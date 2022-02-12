@@ -57,15 +57,13 @@
                         {% endfor %}
                     </div>
                 {% endif %}
-                <br>
-                            <div class="control">
-                                <a href="">
-                                    <button type="submit" class="button btn btn-primary mt-4">Login</button>
-                                </a>
-                            </div>
+                        <div class="control">
+                            <button type="submit" class="btn btn-primary btn-lg btn-block">Login</button>
+                        </div>
                         </form>
                         </br>
-                        <label class="form-check-label" for="login-remember">Don't you have account?<a href="{% url 'become_customer' %}"> Register here </a></label>
+                        <label class="form-check-label" for="login-remember">Register as a customer<a href="{% url 'become_customer' %}"> Register here </a></label>
+                         <label class="form-check-label" for="login-remember">Register as a vendor?<a href="{% url 'become_vendor' %}"> Register here </a> 
                     </div>
                 </div>
             </div>
