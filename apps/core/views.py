@@ -19,7 +19,6 @@ def frontpage(request):
     shopcart = ShopCart.objects.filter(user_id=current_user.id)
     posts = Post.objects.all()
     
-    
     if product:
         for i in product:
             if i.is_variant:
@@ -57,7 +56,7 @@ def frontpage(request):
         shopcart = ShopCart.objects.filter(user_id=current_user.id)
         total=cart.get_cart_cost()
         tax=cart.get_cart_tax()
-        grandTotal=cart.get_cart_cost() 
+        grandTotal=cart.get_cart_cost() + cart.get_cart_tax()
         if cart.__len__() == 0:
             for rs in shopcart:
                 if rs.variant is None:
@@ -82,7 +81,6 @@ def frontpage(request):
 
     else:
         cart = 0
-        subtotal = 0
         tax = 0
         total = 0
         grandTotal = 0
@@ -183,7 +181,6 @@ def about(request):
         cart = Cart(request)
         current_user = request.user
         wishlist=UserWishList.objects.filter(user=current_user)
-
         # cart.clear()
         shopcart = ShopCart.objects.filter(user_id=current_user.id)
         total=cart.get_cart_cost()
