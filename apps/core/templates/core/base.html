@@ -474,7 +474,7 @@
                                         
                                          {% if subcategory.has_children %}
                                         <li
-                                          class="megamenu__item megamenu__item--with-submenu" style="padding-top: 20px;"
+                                          class="megamenu__item megamenu__item--with-submenu";
                                         >
                                           <a href="{% url 'subcategory' category.slug subcategory.slug %}">{{subcategory.title}}</a>
                                           <ul
@@ -486,11 +486,13 @@
                                                 >{{subsubcategory.title}}</a
                                               >
                                             </li>
+                                           
                                             {% endfor %}
+                                             <br>
                                           </ul>
                                         </li>
                                         {% else %}
-                                        <li class="megamenu__item" style="padding-top: 20px;">
+                                        <li class="megamenu__item">
                                           <a  href="{% url 'subcategory' category.slug subcategory.slug %}">{{subcategory.title}}</a>
                                         </li>
                                         {% endif %} 
