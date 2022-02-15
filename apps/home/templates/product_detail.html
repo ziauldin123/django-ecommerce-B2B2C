@@ -1204,6 +1204,7 @@
                 <div class="block-products-carousel__preloader"></div>
                 <div class="owl-carousel">
                     {% for product in similar_products %} 
+                     {% if product.vendor.enabled and product.visible and product.status %}
                     <div class="block-products-carousel__column">
                         <div class="block-products-carousel__cell">
                             <div class="product-card product-card--hidden-actions ">    
@@ -1466,6 +1467,7 @@
                             </div>
                         </div>
                     </div>
+                    {% endif %}
                     {% endfor %}
                 </div>
             </div>
