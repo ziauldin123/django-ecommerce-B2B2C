@@ -634,17 +634,17 @@
                             <th>Price</th>
                             {% for product in products %} 
                             <td>{% if product.discount %} 
-                                Frw {{product.get_discounted_price}}
+                                 Rwf {{product.get_discounted_price}}
                               {% else %} 
-                              Frw  {{product.price}}
+                              Rwf {{product.price}}
                               {% endif %}   </td>
                             {% endfor %} 
                             {% for product in variants %}
                             <td>{% if product.discount %} 
-                                {{product.get_discounted_price}}
+                                Rwf {{product.get_discounted_price}}
                               {% else %} 
-                               {{product.price}}
-                              {% endif %}    FRW</td>
+                               Rwf {{product.price}}
+                              {% endif %}  </td>
                             {% endfor %}
                         </tr>
                         <tr>
