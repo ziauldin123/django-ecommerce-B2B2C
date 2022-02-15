@@ -43,9 +43,9 @@
                                 <thead>
                                     <tr>
                                         <th>Order Reference</th>
-                                        <th>Date</th>
+                                        <th>Date and Time</th>
                                         <th>Status</th>
-                                        <th>Total</th>
+                                        <th>Amount (Rwf)</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -54,7 +54,7 @@
                                             <td><a href="/customer/order-detail/{{ order.id }}">{{order.reference_number}}</a></td>
                                             <td>{{order.created_at }}</td>
                                             <td>{{order.status}}</td>
-                                            <td>Frw {{order.grand_paid_amount}}</td>
+                                            <td>{{order.grand_paid_amount}}</td>
                                         </tr>
                                     {% endfor %}
                                 </tbody>
