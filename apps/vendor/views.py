@@ -1098,12 +1098,6 @@ def order_detail(request, id):
     return render(request, 'customer/order_details.html', {
         'order': order,
         'wishlist': wishlist,
-        'total_compare': total_compare
-    })
-
-    return render(request, 'customer/order_details.html', {
-        'order': order,
-        'wishlist': wishlist,
         'shopcart': shopcart,
         'subtotal': total,
         'total_compare': total_compare

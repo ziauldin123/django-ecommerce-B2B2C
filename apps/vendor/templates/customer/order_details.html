@@ -48,42 +48,48 @@
                             <table>
                                 <thead>
                                     <tr>
-                                        <th>Product</th>
                                         <th>Vendor</th>
-                                        <th>Price</th>
-                                        <th>Total</th>
+                                        <th>Product</th>
+                                        <th>Price(Rwf)</th>
+                                        <th>Total(Rwf)</th>
                                     </tr>
                                 </thead>
                                 <tbody class="card-table__body card-table__body--merge-rows">
                                     {% for order in order.items.all %} 
                                     <tr>
+                                        <td>{{order.vendor}}</td>
                                         <td>{% if order.is_variant %} {{order.variant}} {% else %} {{order.product}} {% endif %} × {{order.quantity}}</td>
-                                         <td>{{order.vendor}}</td>
-                                         <td>{{order.price}}</td>
-                                        <td>{{order.subtotal}} VAT incl. FRW</td>
+                                        <td>{{order.price}}</td>
+                                        <td>{{order.subtotal}} </td>
                                     </tr>
                                     {% endfor %}
                                 </tbody>
                                 <tbody class="card-table__body card-table__body--merge-rows">
                                     <tr>
-                                        <th>VAT</th>
-                                        <td>{{order.vat}} FRW</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Subtotal</th>
-                                        <td>{{order.subtotal}} FRW</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Delivery Cost</th>
                                         <th></th>
-                                        <td>Frw {{order.delivery_cost}} </td>
+                                        <th></th>
+                                        <th>VAT</th>
+                                        <td>{{order.vat}}</td>
+                                    </tr>
+                                    <tr>   
+                                        <th></th>
+                                        <th></th>
+                                        <th>Subtotal</th>
+                                        <td>{{order.subtotal}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th></th>
+                                        <th></th>
+                                        <th>Delivery</th>
+                                        <td>{{order.delivery_cost}} </td>
                                     </tr>
                                 </tbody>
                                 <tfoot>
                                     <tr>
-                                        <th>Total</th>
                                         <th></th>
-                                        <td>Frw {{order.grand_paid_amount}}</td>
+                                        <th></th>
+                                        <th>Total(incl. vat)</th>
+                                        <td>{{order.grand_paid_amount}}</td>
                                     </tr>
                                 </tfoot>
                             </table>
