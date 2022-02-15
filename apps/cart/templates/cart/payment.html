@@ -137,6 +137,7 @@
                 <div class="col-12 col-lg-4 mt-4 mt-lg-0">
                     <div class="card mb-0">
                         <div class="card-body">
+                            <h3 class="card-title">Payment</h3>
                             <form method="post" action="" id="payment-form">
                                 {% csrf_token %}
                                 {% if cart.get_delivery_type == 'store' %}
@@ -169,7 +170,7 @@
                     </div>
                     <br>
                      <div class="card mb-0">
-                         <a class= "ml-2 mr-2">This confirmation will not initiate a payment. <br>You will have to manually pay using *182*8*1*077935# for MTN or *500*4*2*1*630343# for Airtel.</a>
+                         <a class= "ml-2 mr-2"><strong>This confirmation will not initiate a payment. <br>You will have to manually pay using : *182*8*1*077935# for MTN or *500*4*2*1*630343# for Airtel.<strong></a>
                      </div>
                 </div>
 
