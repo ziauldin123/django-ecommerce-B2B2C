@@ -38,8 +38,8 @@ class PaymentService:
         delivery_type=cart.cart['delivery']['delivery_type']
         is_paid_now = True if request.POST.get('pay_now') else False
         order = checkout(request,cart, first_name, last_name, email,address, phone,company_code, district,
-                         sector, cell, village, delivery_address, delivery_cost,delivery_type, cart.get_cart_cost(),
-                         request.session.get(settings.COUPON_SESSION_ID)["code"], is_paid_now)
+                         sector, cell, village, delivery_address, delivery_cost,delivery_type,cart.get_cart_cost(),
+                         request.session.get(settings.COUPON_SESSION_ID)["code"], is_paid_now,cart.get_cart_tax(),cart.get_cart_cost())
 
         if s_coupon:
             s_coupon = request.session[settings.COUPON_SESSION_ID] = {}

@@ -74,9 +74,8 @@
                         </div>
                     </div>
                 </div>
-                
+                {% endfor %}
             </div>
+            {% include "core/pagination.html" with page=posts %}
         </div>
-        
-    </div>  
 {% endblock %}

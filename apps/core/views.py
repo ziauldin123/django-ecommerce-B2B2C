@@ -82,7 +82,6 @@ def frontpage(request):
 
     else:
         cart = 0
-        subtotal = 0
         tax = 0
         total = 0
         grandTotal = 0
@@ -185,7 +184,6 @@ def about(request):
         cart = Cart(request)
         current_user = request.user
         wishlist = UserWishList.objects.filter(user=current_user)
-
         # cart.clear()
         shopcart = ShopCart.objects.filter(user_id=current_user.id)
         total = cart.get_cart_cost()

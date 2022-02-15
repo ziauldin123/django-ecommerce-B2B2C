@@ -1,4 +1,5 @@
 from email import message
+import imp
 import random
 from copy import copy
 
@@ -16,6 +17,7 @@ from django.views.generic import FormView, TemplateView
 from .forms import AddToCartForm, AddToCartInListForm, ReviewForm, SearchForm, TestForm
 # from .models import Category, Collection, ProductImage, Review, SubCategory, SubSubCategory, Product
 from apps.newProduct.models import *
+from django.core.paginator import (PageNotAnInteger, EmptyPage, Paginator)
 
 
 from apps.cart.cart import Cart
@@ -46,12 +48,23 @@ def search(request):
 
         total_compare = comparing + compare_var
 
+    else:
+        cart = 0
+        subtotal = 0
+        tax = 0
+        total = 0
+        grandTotal = 0
+        shopcart = None
+        wishlist = 0
+        total_compare = 0
+
     form = SearchForm(request.GET)
     sorting = request.GET.get('sorting')
     if sorting == None:
         sorting = ("-created_at")
 
     products = Product.objects.filter(status=True, visible=True)
+
     for product in products:
         variants = Variants.objects.filter(product=product)
     brands = Brand.objects.all()
@@ -86,8 +99,17 @@ def search(request):
         for product in products:
             if Variants.objects.filter(product_id=product.id).exists():
                 variants_id.append(product.id)
-        products = product_service.filter_products(
+        products_list = product_service.filter_products(
             products, variants_id, sorting=sorting, **form.cleaned_data)
+        paginator = Paginator(products_list, 7)
+        page = request.GET.get('page')
+
+        try:
+            products = paginator.page(page)
+        except PageNotAnInteger:
+            products = paginator.page(1)
+        except EmptyPage:
+            products = paginator.page(paginator.num_pages)
     else:
         print(form.errors)
     form = SearchForm(request.GET, products=products)
@@ -229,6 +251,9 @@ class CompareView(View):
         url = request.META.get('HTTP_REFERER')  # get last url
         product_id = kwargs['pk']
         product = Product.objects.get(pk=product_id)
+        if product.vendor.enabled == False:
+            messages.success(request, "Product not available")
+            redirect(url)
         print(product)
         # session = request.session
         if not request.session.get('comparing'):
@@ -264,6 +289,10 @@ def variantCompare(request):
     if request.method == "POST":
         variantid = request.POST.get('variant_id')
         variant = Variants.objects.get(id=variantid)
+
+        if variant.product.vendor.enabled == False:
+            messages.success(request, "Product not available")
+            redirect(url)
 
         if not request.session.get('comparing'):
             request.session['comparing'] = []
@@ -406,6 +435,11 @@ class WishListAddView(FormView):
     def post(self, request, *args, **kwargs):
         url = request.META.get('HTTP_REFERER')  # get last url
         product = Product.objects.get(pk=kwargs['pk'])
+
+        if product.vendor.enabled == False:
+            messages.success(request, "Product not available")
+            redirect(url)
+
         try:
             request.user.customer
         except:
@@ -439,6 +473,10 @@ class WishlistAddVariant(FormView):
             productid = request.POST.get('product_id')
             variant = Variants.objects.get(pk=variantid)
             product = Product.objects.get(id=productid)
+
+            if product.vendor.enabled == False:
+                messages.success(request, "Product not available")
+                redirect(url)
             try:
                 request.user.customer
 
@@ -583,8 +621,18 @@ def category(request, category_slug):
             if Variants.objects.filter(product_id=product.id).exists():
                 variants_id.append(product.id)
         # print("on form valid",search_form.cleaned_data)
-        products = product_service.filter_products(
+        products_list = product_service.filter_products(
             products, variants_id, sorting=sorting, **search_form.cleaned_data)
+        paginator = Paginator(products_list, 6)
+        page = request.GET.get('page')
+
+        try:
+            products = paginator.page(page)
+        except PageNotAnInteger:
+            products = paginator.page(1)
+        except EmptyPage:
+            products = paginator.page(paginator.num_pages)
+
     else:
         print(search_form.errors)
     print("filtered products", products)
@@ -717,9 +765,18 @@ def subcategory(request, category_slug, subcategory_slug):
         for product in products:
             if Variants.objects.filter(product_id=product.id).exists():
                 variants_id.append(product.id)
-        products = product_service.filter_products(
+        products_list = product_service.filter_products(
             products, variants_id, sorting=sorting, **search_form.cleaned_data)
         print("product", products)
+        paginator = Paginator(products_list, 6)
+        page = request.GET.get('page')
+
+        try:
+            products = paginator.page(page)
+        except PageNotAnInteger:
+            products = paginator.page(1)
+        except EmptyPage:
+            products = paginator.page(paginator.num_pages)
     else:
         print(search_form.errors)
     search_form = SearchForm(request.GET, products=products)
@@ -845,8 +902,17 @@ def subsubcategory(request, category_slug, subcategory_slug, subsubcategory_slug
         for product in products:
             if Variants.objects.filter(product_id=product.id).exists():
                 variants_id.append(product.id)
-        products = product_service.filter_products(
+        products_list = product_service.filter_products(
             products, variants_id, sorting=sorting, **search_form.cleaned_data)
+        paginator = Paginator(products_list, 6)
+        page = request.GET.get('page')
+
+        try:
+            products = paginator.page(page)
+        except PageNotAnInteger:
+            products = paginator.page(1)
+        except EmptyPage:
+            products = paginator.page(paginator.num_pages)
 
         print("product", products)
     else:

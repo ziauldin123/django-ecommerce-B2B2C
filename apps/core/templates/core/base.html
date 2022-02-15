@@ -2,7 +2,8 @@
 {% load i18n %}
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-  <head>
+  <head
+    <?xml version="1.0" encoding="UTF-8"?>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="format-detection" content="telephone=no" />
@@ -335,7 +336,7 @@
                       </span>
                     </button>
                   </div>
-                  <div class="indicator indicator--mobile ">
+                  <div class="indicator indicator--mobile d-sm-flex d-none" id="my_wishlist">
                     <a href="/users/customer/{{ request.user.id }}/wishlist/" class="indicator__button">
                       <span class="indicator__area">
                         <svg width="20px" height="20px">
@@ -343,28 +344,12 @@
                             xlink:href="/static/templates/images/sprite.svg#heart-20"
                           ></use>
                         </svg>
-                        <span class="indicator__value">{% if wishlist %} {{ wishlist|length }} {% else %} 0 {% endif %}</span>
+                        <span class="indicator__value">{% if wishlist %} ({{ wishlist|length }}) {% else %} 0 {% endif %}</span>
                       </span>
                     </a>
                   </div>
-                   <div class="indicator indicator--mobile ">
-                      <a href="{% url 'product-comparing' %}" class="indicator__button">
-                        <span class="indicator__area">
-                          <svg class="svg" width="20px" height="20px">
-                            <use xlink:href="/static/templates/images/sprite.svg#compare-16"></use>
-                          </svg>
-                          <span class="qty indicator__value">
-                            {% if total_compare %} 
-                            {{total_compare}}
-                            {% else %} 
-                            0
-                            {% endif %}
-                          </span>
-                        </span>
-                      </a>   
-                    </div>
-                  <div class="indicator indicator--mobile">
-                    <a href="" data-open="offcanvas-cart" class="indicator__button">
+                  <div class="indicator indicator--mobile" id="mycart">
+                    <a href=" " data-open="offcanvas-cart" class="indicator__button">
                       <span class="indicator__area">
                         <svg width="20px" height="20px">
                           <use xlink:href="/static/templates/images/sprite.svg#cart-20"></use>
@@ -470,7 +455,7 @@
                                 </svg>
                               </a>
                               <div
-                                class="departments__submenu departments__submenu--type--megamenu departments__submenu--size--nl"
+                                class="departments__submenu departments__submenu--type--megamenu departments__submenu--size--xl"
                               >
                                 <!-- .megamenu -->
                                 <div class="megamenu megamenu--departments">
@@ -480,39 +465,39 @@
                                       background-image: url('images/megamenu/megamenu-1.jpg');
                                     "
                                   >
-                                    <div class="row">
-                                      {% for subcategory in category.children %}
-                                      <div class="col-6 col-md-4">
-                                        <ul
-                                          class="megamenu__links megamenu__links--level--0"
+                                  <div class="row">
+                                    {% for subcategory in category.children %}
+                                    <div class="col-3">
+                                      <ul
+                                        class="megamenu__links megamenu__links--level--0"
+                                      >
+                                        
+                                         {% if subcategory.has_children %}
+                                        <li
+                                          class="megamenu__item megamenu__item--with-submenu" style="padding-top: 20px;"
                                         >
-                                          
-                                           {% if subcategory.has_children %}
-                                          <li
-                                            class="megamenu__item megamenu__item--with-submenu"
+                                          <a href="{% url 'subcategory' category.slug subcategory.slug %}">{{subcategory.title}}</a>
+                                          <ul
+                                            class="megamenu__links megamenu__links--level--1"
                                           >
-                                            <a href="{% url 'subcategory' category.slug subcategory.slug %}">{{subcategory.title}}</a>
-                                            <ul
-                                              class="megamenu__links megamenu__links--level--1"
-                                            >
-                                              {% for subsubcategory in subcategory.children %}
-                                              <li class="megamenu__item">
-                                                <a href="{% url 'subsubcategory' category.slug subcategory.slug subsubcategory.slug %}"
-                                                  >{{subsubcategory.title}}</a
-                                                >
-                                              </li>
-                                              {% endfor %}
-                                            </ul>
-                                          </li>
-                                          {% else %}
-                                          <li class="megamenu__item">
-                                            <a href="{% url 'subcategory' category.slug subcategory.slug %}">{{subcategory.title}}</a>
-                                          </li>
-                                          {% endif %} 
-                                        </ul>
-                                      </div>
-                                      {% endfor %}
+                                            {% for subsubcategory in subcategory.children %}
+                                            <li class="megamenu__item">
+                                              <a href="{% url 'subsubcategory' category.slug subcategory.slug subsubcategory.slug %}"
+                                                >{{subsubcategory.title}}</a
+                                              >
+                                            </li>
+                                            {% endfor %}
+                                          </ul>
+                                        </li>
+                                        {% else %}
+                                        <li class="megamenu__item" style="padding-top: 20px;">
+                                          <a  href="{% url 'subcategory' category.slug subcategory.slug %}">{{subcategory.title}}</a>
+                                        </li>
+                                        {% endif %} 
+                                      </ul>
                                     </div>
+                                    {% endfor %}
+                                  </div>
                                   </div>
                                 </div>
                                 <!-- .megamenu / end -->
@@ -619,7 +604,7 @@
                         </span>
                       </a>   
                     </div>
-                    <div class="indicator">
+                    <div class="indicator" id="my_cart">
                       <a class="indicator__button" data-open="offcanvas-cart">
                           <span class="indicator__area">
                               <svg class="svg" width="15px" height="15px">

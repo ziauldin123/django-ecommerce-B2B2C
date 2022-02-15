@@ -10,7 +10,9 @@
             url: "/order/addtoshopcart/" + pr_id,
             success: function (data) {
                 console.log(data);
-                $("#my_cart").load(location.href + " #my_cart");
+                $("#my_cart").load(location.href + " #my_cart"); //for desktop
+                $("#mycart").load(location.href + " #mycart");   //for mobile
+                $("#cart_table").load(location.href + " #cart_table");
                 $("#message").append(
                     '<div class="alert alert-success hideit alertSuc">A product has been added to your cart.</div >')
                 setTimeout(function () {
@@ -22,7 +24,7 @@
     }
     $('body').on('click','.wish',function(){
         var variant_id=$(this).closest('.wishList').find('.variantid').val()
-        var product_id=$(this).closest('.wishList').find('.product_id').val()
+        var product_id=$(this).closest('.wishList').find('.productid').val()
         var my_token='{{ csrf_token }}'
 
         $.ajax({
@@ -69,8 +71,12 @@
     $('body').on('click','.wishBtn',function(){
         $("my_wishlist").load(Location.href + " #my_wishlist");
     })   
-</script>  
-            {% include 'core/caroussel.html' %}   
+</script>
+<div id="message" name="message" class="mt-3">
+                        
+</div>
+
+            {% include 'core/caroussel.html' %}
             <div class="block block-products-carousel" data-layout="grid-4" data-mobile-grid-columns="2">
                 <div class="container">
                     <div class="block-header">
@@ -89,27 +95,23 @@
                             </button>
                         </div>
                     </div>
-                    <div id="message" name="message" class="mt-3">
-                    </div>
-
                     <div class="block-products-carousel__slider">
                         <div class="block-products-carousel__preloader"></div>
-                            <div class="owl-carousel">
-                                 {% for product in featured_products %} 
-                                    {% if product.vendor.enabled and product.visible and not product.is_variant %}
-                                        {% include 'product/parts/list_item-frontpage.html' %}
-                                        {% elif product.vendor.enabled and product.visible and product.is_variant %} 
-                                        {% if product.get_variant %} 
-                                            {% include 'product/parts/list_item-frontpage.html' %}
-                                        {% endif %} 
-                                    {% endif %}   
-                                {% endfor %}       
+                        <div class="owl-carousel">
+                            {% for product in featured_products %} 
+                            {% if product.vendor.enabled and product.visible and  product.status and not product.is_variant %}
+                                 {% include 'product/parts/list_item-frontpage.html' %}
+                                {% elif product.vendor.enabled and product.status and product.visible and product.is_variant %} 
+                                  {% if product.get_variant %} 
+                                     {% include 'product/parts/list_item-frontpage.html' %}
+                                  {% endif %} 
+                               {% endif %}   
+                            {% endfor %}         
                             </div>
-                        </div>  
+                        </div>
                     </div>
                 </div>
-            </div>    
-
+            </div>
 <!-- .block-products-carousel / end -->
             <!-- .block-banner -->
             <div class="block block-banner">
@@ -150,16 +152,16 @@
 
                     <div class="block-products-carousel__slider">
                         <div class="block-products-carousel__preloader"></div>
-                            <div class="owl-carousel">
-                                {% for product in popular_products %} 
-                                {% if product.vendor.enabled and product.visible and not product.is_variant %}
-                                    {% include 'product/parts/list_item-frontpage.html' %}
-                                    {% elif product.vendor.enabled and product.visible and product.is_variant %} 
-                                    {% if product.get_variant %} 
-                                        {% include 'product/parts/list_item-frontpage.html' %}
-                                    {% endif %} 
-                                {% endif %}   
-                                {% endfor %}         
+                        <div class="owl-carousel">
+                            {% for product in popular_products %} 
+                            {% if product.vendor.enabled and product.visible and product.status and not product.is_variant %}
+                                 {% include 'product/parts/list_item-frontpage.html' %}
+                                {% elif product.vendor.enabled and product.visible and product.status  and product.is_variant %} 
+                                  {% if product.get_variant %} 
+                                     {% include 'product/parts/list_item-frontpage.html' %}
+                                  {% endif %} 
+                               {% endif %}   
+                            {% endfor %}         
                             </div>
                         </div>
                     </div>
@@ -186,15 +188,13 @@
                             </button>
                         </div>
                     </div>
-                    <div id="message" name="message" class="mt-3">
-                    </div>
-                    <div class="block-products-carousel__slider">
+                    <div class="block-products-carousel">
                         <div class="block-products-carousel__preloader"></div>
                         <div class="owl-carousel">
                             {% for product in featured_categories_products %} 
-                            {% if product.vendor.enabled and product.visible and not product.is_variant %}
+                            {% if product.vendor.enabled and product.visible and product.status and not product.is_variant %}
                                  {% include 'product/parts/list_item-frontpage.html' %}
-                                {% elif product.vendor.enabled and product.visible and product.is_variant %} 
+                                {% elif product.vendor.enabled and product.visible and product.status and product.is_variant %} 
                                   {% if product.get_variant %} 
                                      {% include 'product/parts/list_item-frontpage.html' %}
                                   {% endif %} 
@@ -224,15 +224,13 @@
                             </button>
                         </div>
                     </div>
-                    <div id="message" name="message" class="mt-3">
-                    </div>
                     <div class="block-products-carousel__slider">
                         <div class="block-products-carousel__preloader"></div>
                         <div class="owl-carousel">
                             {% for product in newest_products %} 
-                               {% if product.vendor.enabled and product.visible and not product.is_variant %}
+                               {% if product.vendor.enabled and product.visible and product.status and not product.is_variant %}
                                  {% include 'product/parts/list_item-frontpage.html' %}
-                                {% elif product.vendor.enabled and product.visible and product.is_variant %} 
+                                {% elif product.vendor.enabled and product.visible and product.status and product.is_variant %} 
                                   {% if product.get_variant %} 
                                      {% include 'product/parts/list_item-frontpage.html' %}
                                   {% endif %} 
@@ -341,15 +339,13 @@
                             </button>
                         </div>
                     </div>
-                    <div id="message" name="message" class="mt-3">
-                    </div>
                     <div class="block-products-carousel__slider">
                         <div class="block-products-carousel__preloader"></div>
                         <div class="owl-carousel">
                             {% for product in recently_viewed_products %} 
-                            {% if product.vendor.enabled and product.visible and not product.is_variant %}
+                            {% if product.vendor.enabled and product.visible and product.status and not product.is_variant %}
                                  {% include 'product/parts/list_item-frontpage.html' %}
-                                {% elif product.vendor.enabled and product.visible and product.is_variant %} 
+                                {% elif product.vendor.enabled and product.visible and product.status and product.is_variant %} 
                                   {% if product.get_variant %} 
                                      {% include 'product/parts/list_item-frontpage.html' %}
                                   {% endif %} 

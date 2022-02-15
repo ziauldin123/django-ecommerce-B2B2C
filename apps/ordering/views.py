@@ -33,6 +33,10 @@ def addtoshopcart(request, id):
     variantid = request.POST.get('variantid')
     # variant = Variants.objects.get(id=variantid)
 
+    if product.vendor.enabled != True:
+        messages.success(request, 'Product not available')
+        return redirect(url)
+
     customer = Customer.objects.filter(email=current_user)
     print("variant id", variantid)
 
@@ -48,7 +52,6 @@ def addtoshopcart(request, id):
     else:
         # No Variant
         variant = None
-
         checkinproduct = ShopCart.objects.filter(
             product_id=id, user_id=current_user)  # check product in cart
         if checkinproduct:
@@ -126,7 +129,6 @@ def shopcart(request):
 
     if request.method == 'POST':
         if request.user.is_authenticated:
-            # messages.success(request, 'Thank you for your order')
             if "id_quantity" in request.POST:
                 print("coupon code = ", request.POST["coupon_code"])
                 print("coupon value = ", request.POST["coupon_discount"])
@@ -172,7 +174,7 @@ def shopcart(request):
 
         context = {'shopcart': shopcart,
                    'category': category,
-                   'total': round(total, 2),
+                   'subtotal': round(total, 2),
                    'tax': tax,
                    'grandTotal': grandTotal,
                    'wishlist': wishlist,

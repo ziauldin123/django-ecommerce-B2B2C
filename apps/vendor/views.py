@@ -1,3 +1,4 @@
+from django.core.paginator import (Paginator, PageNotAnInteger, EmptyPage)
 from django.contrib.auth.views import (
     LogoutView as BaseLogoutView, PasswordChangeView as BasePasswordChangeView,
     PasswordResetDoneView as BasePasswordResetDoneView, PasswordResetConfirmView as BasePasswordResetConfirmView,
@@ -19,6 +20,7 @@ from .models import Profile, Transporter, UserWishList, Vendor, Customer, Openin
 from apps.vendor.models import VendorDelivery
 from apps.ordering.models import OrderItem, ShopCart, ShopCartForm
 import code
+from distutils import command
 import re
 from django.http.response import HttpResponse
 from django.views.generic import TemplateView
@@ -514,7 +516,16 @@ def vendor_products(request):
 @login_required
 def order_history(request):
     vendor = request.user.vendor
-    orders = vendor.orders.all()
+    orders_list = vendor.orders.all()
+    paginator = Paginator(orders_list, 7)
+    page = request.GET.get('page')
+
+    try:
+        orders = paginator.page(page)
+    except PageNotAnInteger:
+        orders = paginator.page(1)
+    except EmptyPage:
+        orders = paginator.page(paginator.num_pages)
 
     for order in orders:
         order.vendor_amount = 0
@@ -603,8 +614,8 @@ def add_product(request):
                     request, messages.SUCCESS, "The product {} is successfully added and now under review".format(product.title))
                 return redirect('vendor_admin')
             else:
-                messages.add_message(request, messages.ERROR,
-                                     "* You have reached your products' limit.")
+                messages.add_message(
+                    request, messages.ERROR, "You can't add new product.you reached product limit")
                 return redirect('vendor_admin')
 
         else:
@@ -616,8 +627,6 @@ def add_product(request):
         vendor = request.user.vendor
         products = len(Product.objects.filter(vendor=vendor))
         print(" vendor:: products  ", products,  vendor.products_limit)
-        messages.add_message(request, messages.ERROR,
-                             "* You have reached your products' limit.")
         form = ProductForm()
 
     return render(request, 'vendor/add_product.html', {'form': form})
@@ -641,8 +650,8 @@ def add_product_with_variant(request):
                     request, messages.SUCCESS, "The product {} is successfully added and now under review".format(product.title))
                 return redirect('add_variant')
             else:
-                messages.add_message(request, messages.ERROR,
-                                     "*You have reached your products' limit.")
+                messages.add_message(
+                    request, messages.ERROR, "You can't add new product.you reached product limit")
                 return redirect('vendor_admin')
         else:
             messages.add_message(request, messages.ERROR,
@@ -652,8 +661,6 @@ def add_product_with_variant(request):
         vendor = request.user.vendor
         products = len(Product.objects.filter(vendor=vendor))
         print("vendor::products", products, vendor.products_limit)
-        messages.add_message(request, messages.ERROR,
-                             "* You have reached your products' limit.")
         form = ProductWithVariantForm()
 
     return render(request, 'vendor/add_product.html', {'form': form})
@@ -685,8 +692,8 @@ def add_variant(request):
                 print(variant_form.cleaned_data['title'])
                 return redirect('vendor_admin')
             else:
-                messages.add_message(request, messages.ERROR,
-                                     "*You have reached your products' limit.")
+                messages.add_message(
+                    request, messages.ERROR, "You can't add new product.you reached product limit")
                 return redirect('vendor_admin')
         else:
             messages.add_message(request, messages.ERROR,
@@ -697,8 +704,6 @@ def add_variant(request):
         vendor = request.user.vendor
         products = len(Product.objects.filter(vendor=vendor))
         print(" vendor:: products  ", products,  vendor.products_limit)
-        messages.add_message(request, messages.ERROR,
-                             "* You have reached your products' limit.")
         form = ProductForm()
 
     return render(request, 'vendor/add_variant.html', {'form': variant_form, 'product': product,
@@ -827,7 +832,17 @@ def edit_vendor(request):
 
 
 def vendors(request):
-    vendors = Vendor.objects.filter(enabled=True)
+    vendors_list = Vendor.objects.filter(enabled=True)
+    paginator = Paginator(vendors_list, 5)
+    page = request.GET.get('page')
+
+    try:
+        vendors = paginator.page(page)
+    except PageNotAnInteger:
+        vendors = paginator.page(1)
+    except EmptyPage:
+        vendors = paginator.page(paginator.num_pages)
+
     if not request.user.is_anonymous:
         cart = Cart(request)
         current_user = request.user
@@ -979,6 +994,10 @@ class MyAccount(TemplateView):
             cart = Cart(request)
             current_user = request.user
             wishlist = UserWishList.objects.filter(user=current_user)
+            shopcart = ShopCart.objects.filter(user_id=current_user.id)
+            total = cart.get_cart_cost()
+            tax = cart.get_cart_tax()
+            grandTotal = cart.get_cart_cost()
             if not request.session.get('comparing'):
                 comparing = 0
             else:
@@ -996,7 +1015,9 @@ class MyAccount(TemplateView):
         tax = cart.get_cart_tax()
         context = self.get_context_data()
         context['orders'] = orders
+        context['shopcart'] = shopcart
         context['wishlist'] = wishlist
+        context['subtotal'] = total
         context['total_compare'] = total_compare
         context['user_id'] = request.user.id
         return self.render_to_response(context)
@@ -1010,6 +1031,10 @@ class OrderHistory(TemplateView):
             cart = Cart(request)
             current_user = request.user
             wishlist = UserWishList.objects.filter(user=current_user)
+            shopcart = ShopCart.objects.filter(user_id=current_user.id)
+            total = cart.get_cart_cost()
+            tax = cart.get_cart_tax()
+            grandTotal = cart.get_cart_cost()
             if not request.session.get('comparing'):
                 comparing = 0
             else:
@@ -1022,11 +1047,23 @@ class OrderHistory(TemplateView):
 
             total_compare = comparing + compare_var
 
-        orders = account_service.calculate_order_sum(request.user.email)
+        orders_list = account_service.calculate_order_sum(request.user.email)
+        paginator = Paginator(orders_list, 7)
+        page = request.GET.get('page')
+
+        try:
+            orders = paginator.page(page)
+        except PageNotAnInteger:
+            orders = paginator.page(1)
+        except EmptyPage:
+            orders = paginator.page(paginator.num_pages)
+
         cart = Cart(request)
         context = self.get_context_data()
         context['orders'] = orders
         context['wishlist'] = wishlist
+        context['shopcart'] = shopcart
+        context['subtotal'] = total
         context['total_compare'] = total_compare
         context['user_id'] = request.user.id
         return self.render_to_response(context)
@@ -1038,6 +1075,10 @@ def order_detail(request, id):
         cart = Cart(request)
         current_user = request.user
         wishlist = UserWishList.objects.filter(user=current_user)
+        shopcart = ShopCart.objects.filter(user_id=current_user.id)
+        total = cart.get_cart_cost()
+        tax = cart.get_cart_tax()
+        grandTotal = cart.get_cart_cost()
         if not request.session.get('comparing'):
             comparing = 0
         else:
@@ -1057,6 +1098,14 @@ def order_detail(request, id):
     return render(request, 'customer/order_details.html', {
         'order': order,
         'wishlist': wishlist,
+        'total_compare': total_compare
+    })
+
+    return render(request, 'customer/order_details.html', {
+        'order': order,
+        'wishlist': wishlist,
+        'shopcart': shopcart,
+        'subtotal': total,
         'total_compare': total_compare
     })
 

@@ -10,6 +10,7 @@ from django.db import models
 from django.utils.safestring import mark_safe
 from mptt.fields import TreeForeignKey
 from mptt.models import MPTTModel
+from django.db.models import Max
 from django.urls import reverse
 from django.utils.text import slugify
 from autoslug import AutoSlugField
@@ -269,7 +270,8 @@ class Product(models.Model):
             return ""
 
     def get_absolute_url(self):
-        return reverse('category_detail', kwargs={'slug': self.slug})
+        # return reverse('category_detail', kwargs={'slug': self.slug})
+        return '/%s/%s' % (self.category.slug, self.slug)
 
     def avaregeview(self):
         reviews = Comment.objects.filter(
@@ -286,6 +288,13 @@ class Product(models.Model):
         if reviews["count"] is not None:
             cnt = int(reviews["count"])
         return cnt
+    
+    def  maxrating(self):
+        rate = Comment.objects.filter(
+            product=self, status='True').aggregate(Max('rate'))
+
+        return rate    
+
 
     def get_thumbnail(self):
         try:

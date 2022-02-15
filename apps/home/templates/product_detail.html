@@ -21,22 +21,24 @@
             success: function (data) {
                 console.log(data);
                 $("#my_cart").load(location.href + " #my_cart");
+                $("#mycart").load(location.href + " #mycart");
+                $("#cart_table").load(location.href + " #cart_table");
                 $("#message").append(
-                    '<div class="alert alert-success hideit alertSuc">A product has been added to your cart.</div >')
+                    '<div class="alert alert-success hideit alertSuc">added in cart successfully.</div >');
                 setTimeout(function () {
                     $("#message").load(location.href + " #message");
                 }, 1000);
             }
         });
          }
-         else{
+         else {
             console.log('Out')
             $("#message").append(
-                    `<div class="alert alert-success hideit alertSuc"> only ${maxQty}  available in Stock.</div>`
-                )
-            // setTimeout(function () {
-            //     $("#message").remove()
-            // },10000)  
+                    `<div class="alert alert-info alert-dismissable">
+                           <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                                 only ${maxQty}  available in Stock.
+                    </div>`
+                ) 
          }
     }
 
@@ -1129,27 +1131,7 @@
                                     {% endfor %}
                                     {% endif %}
                                 </ol>
-                                <div class="reviews-list__pagination">
-                                    <ul class="pagination justify-content-center">
-                                        <li class="page-item disabled">
-                                            <a class="page-link page-link--with-arrow" href="" aria-label="Previous">
-                                                <svg class="page-link__arrow page-link__arrow--left" aria-hidden="true" width="8px" height="13px">
-                                                    <use xlink:href="/static/templates/images/sprite.svg#arrow-rounded-left-8x13"></use>
-                                                </svg>
-                                            </a>
-                                        </li>
-                                        <li class="page-item"><a class="page-link" href="">1</a></li>
-                                        <li class="page-item active"><a class="page-link" href="">2 <span class="sr-only">(current)</span></a></li>
-                                        <li class="page-item"><a class="page-link" href="">3</a></li>
-                                        <li class="page-item">
-                                            <a class="page-link page-link--with-arrow" href="" aria-label="Next">
-                                                <svg class="page-link__arrow page-link__arrow--right" aria-hidden="true" width="8px" height="13px">
-                                                    <use xlink:href="/static/templates/images/sprite.svg#arrow-rounded-right-8x13"></use>
-                                                </svg>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
+                                {% include "core/pagination.html" with page=comments %}
                             </div>
                         </div>
                         </div>
@@ -1215,6 +1197,8 @@
                         </svg>
                     </button>
                 </div>
+            </div><div id="message" name="message" class="mt-3">
+                
             </div>
             <div class="block-products-carousel__slider">
                 <div class="block-products-carousel__preloader"></div>
@@ -1486,7 +1470,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> 
     {% endif %}
     <!-- .block-products-carousel / end -->
     <br>

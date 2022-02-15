@@ -31,13 +31,14 @@ from django.conf.urls import url
 
 from django.contrib.sitemaps.views import sitemap
 
-from .sitemaps import StaticViewSitemap, ProductSitemap, PostSitemap
+from .sitemaps import StaticViewSitemap,  PostSitemap, CategorySitemap, ProductSitemap
 
 
 from apps.vendor import views as vendor_views
 
-sitemaps = {'static': StaticViewSitemap,
-            'product': ProductSitemap,  'post': PostSitemap}
+sitemaps = {'static': StaticViewSitemap, 'post': PostSitemap,
+            'category': CategorySitemap, 'product': ProductSitemap
+            }
 
 
 urlpatterns = [
@@ -65,7 +66,7 @@ urlpatterns = [
     path('order/addtoshopcart/<int:id>',
          orderview.addtoshopcart, name='addtoshopcart'),
     path('updateshopcart', orderview.update, name='update'),
-    path('order/deletefromcart/<int:id>',
+    path('order/deletefromcart/<int:id>/',
          orderview.deletefromcart, name='deletefromcart'),
     path('order/orderproduct/', orderview.orderproduct, name='orderproduct'),
     path('customer/order-detail/<int:id>/',
@@ -80,7 +81,6 @@ urlpatterns = [
         new.subsubcategory,
         name='subsubcategory'
     ),
-
     path('sitemap.xml', sitemap, {'sitemaps': sitemaps},
          name='django.contrib.sitemaps.view.sitemap'),
 
@@ -93,3 +93,9 @@ urlpatterns += [url(r'media/(?P<path>.*)$', serve,
 # if settings.DEBUG:
 urlpatterns += [url(r'static/(?P<path>.*)$', serve,
                     {'document_root': settings.STATIC_ROOT, }), ]
+
+# html sitemap
+# urlpatterns += [url(r'^sitemap/','django.contrib.sitemaps.views.sitemap', \
+#                       {'sitemaps'      : sitemaps,
+#                        'template_name' : 'core/sitemaps.html',
+#                        'mimetype'      : 'None'}),]
