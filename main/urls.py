@@ -76,8 +76,8 @@ urlpatterns = [
         new.subsubcategory,
         name='subsubcategory'
     ),
-    path('sitemap.xml', sitemap, {'sitemaps':sitemaps},
-         name='django.contrib.sitemaps.view.sitemap'),
+    path('sitemap.xml', sitemap, {'sitemaps':sitemaps,'template_name':'core/sitemaps.html'},
+         name='django.contrib.sitemaps.view.sitemap'), 
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
@@ -89,9 +89,4 @@ urlpatterns += [url(r'media/(?P<path>.*)$', serve,
 urlpatterns += [url(r'static/(?P<path>.*)$', serve,
                     {'document_root': settings.STATIC_ROOT, }), ]
 
-# html sitemap
-# urlpatterns += [url(r'^sitemap/','django.contrib.sitemaps.views.sitemap', \
-#                       {'sitemaps'      : sitemaps,
-#                        'template_name' : 'core/sitemaps.html',
-#                        'mimetype'      : 'None'}),]
 

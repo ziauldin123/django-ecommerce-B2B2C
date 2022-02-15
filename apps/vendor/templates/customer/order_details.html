@@ -71,7 +71,7 @@
                                         <td>{% if order.is_variant %} {{order.variant}} {% else %} {{order.product}} {% endif %} × {{order.quantity}}</td>
                                          <td>{{order.vendor}}</td>
                                          <td>{{order.price}}</td>
-                                        <td>{{order.subtotal}} VAT incl. FRW</td>
+                                        <td>{{order.get_total}} VAT incl. FRW</td>
                                     </tr>
                                     {% endfor %}
                                 </tbody>

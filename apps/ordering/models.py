@@ -214,6 +214,7 @@ class OrderItem(models.Model):
     quantity=models.IntegerField(default=1)
     is_variant=models.BooleanField(default=False)
     vat=models.DecimalField(max_digits=8,decimal_places=2,blank=True,null=True)
+    total=models.DecimalField(max_digits=8,decimal_places=2,default=0)
 
     def __str__(self):
         return '%s' % self.id
@@ -226,6 +227,9 @@ class OrderItem(models.Model):
         vat=round(Decimal(vat),2)
         return round(Decimal(vat),2)    
     
+    def get_total(self):
+        total=self.price*self.quantity
+        return round(Decimal(total),2)
 
 
     def get_discounted_price(self):

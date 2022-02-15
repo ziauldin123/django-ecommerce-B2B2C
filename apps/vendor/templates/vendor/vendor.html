@@ -58,7 +58,7 @@
                             <div id="message" name="message" class="mt-3"></div>
                             <div class="products-view__list products-list" data-layout="grid-3-sidebar" data-with-features="false" data-mobile-grid-columns="2">
                                 <div class="products-list__body">
-                                    {% for product in vendor.newProducts.all %}
+                                    {% for product in products %}
                                               {% if product.vendor.enabled and product.visible %}
                                                     {% include 'product/parts/list_item.html' %}
                                              {% endif %}
@@ -69,6 +69,7 @@
                     </div>
                 </div>
             </div>
+            {% include 'core/pagination.html' with page=products %}
         </div>    
     </div>
     

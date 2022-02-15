@@ -53,6 +53,7 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 DEFAULT_EMAIL_FROM = ''
 
+SITE_ID = 1
 # Application definition
 
 INSTALLED_APPS = [
