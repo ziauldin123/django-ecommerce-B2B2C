@@ -1,6 +1,6 @@
 {% extends 'core/base.html' %}
 
-{% block title %}Order Confirmed {% endblock %}
+{% block title %}Payment {% endblock %}
 
 {% block content %}
     <div class="site__body">
@@ -11,7 +11,7 @@
                     <svg class="order-success__icon" width="100" height="100">
                         <use xlink:href="/static/templates/images/sprite.svg#check-100"></use>
                     </svg>
-                    <h1 class="order-success__title">Order Received</h1>
+                    <h1 class="order-success__title">Order #{{ order.reference_number }} Received</h1>
                     <div class="order-success__subtitle">To complete the order, kindly use one of the payment methods below:</div>
 
                       <div class="row mt-3 no-gutters mx-n2">
