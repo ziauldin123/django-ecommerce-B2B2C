@@ -949,3 +949,46 @@ def subsubcategory(request, category_slug, subcategory_slug, subsubcategory_slug
                       'total_compare': total_compare
                   }
                   )
+
+
+def brands(request,):
+    if not request.user.is_anonymous:
+        cart = Cart(request)
+        current_user = request.user
+        wishlist = UserWishList.objects.filter(user=current_user)
+        # cart.clear()
+        shopcart = ShopCart.objects.filter(user_id=current_user.id)
+        total = cart.get_cart_cost()
+        tax = cart.get_cart_tax()
+        grandTotal = cart.get_cart_cost() + cart.get_cart_tax()
+        if not request.session.get('comparing'):
+            comparing = 0
+        else:
+            comparing = request.session['comparing'].__len__()
+
+        if not request.session.get('comparing_variants'):
+            compare_var = 0
+        else:
+            compare_var = request.session['comparing_variants'].__len__()
+
+        total_compare = comparing + compare_var
+
+    else:
+        cart = 0
+        subtotal = 0
+        tax = 0
+        total = 0
+        grandTotal = 0
+        shopcart = None
+        wishlist = 0
+        total_compare = 0
+
+    return render(request, 'product/brands.html', {
+
+        'shopcart': shopcart,
+        'subtotal': total,
+        'tax': tax,
+        'total': grandTotal,
+        'wishlist': wishlist,
+        'total_compare': total_compare
+    })
