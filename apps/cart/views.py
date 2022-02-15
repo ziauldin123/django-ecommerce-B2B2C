@@ -8,7 +8,7 @@ from django.shortcuts import redirect, render
 
 from apps.vendor.models import Customer, Vendor
 from .cart import Cart
-from apps.ordering.models import Order,ShopCart
+from apps.ordering.models import Order, ShopCart
 from .forms import CheckoutForm, PaymentForm
 from .models import Cell, District, Sector, Village
 from .services.payment_service import payment_service
@@ -64,11 +64,11 @@ def cart_detail(request):
 
 
 def contact_info(request):
-    delivery_type=''
-    district=''
-    sector=''
-    cell=''
-    village=''
+    delivery_type = ''
+    district = ''
+    sector = ''
+    cell = ''
+    village = ''
     cart = Cart(request)
     # print("contact_info")
     # print("GET = ", request.GET)
@@ -78,15 +78,15 @@ def contact_info(request):
 
     cart_vendor = Vendor.objects.filter(email=request.user.email).first()
     cart_customer = Customer.objects.filter(email=request.user.email).first()
-    current_user=request.user
+    current_user = request.user
 
     # if cart_vendor:
     #     cart_user = cart_vendor
     # else:
     #     cart_user = cart_customer
 
-    coupon_discount=cart.get_coupon_discount()
-    print(coupon_discount,"%")
+    coupon_discount = cart.get_coupon_discount()
+    print(coupon_discount, "%")
 
     # use_vendor_delivery = True
     # pickup_avaliable = True
@@ -98,13 +98,13 @@ def contact_info(request):
     #     if item["product"] and not item["product"]['pickup_available']:
     #         pickup_avaliable = False
 
-    use_vendor_delivery,pickup_avaliable=cart.get_is_vendor_delivery()
+    use_vendor_delivery, pickup_avaliable = cart.get_is_vendor_delivery()
     shopcart = ShopCart.objects.filter(user_id=current_user.id)
     products = [i['product'] for i in cart]
-    sub_total=cart.get_cart_cost()
-    total=total=cart.get_cart_cost_with_coupen()
-    tax=Cart(request).get_cart_tax()
-    grandTotal=cart.get_cart_cost() + cart.get_cart_tax()
+    sub_total = cart.get_cart_cost()
+    total = total = cart.get_cart_cost_with_coupen()
+    tax = Cart(request).get_cart_tax()
+    grandTotal = cart.get_cart_cost() + cart.get_cart_tax()
     # for rs in shopcart:
     #     print(rs.id)
     #     print(rs.product.id)
@@ -144,10 +144,10 @@ def contact_info(request):
                 option = form.cleaned_data['delivery_option']
                 products = [i['product'] for i in cart]
                 print(cart)
-                is_free_delivery = all([p['is_free_delivery'] for p in products])
+                is_free_delivery = all([p['is_free_delivery']
+                                       for p in products])
                 print('is free delivery')
                 print(is_free_delivery)
-
 
                 if option == "Store":
                     print(option)
@@ -156,7 +156,8 @@ def contact_info(request):
                         print(i.product.vendor)
                         vendor = i.product.vendor
                         # vendor = Vendor.objects.get(pk=vendor_id)
-                        district = get_attr_or_none(vendor.district, 'district')
+                        district = get_attr_or_none(
+                            vendor.district, 'district')
                         sector = get_attr_or_none(vendor.sector, 'sector')
                         cell = get_attr_or_none(vendor.cell, 'cell')
                         village = get_attr_or_none(vendor.village, 'village')
@@ -171,10 +172,12 @@ def contact_info(request):
                     cell = Cell.objects.get(id=cell_id).cell
                     village = Village.objects.get(id=village_id).village
                     product_ids = cart.get_product_ids()
-                    vendors = set([p.vendor for p in Product.objects.filter(id__in=product_ids)])
+                    vendors = set(
+                        [p.vendor for p in Product.objects.filter(id__in=product_ids)])
                     vendor_delivery_prices = []
                     for v in vendors:
-                        vendor_delivery_prices.extend(v.vendor_delivery.all().values_list('price', flat=True))
+                        vendor_delivery_prices.extend(
+                            v.vendor_delivery.all().values_list('price', flat=True))
 
                     if vendor_delivery_prices:
                         delivery_cost = float(sum(vendor_delivery_prices))
@@ -199,16 +202,17 @@ def contact_info(request):
 
                 # if not is_free_delivery and delivery_type != 'store':
 
-                    # product_ids = cart.get_product_ids()
-                    # vendors = set([p.vendor for p in Product.objects.filter(id__in=product_ids)])
-                    # vendor_delivery_prices = []
-                    # for v in vendors:
-                    #     vendor_delivery_prices.extend(v.vendor_delivery.all().values_list('price', flat=True))
-                    #
-                    # if vendor_delivery_prices:
-                    #     delivery_cost = float(sum(vendor_delivery_prices))
+                # product_ids = cart.get_product_ids()
+                # vendors = set([p.vendor for p in Product.objects.filter(id__in=product_ids)])
+                # vendor_delivery_prices = []
+                # for v in vendors:
+                #     vendor_delivery_prices.extend(v.vendor_delivery.all().values_list('price', flat=True))
+                #
+                # if vendor_delivery_prices:
+                #     delivery_cost = float(sum(vendor_delivery_prices))
                 # delivery_cost = payment_service.update_payment_cost(delivery_cost, is_free_delivery, delivery_type, cart)
-                cart.add_deliver(district, sector, cell, village, address, delivery_cost, delivery_type)
+                cart.add_deliver(district, sector, cell, village,
+                                 address, delivery_cost, delivery_type)
                 return redirect('payment_check')
             else:
                 print('go to same page')
@@ -227,10 +231,11 @@ def contact_info(request):
         'cart/contact.html',
         {
             'shopcart': shopcart,
-            'sub_total':sub_total,
+            'subtotal': total,
+            'sub_total': total,
             'total': total,
-            'tax':round(tax,2),
-            'grandTotal':round(grandTotal,2),
+            'tax': round(tax, 2),
+            'grandTotal': round(grandTotal, 2),
             'form': form,
             'cart_user': cart_customer,
             'districts': districts,
@@ -268,11 +273,11 @@ def district_sector_cell_village(request):
 
 def payment_check(request, *args, **kwargs):
     cart = Cart(request)
-    current_user=request.user
+    current_user = request.user
     shopcart = ShopCart.objects.filter(user_id=current_user.id)
-    total=cart.get_cart_cost()
-    tax=cart.get_cart_tax()
-    grandTotal=cart.get_cart_tax() + cart.get_total_cost()
+    total = cart.get_cart_cost()
+    tax = cart.get_cart_tax()
+    grandTotal = cart.get_cart_tax() + cart.get_total_cost()
     # for rs in shopcart:
     #     if rs.product.variant=='None':
     #         if rs.product.discount > 0:
@@ -285,13 +290,11 @@ def payment_check(request, *args, **kwargs):
     #         else:
     #             total+=rs.varamount*rs.quantity
 
-
-
     request.POST.get('pay_now')
     if request.method == 'POST':
         form = PaymentForm(request.POST)  # PaymentForm
         if cart.get_delivery_type() == 'store':
-            payment_service.make_checkout(request, cart,shopcart)
+            payment_service.make_checkout(request, cart, shopcart)
             return redirect('success')
         elif form.is_valid():
             stripe.api_key = settings.STRIPE_SECRET_KEY
@@ -320,7 +323,7 @@ def payment_check(request, *args, **kwargs):
                 except Exception as e:
                     print(e)
                     pass
-                payment_service.make_checkout(request, cart,shopcart)
+                payment_service.make_checkout(request, cart, shopcart)
                 return redirect('success')
             except Exception as e:
                 print(e)
@@ -341,10 +344,11 @@ def payment_check(request, *args, **kwargs):
             'stripe_pub_key': settings.STRIPE_PUB_KEY,
             'coupon': request.session.get(settings.COUPON_SESSION_ID),
             'shopcart': shopcart,
-            'total':round(total,2),
-            'tax':round(tax,2),
-            'grandTotal':round(grandTotal,2),
-            'cart':cart
+            'total': round(total, 2),
+            'tax': round(tax, 2),
+            'subtotal': total,
+            'grandTotal': round(grandTotal, 2),
+            'cart': cart
         }
     )
 

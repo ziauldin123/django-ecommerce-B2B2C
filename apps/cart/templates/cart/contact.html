@@ -188,7 +188,7 @@
                                 <thead class="checkout__totals-header">
                                     <tr>
                                         <th>Product</th>
-                                        <th>Total (vat incl.)</th>
+                                        <th>Total (Rwf)</th>
                                     </tr>
                                 </thead>
                                 <tbody class="checkout__totals-products">
@@ -211,9 +211,9 @@
                                          {% endif %}</td>
                                         <td>{% if rs.product.variant == 'None' %}
                                             {% if rs.product.discount > 0 %}
-                                                Frw {{ rs.prodct_dicount_amount }}
+                                                 {{ rs.prodct_dicount_amount }}
                                             {% else %}
-                                                Frw {{ rs.amount }}
+                                                 {{ rs.amount }}
                                             {% endif %}
                                         {% else %}
                                             {% if rs.variant.discount > 0 %}
@@ -230,7 +230,7 @@
                                 <tbody class="checkout__totals-subtotals">
                                     
                                         <th>Subtotal</th>
-                                        <td>Frw {{ sub_total }}</td>
+                                        <td>Rwf {{ sub_total }}</td>
                                     </tr> 
                                     {% if coupon.code != None %}
                                     <tr>
@@ -246,7 +246,7 @@
                                 <tfoot class="checkout__totals-footer">
                                     <tr>
                                         <th>Total</th>
-                                        <td><span id="total_cost_with_coupon">Frw {{ total }}</span></td>
+                                        <td><span id="total_cost_with_coupon">Rwf {{ total }}</span></td>
                                     </tr>
                                 </tfoot>
                             </table>

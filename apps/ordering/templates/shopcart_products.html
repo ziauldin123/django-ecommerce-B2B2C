@@ -70,9 +70,9 @@
                         <tr class="cart-table__row">
                             <th class="cart-table__column cart-table__column--image">Image</th>
                             <th class="cart-table__column cart-table__column--product">Product</th>
-                            <th class="cart-table__column cart-table__column--price">Price</th>
+                            <th class="cart-table__column cart-table__column--price">Price (Rwf)</th>
                             <th class="cart-table__column cart-table__column--quantity">Quantity</th>
-                            <th class="cart-table__column cart-table__column--total">Total</th>
+                            <th class="cart-table__column cart-table__column--total">Total (Rwf)</th>
                             <th class="cart-table__column cart-table__column--remove"></th>
                         </tr>
                     </thead>
@@ -111,9 +111,9 @@
                             </td>
                             <td class="cart-table__column cart-table__column--price" data-title="Price">
                                 {% if rs.product.variant == 'None' %}
-                                            Frw {{ rs.product.price }}
+                                             {{ rs.product.price }}
                                         {% else %}
-                                            Frw {{ rs.variant.price }}
+                                             {{ rs.variant.price }}
                                         {% endif %} 
                             </td>
                             <td class="cart-table__column cart-table__column--quantity" data-title="Quantity">
@@ -134,11 +134,11 @@
                                             {% if rs.product.discount > 0 %}
                                                 {{ rs.prodct_dicount_amount }}
                                             {% else %}
-                                                Frw {{ rs.amount }}
+                                                 {{ rs.amount }}
                                             {% endif %}
                                         {% else %}
                                             {% if rs.variant.discount > 0 %}
-                                                Frw {{ rs.var_dicount_amount }}
+                                                 {{ rs.var_dicount_amount }}
                                             {% else %}
                                                  {{ rs.varamount }}
                                             {% endif %}
@@ -177,14 +177,14 @@
                                     <thead class="cart__totals-header">
                                         <tr>
                                             <th>Subtotal</th>
-                                            <td>{{ subtotal }} FRW</td>
+                                            <td>Rwf {{ subtotal }}</td>
                                         </tr>
                                     </thead>
                                     <tfoot class="cart__totals-footer">
                                         <tr>
-                                            <th>Total With Coupon</th>
+                                            <th>Total</th>
                                             <td>
-                                                <span id="total_cost_with_coupon" name="total_cost_with_coupon">{{ subtotal }}FRW</span>
+                                                <span id="total_cost_with_coupon" name="total_cost_with_coupon">Rwf {{ subtotal }}</span>
                                             </td>
                                         </tr>
                                     </tfoot>
