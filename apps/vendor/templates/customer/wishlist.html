@@ -47,7 +47,7 @@
                         <th class="wishlist__column wishlist__column--image">Image</th>
                         <th class="wishlist__column wishlist__column--product">Product</th>
                         <th class="wishlist__column wishlist__column--stock">Availability</th>
-                        <th class="wishlist__column wishlist__column--price">Price (Frw)</th>
+                        <th class="wishlist__column wishlist__column--price">Price (Rwf)</th>
                         <th class="wishlist__column wishlist__column--tocart"></th>
                         <th class="wishlist__column wishlist__column--remove"></th>
                     </tr>
@@ -359,7 +359,7 @@
                                 {% endif %}    
                             </div>
                         </td>
-                        <td class="wishlist__column wishlist__column--stock">
+                        <td class="wishlist__column wishlist__column--price">
                             {% if product.variant %} 
                     {% if product.variant.discount %} 
                       {{product.variant.get_discounted_price}}
@@ -372,7 +372,7 @@
                     {% else %} 
                      {{product.product.price}}
                     {% endif %}
-                    {% endif %} FRW
+                    {% endif %}
                         </td>
                         <td class="wishlist__column wishlist__column--tocart">
                             {% if product.variant %} 
