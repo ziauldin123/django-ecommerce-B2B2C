@@ -628,7 +628,7 @@
                       </a>
                       <div class="indicator__dropdown">
                         <div class="account-menu">
-                            {% if not request.session.username %}
+                            {% if not request.user.is_authenticated%}
                             <form method="post" action="{% url 'login' %}" class="account-menu__form">
                                 {% csrf_token %}
                                 <div class="account-menu__form-title">Log In to Your Account</div>
