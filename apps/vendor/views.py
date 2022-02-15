@@ -188,7 +188,7 @@ def activate(request, uidb64, token):
         user.profile.signup_confirmation = True
         user.save()
         # login(request, user)
-        messages.success(request, ('Your account have been confirmed.'))
+        messages.success(request, ('Your account has been confirmed.'))
         return redirect('login')
     else:
         # return render(request, 'activation_invalid.html')
@@ -279,9 +279,6 @@ def become_vendor(request):
             })
             print("uid =", uid, "; token=", token)
             email_user(user, subject, message)
-
-            messages.success(
-                request, ('Please check your email for verification'))
 
             return redirect('activation_sent')
     else:

@@ -48,10 +48,10 @@
                         <h5>My Orders</h5>
                         <hr>
                         {% get_total_balance user as total_balance %}
-                              <strong>My balance: </strong>Frw {{ total_balance }}<br>
+                              <strong>My balance: </strong>Rwf {{ total_balance }}<br>
 
                         {% get_total_paid_balance user as total_paid_balance %}
-                              <strong>My paid amount: </strong>Frw {{ total_paid_balance }}
+                              <strong>My paid amount: </strong>Rwf {{ total_paid_balance }}
                              
                     </div>
                     <div class="card-divider"></div>
@@ -64,7 +64,7 @@
                                         <th>Order Reference</th>
                                         <th>Date</th>
                                         <th>Status</th>
-                                        <th>Total</th>
+                                        <th>Amount(Rwf)</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -74,7 +74,7 @@
                                         <td>{{order.created_at }}</td>
                                         <td>{{order.status}}</td>
                                         {% get_total_order_cost order user as total_cost_order %}
-                                        <td>Frw {{total_cost_order }}</td>
+                                        <td>{{total_cost_order }}</td>
                                     </tr
                                     {% endfor %}
                                 </tbody>
