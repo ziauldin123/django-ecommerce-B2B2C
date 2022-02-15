@@ -638,7 +638,6 @@ def add_product(request):
 
     return render(request, 'vendor/add_product.html', {'form': form})
 
-
 @ login_required
 def add_product_with_variant(request):
     vendor = request.user.vendor

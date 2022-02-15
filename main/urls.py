@@ -76,7 +76,7 @@ urlpatterns = [
         new.subsubcategory,
         name='subsubcategory'
     ),
-    path('sitemap.xml', sitemap, {'sitemaps':sitemaps,'template_name':'core/sitemaps.html'},
+    path('sitemap.xml', sitemap, {'sitemaps':sitemaps},
          name='django.contrib.sitemaps.view.sitemap'), 
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
