@@ -391,11 +391,13 @@ def privacy_policy(request):
         'total_compare': total_compare
     })
 
-def sitemap(request):
-    product=Product.objects.filter(status=True,visible=True)
-    category=Category.objects.all()
 
-    return render(request,'parts/sitemaps.html',{'product':product,'category':category})
+def sitemap(request):
+    product = Product.objects.filter(status=True, visible=True)
+    category = Category.objects.all()
+    posts = Post.objects.all()
+
+    return render(request, 'parts/sitemaps.html', {'product': product, 'category': category, 'posts': posts, })
 
 
 def error_404_view(request, exception):
@@ -482,5 +484,3 @@ def vendor_guidelines(request,):
         'wishlist': wishlist,
         'total_compare': total_compare
     })
-
-

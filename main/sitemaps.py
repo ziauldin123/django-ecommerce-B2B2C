@@ -10,7 +10,7 @@ class StaticViewSitemap(Sitemap):
     template_name='core/sitemaps.html'
 
     def items(self):
-        return ['frontpage', 'contact', 'about', 'pricing', 'vendors', 'termsandconditions', 'privacy_policy', 'frequently_asked_questions', 'vendor_guidelines']
+        return ['frontpage', 'contact', 'about', 'pricing', 'vendors', 'termsandconditions', 'privacy_policy', 'frequently_asked_questions', 'vendor_guidelines', 'brands']
 
     def location(self, item):
         return reverse(item)
