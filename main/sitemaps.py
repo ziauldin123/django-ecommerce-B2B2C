@@ -1,9 +1,9 @@
+from gettext import Catalog
 from django.contrib.sitemaps import Sitemap
 from django.shortcuts import reverse
 
 from apps.blog.models import Post
 from apps.newProduct.models import Product, Category
-
 
 
 class StaticViewSitemap(Sitemap):
@@ -17,6 +17,9 @@ class StaticViewSitemap(Sitemap):
 
 class CategorySitemap(Sitemap):
     template_name='core/sitemaps.html'
+
+    def get(self):
+        return Catalog.objects.all()
 
     def items(self):
         return Category.objects.all()

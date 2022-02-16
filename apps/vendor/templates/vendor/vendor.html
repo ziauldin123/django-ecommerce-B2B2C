@@ -48,42 +48,20 @@
             </div>
             
             <div class="container">
-                <div class="shop-layout shop-layout--sidebar--end">
-                    <div class="shop-layout__content">
-                        <div class="block">
-                            <div class="products-view">
-                                
-                                <div class="products-view__list products-list" data-layout="grid-3-sidebar" data-with-features="false" data-mobile-grid-columns="2">
-                                    <div class="products-list__body">
-                                        {% for product in vendor.newProducts.all %}
-                                                {% if product.vendor.enabled and product.visible and product.status %}
-                                                        {% include 'product/parts/list_item.html' %}
-                                                {% endif %}
-                                    {% endfor %}
-                                    </div>
-                                
-                                </div>
-                                
-                                <div class="products-view__pagination">
-                                    <ul class="pagination justify-content-center">
-                                        <li class="page-item disabled">
-                                            <a class="page-link page-link--with-arrow" href="" aria-label="Previous">
-                                                <svg class="page-link__arrow page-link__arrow--left" aria-hidden="true" width="8px" height="13px">
-                                                    <use xlink:href="images/sprite.svg#arrow-rounded-left-8x13"></use>
-                                                </svg>
-                                            </a>
-                                        </li>
-                                        <li class="page-item"><a class="page-link" href="">1</a></li>
-                                        <li class="page-item active"><a class="page-link" href="">2 <span class="sr-only">(current)</span></a></li>
-                                        <li class="page-item"><a class="page-link" href="">3</a></li>
-                                        <li class="page-item">
-                                            <a class="page-link page-link--with-arrow" href="" aria-label="Next">
-                                                <svg class="page-link__arrow page-link__arrow--right" aria-hidden="true" width="8px" height="13px">
-                                                    <use xlink:href="images/sprite.svg#arrow-rounded-right-8x13"></use>
-                                                </svg>
-                                            </a>
-                                        </li>
-                                    </ul>
+                <div class="shop-layout shop-layout--sidebar--start">
+                    <div class="shop-layout__sidebar"></div>
+                </div>
+                <div class="shop-layout__content">
+                    <div class="block">
+                        <div class="products-view">
+                            <div id="message" name="message" class="mt-3"></div>
+                            <div class="products-view__list products-list" data-layout="grid-3-sidebar" data-with-features="false" data-mobile-grid-columns="2">
+                                <div class="products-list__body">
+                                    {% for product in products %}
+                                              {% if product.vendor.enabled and product.visible %}
+                                                    {% include 'product/parts/list_item.html' %}
+                                             {% endif %}
+                                   {% endfor %}
                                 </div>
                             </div>
                         </div>
@@ -122,6 +100,7 @@
                     </div>  
                 </div>
             </div>
+            {% include 'core/pagination.html' with page=products %}
         </div>    
     </div>
     

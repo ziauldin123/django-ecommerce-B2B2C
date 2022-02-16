@@ -21,6 +21,7 @@ from apps.vendor.models import VendorDelivery
 from apps.ordering.models import OrderItem, ShopCart, ShopCartForm
 import code
 from distutils import command
+from itertools import chain, product
 import re
 from django.http.response import HttpResponse
 from django.views.generic import TemplateView
@@ -498,7 +499,17 @@ def remove_opening(request, pk):
 @login_required
 def vendor_products(request):
     vendor = request.user.vendor
-    products = products = Product.objects.filter(vendor=vendor)
+    products_list = products = Product.objects.filter(vendor=vendor)
+    paginator = Paginator(products_list, 2)
+    page = request.GET.get('page')
+
+    try:
+        products = paginator.page(page)
+    except PageNotAnInteger:
+        products = paginator.page(1)
+    except EmptyPage:
+        products = paginator.page(paginator.num_pages)
+
     variants = []
     for pr in products:
         if pr.variant != 'None':
@@ -507,9 +518,11 @@ def vendor_products(request):
     ) + vendor.variants_vendor.all().__len__()) - Product.objects.filter(vendor=vendor, is_variant=True).__len__())
 
     return render(request, 'vendor/products.html',
-                  {'product_limit': product_limit,
-                   'products': products,
-                   'variants': variants})
+                  {
+                      'product_limit': product_limit,
+                      'products': products,
+                      'variants': variants
+                  })
 
 
 @login_required
@@ -884,6 +897,16 @@ def vendors(request):
 
 def vendor(request, slug):
     vendor = Vendor.objects.get(slug=slug)
+    product_list = Product.objects.filter(vendor=vendor)
+    paginator = Paginator(product_list, 6)
+    page = request.GET.get('page')
+
+    try:
+        products = paginator.page(page)
+    except PageNotAnInteger:
+        products = paginator.page(1)
+    except EmptyPage:
+        products = paginator.page(paginator.num_pages)
     if not request.user.is_anonymous:
         cart = Cart(request)
         current_user = request.user
@@ -916,6 +939,7 @@ def vendor(request, slug):
 
     return render(request, 'vendor/vendor.html',
                   {'vendor': vendor,
+                   'products': products,
                    'shopcart': shopcart,
                    'subtotal': total,
                    'tax': tax,

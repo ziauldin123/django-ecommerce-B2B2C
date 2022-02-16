@@ -116,7 +116,6 @@ def product_detail(request, id, slug, vendor_slug, category_slug, subcategory_sl
         comments = paginator.page(1)
     except EmptyPage:
         comments = paginator.page(paginator.num_pages)
-
     product.save()
     context = {'product': product, 'category': category,
                'subcategory': subcategory, 'subsubCategory': subsubCategory,

@@ -93,9 +93,3 @@ urlpatterns += [url(r'media/(?P<path>.*)$', serve,
 # if settings.DEBUG:
 urlpatterns += [url(r'static/(?P<path>.*)$', serve,
                     {'document_root': settings.STATIC_ROOT, }), ]
-
-# html sitemap
-# urlpatterns += [url(r'^sitemap/','django.contrib.sitemaps.views.sitemap', \
-#                       {'sitemaps'      : sitemaps,
-#                        'template_name' : 'core/sitemaps.html',
-#                        'mimetype'      : 'None'}),]

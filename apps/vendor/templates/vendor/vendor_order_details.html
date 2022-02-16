@@ -22,7 +22,10 @@
                         <li class="account-nav__item">
                             <a href="{% url 'vendor_admin' %}">Dashboard</a>
                         </li>
-                        <li class="account-nav__item ">
+                        <li class="account-nav__item">
+                            <a href="{% url 'products' %}">Products</a>
+                        </li>
+                        <li class="account-nav__item account-nav__item--active ">
                             <a href="{% url 'vendor_orders' %}">Order History</a>
                         </li>
                          <li class="account-nav__item account-nav__item--active">
@@ -71,8 +74,9 @@
                                         {% if item.vendor == request.user.vendor %}
                                             <tr>
                                                 <td>{{ item.get_product_name }} </td>
-                                                <td>{{ item.get_discounted_price }}</td>
-                                                <td>{{ item.quantity }}</td>      
+                                                <td>Frw {{ item.price }}</td>
+                                                <td>{{ item.quantity }}</td>
+                                                <td>{{ item.vendor_paid|yesno:"Yes,No" }}</td>
                                                 {% get_total_with_coupon order item.get_total_price user as total_price_with_coupon %}
                                                 <td>{{ total_price_with_coupon }}</td>
                                                 <td>{{ item.vendor_paid|yesno:"Yes,No" }}</td>

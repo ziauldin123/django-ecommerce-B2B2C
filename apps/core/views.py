@@ -391,6 +391,12 @@ def privacy_policy(request):
         'total_compare': total_compare
     })
 
+def sitemap(request):
+    product=Product.objects.filter(status=True,visible=True)
+    category=Category.objects.all()
+
+    return render(request,'parts/sitemaps.html',{'product':product,'category':category})
+
 
 def error_404_view(request, exception):
     if not request.user.is_anonymous:
@@ -476,3 +482,5 @@ def vendor_guidelines(request,):
         'wishlist': wishlist,
         'total_compare': total_compare
     })
+
+

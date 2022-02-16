@@ -637,7 +637,6 @@ def category(request, category_slug):
         print(search_form.errors)
     print("filtered products", products)
     search_form = SearchForm(request.GET, products=products)
-
     return render(
         request,
         'product/category.html',
