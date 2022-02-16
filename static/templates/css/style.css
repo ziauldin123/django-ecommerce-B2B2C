@@ -8361,6 +8361,10 @@ html:not([dir=rtl]) .noUi-horizontal .noUi-origin {
   color: #999;
 }
 
+.address-card__row-content{
+  color: inherit;
+}
+
 .address-card__footer {
   margin-top: 1.625rem;
 }
