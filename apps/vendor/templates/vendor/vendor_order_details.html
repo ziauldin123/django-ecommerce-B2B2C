@@ -63,9 +63,9 @@
                                 <thead>
                                     <tr>
                                         <th>Title</th>
-                                        <th>Price(Rwf)</th>
+                                        <th>Price (Rwf)</th>
                                         <th>Quantity</th>
-                                        <th>Total(Rwf)</th>
+                                        <th>Total (Rwf)</th>
                                         <th>Paid</th>
                                     </tr>
                                 </thead>
@@ -76,7 +76,6 @@
                                                 <td>{{ item.get_product_name }} </td>
                                                 <td>Frw {{ item.price }}</td>
                                                 <td>{{ item.quantity }}</td>
-                                                <td>{{ item.vendor_paid|yesno:"Yes,No" }}</td>
                                                 {% get_total_with_coupon order item.get_total_price user as total_price_with_coupon %}
                                                 <td>{{ total_price_with_coupon }}</td>
                                                 <td>{{ item.vendor_paid|yesno:"Yes,No" }}</td>
