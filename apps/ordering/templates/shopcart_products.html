@@ -39,9 +39,9 @@
                     data:{
                         'product_id':product_id,
                         'product_qty':product_qty,
-
                     },
                     success:function(response){
+                        $("#cart").load(location.href + " #cart");
                         $("#cart_table").load(location.href + " #cart_table");
                     }
                 });
@@ -111,22 +111,37 @@
                             </td>
                             <td class="cart-table__column cart-table__column--price" data-title="Price">
                                 {% if rs.product.variant == 'None' %}
-                                             {{ rs.product.price }}
+                                            {% if rs.product.discount > 0 %} 
+                                                {{ rs.product.get_discounted_price }}
+                                            {% else %} 
+                                               {{rs.product.price}}
+                                            {% endif %}
                                         {% else %}
-                                             {{ rs.variant.price }}
-                                        {% endif %} 
+                                            {% if rs.variant.discount > 0 %} 
+                                               {{rs.variant.get_discounted_price_var}}
+                                            {% else %} 
+                                               {{rs.variant.price}}
+                                            {% endif %}       
+                                        {% endif %} / 
+                                        {% if rs.product.variant == 'None' %}
+                                        {% if rs.product.unit_type %}
+                                          {{ rs.product.unit_type.unit }}
+                                         {% endif %}
+                                     {% else %}
+                                        {% if rs.variant.unit_type %}
+                                         {{ rs.variant.unit_type.unit }}
+                                         {% endif %}
+                                     {% endif %}
                             </td>
                             <td class="cart-table__column cart-table__column--quantity" data-title="Quantity">
                                 <div class="product_data input-number">
                                     <input type="hidden" class="prod_id" value="{{rs.id}}">
-
-                                    <input class="changeQty input form-control input-number__input" id="quantity" name="quantity"  type="number" 
+                                    <!-- <input type="number" class="input changeQty form-control input-number__input" id="quantity" name="quantity"
                                     min="1" {% if rs.product.is_variant %} max="{{ rs.variant.quantity }}"
-                                    {% else %} max="{{ rs.product.quantity }}" {% endif %} value="{{rs.quantity}}">
-
+                                    {% else %} max="{{ rs.product.quantity }}" id="{{rs.id}}" {% endif %} value="{{rs.quantity}}">
                                     <div class="input-number__add"></div>
-                                    <div class="input-number__sub"></div>
-                                    
+                                    <div class="input-number__sub"></div> -->
+                                    <input style="display: block;text-align: center;width: 100%;min-width: 88px;" class="input changeQty form-control input-number" id="quantity" name="quantity" type="number" value="{{rs.quantity}}" min="1" {% if rs.product.is_variant %} max="{{ rs.variant.quantity }}" {% else %} max="{{ rs.product.quantity }}" {% endif %}>
                                 </div>
                             </td>
                             <td class="total cart-table__column cart-table__column--total" data-title="Total">
@@ -142,8 +157,8 @@
                                             {% else %}
                                                  {{ rs.varamount }}
                                             {% endif %}
-                                        {% endif %} 
-                                        {% if rs.product.is_vat == True %}{% endif %}
+                                        {% endif %} FRW 
+                                {% if rs.product.is_vat == True %}vat incl.{% endif %}
                             </td>
                             <td class="cart-table__column cart-table__column--remove">
                                 <a href="/order/deletefromcart/{{ rs.id }}" onclick="return confirm('Delete ! Are you sure?')" >

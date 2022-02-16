@@ -1754,6 +1754,7 @@ select.form-control.is-invalid {
   position: relative;
 }
 
+
 .input-number__input {
   -moz-appearance: textfield;
   display: block;
