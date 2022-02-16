@@ -62,12 +62,12 @@
                                 <thead>
                                     <tr>
                                         <th>Title</th>
-                                        <th>Price(Rwf)</th>
+                                        <th>Price (Rwf)</th>
                                         <th>VAT</th>
                                         <th>Discount</th>
                                         <th>Status</th>
-                                        <th>Product</th>
-                                         <th>Actions</th>
+                                        <th>Edit</th>
+                                        <th>Delete</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -163,8 +163,10 @@
                         </div>
                     </div>
                     <div class="card-divider"></div>
+                    {% include 'core/pagination.html' with page=products %}
+                    <br>
                 </div>
-                {% include 'core/pagination.html' with page=products %}
+                
             </div>
         </div>
     </div>
