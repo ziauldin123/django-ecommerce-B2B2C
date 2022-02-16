@@ -157,8 +157,8 @@
                                             {% else %}
                                                  {{ rs.varamount }}
                                             {% endif %}
-                                        {% endif %} FRW 
-                                {% if rs.product.is_vat == True %}vat incl.{% endif %}
+                                        {% endif %}
+                                
                             </td>
                             <td class="cart-table__column cart-table__column--remove">
                                 <a href="/order/deletefromcart/{{ rs.id }}" onclick="return confirm('Delete ! Are you sure?')" >
