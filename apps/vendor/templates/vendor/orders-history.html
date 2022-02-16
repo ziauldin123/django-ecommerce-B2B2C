@@ -64,7 +64,7 @@
                                         <th>Order Reference</th>
                                         <th>Date</th>
                                         <th>Status</th>
-                                        <th>Amount(Rwf)</th>
+                                        <th>Amount (Rwf)</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -89,8 +89,10 @@
                         </div>
                     </div>
                     <div class="card-divider"></div>
+                     {% include 'core/pagination.html' with page=orders %}
+                     <br>
                 </div>
-                {% include 'core/pagination.html' with page=orders %}
+               
             </div>
         </div>
     </div>
