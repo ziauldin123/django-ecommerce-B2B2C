@@ -187,6 +187,7 @@ def shopcart(request):
 @login_required(login_url='/login')
 @never_cache
 def deletefromcart(request,id):
+    url=request.META.get('HTTP_REFERER')
     cart=Cart(request)
 
     shopcart=ShopCart.objects.get(id=id)
@@ -196,7 +197,7 @@ def deletefromcart(request,id):
     ShopCart.objects.filter(id=id).delete()
 
     messages.success(request, "Your item deleted form Shopcart.")
-    return HttpResponseRedirect("/shopcart")
+    return HttpResponseRedirect(url)
 
 @csrf_exempt
 @never_cache

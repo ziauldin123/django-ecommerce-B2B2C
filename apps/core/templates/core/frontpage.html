@@ -10,7 +10,7 @@
             url: "/order/addtoshopcart/" + pr_id,
             success: function (data) {
                 console.log(data);
-                $("#my_cart").load(location.href + " #my_cart"); //for desktop
+                $("#cart_table").load(" #cart_table"); //for desktop
                 $("#mycart").load(location.href + " #mycart");   //for mobile
                 $("#cart_table").load(location.href + " #cart_table");
                 $("#message").append(
@@ -18,7 +18,6 @@
                 setTimeout(function () {
                     $("#message").load(location.href + " #message");
                 }, 1000);
-
             }
         });
     }
