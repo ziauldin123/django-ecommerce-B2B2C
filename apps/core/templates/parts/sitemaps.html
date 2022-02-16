@@ -49,8 +49,6 @@
                                                 <div class="address-card__row-content"><a class="address-card__row-content" href="{% url 'contact' %}">Contact</a></div>
                                                 <div class="address-card__row-content"><a class="address-card__row-content" href="{% url 'about' %}">About</a></div>
                                                 <div class="address-card__row-content"><a class="address-card__row-content" class="address-card__row-content"a href="{% url 'pricing' %}">Pricing</a></div>
-                                                <div class="address-card__row-content"><a class="address-card__row-content" href="{% url 'vendors' %}">Vendors</a></div>
-                                                <div class="address-card__row-content"><a class="address-card__row-content" href="{% url 'brands' %}">Brands</a></div>
                                                 <div class="address-card__row-content"><a class="address-card__row-content" href="{% url 'termsandconditions' %}">Terms and Conditions</a></div>
                                                 <div class="address-card__row-content"><a class="address-card__row-content" href="{% url 'privacy_policy' %}">Privacy Policy</a></div>
                                                 <div class="address-card__row-content"><a class="address-card__row-content" href="{% url 'frequently_asked_questions' %}">FAQ</a></div>
@@ -94,13 +92,26 @@
                                                 <div class="address-card__row">
                                                     {% for product in product %} 
                                                         {% if product.vendor.enabled %} 
-                                                            <div class="address-card__row-content"><a class="address-card__row-content" class="address-card__row-content" href="{% url 'product' product.id product.slugV product.category.sub_category.category.slug product.category.sub_category.slug product.category.slug product.slug %}">{{product.title}}</a></div>
+                                                            <div class="address-card__row-content"><a class="address-card__row-content" href="{% url 'product' product.id product.slugV product.category.sub_category.category.slug product.category.sub_category.slug product.category.slug product.slug %}">{{product.title}}</a></div>
                                                         {% endif %} 
                                                     {% endfor %}    
                                                 </div>
                                         </div>
                                     </div>
-                                </div>      
+                                </div>
+                                
+                                 <div class="products-list__item">
+                                    <div class="product-card  ">
+                                        <div class="address-card__body">
+                                            <div class="address-card__name">Vendors</div>
+                                                <div class="address-card__row">
+                                                    {% for vendor in vendors %} 
+                                                        <div class="address-card__row-content"><a class="address-card__row-content" href="{% url 'vendor' vendor.slug %}">{{ vendor.company_name }}</a></div> 
+                                                    {% endfor %}    
+                                                </div>
+                                        </div>
+                                    </div>
+                                </div>    
                                
                             </div>
                         </div>

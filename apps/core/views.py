@@ -11,7 +11,8 @@ from django.core.mail import send_mail
 from apps.newProduct.models import Product, Category, SubCategory, SubSubCategory, Variants
 from apps.blog.models import Post
 from apps.ordering.models import ShopCart
-from apps.vendor.models import UserWishList
+from apps.vendor.models import UserWishList, Vendor
+from apps.vendor.views import Vendor
 
 
 def frontpage(request):
@@ -396,8 +397,9 @@ def sitemap(request):
     product = Product.objects.filter(status=True, visible=True)
     category = Category.objects.all()
     posts = Post.objects.all()
+    vendor = Vendor.objects.all()
 
-    return render(request, 'parts/sitemaps.html', {'product': product, 'category': category, 'posts': posts, })
+    return render(request, 'parts/sitemaps.html', {'product': product, 'category': category, 'posts': posts, 'vendor': vendor, })
 
 
 def error_404_view(request, exception):
