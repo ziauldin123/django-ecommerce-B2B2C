@@ -28,7 +28,7 @@
                         <li class="account-nav__item account-nav__item--active ">
                             <a href="{% url 'vendor_orders' %}">Order History</a>
                         </li>
-                         <li class="account-nav__item account-nav__item--active">
+                         <li class="account-nav__item">
                             <a href="{% url 'products' %}">Products</a>
                         </li>
                            <li class="account-nav__item ">
@@ -84,19 +84,15 @@
                                     {% endfor %}
                                 </tbody>
                                 <tbody class="card-table__body card-table__body--merge-rows">
+                                    {% if order.used_coupon %}
                                     <tr>
                                         <th>Coupon</th>
-                                        {% if order.used_coupon %}
+                                       
                                                <td>{{ order.used_coupon }} </td>
                                                <td></td>
                                                <td><strong>{{ order.coupon_discount }}%</strong></td>
-                                        {% else %}
-                                                <td></td>
-                                                <td></td>
-                                                <td> - </td>
-
-                                        {% endif %}
                                     </tr>
+                                     {% endif %}
                                     {% if order.delivery_type == 'Vendor_Delivery' %}
                                     <tr>
                                         <th>Delivery Cost</th>
@@ -108,7 +104,7 @@
                                     </tr>
                                     {% endif %}
                                     <tr>
-                                        <th>Total</th>
+                                        <th>Grand Total</th>
                                         {% get_total_order_cost order user as total_cost_order %}
                                                 <td></td>
                                                 <td></td>
