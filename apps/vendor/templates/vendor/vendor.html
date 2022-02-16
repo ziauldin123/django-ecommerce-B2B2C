@@ -56,7 +56,7 @@
                                 <div class="products-view__list products-list" data-layout="grid-3-sidebar" data-with-features="false" data-mobile-grid-columns="2">
                                     <div class="products-list__body">
                                         {% for product in vendor.newProducts.all %}
-                                                {% if product.vendor.enabled and product.visible %}
+                                                {% if product.vendor.enabled and product.visible and product.status %}
                                                         {% include 'product/parts/list_item.html' %}
                                                 {% endif %}
                                     {% endfor %}
