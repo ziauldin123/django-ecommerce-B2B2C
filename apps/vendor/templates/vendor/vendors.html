@@ -41,45 +41,12 @@
                                         {% endfor %}
                                     </div>
                                 </div>
-                                <div class="products-view__pagination">
-                                    <ul class="pagination justify-content-center">
-                                        <li class="page-item disabled">
-                                            <a class="page-link page-link--with-arrow" href="" aria-label="Previous">
-                                                <svg class="page-link__arrow page-link__arrow--left" aria-hidden="true" width="8px" height="13px">
-                                                    <use xlink:href="/static/templates/images/sprite.svg#arrow-rounded-left-8x13"></use>
-                                                </svg>
-                                            </a>
-                                        </li>
-                                        <li class="page-item active"><a class="page-link" href="">1 <span class="sr-only">(current)</span></a></li>
-                                        <li class="page-item"><a class="page-link" href="">2</a></li>
-                                        <li class="page-item"><a class="page-link" href="">3</a></li>
-                                        <li class="page-item">
-                                            <a class="page-link page-link--with-arrow" href="" aria-label="Next">
-                                                <svg class="page-link__arrow page-link__arrow--right" aria-hidden="true" width="8px" height="13px">
-                                                    <use xlink:href="/static/templates/images/sprite.svg#arrow-rounded-right-8x13"></use>
-                                                </svg>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
                 {% include "core/pagination.html" with page=vendors %}
-                <div class="block block-sidebar block-sidebar--offcanvas--always">
-                    <div class="block-sidebar__backdrop"></div>
-                    <div class="block-sidebar__body">
-                        <div class="block-sidebar__header">
-                            <div class="block-sidebar__title">Filters</div>
-                            <button class="block-sidebar__close" type="button">
-                                <svg width="20px" height="20px">
-                                    <use xlink:href="images/sprite.svg#cross-20"></use>
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
-                </div>
+               <br>
             </div>
         </div>
 {% endblock %}
