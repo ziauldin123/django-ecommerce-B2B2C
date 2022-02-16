@@ -203,7 +203,7 @@ def deletefromcart(request, id):
 
     ShopCart.objects.filter(id=id).delete()
 
-    messages.warning(request, "A product has beeen removed from your cart.")
+    messages.warning(request, "A product has been removed from your cart.")
     return HttpResponseRedirect("/shopcart")
 
 
