@@ -1080,16 +1080,18 @@
                       </span>
                     </a>
                   </div>
-                  <div class="indicator indicator--mobile" id="mycart">
+                  <div class="indicator indicator--mobile" >
                     <a href=" " data-open="offcanvas-cart" class="indicator__button">
-                      <span class="indicator__area">
-                        <svg width="20px" height="20px">
-                          <use xlink:href="/static/templates/images/sprite.svg#cart-20"></use>
-                        </svg>
-                         {% load myapptags %}
-                         {% shopcartcount user.id as count %}
-                        <span class="indicator__value">{{count}}</span>
-                      </span>
+                      <div id="mycart" class="indicator">
+                        <span class="indicator__area">
+                          <svg width="20px" height="20px">
+                            <use xlink:href="/static/templates/images/sprite.svg#cart-20"></use>
+                          </svg>
+                           {% load myapptags %}
+                           {% shopcartcount user.id as count %}
+                          <span class="indicator__value">{{count}}</span>
+                        </span>
+                      </div>
                     </a>
                   </div>
                 </div>
@@ -1320,17 +1322,19 @@
                         </span>
                       </a>   
                     </div>
-                    <div class="indicator" id="my_cart">
+                    <div class="indicator" >
                       <a href="" class="indicator__button" data-open="offcanvas-cart">
                           <span class="indicator__area">
                               <svg class="svg" width="20px" height="20px">
                                 <use xlink:href="/static/templates/images/sprite.svg#cart-20"></use>
                               </svg>
-                              <span class="qty indicator__value">
-                               {% load myapptags %}
-                               {% shopcartcount user.id as count %}
-                                {{count}}
-                              </span>
+                              <div class="indicator" id="my_cart">
+                                <span class="qty indicator__value" >
+                                  {% load myapptags %}
+                                  {% shopcartcount user.id as count %}
+                                   {{count}}
+                                 </span>
+                              </div>
                           </span>
                       </a>
                   </div>
