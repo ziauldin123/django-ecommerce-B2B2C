@@ -42,6 +42,7 @@ class ProductService:
         print(products)
         if query:
             products = products.filter(Q(title__icontains=query) | Q(description__icontains=query))
+            variants = variants.filter(Q(title__icontains=query))
             # for product in products:
             #     variants=variants.filter(Q(product=product))
 
@@ -57,7 +58,9 @@ class ProductService:
         max_var_price=variants.aggregate(Max('price'))['price__max']
         min_var_price=variants.aggregate(Min('price'))['price__min']
         print("min_p:", min_price)
+        print("max_p:", max_price)
         print("min_v:", min_var_price)
+        print("max_v:", max_var_price)
         if max_price == None:
             max_price=0
         if min_price == None:
