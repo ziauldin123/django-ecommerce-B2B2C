@@ -1,3 +1,4 @@
+from tkinter.messagebox import NO
 from django.http import HttpResponse
 from django.http import request
 from django.shortcuts import render
@@ -17,7 +18,7 @@ def frontpage(request):
     product = Product.objects.filter(status=True, visible=True)
     shopcart = ShopCart.objects.filter(user_id=current_user.id)
     posts = Post.objects.all()
-    
+
     if product:
         for i in product:
             if i.is_variant:
@@ -59,11 +60,16 @@ def frontpage(request):
             for rs in shopcart:
                 if rs.variant is None:
                     cart.add(product_id=rs.product.id,variant_id=None, user_id=current_user.id,
-                         quantity=rs.quantity, update_quantity=True) 
+                         quantity=rs.quantity, update_quantity=True)
                 else:
                     cart.add(product_id=rs.product.id,variant_id=rs.variant.id, user_id=current_user.id,
-                         quantity=rs.quantity, update_quantity=True) 
-    
+                         quantity=rs.quantity, update_quantity=True)
+    else:
+        cart=None
+        total=None
+        tax=None
+        grandTotal=None
+
 
     return render(
         request,

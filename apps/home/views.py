@@ -37,7 +37,11 @@ def product_detail(request, id, slug, vendor_slug, category_slug, subcategory_sl
     mainProduct = []
     query = request.GET.get('q')
     product = Product.objects.get(pk=id)
-    
+    shopcart=None
+    total=None
+    tax=None
+    grandTotal=None
+
     if not request.user.is_anonymous:
         cart = Cart(request)
         current_user = request.user
@@ -45,6 +49,7 @@ def product_detail(request, id, slug, vendor_slug, category_slug, subcategory_sl
         total=cart.get_cart_cost()
         tax=cart.get_cart_tax()
         grandTotal=cart.get_cart_cost() + cart.get_cart_tax()
+
 
     if product.status == False:
         messages.add_message(request, messages.ERROR,

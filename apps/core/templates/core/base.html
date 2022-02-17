@@ -278,7 +278,7 @@
             data-collapse
             data-collapse-opened-class="mobile-links__item--open"
           >
-            
+
             <li class="mobile-links__item" data-collapse-item>
               <div class="mobile-links__item-title">
                 <a href="#" class="mobile-links__item-link">Categories</a>
@@ -942,11 +942,12 @@
                     <form class="search__form" action="">
                       <input
                         class="search__input"
-                        name="search"
+                        name="query"
                         placeholder=""
                         aria-label="Site search"
                         type="text"
                         autocomplete="off"
+                        value="{{ query }}"
                       />
                       <button
                         class="search__button search__button--type--submit"
@@ -1009,7 +1010,7 @@
                           </svg>
                           <span class="indicator__value">0</span>
                         </span>
-                      </a>   
+                      </a>
                     </div>
                   <div class="indicator indicator--mobile">
                     <a href="{% url 'shopcart' %}" class="indicator__button">
@@ -1052,7 +1053,7 @@
                   <form class="search__form" method="get" action="{% url 'search' %}">
                     <input
                       class="search__input"
-                      name="search"
+                      name="query"
                       placeholder=""
                       aria-label="Site search"
                       type="text"
@@ -1094,7 +1095,7 @@
                         <div class="departments__links-wrapper">
                           <div class="departments__submenus-container"></div>
                           <ul class="departments__links">
-                            {% for category in menu_categories %} 
+                            {% for category in menu_categories %}
                             {% if category.has_children %}
                             <li class="departments__item">
                               <a class="departments__item-link" href="{% url 'category' category.slug %}">
@@ -1167,7 +1168,7 @@
                                 ></use>
                               </svg>
                             </a>
-                            {% endif %} 
+                            {% endif %}
                             {% endfor %}
                           </ul>
                         </div>
@@ -1197,7 +1198,7 @@
                   <!-- .nav-links -->
                   <div class="nav-panel__nav-links nav-links">
                     <ul class="nav-links__list">
-                  
+
                       <li class="nav-links__item">
                         <a class="nav-links__item-link" href="{% url 'vendors' %}">
                           <div class="nav-links__item-body">
@@ -1230,7 +1231,7 @@
                   <!-- .nav-links / end -->
                   <div class="nav-panel__indicators">
                     <div class="indicator">
-                      {% if request.user.is_authenticated %} 
+                      {% if request.user.is_authenticated %}
                       <a href="/users/customer/{{ request.user.id }}/wishlist/" class="indicator__button">
                         <span class="indicator__area">
                           <svg class="svg" width="15px" height="15px">
@@ -1239,7 +1240,7 @@
                           <span class="indicator__value">{% if wishlist %} {{ wishlist|length }} {% else %} 0 {% endif %}</span>
                         </span>
                       </a>
-                      {% else %} 
+                      {% else %}
                       <a href="" class="indicator__button">
                         <span class="indicator__area">
                           <svg class="svg"  width="15px" height="15px">
@@ -1248,7 +1249,7 @@
                           <span class="indicator__value">{% if wishlist %} ({{ wishlist|length }}) {% else %} 0 {% endif %}</span>
                         </span>
                       </a>
-                      {% endif %}   
+                      {% endif %}
                     </div>
                     <div class="indicator">
                       <a href="{% url 'product-comparing'  %}" class="indicator__button">
@@ -1258,7 +1259,7 @@
                           </svg>
                           <span class="indicator__value">0</span>
                         </span>
-                      </a>   
+                      </a>
                     </div>
                     <div class="indicator">
                       <a href="{% url 'shopcart' %}" class="indicator__button" data-open="offcanvas-cart">
@@ -1332,7 +1333,7 @@
                                       </div>
                                   {% endfor %}
                             {% endif %}
-  
+
                             {% if messages %}
                                 <div class="messages">
                                    {% for message in messages %}
@@ -1354,7 +1355,7 @@
                             {% else %}
                             <div class="account-menu__divider"></div>
                             <a {% if request.user.vendor %} href="{% url 'vendor_admin'  %}" {% else %} href="{% url 'myaccount'  %}" {% endif %} class="account-menu__user">
-                              {% if request.user.vendor %}  
+                              {% if request.user.vendor %}
                               <div class="account-menu__user-avatar">
                                      <img src="{{vendor.logo.url}}" alt="">
                                 </div>
@@ -1366,12 +1367,12 @@
                             </a>
                             <div class="account-menu__divider"></div>
                             <ul class="account-menu__links">
-                                {% if request.user.vendor %} 
+                                {% if request.user.vendor %}
                                 <li><a href="{% url 'vendor_admin'  %}">Edit Profile</a></li>
                                 <li><a href="{% url 'vendor_admin'  %}">Order History</a></li>
                                 <li><a href="{% url 'vendor_admin'  %}">Addresses</a></li>
                                 <li><a href="{% url 'request_restore_password' %}">Password</a></li>
-                                {% else %} 
+                                {% else %}
                                 <li><a href="{% url 'myaccount'  %}">Edit Profile</a></li>
                                 <li><a href="{% url 'myaccount'  %}">Order History</a></li>
                                 <li><a href="{% url 'myaccount'  %}">Addresses</a></li>
@@ -1471,7 +1472,7 @@
                       <li class="footer-links__item">
                         <a href="{% url 'pricing'  %}" class="footer-links__link">Pricing</a>
                       </li>
-                      
+
                     </ul>
                   </div>
                 </div>
@@ -1559,7 +1560,7 @@
               </div>
             </div>
           </div>
-          
+
         </div>
       </footer>
       <!-- site__footer / end -->
@@ -1586,7 +1587,7 @@
         </div>
         <div class="mobilemenu__content">
             <ul class="mobile-links mobile-links--level--0" data-collapse data-collapse-opened-class="mobile-links__item--open">
-                
+
                 <li class="mobile-links__item" data-collapse-item>
                     <div class="mobile-links__item-title">
                         <a href="" class="mobile-links__item-link">Shop by category</a>
@@ -1598,8 +1599,8 @@
                     </div>
                     <div class="mobile-links__item-sub-links" data-collapse-content>
                         <ul class="mobile-links mobile-links--level--1">
-                            {% for category in menu_categories %} 
-                            {% if category.has_children %} 
+                            {% for category in menu_categories %}
+                            {% if category.has_children %}
                             <li class="mobile-links__item" data-collapse-item>
                               <div class="mobile-links__item-title">
                                   <a href="" class="mobile-links__item-link">{{category.title}}</a>
@@ -1608,7 +1609,7 @@
                                           <use xlink:href="/static/templates/images/sprite.svg#arrow-rounded-down-12x7"></use>
                                       </svg>
                                   </button>
-                              </div> 
+                              </div>
                               {% for subcategory in category.children %}
                               <div class="mobile-links__item-sub-links" data-collapse-content>
                                   <ul class="mobile-links mobile-links--level--2">
@@ -1655,9 +1656,9 @@
 
                 <li class="mobile-links__item" data-collapse-item>
                     <div class="mobile-links__item-title">
-                        {% if request.user.is_authenticated %} 
+                        {% if request.user.is_authenticated %}
                         <a href="{% url 'logout' %}" class="mobile-links__item-link">Logout</a>
-                        {% else %} 
+                        {% else %}
                         <a href="{% url 'login' %}" class="mobile-links__item-link">Login</a>
                         {% endif %}
                     </div>
@@ -1686,26 +1687,26 @@
                 <a href="product.html" class="product-image__body">
                     {% if product.variant %}
                     <img class="product-image__img" src="{{product.variant.image_variant.url}}" alt="">
-                    {% else %} 
+                    {% else %}
                     <img class="product-image__img" src="{{product.product.image.url}}" alt="">
                     {% endif %}
                 </a>
             </div>
             <div class="dropcart__product-info">
-                {% if product.variant %} 
+                {% if product.variant %}
                 <div class="dropcart__product-name"><a href="{% url 'product' product.product.id product.product.slugV product.product.category.sub_category.category.slug product.product.category.sub_category.slug product.product.category.slug product.product.slug %}">{{product.variant.title}}</a></div>
-                {% else %} 
+                {% else %}
                 <div class="dropcart__product-name"><a href="{% url 'product' product.product.id product.product.slugV product.product.category.sub_category.category.slug product.product.category.sub_category.slug product.product.category.slug product.product.slug %}">{{product.product}}</a></div>
                 {% endif %}
                 <ul class="dropcart__product-options">
-                    {% if product.variant %} 
-                           {% if product.variant.color %} 
+                    {% if product.variant %}
+                           {% if product.variant.color %}
                                  <li>Color:{{product.variant.color}} </li>
-                           {% endif %} 
-                    {% else %} 
+                           {% endif %}
+                    {% else %}
                           {% if product.color %}
-                                <li>Color: {{product.color}}</li> 
-                          {% endif %}      
+                                <li>Color: {{product.color}}</li>
+                          {% endif %}
                     {% endif %}
                 </ul>
                 <div class="dropcart__product-meta">
@@ -1714,17 +1715,17 @@
                     </span> ×
                     <span class="dropcart__product-price">
                       {% if product.variant %}
-                          {% if product.variant.discount %} 
+                          {% if product.variant.discount %}
                               {{product.variant.get_discounted_price}}
-                          {% else %} 
+                          {% else %}
                               {{product.variant.price}}
                           {% endif %}
                       {% else %}
                           {% if product.product.discount %}
                                {{product.product.get_discounted_price}}
-                          {% else %} 
-                              {{product.price}}    
-                          {% endif %}     
+                          {% else %}
+                              {{product.price}}
+                          {% endif %}
                       {% endif %}
                     </span>
                 </div>
@@ -1736,22 +1737,22 @@
                 </svg>
             </button>
             </a>
-        </div> 
+        </div>
           {% endfor %}
       </div>
       <div class="dropcart__totals">
           <table>
               <tr>
                   <th>Subtotal</th>
-                  <td>{{subtotal}} FRW</td> 
+                  <td>{{subtotal}} FRW</td>
               </tr>
               <tr>
                   <th>VAT</th>
-                  <td>{{tax}} FRW</td> 
+                  <td>{{tax}} FRW</td>
               </tr>
               <tr>
                   <th>Total</th>
-                  <td>{{total}} FRW</td> 
+                  <td>{{total}} FRW</td>
               </tr>
           </table>
       </div>
@@ -1807,6 +1808,7 @@
     <script src="{% static 'templates/vendor/photoswipe/photoswipe.min.js' %}"></script>
     <script src="{% static 'templates/vendor/photoswipe/photoswipe-ui-default.min.js' %}"></script>
     <script src="{% static 'templates/vendor/select2/js/select2.min.js' %}"></script>
+    <script src="{% static 'templates/js/wNumb.min.js' %}"></script>
     <script src="{% static 'templates/js/number.js' %}"></script>
     <script src="{% static 'templates/js/main.js' %}"></script>
     <script src="{% static 'templates/js/header.js' %}"></script>

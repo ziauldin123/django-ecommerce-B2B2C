@@ -1,0 +1,1 @@
+tr.odd td:first-child,tr.even td:first-child{padding-left:4em!important}select,select.form-control{-webkit-appearance:textfield!important}table.dataTable{width:calc(100% - 2px)!important}
