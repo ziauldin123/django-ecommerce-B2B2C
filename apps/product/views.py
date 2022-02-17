@@ -95,7 +95,8 @@ def search(request):
             'query_height':query_height,
             'query_width':query_width,
             'query_length':query_length,
-            'max_amount':max_amount
+            'max_amount':max_amount,
+
         }
     )
 
@@ -482,7 +483,7 @@ def category(request, category_slug):
         request,
         'product/category.html',
         {
-            'category': category,
+            'category': category_slug,
             'query':query,
             'form': search_form,
             'query':query,
@@ -582,7 +583,8 @@ def subcategory(request, category_slug, subcategory_slug):
     search_form = SearchForm(request.GET, products=products)
     return render(request, 'product/subcategory.html',
         {
-            'category': category,
+            'category': category_slug,
+            'subcategory':subcategory_slug,
             'form': search_form,
             'query':query,
             'products': products,
@@ -682,7 +684,9 @@ def subsubcategory(request, category_slug, subcategory_slug, subsubcategory_slug
 
     return render(request, 'product/subsubcategory.html',
         {
-            'category': category,
+            'category': category_slug,
+            'subcategory':subcategory_slug,
+            'subsubcategory':subsubcategory_slug,
             'form': search_form,
             'query':query,
             'products': products,
