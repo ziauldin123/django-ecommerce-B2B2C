@@ -10,9 +10,9 @@
             url: "/order/addtoshopcart/" + pr_id,
             success: function (data) {
                 console.log(data);
-                $("#cart_table").load(" #cart_table"); //for desktop
+                $("#my_cart").load(location.href + " #my_cart"); //for desktop
                 $("#mycart").load(location.href + " #mycart");   //for mobile
-                $("#cart_table").load(location.href + " #cart_table");
+                $("#cart_table").load(location.href + " #cart_table"); //for cart_table
                 $("#message").append(
                     '<div class="alert alert-success hideit alertSuc">added in cart successfully.</div >')
                 setTimeout(function () {
