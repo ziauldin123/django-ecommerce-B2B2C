@@ -77,23 +77,15 @@
                 <td align="center" style="background-color: #eeeeee;" bgcolor="#eeeeee">
                     <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%"
                         style="max-width:600px;">
-                        <tr>
-                            <td align="center" valign="top" style="font-size:0; padding: 20px;" bgcolor="#131921">
-                                <div
-                                    style="display:inline-block;">
-                                    <table align="left" border="0" cellpadding="0" cellspacing="0" width="100%"
-                                        style="max-width:300px;">
-                                        <tr>
-                                            <td align="center" valign="top"
-                                                class="mobile-center">
-                                                <img src="https://sokopark.s3.af-south-1.amazonaws.com/media/images/navbar_logo_main.png" width="250" height="250"
+                            <td align="center" style="padding: 0px 35px 0px 35px;" bgcolor="#131921">
+                                <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%"
+                                    style="max-width:600px;">
+                                    <tr>
+                                        <td align="center"> <img src="https://sokopark.s3.af-south-1.amazonaws.com/media/images/navbar_logo_main.png" width="250" height="250"
                                                 style="display: block; border: 0px;" /> </td>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </div>
+                                    </tr>
+                                </table>
                             </td>
-                        </tr>
                         <tr>
                             <td align="center" style="padding: 0px 35px 20px 35px; background-color: #ffffff;"
                                 bgcolor="#ffffff">
@@ -103,7 +95,7 @@
                                         <td align="center"
                                             style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding-top: 25px;">
                                             <img src="https://sokopark.s3.af-south-1.amazonaws.com/media/images/check-100.png"
-                                                width="125" height="120" style="display: block; border: 0px;" /><br>
+                                                width="80" height="80" style="display: block; border: 0px;" /><br>
                                             <h2
                                                 style="font-size: 30px; font-weight: 800; line-height: 36px; color: #333333; margin: 0;">
                                                 Order Received. </h2>
@@ -131,10 +123,10 @@
                                                          Qty</td>
                                                     <td width="25%" align="left" bgcolor="#eeeeee"
                                                         style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 800; line-height: 24px; padding: 10px;">
-                                                         Price</td>
+                                                         Price (Rwf)</td>
                                                     <td width="25%" align="left" bgcolor="#eeeeee"
                                                         style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 800; line-height: 24px; padding: 10px;">
-                                                         Total</td>
+                                                         Total (Rwf)</td>
                                                 </tr>
                                                 {% for item in order.items.all %}
                                                     {% if item.vendor == vendor %}
@@ -220,8 +212,8 @@
                                                     <tr>
                                                         <td align="left" valign="top"
                                                             style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px;">
-                                                            <p style="font-weight: 800;">{% if order.delivery_type == 'store' %} Pick Up Address {% else %} delivery Address {% endif %}</p>
-                                                            <p>District:{{order.district}}<br>Sector:{{order.sector}}<br>Cell:{{order.cell}}<br>Village:{{order.village}}<br>Address:{{order.delivery_address}}<br></p>
+                                                            <p style="font-weight: 800;">{% if order.delivery_type == 'store' %} Pick Up Address {% else %} Delivery Address {% endif %}</p>
+                                                            <p>District: {{order.district}}<br>Sector: {{order.sector}}<br>Cell: {{order.cell}}<br>Village: {{order.village}}<br>Address: {{order.delivery_address}}<br></p>
                                                         </td>
                                                     </tr>
                                                 </table>
@@ -237,7 +229,7 @@
                                 <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%"
                                     style="max-width:600px;">
                                     <tr>
-                                        <td align="center"> <img src="https://sokopark.s3.af-south-1.amazonaws.com/media/images/notification_logo.png" width="78" height="78"
+                                        <td align="center"> <img src="https://sokopark.s3.af-south-1.amazonaws.com/media/images/notification_logo.png" width="50" height="50"
                                                 style="display: block; border: 0px;" /> </td>
                                     </tr>
                                     <tr>
@@ -252,7 +244,7 @@
                                         <td align="left"
                                             style="font-family: Open Sans, Helvetica, Arial, sans-serif;font-weight: 400; line-height: 24px;">
                                             <p
-                                                style="font-size: 13px; font-weight: 400; line-height: 20px; color: #777777;">
+                                                style="font-size: 11px; font-weight: 400; line-height: 20px; color: #777777;">
                                                 * This document is an order confirmation. It is the responsibility of the vendor to provide tax receipts to the customers. <br> * The prices above include Value Added Tax (if applicable). <br>* If you are not a Sokopark vendor, please ignore
                                                 this email.</p>
                                         </td>
