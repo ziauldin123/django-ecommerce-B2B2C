@@ -1348,7 +1348,7 @@
                       </a>
                       <div class="indicator__dropdown">
                         <div class="account-menu">
-                            {% if not request.session.username %}
+                            {% if request.user.is_anonymous %}
                             <form method="post" action="{% url 'login' %}" class="account-menu__form">
                                 {% csrf_token %}
                                 <div class="account-menu__form-title">Log In to Your Account</div>
@@ -1408,10 +1408,17 @@
                                 <div class="account-menu__user-avatar">
                                     <img {% if request.user.vendor %} src="{{request.session.logo}}"  {% else %} src="/static/templates/images/avatars/avatar-1.jpg"  {% endif %} alt="">
                                 </div>
+                                {% if request.user.vendor %} 
                                 <div class="account-menu__user-info">
-                                    <div class="account-menu__user-name">{{request.session.username}}</div>
-                                    <div class="account-menu__user-email">{{request.session.email}}</div>
-                                </div>
+                                  <div class="account-menu__user-name">{{vendor.company_name}}</div>
+                                  <div class="account-menu__user-email">{{request.user}}</div>
+                              </div>
+                              {% else %} 
+                              <div class="account-menu__user-info">
+                                <div class="account-menu__user-name">{{request.session.username}}</div>
+                                <div class="account-menu__user-email">{{request.session.email}}</div>
+                            </div>
+                            {% endif %}
                             </a>
                             <div class="account-menu__divider"></div>
                             <ul class="account-menu__links">

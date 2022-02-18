@@ -407,7 +407,6 @@ def vendor_admin(request):
 
         vendor_items_total_price = round(Decimal(vendor_items_total_price), 2)
         total_cost = round(Decimal(vendor_items_total_price), 2)
-
         return render(
             request,
             'vendor/vendor_admin.html',
@@ -772,11 +771,11 @@ def delete_product(request, pk):
 @ login_required
 def upload_logo(request):
     vendor = request.user.vendor
-
     if request.method == 'POST':
         if "image" in request.FILES and len(request.FILES["image"]) > 0:
             vendor.logo = request.FILES["image"]
             vendor.save()
+            request.session['logo']=Vendor.objects.get(email=vendor.email).logo.url
             messages.info(request, f"Company Logo Updated Sucessfully.")
             print("uploaded")
     return redirect('vendor_admin')

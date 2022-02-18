@@ -87,7 +87,7 @@ def frontpage(request):
         wishlist = 0
         total_compare = 0
   
-
+    print(request.user)
     return render(
         request,
         'core/frontpage.html',

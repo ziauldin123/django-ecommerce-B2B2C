@@ -69,8 +69,8 @@
                                 <img src="{% static 'templates/images/avatars/avatar-3.jpg' %}" alt="">
                                 {% endif %}
                             </div>
-                            <div class="profile-card__name">{{ request.session.username }}</div>
-                            <div class="profile-card__email">{{ request.user.email }}</div>
+                            <div class="profile-card__name">{{ vendor.company_name }}</div>
+                            <div class="profile-card__email">{{ vendor.email }}</div>
                         </div>
                         <form class="form" style="margin-left: 20px;margin-bottom: 20px;" method="post" action="{% url 'upload_logo' %}" enctype="multipart/form-data">
                             {% csrf_token %}
@@ -84,7 +84,7 @@
                     <div class="dashboard__address card address-card address-card--featured">
                         <div class="address-card__badge">Vendor Address</div>
                         <div class="address-card__body">
-                            <div class="address-card__name">{{ request.session.username }}</div>
+                            <div class="address-card__name">{{ vendor.company_name }}</div>
                             <div class="address-card__row">
                                 {{ request.session.address }}<br>
                                 {% if request.session.company_code %} 
