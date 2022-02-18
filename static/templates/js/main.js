@@ -142,8 +142,10 @@
         $('.block-brands__slider .owl-carousel').owlCarousel({
             nav: false,
             dots: false,
-            loop: false,
+            loop: true,
             rtl: isRTL(),
+            autoplay: true,
+            autoplayTimeout: 2000,
             responsive: {
                 1200: { items: 6 },
                 992: { items: 5 },
