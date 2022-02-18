@@ -4,7 +4,7 @@ from . models import Post
 from apps.cart.cart import Cart
 from apps.ordering.models import ShopCart
 from apps.vendor.models import UserWishList
-from django.core.paginator import (PageNotAnInteger,Paginator,EmptyPage)
+from django.core.paginator import (PageNotAnInteger, Paginator, EmptyPage)
 
 
 def index(request):
@@ -40,7 +40,7 @@ def index(request):
         total_compare = 0
 
     posts_list = Post.objects.all()
-    paginator = Paginator(posts_list,2)
+    paginator = Paginator(posts_list, 5)
     page = request.GET.get('page')
 
     try:
@@ -48,9 +48,7 @@ def index(request):
     except PageNotAnInteger:
         posts = paginator.page(1)
     except EmptyPage:
-        posts = paginator.page(paginator.num_pages)    
-
-
+        posts = paginator.page(paginator.num_pages)
 
     return render(request, 'blog/index.html', {
         'posts': posts,
