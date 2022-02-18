@@ -1,4 +1,5 @@
 from decimal import Decimal
+import imp
 
 import stripe
 from django.conf import settings
@@ -15,6 +16,8 @@ from .services.payment_service import payment_service
 from ..core.utils import get_attr_or_none
 # from ..product.models import Product
 from apps.newProduct.models import Product
+from apps.ordering.models import notify_customer,notify_vendor
+
 
 
 def cart_detail(request):
@@ -105,29 +108,6 @@ def contact_info(request):
     total=total=cart.get_cart_cost_with_coupen()
     tax=Cart(request).get_cart_tax()
     grandTotal=cart.get_cart_cost() + cart.get_cart_tax()
-    # for rs in shopcart:
-    #     print(rs.id)
-    #     print(rs.product.id)
-    #     product=Product.objects.get(id=rs.product.id)
-    #     print(product)
-    #     if product.vendor.vendor_delivery.all().count()==0:
-    #         use_vendor_delivery=False
-    #     if rs.product and not rs.product.pickup_available:
-    #         pickup_avaliable=False
-    #     print(rs.product.pickup_available)
-    #     if rs.product.variant=='None':
-    #         if rs.product.discount > 0:
-    #             total+=rs.product.get_discounted_price*rs.quantity
-    #         else:
-    #             total+=float(rs.product.price)*rs.quantity
-    #     else:
-    #         if rs.variant.discount > 0:
-    #             total+=rs.variant.get_discounted_price()*rs.quantity
-    #         else:
-    #             total+=rs.varamount*rs.quantity
-
-    #     total = float(total-((coupon_discount*total)/100))
-
     if cart_customer:
         print("cart_customer")
         if request.method == 'POST':
@@ -273,59 +253,14 @@ def payment_check(request, *args, **kwargs):
     total=cart.get_cart_cost()
     tax=cart.get_cart_tax()
     grandTotal=cart.get_cart_tax() + cart.get_total_cost()
-    # for rs in shopcart:
-    #     if rs.product.variant=='None':
-    #         if rs.product.discount > 0:
-    #             total+=rs.product.get_discounted_price*rs.quantity
-    #         else:
-    #             total+=rs.product.price*rs.quantity
-    #     else:
-    #         if rs.variant.discount > 0:
-    #             total+=Decimal(rs.variant.get_discounted_price()*rs.quantity)
-    #         else:
-    #             total+=rs.varamount*rs.quantity
-
-
 
     request.POST.get('pay_now')
     if request.method == 'POST':
         form = PaymentForm(request.POST)  # PaymentForm
-        if cart.get_delivery_type() == 'store':
-            payment_service.make_checkout(request, cart,shopcart)
-            return redirect('success')
-        elif form.is_valid():
-            stripe.api_key = settings.STRIPE_SECRET_KEY
-            try:
-                amount = cart.get_cart_cost_with_coupen()
-                # if request.session.get(settings.COUPON_SESSION_ID)["discount"] != "":
-                #     amount = amount * \
-                #         (100 - int(request.session.get(settings.COUPON_SESSION_ID)
-                #                    ["discount"])) / 100
-                amount += cart.get_delivery_cost()
-                try:
-                    token = stripe.Token.create(
-                        card={
-                            "number": form.cleaned_data['card_num'],
-                            "exp_month": int(form.cleaned_data['exp_month']),
-                            "exp_year": int(form.cleaned_data['exp_year']),
-                            "cvc": form.cleaned_data['cvc']
-                        },
-                    )
-                    stripe.Charge.create(
-                        amount=int(amount * 100),
-                        currency='USD',
-                        description='Charge from Warehouse250',
-                        source=token
-                    )
-                except Exception as e:
-                    print(e)
-                    pass
-                payment_service.make_checkout(request, cart,shopcart)
-                return redirect('success')
-            except Exception as e:
-                print(e)
-                messages.error(
-                    request, 'There was something wrong with the payment')
+        if form.is_valid():
+            phone=form.cleaned_data['phone_number']
+            payment_service.make_checkout(request, cart,shopcart,phone)
+            return redirect('waiting')
         else:
             print("invalid")
             print('there invalid')
@@ -338,7 +273,6 @@ def payment_check(request, *args, **kwargs):
         'cart/payment.html',
         {
             'form': form,
-            'stripe_pub_key': settings.STRIPE_PUB_KEY,
             'coupon': request.session.get(settings.COUPON_SESSION_ID),
             'shopcart': shopcart,
             'total':round(total,2),
@@ -350,8 +284,16 @@ def payment_check(request, *args, **kwargs):
 
 
 def success(request):
-    return render(request, 'cart/success.html')
-
+    order=Order.objects.filter(email=request.user.customer.email).order_by('-id').first()
+    total = 0
+    if order.delivery_cost:
+        total=order.paid_amount + order.delivery_cost
+    else:
+        total=order.paid_amount
+    if order.is_paid:
+        notify_customer(order,request)
+        notify_vendor(order)       
+    return render(request, 'cart/success.html',{'order':order,'total':total})
 
 def check_add_qty(request, product_id, num, *args, **kwargs):
     product = Product.objects.get(id=product_id)

@@ -2,7 +2,6 @@ from typing import List
 
 from django.conf import settings
 
-# from apps.product.models import Product
 from apps.newProduct.models import Product
 from apps.ordering.models import ShopCart
 from decimal import Decimal
@@ -304,7 +303,6 @@ class Cart(object):
         for item in self.cart['cart'].values():
             if 'product' in item:
                 total_cost += float(item['product']['total_cost'] * item['quantity'])
-
 
 
         if 'coupon_discount' in list(self.cart):

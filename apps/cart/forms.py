@@ -1,4 +1,8 @@
+from dataclasses import field
+from pyexpat import model
 from django import forms
+
+from apps.ordering.models import Order
 
 from .models import District, Sector, Cell, Village
 
@@ -53,10 +57,7 @@ class CheckoutForm(forms.Form):
 
 class PaymentForm(forms.Form):
     # stripe_token = forms.CharField(required=False, max_length=255)
-    card_num = forms.CharField()
-    exp_month = forms.CharField()
-    exp_year = forms.CharField()
-    cvc = forms.CharField()
+    phone_number = forms.CharField()
     #     print('cleannn')
 
     #     print(self.cleaned_data)

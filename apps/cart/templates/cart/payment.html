@@ -165,38 +165,30 @@
                         <div class="card-body">
                             <form method="post" action="" id="payment-form">
                                 {% csrf_token %}
-                                {% if cart.get_delivery_type == 'store' %}
-                                <div>
-                                    pay now <input type="checkbox" name="pay_now" checked onclick="showMe()">
-                                </div>
-                                {% endif %}
-                        <!--        <div id="card-element">-->
-                        <!--            {{ form.as_p }}-->
-                                    <!-- A Stripe Element will be inserted here -->
-                        <!--        </div>-->
                                 <div id="pay-form">
                                 {{ form.as_p }}
                                 </div>
-                        
                                 {% if messages %}
                                     {% for message in messages %}
                                         <div class="notification is-danger">{{ message }}</div>
                                     {% endfor %}
                                 {% endif %}
-                        
                                 <div class="field">
                                     <div class="control">
-                                        <button class="button btn btn-primary mt-4" onclick="this.disabled=true; this.form.submit();">Confirm Order</button>
+                                        <button class="button btn btn-primary mt-4"">Confirm Order</button>
                                     </div>
                                 </div>
                             </form>
                         </div>
                     </div>
+                    <br>
+                    <div class="card mb-0">
+                        <strong class= "ml-2 mr-2"><a>This confirmation will not initiate a payment. <br>You will have to manually pay using : *182*8*1*077935# for MTN or *500*4*2*1*630343# for Airtel.</a></strong>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-
 {% endblock %}
 {% block scripts %}
     <script src="https://js.stripe.com/v3/"></script>

@@ -1062,6 +1062,7 @@ class OrderHistory(TemplateView):
                 compare_var = request.session['comparing_variants'].__len__()
 
             total_compare = comparing + compare_var
+            
 
         orders_list =account_service.calculate_order_sum(request.user.email)
         paginator = Paginator(orders_list,7)

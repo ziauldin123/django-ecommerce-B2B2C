@@ -22,6 +22,7 @@ def checkout(
     address,
     phone,
     company_code,
+    momo,
     district,
     sector,
     cell,
@@ -73,6 +74,7 @@ def checkout(
             address=address,
             phone=phone,
             company_code=company_code,
+            momo=momo,
             district=district,
             sector=sector,
             cell=cell,
@@ -130,94 +132,14 @@ def checkout(
         order.price_no_vat = price_no_vat
         order.vat = vat
         order.subtotal_amount = subtotal_amount
-        notify_customer(order, request)
-        notify_vendor(order)
+        if order.is_paid:
+            notify_vendor(order)
+            notify_customer(order, request)
+        
     except Exception as e:
         raise e
 
     return order
 
 
-def notify_vendor(order):
-    connection = get_connection()  # uses SMTP server specified in settings.py
-    connection.open()
-    print("vendor order")
-    print(order)
-    print("vender")
-    print(order.vendors.all())
 
-    from_email = settings.DEFAULT_EMAIL_FROM
-    try:
-
-        for vendor in order.vendors.all():
-            print(vendor.email)
-            to_email = vendor.email
-            vendor_item_price = 0
-            vendor_items_total_price = 0
-            total_quantity = 0
-            is_delivery = False
-            order_items = OrderItem.objects.filter(order=order)
-            delivery_cost = 0
-            for items in order_items:
-                if vendor == items.vendor:
-                    vendor_item_price = items.get_product_total_price()
-                    vendor_items_total_price += vendor_item_price*items.quantity
-                    total_quantity += items.quantity
-                    if not items.product.is_free_delivery:
-                        if order.delivery_type == "Vendor_Delivery":
-                            delivery_cost = VendorDelivery.objects.get(
-                                vendor=vendor).price
-                            is_delivery = True
-                            if delivery_cost == None:
-                                delivery_cost = 0
-                                is_delivery = False
-                        else:
-                            delivery_cost = 0
-                            is_delivery = False
-
-            total_cost = float(
-                vendor_items_total_price-(order.coupon_discount*vendor_items_total_price/100))
-            total_cost += float(delivery_cost)
-
-            vendor_items_total_price = round(
-                Decimal(vendor_items_total_price), 2)
-            total_cost = round(Decimal(total_cost), 2)
-
-            subject = 'New order - Sokopark'
-            text_content = 'You have a new order!'
-            html_content = render_to_string(
-                'order/email_notify_vendor.html', {'order': order,
-                                                   'vendor': vendor,
-                                                   'subtotal_cost': vendor_items_total_price,
-                                                   'delivery_cost': delivery_cost,
-                                                   'is_delivery': is_delivery,
-                                                   'grand_total': total_cost,
-                                                   'total_quantity': total_quantity})
-
-            msg = EmailMultiAlternatives(
-                subject, text_content, from_email, [to_email], connection=connection)
-            msg.attach_alternative(html_content, 'text/html')
-            msg.send()
-    except Exception as e:
-        print(e)
-
-    connection.close()
-
-
-def notify_customer(order, request):
-    connection = get_connection()  # uses SMTP server specified in settings.py
-    connection.open()
-    grand_cost = order.paid_amount + Decimal(order.delivery_cost)
-    from_email = settings.DEFAULT_EMAIL_FROM
-    to_email = order.email
-    subject = 'Order confirmation - Sokopark'
-    text_content = 'Thank you for the order!'
-    html_content = render_to_string(
-        'order/email_notify_customer.html', {'order': order, 'grand_cost': grand_cost})
-
-    msg = EmailMultiAlternatives(subject, text_content, from_email, [
-                                 to_email], connection=connection)
-    msg.attach_alternative(html_content, 'text/html')
-    msg.send()
-
-    connection.close()

@@ -1,6 +1,6 @@
 {% extends 'core/base.html' %}
 
-{% block title %}Order Confirmed | {% endblock %}
+{% block title %}Payment {% endblock %}
 
 {% block content %}
     <div class="site__body">
@@ -11,8 +11,30 @@
                     <svg class="order-success__icon" width="100" height="100">
                         <use xlink:href="/static/templates/images/sprite.svg#check-100"></use>
                     </svg>
-                    <h1 class="order-success__title">Thank you</h1>
-                    <div class="order-success__subtitle">Your order has been received</div>
+                    <h1 class="order-success__title">Order # {{ order.reference_number}} Received</h1>
+                    <div class="order-success__subtitle">To complete the order, kindly use one of the payment methods below:</div>
+
+                      <div class="row mt-3 no-gutters mx-n2">
+                            <div class="col-sm-6 col-12 px-2">
+                                <div class="card address-card">
+                                    <div class="address-card__body">
+                                        <div class="address-card__badge address-card__badge">MTN MoMo</div>
+                                        <div class="address-card__name mt-3">*182*8*1*077935*{{total|floatformat}}#</div>
+                                       
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-12 px-2 mt-sm-0 mt-3">
+                                <div class="card address-card">
+                                    <div class="address-card__body">
+                                        <div class="address-card__badge address-card__badge">AIRTEL Money</div>
+                                        <div class="address-card__name mt-3">*500*4*2*1*630343*{{total|floatformat}}#</div>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    
                     <div class="order-success__actions">
                         <a href="/" class="btn btn-xs btn-secondary">Go To Homepage</a>
                     </div>

@@ -1,14 +1,14 @@
 from django.conf import settings
 
 from apps.cart.cart import Cart
-from apps.order.utilities import checkout, notify_customer, notify_vendor
+from apps.order.utilities import checkout
 # from apps.product.models import Product
 from apps.newProduct.models import Product, Variants
-from apps.ordering.models import Order,OrderItem,ShopCart
+from apps.ordering.models import Order,OrderItem,ShopCart,notify_customer,notify_vendor
 
 
 class PaymentService:
-    def make_checkout(self, request, cart: Cart, shop_cart):
+    def make_checkout(self, request, cart: Cart, shop_cart,momo):
         first_name = request.user.customer.customername.split(' ')[0]
         if len(request.user.customer.customername.split(' ')) > 1:
             last_name = request.user.customer.customername.split(' ')[
@@ -29,6 +29,7 @@ class PaymentService:
         phone = request.user.customer.phone
         address = request.user.customer.address
         company_code = request.user.customer.company_code
+        momo=momo
         district = cart.cart['delivery']['district']
         sector = cart.cart['delivery']['sector']
         cell = cart.cart['delivery']['cell']
@@ -37,7 +38,7 @@ class PaymentService:
         delivery_cost = cart.cart['delivery']['cost']
         delivery_type=cart.cart['delivery']['delivery_type']
         is_paid_now = True if request.POST.get('pay_now') else False
-        order = checkout(request,cart, first_name, last_name, email,address, phone,company_code, district,
+        order = checkout(request,cart, first_name, last_name, email,address, phone,company_code,momo,district,
                          sector, cell, village, delivery_address, delivery_cost,delivery_type,cart.get_cart_cost(),
                          request.session.get(settings.COUPON_SESSION_ID)["code"], is_paid_now,cart.get_cart_tax(),cart.get_cart_cost())
 
