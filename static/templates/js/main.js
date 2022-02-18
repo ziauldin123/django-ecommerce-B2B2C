@@ -124,7 +124,7 @@
             items: 1,
             nav: false,
             dots: true,
-            loop: true,
+            loop: false,
             rtl: isRTL(),
             autoplay: true,
             autoplayTimeout: 4000,
