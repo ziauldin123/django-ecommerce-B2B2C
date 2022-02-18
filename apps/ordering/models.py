@@ -12,7 +12,7 @@ from django.forms import ModelForm
 from apps.newProduct.models import Product, Variants
 
 
-from apps.vendor.models import Customer, Transporter, Vendor
+from apps.vendor.models import Customer, Transporter, Vendor, VendorDelivery
 # from apps.transporter.models import TransporterOrder
 from decimal import Decimal
 from django.conf import settings
