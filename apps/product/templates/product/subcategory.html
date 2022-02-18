@@ -1,5 +1,5 @@
 {% extends 'core/base.html' %}
-
+{% load static %}
 {% block title %}{{ category.title }} | {% endblock %}
 
 {% block content %}
@@ -380,6 +380,9 @@
                                             </select>
                                         </div>
                                     </div>
+                                      <button class="btn btn-secondary btn-sm" id="filter_search_btn">
+                                    <img width="20px" height="20px" src="{% static 'templates/images/filter.png' %}"/>
+                                </button>
                                 </div>
                             </div>
                             <div id="message" name="message" class="mt-3"></div>

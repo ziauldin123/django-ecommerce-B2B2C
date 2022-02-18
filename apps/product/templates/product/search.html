@@ -1,5 +1,5 @@
 {% extends 'core/base.html' %}
-
+{% load static %}
 {% block title %}search products | {% endblock %}
 
 {% block content %}
@@ -420,6 +420,9 @@
                                             </select>
                                         </div>
                                     </div>
+                                      <button class="btn btn-secondary btn-sm" id="filter_search_btn">
+                                    <img width="20px" height="20px" src="{% static 'templates/images/filter.png' %}"/>
+                                </button>
                                 </div>
                             </div>
                             <h3>Search Results</h3>
