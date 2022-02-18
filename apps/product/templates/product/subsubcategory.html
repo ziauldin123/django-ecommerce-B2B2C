@@ -355,22 +355,16 @@
                     <div class="products-view">
                         <div class="products-view__options">
                             <div class="view-options view-options--offcanvas--mobile">
+                                <h4>{{ category.title }}</h4>
                                 <div class="view-options__divider"></div>
                                 <div class="view-options__control">
                                     <label for="">Sort By</label>
                                     <div>
                                         <select class="form-control form-control-sm" name="" id="">
-                                            <option value="">Default</option>
-                                            <option value="">Name (A-Z)</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="view-options__control">
-                                    <label for="">Show</label>
-                                    <div>
-                                        <select class="form-control form-control-sm" name="" id="">
-                                            <option value="">12</option>
-                                            <option value="">24</option>
+                                            <option value="-created_at"{% if sorting == '-created_at' %} selected{% endif %}>Newest first</option>
+                                            <option value="created_at"{% if sorting == 'created_at' %} selected{% endif %}>Oldest first</option>
+                                            <option value="price"{% if sorting == 'price' %} selected{% endif %}>Price low-high</option>
+                                            <option value="-price"{% if sorting == '-price' %} selected{% endif %}>Price high-low</option>
                                         </select>
                                     </div>
                                 </div>
