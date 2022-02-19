@@ -8,38 +8,27 @@
                 <div class="page-header__container container">
                     <div class="page-header__breadcrumb">
                         <nav aria-label="breadcrumb">
-                            <ol class="breadcrumb">
-                                <li class="breadcrumb-item">
-                                    <a href="index.html">Home</a>
-                                    <svg class="breadcrumb-arrow" width="6px" height="9px">
-                                        <use xlink:href="images/sprite.svg#arrow-rounded-right-6x9"></use>
-                                    </svg>
-                                </li>
-                                <li class="breadcrumb-item">
-                                    <a href="">Breadcrumb</a>
-                                    <svg class="breadcrumb-arrow" width="6px" height="9px">
-                                        <use xlink:href="images/sprite.svg#arrow-rounded-right-6x9"></use>
-                                    </svg>
-                                </li>
-                                <li class="breadcrumb-item active" aria-current="page">Soko Blog</li>
-                            </ol>
+                          
                         </nav>
                     </div>
-                    <div class="page-header__title">
-                        <h1>Soko Blog</h1>
-                    </div>
+                   
                 </div>
             </div>
+
+             
             <div class="container">
                 {% for post in posts %} 
                 <div class="row">
+                    
                     <div class="col-12 col-lg-8">
                         <div class="block">
                             <div class="posts-view">
                                 <div class="posts-view__list posts-list posts-list--layout--classic">
                                     <div class="posts-list__body">
                                         <div class="posts-list__item">
+                                            
                                             <div class="post-card post-card--layout--grid post-card--size--lg">
+                                                {% for post in posts %}
                                                 <div class="post-card__image">
                                                     <a href="{% url 'detail' post.slug  %}">
                                                         <img src="{{ post.image.url }}" alt="">
@@ -58,13 +47,17 @@
                                                         <a href="{% url 'detail' post.slug  %}" class="btn btn-secondary btn-sm">Read More</a>
                                                     </div>
                                                 </div>
+                                                {% endfor %}
                                             </div>
+                                            
                                         </div>
+                                        <hr>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    
                     <div class="col-12 col-lg-4">
                         <div class="block block-sidebar block-sidebar--position--end">
                             <div class="block-sidebar__item">

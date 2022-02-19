@@ -6,20 +6,9 @@
     <div class="page-header__container container">
         <div class="page-header__breadcrumb">
             <nav aria-label="breadcrumb">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item">
-                        <a href="/">Home</a>
-                        <svg class="breadcrumb-arrow" width="6px" height="9px">
-                            <use xlink:href="images/sprite.svg#arrow-rounded-right-6x9"></use>
-                        </svg>
-                    </li>
-                    <li class="breadcrumb-item active" aria-current="page">My Account</li>
-                </ol>
             </nav>
         </div>
-        <div class="page-header__title">
-            <h1>My Account</h1>
-        </div>
+        
     </div>
 </div>
 <div class="block">
@@ -27,7 +16,7 @@
         <div class="row">
             <div class="col-12 col-lg-3 d-flex">
                 <div class="account-nav flex-grow-1">
-                    <h4 class="account-nav__title">Navigation</h4>
+                    <h4 class="account-nav__title">My Account</h4>
                     <ul>
                         <li class="account-nav__item  account-nav__item--active ">
                             <a href="/">Dashboard</a>
@@ -45,32 +34,37 @@
                 <div class="dashboard">
                     <div class="dashboard__profile card profile-card">
                         <div class="card-body profile-card__body">
-                            <div class="profile-card__avatar">
-                                <img src="{% static 'templates/images/avatars/avatar-3.jpg' %}" alt="">
-                            </div>
-                            <div class="profile-card__name">{{ request.session.username }}</div>
-                            <div class="profile-card__email">{{ request.user.email }}</div>
+                           
+                            <div class="profile-card__name_customer">{{ request.session.username }}</div>
+                           
                         </div>
                     </div>
                     <div class="dashboard__address card address-card address-card--featured">
-                        <div class="address-card__badge">Customer Address</div>
+                        <div class="address-card__badge">Billing Address</div>
                         <div class="address-card__body">
-                            <div class="address-card__name">{{ request.session.username }}</div>
-                            <div class="address-card__row">
-                                {{ request.session.address }}<br>
-                                {% if request.session.company_code %} 
-                                      <div class="address-card__row-title">TIN Number</div>
-                                     <div class="address-card__row-content">{{ request.session.company_code}}</div>
-                                {% endif %}
-                            </div>
                             <div class="address-card__row">
                                 <div class="address-card__row-title">Phone Number</div>
                                 <div class="address-card__row-content">{{ request.session.phone}}</div>
                             </div>
-                            <div class="address-card__row">
+
+                             <div class="address-card__row">
                                 <div class="address-card__row-title">Email Address</div>
                                 <div class="address-card__row-content">{{ request.user.email }}</div>
                             </div>
+                           
+                            <div class="address-card__row">
+                                <div class="address-card__row-title">Address</div>
+                                <div class="address-card__row-content"> {{ request.session.address }}</div>
+                            </div>
+
+                            <div class="address-card__row">
+                                {% if request.session.company_code %} 
+                                      <div class="address-card__row-title">TIN</div>
+                                     <div class="address-card__row-content">{{ request.session.company_code}}</div>
+                                {% endif %}
+                            </div>
+                            
+                           
                         </div>
                     </div>
                     <div class="dashboard__orders card">

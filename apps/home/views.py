@@ -81,6 +81,7 @@ def product_detail(request, id, slug, vendor_slug, category_slug, subcategory_sl
         wishlist = 0
         total_compare = 0   
 
+
     if product.status == False:
         messages.add_message(request, messages.ERROR,
                              "Product is not available")

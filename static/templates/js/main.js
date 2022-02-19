@@ -712,16 +712,37 @@
                 range: {
                     'min': min,
                     'max': max
-                }
+                },
+                format: wNumb({
+                    decimals: 0,
+                })
             });
 
             const titleValues = [
                 $(element).find('.filter-price__min-value')[0],
-                $(element).find('.filter-price__max-value')[0]
+                $(element).find('.filter-price__max-value')[0],
+
+            ];
+            const constValues = [
+                // $(element).find('#price_from').val,
+                // $(element).find('#price_to').val,
+                $("#price_from"),
+                $("#price_to")
             ];
 
             slider.noUiSlider.on('update', function (values, handle) {
                 titleValues[handle].innerHTML = values[handle];
+
+                // $("#price_from").attr('value', values[0]);
+                // $('input[type=text].price_from').val(values[0]).trigger('change');
+                // $('input[type=text].price_to').val(values[1]).trigger('change');
+            });
+
+            slider.noUiSlider.on('update', function (values, handle) {
+                constValues[handle].attr('value', values[handle]);
+                // console.log("value " + constValues[handle].val());
+                // constValues[handle].val(values[handle]).trigger('change');
+
             });
         });
     });

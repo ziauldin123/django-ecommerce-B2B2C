@@ -1,25 +1,14 @@
 {% extends 'core/base.html' %}
 {% load static %}
-{% block title %}My account | {{ request.session.username }} - {% endblock %}
+{% block title %}Order #{{order.reference_number}} | {% endblock %}
 {% block content %}
 <div class="page-header">
     <div class="page-header__container container">
         <div class="page-header__breadcrumb">
             <nav aria-label="breadcrumb">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item">
-                        <a href="/">Home</a>
-                        <svg class="breadcrumb-arrow" width="6px" height="9px">
-                            <use xlink:href="images/sprite.svg#arrow-rounded-right-6x9"></use>
-                        </svg>
-                    </li>
-                    <li class="breadcrumb-item active" aria-current="page">My Account</li>
-                </ol>
             </nav>
         </div>
-        <div class="page-header__title">
-            <h1>My Account</h1>
-        </div>
+       
     </div>
 </div>
 <div class="block">
@@ -27,7 +16,7 @@
         <div class="row">
             <div class="col-12 col-lg-3 d-flex">
                 <div class="account-nav flex-grow-1">
-                    <h4 class="account-nav__title">Navigation</h4>
+                    <h4 class="account-nav__title">My Account</h4>
                     <ul>
                         <li class="account-nav__item">
                             <a href="{% url 'myaccount' %}">Dashboard</a>
@@ -103,28 +92,11 @@
                     <div class="col-sm-6 col-12 px-2">
                         <div class="card address-card address-card--featured">
                             <div class="address-card__body">
-                                <div class="address-card__badge address-card__badge--muted">Shipping Address</div>
-                                <div class="address-card__name">{{order.first_name}}</div>
-                                <div class="address-card__row">
-                                    {{order.district}} - {{order.sector}} - {{order.cell}} - {{order.village}}<br>
-                                    {{order.delivery_address}}<br>
-                                </div>
-                                <div class="address-card__row">
-                                    <div class="address-card__row-title">Phone Number</div>
-                                    <div class="address-card__row-content">{{order.phone}}</div>
-                                </div>
-                                <div class="address-card__row">
-                                    <div class="address-card__row-title">Email Address</div>
-                                    <div class="address-card__row-content">{{order.email}}</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-12 px-2 mt-sm-0 mt-3">
-                        <div class="card address-card address-card--featured">
-                            <div class="address-card__body">
                                 <div class="address-card__badge address-card__badge--muted">Billing Address</div>
-                                <div class="address-card__name">{{request.session.username}}</div>
+                                <div class="address-card__row">
+                                    <div class="address-card__row-title">Name</div>
+                                    {{request.session.username}}<br>
+                                </div>
                                 <div class="address-card__row">
                                     <div class="address-card__row-title">Address</div>
                                     {{request.session.address}}<br>
@@ -138,6 +110,34 @@
                                     <div class="address-card__row-content">{{request.session.email}}</div>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-12 px-2 mt-sm-0 mt-3">
+                        <div class="card address-card address-card--featured">
+                            <div class="address-card__body">
+                                <div class="address-card__badge address-card__badge--muted">Shipping Address</div>
+                                <div class="address-card__row">
+                                    <div class="address-card__row-title">District</div>
+                                    <div class="address-card__row-content">{{order.district}}</div>
+                                </div>
+                                <div class="address-card__row">
+                                    <div class="address-card__row-title">Sector</div>
+                                    <div class="address-card__row-content">{{order.sector}}</div>
+                                </div>
+                                <div class="address-card__row">
+                                    <div class="address-card__row-title">Cell</div>
+                                    <div class="address-card__row-content"> {{order.cell}}</div>
+                                </div>
+                                <div class="address-card__row">
+                                    <div class="address-card__row-title">Village</div>
+                                    <div class="address-card__row-content"> {{order.village}}</div>
+                                </div>  
+                                 <div class="address-card__row">
+                                    <div class="address-card__row-title">Address</div>
+                                    <div class="address-card__row-content"> {{order.delivery_address}}</div>
+                                </div>  
+                            </div>
+                            
                         </div>
                     </div>
                 </div>

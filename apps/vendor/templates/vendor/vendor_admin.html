@@ -2,7 +2,7 @@
 {% load static %}
 {% load get_vendor_order_cost %}
 {% load mathfilters %}
-{% block title %}Vendor Dashboard | {{ vendor.company_name }} - {% endblock %}
+{% block title %}Vendor Administration | {{ vendor.company_name }} - {% endblock %}
 
 {% block content %}
 
@@ -23,9 +23,6 @@
                 </ol>
             </nav>
         </div>
-        <div class="page-header__title">
-            <h1>My Account</h1>
-        </div>
     </div>
 </div>
 <div class="block">
@@ -33,7 +30,7 @@
         <div class="row">
             <div class="col-12 col-lg-3 d-flex">
                 <div class="account-nav flex-grow-1">
-                    <h4 class="account-nav__title">Navigation</h4>
+                    <h4 class="account-nav__title">Vendor Administration</h4>
                     <ul>
                         <li class="account-nav__item  account-nav__item--active ">
                             <a href="{% url 'vendor_admin' %}">Dashboard</a>
@@ -82,36 +79,38 @@
                         </form>
                     </div>
                     <div class="dashboard__address card address-card address-card--featured">
-                        <div class="address-card__badge">Vendor Address</div>
+                        <div class="address-card__badge">Basic Info</div>
                         <div class="address-card__body">
                             <div class="address-card__name">{{ vendor.company_name }}</div>
                             <div class="address-card__row">
-                                {{ request.session.address }}<br>
-                                {% if request.session.company_code %} 
-                                      <div class="address-card__row-title">TIN Number</div>
-                                     <div class="address-card__row-content">{{ vendor.company_code }}</div>
-                                {% endif %}
+                                <div class="address-card__row-title">TIN</div>
+                                <div class="address-card__row-content">{{ vendor.company_code }}</div>
                             </div>
                             <div class="address-card__row">
-                                <div class="address-card__row-title">Phone Number</div>
-                                <div class="address-card__row-content">{{ vendor.phone}}</div>
+                                <div class="address-card__row-title">District</div>
+                                <div class="address-card__row-content">{{ vendor.district }}</div>
+                            </div>
+                              <div class="address-card__row">
+                                <div class="address-card__row-title">Sector</div>
+                                <div class="address-card__row-content">{{ vendor.sector }}</div>
+                            </div>
+                              <div class="address-card__row">
+                                <div class="address-card__row-title">Cell</div>
+                                <div class="address-card__row-content">{{ vendor.cell }}</div>
+                            </div>
+                              <div class="address-card__row">
+                                <div class="address-card__row-title">Village</div>
+                                <div class="address-card__row-content">{{ vendor.village }}</div>
                             </div>
                             <div class="address-card__row">
-                                <div class="address-card__row-title">Email Address</div>
-                                <div class="address-card__row-content">{{ request.user.email }}</div>
-                            </div>
-                            <div class="address-card__row">
-                                <div class="address-card__row-title">Location</div>
-                                <div class="address-card__row-content">{{ vendor.district }} district - {{ vendor.sector }} sector- {{ vendor.cell }} cell - {{ vendor.village }} village</div>
+                                <div class="address-card__row-title">Street | Building</div>
+                                <div class="address-card__row-content">{{vendor.address}}</div>
                             </div>
                             <div class="address-card__row">
                                 <div class="address-card__row-title">Status</div>
                                 <div class="address-card__row-content">{% if vendor.enabled %}Enabled{% else %}Disabled{% endif %}</div>
                             </div>
-                            <div class="address-card__row">
-                                <div class="address-card__row-title">Address</div>
-                                <div class="address-card__row-content">{{vendor.address}}</div>
-                            </div>
+                            
                         </div>
                     </div>
                     </div>
