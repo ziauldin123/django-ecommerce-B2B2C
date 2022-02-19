@@ -1,23 +1,19 @@
 {% extends 'core/base.html' %}
-
+{% load static %}
 {% block title %}sitemap | {% endblock %}
 
 {% block content %} 
 <div class="site__body">
-    <div class="block about-us">
-        <div class="about-us__image"></div>
+    <div class="about-us__image"></div>
         <div class="container">
             <div class="row justify-content-center">
-                <div class="col-12 col-xl-10">
+                <div class="col-md-12">
                     <div class="about-us__body">
                         <h1 class="about-us__title">Sokopark Sitemap</h1>
-                        <div class="about-us__team">
-                            <div class="about-us__teammates teammates">
-                                <div class="owl-carousel">
+                        <div>
+                            <div>
+                                <div class="col-3">
                                     <div class="teammates__item teammate">
-                                        <div class="teammate__avatar">
-                                            <img src="images/teammates/teammate-1.jpg" alt="">
-                                        </div>
                                         <div class="teammate__name" style="padding-bottom: 15px;">About Sokopark</div>
                                         <div>
                                             <a href="{% url 'contact' %}">Contact</a>
@@ -42,9 +38,6 @@
                                         </div>
                                     </div>
                                     <div class="teammates__item teammate">
-                                        <div class="teammate__avatar">
-                                            <img src="images/teammates/teammate-2.jpg" alt="">
-                                        </div>
                                         <div class="teammate__name" style="padding-bottom: 15px;">Shopping by Categories</div>
                                         {% for category in category %} 
                                         <div>
@@ -53,9 +46,6 @@
                                         {% endfor %} 
                                     </div>
                                     <div class="teammates__item teammate">
-                                        <div class="teammate__avatar">
-                                            <img src="images/teammates/teammate-3.jpg" alt="">
-                                        </div>
                                         <div class="teammate__name" style="padding-bottom: 15px;">Products</div>
                                         {% for product in product %} 
                                            {% if product.vendor.enabled %} 
@@ -66,9 +56,14 @@
                                         {% endfor %} 
                                     </div>
                                     <div class="teammates__item teammate">
-                                        <div class="teammate__avatar">
-                                            <img src="images/teammates/teammate-3.jpg" alt="">
+                                        <div class="teammate__name" style="padding-bottom: 15px;">Stores</div>
+                                        {% for vendor in vendors %} 
+                                        <div>
+                                            <a href="{% url 'vendor' vendor.slug %}">{{vendor.company_name}}</a>
                                         </div>
+                                        {% endfor %} 
+                                    </div>
+                                    <div class="teammates__item teammate">
                                         <div class="teammate__name" style="padding-bottom: 15px;">Account</div>
                                            <div>
                                             <a href="{% url 'login'  %}">Login</a>
@@ -77,7 +72,7 @@
                                             <a href="{% url 'become_customer'  %}">Sign Up(as customer)</a>
                                            </div> 
                                            <div>
-                                            <a href="{% url 'become_vendor' %}">Sign UP(as Vendor)</a>
+                                            <a href="{% url 'become_vendor' %}">Sign Up(as Vendor)</a>
                                            </div> 
                                     </div>
                                 </div>
@@ -87,6 +82,5 @@
                 </div>
             </div>
         </div>
-    </div>
 </div>
 {% endblock %}

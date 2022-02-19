@@ -9,7 +9,7 @@ from django.core.mail import send_mail
 from apps.newProduct.models import Product, Category, SubCategory, SubSubCategory, Variants
 from apps.blog.models import Post
 from apps.ordering.models import ShopCart
-from apps.vendor.models import UserWishList
+from apps.vendor.models import UserWishList, Vendor
 
 
 def frontpage(request):
@@ -390,6 +390,7 @@ def privacy_policy(request):
 
 def sitemap(request):
     product=Product.objects.filter(status=True,visible=True)
+    vendors=Vendor.objects.filter(enabled=True)
     category=Category.objects.all()
     if not request.user.is_anonymous:
         cart = Cart(request)
@@ -430,7 +431,8 @@ def sitemap(request):
         'tax':tax,
         'total':grandTotal,
         'wishlist':wishlist,
-        'total_compare':total_compare
+        'total_compare':total_compare,
+        'vendors':vendors
         })
 
 
