@@ -204,9 +204,7 @@ AWS_S3_OBJECT_PARAMETERS = {
 AWS_LOCATION = 'static'
 AWS_IS_GZIPPED = True
 COLLECTFAST_THREADS = 20
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'apps/dashboard/static'),
-]
+
 
 COMPRESS_ROOT = os.path.join(BASE_DIR, "static")
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
