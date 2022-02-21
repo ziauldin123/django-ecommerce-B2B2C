@@ -2,18 +2,10 @@
 {% load static %}
 {% load get_vendor_order_cost %}
 {% load mathfilters %}
-{% block title %}Vendor Administration | {{ vendor.company_name }} - {% endblock %}
+{% block title %}Vendor Administration - {{ vendor.company_name }}{% endblock %}
 
 {% block content %}
 
-<style>
-    a{
-        color: black;
-    }
-    a:hover,a:focus{
-        color: cadetblue;
-    }
-</style>
 <div class="page-header">
     <div class="page-header__container container">
         <div class="page-header__breadcrumb">
@@ -31,23 +23,22 @@
             <div class="col-12 col-lg-3 d-flex">
                 <div class="account-nav flex-grow-1">
                     <h4 class="account-nav__title">Vendor Administration</h4>
-                    <ul>
-                        <li class="account-nav__item  account-nav__item--active ">
+                   <ul>
+                        <li class="account-nav__item account-nav__item--active">
                             <a href="{% url 'vendor_admin' %}">Dashboard</a>
-                        </li>
-                        <li class="account-nav__item ">
-                            <a href="{% url 'products' %}">Products</a>
                         </li>
                         <li class="account-nav__item ">
                             <a href="{% url 'vendor_orders' %}">Order History</a>
                         </li>
-                        
-                        <li class="account-nav__item ">
+                         <li class="account-nav__item">
+                            <a href="{% url 'products' %}">Products</a>
+                        </li>
+                           <li class="account-nav__item ">
                             <a href="{% url 'working_hours' %}">Working Hours</a>
                         </li>
                         
                         <li class="account-nav__item ">
-                            <a href="{% url 'delivery_cost' %}">Delivery Cost</a>
+                            <a href="{% url 'delivery_cost' %}">Delivery Price</a>
                         </li>
                         <li class="account-nav__item ">
                             <a href="{% url 'logout' %}">Logout</a>
@@ -109,11 +100,9 @@
                             <div class="address-card__row">
                                 <div class="address-card__row-title">Status</div>
                                 <div class="address-card__row-content">{% if vendor.enabled %}Enabled{% else %}Disabled{% endif %}</div>
-                            </div>
-                            
+                            </div>                 
                         </div>
-                    </div>
-                    </div>
+                    </div>              
                 </div>
             </div>
         </div>

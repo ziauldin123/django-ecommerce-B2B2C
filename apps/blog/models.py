@@ -12,6 +12,7 @@ from autoslug import AutoSlugField
 class Post(models.Model):
     title = models.CharField(max_length=255)
     author = models.CharField(max_length=255)
+    author_detail = models.TextField(blank=True, null=True)
     slug = AutoSlugField(populate_from='title')
     intro = models.TextField()
     body = models.TextField()

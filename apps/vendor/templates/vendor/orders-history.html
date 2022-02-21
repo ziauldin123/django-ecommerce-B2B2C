@@ -2,7 +2,7 @@
 {% load get_vendor_order_cost %}
 {% load mathfilters %}
 {% load static %}
-{% block title %}Order History | {{ request.session.username }} - {% endblock %}
+{% block title %}Order History - {{ request.session.username }} {% endblock %}
 {% block content %}
 <div class="page-header">
     <div class="page-header__container container">
@@ -23,19 +23,18 @@
                         <li class="account-nav__item">
                             <a href="{% url 'vendor_admin' %}">Dashboard</a>
                         </li>
-                        <li class="account-nav__item ">
-                            <a href="{% url 'products' %}">Products</a>
-                        </li>
-                        <li class="account-nav__item account-nav__item--active ">
+                        <li class="account-nav__item account-nav__item--active">
                             <a href="{% url 'vendor_orders' %}">Order History</a>
                         </li>
-                        
-                        <li class="account-nav__item ">
+                        <li class="account-nav__item">
+                            <a href="{% url 'products' %}">Products</a>
+                        </li>
+                           <li class="account-nav__item ">
                             <a href="{% url 'working_hours' %}">Working Hours</a>
                         </li>
                         
                         <li class="account-nav__item ">
-                            <a href="{% url 'delivery_cost' %}">Delivery Cost</a>
+                            <a href="{% url 'delivery_cost' %}">Delivery Price</a>
                         </li>
                         <li class="account-nav__item ">
                             <a href="{% url 'logout' %}">Logout</a>
@@ -49,11 +48,11 @@
                         <h5>My Orders</h5>
                         <hr>
                         {% get_total_balance user as total_balance %}
-                              <strong>My balance: </strong>Frw {{ total_balance }}<br>
+                              <strong>My balance: </strong>Rwf {{ total_balance }}<br>
 
                         {% get_total_paid_balance user as total_paid_balance %}
-                              <strong>My paid amount: </strong>Frw {{ total_paid_balance }}
-                        <hr>      
+                              <strong>My paid amount: </strong>Rwf {{ total_paid_balance }}
+                             
                     </div>
                     <div class="card-divider"></div>
                     <div class="card-table">
@@ -65,7 +64,7 @@
                                         <th>Order Reference</th>
                                         <th>Date</th>
                                         <th>Status</th>
-                                        <th>Total</th>
+                                        <th>Amount (Rwf)</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -75,19 +74,25 @@
                                         <td>{{order.created_at }}</td>
                                         <td>{{order.status}}</td>
                                         {% get_total_order_cost order user as total_cost_order %}
-                                        <td>{{ total_cost_order }} FRW</td>
+                                        <td>{{total_cost_order }}</td>
                                     </tr
                                     {% endfor %}
                                 </tbody>
                             </table>
                             {% else %}
-                            <p>YOu don't have any order yet ...</p>
+                            <table>
+                             
+                                    <td>No orders yet.</td>
+                              
+                            </table>
                             {% endif %}
                         </div>
                     </div>
                     <div class="card-divider"></div>
+                     {% include 'core/pagination.html' with page=orders %}
+                     <br>
                 </div>
-                {% include 'core/pagination.html' with page=orders %}
+               
             </div>
         </div>
     </div>

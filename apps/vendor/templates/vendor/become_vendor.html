@@ -1,6 +1,6 @@
 {% extends 'core/base.html' %}
 
-{% block title %}Set up a vendor account | {% endblock %}
+{% block title %}Set up a vendor account{% endblock %}
 
 {% block content %}
 <div class="site__body">
@@ -25,7 +25,7 @@
                                 <div class="field form-group">
                                     <label>Email</label>
                 
-                                    <div clas="control">
+                                    <div class="control">
                                         <input type="email" class="input form-control" name="email" id="id_email">
                                     </div>
                                 </div>
@@ -137,7 +137,7 @@
                 
                                     <div clas="control">
                                         <input type="checkbox" name="is_privacy" value="True" id="is_privacy" required/>
-                                        <label>I agree to Sokopark's <a href="{% url 'termsandconditions' %}">terms & conditions</a></label>
+                                        <label>I agree to Sokopark's <a href="{% url 'termsandconditions' %}">terms & conditions</a>.</label>
                                     </div>
                                 </div>
                 
@@ -173,7 +173,7 @@
                 
                                  <div class="field form-group">
                                     <div class="control">
-                                        <button class="button btn btn-primary mt-4"type="submit">Sign up</button>
+                                        <button class="btn btn-primary btn-lg btn-block"type="submit">Sign up</button>
                                     </div>
                                 </div>
                         </form>

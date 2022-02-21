@@ -1,6 +1,6 @@
 {% extends 'core/base.html' %}
 {% load static %}
-{% block title %}Add product | {% endblock %}
+{% block title %}Add a product{% endblock %}
 {% block content %}
 <style>
     input[type=text],[type=number],[type=file], select {
@@ -14,30 +14,13 @@
    }
    </style>
 <div class="site__body">
-    <div class="page-header">
-        <div class="page-header__container container">
-            <div class="page-header__breadcrumb">
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item">
-                            <a href="/">Home</a>
-                            <svg class="breadcrumb-arrow" width="6px" height="9px">
-                                <use xlink:href="images/sprite.svg#arrow-rounded-right-6x9"></use>
-                            </svg>
-                        </li>
-                        <li class="breadcrumb-item active" aria-current="page">Add new product</li>
-                    </ol>
-                </nav>
-            </div>
-            
-        </div>
-    </div>
+    
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-xl-10 col-lg-6 col-md-8">
                 <div class="card flex-grow-1 mb-0 mt-5">
                     <div class="card-body">
-                        <h3 class="card-title">Add product to the store</h3>
+                        <h3 class="card-title">Add a product</h3>
                         <form method="post" action="." enctype="multipart/form-data">
                             {% csrf_token %}
                     

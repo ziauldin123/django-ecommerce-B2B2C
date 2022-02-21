@@ -4,6 +4,8 @@ from django.http import request
 from django.shortcuts import render
 from apps.cart.cart import Cart
 from apps.ordering.models import ShopCart
+from django.contrib import messages
+from django.conf import settings
 from django.core.mail import send_mail
 
 # from apps.product.models import Product, Category, SubCategory, SubSubCategory
@@ -32,7 +34,7 @@ def frontpage(request):
     newest_products = Product.objects.filter(
         status=True, visible=True).order_by('-id')[:4]
     featured_products = Product.objects.filter(
-        status=True, visible=True, is_featured=True)[0:4]
+        status=True, visible=True, is_featured=True)[0:8]
     featured_categories = Category.objects.filter(is_featured=True)
     featured_categories_products = []
     for category in featured_categories:
@@ -47,27 +49,27 @@ def frontpage(request):
     popular_products = Product.objects.filter(
         status=True, visible=True).order_by('-num_visits')[0:4]
     recently_viewed_products = Product.objects.filter(status=True, visible=True).order_by(
-        '-last_visit')[0:4]
+        '-last_visit')[0:5]
 
     if not request.user.is_anonymous:
         cart = Cart(request)
         current_user = request.user
-        wishlist=UserWishList.objects.filter(user=current_user)
+        wishlist = UserWishList.objects.filter(user=current_user)
         # cart.clear()
         shopcart = ShopCart.objects.filter(user_id=current_user.id)
-        total=cart.get_cart_cost()
-        tax=cart.get_cart_tax()
-        grandTotal=cart.get_cart_cost() + cart.get_cart_tax()
+        total = cart.get_cart_cost()
+        tax = cart.get_cart_tax()
+        grandTotal = cart.get_cart_cost() + cart.get_cart_tax()
         if cart.__len__() == 0:
             for rs in shopcart:
                 if rs.variant is None:
                     cart.add(product_id=rs.product.id,variant_id=None, user_id=current_user.id,
                          quantity=rs.quantity, update_quantity=True)
                 else:
-                    cart.add(product_id=rs.product.id,variant_id=rs.variant.id, user_id=current_user.id,
-                         quantity=rs.quantity, update_quantity=True) 
+                    cart.add(product_id=rs.product.id, variant_id=rs.variant.id, user_id=current_user.id,
+                             quantity=rs.quantity, update_quantity=True)
 
-        if  not request.session.get('comparing'):
+        if not request.session.get('comparing'):
             comparing = 0
         else:
             comparing = request.session['comparing'].__len__()
@@ -78,7 +80,6 @@ def frontpage(request):
             compare_var = request.session['comparing_variants'].__len__()
 
         total_compare = comparing + compare_var
-                                           
 
     else:
         cart = 0
@@ -101,14 +102,14 @@ def frontpage(request):
             'featured_categories_products': featured_categories_products,
             'variants': variants,
             'var': var,
-            'posts':posts,
-            'cart':cart,
-            'shopcart':shopcart,
-            'subtotal':total,
-            'tax':tax,
-            'total':grandTotal,
-            'wishlist':wishlist,
-            'total_compare':total_compare
+            'posts': posts,
+            'cart': cart,
+            'shopcart': shopcart,
+            'subtotal': total,
+            'tax': tax,
+            'total': grandTotal,
+            'wishlist': wishlist,
+            'total_compare': total_compare
         }
     )
 
@@ -117,13 +118,13 @@ def contact(request):
     if not request.user.is_anonymous:
         cart = Cart(request)
         current_user = request.user
-        wishlist=UserWishList.objects.filter(user=current_user)
+        wishlist = UserWishList.objects.filter(user=current_user)
         # cart.clear()
         shopcart = ShopCart.objects.filter(user_id=current_user.id)
-        total=cart.get_cart_cost()
-        tax=cart.get_cart_tax()
-        grandTotal=cart.get_cart_cost() + cart.get_cart_tax()
-        if  not request.session.get('comparing'):
+        total = cart.get_cart_cost()
+        tax = cart.get_cart_tax()
+        grandTotal = cart.get_cart_cost() + cart.get_cart_tax()
+        if not request.session.get('comparing'):
             comparing = 0
         else:
             comparing = request.session['comparing'].__len__()
@@ -139,10 +140,10 @@ def contact(request):
         subtotal = 0
         tax = 0
         total = 0
-        grandTotal = 0  
-        shopcart = None 
+        grandTotal = 0
+        shopcart = None
         wishlist = 0
-        total_compare = 0 
+        total_compare = 0
 
     if request.method == 'POST':
         print('hello')
@@ -150,44 +151,47 @@ def contact(request):
         email = request.POST.get('email')
         subject = request.POST.get('subject')
         message = request.POST.get('message')
+        from_email = settings.DEFAULT_EMAIL_FROM
 
         data = {
             'name': name,
             'email': email,
             'subject': subject,
-            'message': message
+            'message': message,
+            "from_email": from_email,
         }
         message = '''
         New message: {}
 
         From: {}
         '''.format(data['message'], data['email'])
-        send_mail(data['subject'], message, '', ['warehouse2fifty@gmail.com'])
-        return HttpResponse('Thank you for your message, we will be in touch soon')
+        send_mail(subject, message, from_email, ['info@sokopark.com'])
+
+        messages.success(
+            request, ('Your message has been sent. We will get back to you as quickly as possible. Thank you.'))
 
     return render(request, 'core/contact.html',
-    {
-        
-            'shopcart':shopcart,
-            'subtotal':total,
-            'tax':tax,
-            'total':grandTotal,
-            'wishlist':wishlist,
-            'total_compare':total_compare
-    })
+                  {
+                      'shopcart': shopcart,
+                      'subtotal': total,
+                      'tax': tax,
+                      'total': grandTotal,
+                      'wishlist': wishlist,
+                      'total_compare': total_compare
+                  })
 
 
 def about(request):
     if not request.user.is_anonymous:
         cart = Cart(request)
         current_user = request.user
-        wishlist=UserWishList.objects.filter(user=current_user)
+        wishlist = UserWishList.objects.filter(user=current_user)
         # cart.clear()
         shopcart = ShopCart.objects.filter(user_id=current_user.id)
-        total=cart.get_cart_cost()
-        tax=cart.get_cart_tax()
-        grandTotal=cart.get_cart_cost() + cart.get_cart_tax()
-        if  not request.session.get('comparing'):
+        total = cart.get_cart_cost()
+        tax = cart.get_cart_tax()
+        grandTotal = cart.get_cart_cost() + cart.get_cart_tax()
+        if not request.session.get('comparing'):
             comparing = 0
         else:
             comparing = request.session['comparing'].__len__()
@@ -203,34 +207,34 @@ def about(request):
         subtotal = 0
         tax = 0
         total = 0
-        grandTotal = 0  
+        grandTotal = 0
         shopcart = None
         wishlist = 0
-        total_compare = 0  
+        total_compare = 0
 
     return render(request, 'core/about.html',
-    {
-        
-            'shopcart':shopcart,
-            'subtotal':total,
-            'tax':tax,
-            'total':grandTotal,
-            'wishlist':wishlist,
-            'total_compare':total_compare
-    })
+                  {
+
+                      'shopcart': shopcart,
+                      'subtotal': total,
+                      'tax': tax,
+                      'total': grandTotal,
+                      'wishlist': wishlist,
+                      'total_compare': total_compare
+                  })
 
 
 def pricing(request):
     if not request.user.is_anonymous:
         cart = Cart(request)
         current_user = request.user
-        wishlist=UserWishList.objects.filter(user=current_user)
+        wishlist = UserWishList.objects.filter(user=current_user)
         # cart.clear()
         shopcart = ShopCart.objects.filter(user_id=current_user.id)
-        total=cart.get_cart_cost()
-        tax=cart.get_cart_tax()
-        grandTotal=cart.get_cart_cost() + cart.get_cart_tax()
-        if  not request.session.get('comparing'):
+        total = cart.get_cart_cost()
+        tax = cart.get_cart_tax()
+        grandTotal = cart.get_cart_cost() + cart.get_cart_tax()
+        if not request.session.get('comparing'):
             comparing = 0
         else:
             comparing = request.session['comparing'].__len__()
@@ -246,34 +250,34 @@ def pricing(request):
         subtotal = 0
         tax = 0
         total = 0
-        grandTotal = 0   
+        grandTotal = 0
         shopcart = None
         wishlist = 0
-        total_compare = 0 
+        total_compare = 0
 
     return render(request, 'core/pricing.html',
-    {
-        
-            'shopcart':shopcart,
-            'subtotal':total,
-            'tax':tax,
-            'total':grandTotal,
-            'wishlist':wishlist,
-            'total_compare':total_compare
-    })
+                  {
+
+                      'shopcart': shopcart,
+                      'subtotal': total,
+                      'tax': tax,
+                      'total': grandTotal,
+                      'wishlist': wishlist,
+                      'total_compare': total_compare
+                  })
 
 
 def frequently_asked_questions(request):
     if not request.user.is_anonymous:
         cart = Cart(request)
         current_user = request.user
-        wishlist=UserWishList.objects.filter(user=current_user)
+        wishlist = UserWishList.objects.filter(user=current_user)
         # cart.clear()
         shopcart = ShopCart.objects.filter(user_id=current_user.id)
-        total=cart.get_cart_cost()
-        tax=cart.get_cart_tax()
-        grandTotal=cart.get_cart_cost() + cart.get_cart_tax()
-        if  not request.session.get('comparing'):
+        total = cart.get_cart_cost()
+        tax = cart.get_cart_tax()
+        grandTotal = cart.get_cart_cost() + cart.get_cart_tax()
+        if not request.session.get('comparing'):
             comparing = 0
         else:
             comparing = request.session['comparing'].__len__()
@@ -289,19 +293,19 @@ def frequently_asked_questions(request):
         subtotal = 0
         tax = 0
         total = 0
-        grandTotal = 0 
+        grandTotal = 0
         shopcart = None
         wishlist = 0
-        total_compare = 0   
+        total_compare = 0
 
-    return render(request, 'core/frequently_asked_questions.html',{
-        
-            'shopcart':shopcart,
-            'subtotal':total,
-            'tax':tax,
-            'total':grandTotal,
-            'wishlist':wishlist,
-            'total_compare':total_compare
+    return render(request, 'core/frequently_asked_questions.html', {
+
+        'shopcart': shopcart,
+        'subtotal': total,
+        'tax': tax,
+        'total': grandTotal,
+        'wishlist': wishlist,
+        'total_compare': total_compare
     })
 
 
@@ -309,13 +313,13 @@ def termsandconditions(request):
     if not request.user.is_anonymous:
         cart = Cart(request)
         current_user = request.user
-        wishlist=UserWishList.objects.filter(user=current_user)
+        wishlist = UserWishList.objects.filter(user=current_user)
         # cart.clear()
         shopcart = ShopCart.objects.filter(user_id=current_user.id)
-        total=cart.get_cart_cost()
-        tax=cart.get_cart_tax()
-        grandTotal=cart.get_cart_cost() + cart.get_cart_tax()
-        if  not request.session.get('comparing'):
+        total = cart.get_cart_cost()
+        tax = cart.get_cart_tax()
+        grandTotal = cart.get_cart_cost() + cart.get_cart_tax()
+        if not request.session.get('comparing'):
             comparing = 0
         else:
             comparing = request.session['comparing'].__len__()
@@ -331,34 +335,34 @@ def termsandconditions(request):
         subtotal = 0
         tax = 0
         total = 0
-        grandTotal = 0  
+        grandTotal = 0
         shopcart = None
         wishlist = 0
-        total_compare = 0  
+        total_compare = 0
 
     return render(request, 'core/termsandconditions.html',
-    {
-        
-            'shopcart':shopcart,
-            'subtotal':total,
-            'tax':tax,
-            'total':grandTotal,
-            'wishlist':wishlist,
-            'total_compare':total_compare
-    })
+                  {
+
+                      'shopcart': shopcart,
+                      'subtotal': total,
+                      'tax': tax,
+                      'total': grandTotal,
+                      'wishlist': wishlist,
+                      'total_compare': total_compare
+                  })
 
 
 def privacy_policy(request):
     if not request.user.is_anonymous:
         cart = Cart(request)
         current_user = request.user
-        wishlist=UserWishList.objects.filter(user=current_user)
+        wishlist = UserWishList.objects.filter(user=current_user)
         # cart.clear()
         shopcart = ShopCart.objects.filter(user_id=current_user.id)
-        total=cart.get_cart_cost()
-        tax=cart.get_cart_tax()
-        grandTotal=cart.get_cart_cost() + cart.get_cart_tax()
-        if  not request.session.get('comparing'):
+        total = cart.get_cart_cost()
+        tax = cart.get_cart_tax()
+        grandTotal = cart.get_cart_cost() + cart.get_cart_tax()
+        if not request.session.get('comparing'):
             comparing = 0
         else:
             comparing = request.session['comparing'].__len__()
@@ -374,20 +378,21 @@ def privacy_policy(request):
         subtotal = 0
         tax = 0
         total = 0
-        grandTotal = 0    
+        grandTotal = 0
         shopcart = None
         wishlist = 0
         total_compare = 0
 
-    return render(request, 'core/privacy_policy.html',{
-        
-            'shopcart':shopcart,
-            'subtotal':total,
-            'tax':tax,
-            'total':grandTotal,
-            'wishlist':wishlist,
-            'total_compare':total_compare
+    return render(request, 'core/privacy_policy.html', {
+
+        'shopcart': shopcart,
+        'subtotal': total,
+        'tax': tax,
+        'total': grandTotal,
+        'wishlist': wishlist,
+        'total_compare': total_compare
     })
+
 
 def sitemap(request):
     product=Product.objects.filter(status=True,visible=True)
@@ -441,13 +446,13 @@ def error_404_view(request, exception):
     if not request.user.is_anonymous:
         cart = Cart(request)
         current_user = request.user
-        wishlist=UserWishList.objects.filter(user=current_user)
+        wishlist = UserWishList.objects.filter(user=current_user)
         # cart.clear()
         shopcart = ShopCart.objects.filter(user_id=current_user.id)
-        total=cart.get_cart_cost()
-        tax=cart.get_cart_tax()
-        grandTotal=cart.get_cart_cost() + cart.get_cart_tax()
-        if  not request.session.get('comparing'):
+        total = cart.get_cart_cost()
+        tax = cart.get_cart_tax()
+        grandTotal = cart.get_cart_cost() + cart.get_cart_tax()
+        if not request.session.get('comparing'):
             comparing = 0
         else:
             comparing = request.session['comparing'].__len__()
@@ -464,19 +469,60 @@ def error_404_view(request, exception):
         subtotal = 0
         tax = 0
         total = 0
-        grandTotal = 0 
+        grandTotal = 0
         shopcart = None
         wishlist = 0
-        total_compare = 0   
+        total_compare = 0
 
-    return render(request, 'core/404.html',{
-        
-            'shopcart':shopcart,
-            'subtotal':total,
-            'tax':tax,
-            'total':grandTotal,
-            'wishlist':wishlist,
-            'total_compare':total_compare
+    return render(request, 'core/404.html', {
+
+        'shopcart': shopcart,
+        'subtotal': total,
+        'tax': tax,
+        'total': grandTotal,
+        'wishlist': wishlist,
+        'total_compare': total_compare
     })
 
 
+def vendor_guidelines(request,):
+    if not request.user.is_anonymous:
+        cart = Cart(request)
+        current_user = request.user
+        wishlist = UserWishList.objects.filter(user=current_user)
+        # cart.clear()
+        shopcart = ShopCart.objects.filter(user_id=current_user.id)
+        total = cart.get_cart_cost()
+        tax = cart.get_cart_tax()
+        grandTotal = cart.get_cart_cost() + cart.get_cart_tax()
+        if not request.session.get('comparing'):
+            comparing = 0
+        else:
+            comparing = request.session['comparing'].__len__()
+
+        if not request.session.get('comparing_variants'):
+            compare_var = 0
+        else:
+            compare_var = request.session['comparing_variants'].__len__()
+
+        total_compare = comparing + compare_var
+
+    else:
+        cart = 0
+        subtotal = 0
+        tax = 0
+        total = 0
+        grandTotal = 0
+        shopcart = None
+        wishlist = 0
+        total_compare = 0
+
+    return render(request, 'core/vendor_guidelines.html', {
+
+        'shopcart': shopcart,
+        'subtotal': total,
+        'tax': tax,
+        'total': grandTotal,
+        'wishlist': wishlist,
+        'total_compare': total_compare
+    })

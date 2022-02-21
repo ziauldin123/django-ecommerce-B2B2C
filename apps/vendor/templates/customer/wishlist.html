@@ -13,7 +13,7 @@
                 $("#mycart").load(location.href + " #mycart");
                 $("#cart_table").load(location.href + " #cart_table");
                 $("#message").append(
-                    '<div class="alert alert-success hideit alertSuc">added in cart successfully.</div >')
+                    '<div class="alert alert-success hideit alertSuc">A product has been added to your cart.</div >')
                 setTimeout(function () {
                     $("#message").load(location.href + " #message");
                 }, 1000);
@@ -21,30 +21,24 @@
         });
     }
 </script>
+<div id="message" name="message" class="mt-0">
+</div>
 <div class="site__body">
     <div class="page-header">
+    
         <div class="page-header__container container">
             <div class="page-header__breadcrumb">
                 <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item">
-                            <a href="/">Home</a>
-                            <svg class="breadcrumb-arrow" width="6px" height="9px">
-                                <use xlink:href="/static/templates/images/sprite.svg#arrow-rounded-right-6x9"></use>
-                            </svg>
-                        </li>
-                        <li class="breadcrumb-item active" aria-current="page">Wish List</li>
-                    </ol>
+                
                 </nav>
             </div>
             <div class="page-header__title">
-                <h1>Wish List</h1>
+                <h3>Wishlist</h3>
             </div>
         </div>
     </div>
-    <div id="message" name="message" class="mt-3">
 
-    </div>
+    {% if wishlist %}
     <div class="block">
         <div class="container">
             <table class="wishlist">
@@ -52,8 +46,8 @@
                     <tr class="wishlist__row">
                         <th class="wishlist__column wishlist__column--image">Image</th>
                         <th class="wishlist__column wishlist__column--product">Product</th>
-                        <th class="wishlist__column wishlist__column--stock">Stock Status</th>
-                        <th class="wishlist__column wishlist__column--price">Price</th>
+                        <th class="wishlist__column wishlist__column--stock">Availability</th>
+                        <th class="wishlist__column wishlist__column--price">Price (Rwf)</th>
                         <th class="wishlist__column wishlist__column--tocart"></th>
                         <th class="wishlist__column wishlist__column--remove"></th>
                     </tr>
@@ -365,7 +359,7 @@
                                 {% endif %}    
                             </div>
                         </td>
-                        <td class="wishlist__column wishlist__column--stock">
+                        <td class="wishlist__column wishlist__column--price">
                             {% if product.variant %} 
                     {% if product.variant.discount %} 
                       {{product.variant.get_discounted_price}}
@@ -378,7 +372,7 @@
                     {% else %} 
                      {{product.product.price}}
                     {% endif %}
-                    {% endif %} FRW
+                    {% endif %}
                         </td>
                         <td class="wishlist__column wishlist__column--tocart">
                             {% if product.variant %} 
@@ -416,5 +410,15 @@
             </table>
         </div>
     </div>
+      {% else %}
+        <div class="block-empty__body">
+            <div class="block-empty__message">There are no products in your wishlist.</div>
+            <div class="block-empty__actions">
+                <a class="btn btn-primary btn-sm" href="/">Return home</a>
+            </div>
+        </div>
+        {% endif %} 
+    
+
 </div>       
 {% endblock %}

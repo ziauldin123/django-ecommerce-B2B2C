@@ -2,7 +2,7 @@
 {% load get_vendor_order_cost %}
 {% load mathfilters %}
 {% load static %}
-{% block title %} Order #{{order.reference_number}} - {% endblock %}
+{% block title %} Order #{{order.reference_number}}{% endblock %}
 {% block content %}
 <div class="page-header">
     <div class="page-header__container container">
@@ -19,7 +19,7 @@
                 <div class="account-nav flex-grow-1">
                      <h4 class="account-nav__title">Vendor Administration</h4>
                     <ul>
-                        <li class="account-nav__item  ">
+                        <li class="account-nav__item">
                             <a href="{% url 'vendor_admin' %}">Dashboard</a>
                         </li>
                         <li class="account-nav__item">
@@ -28,13 +28,15 @@
                         <li class="account-nav__item account-nav__item--active ">
                             <a href="{% url 'vendor_orders' %}">Order History</a>
                         </li>
-                        
-                        <li class="account-nav__item ">
+                         <li class="account-nav__item">
+                            <a href="{% url 'products' %}">Products</a>
+                        </li>
+                           <li class="account-nav__item ">
                             <a href="{% url 'working_hours' %}">Working Hours</a>
                         </li>
                         
                         <li class="account-nav__item ">
-                            <a href="{% url 'delivery_cost' %}">Delivery Cost</a>
+                            <a href="{% url 'delivery_cost' %}">Delivery Price</a>
                         </li>
                         <li class="account-nav__item ">
                             <a href="{% url 'logout' %}">Logout</a>
@@ -52,13 +54,7 @@
                         <div class="order-header__subtitle">
                             Was placed on <mark class="order-header__date">{{order.created_at}}</mark>
                             and is currently <mark class="order-header__status">{{order.status}}</mark>.
-                        </div>
-                        <br>
-                        <b>Name:</b> {{ order.first_name }} {{ order.last_name }}<br>
-                        <b>Address:</b> {{ order.address }}<br>
-                        <b>E-mail:</b> {{ order.email }}<br>
-                        <b>Phone:</b> {{ order.phone }} <br>
-                        <b>Created at:</b> {{ order.created_at }}
+                        </div>    
                     </div>
                     <div class="card-divider"></div>
                     <div class="card-table">
@@ -67,10 +63,10 @@
                                 <thead>
                                     <tr>
                                         <th>Title</th>
-                                        <th>Price</th>
+                                        <th>Price (Rwf)</th>
                                         <th>Quantity</th>
+                                        <th>Total (Rwf)</th>
                                         <th>Paid</th>
-                                        <th>Total</th>
                                     </tr>
                                 </thead>
                                 <tbody class="card-table__body card-table__body--merge-rows">
@@ -80,33 +76,38 @@
                                                 <td>{{ item.get_product_name }} </td>
                                                 <td>Frw {{ item.price }}</td>
                                                 <td>{{ item.quantity }}</td>
-                                                <td>{{ item.vendor_paid|yesno:"Yes,No" }}</td>
                                                 {% get_total_with_coupon order item.get_total_price user as total_price_with_coupon %}
-                                                <td>Frw {{ total_price_with_coupon }}</td>
+                                                <td>{{ total_price_with_coupon }}</td>
+                                                <td>{{ item.vendor_paid|yesno:"Yes,No" }}</td>
                                             </tr>
                                         {% endif %}
                                     {% endfor %}
                                 </tbody>
                                 <tbody class="card-table__body card-table__body--merge-rows">
+                                    {% if order.used_coupon %}
                                     <tr>
                                         <th>Coupon</th>
-                                        {% if order.used_coupon %}
+                                       
                                                <td>{{ order.used_coupon }} </td>
+                                               <td></td>
                                                <td><strong>{{ order.coupon_discount }}%</strong></td>
-                                        {% else %}
-                                                 <td> - </td>
-                                        {% endif %}
                                     </tr>
+                                     {% endif %}
                                     {% if order.delivery_type == 'Vendor_Delivery' %}
                                     <tr>
                                         <th>Delivery Cost</th>
                                         {% get_order_delivery_cost order user as order_delivery_cost %}
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
                                           <td>{{order_delivery_cost}}</td>
                                     </tr>
                                     {% endif %}
                                     <tr>
-                                        <th>Total</th>
+                                        <th>Grand Total</th>
                                         {% get_total_order_cost order user as total_cost_order %}
+                                                <td></td>
+                                                <td></td>
                                             <td><strong>{{ total_cost_order }}</strong></td>
                                     </tr>
                                 </tbody>
@@ -120,7 +121,7 @@
                     <div class="col-sm-6 col-12 px-2">
                         <div class="card address-card address-card--featured">
                             <div class="address-card__body">
-                                <div class="address-card__badge address-card__badge--muted">Billing Address</div>
+                                <div class="address-card__badge ">Billing Address</div>
                                 {% for customer in order.getCustomer %} 
                                  <div class="address-card__row">
                                     <div class="address-card__row-title">Customer</Address></div>
@@ -148,11 +149,11 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-6 col-12 px-2 mt-sm-0 mt-3">
+                     {% if order.delivery_type == 'Vendor_Delivery' %}
+                    <div class="col-sm-6 col-12 px-2">
                         <div class="card address-card address-card--featured">
                             <div class="address-card__body">
-                                <div class="address-card__badge address-card__badge--muted">Shipping Address</div>
-                                {% if order.delivery_type == 'Vendor_Delivery' %}
+                                <div class="address-card__badge ">Shipping Address</div>
                                 <div class="address-card__row">
                                     <div class="address-card__row-title">District</div>
                                     <div class="address-card__row-content">{{order.district}}</div>

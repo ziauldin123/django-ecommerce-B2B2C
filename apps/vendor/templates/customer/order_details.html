@@ -48,40 +48,48 @@
                             <table>
                                 <thead>
                                     <tr>
-                                        <th>Product</th>
                                         <th>Vendor</th>
-                                        <th>Price</th>
-                                        <th>Total</th>
+                                        <th>Product</th>
+                                        <th>Price (Rwf)</th>
+                                        <th>Total (Rwf)</th>
                                     </tr>
                                 </thead>
                                 <tbody class="card-table__body card-table__body--merge-rows">
                                     {% for order in order.items.all %} 
                                     <tr>
+                                        <td>{{order.vendor}}</td>
                                         <td>{% if order.is_variant %} {{order.variant}} {% else %} {{order.product}} {% endif %} × {{order.quantity}}</td>
-                                         <td>{{order.vendor}}</td>
-                                         <td>{{order.price}}</td>
-                                        <td>{{order.get_total}} VAT incl. FRW</td>
+                                        <td>{{order.price}}</td>
+                                        <td>{{order.get_total}}</td>
                                     </tr>
                                     {% endfor %}
                                 </tbody>
                                 <tbody class="card-table__body card-table__body--merge-rows">
                                     <tr>
+                                        <th></th>
+                                        <th></th>
                                         <th>VAT</th>
-                                        <td>{{order.vat}} FRW</td>
+                                        <td>{{order.vat}}</td>
                                     </tr>
-                                    <tr>
+                                    <tr>   
+                                        <th></th>
+                                        <th></th>
                                         <th>Subtotal</th>
-                                        <td>{{order.subtotal}} FRW</td>
+                                        <td>{{order.subtotal}}</td>
                                     </tr>
                                     <tr>
-                                        <th>Delivery Cost</th>
-                                        <td>{{order.delivery_cost}} FRW</td>
+                                        <th></th>
+                                        <th></th>
+                                        <th>Delivery</th>
+                                        <td>{{order.delivery_cost}} </td>
                                     </tr>
                                 </tbody>
                                 <tfoot>
                                     <tr>
-                                        <th>Total</th>
-                                        <td>{{order.grand_paid_amount}} FRW</td>
+                                        <th></th>
+                                        <th></th>
+                                        <th>Grand Total</th>
+                                        <td>{{order.grand_paid_amount}}</td>
                                     </tr>
                                 </tfoot>
                             </table>
@@ -92,7 +100,7 @@
                     <div class="col-sm-6 col-12 px-2">
                         <div class="card address-card address-card--featured">
                             <div class="address-card__body">
-                                <div class="address-card__badge address-card__badge--muted">Billing Address</div>
+                                <div class="address-card__badge ">Billing Address</div>
                                 <div class="address-card__row">
                                     <div class="address-card__row-title">Name</div>
                                     {{request.session.username}}<br>
@@ -115,7 +123,7 @@
                     <div class="col-sm-6 col-12 px-2 mt-sm-0 mt-3">
                         <div class="card address-card address-card--featured">
                             <div class="address-card__body">
-                                <div class="address-card__badge address-card__badge--muted">Shipping Address</div>
+                                <div class="address-card__badge">Shipping Address</div>
                                 <div class="address-card__row">
                                     <div class="address-card__row-title">District</div>
                                     <div class="address-card__row-content">{{order.district}}</div>

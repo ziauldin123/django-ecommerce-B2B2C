@@ -17,7 +17,7 @@ from apps.ordering.models import ShopCart
 
 from apps.newProduct.models import Category, Comment, Product, SubCategory, SubSubCategory, Images, Comment, Variants
 from apps.vendor.models import UserWishList, Customer
-from django.core.paginator import (Paginator,EmptyPage,PageNotAnInteger)
+from django.core.paginator import (Paginator, EmptyPage, PageNotAnInteger)
 # Create your views here.
 
 
@@ -40,13 +40,13 @@ def product_detail(request, id, slug, vendor_slug, category_slug, subcategory_sl
     if not request.user.is_anonymous:
         cart = Cart(request)
         current_user = request.user
-        wishlist=UserWishList.objects.filter(user=current_user)
+        wishlist = UserWishList.objects.filter(user=current_user)
         # cart.clear()
         shopcart = ShopCart.objects.filter(user_id=current_user.id)
-        total=cart.get_cart_cost()
-        tax=cart.get_cart_tax()
-        grandTotal=cart.get_cart_cost
-        if  not request.session.get('comparing'):
+        total = cart.get_cart_cost()
+        tax = cart.get_cart_tax()
+        grandTotal = cart.get_cart_cost
+        if not request.session.get('comparing'):
             comparing = 0
         else:
             comparing = request.session['comparing'].__len__()
@@ -67,19 +67,19 @@ def product_detail(request, id, slug, vendor_slug, category_slug, subcategory_sl
         cart = Cart(request)
         current_user = request.user
         shopcart = ShopCart.objects.filter(user_id=current_user.id)
-        total=cart.get_cart_cost()
-        tax=cart.get_cart_tax()
-        grandTotal=cart.get_cart_cost()
-        
+        total = cart.get_cart_cost()
+        tax = cart.get_cart_tax()
+        grandTotal = cart.get_cart_cost()
+
     else:
         cart = 0
         subtotal = 0
         tax = 0
         total = 0
         grandTotal = 0
-        shopcart = None 
+        shopcart = None
         wishlist = 0
-        total_compare = 0   
+        total_compare = 0
 
 
     if product.status == False:
@@ -90,7 +90,7 @@ def product_detail(request, id, slug, vendor_slug, category_slug, subcategory_sl
     if product.vendor.enabled == False:
         messages.add_message(request, messages.ERROR,
                              "Product is not available")
-        return redirect('/')    
+        return redirect('/')
 
     variant = Variants.objects.filter(product_id=id, status=True, visible=True)
     category = Category.objects.all()
@@ -108,7 +108,7 @@ def product_detail(request, id, slug, vendor_slug, category_slug, subcategory_sl
         similar_products = random.sample(similar_products, 4)
 
     comments_list = Comment.objects.filter(product_id=id, status='True')
-    paginator = Paginator(comments_list,2) 
+    paginator = Paginator(comments_list, 2)
     page = request.GET.get('page')
 
     try:
@@ -116,22 +116,22 @@ def product_detail(request, id, slug, vendor_slug, category_slug, subcategory_sl
     except PageNotAnInteger:
         comments = paginator.page(1)
     except EmptyPage:
-        comments = paginator.page(paginator.num_pages) 
+        comments = paginator.page(paginator.num_pages)
     product.save()
     context = {'product': product, 'category': category,
                'subcategory': subcategory, 'subsubCategory': subsubCategory,
-               'images': images, 'vendor_slug': slugV, 'similar_products': similar_products, 
-               'comments': comments, 
+               'images': images, 'vendor_slug': slugV, 'similar_products': similar_products,
+               'comments': comments,
                'mainProduct': mainProduct,
                'customer': customer,
-               'is_comparing': product.id in request.session.get('comparing', []),  
-               'shopcart':shopcart,
-               'subtotal':total,
-               'tax':tax,
-               'total':grandTotal,
-               'wishlist':wishlist,
-               'total_compare':total_compare,
-               'max':max
+               'is_comparing': product.id in request.session.get('comparing', []),
+               'shopcart': shopcart,
+               'subtotal': total,
+               'tax': tax,
+               'total': grandTotal,
+               'wishlist': wishlist,
+               'total_compare': total_compare,
+               'max': max
                }
     if product.variant != "None":  # pr has variantsu
         if request.method == 'POST':  # if we select color
@@ -172,11 +172,10 @@ def product_detail(request, id, slug, vendor_slug, category_slug, subcategory_sl
                 'SELECT * FROM newProduct_variants WHERE product_id=%s AND status=True AND visible=True GROUP BY height_id', [id])
             variant = Variants.objects.get(
                 id=variants[0].id, status=True, visible=True)
-        
-           
+
         context.update({'sizes': sizes, 'colors': colors, 'colors1': colors1, 'weight': weight, 'width': width, 'length': length, 'height': height, 'variant': variant, 'query': query,
                         'is_comparing': variant.id in request.session.get('comparing', []),
-                        'shopcart':shopcart,'subtotal':total,'tax':tax,'total':grandTotal})
+                        'shopcart': shopcart, 'subtotal': total, 'tax': tax, 'total': grandTotal})
     return render(request, 'product_detail.html', context)
 
 

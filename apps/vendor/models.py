@@ -7,6 +7,7 @@ from apps.cart.models import District, Sector, Cell, Village
 from autoslug import AutoSlugField
 import apps.ordering
 
+
 class Vendor(models.Model):
     email = models.EmailField(max_length=150)
     company_name = models.CharField(max_length=255)
@@ -24,11 +25,15 @@ class Vendor(models.Model):
     user = models.OneToOneField(
         User, related_name='vendor', on_delete=models.CASCADE)
     logo = models.ImageField(upload_to='uploads/', blank=True, null=True)
-    company_registration = models.ImageField(upload_to='upload/registration/company-%Y-%m-%d/', blank=True, null=True)
+    company_registration = models.ImageField(
+        upload_to='upload/registration/company-%Y-%m-%d/', blank=True, null=True)
     privacy_checked = models.BooleanField(default=False)
 
     def __str__(self):
         return self.company_name
+
+    def get_absolute_url(self):
+        return '/%s/' % (self)
 
     @property
     def getOrder(self):
@@ -36,7 +41,7 @@ class Vendor(models.Model):
         return order
 
     def get_variant(self):
-        product=self.newProducts.all()
+        product = self.newProducts.all()
         return apps.newProduct.models.Variants.objects.filter(product=product).all()
 
     def get_avatar(self):
@@ -48,8 +53,8 @@ class Vendor(models.Model):
             vendor_paid=False, order__vendors__in=[self.id])
         return sum((item.price * item.quantity) for item in items)
 
-    def get_total_amount(self,total):
-        items=self.items.filter(
+    def get_total_amount(self, total):
+        items = self.items.filter(
             vendor=self
         )
         total = sum((item.get_total_price) for item in items)
@@ -113,7 +118,7 @@ class Customer(models.Model):
     address = models.CharField(max_length=255)
     phone = models.CharField(max_length=10)
     created_at = models.DateTimeField(auto_now_add=True)
-    company_code = models.CharField(max_length=255,null=True,blank=True)
+    company_code = models.CharField(max_length=255, null=True, blank=True)
     privacy_checked = models.BooleanField(default=False)
     user = models.OneToOneField(
         User, related_name='customer', on_delete=models.CASCADE)
@@ -133,6 +138,7 @@ class Customer(models.Model):
 
         except Exception as e:
             pass
+
 
 class Transporter(models.Model):
     email = models.EmailField(max_length=150)
@@ -174,7 +180,7 @@ class Profile(models.Model):
         # if created:
         #     Profile.objects.create(user=instance)
         # instance.profile.save()
-        print("profile",kwargs)
+        print("profile", kwargs)
         try:
             instance.Profile.save()
             if instance.is_staff == True:
@@ -189,8 +195,8 @@ class UserWishList(models.Model):
         User, on_delete=models.CASCADE, null=True, blank=True)
     product = models.ForeignKey(
         'newProduct.Product', on_delete=models.CASCADE, null=True, blank=True)
-    variant=models.ForeignKey(
-        'newProduct.Variants',on_delete=models.CASCADE, null=True, blank=True
+    variant = models.ForeignKey(
+        'newProduct.Variants', on_delete=models.CASCADE, null=True, blank=True
     )
-    is_variant=models.BooleanField()
+    is_variant = models.BooleanField()
     text = models.CharField(max_length=255, null=True)

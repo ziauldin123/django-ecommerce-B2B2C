@@ -1,5 +1,5 @@
 {% extends 'core/base.html' %}
-{% block title %} Shop Cart {% endblock %}
+{% block title %} Cart {% endblock %}
 {% block description %} {{ setting.description }} {% endblock %}
 {% block keywords %} {{ setting.keywords }} {% endblock %}
 {% block content %}
@@ -54,32 +54,25 @@
             <div class="page-header__container container">
                 <div class="page-header__breadcrumb">
                     <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item">
-                                <a href="/">Home</a>
-                                <svg class="breadcrumb-arrow" width="6px" height="9px">
-                                    <use xlink:href="/static/templates/images/sprite.svg#arrow-rounded-right-6x9"></use>
-                                </svg>
-                            </li>
-                            <li class="breadcrumb-item active" aria-current="page">Shopping Cart</li>
-                        </ol>
+                       
                     </nav>
                 </div>
                 <div class="page-header__title">
-                    <h1>Shopping Cart</h1>
+                    <h3>Cart</h3>
                 </div>
             </div>
         </div>
-        <div class="cart block" id="cart">
+         {% if cart %}
+        <div class="cart block" id="cart_table">
             <div class="container">
                 <table class="cart__table cart-table">
                     <thead class="cart-table__head">
                         <tr class="cart-table__row">
                             <th class="cart-table__column cart-table__column--image">Image</th>
                             <th class="cart-table__column cart-table__column--product">Product</th>
-                            <th class="cart-table__column cart-table__column--price">Price</th>
+                            <th class="cart-table__column cart-table__column--price">Price (Rwf)</th>
                             <th class="cart-table__column cart-table__column--quantity">Quantity</th>
-                            <th class="cart-table__column cart-table__column--total">Total</th>
+                            <th class="cart-table__column cart-table__column--total">Total (Rwf)</th>
                             <th class="cart-table__column cart-table__column--remove"></th>
                         </tr>
                     </thead>
@@ -129,7 +122,7 @@
                                             {% else %} 
                                                {{rs.variant.price}}
                                             {% endif %}       
-                                        {% endif %}  FRW  / 
+                                        {% endif %} / 
                                         {% if rs.product.variant == 'None' %}
                                         {% if rs.product.unit_type %}
                                           {{ rs.product.unit_type.unit }}
@@ -156,16 +149,16 @@
                                             {% if rs.product.discount > 0 %}
                                                 {{ rs.prodct_dicount_amount }}
                                             {% else %}
-                                                {{ rs.amount }}
+                                                 {{ rs.amount }}
                                             {% endif %}
                                         {% else %}
                                             {% if rs.variant.discount > 0 %}
-                                                {{ rs.var_dicount_amount }}
+                                                 {{ rs.var_dicount_amount }}
                                             {% else %}
-                                                {{ rs.varamount }}
+                                                 {{ rs.varamount }}
                                             {% endif %}
-                                        {% endif %} FRW 
-                                {% if rs.product.is_vat == True %}vat incl.{% endif %}
+                                        {% endif %}
+                                
                             </td>
                             <td class="cart-table__column cart-table__column--remove">
                                 <a href="/order/deletefromcart/{{ rs.id }}" onclick="return confirm('Delete ! Are you sure?')" >
@@ -184,39 +177,47 @@
                     <form class="cart__coupon-form">
                         <label for="input-coupon-code" class="sr-only">Password</label>
                         <input type="text" class="form-control"  name="coupon_code" id="coupon_code" placeholder="Coupon Code">
-                        <button type="button" class="btn btn-primary  is-success"  onclick="applyCoupon()" >Apply Coupon</button>
+                        <button type="button" class="btn btn-secondary "  onclick="applyCoupon()" >Apply Coupon</button>
                     </form>
                     <div class="cart__buttons">
-                        <a href="/" class="btn btn-light">Continue Shopping</a>
+                        <a href="/" class="btn btn-secondary">Continue Shopping</a>
                     </div>
                 </div>
                 <div class="row justify-content-end pt-5">
                     <div class="col-12 col-md-7 col-lg-6 col-xl-5">
                         <div class="card">
                             <div class="card-body">
-                                <h3 class="card-title">Cart Totals</h3>
+                                
                                 <table class="cart__totals">
                                     <thead class="cart__totals-header">
                                         <tr>
                                             <th>Subtotal</th>
-                                            <td>{{ subtotal }} FRW</td>
+                                            <td>Rwf {{ subtotal }}</td>
                                         </tr>
                                     </thead>
                                     <tfoot class="cart__totals-footer">
                                         <tr>
-                                            <th>Total With Coupon</th>
+                                            <th>Total</th>
                                             <td>
-                                                <span id="total_cost_with_coupon" name="total_cost_with_coupon">{{ subtotal }}FRW</span>
+                                                <span id="total_cost_with_coupon" name="total_cost_with_coupon">Rwf {{ subtotal }}</span>
                                             </td>
                                         </tr>
                                     </tfoot>
                                 </table>
-                                <a class="btn btn-primary btn-xl btn-block cart__checkout-button" href="{% url 'contact_info' %}"">Proceed to checkout</a>
+                                <a class="btn btn-primary btn-block cart__checkout-button" href="{% url 'contact_info' %}">Proceed to checkout</a>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        {% else %}
+        <div class="block-empty__body">
+            <div class="block-empty__message">Your shopping cart is empty!</div>
+            <div class="block-empty__actions">
+                <a class="btn btn-primary btn-sm" href="/">Start shopping</a>
+            </div>
+        </div>
+        {% endif %}    
     </div>
 {% endblock %}

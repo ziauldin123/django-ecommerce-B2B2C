@@ -13,7 +13,7 @@
                 $("#mycart").load(location.href + " #mycart");
                 $("#cart_table").load(location.href + " #cart_table");
                 $("#message").append(
-                    '<div class="alert alert-success hideit alertSuc">added in cart successfully.</div >')
+                    '<div class="alert alert-success hideit alertSuc">A product has been added to your cart.</div >')
                 setTimeout(function () {
                     $("#message").load(location.href + " #message");
                 }, 1000);
@@ -23,12 +23,7 @@
 </script>
 <div class="products-list__item">
     <div class="product-card product-card--hidden-actions ">
-        <button class="product-card__quickview" type="button">
-            <svg width="16px" height="16px">
-                <use xlink:href="/static/templates/images/sprite.svg#quickview-16"></use>
-            </svg>
-            <span class="fake-svg-icon"></span>
-        </button>
+       
         <div class="product-card__image product-image">
             <a href="{% url 'product' product.id product.slugV product.category.sub_category.category.slug product.category.sub_category.slug product.category.slug product.slug %}" class="product-image__body">
                 {% if product.is_variant %} 
@@ -201,29 +196,23 @@
                     {% endif %}
                 </span>
             </div>
-            <div class="product-card__prices">
-               FRW {% if product.is_variant %} 
-                    {% if product.get_variant.discount > 0  %} 
-                        <span class="product-card__new-price">{{ product.get_variant.get_discounted_price }}FRW</span>
-                        <span class="product-card__old-price">{{ product.get_variant.price }} </span>
+             <div class="product-card__prices">
+                    {% if product.is_variant %} 
+                          {% if product.discount %} 
+                              <span class="product-card__new-price">Rwf {{product.get_variant.discounted_price}}/{{product.unit_type.unit}}</span>
+                              <span class="product-card__old-price"> {{product.get_variant.price}}</span>
+                          {% else %}
+                              <span class="product-card__old-price"></span>Rwf {{product.get_variant.price}}/{{product.unit_type.unit}}</span>
+                          {% endif %}    
                     {% else %}
-                        <span></span>{{product.get_variant.price}} </span>
-                    {% endif %}    / 
-                    {% if product.get_variant.unit_type %} 
-                            {{product.get_variant.unit_type.unit }}
-                          {% endif %} 
-                    {% else %}
-                    {% if product.discount > 0 %} 
-                        <span class="product-card__new-price">{{product.get_discounted_price}} FRW</span>
-                        <span class="product-card__old-price">{{product.price}} </span>
-                    {% else %}
-                        <span >{{product.price}} </span>
-                    {% endif %} / 
-                    {% if product.unit_type %} 
-                         {{product.unit_type.unit}}
+                         {% if product.discount  %} 
+                             <span class="product-card__new-price">Rwf {{product.get_discounted_price}}/{{product.unit_type.unit}}</span>
+                             <span class="product-card__old-price"> {{product.price}}</span>
+                         {% else %}
+                             <span class="product-card__old-price"></span>Rwf {{product.price}}/{{product.unit_type.unit}}</span>
                          {% endif %}
-                    {% endif %} 
-            </div>
+                    {% endif %}     
+                </div>
             <div class="product-card__buttons">
                 {% if product.is_variant %}
                     <a href="{% url 'product' product.id product.slugV product.category.sub_category.category.slug product.category.sub_category.slug product.category.slug product.slug %}"> 

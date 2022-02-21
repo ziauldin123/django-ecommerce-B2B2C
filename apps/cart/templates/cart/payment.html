@@ -1,20 +1,10 @@
 {% extends 'core/base.html' %}
 {% load mathfilters %}
 
-{% block title %}Payment Info | {% endblock %}
+{% block title %}Confirm Order {% endblock %}
 
 {% block content %}
-<style>
-    input[type=text],[type=number],[type=file],[type=email],[type=textarea], select {
-     width: 100%;
-     padding: 8px 20px;
-     cursor: pointer;
-     margin: 4px 0;
-     border: 1px solid #ccc;
-     border-radius: 4px;
-     box-sizing: border-box;
-   }
-   </style>
+
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script>
         function applyCoupon() {
@@ -41,42 +31,26 @@
             <div class="page-header__container container">
                 <div class="page-header__breadcrumb">
                     <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item">
-                                <a href="/">Home |</a>
-                                <svg class="breadcrumb-arrow" width="6px" height="9px">
-                                    <use xlink:href="images/sprite.svg#arrow-rounded-right-6x9"></use>
-                                </svg>
-                            </li>
-                            <li class="breadcrumb-item">
-                                <a href="{% url 'contact_info' %}">Contact info | </a>
-                                <svg class="breadcrumb-arrow" width="6px" height="9px">
-                                    <use xlink:href="images/sprite.svg#arrow-rounded-right-6x9"></use>
-                                </svg>
-                            </li>
-                            <li class="breadcrumb-item active" aria-current="page">Payment Info</li>
-                        </ol>
+                        
                     </nav>
                 </div>
-                <div class="page-header__title">
-                    <h1>Payment Info</h1>
-                </div>
+               
             </div>
         </div>
     </div>
     <div class="checkout block">
         <div class="container">
-            <div class="row">
-                <div class="col-12 mb-3"></div>
-                <div class="col-12 col-lg-4 col-xl-7">
-                    <div class="card mb-0">
+            <div class="row"> 
+                <div class="col-12 col-lg-8 mt-4 mt-lg-0">
+                    <div class="card mb-3">
                         <div class="card-body">
                             <h3 class="card-title">Your Order</h3>
+                            <div class="table-responsive-sm">
                             <table class="checkout__totals">
                                 <thead class="checkout__totals-header">
                                     <tr>
                                         <th>Product</th>
-                                        <th>Price</th>
+                                        <th>Total (Rwf)</th>
                                     </tr>
                                 </thead>
                                 <tbody class="checkout__totals-products">
@@ -106,32 +80,29 @@
                                             {% endif %}
                                         {% else %}
                                             {% if rs.variant.discount > 0 %}
-                                                {{ rs.var_dicount_amount }}
+                                                 {{ rs.var_dicount_amount }}
                                             {% else %}
                                                 {{ rs.varamount }}
                                             {% endif %}
                 
-                                        {% endif %} FRW
-                                        {% if rs.product.is_vat == True %}vat incl.{% endif %}</td>
+                                        {% endif %}
+                                        {% if rs.product.is_vat == True %}{% endif %}</td>
                                     </tr>
                                     {% endfor %}
                                 </tbody>
                                 <tbody class="checkout__totals-subtotals">
                                     <tr>
                                         <th>VAT</th>
-                                        <td>{{ tax }} FRW</td>
+                                        <td>{{ tax }} </td>
                                       </tr>
                                     <tr>
                                         <th>Subtotal</th>
-                                        <td>{{ total }} FRW</td>
+                                        <td>{{ total }}</td>
                                     </tr> 
                                     {% if coupon.code != None %}
                                     <tr>
                                         <th>Coupon</th>
-                                        <td>{% if coupon.code != None %}
-                                                 {{ coupon.code }}
-                                            {% endif %}
-                                        </td>
+                                    
                                         <td>
                                             {% if coupon.code != None %}
                                                 - {{ coupon.discount }} %
@@ -141,7 +112,7 @@
                                     {% endif %}
                                     {% if cart.get_delivery_cost %} 
                                     <tr>
-                                        <th>Delivery Cost</th>
+                                        <th>Delivery</th>
                                        <td>{{cart.get_delivery_cost}}</td>
                                     </tr>
                                     {% endif %}
@@ -152,20 +123,25 @@
                                 </tbody>
                                 <tfoot class="checkout__totals-footer">
                                     <tr>
-                                        <th>Total</th>
-                                        <td><span id="total_cost">{{ cart.get_total_cost }} FRW </span></td>
+                                        <th>TOTAL</th>
+                                        <td><span id="total_cost">Rwf {{ cart.get_total_cost }}</span></td>
                                     </tr>
                                 </tfoot>
                             </table>
                         </div>
+                        </div>
                     </div>
                 </div>
-                <div class="col-12 col-lg-4 col-xl-5 mt-4 mt-lg-2">
-                    <div class="card mb-lg-0">
+                
+
+                <div class="col-12 col-lg-4 mt-4 mt-lg-0">
+                    <div class="card mb-0">
                         <div class="card-body">
+                            <h3 class="card-title">Payment Details</h3>
                             <form method="post" action="" id="payment-form">
                                 {% csrf_token %}
                                 <div id="pay-form">
+                                
                                 {{ form.as_p }}
                                 </div>
                                 {% if messages %}
@@ -186,6 +162,9 @@
                         <strong class= "ml-2 mr-2"><a>This confirmation will not initiate a payment. <br>You will have to manually pay using : *182*8*1*077935# for MTN or *500*4*2*1*630343# for Airtel.</a></strong>
                     </div>
                 </div>
+
+              
+                
             </div>
         </div>
     </div>

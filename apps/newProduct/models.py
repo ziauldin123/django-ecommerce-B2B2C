@@ -1,5 +1,5 @@
-from itertools import product
 import os
+from itertools import product
 # from ckeditor_uploader.fields import RichTextUploadingField
 from django.db.models.deletion import CASCADE, SET_NULL
 from django.db.models.expressions import OrderBy
@@ -15,6 +15,11 @@ from django.urls import reverse
 from django.utils.text import slugify
 from autoslug import AutoSlugField
 from django.forms import ModelForm
+
+from io import BytesIO
+from django.core.files.base import ContentFile
+from PIL import Image
+
 from django.core.validators import MinValueValidator, MaxValueValidator
 # Create your models here.
 from apps.vendor.models import Vendor
@@ -79,6 +84,9 @@ class SubSubCategory(MPTTModel):
 
     def __str__(self):
         return self.title
+
+    class Meta:
+        verbose_name_plural = 'Sub_subcategories'
 
     class MPTTMeta:
         order_insertion_by = ['title']
@@ -152,6 +160,9 @@ class UnitTypes(models.Model):
     def __str__(self):
         return "{} {}".format(self.name, self.unit)
 
+    class Meta:
+        verbose_name_plural = 'Unit_Types'
+
 
 class Brand(models.Model):
     brand = models.CharField(max_length=250, blank=True, null=True)
@@ -217,6 +228,25 @@ class Product(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     update_at = models.DateTimeField(auto_now=True)
 
+    def save(self, *args, **kwargs):
+        if self.image and not self.image.url.endswith('.webp'):
+            imm = Image.open(self.image).convert("RGB")
+            original_width, original_height = imm.size
+            aspect_ratio = round(original_width / original_height)
+            if aspect_ratio < 1:
+                aspect_ratio = 1
+            desired_height = 500  # Edit to add your desired height in pixels
+            desired_width = desired_height * aspect_ratio
+            imm.thumbnail((desired_width, desired_height), Image.ANTIALIAS)
+            new_image_io = BytesIO()
+            imm.save(new_image_io, format="WEBP", quality=70)
+            self.image.save(
+                self.title[:40]+".webp",
+                content=ContentFile(new_image_io.getvalue()),
+                save=False
+            )
+        super(Product, self).save(*args, **kwargs)
+
     @property
     def get_variant(self):
         if Variants.objects.filter(product=self, status=True, visible=True).exists():
@@ -266,7 +296,6 @@ class Product(models.Model):
         return rate    
 
 
-
     def get_thumbnail(self):
         try:
             product_image = self.image
@@ -295,7 +324,7 @@ class Product(models.Model):
             else:
                 return float((18*self.price)/100)
         else:
-            return 0            
+            return 0
 
     def get_discounted_price(self):
         discounted_price = float(self.price-((self.discount*self.price)/100))
@@ -316,7 +345,8 @@ class Comment(models.Model):
         ('True', 'True'),
         ('False', 'False'),
     )
-    product = models.ForeignKey(Product, related_name='product', on_delete=models.CASCADE)
+    product = models.ForeignKey(
+        Product, related_name='product', on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     subject = models.CharField(max_length=50, blank=True)
     comment = models.CharField(max_length=250, blank=True)
@@ -343,11 +373,30 @@ class Images(models.Model):
     name = models.CharField(max_length=50, blank=True)
     image = models.ImageField(blank=True, upload_to='images/')
 
+    def save(self, *args, **kwargs):
+        if self.image and not self.image.url.endswith('.webp'):
+            imm = Image.open(self.image).convert("RGB")
+            original_width, original_height = imm.size
+            aspect_ratio = round(original_width / original_height)
+            if aspect_ratio < 1:
+                aspect_ratio = 1
+            desired_height = 500  # Edit to add your desired height in pixels
+            desired_width = desired_height * aspect_ratio
+            imm.thumbnail((desired_width, desired_height), Image.ANTIALIAS)
+            new_image_io = BytesIO()
+            imm.save(new_image_io, format="WEBP", quality=70)
+            self.image.save(
+                self.name[:40]+".webp",
+                content=ContentFile(new_image_io.getvalue()),
+                save=False
+            )
+        super(Images, self).save(*args, **kwargs)
+
     def __str__(self):
         return self.name
 
     class Meta:
-        verbose_name_plural = "Galley"
+        verbose_name_plural = "Gallery"
         verbose_name = "Images"
 
     def imagename(self):
@@ -389,8 +438,30 @@ class Variants(models.Model):
     discount = models.PositiveIntegerField(
         default=0, validators=[MinValueValidator(0), MaxValueValidator(99)], verbose_name="Discount %")
 
+    def save(self, *args, **kwargs):
+        if self.image_variant and not self.image_variant.url.endswith('.webp'):
+            imm = Image.open(self.image_variant).convert("RGB")
+            original_width, original_height = imm.size
+            aspect_ratio = round(original_width / original_height)
+            if aspect_ratio < 1:
+                aspect_ratio = 1
+            desired_height = 500  # Edit to add your desired height in pixels
+            desired_width = desired_height * aspect_ratio
+            imm.thumbnail((desired_width, desired_height), Image.ANTIALIAS)
+            new_image_io = BytesIO()
+            imm.save(new_image_io, format="WEBP", quality=70)
+            self.image_variant.save(
+                self.title[:40]+".webp",
+                content=ContentFile(new_image_io.getvalue()),
+                save=False
+            )
+        super(Variants, self).save(*args, **kwargs)
+
     def __str__(self):
         return self.title
+
+    class Meta:
+        verbose_name_plural = 'Variants'
 
     def get_url(self):
         return f'/{self.product.id}/{self.product.vendor.slug}/{self.product.category.sub_category.category.slug}/{self.product.category.sub_category.slug}/{self.product.category.slug}/{self.product.slug}/'
@@ -476,6 +547,25 @@ class ProductImage(models.Model):
         Variants, related_name='variants_images', on_delete=models.CASCADE, blank=True, null=True)
     title = models.CharField(max_length=50, blank=True)
     image = models.ImageField(blank=True, upload_to='images/')
+
+    def save(self, *args, **kwargs):
+        if self.image and not self.image.url.endswith('.webp'):
+            imm = Image.open(self.image).convert("RGB")
+            original_width, original_height = imm.size
+            aspect_ratio = round(original_width / original_height)
+            if aspect_ratio < 1:
+                aspect_ratio = 1
+            desired_height = 500  # Edit to add your desired height in pixels
+            desired_width = desired_height * aspect_ratio
+            imm.thumbnail((desired_width, desired_height), Image.ANTIALIAS)
+            new_image_io = BytesIO()
+            imm.save(new_image_io, format="WEBP", quality=70)
+            self.image.save(
+                self.title[:40]+".webp",
+                content=ContentFile(new_image_io.getvalue()),
+                save=False
+            )
+        super(ProductImage, self).save(*args, **kwargs)
 
     def __str__(self):
         return self.title
