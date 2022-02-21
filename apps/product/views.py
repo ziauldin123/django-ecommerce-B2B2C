@@ -661,7 +661,13 @@ def category(request, category_slug):
             'query_height':query_height,
             'query_width':query_width,
             'query_length':query_length,
-            'max_amount':max_amount
+            'max_amount':max_amount,
+            'shopcart': shopcart,
+            'subtotal': total,
+            'tax': tax,
+            'total': grandTotal,
+            'wishlist': wishlist,
+            'total_compare': total_compare
         }
     )
 
@@ -804,7 +810,13 @@ def subcategory(request, category_slug, subcategory_slug):
             'query_height':query_height,
             'query_width':query_width,
             'query_length':query_length,
-            'max_amount':max_amount
+            'max_amount':max_amount,
+            'shopcart': shopcart,
+            'subtotal': total,
+            'tax': tax,
+            'total': grandTotal,
+            'wishlist': wishlist,
+            'total_compare': total_compare
         }
     )
 
@@ -956,6 +968,65 @@ def subsubcategory(request, category_slug, subcategory_slug, subsubcategory_slug
             'tax':tax,
             'total':grandTotal,
             'wishlist':wishlist,
-            'total_compare':total_compare
+            'total_compare':total_compare,
+            'shopcart': shopcart,
+            'subtotal': total,
+            'tax': tax,
+            'total': grandTotal,
+            'wishlist': wishlist,
+            'total_compare': total_compare
         }
     )
+
+def brands(request):
+    if not request.user.is_anonymous:
+        cart = Cart(request)
+        current_user = request.user
+        wishlist = UserWishList.objects.filter(user=current_user)
+        # cart.clear()
+        shopcart = ShopCart.objects.filter(user_id=current_user.id)
+        total = cart.get_cart_cost()
+        tax = cart.get_cart_tax()
+        grandTotal = cart.get_cart_cost() + cart.get_cart_tax()
+        if not request.session.get('comparing'):
+            comparing = 0
+        else:
+            comparing = request.session['comparing'].__len__()
+
+        if not request.session.get('comparing_variants'):
+            compare_var = 0
+        else:
+            compare_var = request.session['comparing_variants'].__len__()
+
+        total_compare = comparing + compare_var
+
+    else:
+        cart = 0
+        subtotal = 0
+        tax = 0
+        total = 0
+        grandTotal = 0
+        shopcart = None
+        wishlist = 0
+        total_compare = 0
+
+    brands_list=Brand.objects.all()
+    paginator = Paginator(brands_list,6) 
+    page = request.GET.get('page')
+
+    try:
+        brands = paginator.page(page)
+    except PageNotAnInteger:
+        brands = paginator.page(1)
+    except EmptyPage:
+        brands = paginator.page(paginator.num_pages)
+
+    return render(request,'product/brands.html',
+    {'brands':brands,
+    'shopcart': shopcart,
+    'subtotal': total,
+    'tax': tax,
+    'total': grandTotal,
+    'wishlist': wishlist,
+    'total_compare': total_compare
+    })    

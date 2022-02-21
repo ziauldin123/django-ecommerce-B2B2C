@@ -319,10 +319,21 @@ class OrderItem(models.Model):
     is_variant=models.BooleanField(default=False)
     vat=models.DecimalField(max_digits=8,decimal_places=2,blank=True,null=True)
     total=models.DecimalField(max_digits=8,decimal_places=2,default=0)
-
-    def __str__(self):
-        return '%s' % self.id
     
+    
+
+    # def __init__(self, *args, **kwargs):
+    #     super().__init__(*args,**kwargs)
+    #     self.order.__original_status=self.order.is_paid
+
+    # def __str__(self):
+    #     return '%s' % self.id
+    
+    # def save(self, *args, **kwargs):
+    #    if self.order.is_paid != self.order.__original_status:
+    #        if self.order.is_paid:
+    #            self.vendor_paid == True
+
     def get_vat_price(self):
         if not self.is_variant:
             vat=self.product.get_vat_price()
