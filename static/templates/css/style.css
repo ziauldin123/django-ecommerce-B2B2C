@@ -12841,11 +12841,11 @@ html:not([dir=rtl]) .noUi-horizontal .noUi-origin {
 }
 
 .block-banner__title {
-  padding-top: 28px;
-  font-size: 30px;
+  padding-top: 50px;
+  font-size: 25px;
   line-height: 1;
   font-weight: 700;
-  color: #ffffff;
+  color: #131921;
 }
 
 .block-banner__text {
