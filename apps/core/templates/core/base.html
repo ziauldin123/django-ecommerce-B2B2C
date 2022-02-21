@@ -262,6 +262,7 @@
             "csrfmiddlewaretoken": my_token,
           },
           success:function(){
+            $("#cart_table_off").load(location.href + " #cart_table_off");
             $("#cart_table").load(location.href + " #cart_table");
             $("#my_cart").load(location.href + " #my_cart");
             alertify.alert("Product removed from cart").setHeader('<em>  </em> ')
@@ -1041,7 +1042,7 @@
           </button>
       </div>
       <div class="dropcart__products-list">
-          <div id="cart_table">
+          <div id="cart_table_off">
             {% for product in shopcart %}
           <div class="dropcart__product">
             <div class="product-image dropcart__product-image">
