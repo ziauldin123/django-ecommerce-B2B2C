@@ -20,13 +20,14 @@ class AccountService:
                 item["product_title"] = item_.get_product_name()
                 item["quantity"] = str(item_.quantity)
                 item["price"] = item_.get_discounted_price()
-                item["price_no_vat"]=item_.get_product_no_vat()
+                item["price_no_vat"] = item_.get_product_no_vat()
                 item["tax"] = item_.get_vat_price()
                 item["subtotal"] = item_.subtotal()
                 total_quantity += item_.quantity
                 subtotal_amount += item_.price
-                vat_cost += item_.get_vat_price()
+                vat_cost += item_.get_vat_price() * item_.quantity
                 total_vat_exl += item_.get_subtotal_vat_exlusive()
+                # vat_cost += item_.get_vat_price()
                 items.append(item)
             order["items"] = items
             order["subtotal_amount"] = subtotal_amount
@@ -37,6 +38,8 @@ class AccountService:
             order["delivery_cost"] = row.delivery_cost
             order["shipped_date"] = row.shipped_date
             order["arrived_date"] = row.arrived_date
+            order["reference_number"] = row.reference_number
+            order["id"] = row.id
             coupon_discount = ""
             coupon_code = str(row.used_coupon)
             if coupon_code != "None":

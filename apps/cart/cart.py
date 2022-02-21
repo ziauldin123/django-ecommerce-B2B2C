@@ -2,7 +2,6 @@ from typing import List
 
 from django.conf import settings
 
-# from apps.product.models import Product
 from apps.newProduct.models import Product
 from apps.ordering.models import ShopCart
 from decimal import Decimal
@@ -20,7 +19,7 @@ class Cart(object):
         if not cart:
             cart = self.session[settings.CART_SESSION_ID] = {'cart':{}}
 
-        self.cart = cart
+        self.cart = cart 
         null_id=[]
         for p in self.cart['cart'].keys():
             shopcart = ShopCart.objects.filter(pk=int(p)).first()
@@ -30,7 +29,7 @@ class Cart(object):
                 self.cart['cart'][str(p)]['product']['subcategory_slug'] = shopcart.product.category.sub_category.slug
                 self.cart['cart'][str(p)]['product']['subsubcategory_slug'] = shopcart.product.category.sub_category.category.slug
                 self.cart['cart'][str(p)]['product']['slug'] = shopcart.product.slug
-                self.cart['cart'][str(p)]['product']['vendor_id'] = shopcart.product.vendor.id
+                self.cart['cart'][str(p)]['product']['vendor_id'] = {'id': shopcart.product.vendor.id}
                 self.cart['cart'][str(p)]['product']['slugV']=shopcart.product.slugV
                 self.cart['cart'][str(p)]['product']['pickup_available'] = shopcart.product.pickup_available
                 if shopcart.variant == None :
@@ -41,7 +40,7 @@ class Cart(object):
                 else:
                     self.cart['cart'][str(p)]['product']['total_price'] = float(shopcart.variant.get_discounted_price())
                     self.cart['cart'][str(p)]['product']['is_variant'] = True
-                    self.cart['cart'][str(p)]['product']['variant_id'] = shopcart.variant.id
+                    self.cart['cart'][str(p)]['product']['variant_id'] = {'id':shopcart.variant.id}
                     self.cart['cart'][str(p)]['product']['tax']=float(shopcart.variant.get_vat_price())
                     self.cart['cart'][str(p)]['product']['total_vat_excl'] = float(shopcart.variant.get_vat_exclusive_price())
 
@@ -73,7 +72,7 @@ class Cart(object):
                 self.cart['cart'][str(p)]['product']['subcategory_slug'] = shopcart.product.category.sub_category.slug
                 self.cart['cart'][str(p)]['product']['subsubcategory_slug'] = shopcart.product.category.sub_category.category.slug
                 self.cart['cart'][str(p)]['product']['slug'] = shopcart.product.slug
-                self.cart['cart'][str(p)]['product']['vendor_id'] = shopcart.product.vendor.id
+                self.cart['cart'][str(p)]['product']['vendor_id'] = {'id':shopcart.product.vendor.id}
                 self.cart['cart'][str(p)]['product']['slugV']=shopcart.product.slugV
                 self.cart['cart'][str(p)]['product']['pickup_available'] = shopcart.product.pickup_available
                 if shopcart.variant == None :
@@ -82,7 +81,7 @@ class Cart(object):
                 else:
                     self.cart['cart'][str(p)]['product']['total_price'] = float(shopcart.variant.get_discounted_price())
                     self.cart['cart'][str(p)]['product']['is_variant'] = True
-                    self.cart['cart'][str(p)]['product']['variant_id'] = shopcart.variant.id
+                    self.cart['cart'][str(p)]['product']['variant_id'] = {'id':shopcart.variant.id}
 
                 self.cart['cart'][str(p)]['product']['is_free_delivery'] = shopcart.product.is_free_delivery
                 self.cart['cart'][str(p)]['product']['get_thumbnail'] = shopcart.product.get_thumbnail()
@@ -106,17 +105,21 @@ class Cart(object):
                 sum_quantity += item['quantity']
         return sum_quantity
 
-    def add(self, product_id,user_id, quantity, update_quantity=False):
-        cart_data=ShopCart.objects.filter(product_id=product_id, user_id=user_id).first()
+    def add(self, product_id,user_id,variant_id, quantity, update_quantity=False):
+        # cart_id = 0
+        if variant_id is None:
+            cart_data=ShopCart.objects.filter(product_id=product_id,variant_id=None, user_id=user_id).first()
+        else:
+            cart_data=ShopCart.objects.filter(product_id=product_id,variant_id=variant_id, user_id=user_id).first()    
+        
         if cart_data:
-            cart_id=str(cart_data.id)
-
+            cart_id=str(cart_data.id) 
+              
         if cart_id not in self.cart['cart']:
             self.cart['cart'][cart_id] ={'quantity': cart_data.quantity,'id':str(cart_data.id)}
 
         if cart_id in self.cart['cart']:
             self.cart['cart'][cart_id] ={'quantity': cart_data.quantity}
-
 
 
         self.save()
@@ -300,7 +303,6 @@ class Cart(object):
         for item in self.cart['cart'].values():
             if 'product' in item:
                 total_cost += float(item['product']['total_cost'] * item['quantity'])
-
 
 
         if 'coupon_discount' in list(self.cart):

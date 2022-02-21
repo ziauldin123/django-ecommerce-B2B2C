@@ -96,7 +96,7 @@ class SearchForm(forms.Form, BaseProductVariantsForm):
     price_from = forms.IntegerField(initial=0, required=False, widget=forms.TextInput(attrs={'class': 'input'}))
     price_to = forms.IntegerField(initial=5000000, required=False, widget=forms.TextInput(attrs={'class': 'input'}))
 
-    brand = forms.CharField(widget=forms.Select(),required=False)
+    # brand = []
     color = forms.CharField(widget=forms.Select(),required=False)
     weight = forms.CharField(widget=forms.Select(),required=False)
     size = forms.CharField(widget=forms.Select(),required=False)

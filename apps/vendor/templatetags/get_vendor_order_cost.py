@@ -19,8 +19,9 @@ def get_total_order_cost(order, user):
 
     orderItems=order.items.filter(vendor_id=v.id).all()
     for items in orderItems:
-        vendor_item_price=items.get_product_total_price()
-        vendor_items_total_price += vendor_item_price*items.quantity
+        # vendor_item_price=items.get_product_total_price()
+        # vendor_items_total_price += vendor_item_price*items.quantity
+        vendor_items_total_price += items.get_total()
         total_quantity = items.quantity
         if not items.product.is_free_delivery:
             if order.delivery_type == "Vendor_Delivery":

@@ -2,313 +2,261 @@
 {% load mathfilters %}
 
 
-{% block title %}Order Info | {% endblock %}
+{% block title %} Checkout {% endblock %}
 
 {% block content %}
-<h1 class="title">Order Info</h1>
 
-<div class="box">
-    <div class="table">
-        <table class="shopping-cart-table table">
-            <thead>
-                <tr>
-                    <th></th>
-                    <th>Product</th>
-                    <th class="text-center">Price</th>
-                    <th class="text-center">Discount</th>
-                    <th class="text-center">Quantity</th>
-                    <th class="text-center">Total</th>
-                    <th class="text-right"></th>
-                </tr>
-            </thead>
-            <tbody>
 
-                {% for rs in shopcart %}
-                <tr>
-                    <td class="thumb">
-                        {% if rs.variant %}
-                            <img src="{{rs.variant.image_variant.url }}" style="width: 40px;" alt="">
-                        {% else %}
-                            <img src="{{rs.product.image.url}}" style="width: 40px;" alt="">
-                        {% endif %}
-
-                    </td>
-                    <td class="details">
-                        {% if rs.variant %}
-                         <a href="/product/{{ rs.product.id }}/{{ rs.product.slug }}">{{rs.variant.title}}</a>
-                        {% else %}
-                        <a href="/product/{{ rs.product.id }}/{{ rs.product.slug }}">{{rs.product}}</a>
-                        {% endif %}
-                    </td>
-                    <td class="price text-center"><strong>
-                            {% if rs.product.variant == 'None' %}
-                            {{ rs.product.price }}
-                            {% else %}
-                            {{ rs.variant.price }}
-                            {% endif %}
-                        </strong></td>
-                        <td class="qty text-center"><strong>
-                            {% if rs.product.variant == 'None' %}
-                                {{rs.product.discount}} %
-                            {% else %}
-                                {{rs.variant.discount}} %
-                            {% endif %}
-                        </strong></td>
-                    <td class="qty text-center"><strong>{{rs.quantity}}
-                         {% if rs.product.variant == 'None' %}
-                        {% if rs.product.unit_type %}
-                          {{ rs.product.unit_type.unit }}(s)
-                         {% endif %}
-                     {% else %}
-                        {% if rs.variant.unit_type %}
-                         {{ rs.variant.unit_type.unit }}(s)
-                         {% endif %}
-                     {% endif %}</strong></td>
-                    <td class="total text-center"><strong class="primary-color">$
-                        {% if rs.product.variant == 'None' %}
-                            {% if rs.product.discount > 0 %}
-                                {{ rs.prodct_dicount_amount }}
-                            {% else %}
-                                {{ rs.amount }}
-                            {% endif %}
-                        {% else %}
-                            {% if rs.variant.discount > 0 %}
-                                {{ rs.var_dicount_amount }}
-                            {% else %}
-                                {{ rs.varamount }}
-                            {% endif %}
-
-                        {% endif %}
-                        {% if rs.product.is_vat == True %}vat incl.{% endif %}
-                    </strong></td>
-                    <td class="text-right"><a href="/order/deletefromcart/{{ rs.id }}"
-                            onclick="return confirm('Delete ! Are you sure?')" class="main-btn icon-btn"><i
-                                class="fa fa-close"></i></a></td>
-                </tr>
-                {% endfor %}
-
-            </tbody>
-            <tfoot>
-
-                <tr>
-                    <td></td>
-                    <td><strong>VAT</strong></td>
-                    <td></td>
-                    <td></td>
-                    <td><strong>$
-                        {{ tax }}
-                    </strong></td>
-                </tr>
-                <tr>
-                                    <td></td>
-                                    <td><strong>SUB TOTAL</strong></td>
-                                    <td><strong></strong></td>
-                                    <td></td>
-                                    <td><strong>Frw <span id="total_cost">{{ sub_total }} </span></strong></td>
-                                </tr>
-                <tr>
-                    <td></td>
-                    <td><strong>Code</strong></td>
-                    <td></td>
-                    <td><strong>
-                        {% if coupon.code != None %}
-                            {{ coupon.code }}
-                        {% endif %}
-                    </strong></td>
-                    <td><strong>
-                        {% if coupon.code != None %}
-                            - {{ coupon.discount }} %
-                        {% endif %}
-                    </strong></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td><strong>TOTAL cost with coupon</strong></td>
-                    <td><strong></strong></td>
-                    <td></td>
-                    <td><strong>
-
-                            <span id="total_cost_with_coupon"> FRW {{ total }} </span></strong>
-
-                        </td>
-                </tr>
-            </tfoot>
-        </table>
+<div class="site__body">
+    <div class="page-header">
+        <div class="page-header__container container">
+            <div class="page-header__breadcrumb">
+                <nav aria-label="breadcrumb">
+                    
+                </nav>
+            </div>
+           
+        </div>
     </div>
-    <form method="POST" action="" id="contact-form">
-        {% csrf_token %}
+    <div class="checkout block">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-lg-6 col-xl-7">
+                    <div class="card mb-lg-0">
+                        <div class="card-body">
+                             <h3 class="card-title">Billing details</h3>
+                            <form method="POST" action="" id="contact-form">
+                                {% csrf_token %}
+                        
+                                {% if form.non_field_errors %}
+                                <div class="notification is-danger">
+                                    {{ form.non_field_errors}}
+                                </div>
+                                {% endif %}
+                        
+                                {% if form.errors %}
+                                <div class="notification is-danger">
+                                    <ul>
+                                        {% for field in form %}
+                                        {% for error in field.errors %}
+                                        <li><strong>{{ field.label }}: </strong>{{ error }}</li>
+                                        {% endfor %}
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                                {% endif %}
+                
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <label for="checkout-first-name">First name</label>
+                                                <input class="form-control" type="text" name="first_name" value="{% if request.user.is_authenticated and cart_user.customername %}{{ cart_user.customername.split | first }}{% endif %}" disabled>
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label for="checkout-first-name">Last name</label>
+                                                <input class="form-control" type="text" name="last_name"
+                                                    value="{% if request.user.is_authenticated %}{{ cart_user.customername.split | last }}{% endif %}"disabled>
+                                            </div>
+                                        </div> 
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <label for="checkout-first-name">Email</label>
+                                                <input class="form-control"type="email" name="email"
+                                                    value="{% if request.user.is_authenticated %}{{ cart_user.email }}{% endif %}"disabled>
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label for="checkout-first-name">Phone</label>
+                                                
+                                                <input class="form-control" type="text" name="phone"
+                                                    value="{% if request.user.is_authenticated %}{{ cart_user.phone }}{% endif %}"disabled>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <label for="checkout-first-name">Address</label>
+                                                <input class="form-control" type="text" name="address"
+                                                    value="{% if request.user.is_authenticated %}{{ cart_user.address }}{% endif %}"disabled>
+                                            </div>
+                                        </div>
 
-        {% if form.non_field_errors %}
-        <div class="notification is-danger">
-            {{ form.non_field_errors}}
+                                    <hr>
+                                        <h3 class="subtitle">Delivery type</h3>
+                        
+                                        <div class="payment-methods">
+                                            {% for choice in form.delivery_option %}
+                                            {% if choice.choice_label == "Pick up from Store" and not pickup_available %}
+
+                                                <div class="field" style="display: none;">
+                                                {% else %}
+                                                <div class="field">
+                                                    {% endif %}
+                                                    <span class="radio" name="delivery_option" id="{{ choice.choice_label }}">{{ choice.tag }}</span>
+                                                    {{ choice.choice_label }}
+                                                </div>
+                                                {% endfor %}
+                                        </div>
+
+                                        <hr>
+
+                                            <h3 class="subtitle">Delivery address</h3>
+
+                                            <div class="form-group" id="district">
+                                                <label>District</label>
+                        
+                                                <div class="form-group">
+                                                    <select class="form-control select" name="district" id="id_district">
+                                                        <option value="" selected>---Select District---</option>
+                                                        {% for entry in districts %}
+                                                        <option value="{{ entry.id }}">{{ entry.district }}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </div>
+                        
+                                            <div class="form-group" id="sector">
+                                                <label>Sector</label>
+                        
+                                                <div class="control">
+                                                    <select class="form-control select" name="sector" id="id_sector">
+                                                        <option value="" selected>---Select Sector---</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                        
+                                            <div class="form-group" id="cell">
+                                                <label>Cell</label>
+                        
+                                                <div class="control">
+                                                    <select class="form-control select" name="cell" id="id_cell">
+                                                        <option value="" selected>---Select Cell---</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                        
+                                            <div class="form-group" id="village">
+                                                <label>Village</label>
+                        
+                                                <div class="control">
+                                                    <select class="form-control select" name="village" id="id_village">
+                                                        <option value="" selected>---Select Village---</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                        
+                                            <div class="form-group" id="address">
+                                                 <label for="checkout-city">Street No & House No.</label>
+                        
+                                                <div class="control">
+                                                    <input type="text" class="form-control" name="delivery_address" id="delivery_address"
+                                                        value="">
+                                                </div>
+                                            </div>
+                                            <div class="field">
+                                                <div class="control">
+                                                    <button class="btn btn-primary btn-lg btn-block">Go to payment</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                        
+                                        <div class="column is-3">
+                                            <div class="field" id="cost">
+                                                <div class="control">
+                                                    <select class="select" name="delivery_cost" id="id_cost">
+                                                        <option value="0" selected>---Delivery---</option>
+                                                        {% for entry in delivery_costs %}
+                                                        <option value="{{ entry.id }}">{{ entry.cost }}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                   
+                    {% if messages %}
+                    {% for message in messages %}
+                    <div class="notification is-danger is-toast">{{ message }}</div>
+                    {% endfor %}
+                    {% endif %}  
+                    </div>
+                        <div class="card-divider"></div>
+                        <div class="card-body"></div>
+                </div>
+                <div class="col-12 col-lg-6 col-xl-5 mt-4 mt-lg-0">
+                    <div class="card mb-0">
+                        <div class="card-body">
+                            <h3 class="card-title">Your Order</h3>
+                            <table class="checkout__totals">
+                                <thead class="checkout__totals-header">
+                                    <tr>
+                                        <th>Product</th>
+                                        <th>Total (Rwf)</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="checkout__totals-products">
+                                    {% for rs in shopcart %} 
+                                    <tr>
+                                        <td>
+                                            {% if rs.variant %}
+                                            {{rs.variant.title}}
+                                            {% else %} 
+                                            {{rs.product}}
+                                            {% endif %} × {{rs.quantity}}
+                                            {% if rs.product.variant == 'None' %}
+                                            {% if rs.product.unit_type %}
+                                              {{ rs.product.unit_type.unit }}(s)
+                                             {% endif %}
+                                         {% else %}
+                                            {% if rs.variant.unit_type %}
+                                             {{ rs.variant.unit_type.unit }}(s)
+                                             {% endif %}
+                                         {% endif %}</td>
+                                        <td>{% if rs.product.variant == 'None' %}
+                                            {% if rs.product.discount > 0 %}
+                                                 {{ rs.prodct_dicount_amount }}
+                                            {% else %}
+                                                 {{ rs.amount }}
+                                            {% endif %}
+                                        {% else %}
+                                            {% if rs.variant.discount > 0 %}
+                                                {{ rs.var_dicount_amount }}
+                                            {% else %}
+                                                {{ rs.varamount }}
+                                            {% endif %}
+                
+                                        {% endif %}
+                                        {% if rs.product.is_vat == True %}{% endif %}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                                <tbody class="checkout__totals-subtotals">
+                                    
+                                        <th>Subtotal</th>
+                                        <td>Rwf {{ sub_total }}</td>
+                                    </tr> 
+                                    {% if coupon.code != None %}
+                                    <tr>
+                                        <th>Coupon</th>    
+                                        <td>
+                                            {% if coupon.code != None %}
+                                                 - ({{ coupon.discount }} %)
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                    {% endif %}
+                                </tbody>
+                                <tfoot class="checkout__totals-footer">
+                                    <tr>
+                                        <th>Total</th>
+                                        <td><span id="total_cost_with_coupon">Rwf {{ total }}</span></td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>    
         </div>
-        {% endif %}
-
-        {% if form.errors %}
-        <div class="notification is-danger">
-            <ul>
-                {% for field in form %}
-                {% for error in field.errors %}
-                <li><strong>{{ field.label }}: </strong>{{ error }}</li>
-                {% endfor %}
-                {% endfor %}
-            </ul>
-        </div>
-        {% endif %}
-
-        <div class="columns">
-            <div class="column is-6">
-                <h3 class="subtitle">Contact Info</h3>
-                <div class="field">
-                    <label>First name</label>
-
-                    <div class="control">
-                        <input class="input" type="text" name="first_name"
-                            value="{% if request.user.is_authenticated and cart_user.customername %}{{ cart_user.customername.split | first }}{% endif %}">
-                    </div>
-
-                </div>
-
-                <div class="field">
-                    <label>Last name</label>
-
-                    <div class="control">
-                        <input class="input" type="text" name="last_name"
-                            value="{% if request.user.is_authenticated %}{{ cart_user.customername.split | last }}{% endif %}">
-                    </div>
-                </div>
-
-                <div class="field">
-                    <label>E-mail</label>
-
-                    <div class="control">
-                        <input class="input" type="email" name="email"
-                            value="{% if request.user.is_authenticated %}{{ cart_user.email }}{% endif %}">
-                    </div>
-                </div>
-
-                <div class="field">
-                    <label>Phone</label>
-
-                    <div class="control">
-                        <input class="input" type="text" name="phone"
-                            value="{% if request.user.is_authenticated %}{{ cart_user.phone }}{% endif %}">
-                    </div>
-                </div>
-
-                <div class="field">
-                    <label>Customer Address</label>
-
-                    <div class="control">
-                        <input class="input" type="text" name="address"
-                            value="{% if request.user.is_authenticated %}{{ cart_user.address }}{% endif %}">
-                    </div>
-                </div>
-            </div>
-
-            <div class="column is-3">
-                <h3 class="subtitle">Delivery Info</h3>
-
-                <div class="field">
-                    <div class="field">
-                        <label>What do you want?</label>
-                    </div>
-
-                    {% for choice in form.delivery_option %}
-                    {% if choice.choice_label == "Pick up from Store" and not pickup_available %}
-                        <div class="field" style="display: none;">
-                        {% else %}
-                        <div class="field">
-                            {% endif %}
-                            <span class="radio" name="delivery_option" id="{{ choice.choice_label }}">{{ choice.tag }}</span>
-                            {{ choice.choice_label }}
-                        </div>
-                        {% endfor %}
-
-                    </div>
-                    <div class="field" id="district">
-                        <label>District</label>
-
-                        <div class="control">
-                            <select class="select" name="district" id="id_district">
-                                <option value="" selected>---Select District---</option>
-                                {% for entry in districts %}
-                                <option value="{{ entry.id }}">{{ entry.district }}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="field" id="sector">
-                        <label>Sector</label>
-
-                        <div class="control">
-                            <select class="select" name="sector" id="id_sector">
-                                <option value="" selected>---Select Sector---</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="field" id="cell">
-                        <label>Cell</label>
-
-                        <div class="control">
-                            <select class="select" name="cell" id="id_cell">
-                                <option value="" selected>---Select Cell---</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="field" id="village">
-                        <label>Village</label>
-
-                        <div class="control">
-                            <select class="select" name="village" id="id_village">
-                                <option value="" selected>---Select Village---</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="field" id="address">
-                        <label>Street No & House No.</label>
-
-                        <div class="control">
-                            <input type="textarea" class="textarea" name="delivery_address" id="delivery_address"
-                                value="">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="column is-3">
-                    <div class="field" id="cost">
-                        <div class="control">
-                            <select class="select" name="delivery_cost" id="id_cost">
-                                <option value="0" selected>---Delivery---</option>
-                                {% for entry in delivery_costs %}
-                                <option value="{{ entry.id }}">{{ entry.cost }}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="field">
-                        <div class="control">
-                            <input type="submit" class="button is-dark mt-4" value="Proceed to payment" />
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </form>
-    {% if messages %}
-    {% for message in messages %}
-    <div class="notification is-danger is-toast">{{ message }}</div>
-    {% endfor %}
-    {% endif %}
+    </div>
 </div>
-{% endblock %}
-
-{% block scripts %}
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script>
     var store_opt = document.getElementById('id_delivery_option_0');

@@ -1,0 +1,82 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% load get_vendor_order_cost %}
+{% load mathfilters %}
+{% block title %}Delivery price - {{ request.session.username }} {% endblock %}
+
+{% block content %}
+
+
+<div class="page-header">
+    <div class="page-header__container container">
+        <div class="page-header__breadcrumb">
+            <nav aria-label="breadcrumb">
+            </nav>
+        </div>
+       
+    </div>
+</div>
+
+<div class="block">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-lg-3 d-flex">
+                <div class="account-nav flex-grow-1">
+                    <h4 class="account-nav__title">Vendor Administration</h4>
+                    <ul>
+                        <li class="account-nav__item  ">
+                            <a href="{% url 'vendor_admin' %}">Dashboard</a>
+                        </li>
+                      
+                        <li class="account-nav__item ">
+                            <a href="{% url 'vendor_orders' %}">Order History</a>
+                        </li>
+                        
+                          <li class="account-nav__item ">
+                            <a href="{% url 'products' %}">Products</a>
+                        </li>
+                        
+                        <li class="account-nav__item ">
+                            <a href="{% url 'working_hours' %}">Working Hours</a>
+                        </li>
+                        
+                        <li class="account-nav__item account-nav__item--active ">
+                            <a href="{% url 'delivery_cost' %}">Delivery Price</a>
+                        </li>
+                        <li class="account-nav__item ">
+                            <a href="{% url 'logout' %}">Logout</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-12 col-lg-9 mt-4 mt-lg-0">
+                <div class="card">
+                        <div class="card-header">
+                            <h5>Delivery Price</h5>
+                        </div>
+                        <div class="card-table">
+                            <div class="table-responsive-sm">
+                                <form method="post" style="margin-left: 30px;" action=".">
+                                    {% csrf_token %}
+                                    <div class="field">
+                                       
+                                        <div class="control">
+                                            <input type="text" name="delivery_price" id="id_delivery" value="{{ vendor_delivery_price }}" class="input">
+                                        </div>
+                                    </div>
+                            
+                                    <div class="field">
+                                        <div class="control">
+                                            <button class="button btn btn-primary mt-4">Update delivery price</button>
+                                        </div>
+                                        <br>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>   
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

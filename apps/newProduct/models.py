@@ -1,4 +1,5 @@
 import os
+from itertools import product
 # from ckeditor_uploader.fields import RichTextUploadingField
 from django.db.models.deletion import CASCADE, SET_NULL
 from django.db.models.expressions import OrderBy
@@ -9,6 +10,7 @@ from django.db import models
 from django.utils.safestring import mark_safe
 from mptt.fields import TreeForeignKey
 from mptt.models import MPTTModel
+from django.db.models import Max
 from django.urls import reverse
 from django.utils.text import slugify
 from autoslug import AutoSlugField
@@ -84,6 +86,9 @@ class SubSubCategory(MPTTModel):
     def __str__(self):
         return self.title
 
+    class Meta:
+        verbose_name_plural = 'Sub_subcategories'
+
     class MPTTMeta:
         order_insertion_by = ['title']
 
@@ -127,6 +132,7 @@ class Length(models.Model):
     def __str__(self):
         return str(self.length)
 
+
 class Height(models.Model):
     height = models.IntegerField(default=0)
 
@@ -155,6 +161,9 @@ class UnitTypes(models.Model):
     def __str__(self):
         return "{} {}".format(self.name, self.unit)
 
+    class Meta:
+        verbose_name_plural = 'Unit_Types'
+
 
 class Brand(models.Model):
     brand = models.CharField(max_length=250, blank=True, null=True)
@@ -170,10 +179,11 @@ class Product(models.Model):
         ('Size', 'Size'),
         ('Color', 'Color'),
         ('Weight', 'Weight'),
+        ('Height', 'Height'),
         ('Length', 'Length'),
         ('Width', 'Width'),
         ('Size-Color', 'Size-Color'),
-        ('Wght-Color','Weight-Color')
+        ('Wght-Color', 'Weight-Color')
     )
     # many to one relation with Category
     category = models.ForeignKey(
@@ -183,7 +193,7 @@ class Product(models.Model):
     title = models.CharField(max_length=150)
     brand = models.ForeignKey(
         Brand, on_delete=models.DO_NOTHING, null=True, blank=True)
-    summary = models.TextField(max_length=255,null=True,blank=True)
+    summary = models.TextField(max_length=255, null=True, blank=True)
     image = models.ImageField(upload_to='images/', null=True, blank=True)
     unit_type = models.ForeignKey(
         UnitTypes, on_delete=models.DO_NOTHING, null=True, blank=True)
@@ -218,7 +228,6 @@ class Product(models.Model):
     is_variant = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     update_at = models.DateTimeField(auto_now=True)
-
 
     def save(self, *args, **kwargs):
         if self.image and not self.image.url.endswith('.webp'):
@@ -262,7 +271,8 @@ class Product(models.Model):
             return ""
 
     def get_absolute_url(self):
-        return reverse('category_detail', kwargs={'slug': self.slug})
+        # return reverse('category_detail', kwargs={'slug': self.slug})
+        return '/%s/%s' % (self.category.slug, self.slug)
 
     def avaregeview(self):
         reviews = Comment.objects.filter(
@@ -279,6 +289,13 @@ class Product(models.Model):
         if reviews["count"] is not None:
             cnt = int(reviews["count"])
         return cnt
+    
+    def  maxrating(self):
+        rate = Comment.objects.filter(
+            product=self, status='True').aggregate(Max('rate'))
+
+        return rate    
+
 
     def get_thumbnail(self):
         try:
@@ -300,7 +317,11 @@ class Product(models.Model):
     def get_vat_price(self):
         if self.is_vat == True:
             if self.discount > 0:
-                return float((18*self.get_discounted_price())/100)
+                discounted_price = float(
+                    self.price-((self.discount*self.price)/100)
+
+                )
+                return float(18*discounted_price/100)
             else:
                 return float((18*self.price)/100)
         else:
@@ -325,7 +346,8 @@ class Comment(models.Model):
         ('True', 'True'),
         ('False', 'False'),
     )
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    product = models.ForeignKey(
+        Product, related_name='product', on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     subject = models.CharField(max_length=50, blank=True)
     comment = models.CharField(max_length=250, blank=True)
@@ -352,7 +374,6 @@ class Images(models.Model):
     name = models.CharField(max_length=50, blank=True)
     image = models.ImageField(blank=True, upload_to='images/')
 
-
     def save(self, *args, **kwargs):
         if self.image and not self.image.url.endswith('.webp'):
             imm = Image.open(self.image).convert("RGB")
@@ -376,7 +397,7 @@ class Images(models.Model):
         return self.name
 
     class Meta:
-        verbose_name_plural = "Galley"
+        verbose_name_plural = "Gallery"
         verbose_name = "Images"
 
     def imagename(self):
@@ -440,6 +461,9 @@ class Variants(models.Model):
     def __str__(self):
         return self.title
 
+    class Meta:
+        verbose_name_plural = 'Variants'
+
     def get_url(self):
         return f'/{self.product.id}/{self.product.vendor.slug}/{self.product.category.sub_category.category.slug}/{self.product.category.sub_category.slug}/{self.product.category.slug}/{self.product.slug}/'
 
@@ -458,7 +482,7 @@ class Variants(models.Model):
     def get_vat_price(self):
         if self.is_vat == True:
             if self.discount > 0:
-                discounted_price=float(
+                discounted_price = float(
                     self.price-((self.discount*self.price)/100)
                 )
                 return float(18*discounted_price/100)
@@ -486,7 +510,6 @@ class Variants(models.Model):
         discounted_price = float(self.price-((self.discount*self.price)/100))
         return discounted_price
 
-
     def get_vat_exclusive_price(self):
         if self.is_vat == True:
             discounted_price = float(
@@ -495,11 +518,10 @@ class Variants(models.Model):
         else:
             return float(self.price-((self.discount*self.price)/100))
 
-
-
     def get_discounted_price(self):
         discounted_price = float(self.price-((self.discount*self.price)/100))
         return discounted_price
+
 
 class ProductCollection(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
@@ -518,10 +540,13 @@ class Collection(models.Model):
     def __str__(self):
         return self.title
 
+
 class ProductImage(models.Model):
-    product=models.ForeignKey(Product,related_name='product_images',on_delete=models.CASCADE,blank=True,null=True)
-    variant=models.ForeignKey(Variants,related_name='variants_images',on_delete=models.CASCADE,blank=True,null=True)
-    title = models.CharField(max_length=50,blank=True)
+    product = models.ForeignKey(
+        Product, related_name='product_images', on_delete=models.CASCADE, blank=True, null=True)
+    variant = models.ForeignKey(
+        Variants, related_name='variants_images', on_delete=models.CASCADE, blank=True, null=True)
+    title = models.CharField(max_length=50, blank=True)
     image = models.ImageField(blank=True, upload_to='images/')
 
     def save(self, *args, **kwargs):

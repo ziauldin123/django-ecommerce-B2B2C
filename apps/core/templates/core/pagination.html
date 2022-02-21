@@ -1,0 +1,24 @@
+{% load mathfilters %}
+<div class="reviews-list__pagination">
+    <ul class="pagination justify-content-center">
+        {% if page.has_previous %}
+        <li class="page-item">
+            <a class="page-link page-link--with-arrow" href="?page={{ page.previous_page_number }}" aria-label="Previous">
+                <!-- <svg class="page-link__arrow page-link__arrow--left" aria-hidden="true" width="8px" height="13px">
+                    <use xlink:href="/static/templates/images/sprite.svg#arrow-rounded-left-8x13"></use>
+                </svg> --> {{ page.number|sub:1 }}
+            </a>
+        </li>
+        {% endif %}
+        <li class="page-item active"><a class="page-link" href=""> {{ page.number }} <span class="sr-only"></span></a></li>
+        {% if page.has_next %} 
+        <li class="page-item">
+            <a class="page-link page-link--with-arrow" href="?page={{ page.next_page_number }}" aria-label="Next">
+                <!-- <svg class="page-link__arrow page-link__arrow--right" aria-hidden="true" width="8px" height="13px">
+                    <use xlink:href="/static/templates/images/sprite.svg#arrow-rounded-right-8x13"></use>
+                </svg> -->{{ page.number|add:1 }}
+            </a>
+        </li>
+        {% endif %}
+    </ul>
+</div>
