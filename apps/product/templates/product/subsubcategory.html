@@ -402,27 +402,15 @@
                         </div>
                     </div>
                 </div>
-                <div class="shop-layout__content">
-                    <div class="block">
-                        <div class="products-view">
-                            <div class="products-view__options">
-                                <div class="view-options view-options--offcanvas--mobile">
-                                    <div class="view-options__divider"></div>
-                                    <div class="view-options__control">
-                                        <label for="">Sort By</label>
-                                        <div>
-                                            <select class="form-control form-control-sm" name="sorting" id="sorting">
-                                                <option value="-created_at"{% if sorting == '-created_at' %} selected{% endif %}>Newest first</option>
-                                                <option value="created_at"{% if sorting == 'created_at' %} selected{% endif %}>Oldest first</option>
-                                                <option value="price"{% if sorting == 'price' %} selected{% endif %}>Price low-high</option>
-                                                <option value="-price"{% if sorting == '-price' %} selected{% endif %}>Price high-low</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                      <button class="btn btn-secondary btn-sm" id="filter_search_btn">
-                                    <img width="20px" height="20px" src="{% static 'templates/images/filter.png' %}"/>
-                                </button>
-                                </div>
+            </div>
+            <div class="shop-layout__content">
+                <div class="block">
+                    <div class="products-view">
+                        <div class="products-view__options">
+                            <div class="view-options view-options--offcanvas--mobile">
+                                <h4>{{ category.title }}</h4>
+                                <div class="view-options__divider"></div>
+                            
                             </div>
                             <div id="message" name="message" class="mt-3"></div>
                             <div class="products-view__list products-list" data-layout="grid-3-sidebar" data-with-features="false" data-mobile-grid-columns="2">

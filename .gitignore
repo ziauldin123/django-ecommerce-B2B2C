@@ -16,8 +16,6 @@ eggs/
 .eggs/
 lib/
 lib64/
-staticfiles/
-static/
 sdist/
 var/
 wheels/
@@ -141,5 +139,3 @@ dmypy.json
 .Trashes
 ehthumbs.db
 Thumbs.db
-*.png
-*.jpg
