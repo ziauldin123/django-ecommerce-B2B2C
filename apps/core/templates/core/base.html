@@ -1000,12 +1000,13 @@
                         <a href="{% url 'contact' %}" class="mobile-links__item-link">Contact Us</a>
                     </div>
                 </li>
+                {% if request.user.is_authenticated %}
                 <li class="mobile-links__item" data-collapse-item>
                     <div class="mobile-links__item-title">
                         <a {% if request.user.vendor %} href="{% url 'vendor_admin'  %}" {% else %} href="{% url 'myaccount'  %}" {% endif %} class="mobile-links__item-link">Account</a>
                     </div>
                   </li>
-
+                {% endif %}
                 <li class="mobile-links__item" data-collapse-item>
                     <div class="mobile-links__item-title">
                         {% if request.user.is_authenticated %}
@@ -1015,15 +1016,7 @@
                         {% endif %}
                     </div>
                 </li>
-                <li class="mobile-links__item" data-collapse-item>
-                  <div class="mobile-links__item-title">
-                      {% if request.user.is_authenticated %} 
-                      <a href="{% url 'logout' %}" class="mobile-links__item-link">Logout</a>
-                      {% else %} 
-                      <a href="{% url 'login' %}" class="mobile-links__item-link">Login</a>
-                      {% endif %}
-                  </div>
-              </li>
+                
             </ul>
         </div>
     </div>
