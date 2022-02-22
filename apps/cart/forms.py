@@ -57,6 +57,7 @@ class CheckoutForm(forms.Form):
 
 class PaymentForm(forms.Form):
     # stripe_token = forms.CharField(required=False, max_length=255)
+    service_provider = forms.CharField()
     phone_number = forms.CharField()
     #     print('cleannn')
 

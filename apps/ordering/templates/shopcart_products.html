@@ -41,8 +41,8 @@
                         'product_qty':product_qty,
                     },
                     success:function(response){
-                        $("#cart").load(location.href + " #cart");
                         $("#cart_table").load(location.href + " #cart_table");
+                        $("#cart_table_off").load(location.href + " #cart_table_off");
                     }
                 });
             }

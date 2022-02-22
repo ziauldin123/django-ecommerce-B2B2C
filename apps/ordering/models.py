@@ -199,6 +199,7 @@ class Order(models.Model):
     email=models.CharField(max_length=100)
     address=models.CharField(max_length=100)
     phone=models.CharField(max_length=100)
+    service_provider=models.CharField(max_length=100,default=0)
     momo=models.CharField(max_length=100,default=0)
     created_at=models.DateTimeField(auto_now_add=True)
     district=models.CharField(max_length=100,null=True)
@@ -213,7 +214,6 @@ class Order(models.Model):
     company_code = models.CharField(max_length=100, default=000)
     coupon_discount=models.DecimalField(max_digits=13,decimal_places=2,default=0)
     paid_amount=models.DecimalField(max_digits=13,decimal_places=2,default=0)
-
     is_paid=models.BooleanField(default=False)
     vendors=models.ManyToManyField(Vendor,related_name='orders')
     shipped_date=models.DateTimeField(blank=True,null=True)
@@ -249,12 +249,20 @@ class Order(models.Model):
 
     def get_delivery_cost(self):
         return round(Decimal(self.delivery_cost),2)
+    
+    def paid(self):
+        if self.is_paid:
+            return bool(self.items.all().vendor_paid)
 
     def save(self, *args, **kwargs):
         created = TransporterOrder.objects.filter(order=self).first()
         super(Order, self).save(*args, **kwargs)
         if self.is_paid != self.__original_status:
             if self.is_paid:
+                items = OrderItem.objects.filter(order=self.pk)
+                for item in items:
+                    item.vendor_paid=True
+                    item.save()
                 notify_customer(self)
                 notify_vendor(self)
         if created and self.transporter:
@@ -322,17 +330,12 @@ class OrderItem(models.Model):
     
     
 
-    # def __init__(self, *args, **kwargs):
-    #     super().__init__(*args,**kwargs)
-    #     self.order.__original_status=self.order.is_paid
-
-    # def __str__(self):
-    #     return '%s' % self.id
+    def __str__(self):
+        return '%s' % self.id
     
-    # def save(self, *args, **kwargs):
-    #    if self.order.is_paid != self.order.__original_status:
-    #        if self.order.is_paid:
-    #            self.vendor_paid == True
+    def payed(self, *args, **kwargs):
+        if self.order.is_paid:
+            return self.vendor_paid == True
 
     def get_vat_price(self):
         if not self.is_variant:

@@ -141,8 +141,25 @@
                             <form method="post" action="" id="payment-form">
                                 {% csrf_token %}
                                 <div id="pay-form">
-                                
-                                {{ form.as_p }}
+                                    <div class="form-group" id=service_provider">
+                                        <label>Service Provider</label>
+                
+                                        <div class="form-group">
+                                            <select class="form-control select" name="service_provider" id="service_provider">
+                                                <option value="" selected>---Select service-Provider---</option>
+                                                {% for entry in service_provider %}
+                                                <option value="{{ entry.name }}">{{ entry.name }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group" id="phone_number">
+                                        <label>Phone Number</label>
+                
+                                        <div class="form-group">
+                                            <input type="text" name="phone_number" id="phone_number">
+                                        </div>
+                                    </div>
                                 </div>
                                 {% if messages %}
                                     {% for message in messages %}

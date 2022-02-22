@@ -1,3 +1,4 @@
+from statistics import mode
 from django.db import models
 
 # Create your models here.
@@ -37,3 +38,10 @@ class Village(models.Model):
 
     def __str__(self):
         return self.village
+
+
+class Payment(models.Model):
+    name = models.CharField(max_length=32)
+
+    def __str__(self):
+        return self.name
