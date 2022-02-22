@@ -47,7 +47,7 @@
                                 </div>
                 
                                 <div class="field form-group">
-                                    <label>Company Code</label>
+                                    <label>TIN</label>
                 
                                     <div clas="control">
                                         <input type="text" class="input form-control" name="company_code" id="id_company_code">
@@ -137,7 +137,7 @@
                 
                                     <div clas="control">
                                         <input type="checkbox" name="is_privacy" value="True" id="is_privacy" required/>
-                                        <label>I agree to Sokopark's <a href="{% url 'termsandconditions' %}">terms & conditions</a>.</label>
+                                        <label> I agree to Sokopark's <a href="{% url 'termsandconditions' %}">Terms & Conditions</a>.</label>
                                     </div>
                                 </div>
                 
@@ -178,8 +178,8 @@
                                 </div>
                         </form>
                         
-                        <label class="form-check-label" for="login-remember">Already have account?<a href="{% url 'login' %}"> Sign in here </a>
-                        <label class="form-check-label" for="login-remember">Register as customer?<a href="{% url 'become_customer' %}"> Register here </a> 
+                        <label class="form-check-label" for="login-remember">Already have account? <a href="{% url 'login' %}"> Sign in here </a>
+                        <label class="form-check-label" for="login-remember">Register as customer? <a href="{% url 'become_customer' %}"> Register here </a> 
                     </div>
                 </div>
             </div>
