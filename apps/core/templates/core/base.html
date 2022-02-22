@@ -728,21 +728,16 @@
                             </form>
                             {% else %}
                             <div class="account-menu__divider"></div>
-                            <a class="account-menu__user">
+                            <a {% if request.user.vendor %} {% else %}  {% endif %} class="account-menu__user">
+                              {% if request.user.vendor %}  
                                 <div class="account-menu__user-avatar">
-                                    <img {% if request.user.vendor %} src="{{request.session.logo}}"  {% else %} src="/static/templates/images/avatars/avatar-1.jpg"  {% endif %} alt="">
-                                </div>
-                                {% if request.user.vendor %} 
+                                  <img src="{{request.session.logo}}" alt=""> 
+                                </div>   
+                              {% endif %}
                                 <div class="account-menu__user-info">
-                                  <div class="account-menu__user-name">{{vendor.company_name}}</div>
-                                  <div class="account-menu__user-email">{{request.user}}</div>
-                              </div>
-                              {% else %} 
-                              <div class="account-menu__user-info">
-                                <div class="account-menu__user-name">{{request.session.username}}</div>
-                                <div class="account-menu__user-email">{{request.session.email}}</div>
-                            </div>
-                            {% endif %}
+                                    <div class="account-menu__user-name">{{request.session.username}}</div>
+                                    <div class="account-menu__user-email">{{request.session.email}}</div>
+                                </div>
                             </a>
                             <div class="account-menu__divider"></div>
                             <ul class="account-menu__links">
