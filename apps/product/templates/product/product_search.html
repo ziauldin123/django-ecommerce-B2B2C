@@ -5,25 +5,23 @@
 
         <input type="text" id="query" value="{{query}}" name="query" hidden="true">
         <div class="row is-2">
-            <h2 class="is-size-6"><label for="amount">Price range:</label></h2>
+            <h4 class="is-size-6"><label for="amount">Price range:</label></h4>
             <p>
-                <input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;">
+                <input type="text" id="amount" readonly style="border:0; color:#f6931f;font-weight:bold;">
                 <input type="text" id="max_amount" value="{{max_amount}}" hidden="true">
                 <input type="text" id="price_from" value="{{price_from}}" name="price_from" hidden="true">
                 <input type="text" id="price_to" value="{{price_to}}" name="price_to" hidden="true">
             </p>
             <div class="field">
                 <div class="control">
-<!--                        <input type="number" name="price_to" class="input" value="{{ price_to }}">-->
-
-
+                    <!--<input type="number" name="price_to" class="input" value="{{ price_to }}">-->
                     <div id="slider-range"></div>
                 </div>
             </div>
         </div>
 
         <div class="row is-2">
-            <h2 class="is-size-6">Select sorting criteria</h2>
+            <h4 class="is-size-6">Select sorting criteria</h4>
 
             <div class="field">
                 <div class="control">
@@ -42,7 +40,7 @@
 
         {% if form.brand %}
         <div class="row is-2">
-            <h2 class="is-size-6">Brand:</h2>
+            <h4 class="is-size-6">Brand:</h4>
             <div class="field">
                 <div class="control">
 
@@ -72,7 +70,7 @@
 
         {% if form.color %}
         <div class="row is-1">
-            <h2 class="is-size-6">Color</h2>
+            <h4 class="is-size-6">Color</h4>
             <div class="field">
                 <div class="control">
                     <select class="js-example-basic-single" id="select_color" name="color" style="width: 200px;">
@@ -100,7 +98,7 @@
 
         {% if form.weight %}
         <div class="row is-1">
-            <h2 class="is-size-6">Weight</h2>
+            <h4 class="is-size-6">Weight</h4>
             <div class="field">
                 <div class="control">
                     <select class="js-example-basic-single" id="select_weight" name="weight" style="width: 200px;">
@@ -128,7 +126,7 @@
 
         {% if form.height %}
         <div class="row is-1">
-            <h2 class="is-size-6">height</h2>
+            <h4 class="is-size-6">height</h4>
             <div class="field">
                 <div class="control">
                     <select class="js-example-basic-single" id="select_height" name="height" style="width: 200px;">
@@ -156,7 +154,7 @@
 
         {% if form.legnth %}
         <div class="row is-1">
-            <h2 class="is-size-6">length</h2>
+            <h4 class="is-size-6">length</h4>
             <div class="field">
                 <div class="control">
                     <select class="js-example-basic-single" id="select_length" name="length" style="width: 200px;">
@@ -184,7 +182,7 @@
 
         {% if form.width %}
         <div class="row is-1">
-            <h2 class="is-size-6">width</h2>
+            <h4 class="is-size-6">width</h4>
             <div class="field">
                 <div class="control">
                     <select class="js-example-basic-single" id="select_width" name="width" style="width: 200px;">
@@ -211,7 +209,7 @@
         {% endif %}
     <br>
         <div class="row is-1">
-            <h2 class="is-size-6">Search</h2>
+            <h4 class="is-size-6">Search</h4>
             <div class="field">
                 <div class="control">
                     <button class="button is-dark is-fullwidth">

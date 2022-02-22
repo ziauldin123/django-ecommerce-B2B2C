@@ -158,7 +158,6 @@ eggs/
 .eggs/
 lib/
 lib64/
-staticfiles/
 sdist/
 var/
 wheels/
@@ -246,6 +245,7 @@ celerybeat.pid
 # Environments
 .env
 .venv
+myvenv
 env/
 venv/
 ENV/
@@ -285,6 +285,9 @@ ehthumbs.db
 Thumbs.db
 =======
 Thumbs.db
+<<<<<<< HEAD
 *.png
 *.jpg
 >>>>>>> 55da47eb057a18be708e180e46bef80e615e32f0
+=======
+>>>>>>> abb7ba801991cddbeb6060bfafc3d32aa1ae807a

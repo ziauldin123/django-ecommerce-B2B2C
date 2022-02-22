@@ -1,167 +1,191 @@
 {% extends 'core/base.html' %}
 
-{% block title %}Set up a vendor account | {% endblock %}
+{% block title %}Set up a vendor account{% endblock %}
 
 {% block content %}
-    <div class="columns">
-    <div class="column is-4 is-offset-4">
-        <h1 class="title">Set up a vendor account</h1>
-
-        <form method="post" action="." >
-            {% csrf_token %}
-
-            <input type="hidden" name="next" value="{{ next }}">
-
-                <div class="field" style="display: none;">
-                    <div clas="control">
-                        <input type="text" class="input" name="username" id="id_username" value="username">
-                    </div>
-                </div>
-
-                <div class="field">
-                    <label>Email</label>
-
-                    <div clas="control">
-                        <input type="email" class="input" name="email" id="id_email">
-                    </div>
-                </div>
-
-                <div class="field">
-                    <label>Company Name</label>
-
-                    <div clas="control">
-                        <input type="text" class="input" name="company_name" id="id_company_name">
-                    </div>
-                </div>
-
-                <div class="field">
-                    <label>Company Code</label>
-
-                    <div clas="control">
-                        <input type="text" class="input" name="company_code" id="id_company_code">
-                    </div>
-                </div>
-
-            <label>Address</label>
-                <div class="field" id="district">
-                        <label>District</label>
-
-                        <div class="control">
-                            <select class="select" name="district" id="id_district">
-                                <option value="" selected>---Select District---</option>
-                                {% for entry in districts %}
-                                <option value="{{ entry.id }}">{{ entry.district }}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="field" id="sector">
-                        <label>Sector</label>
-
-                        <div class="control">
-                            <select class="select" name="sector" id="id_sector">
-                                <option value="" selected>---Select Sector---</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="field" id="cell">
-                        <label>Cell</label>
-
-                        <div class="control">
-                            <select class="select" name="cell" id="id_cell">
-                                <option value="" selected>---Select Cell---</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="field" id="village">
-                        <label>Village</label>
-
-                        <div class="control">
-                            <select class="select" name="village" id="id_village">
-                                <option value="" selected>---Select Village---</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="field" id="address">
-                        <label>Street No & House No.</label>
-
-                        <div class="control">
-                            <input type="textarea" class="textarea" name="address" id="id_address" value="">
-                        </div>
-                    </div>
-
-                <div class="field">
-                    <label>Phone</label>
-
-                    <div clas="control">
-                        <input type="text" class="input" name="phone" id="id_phone">
-                    </div>
-                </div>
-
-                <div class="field">
-                    <label>Password</label>
-
-                    <div clas="control">
-                        <input type="password" class="input" name="password1" id="id_password1">
-                    </div>
-                </div>
-
-                <div class="field">
-                    <label>Confirm</label>
-
-                    <div clas="control">
-                        <input type="password" class="input" name="password2" id="id_password2">
-                    </div>
-                </div>
-
-                {% if form.errors %}
-                    {% for field in form %}
-                        {% for error in field.errors %}
-                            <div class="alert alert-danger">
-                                <strong>{{ error|escape }}</strong>
-                            </div>
-                        {% endfor %}
-                    {% endfor %}
-                    {% for error in form.non_field_errors %}
-                        <div class="alert alert-danger">
-                            <strong>{{ error|escape }}</strong>
-                        </div>
-                    {% endfor %}
-                {% endif %}
-            
-                {% if messages %}
-                    <div class="messages">
-                        {% for message in messages %}
-                            <div class="alert alert-{{ message.tags }} alert-dismissible" role="alert">
-                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                                {{ message }}
-                            </div>
-                        {% endfor %}
-                    </div>
-                {% endif %}
+<div class="site__body">
+    
+       <div class="container">
+            <div class="row justify-content-center">
+            <div class="col-xl-5 col-lg-6 col-md-8">
+                <div class="card flex-grow-1 mb-0 mt-5">
+                    <div class="card-body">
+                        <h3 class="card-title">Set up a vendor account</a></h3>
+                        <form method="post" action="." enctype="multipart/form-data" >
+                            {% csrf_token %}
                 
-                <br>
+                            <input type="hidden" name="next" value="{{ next }}">
+                
+                                <div class="field" style="display: none;">
+                                    <div clas="control">
+                                        <input type="text" class="input form-control" name="username" id="id_username" value="username">
+                                    </div>
+                                </div>
+                
+                                <div class="field form-group">
+                                    <label>Email</label>
+                
+                                    <div class="control">
+                                        <input type="email" class="input form-control" name="email" id="id_email">
+                                    </div>
+                                </div>
+                
+                                <div class="field form-group">
+                                    <label>Company Name</label>
+                
+                                    <div clas="control">
+                                        <input type="text" class="input form-control" name="company_name" id="id_company_name">
+                                    </div>
+                                </div>
 
-                <div class="field">
-                    <div class="control">
-                        <button class="button is-dark is-fullwidth is-uppercase" type="submit">Sign up</button>
+                                <div class="field form-group">
+                                    <label>Phone</label>
+                
+                                    <div clas="control">
+                                        <input type="text" class="input form-control" name="phone" id="id_phone">
+                                    </div>
+                                </div>
+                
+                                <div class="field form-group">
+                                    <label>TIN</label>
+                
+                                    <div clas="control">
+                                        <input type="text" class="input form-control" name="company_code" id="id_company_code">
+                                    </div>
+                                </div>
+                
+                           
+                                <div class="field form-group" id="district">
+                                        <label>District</label>
+                
+                                        <div class="control">
+                                            <select class="select form-control" name="district" id="id_district">
+                                                <option value="" selected>---Select District---</option>
+                                                {% for entry in districts %}
+                                                <option value="{{ entry.id }}">{{ entry.district }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                
+                                    <div class="field form-group" id="sector">
+                                        <label>Sector</label>
+                
+                                        <div class="control">
+                                            <select class="select form-control" name="sector" id="id_sector">
+                                                <option value="" selected>---Select Sector---</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                
+                                    <div class="field form-group" id="cell">
+                                        <label>Cell</label>
+                
+                                        <div class="control">
+                                            <select class="select form-control" name="cell" id="id_cell">
+                                                <option value="" selected>---Select Cell---</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                
+                                    <div class="field form-group" id="village">
+                                        <label>Village</label>
+                
+                                        <div class="control">
+                                            <select class="select form-control" name="village" id="id_village">
+                                                <option value="" selected>---Select Village---</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="field form-group" id="address">
+                                        <label>Street No & House No.</label>
+                
+                                        <div class="control">
+                                            <input type="textarea" class="textarea form-control" name="address" id="id_address" value="">
+                                        </div>
+                                    </div>
+                
+                            
+                
+                               <div class="field form-group">
+                                    <label>Upload Company Registration</label>
+                
+                                    <div clas="control">
+                                        <input type="file" class="form-control" name="reg_image" id="reg_image" required />
+                                    </div>
+                                </div>
+                
+                
+                                <div class="field form-group">
+                                    <label>Password</label>
+                
+                                    <div clas="control">
+                                        <input type="password" class="input form-control" name="password1" id="id_password1">
+                                    </div>
+                                </div>
+                
+                               <div class="field form-group">
+                                    <label>Confirm Password</label>
+                
+                                    <div clas="control">
+                                        <input type="password" class="input form-control" name="password2" id="id_password2">
+                                    </div>
+                                </div>
+                               
+                
+                                 <div class="field form-group">
+                
+                                    <div clas="control">
+                                        <input type="checkbox" name="is_privacy" value="True" id="is_privacy" required/>
+                                        <label> I agree to Sokopark's <a href="{% url 'termsandconditions' %}">Terms & Conditions</a>.</label>
+                                    </div>
+                                </div>
+                
+                                {% if form.errors %}
+                                    {% for field in form %}
+                                        {% for error in field.errors %}
+                                            <div class="alert alert-danger">
+                                                <strong>{{ error|escape }}</strong>
+                                            </div>
+                                        {% endfor %}
+                                    {% endfor %}
+                                    {% for error in form.non_field_errors %}
+                                        <div class="alert alert-danger">
+                                            <strong>{{ error|escape }}</strong>
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+                
+                                {% if messages %}
+                                    <div class="messages">
+                                        {% for message in messages %}
+                                            <div class="alert alert-{{ message.tags }} alert-dismissible" role="alert">
+                                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                                {{ message }}
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                
+                              
+                
+                                 <div class="field form-group">
+                                    <div class="control">
+                                        <button class="btn btn-primary btn-lg btn-block"type="submit">Sign up</button>
+                                    </div>
+                                </div>
+                        </form>
+                        
+                        <label class="form-check-label" for="login-remember">Already have account? <a href="{% url 'login' %}"> Sign in here </a>
+                        <label class="form-check-label" for="login-remember">Register as customer? <a href="{% url 'become_customer' %}"> Register here </a> 
                     </div>
                 </div>
-        </form>
-    </div>
-</div>
-
-<div class="columns">
-    <div class="column is-4 is-offset-4">
-        <h2 class="subtitle text has-text-centered">Already have an account?</h2>
-        <a href="{% url 'login' %}" class="button is-info is-fullwidth is-uppercase">log in</a>
-    </div>
-</div>
+            </div>
+        </div>
+        </div>
+ </div>
 <script>
         var district = document.getElementById('district');
         var district_sel = document.getElementById('id_district');

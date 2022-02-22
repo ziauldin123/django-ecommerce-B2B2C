@@ -2,7 +2,8 @@ from django.conf import settings
 from django.core.mail import EmailMultiAlternatives, get_connection
 from django.template.loader import render_to_string
 from decimal import Decimal
-
+from django.core.mail import send_mail,EmailMessage
+import logging
 from apps.cart.cart import Cart
 from apps.newProduct.models import Product, Variants
 
@@ -11,6 +12,10 @@ from apps.ordering.models import Order, OrderItem
 from apps.coupon.models import Coupon
 from ..vendor.models import Transporter, Vendor, VendorDelivery
 from apps.vendor.services.account_service import account_service
+
+logging.basicConfig(level=logging.INFO,
+                    format='[%(asctime)s] [Line: %(lineno)d] %(message)s')
+logger = logging.getLogger()
 
 
 def checkout(
@@ -21,6 +26,9 @@ def checkout(
     email,
     address,
     phone,
+    company_code,
+    service_provider,
+    momo,
     district,
     sector,
     cell,
@@ -30,7 +38,9 @@ def checkout(
     delivery_type,
     cart_cost,
     coupon_code,
-    is_paid_now
+    is_paid_now,
+    vat_cost,
+    subtotal
 ):
     print(" === coupon code = ", coupon_code)
     coupon_discount = 0
@@ -51,12 +61,27 @@ def checkout(
             Decimal(cart_cost) * (100 - coupon_discount) / 100
         paid_amount = cart.get_cart_cost_with_coupen()
         print("paid amount = ", paid_amount)
+        
+        vat_cost = 0
+        subtotal = 0
+
+        for item in Cart(request):
+            vat_cost += Decimal(item['tax'])
+            vat = round(Decimal(vat_cost), 2)
+            subtotal += Decimal(item['product']
+                                       ['total_price'] * item['quantity'])
+            subtotal = round(Decimal(subtotal), 2)
+
+        print(vat_cost)
         order = Order.objects.create(
             first_name=first_name,
             last_name=last_name,
             email=email,
             address=address,
             phone=phone,
+            company_code=company_code,
+            service_provider=service_provider,
+            momo=momo,
             district=district,
             sector=sector,
             cell=cell,
@@ -65,6 +90,8 @@ def checkout(
             delivery_cost=delivery_cost,
             delivery_type=delivery_type,
             paid_amount=paid_amount,
+            vat=vat_cost,
+            subtotal=subtotal,
             used_coupon=coupon_code,
             coupon_discount=coupon_discount,
             is_paid=is_paid_now
@@ -89,7 +116,7 @@ def checkout(
                                        ['total_price'] * item['quantity'])
             subtotal_amount = round(Decimal(subtotal_amount), 2)
             if item['product']['is_variant']:
-                var_id = int(item['product']['variant_id'])
+                var_id = int(item['product']['variant_id']['id'])
                 pro_id = int(item['product']['id'])
                 print(pro_id)
             else:
@@ -100,20 +127,22 @@ def checkout(
                 order=order,
                 product_id=pro_id,
                 variant_id=var_id,
-                vendor_id=item['product']['vendor_id'],
+                vendor_id=item['product']['vendor_id']['id'],
                 price=item['product']['total_price'],
                 quantity=item['quantity'],
                 is_variant=item['product']['is_variant']
             )
-            vendor = Vendor.objects.get(pk=item['product']['vendor_id'])
+            vendor = Vendor.objects.get(pk=item['product']['vendor_id']['id'])
             order.vendors.add(vendor)
 
         order.total_quantity = total_quantity
         order.price_no_vat = price_no_vat
         order.vat = vat
         order.subtotal_amount = subtotal_amount
-        notify_customer(order, request)
-        notify_vendor(order)
+        if order.is_paid:
+            notify_vendor(order)
+            notify_customer(order, request)
+        
     except Exception as e:
         raise e
 
@@ -121,8 +150,6 @@ def checkout(
 
 
 def notify_vendor(order):
-    connection = get_connection()  # uses SMTP server specified in settings.py
-    connection.open()
     print("vendor order")
     print(order)
     print("vender")
@@ -180,15 +207,13 @@ def notify_vendor(order):
                 subject, text_content, from_email, [to_email], connection=connection)
             msg.attach_alternative(html_content, 'text/html')
             msg.send()
+
+
     except Exception as e:
         print(e)
 
-    connection.close()
-
 
 def notify_customer(order, request):
-    connection = get_connection()  # uses SMTP server specified in settings.py
-    connection.open()
     grand_cost = order.paid_amount + Decimal(order.delivery_cost)
     from_email = settings.DEFAULT_EMAIL_FROM
     to_email = order.email
@@ -197,9 +222,10 @@ def notify_customer(order, request):
     html_content = render_to_string(
         'order/email_notify_customer.html', {'order': order, 'grand_cost': grand_cost})
 
-    msg = EmailMultiAlternatives(subject, text_content, from_email, [
-                                 to_email], connection=connection)
+    msg = EmailMultiAlternatives(subject, text_content, from_email, [to_email])
     msg.attach_alternative(html_content, 'text/html')
     msg.send()
 
-    connection.close()
+
+
+

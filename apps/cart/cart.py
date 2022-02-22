@@ -2,7 +2,6 @@ from typing import List
 
 from django.conf import settings
 
-# from apps.product.models import Product
 from apps.newProduct.models import Product
 from apps.ordering.models import ShopCart
 from decimal import Decimal
@@ -16,11 +15,11 @@ class Cart(object):
         self.session = request.session
         cart = self.session.get(settings.CART_SESSION_ID)
         # print("Cart data")
-        print(cart)
+        # print(cart)
         if not cart:
             cart = self.session[settings.CART_SESSION_ID] = {'cart':{}}
 
-        self.cart = cart
+        self.cart = cart 
         null_id=[]
         for p in self.cart['cart'].keys():
             shopcart = ShopCart.objects.filter(pk=int(p)).first()
@@ -30,7 +29,7 @@ class Cart(object):
                 self.cart['cart'][str(p)]['product']['subcategory_slug'] = shopcart.product.category.sub_category.slug
                 self.cart['cart'][str(p)]['product']['subsubcategory_slug'] = shopcart.product.category.sub_category.category.slug
                 self.cart['cart'][str(p)]['product']['slug'] = shopcart.product.slug
-                self.cart['cart'][str(p)]['product']['vendor_id'] = shopcart.product.vendor.id
+                self.cart['cart'][str(p)]['product']['vendor_id'] = {'id': shopcart.product.vendor.id}
                 self.cart['cart'][str(p)]['product']['slugV']=shopcart.product.slugV
                 self.cart['cart'][str(p)]['product']['pickup_available'] = shopcart.product.pickup_available
                 if shopcart.variant == None :
@@ -41,14 +40,14 @@ class Cart(object):
                 else:
                     self.cart['cart'][str(p)]['product']['total_price'] = float(shopcart.variant.get_discounted_price())
                     self.cart['cart'][str(p)]['product']['is_variant'] = True
-                    self.cart['cart'][str(p)]['product']['variant_id'] = shopcart.variant.id
+                    self.cart['cart'][str(p)]['product']['variant_id'] = {'id':shopcart.variant.id}
                     self.cart['cart'][str(p)]['product']['tax']=float(shopcart.variant.get_vat_price())
                     self.cart['cart'][str(p)]['product']['total_vat_excl'] = float(shopcart.variant.get_vat_exclusive_price())
 
                 self.cart['cart'][str(p)]['product']['is_free_delivery'] = shopcart.product.is_free_delivery
                 self.cart['cart'][str(p)]['product']['get_thumbnail'] = shopcart.product.get_thumbnail()
                 self.cart['cart'][str(p)]['product']['title'] = shopcart.product.title
-                
+
             else:
                 null_id.append(p)
 
@@ -73,7 +72,7 @@ class Cart(object):
                 self.cart['cart'][str(p)]['product']['subcategory_slug'] = shopcart.product.category.sub_category.slug
                 self.cart['cart'][str(p)]['product']['subsubcategory_slug'] = shopcart.product.category.sub_category.category.slug
                 self.cart['cart'][str(p)]['product']['slug'] = shopcart.product.slug
-                self.cart['cart'][str(p)]['product']['vendor_id'] = shopcart.product.vendor.id
+                self.cart['cart'][str(p)]['product']['vendor_id'] = {'id':shopcart.product.vendor.id}
                 self.cart['cart'][str(p)]['product']['slugV']=shopcart.product.slugV
                 self.cart['cart'][str(p)]['product']['pickup_available'] = shopcart.product.pickup_available
                 if shopcart.variant == None :
@@ -82,7 +81,7 @@ class Cart(object):
                 else:
                     self.cart['cart'][str(p)]['product']['total_price'] = float(shopcart.variant.get_discounted_price())
                     self.cart['cart'][str(p)]['product']['is_variant'] = True
-                    self.cart['cart'][str(p)]['product']['variant_id'] = shopcart.variant.id
+                    self.cart['cart'][str(p)]['product']['variant_id'] = {'id':shopcart.variant.id}
 
                 self.cart['cart'][str(p)]['product']['is_free_delivery'] = shopcart.product.is_free_delivery
                 self.cart['cart'][str(p)]['product']['get_thumbnail'] = shopcart.product.get_thumbnail()
@@ -106,17 +105,21 @@ class Cart(object):
                 sum_quantity += item['quantity']
         return sum_quantity
 
-    def add(self, product_id,user_id, quantity, update_quantity=False):
-        cart_data=ShopCart.objects.filter(product_id=product_id, user_id=user_id).first()
+    def add(self, product_id,user_id,variant_id, quantity, update_quantity=False):
+        # cart_id = 0
+        if variant_id is None:
+            cart_data=ShopCart.objects.filter(product_id=product_id,variant_id=None, user_id=user_id).first()
+        else:
+            cart_data=ShopCart.objects.filter(product_id=product_id,variant_id=variant_id, user_id=user_id).first()    
+        
         if cart_data:
-            cart_id=str(cart_data.id)
-
+            cart_id=str(cart_data.id) 
+              
         if cart_id not in self.cart['cart']:
             self.cart['cart'][cart_id] ={'quantity': cart_data.quantity,'id':str(cart_data.id)}
 
         if cart_id in self.cart['cart']:
             self.cart['cart'][cart_id] ={'quantity': cart_data.quantity}
-
 
 
         self.save()
@@ -216,18 +219,17 @@ class Cart(object):
     def get_is_vendor_delivery(self):
         is_vendor_delivery=[]
         is_pickup_avaliable=[]
+        vendors=[]
         for item in self.cart['cart']:
             p_id=self.cart['cart'][str(item)]['product']['id']
             product = Product.objects.get(pk=p_id)
+            vendors.append(product.vendor.id)
             is_vendor_delivery.append(product.vendor.vendor_delivery.all().count() == 1)
             is_pickup_avaliable.append(self.cart['cart'][str(item)]['product']['pickup_available'])
-            # if product.vendor.vendor_delivery.all().count() == 0:
-            #     use_vendor_delivery = False
-            # pickup_avaliable = self.cart['cart'][str(item)]['product']['pickup_available']
 
-        print(is_vendor_delivery)
-        print(is_pickup_avaliable)
-        if all(is_vendor_delivery):
+        print("is_vendor_deliveryi", is_vendor_delivery)
+        # print("is_pickup_avaliable",is_pickup_avaliable)
+        if all(is_vendor_delivery) and len(set(vendors)) == 1:
             use_vendor_delivery=True
         else:
             use_vendor_delivery=False
@@ -256,7 +258,7 @@ class Cart(object):
                  product_ids.append(shopcart.product.id)
         return product_ids
         # return [int(p) for p in self.cart['cart'].keys()]
-    
+
     def get_cart_tax(self):
         for p in self.cart['cart'].keys():
             shopcart = ShopCart.objects.filter(pk=int(p)).first()
@@ -266,7 +268,7 @@ class Cart(object):
         tax = 0
         for item in self.cart['cart'].values():
             if 'product' in item:
-                tax += float(item['product']['tax'] * item['quantity']) 
+                tax += float(item['product']['tax'] * item['quantity'])
 
         tax=Decimal(Decimal(tax))
         return round(round(tax,2) )
@@ -301,7 +303,6 @@ class Cart(object):
         for item in self.cart['cart'].values():
             if 'product' in item:
                 total_cost += float(item['product']['total_cost'] * item['quantity'])
-
 
 
         if 'coupon_discount' in list(self.cart):

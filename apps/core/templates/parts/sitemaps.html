@@ -1,0 +1,86 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block title %}sitemap | {% endblock %}
+{% block content %}
+<div class="site__body">
+    <div class="about-us__image"></div>
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-12">
+                    <div class="about-us__body">
+                        <h1 class="about-us__title">Sokopark Sitemap</h1>
+                        <div>
+                            <div>
+                                <div class="col-3">
+                                    <div class="teammates__item teammate">
+                                        <div class="teammate__name" style="padding-bottom: 15px;">About Sokopark</div>
+                                        <div>
+                                            <a href="{% url 'contact' %}">Contact</a>
+                                        </div>
+                                        <div>
+                                            <a href="{% url 'about' %}">About</a>
+                                        </div>
+                                        <div>
+                                            <a href="{% url 'pricing' %}">Pricing</a>
+                                        </div>
+                                        <div>
+                                            <a href="{% url 'vendors' %}">Vendors</a>
+                                        </div>
+                                        <div>
+                                            <a href="{% url 'termsandconditions' %}">Terms and Conditions</a>
+                                        </div>
+                                        <div>
+                                            <a href="{% url 'privacy_policy' %}">Privacy Policy</a>
+                                        </div>
+                                        <div>
+                                            <a href="{% url 'frequently_asked_questions' %}">FAQ</a>
+                                        </div>
+                                    </div>
+                                    <div class="teammates__item teammate">
+                                        <div class="teammate__name" style="padding-bottom: 15px;">Shopping by Categories</div>
+                                        {% for category in category %} 
+                                        <div>
+                                            <a href="{{category.get_absolute_url}}">{{category.title}}</a>
+                                        </div>
+                                        {% endfor %} 
+                                    </div>
+                                    <div class="teammates__item teammate">
+                                        <div class="teammate__name" style="padding-bottom: 15px;">Products</div>
+                                        {% for product in product %} 
+                                           {% if product.vendor.enabled %} 
+                                           <div>
+                                            <a href="{% url 'product' product.id product.slugV product.category.sub_category.category.slug product.category.sub_category.slug product.category.slug product.slug %}">{{product.title}}</a>
+                                           </div>
+                                           {% endif %} 
+                                        {% endfor %} 
+                                    </div>
+                                    <div class="teammates__item teammate">
+                                        <div class="teammate__name" style="padding-bottom: 15px;">Stores</div>
+                                        {% for vendor in vendors %} 
+                                        <div>
+                                            <a href="{% url 'vendor' vendor.slug %}">{{vendor.company_name}}</a>
+                                        </div>
+                                        {% endfor %} 
+                                    </div>
+                                    <div class="teammates__item teammate">
+                                        <div class="teammate__name" style="padding-bottom: 15px;">Account</div>
+                                           <div>
+                                            <a href="{% url 'login'  %}">Login</a>
+                                           </div> 
+                                           <div>
+                                            <a href="{% url 'become_customer'  %}">Sign Up(as customer)</a>
+                                           </div> 
+                                           <div>
+                                            <a href="{% url 'become_vendor' %}">Sign Up(as Vendor)</a>
+                                           </div> 
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>
+    
+{% endblock  %}
