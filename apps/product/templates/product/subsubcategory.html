@@ -1,6 +1,6 @@
 {% extends 'core/base.html' %}
 {% load static %}
-{% block title %}{{ category.title }} | {% endblock %}
+{% block title %}{{subsubcategory.title}}{% endblock %}
 
 {% block content %}
 <script>
@@ -407,6 +407,7 @@
                         <div class="products-view">
                             <div class="products-view__options">
                                 <div class="view-options view-options--offcanvas--mobile">
+                                    <h4>{{ subsubcategory.title }}</h4>
                                     <div class="view-options__divider"></div>
                                     
                                 </div>
