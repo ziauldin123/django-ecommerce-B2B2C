@@ -220,40 +220,6 @@
                                                     </tr>
                                                 </table>
                                             </div>
-                                            <div
-                                                style="display:inline-block; max-width:50%; min-width:240px; vertical-align:top; width:100%;">
-                                                <table align="left" border="0" cellpadding="0" cellspacing="0"
-                                                    width="100%" style="max-width:300px;">
-                                                    <tr>
-                                                        <td align="left" valign="top"
-                                                            style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px;">
-                                                            <p style="font-weight: 800;">Payment Method</p>
-                                                            <p>MTN Mobile Money - {{order.momo}}</p>  
-                                                        </td>
-                                                    </tr>
-                                                </table>
-                                            </div>
-                                            <div
-                                                style="display:inline-block; max-width:50%; min-width:240px; vertical-align:top; width:100%;">
-                                                <table align="left" border="0" cellpadding="0" cellspacing="0"
-                                                    width="100%" style="max-width:300px;">
-                                                    <tr>
-                                                        <td align="left" valign="top"
-                                                            style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px;">
-                                                            <p style="font-weight: 800;">Delivery Type</p>
-                                                            {% if order.delivery_type == 'store' %}
-                                                            <p>Pickup in Store</p>
-                                                            {% elif order.delivery_type == 'Vendor_Delivery' %}  
-                                                            <p>Vendor Delivery</p>
-                                                            {% elif order.delivery_type == 'Express_Delivery' %}  
-                                                            <p>Express Delivery</p>
-                                                            {% else %}  
-                                                            <p>Basic Delivery</p>
-                                                            {% endif %}
-                                                        </td>
-                                                    </tr>
-                                                </table>
-                                            </div>
                                         </td>
                                     </tr>
                                 </table>

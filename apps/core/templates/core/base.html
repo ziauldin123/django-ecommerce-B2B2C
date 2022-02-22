@@ -262,6 +262,7 @@
             "csrfmiddlewaretoken": my_token,
           },
           success:function(){
+            $("#cart_table_off").load(location.href + " #cart_table_off");
             $("#cart_table").load(location.href + " #cart_table");
             $("#my_cart").load(location.href + " #my_cart");
             alertify.alert("Product removed from cart").setHeader('<em>  </em> ')
@@ -1031,7 +1032,7 @@
 <!-- .dropcart -->
 <div class="dropcart dropcart--style--offcanvas">
   <div class="dropcart__backdrop"></div>
-  <div class="dropcart__body" >
+  <div class="dropcart__body" id="cart_table_off">
       <div class="dropcart__header">
           <div class="dropcart__title">Cart</div>
           <button class="dropcart__close" type="button">
@@ -1040,8 +1041,7 @@
               </svg>
           </button>
       </div>
-      <div class="dropcart__products-list">
-          <div id="cart_table">
+      <div class="dropcart__products-list" >
             {% for product in shopcart %}
           <div class="dropcart__product">
             <div class="product-image dropcart__product-image">
@@ -1099,6 +1099,7 @@
             </button>
         </div> 
           {% endfor %}
+      </div>
       <div class="dropcart__totals">
         <table>
             <tr>
@@ -1107,8 +1108,6 @@
             </tr>
         </table>
     </div>
-      </div>
-          </div>
       <div class="dropcart__buttons">
           <a class="btn btn-secondary" href="{% url 'shopcart'%}">View Cart</a>
           <a class="btn btn-primary" href="{% url 'contact_info' %}">Checkout</a>

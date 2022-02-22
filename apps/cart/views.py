@@ -11,7 +11,7 @@ from apps.vendor.models import Customer, Vendor
 from .cart import Cart
 from apps.ordering.models import Order, ShopCart
 from .forms import CheckoutForm, PaymentForm
-from .models import Cell, District, Sector, Village
+from .models import Cell, District, Sector, Village, Payment
 from .services.payment_service import payment_service
 from ..core.utils import get_attr_or_none
 # from ..product.models import Product
@@ -259,12 +259,14 @@ def payment_check(request, *args, **kwargs):
     tax=cart.get_cart_tax()
     grandTotal=cart.get_cart_tax() + cart.get_total_cost()
 
+    service_provider=Payment.objects.all()
     request.POST.get('pay_now')
     if request.method == 'POST':
         form = PaymentForm(request.POST)  # PaymentForm
         if form.is_valid():
             phone=form.cleaned_data['phone_number']
-            payment_service.make_checkout(request, cart,shopcart,phone)
+            service_provider=form.cleaned_data['service_provider']
+            payment_service.make_checkout(request, cart,shopcart,service_provider,phone)
             return redirect('waiting')
         else:
             print("invalid")
@@ -284,7 +286,8 @@ def payment_check(request, *args, **kwargs):
             'tax': round(tax, 2),
             'subtotal': total,
             'grandTotal': round(grandTotal, 2),
-            'cart': cart
+            'cart': cart,
+            'service_provider':service_provider
         }
     )
 
