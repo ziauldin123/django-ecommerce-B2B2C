@@ -179,14 +179,14 @@ class ShopCartForm(ModelForm):
 
 
 class Order(models.Model):
-    WAITING = 'waiting'
+    PENDING = 'pending'
     PAID = 'paid'
     CANCELLED = 'cancelled'
     SHIPPED = 'shipped'
     ARRIVED = 'arrived'
 
     STATUS_CHOICES = (
-        (WAITING , 'waiting'),
+        (PENDING , 'pending'),
         (PAID , 'paid'),
         (CANCELLED,'cancelled'),
         (SHIPPED, 'Shipped'),
@@ -219,7 +219,7 @@ class Order(models.Model):
     shipped_date=models.DateTimeField(blank=True,null=True)
     arrived_date=models.DateTimeField(blank=True,null=True)
     status=models.CharField(
-        max_length=20,choices=STATUS_CHOICES,default=WAITING
+        max_length=20,choices=STATUS_CHOICES,default=PENDING
     )
     used_coupon=models.CharField(max_length=50,blank=True,null=True)
     transporter=models.ForeignKey(Transporter, on_delete=models.SET_NULL,blank=True,null=True)

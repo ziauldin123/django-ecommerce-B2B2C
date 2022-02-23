@@ -1,6 +1,5 @@
 {% load static %}
 {% load i18n %}
-{% load compress %}
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head
@@ -160,32 +159,6 @@
       rel="stylesheet"
       href="{% static 'templates/fonts/stroyka/stroyka.css' %}"
     />
-
-    <!-- Alertify -->
-    <!-- JavaScript -->
-<script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
-
-<!-- CSS -->
-<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"/>
-<!-- Default theme -->
-<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css"/>
-<!-- Semantic UI theme -->
-<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/semantic.min.css"/>
-<!-- Bootstrap theme -->
-<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/bootstrap.min.css"/>
-
-<!-- 
-    RTL version
--->
-<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.rtl.min.css"/>
-<!-- Default theme -->
-<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.rtl.min.css"/>
-<!-- Semantic UI theme -->
-<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/semantic.rtl.min.css"/>
-<!-- Bootstrap theme -->
-<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/bootstrap.rtl.min.css"/>
-    <!-- End -->
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.6.0/socket.io.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.1.3/vue.min.js"></script>
     <script>
@@ -249,31 +222,8 @@
         // end if innerWidth
       });
       // DOMContentLoaded  end
-      function deletefromcart(pr_id){
-        event.preventDefault();
-        var my_token='{{ csrf_token }}'
-        alertify.confirm("Are you sure? you want to remove product from cart.",
-        function(){
-          {
-          $.ajax({
-          url:"/order/deletefromcart/" + pr_id,
-          type:'POST',
-          data:{
-            "csrfmiddlewaretoken": my_token,
-          },
-          success:function(){
-            $("#cart_table_off").load(location.href + " #cart_table_off");
-            $("#cart_table").load(location.href + " #cart_table");
-            $("#my_cart").load(location.href + " #my_cart");
-            alertify.alert("Product removed from cart").setHeader('<em>  </em> ')
-          }
-        })
-        }
-        }
-        ).setHeader('<em>  </em> ')
-        
-      }
     </script>
+
     <!-- price range slider -->
     <link
       rel="stylesheet"
@@ -339,12 +289,11 @@
                     <form class="search__form"method="get" action="{% url 'search' %}">
                       <input
                         class="search__input"
-                        name="query"
+                        name="search"
                         placeholder=""
                         aria-label="Site search"
                         type="text"
                         autocomplete="off"
-                        value="{{ query }}"
                       />
                       <button
                         class="search__button search__button--type--submit"
@@ -399,18 +348,16 @@
                       </span>
                     </a>
                   </div>
-                  <div class="indicator indicator--mobile" >
-                    <a href=" " data-open="offcanvas-cart" class="indicator__button">
-                      <div id="mycart" class="indicator">
-                        <span class="indicator__area">
-                          <svg width="20px" height="20px">
-                            <use xlink:href="/static/templates/images/sprite.svg#cart-20"></use>
-                          </svg>
-                           {% load myapptags %}
-                           {% shopcartcount user.id as count %}
-                          <span class="indicator__value">{{count}}</span>
-                        </span>
-                      </div>
+                  <div class="indicator indicator--mobile" id="mycart">
+                    <a href="" data-open="offcanvas-cart" class="indicator__button">
+                      <span class="indicator__area">
+                        <svg width="20px" height="20px">
+                          <use xlink:href="/static/templates/images/sprite.svg#cart-20"></use>
+                        </svg>
+                         {% load myapptags %}
+                         {% shopcartcount user.id as count %}
+                        <span class="indicator__value">{{count}}</span>
+                      </span>
                     </a>
                   </div>
                 </div>
@@ -449,7 +396,7 @@
                 <div class="search__body">
                   <form class="search__form" method="get" action="{% url 'search' %}">
                     <input
-                      class="search__input"
+                      class="input search__input"
                       name="query"
                       placeholder=""
                       aria-label="Site search"
@@ -485,14 +432,14 @@
             >
               <div class="nav-panel__container container">
                 <div class="nav-panel__row">
-                  <div class="nav-panel__departments"> 
+                  <div class="nav-panel__departments">
                     <!-- .departments -->
                     <div class="departments" data-departments-fixed-by="">
                       <div class="departments__body">
                         <div class="departments__links-wrapper">
                           <div class="departments__submenus-container"></div>
                           <ul class="departments__links">
-                            {% for category in menu_categories %}
+                            {% for category in menu_categories %} 
                             {% if category.has_children %}
                             <li class="departments__item">
                               <a class="departments__item-link" href="{% url 'category' category.slug %}">
@@ -559,18 +506,20 @@
                               </div>
                             </li>
                             {% else %}
-                            <a class="departments__item-link" href="{% url 'category' category.slug %}">
-                              {{category.title}}
-                              <svg
-                                class="departments__item-arrow"
-                                width="6px"
-                                height="9px"
-                              >
-                                <use
-                                  xlink:href="/static/templates/images/sprite.svg#arrow-rounded-right-6x9"
-                                ></use>
-                              </svg>
-                            </a>
+                            <li class="departments__item">
+                              <a class="departments__item-link" href="{% url 'category' category.slug %}">
+                                {{category.title}}
+                                <svg
+                                  class="departments__item-arrow"
+                                  width="6px"
+                                  height="9px"
+                                >
+                                  <use
+                                    xlink:href="/static/templates/images/sprite.svg#arrow-rounded-right-6x9"
+                                  ></use>
+                                </svg>
+                              </a>
+                            </li>
                             {% endif %} 
                             {% endfor %}
                           </ul>
@@ -660,18 +609,16 @@
                       </a>   
                     </div>
                     <div class="indicator">
-                      <a class="indicator__button" data-open="offcanvas-cart">
+                      <a class="indicator__button" data-open="offcanvas-cart" id="my_cart">
                           <span class="indicator__area">
                               <svg class="svg" width="15px" height="15px">
                                 <use xlink:href="/static/templates/images/sprite.svg#cart-20"></use>
                               </svg>
-                              <div class="indicator" id="my_cart">
-                                <span class="qty indicator__value" >
-                                  {% load myapptags %}
-                                  {% shopcartcount user.id as count %}
-                                   {{count}}
-                                 </span>
-                              </div>
+                              <span class="qty indicator__value">
+                               {% load myapptags %}
+                               {% shopcartcount user.id as count %}
+                                {{count}}
+                              </span>
                           </span>
                       </a>
                   </div>
@@ -685,7 +632,7 @@
                       </a>
                       <div class="indicator__dropdown">
                         <div class="account-menu">
-                            {% if request.user.is_anonymous %}
+                            {% if not request.user.is_authenticated%}
                             <form method="post" action="{% url 'login' %}" class="account-menu__form">
                                 {% csrf_token %}
                                 <div class="account-menu__form-title">Log In to Your Account</div>
@@ -729,20 +676,14 @@
                             {% else %}
                             <div class="account-menu__divider"></div>
                             <a class="account-menu__user">
-                                <div class="account-menu__user-avatar">
-                                    <img {% if request.user.vendor %} src="{{request.session.logo}}"  {% else %} src="/static/templates/images/avatars/avatar-1.jpg"  {% endif %} alt="">
-                                </div>
                                 {% if request.user.vendor %} 
+                                <div class="account-menu__user-avatar">
+                                    <img {% if request.session.logo %} src="{{request.session.logo}}"  {% else %} src="/static/templates/images/avatars/avatar-1.jpg"  {% endif %} alt="">
+                                </div>
                                 <div class="account-menu__user-info">
-                                  <div class="account-menu__user-name">{{vendor.company_name}}</div>
-                                  <div class="account-menu__user-email">{{request.user}}</div>
-                              </div>
-                              {% else %} 
-                              <div class="account-menu__user-info">
-                                <div class="account-menu__user-name">{{request.session.username}}</div>
-                                <div class="account-menu__user-email">{{request.session.email}}</div>
-                            </div>
-                            {% endif %}
+                                    <div class="account-menu__user-name">{{request.session.username}}</div>
+                                    <div class="account-menu__user-email">{{request.session.email}}</div>
+                                </div>
                             </a>
                             <div class="account-menu__divider"></div>
                             <ul class="account-menu__links">
@@ -865,7 +806,7 @@
                       <li class="footer-links__item">
                         <a href="{% url 'vendor_guidelines'  %}" class="footer-links__link">Guidelines</a>
                       </li>
-
+                      
                     </ul>
                   </div>
                 </div>
@@ -951,8 +892,8 @@
                     </div>
                     <div class="mobile-links__item-sub-links" data-collapse-content>
                         <ul class="mobile-links mobile-links--level--1">
-                            {% for category in menu_categories %}
-                            {% if category.has_children %}
+                            {% for category in menu_categories %} 
+                            {% if category.has_children %} 
                             <li class="mobile-links__item" data-collapse-item>
                               <div class="mobile-links__item-title">
                                   <a href="{% url 'category' category.slug %}" class="mobile-links__item-link">{{category.title}}</a>
@@ -961,7 +902,7 @@
                                           <use xlink:href="/static/templates/images/sprite.svg#arrow-rounded-down-12x7"></use>
                                       </svg>
                                   </button>
-                              </div>
+                              </div> 
                               {% for subcategory in category.children %}
                               <div class="mobile-links__item-sub-links" data-collapse-content>
                                   <ul class="mobile-links mobile-links--level--2">
@@ -1002,17 +943,11 @@
                 </li>
                 <li class="mobile-links__item" data-collapse-item>
                     <div class="mobile-links__item-title">
-                        <a {% if request.user.vendor %} href="{% url 'vendor_admin'  %}" {% else %} href="{% url 'myaccount'  %}" {% endif %} class="mobile-links__item-link">Account</a>
-                    </div>
-                  </li>
-
-                <li class="mobile-links__item" data-collapse-item>
-                    <div class="mobile-links__item-title">
-                        {% if request.user.is_authenticated %}
-                        <a href="{% url 'logout' %}" class="mobile-links__item-link">Logout</a>
-                        {% else %}
-                        <a href="{% url 'login' %}" class="mobile-links__item-link">Login</a>
-                        {% endif %}
+                      {% if request.user.vendor %} 
+                        <a href="{% url 'vendor_admin'%}" class="mobile-links__item-link">Dashboard</a>
+                      {% else %} 
+                        <a href="{% url 'myaccount' %}"class="mobile-links__item-link">My account</a>
+                      {% endif %}
                     </div>
                 </li>
                 <li class="mobile-links__item" data-collapse-item>
@@ -1032,7 +967,7 @@
 <!-- .dropcart -->
 <div class="dropcart dropcart--style--offcanvas">
   <div class="dropcart__backdrop"></div>
-  <div class="dropcart__body" id="cart_table_off">
+  <div class="dropcart__body" id="cart_table">
       <div class="dropcart__header">
           <div class="dropcart__title">Cart</div>
           <button class="dropcart__close" type="button">
@@ -1041,33 +976,33 @@
               </svg>
           </button>
       </div>
-      <div class="dropcart__products-list" >
-            {% for product in shopcart %}
+      <div class="dropcart__products-list">
+          {% for product in shopcart %}
           <div class="dropcart__product">
             <div class="product-image dropcart__product-image">
                 <a href="product.html" class="product-image__body">
                     {% if product.variant %}
                     <img class="product-image__img" src="{{product.variant.image_variant.url}}" alt="">
-                    {% else %}
+                    {% else %} 
                     <img class="product-image__img" src="{{product.product.image.url}}" alt="">
                     {% endif %}
                 </a>
             </div>
             <div class="dropcart__product-info">
-                {% if product.variant %}
+                {% if product.variant %} 
                 <div class="dropcart__product-name"><a href="{% url 'product' product.product.id product.product.slugV product.product.category.sub_category.category.slug product.product.category.sub_category.slug product.product.category.slug product.product.slug %}">{{product.variant.title}}</a></div>
-                {% else %}
+                {% else %} 
                 <div class="dropcart__product-name"><a href="{% url 'product' product.product.id product.product.slugV product.product.category.sub_category.category.slug product.product.category.sub_category.slug product.product.category.slug product.product.slug %}">{{product.product}}</a></div>
                 {% endif %}
                 <ul class="dropcart__product-options">
-                    {% if product.variant %}
-                           {% if product.variant.color %}
+                    {% if product.variant %} 
+                           {% if product.variant.color %} 
                                  <li>Color:{{product.variant.color}} </li>
-                           {% endif %}
-                    {% else %}
+                           {% endif %} 
+                    {% else %} 
                           {% if product.color %}
-                                <li>Color: {{product.color}}</li>
-                          {% endif %}
+                                <li>Color: {{product.color}}</li> 
+                          {% endif %}      
                     {% endif %}
                 </ul>
                 <div class="dropcart__product-meta">
@@ -1076,38 +1011,39 @@
                     </span> ×
                     <span class="dropcart__product-price">
                       {% if product.variant %}
-                          {% if product.variant.discount %}
+                          {% if product.variant.discount %} 
                               {{product.variant.get_discounted_price}}
-                          {% else %}
+                          {% else %} 
                               {{product.variant.price}}
                           {% endif %}
                       {% else %}
                           {% if product.product.discount %}
                                {{product.product.get_discounted_price}}
-                          {% else %}
-                              {{product.price}}
-                          {% endif %}
+                          {% else %} 
+                              {{product.price}}    
+                          {% endif %}     
                       {% endif %}
                     </span>
                 </div>
             </div>
-            {% csrf_token %}
-              <button onclick="deletefromcart('{{product.id}}')" type="button" class="dropcart__product-remove btn btn-light btn-sm btn-svg-icon">
+            <a href="{% url 'deletefromcart' product.id %}" onclick="return confirm('Delete ! Are you sure?')" >
+              <button type="button" class="dropcart__product-remove btn btn-light btn-sm btn-svg-icon">
                 <svg width="10px" height="10px">
                     <use xlink:href="/static/templates/images/sprite.svg#cross-10"></use>
                 </svg>
             </button>
+            </a>
         </div> 
           {% endfor %}
       </div>
       <div class="dropcart__totals">
-        <table>
-            <tr>
-                <th>Total</th>
-                <td>{{subtotal}} FRW</td> 
-            </tr>
-        </table>
-    </div>
+          <table>
+              <tr>
+                  <th>Total</th>
+                  <td>Rwf {{subtotal}}</td> 
+              </tr>
+          </table>
+      </div>
       <div class="dropcart__buttons">
           <a class="btn btn-secondary" href="{% url 'shopcart'%}">View Cart</a>
           <a class="btn btn-primary" href="{% url 'contact_info' %}">Checkout</a>
@@ -1160,7 +1096,6 @@
     <script src="{% static 'templates/vendor/photoswipe/photoswipe.min.js' %}"></script>
     <script src="{% static 'templates/vendor/photoswipe/photoswipe-ui-default.min.js' %}"></script>
     <script src="{% static 'templates/vendor/select2/js/select2.min.js' %}"></script>
-    <script src="{% static 'templates/js/wNumb.min.js' %}"></script>
     <script src="{% static 'templates/js/number.js' %}"></script>
     <script src="{% static 'templates/js/main.js' %}"></script>
     <script src="{% static 'templates/js/header.js' %}"></script>

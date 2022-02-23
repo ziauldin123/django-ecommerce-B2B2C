@@ -76,7 +76,8 @@
 </div>
 
             {% include 'core/caroussel.html' %}
-            <!--<div class="block block-products-carousel" data-layout="grid-4" data-mobile-grid-columns="2">
+            {% if featured_products %} 
+            <div class="block block-products-carousel" data-layout="grid-4" data-mobile-grid-columns="2">
                 <div class="container">
                     <div class="block-header">
                         <h3 class="block-header__title">Featured products</h3>
@@ -110,14 +111,14 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            {% endif %}
 <!-- .block-products-carousel / end -->
             <!-- .block-banner -->
             <div class="block block-banner">
                 <div class="container">
                     <a href="{% url 'contact' %}" class="block-banner__body">
                         <div class="block-banner__image block-banner__image--desktop" style="background-image: url('{% static 'templates/images/test_ad_5.png' %}')"></div> 
-                        <div class="block-banner__image block-banner__image--mobile" style="background-image: url('{% static 'templates/images/test_ad_5.png' %}')"></div>
+                        <div class="block-banner__image block-banner__image--mobile" style="background-image: url('{% static 'templates/images/small_ad_mobile.png' %}')"></div>
                         <div class="block-banner__title">Are you looking <br class="block-banner__mobile-br" > for a distributor in Rwanda?</div>
                         <div class="block-banner__text"></div>
                         <div class="block-banner__button">
@@ -127,7 +128,8 @@
                 </div>
             </div>
             <!-- .block-banner / end -->
-            <!-- .block-products
+            <!-- .block-products -->
+            {% if popular_products %} 
             <div class="block block-products-carousel" data-layout="grid-4" data-mobile-grid-columns="2">
                 <div class="container">
                     <div class="block-header">
@@ -165,8 +167,10 @@
                         </div>
                     </div>
                 </div>
+            {% endif %}
             <!-- .block-products / end -->
-            <!-- .block-categories
+            <!-- .block-categories -->
+            {% if featured_categories %} 
             <div class="block block-products-carousel" data-layout="grid-4" data-mobile-grid-columns="2">
                 <div class="container">
                     <div class="block-header">
@@ -203,8 +207,10 @@
                     </div>
                 </div>
             </div>
+            {% endif %}
             <!-- .block-categories / end -->
-            <!-- .block-products-carousel
+            <!-- .block-products-carousel -->
+            {% if newest_products %} 
             <div class="block block-products-carousel" data-layout="grid-4" data-mobile-grid-columns="2">
                 <div class="container">
                     <div class="block-header">
@@ -239,8 +245,10 @@
                     </div>
                 </div>
             </div>
+            {% endif %}
             <!-- .block-products-carousel / end -->
-            <!-- .block-posts
+            <!-- .block-posts -->
+            {% if posts %} 
             <div class="block block-posts" data-layout="grid-3" data-mobile-columns="1">
                 <div class="container">
                     <div class="block-header">
@@ -284,6 +292,7 @@
                     </div>
                 </div>
             </div>
+            {% endif %}
             <!-- .block-posts / end -->
         <!-- .block-brands -->
         <div class="block block-brands">
@@ -330,43 +339,43 @@
                 </div>
             </div>
         </div>
-        <!-- .block-brands / end 
-
-            <div class="block block-products-carousel" data-layout="grid-5" data-mobile-grid-columns="2">
-                <div class="container">
-                    <div class="block-header">
-                        <h3 class="block-header__title">Recently Viewed</h3>
-                        <div class="block-header__divider"></div>
-                        <div class="block-header__arrows-list">
-                            <button class="block-header__arrow block-header__arrow--left" type="button">
-                                <svg width="7px" height="11px">
-                                    <use xlink:href="/static/templates/images/sprite.svg#arrow-rounded-left-7x11"></use>
-                                </svg>
-                            </button>
-                            <button class="block-header__arrow block-header__arrow--right" type="button">
-                                <svg width="7px" height="11px">
-                                    <use xlink:href="/static/templates/images/sprite.svg#arrow-rounded-right-7x11"></use>
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="block-products-carousel__slider">
-                        <div class="block-products-carousel__preloader"></div>
-                        <div class="owl-carousel">
-                            {% for product in recently_viewed_products %} 
-                            {% if product.vendor.enabled and product.visible and product.status and not product.is_variant %}
-                                 {% include 'product/parts/list_item-frontpage.html' %}
-                                {% elif product.vendor.enabled and product.visible and product.status and product.is_variant %} 
-                                  {% if product.get_variant %} 
-                                     {% include 'product/parts/list_item-frontpage.html' %}
-                                  {% endif %} 
-                               {% endif %}  
-                            {% endfor %}         
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>-->
+        <!-- .block-brands / end  -->
+          {% if recently_viewed_products %}
+          <div class="block block-products-carousel" data-layout="grid-5" data-mobile-grid-columns="2">
+              <div class="container">
+                  <div class="block-header">
+                      <h3 class="block-header__title">Recently Viewed</h3>
+                      <div class="block-header__divider"></div>
+                      <div class="block-header__arrows-list">
+                          <button class="block-header__arrow block-header__arrow--left" type="button">
+                              <svg width="7px" height="11px">
+                                  <use xlink:href="/static/templates/images/sprite.svg#arrow-rounded-left-7x11"></use>
+                              </svg>
+                          </button>
+                          <button class="block-header__arrow block-header__arrow--right" type="button">
+                              <svg width="7px" height="11px">
+                                  <use xlink:href="/static/templates/images/sprite.svg#arrow-rounded-right-7x11"></use>
+                              </svg>
+                          </button>
+                      </div>
+                  </div>
+                  <div class="block-products-carousel__slider">
+                      <div class="block-products-carousel__preloader"></div>
+                      <div class="owl-carousel">
+                          {% for product in recently_viewed_products %} 
+                          {% if product.vendor.enabled and product.visible and product.status and not product.is_variant %}
+                               {% include 'product/parts/list_item-frontpage.html' %}
+                              {% elif product.vendor.enabled and product.visible and product.status and product.is_variant %} 
+                                {% if product.get_variant %} 
+                                   {% include 'product/parts/list_item-frontpage.html' %}
+                                {% endif %} 
+                             {% endif %}  
+                          {% endfor %}         
+                          </div>
+                      </div>
+                  </div>
+              </div> 
+          {% endif %}
 
 {% endblock %}     
 
