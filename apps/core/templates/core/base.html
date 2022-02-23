@@ -684,8 +684,13 @@
                                     <div class="account-menu__user-name">{{request.session.username}}</div>
                                     <div class="account-menu__user-email">{{request.session.email}}</div>
                                 </div>
+                                {% else %} 
+                                <div class="account-menu__user-info">
+                                    <div class="account-menu__user-name">{{request.session.username}}</div>
+                                    <div class="account-menu__user-email">{{request.session.email}}</div>
+                                </div>
+                                {% endif %}
                             </a>
-                            {% endif %}
                             <div class="account-menu__divider"></div>
                             <ul class="account-menu__links">
                                 {% if request.user.vendor %} 
