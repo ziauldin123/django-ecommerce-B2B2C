@@ -422,7 +422,7 @@
 
 <script>
     $("#id_district").change(function () {
-        var district_url = "district_sector";
+        var district_url = "cart/district_sector";
         var districtId = $(this).val();
 
         if (districtId != '') {
@@ -448,7 +448,7 @@
     });
 
     $("#id_sector").change(function () {
-        var sector_url = "district_sector_cell";
+        var sector_url = "cart/district_sector_cell";
         var districtId = $("#id_district").val();
         var sectorId = $(this).val();
 
@@ -474,7 +474,7 @@
     });
 
     $("#id_cell").change(function () {
-        var cell_url = "district_sector_cell_village";
+        var cell_url = "cart/district_sector_cell_village";
         var districtId = $("#id_district").val();
         var sectorId = $("#id_sector").val();
         var cellId = $(this).val();
