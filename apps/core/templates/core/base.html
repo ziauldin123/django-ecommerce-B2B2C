@@ -948,23 +948,25 @@
                     </div>
                 </li>
                 <li class="mobile-links__item" data-collapse-item>
-                    <div class="mobile-links__item-title">
-                      {% if request.user.vendor %} 
-                        <a href="{% url 'vendor_admin'%}" class="mobile-links__item-link">Dashboard</a>
-                      {% else %} 
-                        <a href="{% url 'myaccount' %}"class="mobile-links__item-link">My account</a>
-                      {% endif %}
-                    </div>
-                </li>
-                <li class="mobile-links__item" data-collapse-item>
-                  <div class="mobile-links__item-title">
                       {% if request.user.is_authenticated %} 
-                      <a href="{% url 'logout' %}" class="mobile-links__item-link">Logout</a>
+                      {% if request.user.vendor %} 
+                      <div class="mobile-links__item-title">
+                        <a href="{% url 'vendor_admin'%}" class="mobile-links__item-link">Dashboard</a>
+                      </div>  
                       {% else %} 
-                      <a href="{% url 'login' %}" class="mobile-links__item-link">Login</a>
+                      <div class="mobile-links__item-title">
+                        <a href="{% url 'myaccount' %}"class="mobile-links__item-link">My account</a>
+                      </div>  
                       {% endif %}
-                  </div>
-              </li>
+                      <div class="mobile-links__item-title">
+                        <a href="{% url 'logout' %}" class="mobile-links__item-link">Logout</a>
+                      </div>
+                      {% else %}
+                      <div class="mobile-links__item-title">
+                      <a href="{% url 'login' %}" class="mobile-links__item-link">Login</a>
+                      </div>
+                      {% endif %}
+                </li>
             </ul>
         </div>
     </div>
