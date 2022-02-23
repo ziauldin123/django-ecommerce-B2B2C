@@ -143,6 +143,12 @@ def search(request):
             'query_width':query_width,
             'query_length':query_length,
             'max_amount':max_amount,
+            'shopcart':shopcart,
+            'subtotal':total,
+            'tax':tax,
+            'total':grandTotal,
+            'wishlist':wishlist,
+            'total_compare':total_compare,
         }
     )
 
@@ -969,12 +975,6 @@ def subsubcategory(request, category_slug, subcategory_slug, subsubcategory_slug
             'total':grandTotal,
             'wishlist':wishlist,
             'total_compare':total_compare,
-            'shopcart': shopcart,
-            'subtotal': total,
-            'tax': tax,
-            'total': grandTotal,
-            'wishlist': wishlist,
-            'total_compare': total_compare
         }
     )
 

@@ -20,7 +20,7 @@ from django.contrib import admin
 from django.urls import path, include, re_path
 from django.conf.urls.static import static
 
-from apps.cart.views import check_add_qty
+from apps.cart.views import check_add_qty,contact_info, payment_check,success
 from apps.newsletter.api import api_add_subscriber
 from apps.coupon.api import api_can_use
 from apps.home import views
@@ -63,7 +63,10 @@ urlpatterns = [
     path('newProduct/', include('apps.newProduct.urls')),
     path('ajaxcolor/', views.ajaxcolor, name='ajaxcolor'),
     path('ajaxcolorWeight/',views.ajaxcolorWeigth, name='ajaxcolor-weight'),
-    path('shopcart/',orderview.shopcart,name='shopcart'),
+    path('cart/',orderview.shopcart,name='shopcart'),
+    path('checkout', contact_info, name='contact_info'),
+    path('payment_check', payment_check, name='payment_check'),
+    path('awaiting_payment', success, name='waiting'),
     path('order/addtoshopcart/<int:id>', orderview.addtoshopcart, name='addtoshopcart'),
     path('updateshopcart',orderview.update, name='update'),
     path('order/deletefromcart/<int:id>', orderview.deletefromcart, name='deletefromcart'),

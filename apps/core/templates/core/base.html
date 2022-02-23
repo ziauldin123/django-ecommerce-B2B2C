@@ -559,18 +559,20 @@
                               </div>
                             </li>
                             {% else %}
-                            <a class="departments__item-link" href="{% url 'category' category.slug %}">
-                              {{category.title}}
-                              <svg
-                                class="departments__item-arrow"
-                                width="6px"
-                                height="9px"
-                              >
-                                <use
-                                  xlink:href="/static/templates/images/sprite.svg#arrow-rounded-right-6x9"
-                                ></use>
-                              </svg>
-                            </a>
+                            <li class="departments__item">
+                              <a class="departments__item-link" href="{% url 'category' category.slug %}">
+                                {{category.title}}
+                                <svg
+                                  class="departments__item-arrow"
+                                  width="6px"
+                                  height="9px"
+                                >
+                                  <use
+                                    xlink:href="/static/templates/images/sprite.svg#arrow-rounded-right-6x9"
+                                  ></use>
+                                </svg>
+                              </a>
+                            </li>
                             {% endif %} 
                             {% endfor %}
                           </ul>

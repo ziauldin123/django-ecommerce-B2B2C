@@ -11,7 +11,7 @@ from apps.vendor.models import Customer, Vendor
 from .cart import Cart
 from apps.ordering.models import Order, ShopCart
 from .forms import CheckoutForm, PaymentForm
-from .models import Cell, District, Sector, Village, Payment
+from .models import Cell, District, Sector, Village, MobileOperator
 from .services.payment_service import payment_service
 from ..core.utils import get_attr_or_none
 # from ..product.models import Product
@@ -20,50 +20,50 @@ from apps.ordering.models import notify_customer,notify_vendor
 
 
 
-def cart_detail(request):
-    cart = Cart(request)
+# def cart_detail(request):
+#     cart = Cart(request)
 
-    if request.method == 'POST':
-        if request.user.is_authenticated:
-            # messages.success(request, 'Thank you for your order')
-            if "id_quantity" in request.POST:
-                print("coupon code = ", request.POST["coupon_code"])
-                print("coupon value = ", request.POST["coupon_discount"])
-                coupon_code = request.POST["coupon_code"]
-                coupon_discount = request.POST["coupon_discount"]
-                if coupon_discount == "":
-                    coupon_code = ""
+#     if request.method == 'POST':
+#         if request.user.is_authenticated:
+#             # messages.success(request, 'Thank you for your order')
+#             if "id_quantity" in request.POST:
+#                 print("coupon code = ", request.POST["coupon_code"])
+#                 print("coupon value = ", request.POST["coupon_discount"])
+#                 coupon_code = request.POST["coupon_code"]
+#                 coupon_discount = request.POST["coupon_discount"]
+#                 if coupon_discount == "":
+#                     coupon_code = ""
 
-                coupon = request.session.get(settings.COUPON_SESSION_ID)
-                if not coupon:
-                    coupon = request.session[settings.COUPON_SESSION_ID] = {}
-                coupon["code"] = coupon_code
-                coupon["discount"] = coupon_discount
-                request.session[settings.COUPON_SESSION_ID] = coupon
-                request.session.modified = True
-                for elem in request.POST["id_quantity"].split(":"):
-                    elem_id = elem.split("_")[0]
-                    elem_quantity = elem.split("_")[1]
-                    cart.set(elem_id, elem_quantity)
+#                 coupon = request.session.get(settings.COUPON_SESSION_ID)
+#                 if not coupon:
+#                     coupon = request.session[settings.COUPON_SESSION_ID] = {}
+#                 coupon["code"] = coupon_code
+#                 coupon["discount"] = coupon_discount
+#                 request.session[settings.COUPON_SESSION_ID] = coupon
+#                 request.session.modified = True
+#                 for elem in request.POST["id_quantity"].split(":"):
+#                     elem_id = elem.split("_")[0]
+#                     elem_quantity = elem.split("_")[1]
+#                     cart.set(elem_id, elem_quantity)
 
-                return redirect('contact_info')
-        else:
-            messages.success(request, 'Please sign in')
-            return redirect('login')
+#                 return redirect('contact_info')
+#         else:
+#             messages.success(request, 'Please sign in')
+#             return redirect('login')
 
-    remove_from_cart = request.GET.get('remove_from_cart', '')
-    change_quantity = request.GET.get('change_quantity', '')
-    quantity = request.GET.get('quantity', 0)
+#     remove_from_cart = request.GET.get('remove_from_cart', '')
+#     change_quantity = request.GET.get('change_quantity', '')
+#     quantity = request.GET.get('quantity', 0)
 
-    if remove_from_cart:
-        cart.remove(remove_from_cart)
-        return redirect('cart')
+#     if remove_from_cart:
+#         cart.remove(remove_from_cart)
+#         return redirect('cart')
 
-    if change_quantity:
-        cart.add(change_quantity, quantity, True)
-        return redirect('cart')
+#     if change_quantity:
+#         cart.add(change_quantity, quantity, True)
+#         return redirect('cart')
 
-    return render(request, 'cart/cart.html')
+#     return render(request, 'cart/cart.html')
 
 
 def contact_info(request):
@@ -259,7 +259,7 @@ def payment_check(request, *args, **kwargs):
     tax=cart.get_cart_tax()
     grandTotal=cart.get_cart_tax() + cart.get_total_cost()
 
-    service_provider=Payment.objects.all()
+    service_provider=MobileOperator.objects.all()
     request.POST.get('pay_now')
     if request.method == 'POST':
         form = PaymentForm(request.POST)  # PaymentForm
