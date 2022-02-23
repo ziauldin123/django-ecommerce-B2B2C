@@ -63,8 +63,8 @@ def frontpage(request):
         if cart.__len__() == 0:
             for rs in shopcart:
                 if rs.variant is None:
-                    cart.add(product_id=rs.product.id,variant_id=None, user_id=current_user.id,
-                         quantity=rs.quantity, update_quantity=True)
+                    cart.add(product_id=rs.product.id, variant_id=None, user_id=current_user.id,
+                             quantity=rs.quantity, update_quantity=True)
                 else:
                     cart.add(product_id=rs.product.id, variant_id=rs.variant.id, user_id=current_user.id,
                              quantity=rs.quantity, update_quantity=True)
@@ -88,7 +88,7 @@ def frontpage(request):
         grandTotal = 0
         wishlist = 0
         total_compare = 0
-  
+
     print(request.user)
     return render(
         request,
@@ -395,19 +395,20 @@ def privacy_policy(request):
 
 
 def sitemap(request):
-    product=Product.objects.filter(status=True,visible=True)
-    vendors=Vendor.objects.filter(enabled=True)
-    category=Category.objects.all()
+    product = Product.objects.filter(status=True, visible=True)
+    vendors = Vendor.objects.filter(enabled=True)
+    category = Category.objects.all()
+    posts = Post.objects.all()
     if not request.user.is_anonymous:
         cart = Cart(request)
         current_user = request.user
-        wishlist=UserWishList.objects.filter(user=current_user)
+        wishlist = UserWishList.objects.filter(user=current_user)
         # cart.clear()
         shopcart = ShopCart.objects.filter(user_id=current_user.id)
-        total=cart.get_cart_cost()
-        tax=cart.get_cart_tax()
-        grandTotal=cart.get_cart_cost() + cart.get_cart_tax()
-        if  not request.session.get('comparing'):
+        total = cart.get_cart_cost()
+        tax = cart.get_cart_tax()
+        grandTotal = cart.get_cart_cost() + cart.get_cart_tax()
+        if not request.session.get('comparing'):
             comparing = 0
         else:
             comparing = request.session['comparing'].__len__()
@@ -424,22 +425,23 @@ def sitemap(request):
         subtotal = 0
         tax = 0
         total = 0
-        grandTotal = 0 
+        grandTotal = 0
         shopcart = None
         wishlist = 0
         total_compare = 0
 
-    return render(request,'parts/sitemaps.html',{
-        'product':product,
-        'category':category,
-        'shopcart':shopcart,
-        'subtotal':total,
-        'tax':tax,
-        'total':grandTotal,
-        'wishlist':wishlist,
-        'total_compare':total_compare,
-        'vendors':vendors
-        })
+    return render(request, 'parts/sitemaps.html', {
+        'product': product,
+        'category': category,
+        'shopcart': shopcart,
+        'subtotal': total,
+        'tax': tax,
+        'posts': posts,
+        'total': grandTotal,
+        'wishlist': wishlist,
+        'total_compare': total_compare,
+        'vendors': vendors
+    })
 
 
 def error_404_view(request, exception):

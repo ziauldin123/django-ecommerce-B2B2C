@@ -66,7 +66,6 @@ INSTALLED_APPS = [
     'apps.product',
     'apps.vendor',
     'apps.blog',
-    'apps.dashboard',
     'apps.coupon',
     'apps.newProduct',
     'apps.home',
@@ -207,33 +206,29 @@ COLLECTFAST_THREADS = 20
 
 EMAIL_BACKEND = 'django_ses.SESBackend'
 DEFAULT_EMAIL_FROM = 'customerservice@sokopark.com'
-SERVER_EMAIL='customerservice@sokopark.com'
+SERVER_EMAIL = 'customerservice@sokopark.com'
 
 AWS_SES_REGION_NAME = 'eu-west-1'
 AWS_SES_REGION_ENDPOINT = 'email.eu-west-1.amazonaws.com'
 
 
-
 AWS_ACCESS_KEY_ID = 'AKIA2K3OSTWJYNYQ6Q5W'
 AWS_SECRET_ACCESS_KEY = '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'
 AWS_STORAGE_BUCKET_NAME = 'sokopark'
-AWS_S3_REGION_NAME= 'af-south-1'
+AWS_S3_REGION_NAME = 'af-south-1'
 AWS_S3_CUSTOM_DOMAIN = '%s.s3.af-south-1.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
 AWS_PRELOAD_METADATA = True
 AWS_DEFAULT_ACL = None
 AWS_S3_SECURE_URLS = True
 AWS_EXPIRY = 60 * 60 * 24 * 7
 AWS_S3_OBJECT_PARAMETERS = {
-    'CacheControl':'max-age={}, s-maxage={}, must-revalidate'.format(AWS_EXPIRY, AWS_EXPIRY)
+    'CacheControl': 'max-age={}, s-maxage={}, must-revalidate'.format(AWS_EXPIRY, AWS_EXPIRY)
 }
 AWS_LOCATION = 'static'
 AWS_IS_GZIPPED = True
 COLLECTFAST_THREADS = 20
-STATICFILES_DIRS = [
-        os.path.join(BASE_DIR, 'apps/dashboard/static'),
-    ]
 
-COMPRESS_ROOT=os.path.join(BASE_DIR, "static")
+COMPRESS_ROOT = os.path.join(BASE_DIR, "static")
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
@@ -244,7 +239,7 @@ if not DEBUG:
     COLLECTFAST_STRATEGY = "collectfast.strategies.boto3.Boto3Strategy"
     COMPRESS_STORAGE = STATICFILES_STORAGE
     STATIC_URL = 'https://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION)
-    COMPRESS_URL= STATIC_URL
+    COMPRESS_URL = STATIC_URL
 else:
     STATIC_URL = '/static/'
     MEDIA_URL = '/media/'
@@ -253,8 +248,9 @@ else:
 # STATIC_ROOT = "/home/ubuntu/static/"
 COMPRESS_ENABLED = True
 COMPRESS_CSS_HASHING_METHOD = 'content'
-COMPRESS_CSS_FILTERS = ['compressor.filters.css_default.CssAbsoluteFilter',  'compressor.filters.cssmin.CSSMinFilter']
-COMPRESS_JS_FILTERS =['compressor.filters.jsmin.JSMinFilter']
+COMPRESS_CSS_FILTERS = ['compressor.filters.css_default.CssAbsoluteFilter',
+                        'compressor.filters.cssmin.CSSMinFilter']
+COMPRESS_JS_FILTERS = ['compressor.filters.jsmin.JSMinFilter']
 COMPRESS_PARSER = 'compressor.parser.HtmlParser'
 HTML_MINIFY = True
 KEEP_COMMENTS_ON_MINIFYING = False
@@ -275,14 +271,11 @@ GZIP_CONTENT_TYPES = (
 )
 
 
-
 CKEDITOR_UPLOAD_PATH = 'images/'
 CKEDITOR_ALLOW_NONIMAGE_FILES = False
 
 CKEDITOR_JQUERY_URL = 'https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js'
 CKEDITOR_IMAGE_BACKEND = "pillow"
-
-
 
 
 # SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'

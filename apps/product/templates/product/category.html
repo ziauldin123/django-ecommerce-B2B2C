@@ -1,6 +1,6 @@
 {% extends 'core/base.html' %}
 {% load static %}
-{% block title %}{{ category.title }} | {% endblock %}
+{% block title %}{{ category.title }}{% endblock %}
  
 {% block content %}
 <script>
@@ -100,7 +100,7 @@
                                                         <div class="filter__container">
                                                             <div class="filter-price" data-min="{{ price_from }}" data-max="{{ price_to }}" data-from="{{ price_from }}" data-to="{{ price_to }}">
                                                                 <div class="filter-price__slider"></div>
-                                                                <div class="filter-price__title">Price: $<span class="filter-price__min-value"></span> – $<span class="filter-price__max-value"></span></div>
+                                                                <div class="filter-price__title">Rwf <span class="filter-price__min-value"></span> – Rwf <span class="filter-price__max-value"></span></div>
                                                                 <input type="text" id="price_from" value="{{price_from}}" name="price_from" hidden="true">
                                                                 <input type="text" id="price_to" value="{{price_to}}" name="price_to" hidden="true">
                                                             </div>
@@ -108,7 +108,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="widget-filters__item">
+                                             <div class="widget-filters__item">
                                                 <div class="filter filter--opened" data-collapse-item>
                                                     <button type="button" class="filter__title" data-collapse-trigger>
                                                         Color
@@ -196,6 +196,7 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            
                                             <div class="widget-filters__item">
                                                 <div class="filter filter--opened" data-collapse-item>
                                                     <button type="button" class="filter__title" data-collapse-trigger>
@@ -274,6 +275,7 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            
                                             <div class="widget-filters__item">
                                                 <div class="filter filter--opened" data-collapse-item>
                                                     <button type="button" class="filter__title" data-collapse-trigger>
@@ -391,6 +393,7 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                           
                                         </div>
                                         <div class="widget-filters__actions d-flex">
                                             <button class="btn btn-primary btn-sm" id="filter_search_btn">Filter</button>
@@ -407,6 +410,7 @@
                         <div class="products-view">
                             <div class="products-view__options">
                                 <div class="view-options view-options--offcanvas--mobile">
+                                    <h4>{{ category.title }}</h4>
                                     <div class="view-options__divider"></div>
                                     
                                 </div>
@@ -430,7 +434,6 @@
                     </div>
                 </div>
             </div>
-        </div>
         </form>
     </div>
 </div>
