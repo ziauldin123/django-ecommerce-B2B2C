@@ -40,7 +40,7 @@ class Village(models.Model):
         return self.village
 
 
-class Payment(models.Model):
+class MobileOperator(models.Model):
     name = models.CharField(max_length=32)
 
     def __str__(self):
