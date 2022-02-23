@@ -44,12 +44,13 @@
                                 <div class="address-card__row-content"><a class="address-card__row-content" href="{% url 'vendor_guidelines' %}">Vendor Guidelines</a></div>
                             </div><br>
 
-                            <h5>Blog Posts</h5>
+                            <h5>Vendors</h5>
                                 <div>
-                                    {% for post in posts %} 
-                                        <div class="address-card__row-content"><a class="address-card__row-content"href="{% url 'detail' post.slug  %}">{{post.title}}</a></div>
+                                    {% for vendor in vendors %} 
+                                        <div class="address-card__row-content"><a class="address-card__row-content" href="{% url 'vendor' vendor.slug %}">{{ vendor.company_name }}</a></div> 
                                     {% endfor %}    
-                                </div><br>
+                                </div>
+                            </div><br>
 
                             <h5>Product Categories</div>
                             <div>
@@ -65,15 +66,14 @@
                                             <div class="address-card__row-content"><a class="address-card__row-content" href="{% url 'product' product.id product.slugV product.category.sub_category.category.slug product.category.sub_category.slug product.category.slug product.slug %}">{{product.title}}</a></div>
                                         {% endif %} 
                                     {% endfor %}    
-                                </div><br>
+                                </div><br>  
                                 
-                            <h5>Vendors</h5>
+                              <h5>Blog Posts</h5>
                                 <div>
-                                    {% for vendor in vendors %} 
-                                        <div class="address-card__row-content"><a class="address-card__row-content" href="{% url 'vendor' vendor.slug %}">{{ vendor.company_name }}</a></div> 
+                                    {% for post in posts %} 
+                                        <div class="address-card__row-content"><a class="address-card__row-content"href="{% url 'detail' post.slug  %}">{{post.title}}</a></div>
                                     {% endfor %}    
-                                </div>
-                            </div>
+                                </div><br>
                         </div>
                     </div>
                 </div>
