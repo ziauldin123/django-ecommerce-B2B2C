@@ -784,28 +784,31 @@ def upload_logo(request):
         if "image" in request.FILES and len(request.FILES["image"]) > 0:
             vendor.logo = request.FILES["image"]
             vendor.save()
-            request.session['logo']=Vendor.objects.get(email=vendor.email).logo.url
+            request.session['logo'] = Vendor.objects.get(
+                email=vendor.email).logo.url
             messages.info(request, f"Company Logo Updated Sucessfully.")
             print("uploaded")
     return redirect('vendor_admin')
 
+
 @ login_required
-def add_productimage(request,pk):
+def add_productimage(request, pk):
     vendor = request.user.vendor
-    product = Product.objects.get(vendor=vendor,id=pk)
+    product = Product.objects.get(vendor=vendor, id=pk)
     print(product.product_images.all())
     if product.is_variant:
         print('variant')
     else:
         if request.method == 'POST':
-            images=request.FILES.getlist('images')
+            images = request.FILES.getlist('images')
             for image in images:
-                 product_image=ProductImage.objects.create(product=product)
-                 product_image=Image(image=image,imgtype=Any)
-                 product_image.save()
-            messages.info(request,f"Product image uploaded Successfully")
+                product_image = ProductImage.objects.create(product=product)
+                product_image = Image(image=image, imgtype=Any)
+                product_image.save()
+            messages.info(request, f"Product image uploaded Successfully")
             print("success")
-    return redirect('products')            
+    return redirect('products')
+
 
 @ login_required
 def del_productimage(request, pk):
@@ -1015,9 +1018,6 @@ def become_customer(request):
             })
             email_user(user, subject, message)
 
-            messages.success(
-                request, ('Please check your email for verification'))
-
             return redirect('activation_sent')
     else:
         form = CustomerSignUpForm()
@@ -1087,7 +1087,6 @@ class OrderHistory(TemplateView):
                 compare_var = request.session['comparing_variants'].__len__()
 
             total_compare = comparing + compare_var
-            
 
         orders_list = account_service.calculate_order_sum(request.user.email)
         paginator = Paginator(orders_list, 7)
