@@ -11478,7 +11478,15 @@ html:not([dir=rtl]) .noUi-horizontal .noUi-origin {
 
 .profile-card__email {
   font-size: 15px;
-  margin-bottom: 24px;
+  margin-bottom: 0;
+
+}
+
+.profile-card__number {
+  font-size: 15px;
+  margin-bottom: 0;
+  margin-top: 0;
+
 }
 
 /*

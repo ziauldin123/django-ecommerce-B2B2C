@@ -59,6 +59,7 @@
                             </div>
                             <div class="profile-card__name">{{ vendor.company_name }}</div>
                             <div class="profile-card__email">{{ vendor.email }}</div>
+                            <div class="profile-card__number">{{ vendor.phone }}</div>
                         </div>
                         <form class="form" style="margin-left: 20px;margin-bottom: 20px;" method="post" action="{% url 'upload_logo' %}" enctype="multipart/form-data">
                             {% csrf_token %}
