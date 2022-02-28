@@ -142,11 +142,11 @@
                                 {% csrf_token %}
                                 <div id="pay-form">
                                     <div class="form-group" id=service_provider">
-                                        <label>Mobile Operators</label>
+                                        <label>Payment Methods</label>
                 
                                         <div class="form-group">
                                             <select class="form-control select" name="service_provider" id="service_provider">
-                                                <option value="" selected>---Select mobile operator---</option>
+                                                <option value="" selected>---Select payment method---</option>
                                                 {% for entry in service_provider %}
                                                 <option value="{{ entry.name }}">{{ entry.name }}</option>
                                                 {% endfor %}
