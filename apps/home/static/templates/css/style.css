@@ -3986,6 +3986,9 @@ html:not([dir=rtl]) .noUi-horizontal .noUi-origin {
 .social-links__link--type--facebook {
   background: #3c5a99;
 }
+.social-links__link--type--linkedin {
+  background: #0A66C2;
+}
 
 .social-links__link--type--twitter {
   background: #00a2e8;
