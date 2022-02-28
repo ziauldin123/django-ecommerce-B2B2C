@@ -12,7 +12,7 @@
                         <use xlink:href="/static/templates/images/sprite.svg#check-100"></use>
                     </svg>
                     <h1 class="order-success__title">Order # {{ order.reference_number}} Received</h1>
-                    <div class="order-success__subtitle">To complete the order, kindly use one of the payment methods below:</div>
+                    <div class="order-success__subtitle">To complete the order, kindly process the payment using the details below:</div>
 
                       <div class="row mt-3 no-gutters mx-n2">
                           {% if order.service_provider == 'MTN MOMO' %}
@@ -20,7 +20,7 @@
                                 <div class="card address-card">
                                     <div class="address-card__body">
                                         <div class="address-card__badge address-card__badge">MTN MoMo</div>
-                                        <div class="address-card__name mt-3">*182*8*1*077935*{{total|stringformat:".0f" }}#</div>
+                                        <div class="address-card__name mt-3">*182*8*1*050520*{{total|stringformat:".0f" }}#</div>
                                        
                                     </div>
                                 </div>
@@ -32,6 +32,7 @@
                                         <div class="address-card__badge address-card__badge">Bank Transfer</div>
                                         <div class="address-card__name mt-3">Beneficiary: Sokopark Ltd.</div>
                                         <div class="address-card__name mt-3">Bank: Bank of Kigali</div>
+                                        <div class="address-card__name mt-3">Account: 100075880418</div>
                                         <div class="address-card__name mt-3">Amount: Rwf {{total|stringformat:".0f"}}</div>   
                                     </div>
                                 </div>
