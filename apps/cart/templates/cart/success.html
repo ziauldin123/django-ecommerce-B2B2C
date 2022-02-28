@@ -25,6 +25,17 @@
                                     </div>
                                 </div>
                             </div>
+                            {% elif order.service_provider == 'BANK TRANSFER' %}
+                            <div class="col-sm-12 col-12 px-2 mt-sm-0 mt-3">
+                                <div class="card address-card">
+                                    <div class="address-card__body">
+                                        <div class="address-card__badge address-card__badge">Bank Transfer</div>
+                                        <div class="address-card__name mt-3">Beneficiary: Sokopark Ltd.</div>
+                                        <div class="address-card__name mt-3">Bank: Bank of Kigali</div>
+                                        <div class="address-card__name mt-3">Amount: Rwf {{total|stringformat:".0f"}}</div>   
+                                    </div>
+                                </div>
+                            </div>
                             {% else %}
                             <div class="col-sm-12 col-12 px-2 mt-sm-0 mt-3">
                                 <div class="card address-card">
