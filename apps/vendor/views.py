@@ -676,7 +676,7 @@ def add_product_with_variant(request):
         print("vendor::products", products, vendor.products_limit)
         form = ProductWithVariantForm()
 
-    return render(request, 'vendor/add_product.html', {'form': form})
+    return render(request, 'vendor/add_product_with_variant.html', {'form': form})
 
 
 @ login_required
@@ -732,19 +732,26 @@ def edit_product(request, pk):
     vendor = request.user.vendor
     # print(check.variant)
     # return HttpResponse('hello')
+
     if check != None:
         product = vendor.newProducts.filter(pk=pk).first()
+        productImages = ProductImage.objects.filter(product=product)
+        formImage = []
         if request.method == 'POST':
             form = ProductForm(request.POST, request.FILES, instance=product)
+            formImage = ProductImageForm(request.POST, request.FILES, instance=productImages)
 
             if form.is_valid():
                 form.save()
+
+            # if formImage.is_valid():
+            #     formImage.save()
 
                 return redirect('vendor_admin')
         else:
             form = ProductForm(instance=product)
 
-        return render(request, 'vendor/edit_product.html', {'form': form, 'product': product})
+        return render(request, 'vendor/edit_product.html', {'form': form,'product': product,'formImage':productImages, })
 
     else:
         variant = Variants.objects.filter(pk=pk).first()
@@ -761,6 +768,10 @@ def edit_product(request, pk):
 
         return render(request, 'vendor/edit_product.html', {'form': form, 'variant': variant})
 
+
+@login_required
+def edit_productImage(request,pk):
+    check = Product.objects.filter(id=pk)
 
 @ login_required
 def delete_product(request, pk):
@@ -795,20 +806,21 @@ def upload_logo(request):
 def add_productimage(request, pk):
     vendor = request.user.vendor
     product = Product.objects.get(vendor=vendor, id=pk)
-    print(product.product_images.all())
     if product.is_variant:
-        print('variant')
+        if request.method == 'POST':
+            images=request.FILES.getlist('images')
+            variant=Variants.objects.get(id=pk)
+            print(variant)
+            for image in images:
+                ProductImage.objects.create(variant=variant,image=image)
+            messages.info(request,f"Product image uploaded Successfully")    
     else:
         if request.method == 'POST':
             images = request.FILES.getlist('images')
             for image in images:
-                product_image = ProductImage.objects.create(product=product)
-                product_image = Image(image=image, imgtype=Any)
-                product_image.save()
-            messages.info(request, f"Product image uploaded Successfully")
-            print("success")
-    return redirect('products')
-
+                ProductImage.objects.create(product=product,image=image)
+            messages.info(request,f"Product image uploaded Successfully")
+    return redirect('products')            
 
 @ login_required
 def del_productimage(request, pk):

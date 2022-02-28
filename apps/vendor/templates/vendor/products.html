@@ -67,6 +67,7 @@
                                         <th>Discount</th>
                                         <th>Status</th>
                                         <th>Edit</th>
+                                        <th>Add Images</th>
                                         <th>Delete</th>
                                     </tr>
                                 </thead>
@@ -112,6 +113,13 @@
                                         {% endif %}
                                         {% if product.variant == 'None' %}
                                         <td>
+                                            <form class="form" method="post" action="{% url 'add_product_image' product.id %}" enctype="multipart/form-data">
+                                                {% csrf_token %}
+                                                    <input  type="file" id="images" name="images" multiple>
+                                                    <button type="submit">Upload</button
+                                            </form>
+                                        </td>
+                                        <td>
                                             <a href="{% url 'delete_product' product.id %}">Delete</a>
                                         </td>
                                         {% endif %}
@@ -145,6 +153,12 @@
                       <td>
                           <a href="{% url 'edit_product' variant.id %}" class="mr-5">Edit</a>
                       </td>
+                      <td><form class="form" method="post" action="{% url 'add_product_image' variant.id %}" enctype="multipart/form-data">
+                        {% csrf_token %}
+                            <input  type="file"id="images" name="images" multiple>
+                            <button type="submit">Upload</button>
+                       </form>
+                     </td>
                       <td>
                           <a href="{% url 'delete_product' variant.id %}">Delete</a>
                       </td>

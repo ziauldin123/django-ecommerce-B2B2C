@@ -1,5 +1,9 @@
+from tkinter import Widget
+from tkinter.tix import Select
+from turtle import color, title
+from unicodedata import category
 from django.db.models import fields
-from django.forms import ModelForm
+from django.forms import FileInput, ModelForm
 from django.contrib.auth.forms import UserCreationForm
 from django import forms
 from django.contrib.auth.models import User
@@ -50,14 +54,12 @@ class CategoryWidget(s2forms.ModelSelect2Widget):
 
 
 class ProductForm(ModelForm):
-
-
+    description=forms.CharField(widget=forms.Textarea(attrs={'class':'form-control'}))
     class Meta:
         model = Product
         fields = (
             'category',
             'title',
-            # fields = ['category', 'image', 'title',
             'summary',
             'price',
             'is_vat',
@@ -79,9 +81,11 @@ class ProductForm(ModelForm):
         )
         widgets = {
             'category': CategoryWidget,
+
             'length':  Select2AddAnother(
-                reverse_lazy('add_length'),
+                reverse_lazy('add_length'),  
             ),
+            
             'brand':  Select2AddAnother(
                 reverse_lazy('add_brand'),
             ),
@@ -97,13 +101,23 @@ class ProductForm(ModelForm):
             'size':  Select2AddAnother(
                 reverse_lazy('add_size'),
             ),
-            'color':  Select2AddAnother(
-                reverse_lazy('add_color'),
-            )
-            }
+            'color': Select2AddAnother(
+                 reverse_lazy('add_color')
+            ),       
+            'color': forms.Select(attrs={'class':'form-control'}),
+            'length': forms.Select(attrs={'class':'form-control'}),
+            'width': forms.Select(attrs={'class':'form-control'}),
+            'height': forms.Select(attrs={'class':'form-control'}),
+            'weight': forms.Select(attrs={'class':'form-control'}),
+            'size': forms.Select(attrs={'class':'form-control'}),
+            'brand': forms.Select(attrs={'class':'form-control'}),
+            'unit_type': forms.Select(attrs={'class':'form-control'}),
+            'category': forms.Select(attrs={'class':'form-control'}),
+        }
+    
 
 class ProductWithVariantForm(ModelForm):
-
+    description=forms.CharField(widget=forms.Textarea(attrs={'class':'form-control'}))
     class Meta:
         model=Product
         fields=[
@@ -122,6 +136,8 @@ class ProductWithVariantForm(ModelForm):
         'brand':  Select2AddAnother(
             reverse_lazy('add_brand'),
         ),
+        'brand': forms.Select(attrs={'class':'form-control'}),
+        'category': forms.Select(attrs={'class':'form-control'}),
     }
 
 
@@ -142,8 +158,11 @@ class OpeningHoursForm(ModelForm):
 
 class ProductImageForm(ModelForm):
     class Meta:
-        model = Images
-        fields = ['image']
+        model = ProductImage
+        fields = [
+            'image',
+            'title'
+            ]
 
 
 # Vendor Sign Up Form
