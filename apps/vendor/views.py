@@ -1,3 +1,4 @@
+from math import prod
 from tkinter import Image
 from typing import Any
 from django.core.paginator import (Paginator, PageNotAnInteger, EmptyPage)
@@ -810,16 +811,50 @@ def add_productimage(request, pk):
         if request.method == 'POST':
             images=request.FILES.getlist('images')
             variant=Variants.objects.get(id=pk)
-            print(variant)
-            for image in images:
-                ProductImage.objects.create(variant=variant,image=image)
-            messages.info(request,f"Product image uploaded Successfully")    
+            if len(images) > 3 :
+                messages.info(request,f"You can't can't add more than 3 images")
+
+            elif len(ProductImage.objects.filter(variant=variant)) >= 3:
+                messages.info(request,f"You have reached product images limit")
+            
+            elif len(images) + len(ProductImage.objects.filter(variant=variant)) > 3:
+                if len(images) > len(ProductImage.objects.filter(variant=variant)):
+                    img=len(images) - len(ProductImage.objects.filter(variant=variant))
+                elif len(images) == len(ProductImage.objects.filter(variant=variant)):
+                    img=3 - len(images)    
+                else:
+                    img=len(ProductImage.objects.filter(variant=variant)) -  len(images) 
+                
+                messages.info(request, f"You can't add more than 3 images only:" + str(img))
+
+            else:
+                for image in images:
+                    ProductImage.objects.create(variant=variant,image=image)
+                messages.info(request,f"Product image uploaded Successfully")
     else:
         if request.method == 'POST':
             images = request.FILES.getlist('images')
-            for image in images:
-                ProductImage.objects.create(product=product,image=image)
-            messages.info(request,f"Product image uploaded Successfully")
+            if len(images) > 3 :
+                messages.info(request,f"You can't can't add more than 3 images")
+
+            elif len(ProductImage.objects.filter(product=product)) >= 3:
+                messages.info(request,f"You have reached product images limit")
+            
+            elif len(images) + len(ProductImage.objects.filter(product=product)) > 3:
+                if len(images) > len(ProductImage.objects.filter(product=product)):
+                    img=len(images) - len(ProductImage.objects.filter(product=product))
+                elif len(images) == len(ProductImage.objects.filter(product=product)):
+                    img=3 - len(images)    
+                else:
+                    img=len(ProductImage.objects.filter(product=product)) -  len(images) 
+                
+                messages.info(request, f"You can't add more than 3 images only:" + str(img))
+
+            else:
+                for image in images:
+                    ProductImage.objects.create(product=product,image=image)
+                messages.info(request,f"Product image uploaded Successfully")
+                
     return redirect('products')            
 
 @ login_required

@@ -159,6 +159,33 @@
       rel="stylesheet"
       href="{% static 'templates/fonts/stroyka/stroyka.css' %}"
     />
+        <!-- Alertify -->
+    <!-- JavaScript -->
+<script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+
+<!-- CSS -->
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"/>
+<!-- Default theme -->
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css"/>
+<!-- Semantic UI theme -->
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/semantic.min.css"/>
+<!-- Bootstrap theme -->
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/bootstrap.min.css"/>
+
+<!-- 
+    RTL version
+-->
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.rtl.min.css"/>
+<!-- Default theme -->
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.rtl.min.css"/>
+<!-- Semantic UI theme -->
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/semantic.rtl.min.css"/>
+<!-- Bootstrap theme -->
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/bootstrap.rtl.min.css"/>
+    <!-- End -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.6.0/socket.io.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.1.3/vue.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.6.0/socket.io.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.1.3/vue.min.js"></script>
     <script>
@@ -222,6 +249,30 @@
         // end if innerWidth
       });
       // DOMContentLoaded  end
+      function deletefromcart(pr_id){
+        event.preventDefault();
+        var my_token='{{ csrf_token }}'
+        alertify.confirm("Are you sure? you want to remove product from cart.",
+        function(){
+          {
+          $.ajax({
+          url:"/order/deletefromcart/" + pr_id,
+          type:'POST',
+          data:{
+            "csrfmiddlewaretoken": my_token,
+          },
+          success:function(){
+            $("#cart_table").load(location.href + " #cart_table");
+            $("#my_cart").load(location.href + " #my_cart");
+            alertify.alert("Product removed from cart").setHeader('<em>  </em> ')
+          }
+        })
+        }
+        }
+        ).setHeader('<em>  </em> ')
+        
+      }
+    </script>
     </script>
 
     <!-- price range slider -->
@@ -1039,13 +1090,12 @@
                     </span>
                 </div>
             </div>
-            <a href="{% url 'deletefromcart' product.id %}" onclick="return confirm('Delete ! Are you sure?')" >
-              <button type="button" class="dropcart__product-remove btn btn-light btn-sm btn-svg-icon">
-                <svg width="10px" height="10px">
-                    <use xlink:href="/static/templates/images/sprite.svg#cross-10"></use>
-                </svg>
-            </button>
-            </a>
+            {% csrf_token %}
+            <button onclick="deletefromcart('{{product.id}}')" type="button" class="dropcart__product-remove btn btn-light btn-sm btn-svg-icon">
+              <svg width="10px" height="10px">
+                <use xlink:href="/static/templates/images/sprite.svg#cross-10"></use>
+            </svg>
+        </button>
         </div> 
           {% endfor %}
       </div>
