@@ -420,7 +420,7 @@
             <div class="site-header__phone">
               <div class="site-header__phone-title">Customer Service</div>
               <div class="site-header__phone-number">
-                <a href="tel:250 789 613 257" style="color: white;">+250 789 613 257</a>
+                <a href="tel:+250790008795" style="color: white;">+250 790 008 795</a>
               </div>
             </div>
           </div>
@@ -757,7 +757,7 @@
                       
                       <li>
                         <i class="footer-contacts__icon fas fa-mobile-alt"></i>
-                        <a href="tel:250 789 613 257">+250 789 613 257</a>
+                        <a href="tel:+250790008795">+250 790 008 795</a>
                       </li>
                       <li>
                         <i class="footer-contacts__icon far fa-clock"></i>
@@ -791,7 +791,7 @@
                         <a href="{% url 'blog' %}" class="footer-links__link">Blog</a>
                       </li>
                       <li class="footer-links__item">
-                        <a href="{% url 'sitemap' %}" class="footer-links__link">Site Map</a>
+                        <a href="{% url 'sitemap' %}" class="footer-links__link">Sitemap</a>
                       </li>
                     </ul>
                   </div>
@@ -873,7 +873,12 @@
     <div class="mobilemenu__backdrop"></div>
     <div class="mobilemenu__body">
         <div class="mobilemenu__header">
-            <div class="mobilemenu__title">Sokopark</div>
+            <div class="mobilemenu__title">
+               <a class="mobile-header__logo" href="/">
+                    <img width="30px" height="30px" src="{% static 'templates/images/customer-service.png' %}"/>  
+                  </a>
+              <a href="tel:+250790008795" style="color:#131921;">+250 790 008 795</a>
+            </div>
             <button type="button" class="mobilemenu__close">
                 <svg width="20px" height="20px">
                     <use xlink:href="/static/templates/images/sprite.svg#cross-20"></use>
