@@ -467,10 +467,7 @@ class Variants(models.Model):
     def get_url(self):
         return f'/{self.product.id}/{self.product.vendor.slug}/{self.product.category.sub_category.category.slug}/{self.product.category.sub_category.slug}/{self.product.category.slug}/{self.product.slug}/'
 
-    # def get_Image(self):
-    #     if self.image_variant:
-    #         return mark_safe('<img src="%s" width="80px" height="80px"/>' % (self.image_variant.image.url))
-
+   
     def image(self):
         img = Images.objects.get(id=self.image_id)
         if img.id is not None:

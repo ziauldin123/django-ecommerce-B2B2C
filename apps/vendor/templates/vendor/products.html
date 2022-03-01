@@ -63,7 +63,7 @@
                                     <tr>
                                         <th>Title</th>
                                         <th>Price (Rwf)</th>
-                                        <th>VAT</th>
+                                        <th>Quantity</th>
                                         <th>Discount</th>
                                         <th>Status</th>
                                         <th>Edit</th>
@@ -82,11 +82,10 @@
                                         {% endif %}
                                         {% if product.variant == 'None' %}
                                         <td>
-                                            {% if  product.is_vat %}
-                                              <a>18%</a>
-                                            {% else %}
-                                              <a>No VAT</a>
-                                            {% endif %}
+                                            <div>
+                                                <input type="hidden" class="prod_id" value="{{product.id}}">
+                                                <input style="width: 50px;" id="quantity" name="quantity" type="number" value="{{product.quantity}}" min="1" >
+                                            </div>
                                         </td>
                                         {% endif %}
                                         {% if product.variant == 'None' %}
@@ -115,8 +114,9 @@
                                         <td>
                                             <form class="form" method="post" action="{% url 'add_product_image' product.id %}" enctype="multipart/form-data">
                                                 {% csrf_token %}
-                                                    <input  type="file" id="images" name="images" multiple>
-                                                    <button type="submit">Upload</button
+                                                <img style="cursor: pointer;" onclick="document.getElementById('images').click()" src="https://img.icons8.com/external-tanah-basah-detailed-outline-tanah-basah/48/000000/external-upload-user-interface-tanah-basah-detailed-outline-tanah-basah.png"/>
+                                                <input  type="file" id="images" style="display: none;cursor: pointer;" name="images" multiple>
+                                                <button type="submit">Upload</button
                                             </form>
                                         </td>
                                         <td>
@@ -131,11 +131,10 @@
                       <td><a href="">{{ variant.title }}</a></td>
                       <td>Frw {{ variant.price }}</td>
                       <td>
-                          {% if  variant.is_vat %}
-                            <p>18%</p>
-                          {% else %}
-                            <p>No VAT</p>
-                          {% endif %}
+                        <div>
+                            <input type="hidden" class="prod_id" value="{{variant.id}}">
+                            <input style="width: 50px;" id="quantity" name="quantity" type="number" value="{{variant.quantity}}" min="1" >
+                        </div>
                       </td>
                       <td>
                           {% if variant.discount > 0 %}
@@ -151,11 +150,12 @@
 
                       </td>
                       <td>
-                          <a href="{% url 'edit_product' variant.id %}" class="mr-5">Edit</a>
+                          <a href="{% url 'edit_product_variant' variant.id %}" class="mr-5">Edit</a>
                       </td>
                       <td><form class="form" method="post" action="{% url 'add_product_image' variant.id %}" enctype="multipart/form-data">
                         {% csrf_token %}
-                            <input  type="file"id="images" name="images" multiple>
+                            <img style="cursor: pointer;"  onclick="document.getElementById('images').click()" src="https://img.icons8.com/external-tanah-basah-detailed-outline-tanah-basah/48/000000/external-upload-user-interface-tanah-basah-detailed-outline-tanah-basah.png"/>
+                            <input  type="file"id="images" style="display: none;cursor: pointer;" name="images" multiple>
                             <button type="submit">Upload</button>
                        </form>
                      </td>

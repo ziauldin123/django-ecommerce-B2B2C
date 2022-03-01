@@ -11,9 +11,8 @@
                 <div class="card flex-grow-1 mb-0 mt-5">
                     <div class="card-body">
                         <h3 class="title">Edit {{product.title}}</h3>
-
                             <form method="post" action="." enctype="multipart/form-data">
-                                {% load widget_tweaks %}
+                            {% load widget_tweaks %}
                             {% csrf_token %}
                                 <div class="form-row">
                                   <div class="form-group col-md-6">
@@ -108,6 +107,7 @@
                                 <div class="form-row">
                                         {% for image in formImage %}
                                            <div class="form-group col-md-4">
+                                               <label for="">{{image.image}}</label>
                                                <input  type="file"  class="form-control " id="image" name="image">
                                             </div>
                                         {% endfor %}

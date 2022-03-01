@@ -731,44 +731,47 @@ def add_variant(request):
 def edit_product(request, pk):
     check = Product.objects.filter(id=pk).first()
     vendor = request.user.vendor
-    # print(check.variant)
-    # return HttpResponse('hello')
+    product = vendor.newProducts.filter(pk=pk).first()
+    productImages = ProductImage.objects.filter(product=product)
+    if request.method == 'POST':
+        form = ProductForm(request.POST, request.FILES, instance=product)
 
-    if check != None:
-        product = vendor.newProducts.filter(pk=pk).first()
-        productImages = ProductImage.objects.filter(product=product)
-        formImage = []
-        if request.method == 'POST':
-            form = ProductForm(request.POST, request.FILES, instance=product)
-            formImage = ProductImageForm(request.POST, request.FILES, instance=productImages)
+        if form.is_valid():
+            form.save()
 
-            if form.is_valid():
-                form.save()
-
-            # if formImage.is_valid():
-            #     formImage.save()
-
-                return redirect('vendor_admin')
-        else:
-            form = ProductForm(instance=product)
-
-        return render(request, 'vendor/edit_product.html', {'form': form,'product': product,'formImage':productImages, })
-
+        if "image" in request.FILES and len(request.FILES["image"]) > 0:
+            for image in productImages:
+                image.image = request.FILES["image"]
+                image.save()
+                
+            messages.info(request,"Product Updated")
+            return redirect('products')
     else:
-        variant = Variants.objects.filter(pk=pk).first()
-        if request.method == 'POST':
-            form = VariantForm(request.POST, request.FILES, instance=variant)
+        form = ProductForm(instance=product)
 
-            if form.is_valid():
-                form.save()
+    return render(request, 'vendor/edit_product.html', {'form': form,'product': product,'formImage':productImages})
 
-                return redirect('vendor_admin')
+@login_required
+def edit_product_variant(request,pk):
+   variant = Variants.objects.filter(id=pk).first()
+   productImages = ProductImage.objects.filter(variant=variant)
+   if request.method == 'POST':
+       form = VariantForm(request.POST, request.FILES, instance=variant)
 
-        else:
-            form = VariantForm(instance=variant)
+       if form.is_valid():
+           form.save()
+       
+       if "image" in request.FILES and len(request.FILES["image"]) > 0:
+           for image in productImages:
+               image.image = request.FILES["image"]
+               image.save()
+       
+           messages.info(request,"Product Updated")
+           return redirect('products')
+   else:
+       form = VariantForm(instance=variant)
 
-        return render(request, 'vendor/edit_product.html', {'form': form, 'variant': variant})
-
+   return render(request, 'vendor/edit_product_variant.html',{'form':form,'variant':variant,'form':form,'formImage':productImages})                     
 
 @login_required
 def edit_productImage(request,pk):
