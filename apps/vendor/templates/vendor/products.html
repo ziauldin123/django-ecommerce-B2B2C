@@ -2,6 +2,50 @@
 {% load static %}
 {% block title %}Products - {{ request.session.username }}{% endblock %}
 {% block content %}
+<script>
+    $('body').on('change','.changeQty',function(){
+        var product_id=$(this).closest('.product_data').find('.prod_id').val()
+        var product_qty=$(this).closest('.product_data').find('.input').val()
+        $.ajax({
+            method:"POST",
+            cache:false,
+            url:"{% url 'change_qty' %}",
+            data:{
+                'product_id':product_id,
+                'product_qty':product_qty,
+                csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+            },
+            success:function(data){
+                $("#message").append(
+                    '<div class="alert alert-success hideit alertSuc">Product Quantity Updated.</div >');
+                setTimeout(function () {
+                    $("#message").load(location.href + " #message");
+                }, 1000);
+            }
+        })
+    })
+    $('body').on('change','.changeQtyVariant',function(){
+        var product_id=$(this).closest('.product_data').find('.prod_id').val()
+        var product_qty=$(this).closest('.product_data').find('.input').val()
+        $.ajax({
+            method:"POST",
+            cache:false,
+            url:"{% url 'change_qty_variant' %}",
+            data:{
+                'product_id':product_id,
+                'product_qty':product_qty,
+                csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+            },
+            success:function(data){
+                $("#message").append(
+                    '<div class="alert alert-success hideit alertSuc">Product Quantity Updated.</div >');
+                setTimeout(function () {
+                    $("#message").load(location.href + " #message");
+                }, 1000);
+            }
+        })
+    })
+</script>
 <div class="page-header">
     <div class="page-header__container container">
         <div class="page-header__breadcrumb">
@@ -42,6 +86,8 @@
             <div class="col-12 col-lg-9 mt-4 mt-lg-0">
                 <div class="card">
                     <div class="card-header">
+                        <div id="message" name="message" class="mt-3">
+                        </div>
                         <h5>My products</h5>
                         {% if product_limit %}
                             <a href="{% url 'add_product' %}" class="button btn btn-primary mt-4">Add product</a>
@@ -82,9 +128,9 @@
                                         {% endif %}
                                         {% if product.variant == 'None' %}
                                         <td>
-                                            <div>
+                                            <div class="product_data">
                                                 <input type="hidden" class="prod_id" value="{{product.id}}">
-                                                <input style="width: 50px;" id="quantity" name="quantity" type="number" value="{{product.quantity}}" min="1" >
+                                                <input style="width: 50px;" class="input changeQty" id="quantity" name="quantity" type="number" value="{{product.quantity}}" min="1" >
                                             </div>
                                         </td>
                                         {% endif %}
@@ -116,7 +162,7 @@
                                                 {% csrf_token %}
                                                 <img style="cursor: pointer;" onclick="document.getElementById('images').click()" src="https://img.icons8.com/external-tanah-basah-detailed-outline-tanah-basah/48/000000/external-upload-user-interface-tanah-basah-detailed-outline-tanah-basah.png"/>
                                                 <input  type="file" id="images" style="display: none;cursor: pointer;" name="images" multiple>
-                                                <button type="submit">Upload</button
+                                                <button type="submit" class="product-card__addtocart btn-primary">Upload</button
                                             </form>
                                         </td>
                                         <td>
@@ -131,9 +177,9 @@
                       <td><a href="">{{ variant.title }}</a></td>
                       <td>Frw {{ variant.price }}</td>
                       <td>
-                        <div>
+                        <div class="product_data"> 
                             <input type="hidden" class="prod_id" value="{{variant.id}}">
-                            <input style="width: 50px;" id="quantity" name="quantity" type="number" value="{{variant.quantity}}" min="1" >
+                            <input style="width: 50px;" class="input changeQtyVariant" id="quantity" name="quantity" type="number" value="{{variant.quantity}}" min="1" >
                         </div>
                       </td>
                       <td>
@@ -156,7 +202,7 @@
                         {% csrf_token %}
                             <img style="cursor: pointer;"  onclick="document.getElementById('images').click()" src="https://img.icons8.com/external-tanah-basah-detailed-outline-tanah-basah/48/000000/external-upload-user-interface-tanah-basah-detailed-outline-tanah-basah.png"/>
                             <input  type="file"id="images" style="display: none;cursor: pointer;" name="images" multiple>
-                            <button type="submit">Upload</button>
+                            <button type="submit" class="product-card__addtocart btn-primary">Upload</button>
                        </form>
                      </td>
                       <td>

@@ -1393,3 +1393,29 @@ def become_transporter(request):
 @register.simple_tag()
 def multiply(qty, unit_price, *args, **kwargs):
     return qty * unit_price
+
+
+@login_required
+def changeQty(request):
+    url=request.META.get('HTTP_REFERER')
+    if request.method == "POST":
+        productid=request.POST.get('product_id')
+        qty=request.POST.get('product_qty')
+        product=Product.objects.get(id=productid)
+        product.quantity=qty
+        product.save()
+        print('updated')
+    return redirect(url) 
+
+@login_required
+def changeQtyVariant(request):
+    url=request.META.get('HTTP_REFERER')
+    if request.method == "POST":
+        productid=request.POST.get('product_id')
+        qty=request.POST.get('product_qty')
+        variant=Variants.objects.get(id=productid)
+        variant.quantity=qty
+        variant.save()
+        print('updated')
+    return redirect(url)    
+
