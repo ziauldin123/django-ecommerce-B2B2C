@@ -779,8 +779,6 @@ def edit_productImage(request,pk):
 
 @ login_required
 def delete_product(request, pk):
-    # vendor = request.user.vendor
-    # product = vendor.newProducts.get(pk=pk)
     check = Product.objects.filter(id=pk).first()
     if check != None:
         if Product.objects.filter(id=pk).exists():
@@ -815,7 +813,7 @@ def add_productimage(request, pk):
             images=request.FILES.getlist('images')
             variant=Variants.objects.get(id=pk)
             if len(images) > 3 :
-                messages.info(request,f"You can't can't add more than 3 images")
+                messages.info(request,f"You can't add more than 3 images")
 
             elif len(ProductImage.objects.filter(variant=variant)) >= 3:
                 messages.info(request,f"You have reached product images limit")
@@ -859,6 +857,33 @@ def add_productimage(request, pk):
                 messages.info(request,f"Product image uploaded Successfully")
                 
     return redirect('products')            
+
+@login_required
+def add_productimage_variant(request, pk):
+    variant = Variants.objects.get(id=pk)
+    if request.method == 'POST':
+        images=request.FILES.getlist("images")
+        print(images)
+        productImages=ProductImage.objects.filter(variant=variant)
+        if len(images) > 3:
+            messages.info(request,f"You can't add more than 3 images")
+        elif len(productImages) >=3 :
+            messages.info(request,f"You have reached product images limit")
+        elif len(images) + len(productImages) > 3:
+            if len(images) > len(productImages):
+                img=len(images) - len(productImages)
+            elif len(images) == len(productImages):
+                img=3 - len(images)
+            else:
+                img=len(productImages) - len(images)
+            messages.info(request,f"You can't add more than 3 images only:" + str(img))
+        else:
+            for image in images:
+                ProductImage.objects.create(variant=variant,image=image)
+            messages.info(request,f"Product image uploaded successfully")                        
+        
+    return redirect('products')               
+
 
 @ login_required
 def del_productimage(request, pk):

@@ -130,7 +130,7 @@
                                         <td>
                                             <div class="product_data">
                                                 <input type="hidden" class="prod_id" value="{{product.id}}">
-                                                <input style="width: 50px;" class="input changeQty" id="quantity" name="quantity" type="number" value="{{product.quantity}}" min="1" >
+                                                <input style="width: 50px;text-align: center;" class="input changeQty" id="quantity" name="quantity" type="number" value="{{product.quantity}}" min="1" >
                                             </div>
                                         </td>
                                         {% endif %}
@@ -162,7 +162,7 @@
                                                 {% csrf_token %}
                                                 <img style="cursor: pointer;" onclick="document.getElementById('images').click()" src="https://img.icons8.com/external-tanah-basah-detailed-outline-tanah-basah/48/000000/external-upload-user-interface-tanah-basah-detailed-outline-tanah-basah.png"/>
                                                 <input  type="file" id="images" style="display: none;cursor: pointer;" name="images" multiple>
-                                                <button type="submit" class="product-card__addtocart btn-primary">Upload</button
+                                                <button type="submit" class="product-card__addtocart btn-primary">Upload</button>
                                             </form>
                                         </td>
                                         <td>
@@ -179,7 +179,7 @@
                       <td>
                         <div class="product_data"> 
                             <input type="hidden" class="prod_id" value="{{variant.id}}">
-                            <input style="width: 50px;" class="input changeQtyVariant" id="quantity" name="quantity" type="number" value="{{variant.quantity}}" min="1" >
+                            <input style="width: 50px;text-align: center;" class="input changeQtyVariant" id="quantity" name="quantity" type="number" value="{{variant.quantity}}" min="1" >
                         </div>
                       </td>
                       <td>
@@ -198,12 +198,13 @@
                       <td>
                           <a href="{% url 'edit_product_variant' variant.id %}" class="mr-5">Edit</a>
                       </td>
-                      <td><form class="form" method="post" action="{% url 'add_product_image' variant.id %}" enctype="multipart/form-data">
-                        {% csrf_token %}
-                            <img style="cursor: pointer;"  onclick="document.getElementById('images').click()" src="https://img.icons8.com/external-tanah-basah-detailed-outline-tanah-basah/48/000000/external-upload-user-interface-tanah-basah-detailed-outline-tanah-basah.png"/>
-                            <input  type="file"id="images" style="display: none;cursor: pointer;" name="images" multiple>
+                      <td>
+                        <form class="form" method="post" action="{% url 'add_productimage_variant' variant.id %}" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <img style="cursor: pointer;" onclick="document.getElementById('imgs').click()" src="https://img.icons8.com/external-tanah-basah-detailed-outline-tanah-basah/48/000000/external-upload-user-interface-tanah-basah-detailed-outline-tanah-basah.png" />
+                            <input  name="images" type="file" id="imgs" style="display: none;"  multiple>
                             <button type="submit" class="product-card__addtocart btn-primary">Upload</button>
-                       </form>
+                        </form>
                      </td>
                       <td>
                           <a href="{% url 'delete_product' variant.id %}">Delete</a>
