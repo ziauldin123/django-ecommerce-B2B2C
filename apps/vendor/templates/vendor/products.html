@@ -121,7 +121,7 @@
                     {% for variant in variants.product_variant.all %}
                     <tr>
                       <td><a href="">{{ variant.title }}</a></td>
-                      <td>Frw {{ variant.price }}</td>
+                      <td>{{ variant.price }}</td>
                       <td>
                           {% if  variant.is_vat %}
                             <p>18%</p>
