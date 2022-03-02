@@ -143,7 +143,7 @@
                                         {% endif %}
                                         {% if product.variant == 'None' %}
                                         <td>
-                                            {% if product.status == True %}
+                                            {% if product.status == True and product.visible == True %}
                                                 <a>Active</a>
                                             {% else %}
                                                 <a>Under Review</a>
@@ -160,9 +160,9 @@
                                         <td>
                                             <form class="form" method="post" action="{% url 'add_product_image' product.id %}" enctype="multipart/form-data">
                                                 {% csrf_token %}
-                                                <img style="cursor: pointer;" onclick="document.getElementById('images').click()" src="https://img.icons8.com/external-tanah-basah-detailed-outline-tanah-basah/48/000000/external-upload-user-interface-tanah-basah-detailed-outline-tanah-basah.png"/>
+                                                <img style="cursor: pointer;width: 30px;" onclick="document.getElementById('images').click()" src="https://img.icons8.com/external-tanah-basah-detailed-outline-tanah-basah/48/000000/external-upload-user-interface-tanah-basah-detailed-outline-tanah-basah.png"/>
                                                 <input  type="file" id="images" style="display: none;cursor: pointer;" name="images" multiple>
-                                                <button type="submit" class="product-card__addtocart btn-primary">Upload</button>
+                                                <button type="submit" class="product-card__addtocart btn-primary" style="width: 70px;">Upload</button>
                                             </form>
                                         </td>
                                         <td>
@@ -188,7 +188,7 @@
                           {% endif %}
                       </td>
                       <td>
-                          {% if variant.status == True %}
+                          {% if variant.status == True and variant.visible == True %}
                               <p>Active</p>
                           {% else %}
                               <p>Under Review</p>
@@ -201,13 +201,13 @@
                       <td>
                         <form class="form" method="post" action="{% url 'add_productimage_variant' variant.id %}" enctype="multipart/form-data">
                             {% csrf_token %}
-                            <img style="cursor: pointer;" onclick="document.getElementById('imgs').click()" src="https://img.icons8.com/external-tanah-basah-detailed-outline-tanah-basah/48/000000/external-upload-user-interface-tanah-basah-detailed-outline-tanah-basah.png" />
+                            <img style="cursor: pointer;width: 30px;" onclick="document.getElementById('imgs').click()" src="https://img.icons8.com/external-tanah-basah-detailed-outline-tanah-basah/48/000000/external-upload-user-interface-tanah-basah-detailed-outline-tanah-basah.png" />
                             <input  name="images" type="file" id="imgs" style="display: none;"  multiple>
-                            <button type="submit" class="product-card__addtocart btn-primary">Upload</button>
+                            <button type="submit" class="product-card__addtocart btn-primary" style="width: 70px;">Upload</button>
                         </form>
                      </td>
                       <td>
-                          <a href="{% url 'delete_product' variant.id %}">Delete</a>
+                          <a href="{% url 'delete_product_variant' variant.id %}">Delete</a>
                       </td>
                   </tr>
                     {% endfor %}

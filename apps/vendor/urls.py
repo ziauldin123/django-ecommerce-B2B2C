@@ -33,6 +33,7 @@ urlpatterns = [
     path('edit-product/<int:pk>/', views.edit_product, name='edit_product'),
     path('edit-product-variant/<int:pk>/', views.edit_product_variant,name='edit_product_variant'),
     path('delete-product/<int:pk>/', views.delete_product, name='delete_product'),
+    path('delete-product-variant/<int:pk>/',views.delete_product_variant, name='delete_product_variant'),
     path('change-qty/', views.changeQty,name='change_qty'),
     path('change-qty-variant',views.changeQtyVariant,name='change_qty_variant'),
     path('remove-opening/<int:pk>/', views.remove_opening, name='remove_opening'),

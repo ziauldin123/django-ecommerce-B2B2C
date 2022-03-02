@@ -779,16 +779,16 @@ def edit_productImage(request,pk):
 
 @ login_required
 def delete_product(request, pk):
-    check = Product.objects.filter(id=pk).first()
-    if check != None:
-        if Product.objects.filter(id=pk).exists():
-            Product.objects.filter(id=pk).update(visible=False)
-        return redirect('vendor_admin')
-    else:
-        if Variants.objects.filter(id=pk).exists():
-            Variants.objects.filter(id=pk).delete()
-        return redirect('vendor_admin')
+    Product.objects.filter(id=pk).update(visible=False)
+    messages.info(request,"product Deleted")    
+    return redirect('products')
+        
 
+@login_required
+def delete_product_variant(request, pk):
+    variant=Variants.objects.filter(id=pk).update(visible=False)
+    messages.info(request,"Product Deleted")
+    return redirect('products')
 
 @ login_required
 def upload_logo(request):
