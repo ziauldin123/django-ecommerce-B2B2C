@@ -103,18 +103,15 @@
                                         <label for="">Free Delivery</label>
                                         {{form.is_free_delivery}}
                                     </div>
-                                </div> 
-                                <div class="form-row">
-                                        {% for image in formImage %}
-                                           <div class="form-group col-md-4">
-                                               <label for="">{{image.image}}</label>
-                                               <input  type="file"  class="form-control " id="image" name="image">
-                                            </div>
-                                        {% endfor %}
+                                </div>
+                                <div class="form-row"> 
+                                    <div class="form-group col-md-4">
+                                       {{imagesForm.as_p}}
+                                    </div>
                                 </div>
                                 <div class="field">
                                     <div class="control">
-                                        <button class="button is-dark">Save changes</button>
+                                        <button class="button btn btn-primary mt-4">Save changes</button>
                                     </div>
                                 </div>
                             </form>

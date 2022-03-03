@@ -77,7 +77,7 @@ class ProductForm(ModelForm):
             'image',
             'brand',
             'unit_type',
-            'is_vat'
+            'is_vat',
         )
         widgets = {
             'category': CategoryWidget,
@@ -114,6 +114,7 @@ class ProductForm(ModelForm):
             'unit_type': forms.Select(attrs={'class':'form-control'}),
             'category': forms.Select(attrs={'class':'form-control'}),
         }
+        
     
 
 class ProductWithVariantForm(ModelForm):
@@ -161,7 +162,6 @@ class ProductImageForm(ModelForm):
         model = ProductImage
         fields = [
             'image',
-            'title'
             ]
 
 

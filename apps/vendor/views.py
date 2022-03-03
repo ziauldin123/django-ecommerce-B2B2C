@@ -8,6 +8,7 @@ from django.contrib.auth.views import (
 )
 from django.core.mail import send_mail
 from django.core.exceptions import ObjectDoesNotExist
+from django.forms import inlineformset_factory
 from django.template.loader import render_to_string
 from .tokens import account_activation_token
 from .services.account_service import account_service
@@ -733,49 +734,44 @@ def edit_product(request, pk):
     vendor = request.user.vendor
     product = vendor.newProducts.filter(pk=pk).first()
     productImages = ProductImage.objects.filter(product=product)
+    ImageForm = inlineformset_factory(Product,ProductImage,can_delete=False,fields=['image'],extra=0)
     if request.method == 'POST':
         form = ProductForm(request.POST, request.FILES, instance=product)
-
-        if form.is_valid():
+        imageForm = ImageForm(request.POST, request.FILES, instance=product)
+        if form.is_valid() and imageForm.is_valid():
             form.save()
-
-        if "image" in request.FILES and len(request.FILES["image"]) > 0:
-            for image in productImages:
-                image.image = request.FILES["image"]
-                image.save()
-                
+            imageForm.save()
+        
             messages.info(request,"Product Updated")
             return redirect('products')
     else:
         form = ProductForm(instance=product)
+        imageForm = ImageForm(instance=product)
 
-    return render(request, 'vendor/edit_product.html', {'form': form,'product': product,'formImage':productImages})
+    return render(request, 'vendor/edit_product.html', {'form': form,'product': product,'imagesForm':imageForm})
+
+
 
 @login_required
 def edit_product_variant(request,pk):
    variant = Variants.objects.filter(id=pk).first()
    productImages = ProductImage.objects.filter(variant=variant)
+   ImageForm = inlineformset_factory(Variants,ProductImage,can_delete=False,fields=['image'],extra=0)
    if request.method == 'POST':
        form = VariantForm(request.POST, request.FILES, instance=variant)
-
-       if form.is_valid():
+       imageForm = ImageForm(request.POST, request.FILES, instance=variant)
+       if form.is_valid() and imageForm.is_valid():
            form.save()
-       
-       if "image" in request.FILES and len(request.FILES["image"]) > 0:
-           for image in productImages:
-               image.image = request.FILES["image"]
-               image.save()
+           imageForm.save()
+    
        
            messages.info(request,"Product Updated")
            return redirect('products')
    else:
        form = VariantForm(instance=variant)
+       imageForm = ImageForm(instance=variant)
 
-   return render(request, 'vendor/edit_product_variant.html',{'form':form,'variant':variant,'form':form,'formImage':productImages})                     
-
-@login_required
-def edit_productImage(request,pk):
-    check = Product.objects.filter(id=pk)
+   return render(request, 'vendor/edit_product_variant.html',{'form':form,'variant':variant,'form':form,'imagesForm':imageForm})                     
 
 @ login_required
 def delete_product(request, pk):
@@ -808,53 +804,28 @@ def upload_logo(request):
 def add_productimage(request, pk):
     vendor = request.user.vendor
     product = Product.objects.get(vendor=vendor, id=pk)
-    if product.is_variant:
-        if request.method == 'POST':
-            images=request.FILES.getlist('images')
-            variant=Variants.objects.get(id=pk)
-            if len(images) > 3 :
-                messages.info(request,f"You can't add more than 3 images")
+    if request.method == 'POST':
+        images = request.FILES.getlist('images')
+        if len(images) > 3 :
+            messages.info(request,f"You can't can't add more than 3 images")
 
-            elif len(ProductImage.objects.filter(variant=variant)) >= 3:
-                messages.info(request,f"You have reached product images limit")
+        elif len(ProductImage.objects.filter(product=product)) >= 3:
+            messages.info(request,f"You have reached product images limit")
             
-            elif len(images) + len(ProductImage.objects.filter(variant=variant)) > 3:
-                if len(images) > len(ProductImage.objects.filter(variant=variant)):
-                    img=len(images) - len(ProductImage.objects.filter(variant=variant))
-                elif len(images) == len(ProductImage.objects.filter(variant=variant)):
-                    img=3 - len(images)    
-                else:
-                    img=len(ProductImage.objects.filter(variant=variant)) -  len(images) 
-                
-                messages.info(request, f"You can't add more than 3 images only:" + str(img))
-
+        elif len(images) + len(ProductImage.objects.filter(product=product)) > 3:
+            if len(images) > len(ProductImage.objects.filter(product=product)):
+                img=len(images) - len(ProductImage.objects.filter(product=product))
+            elif len(images) == len(ProductImage.objects.filter(product=product)):
+                img=3 - len(images)    
             else:
-                for image in images:
-                    ProductImage.objects.create(variant=variant,image=image)
-                messages.info(request,f"Product image uploaded Successfully")
-    else:
-        if request.method == 'POST':
-            images = request.FILES.getlist('images')
-            if len(images) > 3 :
-                messages.info(request,f"You can't can't add more than 3 images")
-
-            elif len(ProductImage.objects.filter(product=product)) >= 3:
-                messages.info(request,f"You have reached product images limit")
-            
-            elif len(images) + len(ProductImage.objects.filter(product=product)) > 3:
-                if len(images) > len(ProductImage.objects.filter(product=product)):
-                    img=len(images) - len(ProductImage.objects.filter(product=product))
-                elif len(images) == len(ProductImage.objects.filter(product=product)):
-                    img=3 - len(images)    
-                else:
-                    img=len(ProductImage.objects.filter(product=product)) -  len(images) 
+                img=len(ProductImage.objects.filter(product=product)) -  len(images) 
                 
-                messages.info(request, f"You can't add more than 3 images only:" + str(img))
+            messages.info(request, f"You can't add more than 3 images only:" + str(img))
 
-            else:
-                for image in images:
-                    ProductImage.objects.create(product=product,image=image)
-                messages.info(request,f"Product image uploaded Successfully")
+        else:
+            for image in images:
+                ProductImage.objects.create(product=product,image=image)
+            messages.info(request,f"Product image uploaded Successfully")
                 
     return redirect('products')            
 
@@ -862,7 +833,7 @@ def add_productimage(request, pk):
 def add_productimage_variant(request, pk):
     variant = Variants.objects.get(id=pk)
     if request.method == 'POST':
-        images=request.FILES.getlist("images")
+        images=request.FILES.getlist("variant_images")
         print(images)
         productImages=ProductImage.objects.filter(variant=variant)
         if len(images) > 3:
@@ -894,17 +865,6 @@ def del_productimage(request, pk):
     product_image.delete()
     product_images = ProductImage.objects.filter(product=product_id)
 
-    # if request.method == 'POST':
-    #     form = ProductForm(request.POST, request.FILES, instance=product)
-
-    #     if form.is_valid():
-    #         form.save()
-
-    #         return redirect('vendor_admin')
-    # else:
-    #     form = ProductForm(instance=product)
-
-    # return render(request, 'vendor/edit_productimage.html', {'product_images': product_images})
     return redirect("edit_productimage", pk=product_id)
 
 

@@ -57,7 +57,7 @@
 <div class="block">
     <div class="container">
         <div class="row">
-            <div class="col-12 col-lg-3 d-flex">
+            <div class="col-12 col-lg-2 d-flex">
                 <div class="account-nav flex-grow-1">
                      <h4 class="account-nav__title">Vendor Administration</h4>
                    <ul>
@@ -83,7 +83,7 @@
                     </ul>
                 </div>
             </div>
-            <div class="col-12 col-lg-9 mt-4 mt-lg-0">
+            <div class="col-12 col-lg-10 mt-4 mt-lg-0">
                 <div class="card">
                     <div class="card-header">
                         <div id="message" name="message" class="mt-3">
@@ -202,7 +202,7 @@
                         <form class="form" method="post" action="{% url 'add_productimage_variant' variant.id %}" enctype="multipart/form-data">
                             {% csrf_token %}
                             <img style="cursor: pointer;width: 30px;" onclick="document.getElementById('imgs').click()" src="https://img.icons8.com/external-tanah-basah-detailed-outline-tanah-basah/48/000000/external-upload-user-interface-tanah-basah-detailed-outline-tanah-basah.png" />
-                            <input  name="images" type="file" id="imgs" style="display: none;"  multiple>
+                            <input  name="imgs" type="file" id="imgs" style="display: none;"  multiple>
                             <button type="submit" class="product-card__addtocart btn-primary" style="width: 70px;">Upload</button>
                         </form>
                      </td>
