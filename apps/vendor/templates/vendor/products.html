@@ -199,7 +199,7 @@
                           <a href="{% url 'edit_product_variant' variant.id %}" class="mr-5">Edit</a>
                       </td>
                       <td>
-                        <form class="form" method="post" action="{% url 'add_productimage_variant' variant.id %}" enctype="multipart/form-data">
+                        <form class="form" method="POST" action="{% url 'add_productimage_variant' variant.id %}" enctype="multipart/form-data">
                             {% csrf_token %}
                             <img style="cursor: pointer;width: 30px;" onclick="document.getElementById('imgs').click()" src="https://img.icons8.com/external-tanah-basah-detailed-outline-tanah-basah/48/000000/external-upload-user-interface-tanah-basah-detailed-outline-tanah-basah.png" />
                             <input  name="imgs" type="file" id="imgs" style="display: none;"  multiple>

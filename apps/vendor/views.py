@@ -771,7 +771,7 @@ def edit_product_variant(request,pk):
        form = VariantForm(instance=variant)
        imageForm = ImageForm(instance=variant)
 
-   return render(request, 'vendor/edit_product_variant.html',{'form':form,'variant':variant,'form':form,'imagesForm':imageForm})                     
+   return render(request, 'vendor/edit_product_variant.html',{'form':form,'variant':variant,'form':form,'imageForm':imageForm})                     
 
 @ login_required
 def delete_product(request, pk):
@@ -821,7 +821,8 @@ def add_productimage(request, pk):
                 img=len(ProductImage.objects.filter(product=product)) -  len(images) 
                 
             messages.info(request, f"You can't add more than 3 images only:" + str(img))
-
+        elif len(images) <= 0:
+            messages.info(request,f"No image Uploaded")
         else:
             for image in images:
                 ProductImage.objects.create(product=product,image=image)
@@ -833,7 +834,7 @@ def add_productimage(request, pk):
 def add_productimage_variant(request, pk):
     variant = Variants.objects.get(id=pk)
     if request.method == 'POST':
-        images=request.FILES.getlist("variant_images")
+        images=request.FILES.getlist('imgs[]')
         print(images)
         productImages=ProductImage.objects.filter(variant=variant)
         if len(images) > 3:
@@ -848,6 +849,8 @@ def add_productimage_variant(request, pk):
             else:
                 img=len(productImages) - len(images)
             messages.info(request,f"You can't add more than 3 images only:" + str(img))
+        elif len(images) <= 0:
+            messages.info(request,f"No Image Uploaded")    
         else:
             for image in images:
                 ProductImage.objects.create(variant=variant,image=image)
