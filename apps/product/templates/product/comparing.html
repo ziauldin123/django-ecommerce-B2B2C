@@ -49,7 +49,8 @@
             </div>
         </div>
     </div>
-  
+    {% if products and variants or products or variants %}
+     
     <div class="block">
         <div class="container">
             <div class="table-responsive">
@@ -806,5 +807,13 @@
             </div>
         </div>
     </div>
+    {% else %}
+    <div class="block-empty__body">
+        <div class="block-empty__message">There isn't any product in Comparison!</div>
+        <div class="block-empty__actions">
+            <a class="btn btn-primary btn-sm" href="/">View More Products</a>
+        </div>
+    </div>
+    {% endif %}
 </div>     
 {% endblock %}

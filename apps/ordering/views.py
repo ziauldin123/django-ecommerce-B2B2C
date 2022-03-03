@@ -124,8 +124,11 @@ def addtoshopcart(request, id):
 def shopcart(request):
     category = Category.objects.all()
     current_user = request.user
-    wishlist = UserWishList.objects.filter(user=current_user)
     cart = Cart(request)
+    
+    if request.user.is_anonymous:
+        messages.info(request,"Please login to view your Cart")
+        return redirect('/')
 
     if request.method == 'POST':
         if request.user.is_authenticated:
@@ -155,7 +158,7 @@ def shopcart(request):
             return redirect('login')
 
     if not request.user.is_anonymous:
-
+        wishlist = UserWishList.objects.filter(user=current_user)
         shopcart = ShopCart.objects.filter(user_id=current_user.id)
         total = cart.get_cart_cost()
         tax = cart.get_cart_tax()
@@ -188,7 +191,7 @@ def shopcart(request):
                    'grandTotal': None,
                    'wishlist': 0,
                    'total_compare': 0
-                   }
+                   }          
     return render(request, 'shopcart_products.html', context)
 
 
