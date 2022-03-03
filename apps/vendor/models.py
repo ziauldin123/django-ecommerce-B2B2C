@@ -1,4 +1,5 @@
 from decimal import Decimal
+from random import choices
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
@@ -9,6 +10,12 @@ import apps.ordering
 
 
 class Vendor(models.Model):
+    STATUS = (
+        ('DIAMOND','DIAMOND'),
+        ('SAPPHIRE','SAPPHIRE'),
+        ('EMERALD','EMERALD'),
+        ('RUBY','RUBY')
+    )
     email = models.EmailField(max_length=150)
     company_name = models.CharField(max_length=255)
     company_code = models.CharField(max_length=255)
@@ -28,6 +35,7 @@ class Vendor(models.Model):
     company_registration = models.ImageField(
         upload_to='upload/registration/company-%Y-%m-%d/', blank=True, null=True)
     privacy_checked = models.BooleanField(default=False)
+    status = models.CharField(max_length=10, choices=STATUS, default='DIAMOND')
 
     def __str__(self):
         return self.company_name
