@@ -31,10 +31,11 @@
                            <li class="account-nav__item ">
                             <a href="{% url 'working_hours' %}">Working Hours</a>
                         </li>
-                        
+                        {% if vendor.status == 'RUBY' or vendor.status == 'EMERALD' %} 
                         <li class="account-nav__item ">
                             <a href="{% url 'delivery_cost' %}">Delivery Price</a>
                         </li>
+                        {% endif %}
                         <li class="account-nav__item ">
                             <a href="{% url 'logout' %}">Logout</a>
                         </li>
@@ -50,7 +51,7 @@
                         <h5 class="order-header__title">Order Reference #{{order.reference_number}}</h5>
                         <div class="order-header__subtitle">
                             Was placed on <mark class="order-header__date">{{order.created_at}}</mark>
-                            and is currently <mark class="order-header__status">{{order.status}}</mark>.
+                            and is <mark class="order-header__status">{{order.status}}</mark>.
                         </div>    
                     </div>
                     <div class="card-divider"></div>

@@ -1,4 +1,5 @@
 from math import prod
+import email
 from tkinter import Image
 from typing import Any
 from django.core.paginator import (Paginator, PageNotAnInteger, EmptyPage)
@@ -140,8 +141,10 @@ def login_request(request):
             try:
                 vendor = Vendor.objects.get(email=username).company_name
                 logo = Vendor.objects.get(email=username).logo.url
+                status = Vendor.objects.get(email=username).status
                 request.session['username'] = vendor
                 request.session['logo'] = logo
+                request.session['status'] = status
 
             except Exception as e:
                 pass
@@ -458,6 +461,10 @@ def working_hours(request):
 @login_required
 def delivery_cost(request):
     vendor = request.user.vendor
+
+    if vendor.status == 'DIAMOND' or vendor.status == 'SAPPHIRE':
+        messages.info(request,f"You are not eligible to setup your Delivery Cost")
+        return redirect('vendor_admin')
 
     if request.method == 'POST':
         delivery_price = request.POST.get('delivery_price')

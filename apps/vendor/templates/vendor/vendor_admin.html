@@ -36,10 +36,11 @@
                            <li class="account-nav__item ">
                             <a href="{% url 'working_hours' %}">Working Hours</a>
                         </li>
-                        
+                        {% if vendor.status == 'RUBY' or vendor.status == 'EMERALD' %} 
                         <li class="account-nav__item ">
                             <a href="{% url 'delivery_cost' %}">Delivery Price</a>
                         </li>
+                        {% endif %}
                         <li class="account-nav__item ">
                             <a href="{% url 'logout' %}">Logout</a>
                         </li>
@@ -49,6 +50,7 @@
             <div class="col-12 col-lg-9 mt-4 mt-lg-0">
                 <div class="dashboard">
                     <div class="dashboard__profile card profile-card">
+                        <div class="address-card__badge">{{vendor.status}}</div>
                         <div class="card-body profile-card__body">
                             <div class="profile-card__avatar">
                                 {% if vendor.logo %} 

@@ -3,7 +3,6 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head
-    <?xml version="1.0" encoding="UTF-8"?>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="format-detection" content="telephone=no" />
@@ -16,26 +15,27 @@
       name="keywords"
       content="sokopark, sokopark rwanda, online shopping in rwanda, online shopping in kigali, kigali, buy hardware in kigali, furniture, lighting, building supplies, delivery, buy furniture in kigali, buy building supplies in kigali, delivery service in rwanda, ecommerce rwanda"
     />
-    <meta name="robots" content="noindex, nofollow" />
-
+    
     <meta property="og:title" content="Sokopark" />
     <meta
       property="og:description"
       content="Sokopark is a multi-vendor marketplace that provides a wide range of building materials, home improvement items, commercial fitout articles, and other various products."
     />
+    <meta property="og:title" content="Sokopark_Rwanda" />
     <meta property="og:type" content="website" />
-    <meta property="og:image" content="" />
+    <meta property="og:image" content="https://sokopark.s3.af-south-1.amazonaws.com/media/images/new_logo.png" />
     <meta property="og:url" content="https://sokopark.com" />
     <meta property="og:site_name" content="Sokopark" />
 
-    <meta name="twitter:title" content="Sokopark" />
-    <meta name="twitter:image" content="" />
-    <meta name="twitter:url" content="https://sokopark.com" />
     <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Sokopark_Rwanda" />
     <meta
       name="twitter:description"
       content="Sokopark is a multi-vendor marketplace that provides a wide range of building materials, home improvement items, commercial fitout articles, and other various products."
     />
+    <meta name="twitter:image" content= "https://sokopark.s3.af-south-1.amazonaws.com/media/images/new_logo.png" />
+  
+    
 
     <link rel="canonical" href="https://sokopark.com" />
     <link rel="image_src" href="" />
@@ -46,8 +46,8 @@
       itemprop="description"
       content="Sokopark is a multi-vendor marketplace that provides a wide range of building materials, home improvement items, commercial fitout articles, and other various products."
     />
-    <meta itemprop="thumbnailUrl" content="" />
-    <meta itemprop="image" content="" />
+    <meta itemprop="thumbnailUrl" content= "https://sokopark.s3.af-south-1.amazonaws.com/media/images/new_logo.png" />
+    <meta itemprop="image" content="https://sokopark.s3.af-south-1.amazonaws.com/media/images/new_logo.png" />
 
     <title>Sokopark | {% block title %}{% endblock %}</title>
 
@@ -188,14 +188,14 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.1.3/vue.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.6.0/socket.io.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.1.3/vue.min.js"></script>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XV93VS4H7T"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
-      function gtag() {
-        dataLayer.push(arguments);
-      }
-      gtag("js", new Date());
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
 
-      gtag("config", "G-XV93VS4H7T");
+      gtag('config', 'G-XV93VS4H7T');
     </script>
 
     <script type="text/javascript">
@@ -749,7 +749,9 @@
                                 <li><a href="{% url 'vendor_orders' %}">Order History</a></li>
                                 <li><a href="{% url 'products' %}">Products</a></li>
                                 <li><a href="{% url 'working_hours' %}">Working Hours</a></li>
-                                <li><a href="{% url 'delivery_cost' %}">Delivery Cost</a></li>
+                                {% if request.session.status == 'RUBY' or request.session == 'EMERALD' %} 
+                                    <li><a href="{% url 'delivery_cost' %}">Delivery Cost</a></li>
+                                {% endif %}
                                 {% else %} 
                                <li><a href="{% url 'myaccount' %}">My Account</a></li>
                                 <li><a href="{% url 'orderhistory'  %}">Order History</a></li>
