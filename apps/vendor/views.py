@@ -455,6 +455,7 @@ def working_hours(request):
                   'vendor/working_hours.html', {
                       'form': form,
                       'opening_hours': opening_hours,
+                      'vendor':vendor
                   })
 
 
@@ -531,7 +532,8 @@ def vendor_products(request):
                   {
                       'product_limit': product_limit,
                       'products': products,
-                      'variants': variants
+                      'variants': variants,
+                      'vendor':vendor
                   })
 
 
@@ -651,7 +653,7 @@ def add_product(request):
         print(" vendor:: products  ", products,  vendor.products_limit)
         form = ProductForm()
 
-    return render(request, 'vendor/add_product.html', {'form': form})
+    return render(request, 'vendor/add_product.html', {'form': form,'vendor':vendor})
 
 
 @ login_required
@@ -685,7 +687,7 @@ def add_product_with_variant(request):
         print("vendor::products", products, vendor.products_limit)
         form = ProductWithVariantForm()
 
-    return render(request, 'vendor/add_product_with_variant.html', {'form': form})
+    return render(request, 'vendor/add_product_with_variant.html', {'form': form,'vendor':vendor})
 
 
 @ login_required
