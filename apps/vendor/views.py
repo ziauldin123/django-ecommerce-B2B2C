@@ -139,12 +139,13 @@ def login_request(request):
                 pass
 
             try:
-                vendor = Vendor.objects.get(email=username).company_name
-                logo = Vendor.objects.get(email=username).logo.url
-                status = Vendor.objects.get(email=username).status
-                request.session['username'] = vendor
-                request.session['logo'] = logo
-                request.session['status'] = status
+                vendor = Vendor.objects.get(email=username)
+                if vendor.logo:
+                    request.session['logo'] = vendor.logo.url
+                request.session['status'] = vendor.status
+                request.session['email'] = vendor.email
+                request.session['username'] = vendor.company_name
+                request.session['vendor'] = True
 
             except Exception as e:
                 pass
@@ -413,6 +414,7 @@ def vendor_admin(request):
 
         vendor_items_total_price = round(Decimal(vendor_items_total_price), 2)
         total_cost = round(Decimal(vendor_items_total_price), 2)
+        
         return render(
             request,
             'vendor/vendor_admin.html',

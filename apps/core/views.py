@@ -19,7 +19,6 @@ def frontpage(request):
     current_user = request.user
     variants = Variants.objects.filter(status=True)
     product = Product.objects.filter(status=True, visible=True)
-    shopcart = ShopCart.objects.filter(user_id=current_user.id)
     posts = Post.objects.all()
 
     if product:
@@ -88,6 +87,7 @@ def frontpage(request):
         grandTotal = 0
         wishlist = 0
         total_compare = 0
+        shopcart = []
 
     print(request.user)
     return render(

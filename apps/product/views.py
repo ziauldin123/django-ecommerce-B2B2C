@@ -554,8 +554,8 @@ def category(request, category_slug):
         wishlist = 0
         total_compare = 0
 
-    print('category')
     category = get_object_or_404(Category, slug=category_slug)
+    category_name = str(category)
 
     products_list = Product.objects.filter(visible=True,status=True)
 
@@ -652,6 +652,7 @@ def category(request, category_slug):
         'product/category.html',
         {
             'category': category_slug,
+            'category_name':category_name,
             'query':query,
             'form': search_form,
             'query':query,
@@ -721,6 +722,7 @@ def subcategory(request, category_slug, subcategory_slug):
 
     category = get_object_or_404(SubCategory, slug=subcategory_slug)
     sub_category=SubSubCategory.objects.filter(sub_category=category).first()
+    sub_category_name=str(category)
     products_list = Product.objects.filter(visible=True,category=sub_category,status=True)
     for product in products_list:
         variants = Variants.objects.filter(product=product)
@@ -805,6 +807,7 @@ def subcategory(request, category_slug, subcategory_slug):
         {
             'category': category_slug,
             'subcategory':subcategory_slug,
+            'sub_category_name':sub_category_name,
             'form': search_form,
             'query':query,
             'products': products,
@@ -869,6 +872,7 @@ def subsubcategory(request, category_slug, subcategory_slug, subsubcategory_slug
         total_compare = 0
 
     category = get_object_or_404(SubSubCategory, slug=subsubcategory_slug)
+    sub_sub_category_name = str(category)
     products_list = Product.objects.filter(visible=True,category=category,status=True)
     for product in products_list:
         variants = Variants.objects.filter(product=product)
@@ -954,6 +958,7 @@ def subsubcategory(request, category_slug, subcategory_slug, subsubcategory_slug
             'category': category_slug,
             'subcategory':subcategory_slug,
             'subsubcategory':subsubcategory_slug,
+            'sub_sub_category_name':sub_sub_category_name,
             'form': search_form,
             'query':query,
             'products': products,

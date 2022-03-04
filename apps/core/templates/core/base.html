@@ -407,7 +407,11 @@
                         </svg>
                          {% load myapptags %}
                          {% shopcartcount user.id as count %}
+                        {% if request.user.AnonymousUser %} 
                         <span class="indicator__value">{{count}}</span>
+                        {% else %} 
+                        <span class="indicator__value">0</span>
+                        {% endif %}
                       </span>
                     </a>
                   </div>
@@ -666,9 +670,13 @@
                                 <use xlink:href="/static/templates/images/sprite.svg#cart-20"></use>
                               </svg>
                               <span class="qty indicator__value">
-                               {% load myapptags %}
-                               {% shopcartcount user.id as count %}
-                                {{count}}
+                                {% if request.user.AnonymousUser %}
+                                     {% load myapptags %}
+                                          {% shopcartcount user.id as count %}
+                                   {{count}}
+                                {% else %} 
+                                   0
+                                {% endif %}
                               </span>
                           </span>
                       </a>
@@ -729,18 +737,13 @@
                             <a class="account-menu__user">
                                 {% if request.user.vendor %} 
                                 <div class="account-menu__user-avatar">
-                                    <img {% if request.session.logo %} src="{{request.session.logo}}"  {% else %} src="/static/templates/images/avatars/avatar-1.jpg"  {% endif %} alt="">
-                                </div>
-                                <div class="account-menu__user-info">
-                                    <div class="account-menu__user-name">{{request.session.username}}</div>
-                                    <div class="account-menu__user-email">{{request.session.email}}</div>
-                                </div>
-                                {% else %} 
-                                <div class="account-menu__user-info">
-                                    <div class="account-menu__user-name">{{request.session.username}}</div>
-                                    <div class="account-menu__user-email">{{request.session.email}}</div>
+                                    <img {% if request.session.logo %} src="{{ request.session.logo }}"  {% else %} src="/static/templates/images/avatars/avatar-1.jpg"  {% endif %} alt="">
                                 </div>
                                 {% endif %}
+                                <div class="account-menu__user-info">
+                                    <div class="account-menu__user-name">{{ request.session.username }}</div>
+                                    <div class="account-menu__user-email">{{ request.session.email }}</div>
+                                </div>
                             </a>
                             <div class="account-menu__divider"></div>
                             <ul class="account-menu__links">

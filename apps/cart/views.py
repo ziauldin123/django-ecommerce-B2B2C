@@ -26,28 +26,36 @@ def contact_info(request):
     sector = ''
     cell = ''
     village = ''
-    cart = Cart(request)
 
-    districts = District.objects.all()
+    if request.user.is_anonymous:
+        messages.info(request,"Please login to check your cart")
+        return redirect('/')
 
-    cart_vendor = Vendor.objects.filter(email=request.user.email).first()
-    cart_customer = Customer.objects.filter(email=request.user.email).first()
-    current_user = request.user
+
+    else:
+        cart = Cart(request)
+
+        districts = District.objects.all()
+
+        cart_vendor = Vendor.objects.filter(email=request.user.email).first()
+        cart_customer = Customer.objects.filter(email=request.user.email).first()
+        current_user = request.user
 
     
 
-    coupon_discount = cart.get_coupon_discount()
-    print(coupon_discount, "%")
+        coupon_discount = cart.get_coupon_discount()
+        print(coupon_discount, "%")
 
     
 
-    use_vendor_delivery, pickup_avaliable = cart.get_is_vendor_delivery()
-    shopcart = ShopCart.objects.filter(user_id=current_user.id)
-    products = [i['product'] for i in cart]
-    sub_total=cart.get_cart_cost()
-    total=total=cart.get_cart_cost_with_coupen()
-    tax=Cart(request).get_cart_tax()
-    grandTotal=cart.get_cart_cost() + cart.get_cart_tax()
+        use_vendor_delivery, pickup_avaliable = cart.get_is_vendor_delivery()
+        shopcart = ShopCart.objects.filter(user_id=current_user.id)
+        products = [i['product'] for i in cart]
+        sub_total=cart.get_cart_cost()
+        total=total=cart.get_cart_cost_with_coupen()
+        tax=Cart(request).get_cart_tax()
+        grandTotal=cart.get_cart_cost() + cart.get_cart_tax()
+        
     if cart_customer:
         print("cart_customer")
         if request.method == 'POST':
