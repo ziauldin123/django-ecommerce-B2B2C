@@ -1,3 +1,4 @@
+import email
 from tkinter import Image
 from typing import Any
 from django.core.paginator import (Paginator, PageNotAnInteger, EmptyPage)
@@ -138,8 +139,10 @@ def login_request(request):
             try:
                 vendor = Vendor.objects.get(email=username).company_name
                 logo = Vendor.objects.get(email=username).logo.url
+                status = Vendor.objects.get(email=username).status
                 request.session['username'] = vendor
                 request.session['logo'] = logo
+                request.session['status'] = status
 
             except Exception as e:
                 pass
