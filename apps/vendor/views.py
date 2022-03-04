@@ -504,7 +504,7 @@ def remove_opening(request, pk):
     vendor = request.user.vendor
     opening = OpeningHours.objects.filter(id=pk).first()
     opening.delete()
-    return redirect('vendor_admin')
+    return redirect('working_hours')
 
 
 @login_required
@@ -626,17 +626,17 @@ def add_product(request):
         form = ProductForm(request.POST, request.FILES)
 
         if form.is_valid():
-            product = form.save(commit=False)
-            product.vendor = request.user.vendor
-            product.slug = slugify(product.title)
-            product.visible = True
-            product.is_variant = False
-            vendor = request.user.vendor
             if len(Product.objects.filter(vendor=vendor)) < vendor.products_limit:
+                product = form.save(commit=False)
+                product.vendor = request.user.vendor
+                product.slug = slugify(product.title)
+                product.visible = True
+                product.is_variant = False
+                vendor = request.user.vendor
                 product.save()
                 messages.add_message(
                     request, messages.SUCCESS, "The product {} is successfully added and now under review".format(product.title))
-                return redirect('vendor_admin')
+                return redirect('products')
             else:
                 messages.add_message(
                     request, messages.ERROR, "You can't add new product.you reached product limit")
@@ -645,7 +645,7 @@ def add_product(request):
         else:
             messages.add_message(request, messages.ERROR,
                                  "* Error: Input fields are not valid.")
-            return redirect('vendor_admin')
+            return redirect('add_product')
 
     else:
         vendor = request.user.vendor
@@ -662,17 +662,17 @@ def add_product_with_variant(request):
     if request.method == 'POST':
         form = ProductWithVariantForm(request.POST, request.FILES)
         if form.is_valid():
-            product = form.save(commit=False)
-            product.vendor = request.user.vendor
-            product.slug = slugify(product.title)
-            product.visible = True
-            product.is_variant = True
-            vendor = request.user.vendor
             if len(Product.objects.filter(vendor=vendor)) < vendor.products_limit:
+                product = form.save(commit=False)
+                product.vendor = request.user.vendor
+                product.slug = slugify(product.title)
+                product.visible = True
+                product.is_variant = True
+                vendor = request.user.vendor
                 product.save()
                 messages.add_message(
                     request, messages.SUCCESS, "The product {} is successfully added and now under review".format(product.title))
-                return redirect('add_variant')
+                return redirect('products')
             else:
                 messages.add_message(
                     request, messages.ERROR, "You can't add new product.you reached product limit")
@@ -680,7 +680,7 @@ def add_product_with_variant(request):
         else:
             messages.add_message(request, messages.ERROR,
                                  "* Error: Input fields are not valid.")
-            return redirect('vendor_admin')
+            return redirect('add_product_without_variant')
     else:
         vendor = request.user.vendor
         products = len(Product.objects.filter(vendor=vendor))
@@ -706,15 +706,15 @@ def add_variant(request):
 
     if request.method == 'POST':
         if variant_form.is_valid():
-            variant = variant_form.save(commit=False)
-            variant.vendor = request.user.vendor
-            variant.is_vat = True
             if len(Product.objects.filter(vendor=vendor)) < vendor.products_limit:
+                variant = variant_form.save(commit=False)
+                variant.vendor = request.user.vendor
+                variant.is_vat = True
                 variant.save()
                 request, messages.SUCCESS, "The product variant {} is successfully added ".format(
                     variant.title)
                 print(variant_form.cleaned_data['title'])
-                return redirect('vendor_admin')
+                return redirect('products')
             else:
                 messages.add_message(
                     request, messages.ERROR, "You can't add new product.you reached product limit")
@@ -723,7 +723,7 @@ def add_variant(request):
             messages.add_message(request, messages.ERROR,
                                  "* Error: Input fields are not valid.")
 
-            return redirect('vendor_admin')
+            return redirect('add_variant')
     else:
         vendor = request.user.vendor
         products = len(Product.objects.filter(vendor=vendor))
