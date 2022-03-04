@@ -1,3 +1,4 @@
+import email
 from tkinter import Image
 from typing import Any
 from django.core.paginator import (Paginator, PageNotAnInteger, EmptyPage)
@@ -138,8 +139,10 @@ def login_request(request):
             try:
                 vendor = Vendor.objects.get(email=username).company_name
                 logo = Vendor.objects.get(email=username).logo.url
+                status = Vendor.objects.get(email=username).status
                 request.session['username'] = vendor
                 request.session['logo'] = logo
+                request.session['status'] = status
 
             except Exception as e:
                 pass
@@ -457,6 +460,10 @@ def working_hours(request):
 def delivery_cost(request):
     vendor = request.user.vendor
 
+    if vendor.status == 'DIAMOND' or vendor.status == 'SAPPHIRE':
+        messages.info(request,f"You are not eligible to setup your Delivery Cost")
+        return redirect('vendor_admin')
+
     if request.method == 'POST':
         delivery_price = request.POST.get('delivery_price')
         vendor_delivery = VendorDelivery.objects.filter(vendor=vendor).first()
@@ -764,8 +771,6 @@ def edit_product(request, pk):
 
 @ login_required
 def delete_product(request, pk):
-    # vendor = request.user.vendor
-    # product = vendor.newProducts.get(pk=pk)
     check = Product.objects.filter(id=pk).first()
     if check != None:
         if Product.objects.filter(id=pk).exists():
@@ -809,28 +814,6 @@ def add_productimage(request, pk):
             print("success")
     return redirect('products')
 
-
-@ login_required
-def del_productimage(request, pk):
-    vendor = request.user.vendor
-    # product = vendor.products.get(pk=pk)
-    product_image = ProductImage.objects.filter(id=pk).first()
-    product_id = product_image.product.id
-    product_image.delete()
-    product_images = ProductImage.objects.filter(product=product_id)
-
-    # if request.method == 'POST':
-    #     form = ProductForm(request.POST, request.FILES, instance=product)
-
-    #     if form.is_valid():
-    #         form.save()
-
-    #         return redirect('vendor_admin')
-    # else:
-    #     form = ProductForm(instance=product)
-
-    # return render(request, 'vendor/edit_productimage.html', {'product_images': product_images})
-    return redirect("edit_productimage", pk=product_id)
 
 
 @ login_required
