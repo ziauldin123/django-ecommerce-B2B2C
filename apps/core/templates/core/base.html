@@ -407,11 +407,7 @@
                         </svg>
                          {% load myapptags %}
                          {% shopcartcount user.id as count %}
-                        {% if request.user.AnonymousUser %} 
                         <span class="indicator__value">{{count}}</span>
-                        {% else %} 
-                        <span class="indicator__value">0</span>
-                        {% endif %}
                       </span>
                     </a>
                   </div>
@@ -670,13 +666,9 @@
                                 <use xlink:href="/static/templates/images/sprite.svg#cart-20"></use>
                               </svg>
                               <span class="qty indicator__value">
-                                {% if request.user.AnonymousUser %}
                                      {% load myapptags %}
-                                          {% shopcartcount user.id as count %}
-                                   {{count}}
-                                {% else %} 
-                                   0
-                                {% endif %}
+                                      {% shopcartcount user.id as count %}
+                                       {{count}}
                               </span>
                           </span>
                       </a>
