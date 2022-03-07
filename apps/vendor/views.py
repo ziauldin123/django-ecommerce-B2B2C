@@ -46,7 +46,6 @@ from django.contrib.auth.models import User, Permission
 from django import template
 from apps.cart.cart import Cart
 register = template.Library()
-# from apps.product.models import Product, ProductImage
 
 
 def login_request(request):
@@ -999,7 +998,6 @@ def vendor(request, slug):
         total_compare = comparing + compare_var
     else:
         cart = 0
-        subtotal = 0
         tax = 0
         total = 0
         grandTotal = 0
@@ -1074,8 +1072,6 @@ def become_customer(request):
     return render(request, 'customer/become_customer.html', {'form': form})
 
 
-# @login_required
-# def myaccount(request):
 class MyAccount(TemplateView):
     template_name = 'customer/myaccount.html'
 
@@ -1086,8 +1082,6 @@ class MyAccount(TemplateView):
             wishlist = UserWishList.objects.filter(user=current_user)
             shopcart = ShopCart.objects.filter(user_id=current_user.id)
             total = cart.get_cart_cost()
-            tax = cart.get_cart_tax()
-            grandTotal = cart.get_cart_cost()
             if not request.session.get('comparing'):
                 comparing = 0
             else:
@@ -1102,7 +1096,6 @@ class MyAccount(TemplateView):
 
         orders = account_service.calculate_order_sum(request.user.email)
         cart = Cart(request)
-        tax = cart.get_cart_tax()
         context = self.get_context_data()
         context['orders'] = orders
         context['shopcart'] = shopcart
@@ -1123,8 +1116,6 @@ class OrderHistory(TemplateView):
             wishlist = UserWishList.objects.filter(user=current_user)
             shopcart = ShopCart.objects.filter(user_id=current_user.id)
             total = cart.get_cart_cost()
-            tax = cart.get_cart_tax()
-            grandTotal = cart.get_cart_cost()
             if not request.session.get('comparing'):
                 comparing = 0
             else:
@@ -1167,8 +1158,6 @@ def order_detail(request, id):
         wishlist = UserWishList.objects.filter(user=current_user)
         shopcart = ShopCart.objects.filter(user_id=current_user.id)
         total = cart.get_cart_cost()
-        tax = cart.get_cart_tax()
-        grandTotal = cart.get_cart_cost()
         if not request.session.get('comparing'):
             comparing = 0
         else:
@@ -1203,7 +1192,6 @@ def vendor_order_detail(request, id):
 
 
 class WishListView(TemplateView):
-    # template_name = 'customer/wishlist.html'
 
     def get(self, request, *args, **kwargs):
         context = self.get_context_data(**kwargs)
@@ -1229,7 +1217,6 @@ class WishListView(TemplateView):
             total_compare = comparing + compare_var
         else:
             cart = 0
-            subtotal = 0
             tax = 0
             total = 0
             grandTotal = 0
@@ -1304,7 +1291,6 @@ def request_restore_password(request):
             total_compare = comparing + compare_var
         else:
             cart = 0
-            subtotal = 0
             tax = 0
             total = 0
             grandTotal = 0

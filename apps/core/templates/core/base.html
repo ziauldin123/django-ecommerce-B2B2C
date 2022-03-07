@@ -407,7 +407,13 @@
                         </svg>
                          {% load myapptags %}
                          {% shopcartcount user.id as count %}
-                        <span class="indicator__value">{{count}}</span>
+                        <span class="indicator__value">
+                          {% if request.user.is_authenticated %}
+                          {{count}}
+                          {% else %} 
+                          0
+                          {% endif %}
+                        </span>
                       </span>
                     </a>
                   </div>
@@ -668,7 +674,11 @@
                               <span class="qty indicator__value">
                                      {% load myapptags %}
                                       {% shopcartcount user.id as count %}
+                                      {% if request.user.is_authenticated %}
                                        {{count}}
+                                      {% else %}
+                                       0
+                                      {% endif %}  
                               </span>
                           </span>
                       </a>
@@ -1028,7 +1038,8 @@
 <!-- .dropcart -->
 <div class="dropcart dropcart--style--offcanvas">
   <div class="dropcart__backdrop"></div>
-  <div class="dropcart__body" id="cart_table">
+  <div id="cart_table">
+    <div class="dropcart__body">
       <div class="dropcart__header">
           <div class="dropcart__title">Cart</div>
           <button class="dropcart__close" type="button">
@@ -1093,14 +1104,14 @@
                 <use xlink:href="/static/templates/images/sprite.svg#cross-10"></use>
             </svg>
         </button>
-        </div> 
+          </div> 
           {% endfor %}
       </div>
       <div class="dropcart__totals">
           <table>
               <tr>
                   <th>Total</th>
-                  <td>Rwf {{subtotal}}</td> 
+                  <td>Rwf {{ subtotal }}</td> 
               </tr>
           </table>
       </div>
@@ -1108,6 +1119,7 @@
           <a class="btn btn-secondary" href="{% url 'shopcart'%}">View Cart</a>
           <a class="btn btn-primary" href="{% url 'contact_info' %}">Checkout</a>
       </div>
+  </div>
   </div>
 </div>
 <!-- .dropcart / end -->
