@@ -1,4 +1,7 @@
+<<<<<<< HEAD
+=======
 import email
+>>>>>>> 017e4074e7824154b8322d70b60d4678123c1ee5
 from tkinter import Image
 from typing import Any
 from django.core.paginator import (Paginator, PageNotAnInteger, EmptyPage)
@@ -798,6 +801,28 @@ def upload_logo(request):
 
 @ login_required
 def add_productimage(request, pk):
+<<<<<<< HEAD
+    vendor = request.user.vendor
+    product = Product.objects.get(vendor=vendor, id=pk)
+    print(product.product_images.all())
+    if product.is_variant:
+        print('variant')
+    else:
+        if request.method == 'POST':
+            images = request.FILES.getlist('images')
+            for image in images:
+                product_image = ProductImage.objects.create(product=product)
+                product_image = Image(image=image, imgtype=Any)
+                product_image.save()
+            messages.info(request, f"Product image uploaded Successfully")
+            print("success")
+    return redirect('products')
+
+
+@ login_required
+def del_productimage(request, pk):
+=======
+>>>>>>> 017e4074e7824154b8322d70b60d4678123c1ee5
     vendor = request.user.vendor
     product = Product.objects.get(vendor=vendor, id=pk)
     print(product.product_images.all())
