@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+import email
+>>>>>>> 017e4074e7824154b8322d70b60d4678123c1ee5
 from tkinter import Image
 from typing import Any
 from django.core.paginator import (Paginator, PageNotAnInteger, EmptyPage)
@@ -138,8 +142,10 @@ def login_request(request):
             try:
                 vendor = Vendor.objects.get(email=username).company_name
                 logo = Vendor.objects.get(email=username).logo.url
+                status = Vendor.objects.get(email=username).status
                 request.session['username'] = vendor
                 request.session['logo'] = logo
+                request.session['status'] = status
 
             except Exception as e:
                 pass
@@ -457,6 +463,10 @@ def working_hours(request):
 def delivery_cost(request):
     vendor = request.user.vendor
 
+    if vendor.status == 'DIAMOND' or vendor.status == 'SAPPHIRE':
+        messages.info(request,f"You are not eligible to setup your Delivery Cost")
+        return redirect('vendor_admin')
+
     if request.method == 'POST':
         delivery_price = request.POST.get('delivery_price')
         vendor_delivery = VendorDelivery.objects.filter(vendor=vendor).first()
@@ -764,8 +774,6 @@ def edit_product(request, pk):
 
 @ login_required
 def delete_product(request, pk):
-    # vendor = request.user.vendor
-    # product = vendor.newProducts.get(pk=pk)
     check = Product.objects.filter(id=pk).first()
     if check != None:
         if Product.objects.filter(id=pk).exists():
@@ -793,6 +801,7 @@ def upload_logo(request):
 
 @ login_required
 def add_productimage(request, pk):
+<<<<<<< HEAD
     vendor = request.user.vendor
     product = Product.objects.get(vendor=vendor, id=pk)
     print(product.product_images.all())
@@ -812,25 +821,24 @@ def add_productimage(request, pk):
 
 @ login_required
 def del_productimage(request, pk):
+=======
+>>>>>>> 017e4074e7824154b8322d70b60d4678123c1ee5
     vendor = request.user.vendor
-    # product = vendor.products.get(pk=pk)
-    product_image = ProductImage.objects.filter(id=pk).first()
-    product_id = product_image.product.id
-    product_image.delete()
-    product_images = ProductImage.objects.filter(product=product_id)
+    product = Product.objects.get(vendor=vendor, id=pk)
+    print(product.product_images.all())
+    if product.is_variant:
+        print('variant')
+    else:
+        if request.method == 'POST':
+            images = request.FILES.getlist('images')
+            for image in images:
+                product_image = ProductImage.objects.create(product=product)
+                product_image = Image(image=image, imgtype=Any)
+                product_image.save()
+            messages.info(request, f"Product image uploaded Successfully")
+            print("success")
+    return redirect('products')
 
-    # if request.method == 'POST':
-    #     form = ProductForm(request.POST, request.FILES, instance=product)
-
-    #     if form.is_valid():
-    #         form.save()
-
-    #         return redirect('vendor_admin')
-    # else:
-    #     form = ProductForm(instance=product)
-
-    # return render(request, 'vendor/edit_productimage.html', {'product_images': product_images})
-    return redirect("edit_productimage", pk=product_id)
 
 
 @ login_required

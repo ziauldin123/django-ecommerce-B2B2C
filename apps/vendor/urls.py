@@ -19,7 +19,6 @@ urlpatterns = [
     path('create-height/', forms.CreateHeight.as_view(), name='add_height',),
     path('create-size/', forms.CreateSize.as_view(), name='add_size',),
 
-
     path('become-vendor/', views.become_vendor, name='become_vendor'),
     path('products/', views.vendor_products, name='products'),
     path('order-history/', views.order_history, name='vendor_orders'),
@@ -28,14 +27,12 @@ urlpatterns = [
     path('add-product-with-variant/', views.add_product_with_variant,
          name='add_product_without_variant'),
     path('edit-vendor/', views.edit_vendor, name='edit_vendor'),
+    path('add-product-image/<int:pk>/',views.add_productimage, name='add_product_image'),
     path('edit-product/<int:pk>/', views.edit_product, name='edit_product'),
     path('delete-product/<int:pk>/', views.delete_product, name='delete_product'),
     #     path('edit-productimage/<int:pk>/',
     #          views.edit_productimage, name='edit_productimage'),
     path('remove-opening/<int:pk>/', views.remove_opening, name='remove_opening'),
-    path('del-productimage/<int:pk>/',
-         views.del_productimage, name='del_productimage'),
-
     path('customer/myaccount/', views.MyAccount.as_view(), name='myaccount'),
     path('customer/order-history',
          views.OrderHistory.as_view(), name='orderhistory'),
@@ -47,9 +44,6 @@ urlpatterns = [
          name='request_restore_password'),
     path('restore_password/', views.restore_password, name='restore_password'),
 
-
-    # path('logout/', auth_views.LogoutView.as_view(), name='logout'),
-    # path('login/', auth_views.LoginView.as_view(template_name='vendor/login.html'), name='login'),
 
     path('logout/', views.logout_request, name='logout'),
     path('login/', views.login_request, name='login'),

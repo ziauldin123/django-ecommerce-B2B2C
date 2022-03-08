@@ -368,7 +368,17 @@ class ComparingView(TemplateView):
             print(product.id)
         for product in variants:
             print(product.id)
-        return render(request,'product/comparing.html',{'products':products,'variants':variants})
+            
+        return render(request,'product/comparing.html',
+        {
+            'products':products,
+            'variants':variants,
+            'shopcart': shopcart,
+            'subtotal': total,
+            'tax': tax,
+            'total': grandTotal,
+            'wishlist': wishlist,
+            })
 
 
 

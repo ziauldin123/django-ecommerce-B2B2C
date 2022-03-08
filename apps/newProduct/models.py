@@ -548,6 +548,7 @@ class ProductImage(models.Model):
         Variants, related_name='variants_images', on_delete=models.CASCADE, blank=True, null=True)
     title = models.CharField(max_length=50, blank=True)
     image = models.ImageField(blank=True, upload_to='images/')
+    
 
     def save(self, *args, **kwargs):
         if self.image and not self.image.url.endswith('.webp'):
