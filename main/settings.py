@@ -25,7 +25,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'dr&-v@o7w9#&#r3wj$d#$t78t&*hb$&(2)xa5@05d1p$)1=$96'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*', ]
 
@@ -66,6 +66,7 @@ INSTALLED_APPS = [
     'apps.product',
     'apps.vendor',
     'apps.blog',
+    'apps.dashboard',
     'apps.coupon',
     'apps.newProduct',
     'apps.home',
@@ -192,7 +193,8 @@ AWS_ACCESS_KEY_ID = 'AKIA2K3OSTWJYNYQ6Q5W'
 AWS_SECRET_ACCESS_KEY = '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'
 AWS_STORAGE_BUCKET_NAME = 'sokopark'
 AWS_S3_REGION_NAME = 'af-south-1'
-AWS_S3_CUSTOM_DOMAIN = '%s.s3.af-south-1.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
+# AWS_S3_CUSTOM_DOMAIN = '%s.s3.af-south-1.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
+AWS_S3_CUSTOM_DOMAIN='d251dltybpl0e9.cloudfront.net'
 AWS_PRELOAD_METADATA = True
 AWS_DEFAULT_ACL = None
 AWS_S3_SECURE_URLS = True
@@ -203,30 +205,9 @@ AWS_S3_OBJECT_PARAMETERS = {
 AWS_LOCATION = 'static'
 AWS_IS_GZIPPED = True
 COLLECTFAST_THREADS = 20
-
-EMAIL_BACKEND = 'django_ses.SESBackend'
-DEFAULT_EMAIL_FROM = 'customerservice@sokopark.com'
-SERVER_EMAIL = 'customerservice@sokopark.com'
-
-AWS_SES_REGION_NAME = 'eu-west-1'
-AWS_SES_REGION_ENDPOINT = 'email.eu-west-1.amazonaws.com'
-
-
-AWS_ACCESS_KEY_ID = 'AKIA2K3OSTWJYNYQ6Q5W'
-AWS_SECRET_ACCESS_KEY = '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'
-AWS_STORAGE_BUCKET_NAME = 'sokopark'
-AWS_S3_REGION_NAME = 'af-south-1'
-AWS_S3_CUSTOM_DOMAIN = '%s.s3.af-south-1.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
-AWS_PRELOAD_METADATA = True
-AWS_DEFAULT_ACL = None
-AWS_S3_SECURE_URLS = True
-AWS_EXPIRY = 60 * 60 * 24 * 7
-AWS_S3_OBJECT_PARAMETERS = {
-    'CacheControl': 'max-age={}, s-maxage={}, must-revalidate'.format(AWS_EXPIRY, AWS_EXPIRY)
-}
-AWS_LOCATION = 'static'
-AWS_IS_GZIPPED = True
-COLLECTFAST_THREADS = 20
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'apps/home/static'),
+]
 
 COMPRESS_ROOT = os.path.join(BASE_DIR, "static")
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
