@@ -18,6 +18,7 @@ urlpatterns = [
     path('create-weight/', forms.CreateWeight.as_view(), name='add_weight',),
     path('create-height/', forms.CreateHeight.as_view(), name='add_height',),
     path('create-size/', forms.CreateSize.as_view(), name='add_size',),
+    path('create-unit-type/', forms.CreateUnitType.as_view(), name='add_unit_type'),
 
     path('become-vendor/', views.become_vendor, name='become_vendor'),
     path('products/', views.vendor_products, name='products'),

@@ -243,6 +243,7 @@ def become_vendor(request):
                 user = User.objects.get(
                     username=form.cleaned_data.get('email'))
             else:
+                print(form.cleaned_data.get('email'))
                 user = form.save(commit=False)
                 user.username = form.cleaned_data.get('email')
                 user.is_active = False
@@ -382,7 +383,7 @@ def vendor_admin(request):
         delivery_price = vendor_delivery.price if vendor_delivery else ''
         print(vendor_delivery)
         print(delivery_price)
-
+        
         user = request.user
         v = Vendor.objects.get(email=user)
 
@@ -413,7 +414,8 @@ def vendor_admin(request):
 
         vendor_items_total_price = round(Decimal(vendor_items_total_price), 2)
         total_cost = round(Decimal(vendor_items_total_price), 2)
-        
+        if vendor.logo:
+            print(vendor.logo.url)   
         return render(
             request,
             'vendor/vendor_admin.html',
@@ -708,13 +710,21 @@ def add_variant(request):
     if request.method == 'POST':
         if variant_form.is_valid():
             if len(Product.objects.filter(vendor=vendor)) < vendor.products_limit:
-                variant = variant_form.save(commit=False)
-                variant.vendor = request.user.vendor
-                variant.is_vat = True
-                variant.save()
-                request, messages.SUCCESS, "The product variant {} is successfully added ".format(
-                    variant.title)
-                print(variant_form.cleaned_data['title'])
+                product=variant_form.cleaned_data['product']
+                if product.vendor == vendor:
+                    variant = variant_form.save(commit=False)
+                    variant.vendor = request.user.vendor
+                    variant.is_vat = True
+                    variant.save()
+                    messages.add_message(
+                        request, messages.SUCCESS, "The product variant {} is successfully added ".format(
+                        variant.title)
+                    )
+                else:
+                    messages.add_message(
+                        request, messages.ERROR, "Please Select from your Product"
+                    )  
+                
                 return redirect('products')
             else:
                 messages.add_message(
@@ -814,6 +824,7 @@ def upload_logo(request):
 def add_productimage(request, pk):
     vendor = request.user.vendor
     product = Product.objects.get(vendor=vendor, id=pk)
+
     if request.method == 'POST':
         images = request.FILES.getlist('images')
         if len(images) > 3 :

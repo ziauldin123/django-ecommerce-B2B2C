@@ -3,7 +3,6 @@
 {% block title %}Add a product{% endblock %}
 {% block content %}
 <div class="site__body">
-    
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-xl-10 col-lg-6 col-md-8">
@@ -14,52 +13,50 @@
                             {% load widget_tweaks %}
                             {% csrf_token %}
                                 <div class="form-row">
-                                  <div class="form-group col-md-6">
+                                  <div class="form-group col-md-3">
                                       <label for="">Category</label>
                                       {{ form.category |add_class:"form-control" }}
                                   </div>
-                                  <div class="form-group col-md-6">
+                                  <div class="form-group col-md-3">
                                     <label for="">Title</label>
                                     {{form.title|add_class:"form-control"}}
                                   </div>
+                                  <div class="form-group col-md-3">
+                                    <label for="">Price</label>
+                                    {{form.price|add_class:"form-control"}}
+                                 </div>
+                                 <div class="form-group col-md-3">
+                                     <label for="">Quantity</label>
+                                     {{form.quantity|add_class:"form-control"}}
+                                  </div>
                                 </div>
                                 <div class="form-row">
-                                    <div class="form-group col-md-3">
-                                       <label for="">Price</label>
-                                       {{form.price|add_class:"form-control"}}
-                                    </div>
-                                    <div class="form-group col-md-3">
-                                        <label for="">Quantity</label>
-                                        {{form.quantity|add_class:"form-control"}}
-                                     </div>
                                      <div class="form-group col-md-3">
                                         <label for="">Discount</label>
                                         {{form.discount|add_class:"form-control"}}
                                      </div>
                                      <div class="form-group col-md-3">
                                          <label for="">Unit Type</label>
-                                         {{form.unit_type|add_class:"form-control"}}
-                                     </div>  
-                                </div>
-                                <div class="form-row">  
-                                    <div class="form-group col-md-3">
-                                        <label for="">Image</label>
-                                        {{form.image|add_class:"form-control"}}
-                                    </div> 
-                                    <div class="form-group col-md-3">
-                                       <label for=""> Length </label>
-                                        {{form.length|add_class:"form-control"}}
-                                   </div>
-                                   <div class="form-group col-md-3">
-                                       <label for=""> Width </label>
-                                           {{form.width|add_class:"form-control"}}
-                                   </div>
-                                   <div class="form-group col-md-3">
-                                    <label for=""> Weight</label>
-                                        {{form.weight|add_class:"form-control"}}
-                                </div>
+                                         {{form.unit_type|add_class:"form-control "}}
+                                     </div>   
+                                     <div class="form-group col-md-3">
+                                         <label for="">Image</label>
+                                         {{form.image|add_class:"form-control"}}
+                                     </div>
+                                     <div class="form-group col-md-3">
+                                        <label for=""> Length </label>
+                                         {{form.length|add_class:"form-control"}}
+                                    </div>  
                                 </div>
                                 <div class="form-row">
+                                    <div class="form-group col-md-3">
+                                        <label for=""> Width </label>
+                                            {{form.width|add_class:"form-control"}}
+                                    </div>
+                                    <div class="form-group col-md-3">
+                                     <label for=""> Weight</label>
+                                         {{form.weight|add_class:"form-control"}}
+                                     </div>
                                     <div class="form-group col-md-3">
                                         <label for=""> Color </label>
                                         {{form.color|add_class:"form-control"}}
@@ -68,6 +65,9 @@
                                        <label for=""> Height </label>
                                            {{form.height|add_class:"form-control"}}
                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    
                                     <div class="form-group col-md-3">
                                         <label for="">Brand</label>
                                         {{form.brand|add_class:"form-control"}}
@@ -88,18 +88,18 @@
                                     </div>
                                 </div>
                                 <div class="form-row">
-                                    <div class="form-group col-md-3">
-                                        <label for="">VAT Apllicable</label>
-                                        {{form.is_vat}}
+                                    <div class="form-group col-md-3 form-check form-check-inline">
+                                        {{form.is_vat|add_class:"form-check-input"}}
+                                        <label for="" class="form-check-label">VAT Aplicable</label>
                                     </div>
-                                    {% if vendor.status == 'RUBY' or vendor.status == 'EMERALD' %} 
-                                    <div class="form-group col-md-3">
+                                    {% if vendor.status == 'RUBY' or vendor == 'EMERALD' %}
+                                    <div class="form-group col-md-3 form-check form-check-inline">
+                                        {{form.pickup_available|add_class:"form-check-input"}}
                                         <label for="">Pickup Available</label>
-                                        {{form.pickup_available}}
                                     </div>
-                                    <div class="form-group col-md-3">
-                                        <label for="">Free Delivery</label>
-                                        {{form.is_free_delivery}}
+                                    <div class="form-group col-md-3 form-check form-check-inline">
+                                        {{form.is_free_delivery|add_class:"form-check-input"}}
+                                        <label for="" class="form-check-label">Free Delivery</label>
                                     </div>
                                     {% endif %}
                                 </div>

@@ -8,7 +8,6 @@ from django.contrib import messages
 from django.conf import settings
 from django.core.mail import send_mail
 
-# from apps.product.models import Product, Category, SubCategory, SubSubCategory
 from apps.newProduct.models import Product, Category, SubCategory, SubSubCategory, Variants
 from apps.blog.models import Post
 from apps.ordering.models import ShopCart
@@ -85,6 +84,9 @@ def frontpage(request):
         total_compare = 0
         shopcart = []
 
+    
+    print(total)    
+
     return render(
         request,
         'core/frontpage.html',
@@ -130,7 +132,6 @@ def contact(request):
         total_compare = comparing + compare_var
     else:
         cart = 0
-        subtotal = 0
         tax = 0
         total = 0
         grandTotal = 0

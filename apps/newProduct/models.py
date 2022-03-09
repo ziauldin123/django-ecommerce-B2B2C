@@ -160,7 +160,7 @@ class UnitTypes(models.Model):
     unit = models.CharField(max_length=150)
 
     def __str__(self):
-        return "{} {}".format(self.name, self.unit)
+        return "{}".format(self.unit)     
 
     class Meta:
         verbose_name_plural = 'Unit_Types'

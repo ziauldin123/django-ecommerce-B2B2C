@@ -13,17 +13,21 @@
                             {% load widget_tweaks %}
                             {% csrf_token %}
                                 <div class="form-row">
-                                  <div class="form-group col-md-4">
+                                  <div class="form-group col-md-3">
                                       <label for="">Category</label>
                                       {{ form.category |add_class:"form-control" }}
                                   </div>
-                                  <div class="form-group col-md-4">
+                                  <div class="form-group col-md-3">
                                     <label for="">Title</label>
                                     {{form.title|add_class:"form-control"}}
                                   </div>
-                                  <div class="form-group col-md-4">
+                                  <div class="form-group col-md-3">
                                       <label for="">Brand</label>
                                       {{form.brand|add_class:"form-control"}}
+                                  </div>
+                                  <div class="form-group col-md-3">
+                                      <label for="">Variant</label>
+                                      {{form.variant|add_class:"form-control"}}
                                   </div>
                                 </div>
                                 <div class="form-row">
@@ -37,18 +41,18 @@
                                     </div>
                                 </div>
                                 <div class="form-row">
-                                    <div class="form-group col-md-3">
-                                        <label for="">VAT Apllicable</label>
-                                        {{form.is_vat}}
+                                    <div class="form-group col-md-3 form-check form-check-inline">
+                                        {{form.is_vat|add_class:"form-check-input"}}
+                                        <label for="" class="form-check-label">VAT Aplicable</label>
                                     </div>
                                     {% if vendor.status == 'RUBY' or vendor == 'EMERALD' %}
-                                    <div class="form-group col-md-3">
+                                    <div class="form-group col-md-3 form-check form-check-inline">
+                                        {{form.pickup_available|add_class:"form-check-input"}}
                                         <label for="">Pickup Available</label>
-                                        {{form.pickup_available}}
                                     </div>
-                                    <div class="form-group col-md-3">
-                                        <label for="">Free Delivery</label>
-                                        {{form.is_free_delivery}}
+                                    <div class="form-group col-md-3 form-check form-check-inline">
+                                        {{form.is_free_delivery|add_class:"form-check-input"}}
+                                        <label for="" class="form-check-label">Free Delivery</label>
                                     </div>
                                     {% endif %}
                                 </div>
