@@ -695,7 +695,6 @@ def add_product_with_variant(request):
 
 @ login_required
 def add_variant(request):
-    variant_form = VariantForm(request.POST, request.FILES)
     vendor = request.user.vendor
     product = Product.objects.filter(vendor=vendor)
     color = Color.objects.all()
@@ -708,6 +707,7 @@ def add_variant(request):
     unitTpye = UnitTypes.objects.all()
 
     if request.method == 'POST':
+        variant_form = VariantForm(request.POST, request.FILES, user=vendor)
         if variant_form.is_valid():
             if len(Product.objects.filter(vendor=vendor)) < vendor.products_limit:
                 product=variant_form.cleaned_data['product']
@@ -737,9 +737,10 @@ def add_variant(request):
             return redirect('add_variant')
     else:
         vendor = request.user.vendor
+        print(vendor)
         products = len(Product.objects.filter(vendor=vendor))
         print(" vendor:: products  ", products,  vendor.products_limit)
-        form = ProductForm()
+        variant_form=VariantForm(user=vendor)
 
     return render(request, 'vendor/add_variant.html', {'form': variant_form, 'product': product,
                                                        'color': color, 'size': size,

@@ -4,6 +4,7 @@ from tkinter import Widget
 from tkinter.tix import Select
 from turtle import color, title
 from unicodedata import category
+from urllib import request
 from django.db.models import fields
 from django.forms import FileInput, ModelForm
 from django.contrib.auth.forms import UserCreationForm
@@ -13,6 +14,7 @@ from django.contrib.admin import widgets
 from jmespath import search
 # from apps.product.models import Product, ProductImage
 from apps.newProduct.models import *
+# from apps.vendor.views import vendor
 from .models import  Vendor, Customer, OpeningHours
 from apps.cart.models import Village, Cell, Sector, District
 from django.urls import reverse_lazy
@@ -164,8 +166,10 @@ class VariantForm(ModelForm):
             'weight',
             'size',
         )
+        
+
         widgets = {
-            'product': ProductWidget,
+            # 'product': ProductWidget,
 
             'length':  Select2AddAnother(
                 reverse_lazy('add_length'),  
@@ -192,6 +196,11 @@ class VariantForm(ModelForm):
                 reverse_lazy('add_unit_type')
             )
         }
+
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user','')
+        super(VariantForm, self).__init__(*args, **kwargs)
+        self.fields['product']=forms.ModelChoiceField(queryset=Product.objects.filter(vendor=user))    
 
 
 class OpeningHoursForm(ModelForm):
