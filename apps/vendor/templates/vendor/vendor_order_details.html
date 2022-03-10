@@ -4,6 +4,37 @@
 {% load static %}
 {% block title %} Order #{{order.reference_number}}{% endblock %}
 {% block content %}
+<style>
+    select {
+        width: 80px;
+        height: 30px;
+        border: 0px solid black;
+        border-radius: 5px;
+        }
+</style>
+<script>
+    function changeStatus(select){
+        status=$("#status").val()
+        order_id=$("#order_id").val()
+        $.ajax({
+            url:"{% url 'change_status' %}",
+            type:'POST',
+            data:{
+                'status':status,
+                'order_id':order_id,
+                csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+            },
+            success:function(data){
+                $("#change_status").load(" #change_status");
+                $("#message").append(
+                    '<div class="alert alert-success hideit alertSuc">Order Shipped.</div >');
+                setTimeout(function () {
+                    $("#message").load(location.href + " #message");
+                }, 1000);
+            }
+        })
+    }
+</script>
 <div class="page-header">
     <div class="page-header__container container">
         <div class="page-header__breadcrumb">
@@ -11,6 +42,8 @@
             </nav>
         </div>
     </div>
+</div>
+<div id="message" name="message" class="mt-3">
 </div>
 <div class="block">
     <div class="container">
@@ -49,9 +82,20 @@
                             <a href="{% url 'vendor_orders' %}" class="btn btn-xs btn-secondary">Back to list</a>
                         </div>
                         <h5 class="order-header__title">Order Reference #{{order.reference_number}}</h5>
-                        <div class="order-header__subtitle">
+                        <div class="order-header__subtitle" id="change_status">
                             Was placed on <mark class="order-header__date">{{order.created_at}}</mark>
-                            and is <mark class="order-header__status">{{order.status}}</mark>.
+                            and is <mark class="order-header__status">
+                                {% if order.delivery_type == 'Vendor_Delivery' and order.status == 'paid' %}
+                                   {% csrf_token %}
+                                    <input type="hidden" id="order_id" value="{{order.id}}"> 
+                                    <select name="status" id="status" {% if order.status == 'shipped' %} disabled {% endif %} style="color: black;font-weight: 500;" onchange="changeStatus(this)">
+                                        <option value="{{order.status}}">{{order.status}}</option>
+                                        <option value="shipped">Shipped</option>
+                                    </select>
+                                {% else %}
+                                       {{order.status}}
+                                {% endif %}       
+                                   </mark>.
                         </div>    
                     </div>
                     <div class="card-divider"></div>

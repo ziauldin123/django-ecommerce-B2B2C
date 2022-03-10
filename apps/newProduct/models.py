@@ -164,7 +164,8 @@ class UnitTypes(models.Model):
 
     class Meta:
         verbose_name_plural = 'Unit_Types'
-
+    
+    
 
 class Brand(models.Model):
     brand = models.CharField(max_length=250, blank=True, null=True)
@@ -172,6 +173,12 @@ class Brand(models.Model):
     def __str__(self):
         return str(self.brand)
 
+    class Meta:
+        ordering=('-brand',)
+
+    def save(self,*args,**kwargs):
+        self.brand=self.brand.lower()
+        return super(Brand, self).save(*args,**kwargs)    
 
 class Product(models.Model):
 

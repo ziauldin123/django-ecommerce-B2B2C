@@ -18,31 +18,15 @@
                 </div>
             </div>
             <div class="container">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="block">
-                            <div class="products-view">
-                                <div class="products-view__list products-list" data-layout="grid-4-full" data-with-features="false" data-mobile-grid-columns="2">
-                                    <div class="products-list__body">
-                                        {% for brand in brands %}
-                                        <div class="products-list__item">
-                                            <div class="product-card  ">
-                                                <div class="product-card__image product-image">
-                                                    <a class="product-image__body">
-                                                        {{brand}}
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        {% endfor %}
-                                    </div>
-                                </div>
-                                {% include "core/pagination.html" with page=brands %}
-                            </div>
+                <div class="widget-tags widget">
+                    <div class="tags tags--lg">
+                        <div class="tags__list">
+                            {% for brand in brands %} 
+                                <a href="">{{brand|title}}</a>
+                            {% endfor %}
                         </div>
                     </div>
                 </div>
-                
             </div>
         </div>
 {% endblock %}

@@ -1185,7 +1185,6 @@ def order_detail(request, id):
     else:
         wishlist = 0
         total_compare = 0
-
     return render(request, 'customer/order_details.html', {
         'order': order,
         'wishlist': wishlist,
@@ -1414,5 +1413,16 @@ def changeQtyVariant(request):
         variant.quantity=qty
         variant.save()
         print('updated')
+    return redirect(url)
+
+@login_required
+def changeStatus(request):
+    url=request.META.get('HTTP_REFERER')
+    if request.method == "POST":
+        status = request.POST.get('status')
+        order_id = request.POST.get('order_id')
+        Order.objects.filter(id=order_id).update(status=status)
+        print(type(status))
     return redirect(url)    
+
 

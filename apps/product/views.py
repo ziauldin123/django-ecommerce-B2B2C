@@ -1025,7 +1025,7 @@ def brands(request):
         wishlist = 0
         total_compare = 0
 
-    brands_list=Brand.objects.all()
+    brands_list=Brand.objects.all().order_by('brand')
     paginator = Paginator(brands_list,6) 
     page = request.GET.get('page')
 
