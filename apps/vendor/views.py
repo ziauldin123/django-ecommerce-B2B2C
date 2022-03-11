@@ -1,5 +1,6 @@
 from math import prod
 import email
+from multiprocessing import context
 from tkinter import Image
 from typing import Any
 from django.core.paginator import (Paginator, PageNotAnInteger, EmptyPage)
@@ -118,6 +119,7 @@ def login_request(request):
                                 pass
                         order["coupon_discount"] = coupon_discount
                         orders.append(order)
+
 
                     request.session['orders'] = orders
                     messages.info(

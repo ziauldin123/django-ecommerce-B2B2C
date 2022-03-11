@@ -1,3 +1,4 @@
+import re
 from tkinter.messagebox import NO
 from django.http import HttpResponse
 from django.http import request
@@ -48,7 +49,7 @@ def frontpage(request):
         status=True, visible=True).order_by('-num_visits')[0:4]
     recently_viewed_products = Product.objects.filter(status=True, visible=True).order_by(
         '-last_visit')[0:5]
-
+    
     if not request.user.is_anonymous:
         cart = Cart(request)
         current_user = request.user
@@ -64,6 +65,7 @@ def frontpage(request):
                 else:
                     cart.add(product_id=rs.product.id, variant_id=rs.variant.id, user_id=current_user.id,
                              quantity=rs.quantity, update_quantity=True)
+                             
 
         if not request.session.get('comparing'):
             comparing = 0
@@ -76,6 +78,7 @@ def frontpage(request):
             compare_var = request.session['comparing_variants'].__len__()
 
         total_compare = comparing + compare_var
+        print(total) 
 
     else:
         cart = 0
@@ -83,9 +86,7 @@ def frontpage(request):
         wishlist = 0
         total_compare = 0
         shopcart = []
-
-    
-    print(total)    
+   
 
     return render(
         request,

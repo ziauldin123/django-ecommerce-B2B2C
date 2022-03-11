@@ -1114,7 +1114,7 @@
           <table>
               <tr>
                   <th>Total</th>
-                  <td>Rwf {{ subtotal }}</td> 
+                  <td>Rwf {% if cart %} {{ cart.get_cart_cost }} {% else %} 0 {% endif %} </td> 
               </tr>
           </table>
       </div>
