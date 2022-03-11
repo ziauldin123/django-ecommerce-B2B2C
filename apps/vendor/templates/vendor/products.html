@@ -45,6 +45,15 @@
             }
         })
     })
+    $('body').on('change','.upload',function(){
+        if (this.files && this.files[0]){
+                var len = (this.files).length
+                $("#message").text(`${len} Product images selected, You can upload them.`)   
+                setTimeout(function () {
+                    $("#message").load(location.href + " #message");
+                }, 5000);
+            }
+    })
 </script>
 <div class="page-header">
     <div class="page-header__container container">
@@ -87,7 +96,7 @@
             <div class="col-12 col-lg-10 mt-4 mt-lg-0">
                 <div class="card">
                     <div class="card-header">
-                        <div id="message" name="message" class="mt-3">
+                        <div id="message" name="message" class="mt-3"  style="color: #007bff;font-weight: 1000;">
                         </div>
                         <h5>My products</h5>
                         {% if product_limit %}
@@ -162,7 +171,7 @@
                                             <form class="form" method="post" action="{% url 'add_product_image' product.id %}" enctype="multipart/form-data">
                                                 {% csrf_token %}
                                                 <img style="cursor: pointer;width: 30px;" onclick="document.getElementById('images').click()" src="https://img.icons8.com/external-tanah-basah-detailed-outline-tanah-basah/48/000000/external-upload-user-interface-tanah-basah-detailed-outline-tanah-basah.png"/>
-                                                <input  type="file" id="images" style="display: none;cursor: pointer;" name="images" multiple>
+                                                <input  type="file" class="upload" id="images" style="display: none;cursor: pointer;" name="images" multiple>
                                                 <button type="submit" class="product-card__addtocart btn-primary" style="width: 70px;">Upload</button>
                                             </form>
                                         </td>
@@ -200,10 +209,10 @@
                           <a href="{% url 'edit_product_variant' variant.id %}" class="mr-5">Edit</a>
                       </td>
                       <td>
-                        <form class="form" method="POST" action="{% url 'add_productimage_variant' variant.id %}" enctype="multipart/form-data">
+                        <form class="form" method="post" action="{% url 'add_productimage_variant' variant.id %}" enctype="multipart/form-data">
                             {% csrf_token %}
-                            <img style="cursor: pointer;width: 30px;" onclick="document.getElementById('imgs').click()" src="https://img.icons8.com/external-tanah-basah-detailed-outline-tanah-basah/48/000000/external-upload-user-interface-tanah-basah-detailed-outline-tanah-basah.png" />
-                            <input  name="imgs" type="file" id="imgs" style="display: none;"  multiple>
+                            <img  style="cursor: pointer;width: 30px;" onclick="document.getElementById('imgs').click()" src="https://img.icons8.com/external-tanah-basah-detailed-outline-tanah-basah/48/000000/external-upload-user-interface-tanah-basah-detailed-outline-tanah-basah.png" />
+                            <input type="file" class="upload"  name="imgs" id="imgs" style="display: none;"  multiple>
                             <button type="submit" class="product-card__addtocart btn-primary" style="width: 70px;">Upload</button>
                         </form>
                      </td>

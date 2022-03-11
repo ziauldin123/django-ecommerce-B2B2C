@@ -519,6 +519,12 @@ def vendor_products(request):
     paginator = Paginator(products_list, 2)
     page = request.GET.get('page')
 
+    images = request.FILES.getlist('images')
+    if images:
+        print(images)
+    else:
+        print('Not selected')    
+
     try:
         products = paginator.page(page)
     except PageNotAnInteger:
@@ -827,6 +833,8 @@ def upload_logo(request):
 def add_productimage(request, pk):
     vendor = request.user.vendor
     product = Product.objects.get(vendor=vendor, id=pk)
+    
+    
 
     if request.method == 'POST':
         images = request.FILES.getlist('images')
@@ -858,7 +866,7 @@ def add_productimage(request, pk):
 def add_productimage_variant(request, pk):
     variant = Variants.objects.get(id=pk)
     if request.method == 'POST':
-        images=request.FILES.getlist('imgs[]')
+        images=request.FILES.getlist('imgs')
         print(images)
         productImages=ProductImage.objects.filter(variant=variant)
         if len(images) > 3:
