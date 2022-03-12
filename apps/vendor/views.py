@@ -515,7 +515,7 @@ def remove_opening(request, pk):
 @login_required
 def vendor_products(request):
     vendor = request.user.vendor
-    products_list = products = Product.objects.filter(vendor=vendor)
+    products_list = products = Product.objects.filter(vendor=vendor,visible=True)
     paginator = Paginator(products_list, 2)
     page = request.GET.get('page')
 
@@ -535,7 +535,8 @@ def vendor_products(request):
     variants = []
     for pr in products:
         if pr.variant != 'None':
-            variants = Variants.objects.filter(product=pr.id)
+            variants = Variants.objects.filter(product=pr.id,visible=True)
+            print(variants)
     product_limit = not vendor.products_limit <= ((products.__len__(
     ) + vendor.variants_vendor.all().__len__()) - Product.objects.filter(vendor=vendor, is_variant=True).__len__())
 
@@ -792,8 +793,6 @@ def edit_product_variant(request,pk):
        if form.is_valid() and imageForm.is_valid():
            form.save()
            imageForm.save()
-    
-       
            messages.info(request,"Product Updated")
            return redirect('products')
    else:
