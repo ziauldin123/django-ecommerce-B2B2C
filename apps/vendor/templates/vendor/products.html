@@ -153,7 +153,7 @@
                                         {% endif %}
                                         {% if product.variant == 'None' %}
                                         <td>
-                                            {% if product.status == True and product.visible == True %}
+                                            {% if product.status == True  %}
                                                 <a>Active</a>
                                             {% else %}
                                                 <a>Under Review</a>
@@ -181,8 +181,7 @@
                                         {% endif %}
                                     </tr>
                                     {% endfor %}
-                                    {% for variants in products %} 
-                    {% for variant in variants.product_variant.all %}
+                                    {% for variant in variants %}
                     <tr>
                       <td><a href="">{{ variant.title }}</a></td>
                       <td>{{ variant.price }}</td>
@@ -198,7 +197,7 @@
                           {% endif %}
                       </td>
                       <td>
-                          {% if variant.status == True and variant.visible == True %}
+                          {% if variant.status == True %}
                               <p>Active</p>
                           {% else %}
                               <p>Under Review</p>
@@ -220,11 +219,10 @@
                           <a href="{% url 'delete_product_variant' variant.id %}">Delete</a>
                       </td>
                   </tr>
-                    {% endfor %}
-                    {% endfor %}
+                    {% endfor %}   
                                 </tbody>
                             </table>
-                            {% else %}
+                                    {% else %}
                            <table>
                              
                                     <td>No products yet.</td>

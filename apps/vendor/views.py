@@ -539,7 +539,7 @@ def vendor_products(request):
             print(variants)
     product_limit = not vendor.products_limit <= ((products.__len__(
     ) + vendor.variants_vendor.all().__len__()) - Product.objects.filter(vendor=vendor, is_variant=True).__len__())
-
+    
     return render(request, 'vendor/products.html',
                   {
                       'product_limit': product_limit,
@@ -784,11 +784,13 @@ def edit_product(request, pk):
 
 @login_required
 def edit_product_variant(request,pk):
-   variant = Variants.objects.filter(id=pk).first()
-   productImages = ProductImage.objects.filter(variant=variant)
+   vendor=request.user.vendor
+   variant=vendor.variants_vendor.filter(pk=pk).first()
+   print(variant)
+   productImages = ProductImage.objects.filter(variant=variant).first()
    ImageForm = inlineformset_factory(Variants,ProductImage,can_delete=False,fields=['image'],extra=0)
    if request.method == 'POST':
-       form = VariantForm(request.POST, request.FILES, instance=variant)
+       form = VariantForm(request.POST, request.FILES,instance=variant,user=vendor)
        imageForm = ImageForm(request.POST, request.FILES, instance=variant)
        if form.is_valid() and imageForm.is_valid():
            form.save()
@@ -796,10 +798,10 @@ def edit_product_variant(request,pk):
            messages.info(request,"Product Updated")
            return redirect('products')
    else:
-       form = VariantForm(instance=variant)
+       form = VariantForm(instance=variant,user=vendor)
        imageForm = ImageForm(instance=variant)
 
-   return render(request, 'vendor/edit_product_variant.html',{'form':form,'variant':variant,'form':form,'imageForm':imageForm})                     
+   return render(request, 'vendor/edit_product_variant.html',{'form':form,'variant':variant,'imageForm':imageForm})                     
 
 @ login_required
 def delete_product(request, pk):
@@ -810,7 +812,7 @@ def delete_product(request, pk):
 
 @login_required
 def delete_product_variant(request, pk):
-    variant=Variants.objects.filter(id=pk).update(visible=False)
+    Variants.objects.filter(id=pk).update(visible=False)
     messages.info(request,"Product Deleted")
     return redirect('products')
 
