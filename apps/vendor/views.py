@@ -516,7 +516,7 @@ def remove_opening(request, pk):
 def vendor_products(request):
     vendor = request.user.vendor
     products_list = products = Product.objects.filter(vendor=vendor,visible=True)
-    paginator = Paginator(products_list, 2)
+    paginator = Paginator(products_list, 5)
     page = request.GET.get('page')
 
     images = request.FILES.getlist('images')
@@ -536,18 +536,32 @@ def vendor_products(request):
     for pr in products:
         if pr.variant != 'None':
             variants = Variants.objects.filter(product=pr.id,visible=True)
-            print(variants)
+                
     product_limit = not vendor.products_limit <= ((products.__len__(
     ) + vendor.variants_vendor.all().__len__()) - Product.objects.filter(vendor=vendor, is_variant=True).__len__())
-    
+
+    product_list = products = Product.objects.filter(vendor=vendor,visible=True,is_variant=False)
+    lists=list(chain(product_list,variants))
+    paginator = Paginator(lists, 5)
+    page = request.GET.get('page')
+
+    try:
+        lists_products = paginator.page(page)
+    except PageNotAnInteger:
+        lists_products = paginator.page(1)
+    except EmptyPage:
+        lists_products = paginator.page(paginator.num_pages)    
+
+          
+
     return render(request, 'vendor/products.html',
                   {
                       'product_limit': product_limit,
                       'products': products,
                       'variants': variants,
-                      'vendor':vendor
+                      'vendor':vendor,
+                      'lists_products':lists_products
                   })
-
 
 @login_required
 def order_history(request):
@@ -724,6 +738,7 @@ def add_variant(request):
                     variant = variant_form.save(commit=False)
                     variant.vendor = request.user.vendor
                     variant.is_vat = True
+                    variant.visible = True
                     variant.save()
                     messages.add_message(
                         request, messages.SUCCESS, "The product variant {} is successfully added ".format(

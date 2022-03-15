@@ -128,45 +128,73 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {% for product in products %} 
+                                    {% for product in lists_products %} 
                                     <tr>
-                                        {% if product.variant == 'None' %}
-                                          <td><a href="">{{ product.title }}</a></td>
+                                        {% if product.is_variant == False %} 
+                                        <td><a href="">{{ product.title }}</a></td>
+                                        {% else %} 
+                                        <td><a href="">{{ product.title }}</a></td>
                                         {% endif %}
-                                        {% if product.variant == 'None' %}
+                                        {% if product.is_variant == False %}
                                            <td>{{ product.price }}</td>
+                                        {% else %} 
+                                           <td>{{ product.price }}</td>   
                                         {% endif %}
-                                        {% if product.variant == 'None' %}
+                                        {% if product.is_variant == False %}
                                         <td>
                                             <div class="product_data">
                                                 <input type="hidden" class="prod_id" value="{{product.id}}">
                                                 <input style="width: 50px;text-align: center;" class="input changeQty" id="quantity" name="quantity" type="number" value="{{product.quantity}}" min="1" >
                                             </div>
                                         </td>
+                                        {% else %} 
+                                        <td>
+                                            <div class="product_data"> 
+                                                <input type="hidden" class="prod_id" value="{{product.id}}">
+                                                <input style="width: 50px;text-align: center;" class="input changeQtyVariant" id="quantity" name="quantity" type="number" value="{{product.quantity}}" min="1" >
+                                            </div>
+                                          </td>
                                         {% endif %}
-                                        {% if product.variant == 'None' %}
+                                        {% if product.is_variant == False %}
                                         <td>
                                             {% if product.discount > 0 %}
                                                 {{ product.discount }} %
                                             {% endif %}
                                         </td>
+                                        {% else %} 
+                                        <td>
+                                            {% if product.discount > 0 %}
+                                            {{ product.discount }} %
+                                        {% endif %} 
+                                        </td>
                                         {% endif %}
-                                        {% if product.variant == 'None' %}
+                                        {% if product.is_variant == False %}
                                         <td>
                                             {% if product.status == True  %}
                                                 <a>Active</a>
                                             {% else %}
                                                 <a>Under Review</a>
                                             {% endif %}
-            
+                                        </td>
+                                        {% else %} 
+                                        <td>
+                                            {% if product.status == True  %}
+                                            <a>Active</a>
+                                        {% else %}
+                                            <a>Under Review</a>
+                                        {% endif %} 
                                         </td>
                                         {% endif %}
-                                        {% if product.variant == 'None' %}
+                                        {% if product.is_variant == False %}
                                         <td>
                                             <a href="{% url 'edit_product' product.id %}" class="mr-5">Edit</a>
                                         </td>
+                                        {% else %} 
+                                        <td>
+                                            <a href="{% url 'edit_product_variant' product.id %}" class="mr-5">Edit</a>
+                                        </td>
                                         {% endif %}
-                                        {% if product.variant == 'None' %}
+                                        {% if product.is_variant == False %}
                                         <td>
                                             <form class="form" method="post" action="{% url 'add_product_image' product.id %}" enctype="multipart/form-data">
                                                 {% csrf_token %}
@@ -178,61 +206,32 @@
                                         <td>
                                             <a href="{% url 'delete_product' product.id %}">Delete</a>
                                         </td>
+                                        {% else %} 
+                                        <td>
+                                            <form class="form" method="post" action="{% url 'add_productimage_variant' product.id %}" enctype="multipart/form-data">
+                                                {% csrf_token %}
+                                                <img  style="cursor: pointer;width: 30px;" onclick="document.getElementById('imgs').click()" src="https://img.icons8.com/external-tanah-basah-detailed-outline-tanah-basah/48/000000/external-upload-user-interface-tanah-basah-detailed-outline-tanah-basah.png" />
+                                                <input type="file" class="upload"  name="imgs" id="imgs" style="display: none;"  multiple>
+                                                <button type="submit" class="product-card__addtocart btn-primary" style="width: 70px;">Upload</button>
+                                            </form>
+                                         </td>
+                                          <td>
+                                              <a href="{% url 'delete_product_variant' product.id %}">Delete</a>
+                                          </td>
                                         {% endif %}
                                     </tr>
-                                    {% endfor %}
-                                    {% for variant in variants %}
-                                              <tr>
-                      <td><a href="">{{ variant.title }}</a></td>
-                      <td>{{ variant.price }}</td>
-                      <td>
-                        <div class="product_data"> 
-                            <input type="hidden" class="prod_id" value="{{variant.id}}">
-                            <input style="width: 50px;text-align: center;" class="input changeQtyVariant" id="quantity" name="quantity" type="number" value="{{variant.quantity}}" min="1" >
-                        </div>
-                      </td>
-                      <td>
-                          {% if variant.discount > 0 %}
-                              {{ variant.discount }} %
-                          {% endif %}
-                      </td>
-                      <td>
-                          {% if variant.status == True %}
-                              <p>Active</p>
-                          {% else %}
-                              <p>Under Review</p>
-                          {% endif %}
-
-                      </td>
-                      <td>
-                          <a href="{% url 'edit_product_variant' variant.id %}" class="mr-5">Edit</a>
-                      </td>
-                      <td>
-                        <form class="form" method="post" action="{% url 'add_productimage_variant' variant.id %}" enctype="multipart/form-data">
-                            {% csrf_token %}
-                            <img  style="cursor: pointer;width: 30px;" onclick="document.getElementById('imgs').click()" src="https://img.icons8.com/external-tanah-basah-detailed-outline-tanah-basah/48/000000/external-upload-user-interface-tanah-basah-detailed-outline-tanah-basah.png" />
-                            <input type="file" class="upload"  name="imgs" id="imgs" style="display: none;"  multiple>
-                            <button type="submit" class="product-card__addtocart btn-primary" style="width: 70px;">Upload</button>
-                        </form>
-                     </td>
-                      <td>
-                          <a href="{% url 'delete_product_variant' variant.id %}">Delete</a>
-                      </td>
-                                              </tr>
-                                    {% endfor %}   
+                                    {% endfor %}  
                                 </tbody>
                                 </table>
                                     {% else %}
                                 <table>
-                             
                                     <td>No products yet.</td>
-                              
                                 </table>
                                 {% endif %}
                         </div>
                     </div>
                     <div class="card-divider"></div>
-                    {% include 'core/pagination.html' with page=products %}
+                    {% include 'core/pagination.html' with page=lists_products %}
                     <br>
                 </div>
                 

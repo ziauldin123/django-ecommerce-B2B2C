@@ -200,7 +200,7 @@ class VariantForm(ModelForm):
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('user','')
         super(VariantForm, self).__init__(*args, **kwargs)
-        self.fields['product']=forms.ModelChoiceField(queryset=Product.objects.filter(vendor=user))    
+        self.fields['product']=forms.ModelChoiceField(queryset=Product.objects.filter(vendor=user,is_variant=True))    
 
 
 class OpeningHoursForm(ModelForm):
