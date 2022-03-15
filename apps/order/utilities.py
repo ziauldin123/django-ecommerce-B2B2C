@@ -7,7 +7,6 @@ import logging
 from apps.cart.cart import Cart
 from apps.newProduct.models import Product, Variants
 
-# from .models import Order, OrderItem
 from apps.ordering.models import Order, OrderItem
 from apps.coupon.models import Coupon
 from ..vendor.models import Transporter, Vendor, VendorDelivery
@@ -42,7 +41,7 @@ def checkout(
     vat_cost,
     subtotal
 ):
-    print(" === coupon code = ", coupon_code)
+    
     coupon_discount = 0
     if coupon_code != "":
         try:
@@ -60,7 +59,7 @@ def checkout(
         paid_amount = Decimal(delivery_cost) + \
             Decimal(cart_cost) * (100 - coupon_discount) / 100
         paid_amount = cart.get_cart_cost_with_coupen()
-        print("paid amount = ", paid_amount)
+        
         
         vat_cost = 0
         subtotal = 0
@@ -72,7 +71,7 @@ def checkout(
                                        ['total_price'] * item['quantity'])
             subtotal = round(Decimal(subtotal), 2)
 
-        print(vat_cost)
+        
         order = Order.objects.create(
             first_name=first_name,
             last_name=last_name,
@@ -101,7 +100,7 @@ def checkout(
         subtotal_amount = 0
         price_no_vat = 0
         vat = 0
-        print("checkout")
+        
 
         for item in Cart(request):
 
@@ -110,15 +109,14 @@ def checkout(
             price_no_vat = round(Decimal(price_no_vat), 2)
             vat += Decimal(item['tax'])
             vat = round(Decimal(vat), 2)
-            print("quantity in cart")
-            print(total_quantity)
+            
             subtotal_amount += Decimal(item['product']
                                        ['total_price'] * item['quantity'])
             subtotal_amount = round(Decimal(subtotal_amount), 2)
             if item['product']['is_variant']:
                 var_id = int(item['product']['variant_id']['id'])
                 pro_id = int(item['product']['id'])
-                print(pro_id)
+                
             else:
                 pro_id = int(item['product']['id'])
                 var_id = ''
@@ -150,16 +148,12 @@ def checkout(
 
 
 def notify_vendor(order):
-    print("vendor order")
-    print(order)
-    print("vender")
-    print(order.vendors.all())
 
     from_email = settings.DEFAULT_EMAIL_FROM
     try:
 
         for vendor in order.vendors.all():
-            print(vendor.email)
+            
             to_email = vendor.email
             vendor_item_price = 0
             vendor_items_total_price = 0

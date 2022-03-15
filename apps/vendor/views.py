@@ -199,11 +199,11 @@ def activate(request, uidb64, token):
         # set signup_confirmation true
         user.profile.signup_confirmation = True
         user.save()
-        # login(request, user)
+        
         messages.success(request, ('Your account has been confirmed.'))
         return redirect('login')
     else:
-        # return render(request, 'activation_invalid.html')
+        
         messages.warning(
             request, ('The confirmation link was invalid, possibly because it has already been used.'))
         return redirect('frontpage')
@@ -219,15 +219,14 @@ def activate_password(request, uidb64, token):
     print("user = ", user)
     # checking if the user exists, if the token is valid.
     if user is not None and account_activation_token.check_token(user, token):
-        print("=== set password")
-        # user = User.objects.filter(pk=uid).first()
+        
         user.password = ""
         user.save()
         messages.success(
             request, ('Your password reset request has been approved.'))
         return redirect('restore_password')
     else:
-        # return render(request, 'activation_invalid.html')
+        
         messages.warning(
             request, ('The confirmation link was invalid, possibly because it has already been used.'))
         return redirect('frontpage')
@@ -245,7 +244,7 @@ def become_vendor(request):
                 user = User.objects.get(
                     username=form.cleaned_data.get('email'))
             else:
-                print(form.cleaned_data.get('email'))
+                
                 user = form.save(commit=False)
                 user.username = form.cleaned_data.get('email')
                 user.is_active = False
@@ -261,7 +260,7 @@ def become_vendor(request):
             village_id = form.cleaned_data['village']
             company_registration = request.FILES.get('reg_image')
             privacy_checked = request.POST.get('is_privacy')
-            print("privACY", privacy_checked)
+            
 
             vendor = Vendor(email=form.cleaned_data.get('email'),
                             company_name=form.cleaned_data.get('company_name'),
@@ -290,7 +289,7 @@ def become_vendor(request):
                 # method will generate a hash value with user related data
                 'token': token,
             })
-            print("uid =", uid, "; token=", token)
+            
             email_user(user, subject, message)
 
             return redirect('activation_sent')
@@ -348,9 +347,7 @@ def vendor_admin(request):
 
         orders = vendor.orders.all()
 
-        print(products.__len__())
-        print(vendor.variants_vendor.all().__len__())
-        print(Product.objects.filter(vendor=vendor, is_variant=True).__len__())
+        
 
         opening_hours = vendor.Opening.all()
         form = OpeningHoursForm
@@ -383,8 +380,7 @@ def vendor_admin(request):
                         order.fully_paid = False
         vendor_delivery = VendorDelivery.objects.filter(vendor=vendor).first()
         delivery_price = vendor_delivery.price if vendor_delivery else ''
-        print(vendor_delivery)
-        print(delivery_price)
+        
         
         user = request.user
         v = Vendor.objects.get(email=user)
@@ -475,8 +471,7 @@ def delivery_cost(request):
     if request.method == 'POST':
         delivery_price = request.POST.get('delivery_price')
         vendor_delivery = VendorDelivery.objects.filter(vendor=vendor).first()
-        print('dp:', delivery_price)
-        print(delivery_price is None)
+        
         if delivery_price:
             if vendor_delivery:
                 vendor_delivery.price = delivery_price
@@ -492,8 +487,7 @@ def delivery_cost(request):
 
     vendor_delivery = VendorDelivery.objects.filter(vendor=vendor).first()
     delivery_price = vendor_delivery.price if vendor_delivery else ''
-    print(vendor_delivery)
-    print(delivery_price)
+    
     return render(
         request,
         'vendor/delivery_cost.html',
@@ -676,7 +670,7 @@ def add_product(request):
     else:
         vendor = request.user.vendor
         products = len(Product.objects.filter(vendor=vendor))
-        print(" vendor:: products  ", products,  vendor.products_limit)
+        
         form = ProductForm()
 
     return render(request, 'vendor/add_product.html', {'form': form,'vendor':vendor})
@@ -710,7 +704,7 @@ def add_product_with_variant(request):
     else:
         vendor = request.user.vendor
         products = len(Product.objects.filter(vendor=vendor))
-        print("vendor::products", products, vendor.products_limit)
+        
         form = ProductWithVariantForm()
 
     return render(request, 'vendor/add_product_with_variant.html', {'form': form,'vendor':vendor})
@@ -761,9 +755,9 @@ def add_variant(request):
             return redirect('add_variant')
     else:
         vendor = request.user.vendor
-        print(vendor)
+        
         products = len(Product.objects.filter(vendor=vendor))
-        print(" vendor:: products  ", products,  vendor.products_limit)
+        
         variant_form=VariantForm(user=vendor)
 
     return render(request, 'vendor/add_variant.html', {'form': variant_form, 'product': product,
@@ -801,7 +795,7 @@ def edit_product(request, pk):
 def edit_product_variant(request,pk):
    vendor=request.user.vendor
    variant=vendor.variants_vendor.filter(pk=pk).first()
-   print(variant)
+   
    productImages = ProductImage.objects.filter(variant=variant).first()
    ImageForm = inlineformset_factory(Variants,ProductImage,can_delete=False,fields=['image'],extra=0)
    if request.method == 'POST':
@@ -841,7 +835,7 @@ def upload_logo(request):
             request.session['logo'] = Vendor.objects.get(
                 email=vendor.email).logo.url
             messages.info(request, f"Company Logo Updated Sucessfully.")
-            print("uploaded")
+            
     return redirect('vendor_admin')
 
 
@@ -906,17 +900,6 @@ def add_productimage_variant(request, pk):
         
     return redirect('products')               
 
-
-@ login_required
-def del_productimage(request, pk):
-    vendor = request.user.vendor
-    # product = vendor.products.get(pk=pk)
-    product_image = ProductImage.objects.filter(id=pk).first()
-    product_id = product_image.product.id
-    product_image.delete()
-    product_images = ProductImage.objects.filter(product=product_id)
-
-    return redirect("edit_productimage", pk=product_id)
 
 
 @ login_required
@@ -1077,7 +1060,7 @@ def become_customer(request):
                 profile.save()
 
             privacy_checked = request.POST.get('is_privacy')
-            print("privACY", privacy_checked)
+            
 
             customer = Customer(
                 customername=form.cleaned_data.get('customername'),
@@ -1222,7 +1205,7 @@ def order_detail(request, id):
 
 def vendor_order_detail(request, id):
     order = Order.objects.get(pk=id)
-    print(order.getCustomer())
+    
     for i in order.getCustomer():
         print(i.address)
     return render(request, 'vendor/vendor_order_details.html', {'order': order})
@@ -1281,7 +1264,7 @@ def request_restore_password(request):
             user = User.objects.filter(
                 email=form.cleaned_data.get('email')).first()
             user.username = user.first_name + " " + user.last_name
-            print("user = ", user, user.pk)
+            
 
             current_site = get_current_site(request)
             subject = 'Please Activate Your Password Reset'
@@ -1293,7 +1276,7 @@ def request_restore_password(request):
                 'uid': uid,
                 'token': token,
             })
-            print("uid=", uid, "; token=", token)
+            
             email_user(user, subject, message)
 
             messages.success(
@@ -1426,7 +1409,7 @@ def changeQty(request):
         product=Product.objects.get(id=productid)
         product.quantity=qty
         product.save()
-        print('updated')
+        
     return redirect(url) 
 
 @login_required
@@ -1438,7 +1421,7 @@ def changeQtyVariant(request):
         variant=Variants.objects.get(id=productid)
         variant.quantity=qty
         variant.save()
-        print('updated')
+        
     return redirect(url)
 
 @login_required
@@ -1448,7 +1431,7 @@ def changeStatus(request):
         status = request.POST.get('status')
         order_id = request.POST.get('order_id')
         Order.objects.filter(id=order_id).update(status=status)
-        print(type(status))
+        
     return redirect(url)    
 
 

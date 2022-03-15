@@ -14,8 +14,6 @@ class Cart(object):
     def __init__(self, request):
         self.session = request.session
         cart = self.session.get(settings.CART_SESSION_ID)
-        # print("Cart data")
-        # print(cart)
         if not cart:
             cart = self.session[settings.CART_SESSION_ID] = {'cart':{}}
 
@@ -228,7 +226,6 @@ class Cart(object):
             is_pickup_avaliable.append(self.cart['cart'][str(item)]['product']['pickup_available'])
 
         print("is_vendor_deliveryi", is_vendor_delivery)
-        # print("is_pickup_avaliable",is_pickup_avaliable)
         if all(is_vendor_delivery) and len(set(vendors)) == 1:
             use_vendor_delivery=True
         else:
@@ -257,7 +254,6 @@ class Cart(object):
             if shopcart:
                  product_ids.append(shopcart.product.id)
         return product_ids
-        # return [int(p) for p in self.cart['cart'].keys()]
 
     def get_cart_tax(self):
         for p in self.cart['cart'].keys():
@@ -276,7 +272,6 @@ class Cart(object):
     def get_cart_cost(self):
         for p in self.cart['cart'].keys():
 
-            # product = Product.objects.get(pk=p)
             shopcart = ShopCart.objects.filter(pk=int(p)).first()
             if shopcart:
                 self.cart['cart'][str(p)]['product']['id'] = shopcart.product.id
@@ -320,14 +315,12 @@ class Cart(object):
                 if shopcart:
                     self.cart['cart'][str(p)]['product']['id'] = shopcart.product.id
                     self.cart['cart'][str(p)]['product']['total_cost'] = self.cart['cart'][str(p)]['product']['total_price']
-                    # self.cart[str(p)]['product']['delivery_cost'] = float(sum(product.vendor.vendor_delivery.all().values_list('price', flat=True)))
                     self.cart['cart'][str(p)]['product']['delivery_cost'] = self.cart['delivery']['cost']
 
         total_cost = 0
         for item in self.cart['cart'].values():
             if 'product' in item:
                 total_cost += float(item['product']['total_cost'] * item['quantity'])
-                # total_cost += float(item['product']['delivery_cost'])
 
         coupon_discount=self.cart.get('coupon_discount')
         if coupon_discount:

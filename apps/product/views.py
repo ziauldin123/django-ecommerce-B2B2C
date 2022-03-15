@@ -14,8 +14,7 @@ from django.views import View
 from django.views.decorators.cache import never_cache
 from django.views.generic import FormView, TemplateView
 
-from .forms import AddToCartForm, AddToCartInListForm, ReviewForm, SearchForm, TestForm
-# from .models import Category, Collection, ProductImage, Review, SubCategory, SubSubCategory, Product
+from .forms import AddToCartForm, AddToCartInListForm,SearchForm, TestForm
 from apps.newProduct.models import *
 from django.core.paginator import (PageNotAnInteger, EmptyPage, Paginator)
 
@@ -85,7 +84,7 @@ def search(request):
     query_height=request.GET.getlist('height')
     query_width=request.GET.getlist('width')
     query_length=request.GET.getlist('length')
-    print("query", query_brand)
+    
 
     if not query:
         query = ''
@@ -113,7 +112,7 @@ def search(request):
         products = paginator.page(1)
     except EmptyPage:
         products = paginator.page(paginator.num_pages)
-    print("wight", weight)
+    
     return render(
         request,
         'product/search.html',
@@ -174,7 +173,7 @@ def product(request, id, vendor_slug, category_slug, subcategory_slug, subsubcat
     if request.method == 'POST':
         cart_form = AddToCartForm(
             request.POST, products=child_with_parent_products)
-        # cart_form = TestForm(request.POST)
+        
         if cart_form.is_valid():
             form_data = copy(cart_form.cleaned_data)
             print(form_data)
@@ -182,7 +181,7 @@ def product(request, id, vendor_slug, category_slug, subcategory_slug, subsubcat
             form_data = {k: v for k, v in form_data.items() if v}
             print(form_data)
             if form_data:
-                # purchasing_product = child_with_parent_products.filter(**form_data).first()
+                
                 purchasing_product = product_service.filter_by_variants(
                     child_with_parent_products, **form_data).first()
             else:
@@ -211,7 +210,6 @@ def product(request, id, vendor_slug, category_slug, subcategory_slug, subsubcat
             )
     else:
         cart_form = AddToCartForm(products=child_with_parent_products)
-        # cart_form = TestForm(request.POST)
 
     review_form = ReviewForm()
     similar_products = list(product.category.products.exclude(id=product.id))
@@ -259,8 +257,8 @@ class CompareView(View):
         if product.vendor.enabled == False:
             messages.success(request, "Product not available")
             redirect(url)
-        print(product)
-        # session = request.session
+        
+        
         if not request.session.get('comparing'):
             request.session['comparing'] = []
 
@@ -268,13 +266,13 @@ class CompareView(View):
             request.session['comparing_variants'] = []
 
         if product_id in request.session['comparing']:
-            print('in')
+            
             request.session['comparing'].remove(product_id)
             messages.warning(
                 request, "A product has been removed from comparison.")
-            print(request.session['comparing'])
+            
             return redirect(url)
-        print('thererer')
+        
         limit = not 3 <= (request.session['comparing_variants'].__len__(
         ) + request.session['comparing'].__len__())
         if limit:
@@ -282,7 +280,7 @@ class CompareView(View):
             messages.success(
                 request, "A product has been added to comparison.")
         else:
-            print('limit')
+            
             messages.warning(
                 request, "You can only compare 3 products maximum.")
 
@@ -303,11 +301,11 @@ def variantCompare(request):
             request.session['comparing_variants'] = []
 
         if int(variantid) in request.session['comparing_variants']:
-            print('in')
+            
             request.session['comparing_variants'].remove(int(variantid))
             messages.success(request, "Your item removed to compare list.")
             return redirect(url)
-        print('thererer')
+        
         limit = not 3 <= (request.session['comparing_variants'].__len__(
         ) + request.session['comparing'].__len__())
         if limit:
@@ -315,7 +313,7 @@ def variantCompare(request):
             messages.success(request, 'Product added to compare')
             return redirect(url)
         else:
-            print('limit')
+            
             messages.success(request, "Your reach compare product limits(3)")
     return redirect(url)
 
@@ -403,38 +401,10 @@ def deleteVariantCompare(request, id):
     return redirect(url)
 
 
-class ReviewView(FormView):
-    form_class = ReviewForm
-
-    def post(self, request, *args, **kwargs):
-        product = Product.objects.get(pk=kwargs['pk'])
-        try:
-            request.user.customer
-        except Exception as e:
-            print('there bad')
-            print(e)
-            return redirect(
-                f'/{product.category.sub_category.category.slug}/{product.category.sub_category.slug}/'
-                f'{product.category.slug}/{product.slug}/')
-
-        form = ReviewForm(request.POST)
-        if form.is_valid():
-            Review.objects.create(
-                text=form.cleaned_data['text'],
-                rating=form.cleaned_data['rating'],
-                user=request.user,
-                product=product
-            )
-            review_ratings = Review.objects.filter(
-                product=product).values_list('rating', flat=True)
-            product_rating = sum(review_ratings) / len(review_ratings)
-            product.rating = product_rating
-            product.save()
-        return redirect(f'/{product.category.sub_category.category.slug}/{product.category.sub_category.slug}/{product.category.slug}/{product.slug}/')
 
 
 class WishListAddView(FormView):
-    form_class = ReviewForm
+    
 
     def post(self, request, *args, **kwargs):
         url = request.META.get('HTTP_REFERER')  # get last url
@@ -448,11 +418,10 @@ class WishListAddView(FormView):
             request.user.customer
         except:
             return self.redirect(product)
-        print(request.user)
-        print(product)
+        
         is_already_in_wishlist = UserWishList.objects.filter(
             user=request.user, product=product)
-        print(is_already_in_wishlist)
+        
         if is_already_in_wishlist:
             UserWishList.objects.filter(
                 user=request.user, product=product).delete()
@@ -468,7 +437,7 @@ class WishListAddView(FormView):
 
 
 class WishlistAddVariant(FormView):
-    form_class = ReviewForm
+    
 
     def post(self, request, *args, **kwargs):
         url = request.META.get('HTTP_REFERER')  # get last url
@@ -621,7 +590,7 @@ def category(request, category_slug):
         for subsubcategory in subcategory.subsubcategory.all():
             products_ids.extend(
                 subsubcategory.product.all().values_list('id', flat=True))
-            # for product in subsubcategory.products.all:
+            
 
     products_list = Product.objects.filter(id__in=products_ids, visible=True, vendor__enabled=True,status=True)
    
@@ -632,11 +601,10 @@ def category(request, category_slug):
         for product in products_list:
             if Variants.objects.filter(product_id=product.id).exists():
                 variants_id.append(product.id)
-        # print("on form valid",search_form.cleaned_data)
+        
         products_list,price_from,price_to,brands,weight,width,size,height,colors,length = product_service.filter_products(query_brand,products_list,variants_id,sorting=sorting, **search_form.cleaned_data)
     else:
         print(search_form.errors)
-    print("filtered products", products_list)
     paginator = Paginator(products_list,6)
     page = request.GET.get('page')
 
@@ -790,7 +758,7 @@ def subcategory(request, category_slug, subcategory_slug):
             if Variants.objects.filter(product_id=product.id).exists():
                 variants_id.append(product.id)
         products_list,price_from,price_to,brands,weight,width,size,height,colors,length = product_service.filter_products(query_brand,products_list,variants_id,sorting=sorting, **search_form.cleaned_data)
-        print("product",products_list)
+
         paginator = Paginator(products_list,6) 
         page = request.GET.get('page')
 
@@ -939,7 +907,7 @@ def subsubcategory(request, category_slug, subcategory_slug, subsubcategory_slug
             if Variants.objects.filter(product_id=product.id).exists():
                 variants_id.append(product.id)
         products_list,price_from,price_to,brands,weight,width,size,height,colors,length = product_service.filter_products(query_brand,products_list,variants_id,sorting=sorting, **search_form.cleaned_data)
-        print("product",products_list)
+        
         paginator = Paginator(products_list,6) 
         page = request.GET.get('page')
 

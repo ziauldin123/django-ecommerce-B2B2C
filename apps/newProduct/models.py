@@ -1,7 +1,6 @@
 import os
 from itertools import product
 from turtle import title
-# from ckeditor_uploader.fields import RichTextUploadingField
 from django.db.models.deletion import CASCADE, SET_NULL
 from django.db.models.expressions import OrderBy
 from django.contrib.auth.models import User
@@ -378,7 +377,7 @@ class CommentForm(ModelForm):
 class Images(models.Model):
     product = models.ForeignKey('newProduct.product', on_delete=models.CASCADE,
                                 null=True, blank=True, related_name='product_image')
-    # variant=models.ForeignKey('newProduct.Variants',on_delete=models.CASCADE,null=True,blank=True,related_name='variant_image')
+    
     name = models.CharField(max_length=50, blank=True)
     image = models.ImageField(blank=True, upload_to='images/')
 

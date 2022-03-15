@@ -12,9 +12,7 @@ from django import forms
 from django.contrib.auth.models import User
 from django.contrib.admin import widgets
 from jmespath import search
-# from apps.product.models import Product, ProductImage
 from apps.newProduct.models import *
-# from apps.vendor.views import vendor
 from .models import  Vendor, Customer, OpeningHours
 from apps.cart.models import Village, Cell, Sector, District
 from django.urls import reverse_lazy

@@ -24,32 +24,24 @@ class ProductService:
         **kwargs
     ):
         print("filters",query,color,height,width,length,sorting, weight, price_from, price_to,brand)
-        # print(products)
         if price_from != None and price_to != None:
             products = products.filter(Q(price__gte=price_from) , Q(price__lte=price_to), ~Q(price=0))
 
         variants= Variants.objects.filter(product_id__in=variants_id)
         all_variants=variants.filter(Q(price__gte=price_from) , Q(price__lte=price_to))
-        print("all variants",all_variants)
         products_idd = []
         for product in products:
-            # discounted_price = product.get_discounted_price()
-            # if discounted_price >= float(price_from) and discounted_price <= float(price_to):
             products_idd.append(product.id)
         for variant in all_variants:
             products_idd.append(variant.product.id)
         products= Product.objects.filter(id__in=set(products_idd))
-        print(products)
         if query:
             products = products.filter(Q(title__icontains=query) | Q(description__icontains=query))
             variants = variants.filter(Q(title__icontains=query))
-            # for product in products:
-            #     variants=variants.filter(Q(product=product))
+            
 
 
-        # print(products)
         products,variants = self.filter_by_variants(products,variants, brand, color, weight, height,width,length, size)
-        # print("after filter",products)
         if instock:
             products = products.filter(num_available__gte=1)
 
@@ -92,13 +84,7 @@ class ProductService:
 
             list_color.append(bp.color)
             list_length.append(bp.length)
-        # print("brands", set(list_brands))
-        # print("brands", set(list_weight))
-        print("brands", set(list_width))
-        # print("brands", set(list_size))
-        # print("brands", set(list_height))
-        print("color", set(list_color))
-        print("brands", Brand.objects.filter(pk__in=brand))
+        
         return products.order_by(sorting),min_price,max_price,set(list_brands),set(list_weight),set(list_width),set(list_size),set(list_height),set(list_color),set(list_length)
 
     def filter_by_variants(

@@ -31,7 +31,7 @@ def addtoshopcart(request, id):
     current_user = request.user  # Access User Session infor
     product = Product.objects.get(pk=id)
     variantid = request.POST.get('variantid')
-    # variant = Variants.objects.get(id=variantid)
+    
 
     if product.vendor.enabled != True:
         messages.success(request, 'Product not available')
@@ -91,7 +91,7 @@ def addtoshopcart(request, id):
             data.product = product
             data.quantity = p_quantity
             data.save()
-            # cart.set(int(product.id), int(form.cleaned_data['quantity']))
+            
             cart.add(product_id=id, variant_id=variantid,
                      user_id=current_user.id, quantity=p_quantity, update_quantity=True)
 

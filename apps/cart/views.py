@@ -14,7 +14,6 @@ from .forms import CheckoutForm, PaymentForm
 from .models import Cell, District, Sector, Village, MobileOperator
 from .services.payment_service import payment_service
 from ..core.utils import get_attr_or_none
-# from ..product.models import Product
 from apps.newProduct.models import Product
 from apps.ordering.models import notify_customer,notify_vendor
 
@@ -41,13 +40,8 @@ def contact_info(request):
         cart_customer = Customer.objects.filter(email=request.user.email).first()
         current_user = request.user
 
-    
-
         coupon_discount = cart.get_coupon_discount()
-        print(coupon_discount, "%")
-
-    
-
+        
         use_vendor_delivery, pickup_avaliable = cart.get_is_vendor_delivery()
         shopcart = ShopCart.objects.filter(user_id=current_user.id)
         products = [i['product'] for i in cart]
@@ -57,9 +51,7 @@ def contact_info(request):
         grandTotal=cart.get_cart_cost() + cart.get_cart_tax()
         
     if cart_customer:
-        print("cart_customer")
         if request.method == 'POST':
-            print("POST")
             form = CheckoutForm(use_vendor_delivery, request.POST)
 
             if form.is_valid():
@@ -71,19 +63,12 @@ def contact_info(request):
 
                 option = form.cleaned_data['delivery_option']
                 products = [i['product'] for i in cart]
-                print(cart)
                 is_free_delivery = all([p['is_free_delivery']
                                        for p in products])
-                print('is free delivery')
-                print(is_free_delivery)
 
                 if option == "Store":
-                    print(option)
-                    # print(shopcart)
                     for i in shopcart:
-                        print(i.product.vendor)
                         vendor = i.product.vendor
-                        # vendor = Vendor.objects.get(pk=vendor_id)
                         district = get_attr_or_none(
                             vendor.district, 'district')
                         sector = get_attr_or_none(vendor.sector, 'sector')
@@ -124,9 +109,6 @@ def contact_info(request):
 
                 if is_free_delivery:
                     delivery_cost = 0
-                print('check this:')
-                print(delivery_type != 'store')
-                print(not is_free_delivery)
 
                 cart.add_deliver(district, sector, cell, village,
                                  address, delivery_cost, delivery_type)
@@ -218,7 +200,6 @@ def payment_check(request, *args, **kwargs):
             print(form.errors)
     else:
         form = PaymentForm()
-    print(cart.get_delivery_cost())
     return render(
         request,
         'cart/payment.html',
