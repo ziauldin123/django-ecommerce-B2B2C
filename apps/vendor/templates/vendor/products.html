@@ -182,7 +182,7 @@
                                     </tr>
                                     {% endfor %}
                                     {% for variant in variants %}
-                    <tr>
+                                              <tr>
                       <td><a href="">{{ variant.title }}</a></td>
                       <td>{{ variant.price }}</td>
                       <td>
@@ -218,17 +218,17 @@
                       <td>
                           <a href="{% url 'delete_product_variant' variant.id %}">Delete</a>
                       </td>
-                  </tr>
-                    {% endfor %}   
+                                              </tr>
+                                    {% endfor %}   
                                 </tbody>
-                            </table>
+                                </table>
                                     {% else %}
-                           <table>
+                                <table>
                              
                                     <td>No products yet.</td>
                               
-                            </table>
-                            {% endif %}
+                                </table>
+                                {% endif %}
                         </div>
                     </div>
                     <div class="card-divider"></div>
