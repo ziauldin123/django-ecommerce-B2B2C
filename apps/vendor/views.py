@@ -1,4 +1,6 @@
+from math import prod
 import email
+from multiprocessing import context
 from tkinter import Image
 from typing import Any
 from django.core.paginator import (Paginator, PageNotAnInteger, EmptyPage)
@@ -8,6 +10,7 @@ from django.contrib.auth.views import (
 )
 from django.core.mail import send_mail
 from django.core.exceptions import ObjectDoesNotExist
+from django.forms import inlineformset_factory
 from django.template.loader import render_to_string
 from .tokens import account_activation_token
 from .services.account_service import account_service
@@ -44,7 +47,6 @@ from django.contrib.auth.models import User, Permission
 from django import template
 from apps.cart.cart import Cart
 register = template.Library()
-# from apps.product.models import Product, ProductImage
 
 
 def login_request(request):
@@ -118,6 +120,7 @@ def login_request(request):
                         order["coupon_discount"] = coupon_discount
                         orders.append(order)
 
+
                     request.session['orders'] = orders
                     messages.info(
                         request, f"You are now logged in as { username }.")
@@ -137,12 +140,13 @@ def login_request(request):
                 pass
 
             try:
-                vendor = Vendor.objects.get(email=username).company_name
-                logo = Vendor.objects.get(email=username).logo.url
-                status = Vendor.objects.get(email=username).status
-                request.session['username'] = vendor
-                request.session['logo'] = logo
-                request.session['status'] = status
+                vendor = Vendor.objects.get(email=username)
+                if vendor.logo:
+                    request.session['logo'] = vendor.logo.url
+                request.session['status'] = vendor.status
+                request.session['email'] = vendor.email
+                request.session['username'] = vendor.company_name
+                request.session['vendor'] = True
 
             except Exception as e:
                 pass
@@ -195,11 +199,11 @@ def activate(request, uidb64, token):
         # set signup_confirmation true
         user.profile.signup_confirmation = True
         user.save()
-        # login(request, user)
+        
         messages.success(request, ('Your account has been confirmed.'))
         return redirect('login')
     else:
-        # return render(request, 'activation_invalid.html')
+        
         messages.warning(
             request, ('The confirmation link was invalid, possibly because it has already been used.'))
         return redirect('frontpage')
@@ -215,15 +219,14 @@ def activate_password(request, uidb64, token):
     print("user = ", user)
     # checking if the user exists, if the token is valid.
     if user is not None and account_activation_token.check_token(user, token):
-        print("=== set password")
-        # user = User.objects.filter(pk=uid).first()
+        
         user.password = ""
         user.save()
         messages.success(
             request, ('Your password reset request has been approved.'))
         return redirect('restore_password')
     else:
-        # return render(request, 'activation_invalid.html')
+        
         messages.warning(
             request, ('The confirmation link was invalid, possibly because it has already been used.'))
         return redirect('frontpage')
@@ -241,6 +244,7 @@ def become_vendor(request):
                 user = User.objects.get(
                     username=form.cleaned_data.get('email'))
             else:
+                
                 user = form.save(commit=False)
                 user.username = form.cleaned_data.get('email')
                 user.is_active = False
@@ -256,7 +260,7 @@ def become_vendor(request):
             village_id = form.cleaned_data['village']
             company_registration = request.FILES.get('reg_image')
             privacy_checked = request.POST.get('is_privacy')
-            print("privACY", privacy_checked)
+            
 
             vendor = Vendor(email=form.cleaned_data.get('email'),
                             company_name=form.cleaned_data.get('company_name'),
@@ -285,7 +289,7 @@ def become_vendor(request):
                 # method will generate a hash value with user related data
                 'token': token,
             })
-            print("uid =", uid, "; token=", token)
+            
             email_user(user, subject, message)
 
             return redirect('activation_sent')
@@ -343,9 +347,7 @@ def vendor_admin(request):
 
         orders = vendor.orders.all()
 
-        print(products.__len__())
-        print(vendor.variants_vendor.all().__len__())
-        print(Product.objects.filter(vendor=vendor, is_variant=True).__len__())
+        
 
         opening_hours = vendor.Opening.all()
         form = OpeningHoursForm
@@ -378,9 +380,8 @@ def vendor_admin(request):
                         order.fully_paid = False
         vendor_delivery = VendorDelivery.objects.filter(vendor=vendor).first()
         delivery_price = vendor_delivery.price if vendor_delivery else ''
-        print(vendor_delivery)
-        print(delivery_price)
-
+        
+        
         user = request.user
         v = Vendor.objects.get(email=user)
 
@@ -411,6 +412,8 @@ def vendor_admin(request):
 
         vendor_items_total_price = round(Decimal(vendor_items_total_price), 2)
         total_cost = round(Decimal(vendor_items_total_price), 2)
+        if vendor.logo:
+            print(vendor.logo.url)   
         return render(
             request,
             'vendor/vendor_admin.html',
@@ -453,6 +456,7 @@ def working_hours(request):
                   'vendor/working_hours.html', {
                       'form': form,
                       'opening_hours': opening_hours,
+                      'vendor':vendor
                   })
 
 
@@ -467,8 +471,7 @@ def delivery_cost(request):
     if request.method == 'POST':
         delivery_price = request.POST.get('delivery_price')
         vendor_delivery = VendorDelivery.objects.filter(vendor=vendor).first()
-        print('dp:', delivery_price)
-        print(delivery_price is None)
+        
         if delivery_price:
             if vendor_delivery:
                 vendor_delivery.price = delivery_price
@@ -484,8 +487,7 @@ def delivery_cost(request):
 
     vendor_delivery = VendorDelivery.objects.filter(vendor=vendor).first()
     delivery_price = vendor_delivery.price if vendor_delivery else ''
-    print(vendor_delivery)
-    print(delivery_price)
+    
     return render(
         request,
         'vendor/delivery_cost.html',
@@ -501,15 +503,21 @@ def remove_opening(request, pk):
     vendor = request.user.vendor
     opening = OpeningHours.objects.filter(id=pk).first()
     opening.delete()
-    return redirect('vendor_admin')
+    return redirect('working_hours')
 
 
 @login_required
 def vendor_products(request):
     vendor = request.user.vendor
-    products_list = products = Product.objects.filter(vendor=vendor)
-    paginator = Paginator(products_list, 2)
+    products_list = products = Product.objects.filter(vendor=vendor,visible=True)
+    paginator = Paginator(products_list, 5)
     page = request.GET.get('page')
+
+    images = request.FILES.getlist('images')
+    if images:
+        print(images)
+    else:
+        print('Not selected')    
 
     try:
         products = paginator.page(page)
@@ -521,17 +529,33 @@ def vendor_products(request):
     variants = []
     for pr in products:
         if pr.variant != 'None':
-            variants = Variants.objects.filter(product=pr.id)
+            variants = Variants.objects.filter(product=pr.id,visible=True)
+                
     product_limit = not vendor.products_limit <= ((products.__len__(
     ) + vendor.variants_vendor.all().__len__()) - Product.objects.filter(vendor=vendor, is_variant=True).__len__())
+
+    product_list = products = Product.objects.filter(vendor=vendor,visible=True,is_variant=False)
+    lists=list(chain(product_list,variants))
+    paginator = Paginator(lists, 5)
+    page = request.GET.get('page')
+
+    try:
+        lists_products = paginator.page(page)
+    except PageNotAnInteger:
+        lists_products = paginator.page(1)
+    except EmptyPage:
+        lists_products = paginator.page(paginator.num_pages)    
+
+          
 
     return render(request, 'vendor/products.html',
                   {
                       'product_limit': product_limit,
                       'products': products,
-                      'variants': variants
+                      'variants': variants,
+                      'vendor':vendor,
+                      'lists_products':lists_products
                   })
-
 
 @login_required
 def order_history(request):
@@ -622,17 +646,17 @@ def add_product(request):
         form = ProductForm(request.POST, request.FILES)
 
         if form.is_valid():
-            product = form.save(commit=False)
-            product.vendor = request.user.vendor
-            product.slug = slugify(product.title)
-            product.visible = True
-            product.is_variant = False
-            vendor = request.user.vendor
             if len(Product.objects.filter(vendor=vendor)) < vendor.products_limit:
+                product = form.save(commit=False)
+                product.vendor = request.user.vendor
+                product.slug = slugify(product.title)
+                product.visible = True
+                product.is_variant = False
+                vendor = request.user.vendor
                 product.save()
                 messages.add_message(
                     request, messages.SUCCESS, "The product {} is successfully added and now under review".format(product.title))
-                return redirect('vendor_admin')
+                return redirect('products')
             else:
                 messages.add_message(
                     request, messages.ERROR, "You can't add new product.you reached product limit")
@@ -641,15 +665,15 @@ def add_product(request):
         else:
             messages.add_message(request, messages.ERROR,
                                  "* Error: Input fields are not valid.")
-            return redirect('vendor_admin')
+            return redirect('add_product')
 
     else:
         vendor = request.user.vendor
         products = len(Product.objects.filter(vendor=vendor))
-        print(" vendor:: products  ", products,  vendor.products_limit)
+        
         form = ProductForm()
 
-    return render(request, 'vendor/add_product.html', {'form': form})
+    return render(request, 'vendor/add_product.html', {'form': form,'vendor':vendor})
 
 
 @ login_required
@@ -658,17 +682,17 @@ def add_product_with_variant(request):
     if request.method == 'POST':
         form = ProductWithVariantForm(request.POST, request.FILES)
         if form.is_valid():
-            product = form.save(commit=False)
-            product.vendor = request.user.vendor
-            product.slug = slugify(product.title)
-            product.visible = True
-            product.is_variant = True
-            vendor = request.user.vendor
             if len(Product.objects.filter(vendor=vendor)) < vendor.products_limit:
+                product = form.save(commit=False)
+                product.vendor = request.user.vendor
+                product.slug = slugify(product.title)
+                product.visible = True
+                product.is_variant = True
+                vendor = request.user.vendor
                 product.save()
                 messages.add_message(
                     request, messages.SUCCESS, "The product {} is successfully added and now under review".format(product.title))
-                return redirect('add_variant')
+                return redirect('products')
             else:
                 messages.add_message(
                     request, messages.ERROR, "You can't add new product.you reached product limit")
@@ -676,19 +700,18 @@ def add_product_with_variant(request):
         else:
             messages.add_message(request, messages.ERROR,
                                  "* Error: Input fields are not valid.")
-            return redirect('vendor_admin')
+            return redirect('add_product_without_variant')
     else:
         vendor = request.user.vendor
         products = len(Product.objects.filter(vendor=vendor))
-        print("vendor::products", products, vendor.products_limit)
+        
         form = ProductWithVariantForm()
 
-    return render(request, 'vendor/add_product.html', {'form': form})
+    return render(request, 'vendor/add_product_with_variant.html', {'form': form,'vendor':vendor})
 
 
 @ login_required
 def add_variant(request):
-    variant_form = VariantForm(request.POST, request.FILES)
     vendor = request.user.vendor
     product = Product.objects.filter(vendor=vendor)
     color = Color.objects.all()
@@ -701,16 +724,26 @@ def add_variant(request):
     unitTpye = UnitTypes.objects.all()
 
     if request.method == 'POST':
+        variant_form = VariantForm(request.POST, request.FILES, user=vendor)
         if variant_form.is_valid():
-            variant = variant_form.save(commit=False)
-            variant.vendor = request.user.vendor
-            variant.is_vat = True
             if len(Product.objects.filter(vendor=vendor)) < vendor.products_limit:
-                variant.save()
-                request, messages.SUCCESS, "The product variant {} is successfully added ".format(
-                    variant.title)
-                print(variant_form.cleaned_data['title'])
-                return redirect('vendor_admin')
+                product=variant_form.cleaned_data['product']
+                if product.vendor == vendor:
+                    variant = variant_form.save(commit=False)
+                    variant.vendor = request.user.vendor
+                    variant.is_vat = True
+                    variant.visible = True
+                    variant.save()
+                    messages.add_message(
+                        request, messages.SUCCESS, "The product variant {} is successfully added ".format(
+                        variant.title)
+                    )
+                else:
+                    messages.add_message(
+                        request, messages.ERROR, "Please Select from your Product"
+                    )  
+                
+                return redirect('products')
             else:
                 messages.add_message(
                     request, messages.ERROR, "You can't add new product.you reached product limit")
@@ -719,12 +752,13 @@ def add_variant(request):
             messages.add_message(request, messages.ERROR,
                                  "* Error: Input fields are not valid.")
 
-            return redirect('vendor_admin')
+            return redirect('add_variant')
     else:
         vendor = request.user.vendor
+        
         products = len(Product.objects.filter(vendor=vendor))
-        print(" vendor:: products  ", products,  vendor.products_limit)
-        form = ProductForm()
+        
+        variant_form=VariantForm(user=vendor)
 
     return render(request, 'vendor/add_variant.html', {'form': variant_form, 'product': product,
                                                        'color': color, 'size': size,
@@ -737,50 +771,59 @@ def add_variant(request):
 def edit_product(request, pk):
     check = Product.objects.filter(id=pk).first()
     vendor = request.user.vendor
-    # print(check.variant)
-    # return HttpResponse('hello')
-    if check != None:
-        product = vendor.newProducts.filter(pk=pk).first()
-        if request.method == 'POST':
-            form = ProductForm(request.POST, request.FILES, instance=product)
-
-            if form.is_valid():
-                form.save()
-
-                return redirect('vendor_admin')
-        else:
-            form = ProductForm(instance=product)
-
-        return render(request, 'vendor/edit_product.html', {'form': form, 'product': product})
-
+    product = vendor.newProducts.filter(pk=pk).first()
+    productImages = ProductImage.objects.filter(product=product)
+    ImageForm = inlineformset_factory(Product,ProductImage,can_delete=False,fields=['image'],extra=0)
+    if request.method == 'POST':
+        form = ProductForm(request.POST, request.FILES, instance=product)
+        imageForm = ImageForm(request.POST, request.FILES, instance=product)
+        if form.is_valid() and imageForm.is_valid():
+            form.save()
+            imageForm.save()
+        
+            messages.info(request,"Product Updated")
+            return redirect('products')
     else:
-        variant = Variants.objects.filter(pk=pk).first()
-        if request.method == 'POST':
-            form = VariantForm(request.POST, request.FILES, instance=variant)
+        form = ProductForm(instance=product)
+        imageForm = ImageForm(instance=product)
 
-            if form.is_valid():
-                form.save()
+    return render(request, 'vendor/edit_product.html', {'form': form,'product': product,'imagesForm':imageForm})
 
-                return redirect('vendor_admin')
 
-        else:
-            form = VariantForm(instance=variant)
 
-        return render(request, 'vendor/edit_product.html', {'form': form, 'variant': variant})
+@login_required
+def edit_product_variant(request,pk):
+   vendor=request.user.vendor
+   variant=vendor.variants_vendor.filter(pk=pk).first()
+   
+   productImages = ProductImage.objects.filter(variant=variant).first()
+   ImageForm = inlineformset_factory(Variants,ProductImage,can_delete=False,fields=['image'],extra=0)
+   if request.method == 'POST':
+       form = VariantForm(request.POST, request.FILES,instance=variant,user=vendor)
+       imageForm = ImageForm(request.POST, request.FILES, instance=variant)
+       if form.is_valid() and imageForm.is_valid():
+           form.save()
+           imageForm.save()
+           messages.info(request,"Product Updated")
+           return redirect('products')
+   else:
+       form = VariantForm(instance=variant,user=vendor)
+       imageForm = ImageForm(instance=variant)
 
+   return render(request, 'vendor/edit_product_variant.html',{'form':form,'variant':variant,'imageForm':imageForm})                     
 
 @ login_required
 def delete_product(request, pk):
-    check = Product.objects.filter(id=pk).first()
-    if check != None:
-        if Product.objects.filter(id=pk).exists():
-            Product.objects.filter(id=pk).update(visible=False)
-        return redirect('vendor_admin')
-    else:
-        if Variants.objects.filter(id=pk).exists():
-            Variants.objects.filter(id=pk).delete()
-        return redirect('vendor_admin')
+    Product.objects.filter(id=pk).update(visible=False)
+    messages.info(request,"product Deleted")    
+    return redirect('products')
+        
 
+@login_required
+def delete_product_variant(request, pk):
+    Variants.objects.filter(id=pk).update(visible=False)
+    messages.info(request,"Product Deleted")
+    return redirect('products')
 
 @ login_required
 def upload_logo(request):
@@ -792,7 +835,7 @@ def upload_logo(request):
             request.session['logo'] = Vendor.objects.get(
                 email=vendor.email).logo.url
             messages.info(request, f"Company Logo Updated Sucessfully.")
-            print("uploaded")
+            
     return redirect('vendor_admin')
 
 
@@ -800,19 +843,62 @@ def upload_logo(request):
 def add_productimage(request, pk):
     vendor = request.user.vendor
     product = Product.objects.get(vendor=vendor, id=pk)
-    print(product.product_images.all())
-    if product.is_variant:
-        print('variant')
-    else:
-        if request.method == 'POST':
-            images = request.FILES.getlist('images')
+    
+    
+
+    if request.method == 'POST':
+        images = request.FILES.getlist('images')
+        if len(images) > 3 :
+            messages.info(request,f"You can't can't add more than 3 images")
+
+        elif len(ProductImage.objects.filter(product=product)) >= 3:
+            messages.info(request,f"You have reached product images limit")
+            
+        elif len(images) + len(ProductImage.objects.filter(product=product)) > 3:
+            if len(images) > len(ProductImage.objects.filter(product=product)):
+                img=len(images) - len(ProductImage.objects.filter(product=product))
+            elif len(images) == len(ProductImage.objects.filter(product=product)):
+                img=3 - len(images)    
+            else:
+                img=len(ProductImage.objects.filter(product=product)) -  len(images) 
+                
+            messages.info(request, f"You can't add more than 3 images only:" + str(img))
+        elif len(images) <= 0:
+            messages.info(request,f"No image Uploaded")
+        else:
             for image in images:
-                product_image = ProductImage.objects.create(product=product)
-                product_image = Image(image=image, imgtype=Any)
-                product_image.save()
-            messages.info(request, f"Product image uploaded Successfully")
-            print("success")
-    return redirect('products')
+                ProductImage.objects.create(product=product,image=image)
+            messages.info(request,f"Product image uploaded Successfully")
+                
+    return redirect('products')            
+
+@login_required
+def add_productimage_variant(request, pk):
+    variant = Variants.objects.get(id=pk)
+    if request.method == 'POST':
+        images=request.FILES.getlist('imgs')
+        print(images)
+        productImages=ProductImage.objects.filter(variant=variant)
+        if len(images) > 3:
+            messages.info(request,f"You can't add more than 3 images")
+        elif len(productImages) >=3 :
+            messages.info(request,f"You have reached product images limit")
+        elif len(images) + len(productImages) > 3:
+            if len(images) > len(productImages):
+                img=len(images) - len(productImages)
+            elif len(images) == len(productImages):
+                img=3 - len(images)
+            else:
+                img=len(productImages) - len(images)
+            messages.info(request,f"You can't add more than 3 images only:" + str(img))
+        elif len(images) <= 0:
+            messages.info(request,f"No Image Uploaded")    
+        else:
+            for image in images:
+                ProductImage.objects.create(variant=variant,image=image)
+            messages.info(request,f"Product image uploaded successfully")                        
+        
+    return redirect('products')               
 
 
 @ login_required
@@ -971,7 +1057,6 @@ def vendor(request, slug):
         total_compare = comparing + compare_var
     else:
         cart = 0
-        subtotal = 0
         tax = 0
         total = 0
         grandTotal = 0
@@ -1013,7 +1098,7 @@ def become_customer(request):
                 profile.save()
 
             privacy_checked = request.POST.get('is_privacy')
-            print("privACY", privacy_checked)
+            
 
             customer = Customer(
                 customername=form.cleaned_data.get('customername'),
@@ -1046,8 +1131,6 @@ def become_customer(request):
     return render(request, 'customer/become_customer.html', {'form': form})
 
 
-# @login_required
-# def myaccount(request):
 class MyAccount(TemplateView):
     template_name = 'customer/myaccount.html'
 
@@ -1058,8 +1141,6 @@ class MyAccount(TemplateView):
             wishlist = UserWishList.objects.filter(user=current_user)
             shopcart = ShopCart.objects.filter(user_id=current_user.id)
             total = cart.get_cart_cost()
-            tax = cart.get_cart_tax()
-            grandTotal = cart.get_cart_cost()
             if not request.session.get('comparing'):
                 comparing = 0
             else:
@@ -1074,7 +1155,6 @@ class MyAccount(TemplateView):
 
         orders = account_service.calculate_order_sum(request.user.email)
         cart = Cart(request)
-        tax = cart.get_cart_tax()
         context = self.get_context_data()
         context['orders'] = orders
         context['shopcart'] = shopcart
@@ -1095,8 +1175,6 @@ class OrderHistory(TemplateView):
             wishlist = UserWishList.objects.filter(user=current_user)
             shopcart = ShopCart.objects.filter(user_id=current_user.id)
             total = cart.get_cart_cost()
-            tax = cart.get_cart_tax()
-            grandTotal = cart.get_cart_cost()
             if not request.session.get('comparing'):
                 comparing = 0
             else:
@@ -1139,8 +1217,6 @@ def order_detail(request, id):
         wishlist = UserWishList.objects.filter(user=current_user)
         shopcart = ShopCart.objects.filter(user_id=current_user.id)
         total = cart.get_cart_cost()
-        tax = cart.get_cart_tax()
-        grandTotal = cart.get_cart_cost()
         if not request.session.get('comparing'):
             comparing = 0
         else:
@@ -1156,7 +1232,6 @@ def order_detail(request, id):
     else:
         wishlist = 0
         total_compare = 0
-
     return render(request, 'customer/order_details.html', {
         'order': order,
         'wishlist': wishlist,
@@ -1168,14 +1243,13 @@ def order_detail(request, id):
 
 def vendor_order_detail(request, id):
     order = Order.objects.get(pk=id)
-    print(order.getCustomer())
+    
     for i in order.getCustomer():
         print(i.address)
     return render(request, 'vendor/vendor_order_details.html', {'order': order})
 
 
 class WishListView(TemplateView):
-    # template_name = 'customer/wishlist.html'
 
     def get(self, request, *args, **kwargs):
         context = self.get_context_data(**kwargs)
@@ -1201,7 +1275,6 @@ class WishListView(TemplateView):
             total_compare = comparing + compare_var
         else:
             cart = 0
-            subtotal = 0
             tax = 0
             total = 0
             grandTotal = 0
@@ -1229,7 +1302,7 @@ def request_restore_password(request):
             user = User.objects.filter(
                 email=form.cleaned_data.get('email')).first()
             user.username = user.first_name + " " + user.last_name
-            print("user = ", user, user.pk)
+            
 
             current_site = get_current_site(request)
             subject = 'Please Activate Your Password Reset'
@@ -1241,7 +1314,7 @@ def request_restore_password(request):
                 'uid': uid,
                 'token': token,
             })
-            print("uid=", uid, "; token=", token)
+            
             email_user(user, subject, message)
 
             messages.success(
@@ -1276,7 +1349,6 @@ def request_restore_password(request):
             total_compare = comparing + compare_var
         else:
             cart = 0
-            subtotal = 0
             tax = 0
             total = 0
             grandTotal = 0
@@ -1364,3 +1436,40 @@ def become_transporter(request):
 @register.simple_tag()
 def multiply(qty, unit_price, *args, **kwargs):
     return qty * unit_price
+
+
+@login_required
+def changeQty(request):
+    url=request.META.get('HTTP_REFERER')
+    if request.method == "POST":
+        productid=request.POST.get('product_id')
+        qty=request.POST.get('product_qty')
+        product=Product.objects.get(id=productid)
+        product.quantity=qty
+        product.save()
+        
+    return redirect(url) 
+
+@login_required
+def changeQtyVariant(request):
+    url=request.META.get('HTTP_REFERER')
+    if request.method == "POST":
+        productid=request.POST.get('product_id')
+        qty=request.POST.get('product_qty')
+        variant=Variants.objects.get(id=productid)
+        variant.quantity=qty
+        variant.save()
+        
+    return redirect(url)
+
+@login_required
+def changeStatus(request):
+    url=request.META.get('HTTP_REFERER')
+    if request.method == "POST":
+        status = request.POST.get('status')
+        order_id = request.POST.get('order_id')
+        Order.objects.filter(id=order_id).update(status=status)
+        
+    return redirect(url)    
+
+

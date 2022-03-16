@@ -2,7 +2,6 @@ from django.conf import settings
 
 from apps.cart.cart import Cart
 from apps.order.utilities import checkout
-# from apps.product.models import Product
 from apps.newProduct.models import Product, Variants
 from apps.ordering.models import Order,OrderItem,ShopCart,notify_customer,notify_vendor
 

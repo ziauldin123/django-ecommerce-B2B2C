@@ -136,11 +136,6 @@
                             <td class="cart-table__column cart-table__column--quantity" data-title="Quantity">
                                 <div class="product_data input-number">
                                     <input type="hidden" class="prod_id" value="{{rs.id}}">
-                                    <!-- <input type="number" class="input changeQty form-control input-number__input" id="quantity" name="quantity"
-                                    min="1" {% if rs.product.is_variant %} max="{{ rs.variant.quantity }}"
-                                    {% else %} max="{{ rs.product.quantity }}" id="{{rs.id}}" {% endif %} value="{{rs.quantity}}">
-                                    <div class="input-number__add"></div>
-                                    <div class="input-number__sub"></div> -->
                                     <input style="display: block;text-align: center;width: 100%;min-width: 88px;" class="input changeQty form-control input-number" id="quantity" name="quantity" type="number" value="{{rs.quantity}}" min="1" {% if rs.product.is_variant %} max="{{ rs.variant.quantity }}" {% else %} max="{{ rs.product.quantity }}" {% endif %}>
                                 </div>
                             </td>

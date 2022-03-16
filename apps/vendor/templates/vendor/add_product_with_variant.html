@@ -1,0 +1,84 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block title %}Add a product{% endblock %}
+{% block content %}
+<div class="site__body">   
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-xl-10 col-lg-6 col-md-8">
+                <div class="card flex-grow-1 mb-0 mt-5">
+                    <div class="card-body">
+                        <h3 class="card-title">Add a product</h3>
+                        <form method="post" action="." enctype="multipart/form-data">
+                            {% load widget_tweaks %}
+                            {% csrf_token %}
+                                <div class="form-row">
+                                  <div class="form-group col-md-3">
+                                      <label for="">Category</label>
+                                      {{ form.category |add_class:"form-control" }}
+                                  </div>
+                                  <div class="form-group col-md-3">
+                                    <label for="">Title</label>
+                                    {{form.title|add_class:"form-control"}}
+                                  </div>
+                                  <div class="form-group col-md-3">
+                                      <label for="">Brand</label>
+                                      {{form.brand|add_class:"form-control"}}
+                                  </div>
+                                  <div class="form-group col-md-3">
+                                      <label for="">Variant</label>
+                                      {{form.variant|add_class:"form-control"}}
+                                  </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label for="Summary">Summary</label>
+                                        {{form.summary|add_class:"form-control"}}
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="">Description</label>
+                                        {{ form.description |add_class:"form-control" }}
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-3 form-check form-check-inline">
+                                        {{form.is_vat|add_class:"form-check-input"}}
+                                        <label for="" class="form-check-label">VAT Applicable</label>
+                                    </div>
+                                    {% if vendor.status == 'RUBY' or vendor == 'EMERALD' %}
+                                    <div class="form-group col-md-3 form-check form-check-inline">
+                                        {{form.pickup_available|add_class:"form-check-input"}}
+                                        <label for="">Pickup Available</label>
+                                    </div>
+                                    <div class="form-group col-md-3 form-check form-check-inline">
+                                        {{form.is_free_delivery|add_class:"form-check-input"}}
+                                        <label for="" class="form-check-label">Free Delivery</label>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            <div class="field">
+                                <div class="control">
+                                    <button  class="button btn btn-primary mt-4">Submit</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    <script type="text/javascript" src="{% static 'admin/js/vendor/jquery/jquery.js' %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'autocomplete_light/select2.css' %}" />
+    <script type="text/javascript" src="{% static 'autocomplete_light/jquery.init.js' %}"></script>
+    <script type="text/javascript" src="{% static 'autocomplete_light/autocomplete.init.js' %}"></script>
+    <script type="text/javascript" src="{% static 'autocomplete_light/select2.js' %}"></script>
+    <script type="text/javascript" src="{% static 'autocomplete_light/vendor/select2/dist/css/select2.css' %}"></script>
+    <script type="text/javascript" src="{% static 'autocomplete_light/vendor/select2/dist/js/select2.full.js' %}"></script>
+    <script type="text/javascript" src="{% static 'autocomplete_light/forward.js' %}"></script>
+    <script type="text/javascript" src="{% static 'admin/js/vendor/jquery/jquery.js' %}"></script>
+    {{ form.media }}
+{% endblock %}
+
+
+

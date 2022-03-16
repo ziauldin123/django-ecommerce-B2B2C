@@ -14,56 +14,9 @@ from .forms import CheckoutForm, PaymentForm
 from .models import Cell, District, Sector, Village, MobileOperator
 from .services.payment_service import payment_service
 from ..core.utils import get_attr_or_none
-# from ..product.models import Product
 from apps.newProduct.models import Product
 from apps.ordering.models import notify_customer,notify_vendor
 
-
-
-# def cart_detail(request):
-#     cart = Cart(request)
-
-#     if request.method == 'POST':
-#         if request.user.is_authenticated:
-#             # messages.success(request, 'Thank you for your order')
-#             if "id_quantity" in request.POST:
-#                 print("coupon code = ", request.POST["coupon_code"])
-#                 print("coupon value = ", request.POST["coupon_discount"])
-#                 coupon_code = request.POST["coupon_code"]
-#                 coupon_discount = request.POST["coupon_discount"]
-#                 if coupon_discount == "":
-#                     coupon_code = ""
-
-#                 coupon = request.session.get(settings.COUPON_SESSION_ID)
-#                 if not coupon:
-#                     coupon = request.session[settings.COUPON_SESSION_ID] = {}
-#                 coupon["code"] = coupon_code
-#                 coupon["discount"] = coupon_discount
-#                 request.session[settings.COUPON_SESSION_ID] = coupon
-#                 request.session.modified = True
-#                 for elem in request.POST["id_quantity"].split(":"):
-#                     elem_id = elem.split("_")[0]
-#                     elem_quantity = elem.split("_")[1]
-#                     cart.set(elem_id, elem_quantity)
-
-#                 return redirect('contact_info')
-#         else:
-#             messages.success(request, 'Please sign in')
-#             return redirect('login')
-
-#     remove_from_cart = request.GET.get('remove_from_cart', '')
-#     change_quantity = request.GET.get('change_quantity', '')
-#     quantity = request.GET.get('quantity', 0)
-
-#     if remove_from_cart:
-#         cart.remove(remove_from_cart)
-#         return redirect('cart')
-
-#     if change_quantity:
-#         cart.add(change_quantity, quantity, True)
-#         return redirect('cart')
-
-#     return render(request, 'cart/cart.html')
 
 
 def contact_info(request):
@@ -72,46 +25,33 @@ def contact_info(request):
     sector = ''
     cell = ''
     village = ''
-    cart = Cart(request)
-    # print("contact_info")
-    # print("GET = ", request.GET)
-    # print("POST = ", request.POST)
 
-    districts = District.objects.all()
+    if request.user.is_anonymous:
+        messages.info(request,"Please login to check your cart")
+        return redirect('/')
 
-    cart_vendor = Vendor.objects.filter(email=request.user.email).first()
-    cart_customer = Customer.objects.filter(email=request.user.email).first()
-    current_user = request.user
 
-    # if cart_vendor:
-    #     cart_user = cart_vendor
-    # else:
-    #     cart_user = cart_customer
+    else:
+        cart = Cart(request)
 
-    coupon_discount = cart.get_coupon_discount()
-    print(coupon_discount, "%")
+        districts = District.objects.all()
 
-    # use_vendor_delivery = True
-    # pickup_avaliable = True
+        cart_vendor = Vendor.objects.filter(email=request.user.email).first()
+        cart_customer = Customer.objects.filter(email=request.user.email).first()
+        current_user = request.user
 
-    # for item in cart:
-    #     product = Product.objects.get(pk=item['product']['id'])
-    #     if product.vendor.vendor_delivery.all().count() == 0:
-    #         use_vendor_delivery = False
-    #     if item["product"] and not item["product"]['pickup_available']:
-    #         pickup_avaliable = False
-
-    use_vendor_delivery, pickup_avaliable = cart.get_is_vendor_delivery()
-    shopcart = ShopCart.objects.filter(user_id=current_user.id)
-    products = [i['product'] for i in cart]
-    sub_total=cart.get_cart_cost()
-    total=total=cart.get_cart_cost_with_coupen()
-    tax=Cart(request).get_cart_tax()
-    grandTotal=cart.get_cart_cost() + cart.get_cart_tax()
+        coupon_discount = cart.get_coupon_discount()
+        
+        use_vendor_delivery, pickup_avaliable = cart.get_is_vendor_delivery()
+        shopcart = ShopCart.objects.filter(user_id=current_user.id)
+        products = [i['product'] for i in cart]
+        sub_total=cart.get_cart_cost()
+        total=total=cart.get_cart_cost_with_coupen()
+        tax=Cart(request).get_cart_tax()
+        grandTotal=cart.get_cart_cost() + cart.get_cart_tax()
+        
     if cart_customer:
-        print("cart_customer")
         if request.method == 'POST':
-            print("POST")
             form = CheckoutForm(use_vendor_delivery, request.POST)
 
             if form.is_valid():
@@ -123,19 +63,12 @@ def contact_info(request):
 
                 option = form.cleaned_data['delivery_option']
                 products = [i['product'] for i in cart]
-                print(cart)
                 is_free_delivery = all([p['is_free_delivery']
                                        for p in products])
-                print('is free delivery')
-                print(is_free_delivery)
 
                 if option == "Store":
-                    print(option)
-                    # print(shopcart)
                     for i in shopcart:
-                        print(i.product.vendor)
                         vendor = i.product.vendor
-                        # vendor = Vendor.objects.get(pk=vendor_id)
                         district = get_attr_or_none(
                             vendor.district, 'district')
                         sector = get_attr_or_none(vendor.sector, 'sector')
@@ -176,21 +109,7 @@ def contact_info(request):
 
                 if is_free_delivery:
                     delivery_cost = 0
-                print('check this:')
-                print(delivery_type != 'store')
-                print(not is_free_delivery)
 
-                # if not is_free_delivery and delivery_type != 'store':
-
-                # product_ids = cart.get_product_ids()
-                # vendors = set([p.vendor for p in Product.objects.filter(id__in=product_ids)])
-                # vendor_delivery_prices = []
-                # for v in vendors:
-                #     vendor_delivery_prices.extend(v.vendor_delivery.all().values_list('price', flat=True))
-                #
-                # if vendor_delivery_prices:
-                #     delivery_cost = float(sum(vendor_delivery_prices))
-                # delivery_cost = payment_service.update_payment_cost(delivery_cost, is_free_delivery, delivery_type, cart)
                 cart.add_deliver(district, sector, cell, village,
                                  address, delivery_cost, delivery_type)
                 return redirect('payment_check')
@@ -268,13 +187,19 @@ def payment_check(request, *args, **kwargs):
             service_provider=form.cleaned_data['service_provider']
             payment_service.make_checkout(request, cart,shopcart,service_provider,phone)
             return redirect('waiting')
+
+        if form.cleaned_data['service_provider']:
+            phone=0
+            service_provider=form.cleaned_data['service_provider']
+            payment_service.make_checkout(request, cart,shopcart,service_provider,phone)
+            return redirect('waiting')
+
         else:
             print("invalid")
             print('there invalid')
             print(form.errors)
     else:
         form = PaymentForm()
-    print(cart.get_delivery_cost())
     return render(
         request,
         'cart/payment.html',

@@ -188,9 +188,11 @@
                             attribute, in which case the width and height will be obtained from the naturalWidth
                             and naturalHeight property of img.product-image__img.
                             -->
+                                            {% if images.image %} 
                                             <a href="{{images.image.url}}" data-width="700" data-height="700" class="product-image__body" target="_blank">
                                                 <img class="product-image__img" src="{{images.image.url}}" alt="">
                                             </a>
+                                            {% endif %}
                                               </div>
                                           {% endfor %}
                                     {% else %} 
@@ -204,9 +206,11 @@
                             attribute, in which case the width and height will be obtained from the naturalWidth
                             and naturalHeight property of img.product-image__img.
                             -->
+                                            {% if images.image %} 
                                             <a href="{{images.image.url}}" data-width="700" data-height="700" class="product-image__body" target="_blank">
                                                 <img class="product-image__img" src="{{images.image.url}}" alt="">
                                             </a>
+                                            {% endif %}
                                                </div>
                                            {% endfor %}
                                     {% endif %}
@@ -221,11 +225,13 @@
                                         </div>
                                   </a>
                                               {% for images in variant.variants_images.all %} 
+                                                       {% if images.image %} 
                                                        <a href="{{images.image.url}}" class="product-image product-gallery__carousel-item">
-                                                          <div class="product-image__body">
-                                                              <img class="product-image__img product-gallery__carousel-image" src="{{images.image.url}}" alt="">
-                                                          </div>
-                                                    </a>
+                                                        <div class="product-image__body">
+                                                            <img class="product-image__img product-gallery__carousel-image" src="{{images.image.url}}" alt="">
+                                                        </div>
+                                                  </a>
+                                                  {% endif %} 
                                               {% endfor %} 
                                     {% else %} 
                                     <a href="{{product.image.url}}" class="product-image product-gallery__carousel-item">
@@ -234,11 +240,13 @@
                                         </div>
                                   </a>
                                               {% for images in product.product_images.all %} 
+                                                    {% if images.image %} 
                                                     <a href="{{images.image.url}}" class="product-image product-gallery__carousel-item">
-                                                       <div class="product-image__body">
-                                                          <img class="product-image__img product-gallery__carousel-image" src="{{images.image.url}}" alt="">
-                                                       </div>
-                                                    </a>
+                                                        <div class="product-image__body">
+                                                           <img class="product-image__img product-gallery__carousel-image" src="{{images.image.url}}" alt="">
+                                                        </div>
+                                                     </a>
+                                                     {% endif %}
                                               {% endfor %}
                                     {% endif %} 
                                 </div>

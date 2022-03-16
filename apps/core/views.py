@@ -1,3 +1,4 @@
+import re
 from tkinter.messagebox import NO
 from django.http import HttpResponse
 from django.http import request
@@ -8,7 +9,6 @@ from django.contrib import messages
 from django.conf import settings
 from django.core.mail import send_mail
 
-# from apps.product.models import Product, Category, SubCategory, SubSubCategory
 from apps.newProduct.models import Product, Category, SubCategory, SubSubCategory, Variants
 from apps.blog.models import Post
 from apps.ordering.models import ShopCart
@@ -19,7 +19,6 @@ def frontpage(request):
     current_user = request.user
     variants = Variants.objects.filter(status=True)
     product = Product.objects.filter(status=True, visible=True)
-    shopcart = ShopCart.objects.filter(user_id=current_user.id)
     posts = Post.objects.all()
 
     if product:
@@ -50,7 +49,7 @@ def frontpage(request):
         status=True, visible=True).order_by('-num_visits')[0:4]
     recently_viewed_products = Product.objects.filter(status=True, visible=True).order_by(
         '-last_visit')[0:5]
-
+    
     if not request.user.is_anonymous:
         cart = Cart(request)
         current_user = request.user
@@ -58,8 +57,6 @@ def frontpage(request):
         # cart.clear()
         shopcart = ShopCart.objects.filter(user_id=current_user.id)
         total = cart.get_cart_cost()
-        tax = cart.get_cart_tax()
-        grandTotal = cart.get_cart_cost() + cart.get_cart_tax()
         if cart.__len__() == 0:
             for rs in shopcart:
                 if rs.variant is None:
@@ -68,6 +65,7 @@ def frontpage(request):
                 else:
                     cart.add(product_id=rs.product.id, variant_id=rs.variant.id, user_id=current_user.id,
                              quantity=rs.quantity, update_quantity=True)
+                             
 
         if not request.session.get('comparing'):
             comparing = 0
@@ -80,16 +78,16 @@ def frontpage(request):
             compare_var = request.session['comparing_variants'].__len__()
 
         total_compare = comparing + compare_var
+        print(total) 
 
     else:
         cart = 0
-        tax = 0
         total = 0
-        grandTotal = 0
         wishlist = 0
         total_compare = 0
+        shopcart = []
+   
 
-    print(request.user)
     return render(
         request,
         'core/frontpage.html',
@@ -106,8 +104,6 @@ def frontpage(request):
             'cart': cart,
             'shopcart': shopcart,
             'subtotal': total,
-            'tax': tax,
-            'total': grandTotal,
             'wishlist': wishlist,
             'total_compare': total_compare
         }
@@ -137,7 +133,6 @@ def contact(request):
         total_compare = comparing + compare_var
     else:
         cart = 0
-        subtotal = 0
         tax = 0
         total = 0
         grandTotal = 0
@@ -146,7 +141,6 @@ def contact(request):
         total_compare = 0
 
     if request.method == 'POST':
-        print('hello')
         name = request.POST.get('full-name')
         email = request.POST.get('email')
         subject = request.POST.get('subject')
@@ -247,7 +241,6 @@ def pricing(request):
         total_compare = comparing + compare_var
     else:
         cart = 0
-        subtotal = 0
         tax = 0
         total = 0
         grandTotal = 0
@@ -290,7 +283,6 @@ def frequently_asked_questions(request):
         total_compare = comparing + compare_var
     else:
         cart = 0
-        subtotal = 0
         tax = 0
         total = 0
         grandTotal = 0
@@ -332,7 +324,6 @@ def termsandconditions(request):
         total_compare = comparing + compare_var
     else:
         cart = 0
-        subtotal = 0
         tax = 0
         total = 0
         grandTotal = 0
@@ -375,7 +366,6 @@ def privacy_policy(request):
         total_compare = comparing + compare_var
     else:
         cart = 0
-        subtotal = 0
         tax = 0
         total = 0
         grandTotal = 0
@@ -422,7 +412,6 @@ def sitemap(request):
 
     else:
         cart = 0
-        subtotal = 0
         tax = 0
         total = 0
         grandTotal = 0
@@ -468,7 +457,6 @@ def error_404_view(request, exception):
 
     else:
         cart = 0
-        subtotal = 0
         tax = 0
         total = 0
         grandTotal = 0
@@ -511,7 +499,6 @@ def vendor_guidelines(request,):
 
     else:
         cart = 0
-        subtotal = 0
         tax = 0
         total = 0
         grandTotal = 0

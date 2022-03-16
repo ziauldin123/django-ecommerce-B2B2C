@@ -8,9 +8,6 @@ from apps.newProduct.models import Length, Product
 class BaseProductVariantsForm:
     def fill_form_variants(self, products, none_needed=True):
         filters_list = products.values('keywords',)
-        # for d in filters_list:
-        #     d['mesurement'] = d['size']
-        #     d.pop('size')
 
         filters_dict = defaultdict(list)
         for d in filters_list:
@@ -34,12 +31,6 @@ class BaseProductVariantsForm:
 
 
 class TestForm(forms.Form):
-    # color = forms.ChoiceField(
-        # required=False,
-        # choices=[('a', 'a'), ('b', 'b')],
-        # widget=forms.CheckboxInput
-
-    # )
     color = forms.MultipleChoiceField(
         required=False,
         widget=forms.CheckboxSelectMultiple,
@@ -80,9 +71,6 @@ class AddToCartInListForm(forms.Form):
     slug = forms.CharField(max_length=50)
 
 
-class ReviewForm(forms.Form):
-    text = forms.CharField(max_length=255)
-    rating = forms.IntegerField(max_value=5, min_value=1)
 
 
 class SearchForm(forms.Form, BaseProductVariantsForm):

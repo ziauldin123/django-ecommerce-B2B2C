@@ -20,7 +20,6 @@ class CheckoutForm(forms.Form):
                 ('Store', 'Pick up from Store'),
                 ('Basic_Delivery', 'Basic delivery'),
                 ('Express_Delivery', 'Express delivery'),
-                # ('Vendor', 'Vendor Delivery'),
             ]
         self.fields['delivery_option'].choices = choices
 
@@ -52,14 +51,8 @@ class CheckoutForm(forms.Form):
         choices=[]
     )
 
-        # choices=[('Store', 'Pick up from Store'), ('Basic_Delivery', 'Basic delivery'), ('Express_Delivery', 'Express delivery')])
 
 
 class PaymentForm(forms.Form):
-    # stripe_token = forms.CharField(required=False, max_length=255)
     service_provider = forms.CharField()
     phone_number = forms.CharField()
-    #     print('cleannn')
-
-    #     print(self.cleaned_data)
-    #     return self.cleaned_data['stripe_token']

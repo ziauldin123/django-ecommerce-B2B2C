@@ -17,12 +17,4 @@ def menu_categories(request):
             category.has_children = True
         else:
             category.has_children = False
-    # for category in categories:
-        
-    #     if category.has_children:
-    #         for subcategory in category.children:
-
-    #             if subcategory.has_children:
-    #                 for subsubcategory in subcategory.children:
-    #                     print("grandchild: ", subsubcategory)
     return {'menu_categories': categories}
