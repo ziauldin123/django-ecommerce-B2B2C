@@ -1,0 +1,105 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block title %}My account - {{ request.session.username }}{% endblock %}
+{% block content %}
+<div class="page-header">
+    <div class="page-header__container container">
+        <div class="page-header__breadcrumb">
+            <nav aria-label="breadcrumb">
+            </nav>
+        </div>
+        
+    </div>
+</div>
+<div class="block">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-lg-3 d-flex">
+                <div class="account-nav flex-grow-1">
+                    <h4 class="account-nav__title">Dashboard</h4>
+                    <ul>
+                        <li class="account-nav__item  account-nav__item--active ">
+                            <a href="{% url 'myaccount' %}">My Account</a>
+                        </li>
+                        <li class="account-nav__item ">
+                            <a href="{% url 'orderhistory' %}">Order History</a>
+                        </li>
+                        <li class="account-nav__item ">
+                            <a href="{% url 'logout' %}">Logout</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-12 col-lg-9 mt-4 mt-lg-0">
+                <div class="dashboard">
+                    <div class="dashboard__profile card profile-card">
+                        <div class="card-body profile-card__body">
+                           
+                            <div class="profile-card__name_customer">{{ request.session.username }}</div>
+                           
+                        </div>
+                    </div>
+                    <div class="dashboard__address card address-card address-card--featured">
+                        <div class="address-card__badge">Billing Address</div>
+                        <div class="address-card__body">
+                            <div class="address-card__row">
+                                <div class="address-card__row-title">Phone Number</div>
+                                <div class="address-card__row-content">{{ request.session.phone}}</div>
+                            </div>
+
+                             <div class="address-card__row">
+                                <div class="address-card__row-title">Email Address</div>
+                                <div class="address-card__row-content">{{ request.user.email }}</div>
+                            </div>
+                           
+                            <div class="address-card__row">
+                                <div class="address-card__row-title">Address</div>
+                                <div class="address-card__row-content"> {{ request.session.address }}</div>
+                            </div>
+
+                            <div class="address-card__row">
+                                {% if request.session.company_code %} 
+                                      <div class="address-card__row-title">TIN</div>
+                                     <div class="address-card__row-content">{{ request.session.company_code}}</div>
+                                {% endif %}
+                            </div>
+                            
+                           
+                        </div>
+                    </div>
+                    <div class="dashboard__orders card">
+                        <div class="card-header">
+                            <h5>Recent Orders</h5>
+                        </div>
+                        <div class="card-divider"></div>
+                        <div class="card-table">
+                            <div class="table-responsive-sm">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Order Reference</th>
+                                            <th>Date and Time</th>
+                                            <th>Status</th>
+                                            <th>Amount (Rwf)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for order in orders|slice:"0:5" %} 
+                                        <tr> 
+                                            <td><a href="/customer/order-detail/{{ order.id }}">{{order.reference_number}}</a></td>
+                                            <td>{{order.created_at }}</td>
+                                            <td>{{order.status}}</td>
+                                            <td>{{order.grand_paid_amount}}</td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

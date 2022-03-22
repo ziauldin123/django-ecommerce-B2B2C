@@ -1,0 +1,70 @@
+{% extends 'core/base.html' %}
+
+{% load blog_extras %}
+
+{% block title %}{{ post.title }} {% endblock  %}
+
+{% block content %}
+
+ <div class="site__body">
+          
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-md-12 col-lg-9 col-xl-8">
+                        <div class="block post post--layout--full">
+                            <div class="post__header post-header post-header--layout--full">
+                                <div class="post-header__categories">
+                                    <a href="{% url 'blog' %}">Soko Blog</a>
+                                </div>
+                                <h1 class="post-header__title">{{ post.title }}</h1>
+                                <div class="post-header__meta">
+                                    <div class="post-header__meta-item">By {{ post.author }}</div>
+                                    <div class="post-header__meta-item">{{ post.created_at|date:"d-m-Y | H:i" }}</div>
+                                </div>
+                            </div>
+                            <div class="post__featured">
+                                <a href="">
+                                    <img src="{{post.image.url}}" alt="">
+                                </a>
+                            </div>
+                            <div class="post__content typography ">
+                                <p>{{ post.intro }}</p>
+                                <p>{{ post.body|convert_markdown|safe }}</p>
+                            </div>
+                            <div class="post__footer">
+                                <div class="post__tags-share-links">
+                                    <!--<div class="post__tags tags">
+                                        <div class="tags__list">
+                                            <a href="">Promotion</a>
+                                            <a href="">Power Tool</a>
+                                            <a href="">Wrench</a>
+                                            <a href="">Electrodes</a>
+                                        </div>
+                                    </div>-->
+                                    <div class="post__share-links share-links">
+                                        <ul class="share-links__list">
+                                            <li class="share-links__item share-links__item--type--like"><a href="">Like</a></li>
+                                            <li class="share-links__item share-links__item--type--tweet"><a href="">Tweet</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="post-author">
+                                    
+                                    <div class="post-author__info">
+                                        <div class="post-author__name">
+                                            <a href="">{{ post.author }}</a>
+                                        </div>
+                                        <div class="post-author__about">
+                                           {{ post.author_detail }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                 
+                </div>
+            </div>
+        </div>
+  
+{% endblock %}

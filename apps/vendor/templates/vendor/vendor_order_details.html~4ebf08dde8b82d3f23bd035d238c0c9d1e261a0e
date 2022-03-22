@@ -1,0 +1,228 @@
+{% extends 'core/base.html' %}
+{% load get_vendor_order_cost %}
+{% load mathfilters %}
+{% load static %}
+{% block title %} Order #{{order.reference_number}}{% endblock %}
+{% block content %}
+<style>
+    select {
+        width: 80px;
+        height: 30px;
+        border: 0px solid black;
+        border-radius: 5px;
+        }
+</style>
+<script>
+    function changeStatus(select){
+        status=$("#status").val()
+        order_id=$("#order_id").val()
+        $.ajax({
+            url:"{% url 'change_status' %}",
+            type:'POST',
+            data:{
+                'status':status,
+                'order_id':order_id,
+                csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+            },
+            success:function(data){
+                $("#change_status").load(" #change_status");
+                $("#message").append(
+                    '<div class="alert alert-success hideit alertSuc">Order Shipped.</div >');
+                setTimeout(function () {
+                    $("#message").load(location.href + " #message");
+                }, 1000);
+            }
+        })
+    }
+</script>
+<div class="page-header">
+    <div class="page-header__container container">
+        <div class="page-header__breadcrumb">
+            <nav aria-label="breadcrumb">
+            </nav>
+        </div>
+    </div>
+</div>
+<div id="message" name="message" class="mt-3">
+</div>
+<div class="block">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-lg-3 d-flex">
+                <div class="account-nav flex-grow-1">
+                     <h4 class="account-nav__title">Vendor Administration</h4>
+                    <ul>
+                        <li class="account-nav__item">
+                            <a href="{% url 'vendor_admin' %}">Dashboard</a>
+                        </li>
+                        <li class="account-nav__item account-nav__item--active ">
+                            <a href="{% url 'vendor_orders' %}">Order History</a>
+                        </li>
+                         <li class="account-nav__item">
+                            <a href="{% url 'products' %}">Products</a>
+                        </li>
+                           <li class="account-nav__item ">
+                            <a href="{% url 'working_hours' %}">Working Hours</a>
+                        </li>
+                        {% if vendor.status == 'RUBY' or vendor.status == 'EMERALD' %} 
+                        <li class="account-nav__item ">
+                            <a href="{% url 'delivery_cost' %}">Delivery Price</a>
+                        </li>
+                        {% endif %}
+                        <li class="account-nav__item ">
+                            <a href="{% url 'logout' %}">Logout</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-12 col-lg-9 mt-4 mt-lg-0">
+                <div class="card">
+                    <div class="order-header">
+                        <div class="order-header__actions">
+                            <a href="{% url 'vendor_orders' %}" class="btn btn-xs btn-secondary">Back to list</a>
+                        </div>
+                        <h5 class="order-header__title">Order Reference #{{order.reference_number}}</h5>
+                        <div class="order-header__subtitle" id="change_status">
+                            Was placed on <mark class="order-header__date">{{order.created_at}}</mark>
+                            and is <mark class="order-header__status">
+                                {% if order.delivery_type == 'Vendor_Delivery' and order.status == 'paid' %}
+                                   {% csrf_token %}
+                                    <input type="hidden" id="order_id" value="{{order.id}}"> 
+                                    <select name="status" id="status" {% if order.status == 'shipped' %} disabled {% endif %} style="color: black;font-weight: 500;" onchange="changeStatus(this)">
+                                        <option value="{{order.status}}">{{order.status}}</option>
+                                        <option value="shipped">Shipped</option>
+                                    </select>
+                                {% else %}
+                                       {{order.status}}
+                                {% endif %}       
+                                   </mark>.
+                        </div>    
+                    </div>
+                    <div class="card-divider"></div>
+                    <div class="card-table">
+                        <div class="table-responsive-sm">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Title</th>
+                                        <th>Price (Rwf)</th>
+                                        <th>Quantity</th>
+                                        <th>Total (Rwf)</th>
+                                        <th>Paid</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="card-table__body card-table__body--merge-rows">
+                                    {% for item in order.items.all %}
+                                        {% if item.vendor == request.user.vendor %}
+                                            <tr>
+                                                <td>{{ item.get_product_name }} </td>
+                                                <td>Frw {{ item.price }}</td>
+                                                <td>{{ item.quantity }}</td>
+                                                {% get_total_with_coupon order item.get_total_price user as total_price_with_coupon %}
+                                                <td>{{ total_price_with_coupon }}</td>
+                                                <td>{{ item.vendor_paid|yesno:"Yes,No" }}</td>
+                                            </tr>
+                                        {% endif %}
+                                    {% endfor %}
+                                </tbody>
+                                <tbody class="card-table__body card-table__body--merge-rows">
+                                    {% if order.used_coupon %}
+                                    <tr>
+                                        <th>Coupon</th>
+                                       
+                                               <td>{{ order.used_coupon }} </td>
+                                               <td></td>
+                                               <td><strong>{{ order.coupon_discount }}%</strong></td>
+                                    </tr>
+                                     {% endif %}
+                                    {% if order.delivery_type == 'Vendor_Delivery' %}
+                                    <tr>
+                                        <th>Delivery Cost</th>
+                                        {% get_order_delivery_cost order user as order_delivery_cost %}
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                          <td>{{order_delivery_cost}}</td>
+                                    </tr>
+                                    {% endif %}
+                                    <tr>
+                                        <th>Grand Total</th>
+                                        {% get_total_order_cost order user as total_cost_order %}
+                                                <td></td>
+                                                <td></td>
+                                            <td><strong>{{ total_cost_order }}</strong></td>
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-3 no-gutters mx-n2">
+                    <div class="col-sm-6 col-12 px-2">
+                        <div class="card address-card address-card--featured">
+                            <div class="address-card__body">
+                                <div class="address-card__badge ">Billing Address</div>
+                                {% for customer in order.getCustomer %} 
+                                 <div class="address-card__row">
+                                    <div class="address-card__row-title">Customer</Address></div>
+                                    <div class="address-card__row-content">{{customer.customername}}</div>
+                                </div>
+                                <div class="address-card__row">
+                                    <div class="address-card__row-title">Address</Address></div>
+                                    <div class="address-card__row-content">{{customer.address}}</div>
+                                </div>
+                                <div class="address-card__row"> 
+                                    {% if customer.company_code %}
+                                    <div class="address-card__row-title">TIN</Address></div>
+                                    <div class="address-card__row-content">{{customer.company_code}}</div>
+                                    {% endif %}
+                                </div>
+                                <div class="address-card__row">
+                                    <div class="address-card__row-title">Phone Number</div>
+                                    <div class="address-card__row-content">{{customer.phone}}</div>
+                                </div>
+                                <div class="address-card__row">
+                                    <div class="address-card__row-title">Email Address</div>
+                                    <div class="address-card__row-content">{{customer.email}}</div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                     {% if order.delivery_type == 'Vendor_Delivery' %}
+                    <div class="col-sm-6 col-12 px-2">
+                        <div class="card address-card address-card--featured">
+                            <div class="address-card__body">
+                                <div class="address-card__badge ">Shipping Address</div>
+                                <div class="address-card__row">
+                                    <div class="address-card__row-title">District</div>
+                                    <div class="address-card__row-content">{{order.district}}</div>
+                                </div>
+                                 <div class="address-card__row"> 
+                                    <div class="address-card__row-title">Sector</div>
+                                    <div class="address-card__row-content">{{order.sector}}</div>                          
+                                </div>
+                                 <div class="address-card__row">
+                                    <div class="address-card__row-title">Cell</div>
+                                    <div class="address-card__row-content"> {{order.cell}}</div>   
+                                </div>
+                                 <div class="address-card__row">
+                                     <div class="address-card__row-title">Village</div>
+                                    <div class="address-card__row-content">{{order.village}}</div>   
+                                </div>
+                                <div class="address-card__row">
+                                     <div class="address-card__row-title">Street | House | Building</div>
+                                    <div class="address-card__row-content">{{order.delivery_address}}</div>   
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

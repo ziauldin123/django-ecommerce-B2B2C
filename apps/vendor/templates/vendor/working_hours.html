@@ -1,0 +1,116 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% load get_vendor_order_cost %}
+{% load mathfilters %}
+{% block title %}Working Hours - {{ request.session.username }}{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+    <div class="page-header__container container">
+        <div class="page-header__breadcrumb">
+            <nav aria-label="breadcrumb">
+            </nav>
+        </div>
+       
+    </div>
+</div>
+<div class="block">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-lg-3 d-flex">
+                <div class="account-nav flex-grow-1">
+                    <h4 class="account-nav__title">Vendor Administration</h4>
+                    <ul>
+                        <li class="account-nav__item">
+                            <a href="{% url 'vendor_admin' %}">Dashboard</a>
+                        </li>
+                        <li class="account-nav__item ">
+                            <a href="{% url 'vendor_orders' %}">Order History</a>
+                        </li>
+                         <li class="account-nav__item">
+                            <a href="{% url 'products' %}">Products</a>
+                        </li>
+                        <li class="account-nav__item account-nav__item--active">
+                            <a href="{% url 'working_hours' %}">Working Hours</a>
+                        </li>
+                        {% if vendor.status == 'RUBY' or vendor.status == 'EMERALD' %} 
+                        <li class="account-nav__item ">
+                            <a href="{% url 'delivery_cost' %}">Delivery Price</a>
+                        </li>
+                        {% endif %}
+                        <li class="account-nav__item ">
+                            <a href="{% url 'logout' %}">Logout</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+             <div class="col-12 col-lg-9 mt-4 mt-lg-0">
+                <div class="card">
+                    <div class="card-table">
+                                    <div class="table-responsive-sm">
+                                        <table >
+                                             <div class="card-header">
+                                                <h5>Working Hours</h5>
+                                            </div>
+                                            <tbody>
+                                                {% if  opening_hours == 0 %}
+                                                    <td>Opening hours are not defined yet</td>
+                                                {% else %}
+                                                {% for hours in opening_hours %}
+                                                <tr>
+                                                    <td scope="row">{{hours}}</td>
+                                                    <td>{{hours.from_hour}} <span style="margin: 0 20px;">-</span>{{hours.to_hour}}</td>
+                                                    <td><a  href="{% url 'remove_opening' hours.id %}">Remove</a></td>
+                                                </tr>
+                                                {% endfor %}
+                                                {% endif %}
+                                            </tbody>
+                                        </table>
+                                        <hr>
+                                        <form method="post" action="." enctype="multipart/form-data">
+                                            {% csrf_token %}
+                                             <div class="form-group" style="margin-left: 30px;margin-top: 5px;">
+                                                <label>Days:</label>
+                                                    <select class="custom-select col-sm-2" style="margin-left: 30px;" name="day" id="day">
+                                                        <option value=1>Monday
+                                                        </option>
+                                                        <option value=2>Tuesday
+                                                        </option>
+                                                        <option value=3>Wednesday
+                                                        </option>
+                                                        <option value=4>Thursday
+                                                        </option>
+                                                        <option value=5>Friday
+                                                        </option>
+                                                        <option value=6>Saturday
+                                                        </option>
+                                                        <option value=7>Sunday
+                                                        </option>
+                                                    </select>
+                                            </div>
+                                            <div class="form-group" style="margin-left: 30px;margin-top: 5px;">
+                                                <label for="from">From:</label>
+                                                    <input class="form-control custom-select col-sm-2" style="margin-left: 30px;margin-top: 5px;" type="time" name="from" id="from">
+                                
+                                
+                                                <label for="to" style="margin-left: 5px;">To:</label>
+                                                    <input class="form-control custom-select col-sm-2" style="margin-left: 5px;margin-top: 5px;" type="time" name="to" id="to">
+                                
+                                
+                                                <div class="row">
+                                                    <div class="col-sm-3">
+                                                        <button type="submit" class="button btn btn-primary mt-4">Add Hours</button>
+                                                    </div>
+                                                </div>
+                                                <br>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                    </div>
+                </div>
+            </div>  
+    </div>
+</div>
+{% endblock %}

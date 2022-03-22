@@ -1,0 +1,218 @@
+{% extends 'core/base.html' %}
+{% block title %} Cart {% endblock %}
+{% block description %} {{ setting.description }} {% endblock %}
+{% block keywords %} {{ setting.keywords }} {% endblock %}
+{% block content %}
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script>
+        function applyCoupon() {
+            console.log($("#coupon_code").val());
+            $.ajax({
+                type: "GET",
+                url: "/api/can_use/?coupon_code=" + $("#coupon_code").val(),
+                success: function (data) {
+                    console.log(data);
+                    var discount = parseInt(data.amount);
+                    console.log(discount)
+                    if (data.amount > 0) {
+                        $("#coupon_value").text(discount + " %");
+                        str=$("#total_cost").text()
+                        var total_cost= str.replace(/,/g, '');
+                        var total_cost_with_coupon= total_cost-((discount/100)*total_cost);
+                        $("#total_cost_with_coupon").text(total_cost_with_coupon.toFixed(2));
+                        // document.myform.coupon_discount.value = discount
+
+                    }
+                },
+            });
+        }
+
+        $('body').on('change', '.changeQty', function() {
+            var product_id=$(this).closest('.product_data').find('.prod_id').val();
+            var product_qty=$(this).closest('.product_data').find('.input').val();
+            var max = parseInt($(this).closest('.product_data').find('.input').attr('max'));
+            if (product_qty <= max && product_qty >= 0) {
+                $.ajax({
+                    method:"POST",
+                    cache: false,
+                    url:"/updateshopcart",
+                    data:{
+                        'product_id':product_id,
+                        'product_qty':product_qty,
+                    },
+                    success:function(response){
+                        $("#cart_table").load(location.href + " #cart_table");
+                        $("#cart_table_off").load(location.href + " #cart_table_off");
+                    }
+                });
+            }
+        });
+
+    </script>
+    <div class="site__body">
+        <div class="page-header">
+            <div class="page-header__container container">
+                <div class="page-header__breadcrumb">
+                    <nav aria-label="breadcrumb">
+                       
+                    </nav>
+                </div>
+                <div class="page-header__title">
+                    <h3>Cart</h3>
+                </div>
+            </div>
+        </div>
+         {% if cart %}
+        <div class="cart block" id="cart_table">
+            <div class="container">
+                <table class="cart__table cart-table">
+                    <thead class="cart-table__head">
+                        <tr class="cart-table__row">
+                            <th class="cart-table__column cart-table__column--image">Image</th>
+                            <th class="cart-table__column cart-table__column--product">Product</th>
+                            <th class="cart-table__column cart-table__column--price">Price (Rwf)</th>
+                            <th class="cart-table__column cart-table__column--quantity">Quantity</th>
+                            <th class="cart-table__column cart-table__column--total">Total (Rwf)</th>
+                            <th class="cart-table__column cart-table__column--remove"></th>
+                        </tr>
+                    </thead>
+                    <tbody class="cart-table__body">
+                        {% for rs in shopcart %} 
+                        <tr class="cart-table__row">
+                            <td class="cart-table__column cart-table__column--image">
+                                <div class="product-image">
+                                    {% if rs.variant %} 
+                                    <a href="" class="product-image__body">
+                                        <img class="product-image__img" src="{{rs.variant.image_variant.url }}" alt="">
+                                    </a>
+                                    {% else %} 
+                                    <a href="" class="product-image__body">
+                                        <img class="product-image__img" src="{{rs.product.image.url}}" alt="">
+                                    </a>
+                                    {% endif %}
+                                </div>
+                            </td>
+                            <td class="cart-table__column cart-table__column--product">
+                                {% if rs.variant %} 
+                                <a href="" class="cart-table__product-name">{{rs.variant.title}}</a>
+                                {% if rs.variant.color %} 
+                                <ul class="cart-table__options">
+                                    <li>Color: {{rs.variant.color}}</li>
+                                </ul>
+                                {% endif %}
+                                {% else %} 
+                                <a href="" class="cart-table__product-name">{{rs.product}}</a>
+                                {% if rs.product.color %} 
+                                <ul class="cart-table__options">
+                                    <li>Color: {{rs.product.color}}</li>
+                                </ul>
+                                {% endif %}
+                                {% endif %}
+                            </td>
+                            <td class="cart-table__column cart-table__column--price" data-title="Price">
+                                {% if rs.product.variant == 'None' %}
+                                            {% if rs.product.discount > 0 %} 
+                                                {{ rs.product.get_discounted_price }}
+                                            {% else %} 
+                                               {{rs.product.price}}
+                                            {% endif %}
+                                        {% else %}
+                                            {% if rs.variant.discount > 0 %} 
+                                               {{rs.variant.get_discounted_price_var}}
+                                            {% else %} 
+                                               {{rs.variant.price}}
+                                            {% endif %}       
+                                        {% endif %} / 
+                                        {% if rs.product.variant == 'None' %}
+                                        {% if rs.product.unit_type %}
+                                          {{ rs.product.unit_type.unit }}
+                                         {% endif %}
+                                     {% else %}
+                                        {% if rs.variant.unit_type %}
+                                         {{ rs.variant.unit_type.unit }}
+                                         {% endif %}
+                                     {% endif %}
+                            </td>
+                            <td class="cart-table__column cart-table__column--quantity" data-title="Quantity">
+                                <div class="product_data input-number">
+                                    <input type="hidden" class="prod_id" value="{{rs.id}}">
+                                    <input style="display: block;text-align: center;width: 100%;min-width: 88px;" class="input changeQty form-control input-number" id="quantity" name="quantity" type="number" value="{{rs.quantity}}" min="1" {% if rs.product.is_variant %} max="{{ rs.variant.quantity }}" {% else %} max="{{ rs.product.quantity }}" {% endif %}>
+                                </div>
+                            </td>
+                            <td class="total cart-table__column cart-table__column--total" data-title="Total">
+                                {% if rs.product.variant == 'None' %}
+                                            {% if rs.product.discount > 0 %}
+                                                {{ rs.prodct_dicount_amount }}
+                                            {% else %}
+                                                 {{ rs.amount }}
+                                            {% endif %}
+                                        {% else %}
+                                            {% if rs.variant.discount > 0 %}
+                                                 {{ rs.var_dicount_amount }}
+                                            {% else %}
+                                                 {{ rs.varamount }}
+                                            {% endif %}
+                                        {% endif %}
+                                
+                            </td>
+                            <td class="cart-table__column cart-table__column--remove">
+                                <a href="/order/deletefromcart/{{ rs.id }}" onclick="return confirm('Delete ! Are you sure?')" >
+                                    <button type="button" class="btn btn-light btn-sm btn-svg-icon">
+                                        <svg width="12px" height="12px">
+                                            <use xlink:href="/static/templates/images/sprite.svg#cross-12"></use>
+                                        </svg>
+                                    </button>
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <div class="cart__actions">
+                    <form class="cart__coupon-form">
+                        <label for="input-coupon-code" class="sr-only">Password</label>
+                        <input type="text" class="form-control"  name="coupon_code" id="coupon_code" placeholder="Coupon Code">
+                        <button type="button" class="btn btn-secondary "  onclick="applyCoupon()" >Apply Coupon</button>
+                    </form>
+                    <div class="cart__buttons">
+                        <a href="/" class="btn btn-secondary">Continue Shopping</a>
+                    </div>
+                </div>
+                <div class="row justify-content-end pt-5">
+                    <div class="col-12 col-md-7 col-lg-6 col-xl-5">
+                        <div class="card">
+                            <div class="card-body">
+                                
+                                <table class="cart__totals">
+                                    <thead class="cart__totals-header">
+                                        <tr>
+                                            <th>Subtotal</th>
+                                            <td>Rwf {{ subtotal }}</td>
+                                        </tr>
+                                    </thead>
+                                    <tfoot class="cart__totals-footer">
+                                        <tr>
+                                            <th>Total</th>
+                                            <td>
+                                                <span id="total_cost_with_coupon" name="total_cost_with_coupon">Rwf {{ subtotal }}</span>
+                                            </td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                                <a class="btn btn-primary btn-block cart__checkout-button" href="{% url 'contact_info' %}">Proceed to checkout</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <div class="block-empty__body">
+            <div class="block-empty__message">Your shopping cart is empty!</div>
+            <div class="block-empty__actions">
+                <a class="btn btn-primary btn-sm" href="/">Start shopping</a>
+            </div>
+        </div>
+        {% endif %}    
+    </div>
+{% endblock %}

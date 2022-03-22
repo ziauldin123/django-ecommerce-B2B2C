@@ -1,0 +1,433 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block title %}searching products {% endblock %}
+
+{% block content %}
+
+<script>
+    $(document).ready(function() {
+        $("#filter_search_btn").click(function(){
+            var brand = [];
+            var weight = [];
+            var width= [];
+            var size = [];
+            var height = [];
+            var length = [];
+            var color = [];
+            $.each($("input[name='brand']:checked"), function(){
+                brand.push($(this).val());
+            });
+            $.each($("input[name='weight']:checked"), function(){
+                weight.push($(this).val());
+            });
+            $.each($("input[name='width']:checked"), function(){
+                width.push($(this).val());
+            });
+            $.each($("input[name='size']:checked"), function(){
+                size.push($(this).val());
+            });
+            $.each($("input[name='height']:checked"), function(){
+                height.push($(this).val());
+            });
+            $.each($("input[name='length']:checked"), function(){
+                length.push($(this).val());
+            });
+            $.each($("input[name='color']:checked"), function(){
+                color.push($(this).val());
+            });
+            var dataString = $("#search_form").serialize();
+            var xhrobj = new XMLHttpRequest();
+            // xhrobj.open('GET','/search/?query=test');
+            // xhrobj.send();
+            console.log(dataString)
+
+            // alert("My favourite brands are: " + favorite.join(", "));
+        });
+    });
+</script>
+<div class="site__body">
+    <div id="message" name="message" class="mt-3">
+
+    </div>
+    <div class="page-header">
+        <div class="page-header__container container">
+            <div class="page-header__breadcrumb">
+                <nav aria-label="breadcrumb">
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <form id="search_form1" action="">
+            <div class="shop-layout shop-layout--sidebar--start">
+                <div class="shop-layout__sidebar">
+                    <div class="block block-sidebar block-sidebar--offcanvas--mobile">
+                        <div class="block-sidebar__backdrop"></div>
+                        <div class="block-sidebar__body">
+                            <div class="block-sidebar__header">
+                                <div class="block-sidebar__title">Filters</div>
+                                <button class="block-sidebar__close" type="button">
+                                    <svg width="20px" height="20px">
+                                        <use xlink:href="/static/templates/images/sprite.svg#cross-20"></use>
+                                    </svg>
+                                </button>
+                            </div>
+                            <div class="block-sidebar__item">
+                                <div class="widget-filters widget widget-filters--offcanvas--mobile" data-collapse data-collapse-opened-class="filter--opened">
+                                    <h4 class="widget-filters__title widget__title">Filters</h4>
+
+                                        <input type="text" id="query" value="{{query}}" name="query" hidden="true">
+                                        <div class="widget-filters__list">
+                                            <div class="widget-filters__item">
+                                                <div class="filter filter--opened" data-collapse-item>
+                                                    <button type="button" class="filter__title" data-collapse-trigger>
+                                                        Price
+                                                        <svg class="filter__arrow" width="12px" height="7px">
+                                                            <use xlink:href="/static/templates/images/sprite.svg#arrow-rounded-down-12x7"></use>
+                                                        </svg>
+                                                    </button>
+                                                    <div class="filter__body" data-collapse-content>
+                                                        <div class="filter__container">
+                                                            <div class="filter-price" data-min="{{ price_from }}" data-max="{{ price_to }}" data-from="{{ price_from }}" data-to="{{ price_to }}">
+                                                                <div class="filter-price__slider"></div>
+                                                                <div class="filter-price__title">Rwf <span class="filter-price__min-value"></span> – Rwf <span class="filter-price__max-value"></span></div>
+                                                                <input type="text" id="price_from" value="{{price_from}}" name="price_from" hidden="true">
+                                                                <input type="text" id="price_to" value="{{price_to}}" name="price_to" hidden="true">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="widget-filters__item">
+                                                <div class="filter filter--opened" data-collapse-item>
+                                                    <button type="button" class="filter__title" data-collapse-trigger>
+                                                        Brand
+                                                        <svg class="filter__arrow" width="12px" height="7px">
+                                                            <use xlink:href="/static/templates/images/sprite.svg#arrow-rounded-down-12x7"></use>
+                                                        </svg>
+                                                    </button>
+                                                    <div class="filter__body" data-collapse-content>
+                                                        <div class="filter__container">
+                                                            <div class="filter-list">
+                                                                <div class="filter-list__list">
+
+                                                                    {% for br in brands %}
+                                                                        <label class="filter-list__item ">
+                                                                            <span class="filter-list__input input-check">
+                                                                                <span class="input-check__body">
+
+                                                                                    <input class="input-check__input" value="{{br.id}}" type="checkbox" name="brand">
+                                                                                    <span class="input-check__box"></span>
+                                                                                    <svg class="input-check__icon" width="9px" height="7px">
+                                                                                        <use xlink:href="/static/templates/images/sprite.svg#check-9x7"></use>
+                                                                                    </svg>
+                                                                                </span>
+                                                                            </span>
+                                                                            <span class="filter-list__title">
+                                                                                {{br.brand}}
+                                                                            </span>
+
+                                                                        </label>
+                                                                    {% endfor %}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="widget-filters__item">
+                                                <div class="filter filter--opened" data-collapse-item>
+                                                    <button type="button" class="filter__title" data-collapse-trigger>
+                                                        Weight
+                                                        <svg class="filter__arrow" width="12px" height="7px">
+                                                            <use xlink:href="/static/templates/images/sprite.svg#arrow-rounded-down-12x7"></use>
+                                                        </svg>
+                                                    </button>
+                                                    <div class="filter__body" data-collapse-content>
+                                                        <div class="filter__container">
+                                                            <div class="filter-list">
+                                                                <div class="filter-list__list">
+                                                                    {% for wt in weight %}
+                                                                    <label class="filter-list__item ">
+                                                                        <span class="filter-list__input input-check">
+                                                                            <span class="input-check__body">
+                                                                                <input class="input-check__input" value="{{wt.id}}" type="checkbox" name="weight">
+                                                                                <span class="input-check__box"></span>
+                                                                                <svg class="input-check__icon" width="9px" height="7px">
+                                                                                    <use xlink:href="/static/templates/images/sprite.svg#check-9x7"></use>
+                                                                                </svg>
+                                                                            </span>
+                                                                        </span>
+                                                                        <span class="filter-list__title">
+                                                                            {% if wt.weight == None %}
+                                                                            None
+                                                                            {% else %}
+                                                                            {{wt.weight}}
+                                                                            {% endif %}
+                                                                        </span>
+
+                                                                    </label>
+                                                                    {% endfor %}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="widget-filters__item">
+                                                <div class="filter filter--opened" data-collapse-item>
+                                                    <button type="button" class="filter__title" data-collapse-trigger>
+                                                        Width
+                                                        <svg class="filter__arrow" width="12px" height="7px">
+                                                            <use xlink:href="/static/templates/images/sprite.svg#arrow-rounded-down-12x7"></use>
+                                                        </svg>
+                                                    </button>
+                                                    <div class="filter__body" data-collapse-content>
+                                                        <div class="filter__container">
+                                                            <div class="filter-list">
+                                                                <div class="filter-list__list">
+                                                                    {% for wd in width %}
+                                                                    <label class="filter-list__item ">
+                                                                        <span class="filter-list__input input-check">
+                                                                            <span class="input-check__body">
+                                                                                <input class="input-check__input" value="{{wd.id}}" type="checkbox" name="width">
+                                                                                <span class="input-check__box"></span>
+                                                                                <svg class="input-check__icon" width="9px" height="7px">
+                                                                                    <use xlink:href="/static/templates/images/sprite.svg#check-9x7"></use>
+                                                                                </svg>
+                                                                            </span>
+                                                                        </span>
+                                                                        <span class="filter-list__title">
+                                                                            {% if wd.width == None %}
+                                                                            None
+                                                                            {% else %}
+                                                                            {{wd.width}}
+                                                                            {% endif %}
+                                                                        </span>
+
+                                                                    </label>
+                                                                    {% endfor %}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="widget-filters__item">
+                                                <div class="filter filter--opened" data-collapse-item>
+                                                    <button type="button" class="filter__title" data-collapse-trigger>
+                                                        Size
+                                                        <svg class="filter__arrow" width="12px" height="7px">
+                                                            <use xlink:href="/static/templates/images/sprite.svg#arrow-rounded-down-12x7"></use>
+                                                        </svg>
+                                                    </button>
+                                                    <div class="filter__body" data-collapse-content>
+                                                        <div class="filter__container">
+                                                            <div class="filter-list">
+                                                                <div class="filter-list__list">
+                                                                    {% for sz in size %}
+                                                                    <label class="filter-list__item ">
+                                                                        <span class="filter-list__input input-check">
+                                                                            <span class="input-check__body">
+                                                                                <input class="input-check__input" value="{{sz.id}}" type="checkbox" name="size">
+                                                                                <span class="input-check__box"></span>
+                                                                                <svg class="input-check__icon" width="9px" height="7px">
+                                                                                    <use xlink:href="/static/templates/images/sprite.svg#check-9x7"></use>
+                                                                                </svg>
+                                                                            </span>
+                                                                        </span>
+                                                                        <span class="filter-list__title">
+                                                                            {% if sz.name == None %}
+                                                                            None
+                                                                            {% else %}
+                                                                            {{sz.name}}
+                                                                            {% endif %}
+                                                                        </span>
+
+                                                                    </label>
+                                                                    {% endfor %}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="widget-filters__item">
+                                                <div class="filter filter--opened" data-collapse-item>
+                                                    <button type="button" class="filter__title" data-collapse-trigger>
+                                                        Height
+                                                        <svg class="filter__arrow" width="12px" height="7px">
+                                                            <use xlink:href="/static/templates/images/sprite.svg#arrow-rounded-down-12x7"></use>
+                                                        </svg>
+                                                    </button>
+                                                    <div class="filter__body" data-collapse-content>
+                                                        <div class="filter__container">
+                                                            <div class="filter-list">
+                                                                <div class="filter-list__list">
+                                                                    {% for ht in height %}
+                                                                    <label class="filter-list__item ">
+                                                                        <span class="filter-list__input input-check">
+                                                                            <span class="input-check__body">
+                                                                                <input class="input-check__input" value="{{ht.id}}" type="checkbox" name="height">
+                                                                                <span class="input-check__box"></span>
+                                                                                <svg class="input-check__icon" width="9px" height="7px">
+                                                                                    <use xlink:href="/static/templates/images/sprite.svg#check-9x7"></use>
+                                                                                </svg>
+                                                                            </span>
+                                                                        </span>
+                                                                        <span class="filter-list__title">
+                                                                            {% if ht.height == None %}
+                                                                            None
+                                                                            {% else %}
+                                                                            {{ht.height}}
+                                                                            {% endif %}
+                                                                        </span>
+
+                                                                    </label>
+                                                                    {% endfor %}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="widget-filters__item">
+                                                <div class="filter filter--opened" data-collapse-item>
+                                                    <button type="button" class="filter__title" data-collapse-trigger>
+                                                        Length
+                                                        <svg class="filter__arrow" width="12px" height="7px">
+                                                            <use xlink:href="/static/templates/images/sprite.svg#arrow-rounded-down-12x7"></use>
+                                                        </svg>
+                                                    </button>
+                                                    <div class="filter__body" data-collapse-content>
+                                                        <div class="filter__container">
+                                                            <div class="filter-list">
+                                                                <div class="filter-list__list">
+                                                                    {% for ln in length %}
+                                                                    <label class="filter-list__item ">
+                                                                        <span class="filter-list__input input-check">
+                                                                            <span class="input-check__body">
+                                                                                <input class="input-check__input" value="{{ln.id}}" type="checkbox" name="length">
+                                                                                <span class="input-check__box"></span>
+                                                                                <svg class="input-check__icon" width="9px" height="7px">
+                                                                                    <use xlink:href="/static/templates/images/sprite.svg#check-9x7"></use>
+                                                                                </svg>
+                                                                            </span>
+                                                                        </span>
+                                                                        <span class="filter-list__title">
+                                                                            {% if ln.length == None %}
+                                                                            None
+                                                                            {% else %}
+                                                                            {{ln.length}}
+                                                                            {% endif %}
+                                                                        </span>
+
+                                                                    </label>
+                                                                    {% endfor %}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="widget-filters__item">
+                                                <div class="filter filter--opened" data-collapse-item>
+                                                    <button type="button" class="filter__title" data-collapse-trigger>
+                                                        Color
+                                                        <svg class="filter__arrow" width="12px" height="7px">
+                                                            <use xlink:href="images/sprite.svg#arrow-rounded-down-12x7"></use>
+                                                        </svg>
+                                                    </button>
+                                                    <div class="filter__body" data-collapse-content>
+                                                        <div class="filter__container">
+                                                            <div class="filter-color">
+                                                                <div class="filter-color__list">
+                                                                    {% for clr in colors %}
+                                                                        {% if clr.code == None %}
+                                                                            <label class="filter-color__item">
+                                                                                <span class="filter-color__check input-check-color  " style="color: #004093ff;">
+                                                                                    <label class="input-check-color__body">
+                                                                                        <input class="input-check-color__input" name="color" value="None" type="checkbox" disabled>
+                                                                                        <span class="input-check-color__box"></span>
+                                                                                        <svg class="input-check-color__icon" width="12px" height="9px">
+                                                                                            <use xlink:href="/static/templates/images/sprite.svg#check-12x9"></use>
+                                                                                        </svg>
+                                                                                        <span class="input-check-color__stick"></span>
+                                                                                    </label>
+                                                                                </span>
+                                                                            </label>
+                                                                        {% else %}
+                                                                            <label class="filter-color__item">
+                                                                                <span class="filter-color__check input-check-color  " style="color: {{clr.code}};">
+                                                                                    <label class="input-check-color__body">
+                                                                                        <input class="input-check-color__input" name="color" value="{{clr.id}}" type="checkbox">
+                                                                                        <span class="input-check-color__box"></span>
+                                                                                        <svg class="input-check-color__icon" width="12px" height="9px">
+                                                                                            <use xlink:href="/static/templates/images/sprite.svg#check-12x9"></use>
+                                                                                        </svg>
+                                                                                        <span class="input-check-color__stick"></span>
+                                                                                    </label>
+                                                                                </span>
+                                                                            </label>
+
+                                                                        {% endif %}
+
+
+
+                                                                    {% endfor %}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="widget-filters__actions d-flex">
+                                            <button class="btn btn-primary btn-sm" id="filter_search_btn">Filter</button>
+                                            <a class="btn btn-secondary btn-sm" href="/search/?query={{query}}">Reset</a>
+                                        </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="shop-layout__content">
+                    <div class="block">
+                        <div class="products-view">
+                            <div class="products-view__options">
+                                <div class="view-options view-options--offcanvas--mobile">
+                                    <h4>Search Results</h4>
+                                    <div class="view-options__divider"></div>
+                                    
+                                </div>
+                               
+                                
+                            </div>
+                            
+                            <div id="message" name="message" class="mt-3"></div>
+                            <div class="products-view__list products-list" data-layout="grid-3-sidebar" data-with-features="false" data-mobile-grid-columns="2">
+                                <div class="products-list__body">
+                                    {% for product in products %}
+                                    {% if product.vendor.enabled and product.visible and not product.is_variant %}
+                                        {% include 'product/parts/list_item.html' %}
+                                    {% elif product.vendor.enabled and product.visible and product.is_variant %}
+                                    {% if product.get_variant %}
+                                    {% include 'product/parts/list_item.html' %}
+                                    {% endif %}
+                                    {% endif %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                        
+                        {% include 'core/pagination.html' with page=products %}
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

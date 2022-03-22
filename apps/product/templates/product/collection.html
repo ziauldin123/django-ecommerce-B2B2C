@@ -1,0 +1,79 @@
+{% extends 'core/base.html' %}
+
+{% block title %}{{ collection.title }}{% endblock %}
+
+{% block content %}
+
+<div class="site__body">
+    <div class="page-header">
+        <div class="page-header__container container">
+            <div class="page-header__breadcrumb">
+                <nav aria-label="breadcrumb">
+                </nav>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="shop-layout shop-layout--sidebar--end">
+            <div class="shop-layout__content">
+                <div class="block">
+                    <div class="products-view">
+                        <div class="products-view__list products-list" data-layout="grid-3-sidebar" data-with-features="false" data-mobile-grid-columns="2">
+                            <div class="products-list__body">
+                                {% for product in products %}
+                                    {% if product.vendor.enabled and product.visible and not product.is_variant %}
+                                        {% include 'product/parts/list_item.html' %}
+                                    {% elif product.vendor.enabled and product.visible and product.is_variant %}
+                                        {% if product.get_variant %}
+                                            {% include 'product/parts/list_item.html' %}
+                                        {% endif %}
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+               <div class="col-12 col-lg-4">
+                     <div class="block block-sidebar block-sidebar--position--end">
+                            <div class="block-sidebar__item">
+                                <div class="widget-aboutus widget">
+                                    <h4 class="widget__title">About {{ collection.title }}</h4>
+                                    <div class="widget-aboutus__text">
+                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tincidunt, erat in malesuada aliquam, est erat faucibus purus,
+                                        eget viverra nulla sem vitae neque. Quisque id sodales libero.
+                                    </div>
+                                    <!-- social-links -->
+                                    <div class="social-links widget-aboutus__socials social-links--shape--rounded">
+                                        <ul class="social-links__list">
+                                            <li class="social-links__item">
+                                                <a class="social-links__link social-links__link--type--facebook" href="" target="_blank">
+                                                    <i class="fab fa-facebook-f"></i>
+                                                </a>
+                                            </li>
+                                            <li class="social-links__item">
+                                                <a class="social-links__link social-links__link--type--twitter" href="" target="_blank">
+                                                    <i class="fab fa-twitter"></i>
+                                                </a>
+                                            </li>
+                                            <li class="social-links__item">
+                                                <a class="social-links__link social-links__link--type--instagram" href="" target="_blank">
+                                                    <i class="fab fa-instagram"></i>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <!-- social-links / end -->
+                                </div>
+                            </div>
+                        </div>
+                </div>  
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+
+
+

@@ -1,0 +1,108 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block title %}Add variant{% endblock %}
+{% block content %}
+{% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{message.tags}}" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    {{ message |safe }}
+                </div>
+            {% endfor %}
+    {% endif %}
+    <div class="site__body">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-xl-8 col-lg-6 col-md-8">
+                    <div class="card flex-grow-1 mb-0 mt-5">
+                        <div class="card-body">
+                            <h3 class="card-title">Add product variant</h3>
+                            <form method="post" action="." enctype="multipart/form-data">
+                                {% load widget_tweaks %}
+                                {% csrf_token %}
+                                <div class="form-row">
+                                    <div class="form-group col-md-4">
+                                        <label for="">Title</label>
+                                        {{form.title |add_class:"form-control"}}
+                                    </div>
+                                    
+                                    <div class="form-group col-md-4">
+                                        <label for="">Product</label>
+                                        {{form.product |add_class:"form-control"}}
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label for="">Price</label>
+                                        {{form.price |add_class:"form-control"}}
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-4">
+                                        <label for="">Discount</label>
+                                        {{form.discount |add_class:"form-control"}}
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label for="">Quantity</label>
+                                        {{form.quantity |add_class:"form-control"}}
+                                    </div>   
+                                    <div class="form-group col-md-4">
+                                        <label for="">Image</label>
+                                        {{form.image_variant|add_class:"form-control"}}
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-4">
+                                        <label for="">Unit Type</label>
+                                        {{form.unit_type|add_class:"form-control"}}
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label for=""> Color </label>
+                                        {{form.color|add_class:"form-control"}}
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label for=""> Width </label>
+                                        {{form.width|add_class:"form-control"}}
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-4">
+                                        <label for=""> Height </label>
+                                        {{form.height|add_class:"form-control"}}
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                       <label for=""> Length </label>
+                                        {{form.length|add_class:"form-control"}}
+                                   </div> 
+                                   <div class="form-group col-md-4">
+                                      <label for=""> Weight </label>
+                                          {{form.weight|add_class:"form-control"}}
+                                  </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-4">
+                                        <label for=""> Size </label>
+                                            {{form.size|add_class:"form-control"}}
+                                    </div>
+                                </div>
+                                <div class="field">
+                                    <div class="control">
+                                        <button type="submit"  name="save" value="Submit" class="button btn btn-primary mt-4">Submit</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="{% static 'admin/js/vendor/jquery/jquery.js' %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'autocomplete_light/select2.css' %}" />
+    <script type="text/javascript" src="{% static 'autocomplete_light/jquery.init.js' %}"></script>
+    <script type="text/javascript" src="{% static 'autocomplete_light/autocomplete.init.js' %}"></script>
+    <script type="text/javascript" src="{% static 'autocomplete_light/select2.js' %}"></script>
+    <script type="text/javascript" src="{% static 'autocomplete_light/vendor/select2/dist/css/select2.css' %}"></script>
+    <script type="text/javascript" src="{% static 'autocomplete_light/vendor/select2/dist/js/select2.full.js' %}"></script>
+    <script type="text/javascript" src="{% static 'autocomplete_light/forward.js' %}"></script>
+    <script type="text/javascript" src="{% static 'admin/js/vendor/jquery/jquery.js' %}"></script>
+    {{ form.media }}
+{% endblock %}

@@ -1,0 +1,114 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Become a transporter | {% endblock %}
+
+{% block content %}
+    <div class="columns">
+    <div class="column is-4 is-offset-4">
+        <h1 class="title">Sign up as a Transporter</h1>
+
+        <form method="post" action=".">
+            {% csrf_token %}
+
+            <input type="hidden" name="next" value="{{ next }}">
+                <div class="field">
+                    <div class="control" style="display: none;">
+                        <input type="text" class="input" name="username" id="id_username" value="username">
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label>Username(First name & Last name)</label>
+
+                    <div class="control">
+                        <input type="text" class="input" name="transporter_name" id="id_transporter_name">
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label>Email</label>
+
+                    <div class="control">
+                        <input type="email" class="input" name="email" id="id_email">
+                    </div>
+                </div>
+                <div class="field">
+                    <label>Plate number</label>
+
+                    <div class="control">
+                        <input type="text" class="input" name="number_plate" id="id_number_plate">
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label>Phone</label>
+
+                    <div class="control">
+                        <input type="text" class="input" name="phone" id="id_phone">
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label>Password</label>
+
+                    <div class="control">
+                        <input type="password" class="input" name="password1" id="id_password1">
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label>Confirm</label>
+
+                    <div class="control">
+                        <input type="password" class="input" name="password2" id="id_password2">
+                    </div>
+                </div>
+
+                {% if form.errors %}
+                    {% for field in form %}
+                        {% for error in field.errors %}
+                            <div class="alert alert-danger">
+                                <strong>{{ error|escape }}</strong>
+                            </div>
+                        {% endfor %}
+                    {% endfor %}
+                    {% for error in form.non_field_errors %}
+                        <div class="alert alert-danger">
+                            <strong>{{ error|escape }}</strong>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+
+                {% if messages %}
+                    <div class="messages">
+                        {% for message in messages %}
+                            <div class="alert alert-{{ message.tags }} alert-dismissible" role="alert">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+                <br>
+
+                <div class="field">
+                    <div class="control">
+                        <button class="button is-dark is-fullwidth is-uppercase">Sign up</button>
+                    </div>
+                </div>
+        </form>
+    </div>
+</div>
+
+<div class="columns">
+    <div class="column is-4 is-offset-4">
+        <h2 class="subtitle text has-text-centered">Already have an account?</h2>
+        <a href="{% url 'login' %}" class="button is-info is-fullwidth is-uppercase">log in</a>
+    </div>
+</div>
+
+
+{% endblock %}

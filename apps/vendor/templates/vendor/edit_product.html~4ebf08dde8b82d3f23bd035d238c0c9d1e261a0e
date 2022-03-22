@@ -1,0 +1,128 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Edit {{product.title}} {% endblock %}
+
+{% block content %}
+
+<div class="site__body">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-xl-10 col-lg-6 col-md-8">
+                <div class="card flex-grow-1 mb-0 mt-5">
+                    <div class="card-body">
+                        <h3 class="title">Edit {{product.title}}</h3>
+                            <form method="post" action="." enctype="multipart/form-data">
+                            {% load widget_tweaks %}
+                            {% csrf_token %}
+                                <div class="form-row">
+                                  <div class="form-group col-md-6">
+                                      <label for="">Category</label>
+                                      {{ form.category |add_class:"form-control" }}
+                                  </div>
+                                  <div class="form-group col-md-6">
+                                    <label for="">Title</label>
+                                    {{form.title|add_class:"form-control"}}
+                                  </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-3">
+                                       <label for="">Price</label>
+                                       {{form.price|add_class:"form-control"}}
+                                    </div>
+                                    <div class="form-group col-md-3">
+                                        <label for="">Quantity</label>
+                                        {{form.quantity|add_class:"form-control"}}
+                                     </div>
+                                     <div class="form-group col-md-3">
+                                        <label for="">Discount</label>
+                                        {{form.discount|add_class:"form-control"}}
+                                     </div>
+                                     <div class="form-group col-md-3">
+                                         <label for="">Unit Type</label>
+                                         {{form.unit_type|add_class:"form-control"}}
+                                     </div>  
+                                </div>
+                                <div class="form-row"> 
+                                    <div class="form-group col-md-6">
+                                        <label for=""></label>
+                                        {{form.image|add_class:"form-control"}}
+                                    </div> 
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-3">
+                                        <label for="">Brand</label>
+                                        {{form.brand|add_class:"form-control"}}
+                                    </div>
+                                   <div class="form-group col-md-3">
+                                       <label for=""> Width </label>
+                                           {{form.width|add_class:"form-control"}}
+                                   </div>
+                                   <div class="form-group col-md-3">
+                                    <label for=""> Weight</label>
+                                        {{form.weight|add_class:"form-control"}}
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label for=""> Color </label>
+                                    {{form.color|add_class:"form-control"}}
+                                </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-3">
+                                       <label for=""> Length </label>
+                                        {{form.length|add_class:"form-control"}}
+                                   </div>
+                                   <div class="form-group col-md-3">
+                                       <label for=""> Height </label>
+                                           {{form.height|add_class:"form-control"}}
+                                   </div>
+                                    <div class="form-group col-md-3">
+                                       <label for=""> Size </label>
+                                           {{form.size|add_class:"form-control"}}
+                                   </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label for="Summary">Summary</label>
+                                        {{form.summary|add_class:"form-control"}}
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="">Description</label>
+                                        {{ form.description |add_class:"form-control" }}
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-3 form-check form-check-inline">
+                                        {{form.is_vat|add_class:"form-check-input"}}
+                                        <label for="" class="form-check-label">VAT Apllicable</label>
+                                    </div>
+                                    {% if vendor.status == 'RUBY' or vendor == 'EMERALD' %}
+                                    <div class="form-group col-md-3 form-check form-check-inline">
+                                        {{form.pickup_available|add_class:"form-check-input"}}
+                                        <label for="" class="form-check-label">Pickup Available</label>
+                                    </div>
+                                    <div class="form-group col-md-3 form-check form-check-inline">
+                                        {{form.is_free_delivery|add_class:"form-check-input"}}
+                                        <label for="">Free Delivery</label>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                                <div class="form-row"> 
+                                    <div class="form-group col-md-4">
+                                       {{imagesForm.as_p}}
+                                    </div>
+                                </div>
+                                <div class="field">
+                                    <div class="control">
+                                        <button class="button btn btn-primary mt-4">Save changes</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

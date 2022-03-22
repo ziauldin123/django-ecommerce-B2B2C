@@ -1,0 +1,122 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Cart{% endblock %}
+
+{% block content %}
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script>
+        function applyCoupon() {
+            console.log($("#coupon_code").val());
+            $.ajax({
+                type: "GET",
+                url: "/api/can_use/?coupon_code=" + $("#coupon_code").val(),
+                success: function (data) {
+                    console.log(data);
+                    var discount = parseInt(data.amount);
+                    if (discount > 0) {
+                        $("#coupon_value").text(discount + " %");
+                        $("#total_cost_with_coupon").text(parseFloat($("#total_cost").text()) * (100 - discount) / 100);
+                        document.myform.coupon_discount.value = discount
+                    }
+                },
+            });
+        }
+    </script>
+    <h1 class="title">Cart</h1>
+
+    {% if cart %}
+        <div class="box mb-6">
+            <form method="post" action="." name="myform">
+                {% csrf_token %} 
+                <input type="hidden" name="id_quantity" id="id_quantity"/>
+                <input type="hidden" name="coupon_discount" id="coupon_discount"/>
+                <div class="table">
+                    <table class="table is-fullwidth is-striped">
+                        <thead>
+                            <th></th>
+                            <th>Product</th>
+                            <th>Quantity</th>
+                            <th>Price</th>
+                            <th></th>
+                        </thead>
+
+                        <tbody>
+                            {% for item in cart %}
+                                {% if item.product %}
+                                <tr>
+                                    <td>
+                                        <figure >
+                                            <img src="{{ item.product.get_thumbnail }}" class="image is-64x64">
+                                        </figure>
+                                    </td>
+                                    <td>
+                                        <a href="{% url 'product' item.product.slugV item.product.category_slug item.product.subcategory_slug item.product.subsubcategory_slug item.product.slug %}">{{ item.product.title }}</a>
+                                    </td>
+                                    <td>
+                                    
+                                        <!-- <a href="?change_quantity={{ item.id }}&quantity=-1">-</a> -->
+                                        <a href="javascript:add_quantity({{ item.id }}, -1, {{ item.product.id }});">-</a>
+                                        <span  id="quantity_{{ item.id }}">
+                                            {{ item.quantity }}
+                                        </span>
+                                        <!-- <a href="?change_quantity={{ item.id }}&quantity=1">+</a> -->
+                                        <a href="javascript:add_quantity({{ item.id }}, 1, {{ item.product.id }});">+</a>
+
+                                    </td>
+                                    <td>Frw {{ item.total_price }}</td>
+                                    <td class="text-center"><a href="?remove_from_cart={{ item.id }}" class="delete">Remove</a></td>
+                                </tr>
+                                {% endif %}
+                            {% endfor %}
+                        </tbody>
+
+                        <tfoot>
+                            <tr>
+                                <td></td>
+                                <td><strong>Total cost</strong></td>
+                                <td><strong>{{ cart|length }}</strong></td>
+                                <td><strong>Frw <span id="total_cost">{{ cart.get_cart_cost }}</span></strong></td>
+                                <td></td>
+                            </tr>
+
+                            <tr>
+                                <td></td>
+                                <td><strong>Code</strong></td>                                
+                                <td><input type="text" id="coupon_code" name="coupon_code"/></td>
+                                <td id="coupon_value" name="coupon_value"></td>                                  
+                                <td class="text-center"><input type="button" class="button is-success" value="Apply Coupon" onclick="applyCoupon()" /></td>
+                            </tr>
+
+                            <tr>
+                                <td></td>
+                                <td><strong>Total cost with coupon</strong></td>
+                                <td><strong></strong></td>
+                                <td><strong>Frw
+                                    <span id="total_cost_with_coupon" name="total_cost_with_coupon">
+                                        {{ cart.get_cart_cost }}
+                                    </span>
+                                </strong></td>
+                                <td class="text-center"><input type="button" class="button is-success" value="Order" onclick="handleClick()" /></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </form>
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="notification is-danger is-toast">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        </div>
+    {% else %}
+        <section class="hero is-medium is-dark">
+            <div class="hero-body">
+                <div class="container has-text-centered">
+                    <p class="subtitle">
+                        Your cart is currently empty. 
+                    </p>
+                </div>
+            </div>
+        </section>
+    {% endif %}    
+{% endblock %}

@@ -1,0 +1,156 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block title %}Order #{{order.reference_number}} | {% endblock %}
+{% block content %}
+<div class="page-header">
+    <div class="page-header__container container">
+        <div class="page-header__breadcrumb">
+            <nav aria-label="breadcrumb">
+            </nav>
+        </div>
+       
+    </div>
+</div>
+<div class="block">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-lg-3 d-flex">
+                <div class="account-nav flex-grow-1">
+                    <h4 class="account-nav__title">My Account</h4>
+                    <ul>
+                        <li class="account-nav__item">
+                            <a href="{% url 'myaccount' %}">Dashboard</a>
+                        </li>
+                        <li class="account-nav__item ">
+                            <a href="{% url 'orderhistory' %}">Order History</a>
+                        </li>
+                        <li class="account-nav__item ">
+                            <a href="{% url 'logout' %}">Logout</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-12 col-lg-9 mt-4 mt-lg-0">
+                <div class="card">
+                    <div class="order-header">
+                        <div class="order-header__actions">
+                            <a href="{% url 'orderhistory' %}" class="btn btn-xs btn-secondary">Back to list</a>
+                        </div>
+                        <h5 class="order-header__title">Order Reference #{{order.reference_number}}</h5>
+                        <div class="order-header__subtitle">
+                            Was placed on <mark class="order-header__date">{{order.created_at}}</mark>
+                            and is <mark class="order-header__status">{{order.status}}</mark>.
+                        </div>
+                    </div>
+                    <div class="card-divider"></div>
+                    <div class="card-table">
+                        <div class="table-responsive-sm">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Vendor</th>
+                                        <th>Product</th>
+                                        <th>Price (Rwf)</th>
+                                        <th>Total (Rwf)</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="card-table__body card-table__body--merge-rows">
+                                    {% for order in order.items.all %} 
+                                    <tr>
+                                        <td>{{order.vendor}}</td>
+                                        <td>{% if order.is_variant %} {{order.variant}} {% else %} {{order.product}} {% endif %} × {{order.quantity}}</td>
+                                        <td>{{order.price}}</td>
+                                        <td>{{order.get_total}}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                                <tbody class="card-table__body card-table__body--merge-rows">
+                                    <tr>
+                                        <th></th>
+                                        <th></th>
+                                        <th>VAT</th>
+                                        <td>{{order.vat}}</td>
+                                    </tr>
+                                    <tr>   
+                                        <th></th>
+                                        <th></th>
+                                        <th>Subtotal</th>
+                                        <td>{{order.subtotal}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th></th>
+                                        <th></th>
+                                        <th>Delivery</th>
+                                        <td>{{order.delivery_cost}} </td>
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th></th>
+                                        <th></th>
+                                        <th>Grand Total</th>
+                                        <td>{{order.grand_paid_amount}}</td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-3 no-gutters mx-n2">
+                    <div class="col-sm-6 col-12 px-2">
+                        <div class="card address-card address-card--featured">
+                            <div class="address-card__body">
+                                <div class="address-card__badge ">Billing Address</div>
+                                <div class="address-card__row">
+                                    <div class="address-card__row-title">Name</div>
+                                    {{request.session.username}}<br>
+                                </div>
+                                <div class="address-card__row">
+                                    <div class="address-card__row-title">Address</div>
+                                    {{request.session.address}}<br>
+                                </div>
+                                <div class="address-card__row">
+                                    <div class="address-card__row-title">Phone Number</div>
+                                    <div class="address-card__row-content">{{request.session.phone}}</div>
+                                </div>
+                                <div class="address-card__row">
+                                    <div class="address-card__row-title">Email Address</div>
+                                    <div class="address-card__row-content">{{request.session.email}}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-12 px-2 mt-sm-0 mt-3">
+                        <div class="card address-card address-card--featured">
+                            <div class="address-card__body">
+                                <div class="address-card__badge">{% if order.delivery_type == 'store' %} Pick Up Address {% else %} Shipping Address {% endif %}</div>
+                                <div class="address-card__row">
+                                    <div class="address-card__row-title">District</div>
+                                    <div class="address-card__row-content">{{order.district}}</div>
+                                </div>
+                                <div class="address-card__row">
+                                    <div class="address-card__row-title">Sector</div>
+                                    <div class="address-card__row-content">{{order.sector}}</div>
+                                </div>
+                                <div class="address-card__row">
+                                    <div class="address-card__row-title">Cell</div>
+                                    <div class="address-card__row-content"> {{order.cell}}</div>
+                                </div>
+                                <div class="address-card__row">
+                                    <div class="address-card__row-title">Village</div>
+                                    <div class="address-card__row-content"> {{order.village}}</div>
+                                </div>  
+                                 <div class="address-card__row">
+                                    <div class="address-card__row-title">Address</div>
+                                    <div class="address-card__row-content"> {{order.delivery_address}}</div>
+                                </div>  
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

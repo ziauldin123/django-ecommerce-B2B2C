@@ -1,0 +1,114 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% load get_vendor_order_cost %}
+{% load mathfilters %}
+{% block title %}Vendor Administration - {{ vendor.company_name }}{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+    <div class="page-header__container container">
+        <div class="page-header__breadcrumb">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    
+                </ol>
+            </nav>
+        </div>
+    </div>
+</div>
+<div class="block">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-lg-3 d-flex">
+                <div class="account-nav flex-grow-1">
+                    <h4 class="account-nav__title">Vendor Administration</h4>
+                   <ul>
+                        <li class="account-nav__item account-nav__item--active">
+                            <a href="{% url 'vendor_admin' %}">Dashboard</a>
+                        </li>
+                        <li class="account-nav__item ">
+                            <a href="{% url 'vendor_orders' %}">Order History</a>
+                        </li>
+                         <li class="account-nav__item">
+                            <a href="{% url 'products' %}">Products</a>
+                        </li>
+                           <li class="account-nav__item ">
+                            <a href="{% url 'working_hours' %}">Working Hours</a>
+                        </li>
+                        {% if vendor.status == 'RUBY' or vendor.status == 'EMERALD' %} 
+                        <li class="account-nav__item ">
+                            <a href="{% url 'delivery_cost' %}">Delivery Price</a>
+                        </li>
+                        {% endif %}
+                        <li class="account-nav__item ">
+                            <a href="{% url 'logout' %}">Logout</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-12 col-lg-9 mt-4 mt-lg-0">
+                <div class="dashboard">
+                    <div class="dashboard__profile card profile-card">
+                        <div class="address-card__badge">{{vendor.status}}</div>
+                        <div class="card-body profile-card__body">
+                            <div class="profile-card__avatar">
+                                {% if vendor.logo %} 
+                                     <img src="{{vendor.logo.url}}" alt="vendor_logo"> 
+                                {% else %} 
+                                     <img src="{% static 'templates/images/avatars/avatar-3.jpg' %}" alt="vendor_avatar">
+                                {% endif %}
+                            </div>
+                            <div class="profile-card__name">{{ vendor.company_name }}</div>
+                            <div class="profile-card__email">{{ vendor.email }}</div>
+                            <div class="profile-card__number">{{ vendor.phone }}</div>
+                        </div>
+                        <form class="form" style="margin-left: 20px;margin-bottom: 20px;" method="post" action="{% url 'upload_logo' %}" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-sm-6"><label for="image">Add company logo:</label></div>
+                                <div class="col-sm-10"><input  type="file" class="form-control " id="image" name="image"></div>
+                                <div class="col-sm-3"><button type="submit" class="button btn btn-primary mt-4">Upload</button></div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="dashboard__address card address-card address-card--featured">
+                        <div class="address-card__badge">Basic Info</div>
+                        <div class="address-card__body">
+                            <div class="address-card__name">{{ vendor.company_name }}</div>
+                            <div class="address-card__row">
+                                <div class="address-card__row-title">TIN</div>
+                                <div class="address-card__row-content">{{ vendor.company_code }}</div>
+                            </div>
+                            <div class="address-card__row">
+                                <div class="address-card__row-title">District</div>
+                                <div class="address-card__row-content">{{ vendor.district }}</div>
+                            </div>
+                              <div class="address-card__row">
+                                <div class="address-card__row-title">Sector</div>
+                                <div class="address-card__row-content">{{ vendor.sector }}</div>
+                            </div>
+                              <div class="address-card__row">
+                                <div class="address-card__row-title">Cell</div>
+                                <div class="address-card__row-content">{{ vendor.cell }}</div>
+                            </div>
+                              <div class="address-card__row">
+                                <div class="address-card__row-title">Village</div>
+                                <div class="address-card__row-content">{{ vendor.village }}</div>
+                            </div>
+                            <div class="address-card__row">
+                                <div class="address-card__row-title">Street | Building</div>
+                                <div class="address-card__row-content">{{vendor.address}}</div>
+                            </div>
+                            <div class="address-card__row">
+                                <div class="address-card__row-title">Status</div>
+                                <div class="address-card__row-content">{% if vendor.enabled %}Enabled{% else %}Disabled{% endif %}</div>
+                            </div>                 
+                        </div>
+                    </div>              
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

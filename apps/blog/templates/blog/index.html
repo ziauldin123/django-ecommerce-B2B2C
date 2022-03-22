@@ -1,0 +1,89 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}Blog{% endblock  %}
+
+{% block content %}
+    <style>
+    ul.b {
+    list-style-type: square;
+    }
+    </style>
+   
+
+    <div class="site__body">
+        <div class="page-header">
+            <div class="page-header__container container">
+                <div class="page-header__breadcrumb">
+                    <nav aria-label="breadcrumb">   
+                    </nav>
+                </div>    
+            </div>
+        </div>
+            
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-lg-8">
+                    <div class="block">
+                        <div class="posts-view">
+                            <div class="posts-view__list posts-list posts-list--layout--list">
+                                <div class="posts-list__body">
+                                        {% for post in posts%}
+                                    <div class="posts-list__item">
+                                            <div class="post-card post-card--layout--list post-card--size--nl">
+                                            <div class="post-card__image">
+                                                <a href="{% url 'detail' post.slug  %}">
+                                                    <img src="{{ post.image.url }}" alt="">
+                                                </a>
+                                            </div>
+                                            <div class="post-card__info">
+                                                <div class="post-card__category">
+                                                    By {{ post.author }}
+                                                </div>
+                                                <div class="post-card__name">
+                                                    <a href="{% url 'detail' post.slug  %}">{{ post.title }}</a>
+                                                </div>
+                                                <div class="post-card__date">{{ post.created_at|date:"d-m-Y | H:i" }}</div>
+                                                <div class="post-card__content">{{ post.intro }}</div>
+                                                <div class="post-card__read-more">
+                                                    <a href="{% url 'detail' post.slug  %}" class="btn btn-secondary btn-sm">Read More</a>
+                                                </div>
+                                            </div>
+                                        </div>  
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>   
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-12 col-lg-4">
+                    <div class="block block-sidebar block-sidebar--position--end">
+                        <div class="block-sidebar__item">
+                            <div class="widget-aboutus widget">
+                                <h4 class="widget__title">About Soko Blog</h4>
+                                <div class="widget-aboutus__text">
+                                <ul class="b">
+                                    <li>Design</li>
+                                    <li>Construction</li>
+                                    <li>Do-it-yourself</li>
+                                    <li>Customer service</li>
+                                    <li>Rwanda</li>
+                                </ul>
+                                </div> 
+                            </div>
+                        </div>
+
+                        <div class="block-sidebar__item">
+                            <div class="widget-aboutus widget">
+                                <img src="{% static 'templates/images/new_logo.png' %}" alt="" width="100%">
+                            </div>
+                        </div>
+                    </div>
+                </div>    
+            </div>
+            {% include "core/pagination.html" with page=posts %}
+            <br>
+        </div>
+{% endblock %}

@@ -1,0 +1,260 @@
+{% extends 'core/base.html' %}
+{% load mathfilters %}
+
+{% block title %}Confirm Order {% endblock %}
+
+{% block content %}
+
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script>
+        function applyCoupon() {
+            console.log($("#coupon_code").val());
+            $.ajax({
+                type: "GET",
+                url: "/api/can_use/?coupon_code=" + $("#coupon_code").val(),
+                success: function (data) {
+                    console.log(data);
+                    var discount = parseInt(data.amount);
+                    console.log(discount)
+                    if (discount > 0) {
+                        $("#coupon_value").text(discount + " %");
+                        $("#total_cost_with_coupon").text(parseFloat($("#total_cost").text()) * (100 - discount) / 100);
+                        document.myform.coupon_discount.value = discount
+                        console.log()
+                    }
+                },
+            });
+        }
+        function showPhone(select){
+            if(select.value == 'BANK TRANSFER' ){
+                document.getElementById('hide').style.display = "none"
+            }
+            else {
+                document.getElementById('hide').style.display = "block"
+            }
+        }
+    </script>
+    <div class="site__body">
+        <div class="page-header">
+            <div class="page-header__container container">
+                <div class="page-header__breadcrumb">
+                    <nav aria-label="breadcrumb">
+                        
+                    </nav>
+                </div>
+               
+            </div>
+        </div>
+    </div>
+    <div class="checkout block">
+        <div class="container">
+            <div class="row"> 
+                <div class="col-12 col-lg-8 mt-4 mt-lg-0">
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <h3 class="card-title">Your Order</h3>
+                            <div class="table-responsive-sm">
+                            <table class="checkout__totals">
+                                <thead class="checkout__totals-header">
+                                    <tr>
+                                        <th>Product</th>
+                                        <th>Total (Rwf)</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="checkout__totals-products">
+                                    {% for rs in shopcart %} 
+                                    <tr>
+                                        <td>
+                                            {% if rs.variant %}
+                                            {{rs.variant.title}}
+                                            {% else %} 
+                                            {{rs.product}}
+                                            {% endif %} × {{rs.quantity}}
+                                            {% if rs.product.variant == 'None' %}
+                                            {% if rs.product.unit_type %}
+                                              {{ rs.product.unit_type.unit }}(s)
+                                             {% endif %}
+                                         {% else %}
+                                            {% if rs.variant.unit_type %}
+                                             {{ rs.variant.unit_type.unit }}(s)
+                                             {% endif %}
+                                         {% endif %}</td>
+
+                                        <td>{% if rs.product.variant == 'None' %}
+                                            {% if rs.product.discount > 0 %}
+                                                {{ rs.prodct_dicount_amount }}
+                                            {% else %}
+                                                {{ rs.amount }}
+                                            {% endif %}
+                                        {% else %}
+                                            {% if rs.variant.discount > 0 %}
+                                                 {{ rs.var_dicount_amount }}
+                                            {% else %}
+                                                {{ rs.varamount }}
+                                            {% endif %}
+                
+                                        {% endif %}
+                                        {% if rs.product.is_vat == True %}{% endif %}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                                <tbody class="checkout__totals-subtotals">
+                                    <tr>
+                                        <th>VAT</th>
+                                        <td>{{ tax }} </td>
+                                      </tr>
+                                    <tr>
+                                        <th>Subtotal</th>
+                                        <td>{{ total }}</td>
+                                    </tr> 
+                                    {% if coupon.code != None %}
+                                    <tr>
+                                        <th>Coupon</th>
+                                    
+                                        <td>
+                                            {% if coupon.code != None %}
+                                                - {{ coupon.discount }} %
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                    {% endif %}
+                                    {% if cart.get_delivery_cost %} 
+                                    <tr>
+                                        <th>Delivery</th>
+                                       <td>{{cart.get_delivery_cost}}</td>
+                                    </tr>
+                                    {% endif %}
+                                    <tr>
+                                        <th>{% if cart.get_delivery_type == 'store' %} Pick up {% else %} Delivery {% endif %} address</th>
+                                        <td>{{ cart.get_delivery_address }}</td>
+                                    </tr>
+                                </tbody>
+                                <tfoot class="checkout__totals-footer">
+                                    <tr>
+                                        <th>TOTAL</th>
+                                        <td><span id="total_cost">Rwf {{ cart.get_total_cost }}</span></td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+                
+
+                <div class="col-12 col-lg-4 mt-4 mt-lg-0">
+                    <div class="card mb-0">
+                        <div class="card-body">
+                            <h3 class="card-title">Payment Details</h3>
+                            <form method="post" action="" id="payment-form">
+                                {% csrf_token %}
+                                <div id="pay-form">
+                                    <div class="form-group" id=service_provider">
+                                        <label>Payment Methods</label>
+                
+                                        <div class="form-group">
+                                            <select onchange="showPhone(this)" class="form-control select" name="service_provider" id="service service_provider">
+                                                <option value="" selected>---Select payment method---</option>
+                                                {% for entry in service_provider %}
+                                                <option value="{{ entry.name }}">{{ entry.name }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group" id="hide" style="display: none;">
+                                        <label>Phone Number</label>
+                
+                                        <div class="form-group">
+                                            <input class="form-control" type="text" name="phone_number" id="phone_number">
+                                        </div>
+                                    </div>
+                                </div>
+                                {% if messages %}
+                                    {% for message in messages %}
+                                        <div class="notification is-danger">{{ message }}</div>
+                                    {% endfor %}
+                                {% endif %}
+                                <div class="field">
+                                    <div class="control">
+                                        <button class="button btn btn-primary mt-4"">Confirm Order</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="card mb-0">
+                        <strong class= "ml-2 mr-2"><a>This confirmation will not initiate a payment. <br>You will have to manually pay using the available methods.</a></strong>
+                    </div>
+                </div>
+
+              
+                
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block scripts %}
+    <script src="https://js.stripe.com/v3/"></script>
+    <script>
+    function showMe () {
+        var chboxs = document.getElementsByName("pay_now");
+        var vis = "none";
+        for(var i=0; i<chboxs.length; i++) {
+            if(chboxs[i].checked){
+            console.log('checked');
+             vis = "block";
+                break;
+            } else {
+            console.log('nonchecked')
+              vis = "none"
+            }
+        }
+
+        document.getElementById('pay-form').style.display = vis;
+
+    }
+    </script>
+    <script>
+        var stripe = Stripe('{{ stripe_pub_key }}');
+        var elements = stripe.elements();
+
+        var card = elements.create('card');
+
+        card.mount('#card-element');
+
+        var form = document.getElementById('payment-form');
+        form.addEventListener('submit', function(event) {
+            console.log('form add el');
+            event.preventDefault();
+
+            stripe.createToken(card).then(function(result) {
+                if (result.error) {
+                    console.log('error');
+                    var errorElement = document.getElementById('card-errors');
+                    errorElement.textContent = result.error.message;
+                } else {
+                    console.log('token:');
+                    console.log(result.token);
+                    stripeTokenHandler(result.token);
+                }
+            });
+            stripeTokenHandler("");
+        });
+        console.log('');
+        console.log('done');
+
+
+        function stripeTokenHandler(token) {
+            console.log("stripeTokenHandler");
+            var form = document.getElementById('payment-form');
+            var hiddenInput = document.createElement('input');
+            hiddenInput.setAttribute('type', 'hidden');
+            hiddenInput.setAttribute('name', 'stripe_token');
+            hiddenInput.setAttribute('value', token.id);
+            form.appendChild(hiddenInput);
+
+            form.submit();
+        }
+    </script>
+{% endblock %}

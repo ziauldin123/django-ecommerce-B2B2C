@@ -1,0 +1,385 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block title %}Furniture, Lighting, Building materials, Tools{% endblock %}
+{% block content %}
+<script>
+    function addToCart(pr_id) {
+        console.log($("#coupon_code").val());
+        $.ajax({
+            type: "GET",
+            url: "/order/addtoshopcart/" + pr_id,
+            success: function (data) {
+                console.log(data)
+                $("#my_cart").load(location.href +" #my_cart"); //for desktop
+                $("#mycart").load(location.href + " #mycart");   //for mobile
+                $("#cart_table").load(location.href + " #cart_table");
+                $("#cart_table_off").load(location.href + " #cart_table_off");
+                $("#message").append(
+                    '<div class="alert alert-success hideit alertSuc">A product has been added to your cart.</div >')
+                setTimeout(function () {
+                    $("#message").load(location.href + " #message");
+                }, 1000);
+            }
+        });
+    }
+    $('body').on('click','.wish',function(){
+        var variant_id=$(this).closest('.wishList').find('.variantid').val()
+        var product_id=$(this).closest('.wishList').find('.productid').val()
+        var my_token='{{ csrf_token }}'
+
+        $.ajax({
+        method:"POST",
+        url:"/variant/wishlist/",
+        context:this,
+        data:{
+        "csrfmiddlewaretoken": my_token,
+        'variant_id':variant_id,
+        'product_id':product_id,
+            },
+            success:function(data){
+                $("#my_wishlist").load(Location.href + " #my_wishlist");
+                setTimeout(function(){
+                        location.reload()
+                    },2000);
+                    $("#message").append(
+                    '<div class="alert alert-success hideit alertSuc">Product added to wishlist.</div >')
+                    }    
+                })
+    })
+                               
+    $('body').on('click','.compareBtn',function(){
+        var variant_id=$(this).closest('.compare').find('.variantid').val()
+        var my_token='{{ csrf_token }}'
+        $.ajax({
+            method:"POST",
+            url:"/variant/compare/",
+            context:this,
+            data:{
+                "csrfmiddlewaretoken": my_token,
+                'variant_id':variant_id
+                },
+                success: function(data){
+                    $("#my_compare").load(Location.href + " #my_compare");
+                    setTimeout(function(){
+                        location.reload()
+                    },2000);
+                    $("#message").append(
+                    '<div class="alert alert-success hideit alertSuc">Product added to compare list.</div >')
+                     }
+                    })
+    });
+    $('body').on('click','.wishBtn',function(){
+        $("my_wishlist").load(Location.href + " #my_wishlist");
+    })   
+</script>
+<div id="message" name="message" class="mt-3">
+                        
+</div>
+
+            {% include 'core/caroussel.html' %}
+            {% if featured_products %} 
+            <div class="block block-products-carousel" data-layout="grid-4" data-mobile-grid-columns="2">
+                <div class="container">
+                    <div class="block-header">
+                        <h3 class="block-header__title">Featured products</h3>
+                        <div class="block-header__divider"></div>
+                        <div class="block-header__arrows-list">
+                            <button class="block-header__arrow block-header__arrow--left" type="button">
+                                <svg width="7px" height="11px">
+                                    <use xlink:href="/static/templates/images/sprite.svg#arrow-rounded-left-7x11"></use>
+                                </svg>
+                            </button>
+                            <button class="block-header__arrow block-header__arrow--right" type="button">
+                                <svg width="7px" height="11px">
+                                    <use xlink:href="/static/templates/images/sprite.svg#arrow-rounded-right-7x11"></use>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="block-products-carousel__slider">
+                        <div class="block-products-carousel__preloader"></div>
+                        <div class="owl-carousel">
+                            {% for product in featured_products %} 
+                               {% if product.vendor.enabled and product.visible and  product.status and not product.is_variant %}
+                                      {% include 'product/parts/list_item-frontpage.html' %}
+                                {% elif product.vendor.enabled and product.status and product.visible and product.is_variant %} 
+                                        {% if product.get_variant %} 
+                                                 {% include 'product/parts/list_item-frontpage.html' %}
+                                         {% endif %} 
+                               {% endif %}   
+                            {% endfor %}         
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+<!-- .block-products-carousel / end -->
+            <!-- .block-banner -->
+            <div class="block block-banner">
+                <div class="container">
+                    <a href="{% url 'contact' %}" class="block-banner__body">
+                        <div class="block-banner__image block-banner__image--desktop" style="background-image: url('{% static 'templates/images/test_ad_5.png' %}')"></div> 
+                        <div class="block-banner__image block-banner__image--mobile" style="background-image: url('{% static 'templates/images/small_ad_mobile.png' %}')"></div>
+                        <div class="block-banner__title">Are you looking <br class="block-banner__mobile-br" > for a distributor in Rwanda?</div>
+                        <div class="block-banner__text"></div>
+                        <div class="block-banner__button">
+                            <span class="btn btn-sm btn-primary">Contact Us</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <!-- .block-banner / end -->
+            <!-- .block-products -->
+            {% if popular_products %} 
+            <div class="block block-products-carousel" data-layout="grid-4" data-mobile-grid-columns="2">
+                <div class="container">
+                    <div class="block-header">
+                        <h3 class="block-header__title">Popular products</h3>
+                        <div class="block-header__divider"></div>
+                        <div class="block-header__arrows-list">
+                            <button class="block-header__arrow block-header__arrow--left" type="button">
+                                <svg width="7px" height="11px">
+                                    <use xlink:href="/static/templates/images/sprite.svg#arrow-rounded-left-7x11"></use>
+                                </svg>
+                            </button>
+                            <button class="block-header__arrow block-header__arrow--right" type="button">
+                                <svg width="7px" height="11px">
+                                    <use xlink:href="/static/templates/images/sprite.svg#arrow-rounded-right-7x11"></use>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div id="message" name="message" class="mt-3"> </div>
+
+                    <div class="block-products-carousel__slider">
+                        <div class="block-products-carousel__preloader"></div>
+                        <div class="owl-carousel">
+                            {% for product in popular_products %} 
+                                {% if product.vendor.enabled and product.visible and product.status and not product.is_variant %}
+                                      {% include 'product/parts/list_item-frontpage.html' %}
+                                {% elif product.vendor.enabled and product.visible and product.status  and product.is_variant %} 
+                                      {% if product.get_variant %} 
+                                          {% include 'product/parts/list_item-frontpage.html' %}
+                                      {% endif %} 
+                               {% endif %}   
+                            {% endfor %}         
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+            <!-- .block-products / end -->
+            <!-- .block-categories -->
+            {% if featured_categories %} 
+            <div class="block block-products-carousel" data-layout="grid-4" data-mobile-grid-columns="2">
+                <div class="container">
+                    <div class="block-header">
+                        {% for category in featured_categories %}
+                        <h3 class="block-header__title">{{category.title}}</h3>
+                        {% endfor %}
+                        <div class="block-header__divider"></div>
+                        <div class="block-header__arrows-list">
+                            <button class="block-header__arrow block-header__arrow--left" type="button">
+                                <svg width="7px" height="11px">
+                                    <use xlink:href="/static/templates/images/sprite.svg#arrow-rounded-left-7x11"></use>
+                                </svg>
+                            </button>
+                            <button class="block-header__arrow block-header__arrow--right" type="button">
+                                <svg width="7px" height="11px">
+                                    <use xlink:href="/static/templates/images/sprite.svg#arrow-rounded-right-7x11"></use>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="block-products-carousel">
+                        <div class="block-products-carousel__preloader"></div>
+                        <div class="owl-carousel">
+                            {% for product in featured_categories_products %} 
+                                {% if product.vendor.enabled and product.visible and product.status and not product.is_variant %}
+                                     {% include 'product/parts/list_item-frontpage.html' %}
+                                {% elif product.vendor.enabled and product.visible and product.status and product.is_variant %} 
+                                  {% if product.get_variant %} 
+                                     {% include 'product/parts/list_item-frontpage.html' %}
+                                  {% endif %} 
+                               {% endif %}  
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            <!-- .block-categories / end -->
+            <!-- .block-products-carousel -->
+            {% if newest_products %} 
+            <div class="block block-products-carousel" data-layout="grid-4" data-mobile-grid-columns="2">
+                <div class="container">
+                    <div class="block-header">
+                        <h3 class="block-header__title">Latest additions</h3>
+                        <div class="block-header__divider"></div>
+                        <div class="block-header__arrows-list">
+                            <button class="block-header__arrow block-header__arrow--left" type="button">
+                                <svg width="7px" height="11px">
+                                    <use xlink:href="/static/templates/images/sprite.svg#arrow-rounded-left-7x11"></use>
+                                </svg>
+                            </button>
+                            <button class="block-header__arrow block-header__arrow--right" type="button">
+                                <svg width="7px" height="11px">
+                                    <use xlink:href="/static/templates/images/sprite.svg#arrow-rounded-right-7x11"></use>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="block-products-carousel__slider">
+                        <div class="block-products-carousel__preloader"></div>
+                        <div class="owl-carousel">
+                            {% for product in newest_products %} 
+                               {% if product.vendor.enabled and product.visible and product.status and not product.is_variant %}
+                                 {% include 'product/parts/list_item-frontpage.html' %}
+                                {% elif product.vendor.enabled and product.visible and product.status and product.is_variant %} 
+                                  {% if product.get_variant %} 
+                                     {% include 'product/parts/list_item-frontpage.html' %}
+                                  {% endif %} 
+                               {% endif %} 
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            <!-- .block-products-carousel / end -->
+            <!-- .block-posts -->
+            {% if posts %} 
+            <div class="block block-posts" data-layout="grid-3" data-mobile-columns="1">
+                <div class="container">
+                    <div class="block-header">
+                        <h3 class="block-header__title">Latest posts</h3>
+                        <div class="block-header__divider"></div>
+                        <div class="block-header__arrows-list">
+                            <button class="block-header__arrow block-header__arrow--left" type="button">
+                                <svg width="7px" height="11px">
+                                    <use xlink:href="/static/templates/images/sprite.svg#arrow-rounded-left-7x11"></use>
+                                </svg>
+                            </button>
+                            <button class="block-header__arrow block-header__arrow--right" type="button">
+                                <svg width="7px" height="11px">
+                                    <use xlink:href="/static/templates/images/sprite.svg#arrow-rounded-right-7x11"></use>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="block-posts__slider">
+                        <div class="owl-carousel">
+                            {% for post in posts %}
+                            <div class="post-card">   
+                                <div class="post-card__image">
+                                    <a href="{% url 'detail' post.slug  %}">
+                                      <img src="{{post.image.url}}"alt="">
+                                    </a>
+                                </div>
+                                <div class="post-card__info">
+                                    <div class="post-card__name">
+                                        <a href="{% url 'detail' post.slug  %}">{{post.title}}</a>
+                                    </div>
+                                    <div class="post-card__date">By {{ post.author }} | {{post.created_at}}</div>
+
+                                    <div class="post-card__content">
+                                       {{post.intro}}
+                                    </div> 
+                                </div> 
+                            </div>
+                            {% endfor %}   
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            <!-- .block-posts / end -->
+        <!-- .block-brands -->
+        <div class="block block-brands">
+            <div class="container">
+                <div class="block-brands__slider">
+                    <div class="owl-carousel">
+                       <div class="block-brands__item">
+                            <a><img src="https://sokopark.s3.af-south-1.amazonaws.com/static/templates/images/brand1.webp" alt=""></a>
+                        </div>
+                        <div class="block-brands__item">
+                            <a><img src="https://sokopark.s3.af-south-1.amazonaws.com/static/templates/images/brand2.webp" alt=""></a>
+                        </div>
+                         <div class="block-brands__item">
+                            <a><img src="https://sokopark.s3.af-south-1.amazonaws.com/static/templates/images/brand3.webp" alt=""></a>
+                        </div>
+                        <div class="block-brands__item">
+                            <a><img src="https://sokopark.s3.af-south-1.amazonaws.com/static/templates/images/brand4.webp" alt=""></a>
+                        </div>
+                        <div class="block-brands__item">
+                            <a><img src="https://sokopark.s3.af-south-1.amazonaws.com/static/templates/images/brand5.webp" alt=""></a>
+                        </div>
+                        <div class="block-brands__item">
+                            <a><img src="https://sokopark.s3.af-south-1.amazonaws.com/static/templates/images/brand6.webp" alt=""></a>
+                        </div>
+                        <div class="block-brands__item">
+                            <a><img src="https://sokopark.s3.af-south-1.amazonaws.com/static/templates/images/brand7.webp" alt=""></a>
+                        </div>
+                        <div class="block-brands__item">
+                            <a><img src="https://sokopark.s3.af-south-1.amazonaws.com/static/templates/images/brand8.webp" alt=""></a>
+                        </div>
+                         <div class="block-brands__item">
+                            <a><img src="https://sokopark.s3.af-south-1.amazonaws.com/static/templates/images/brand9.webp" alt=""></a>
+                        </div>
+                         <div class="block-brands__item">
+                            <a><img src="https://sokopark.s3.af-south-1.amazonaws.com/static/templates/images/brand10.webp" alt=""></a>
+                        </div>
+                         <div class="block-brands__item">
+                            <a><img src="https://sokopark.s3.af-south-1.amazonaws.com/static/templates/images/brand11.webp" alt=""></a>
+                        </div>
+                        <div class="block-brands__item">
+                            <a><img src="https://sokopark.s3.af-south-1.amazonaws.com/static/templates/images/brand12.webp" alt=""></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- .block-brands / end  -->
+          {% if recently_viewed_products %}
+          <div class="block block-products-carousel" data-layout="grid-5" data-mobile-grid-columns="2">
+              <div class="container">
+                  <div class="block-header">
+                      <h3 class="block-header__title">Recently Viewed</h3>
+                      <div class="block-header__divider"></div>
+                      <div class="block-header__arrows-list">
+                          <button class="block-header__arrow block-header__arrow--left" type="button">
+                              <svg width="7px" height="11px">
+                                  <use xlink:href="/static/templates/images/sprite.svg#arrow-rounded-left-7x11"></use>
+                              </svg>
+                          </button>
+                          <button class="block-header__arrow block-header__arrow--right" type="button">
+                              <svg width="7px" height="11px">
+                                  <use xlink:href="/static/templates/images/sprite.svg#arrow-rounded-right-7x11"></use>
+                              </svg>
+                          </button>
+                      </div>
+                  </div>
+                  <div class="block-products-carousel__slider">
+                      <div class="block-products-carousel__preloader"></div>
+                      <div class="owl-carousel">
+                          {% for product in recently_viewed_products %} 
+                          {% if product.vendor.enabled and product.visible and product.status and not product.is_variant %}
+                               {% include 'product/parts/list_item-frontpage.html' %}
+                              {% elif product.vendor.enabled and product.visible and product.status and product.is_variant %} 
+                                {% if product.get_variant %} 
+                                   {% include 'product/parts/list_item-frontpage.html' %}
+                                {% endif %} 
+                             {% endif %}  
+                          {% endfor %}         
+                          </div>
+                      </div>
+                  </div>
+              </div> 
+          {% endif %}
+
+{% endblock %}     
+
+
+
+

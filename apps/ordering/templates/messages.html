@@ -1,0 +1,19 @@
+
+<script>
+    $(document).ready(function(){
+window.setTimeout(function() {
+  $(".alert").fadeTo(500, 0).slideUp(500, function(){
+      $(this).remove();
+  });
+}, 5000);
+});
+</script>
+
+{% if messages %}
+  {% for message in messages %}
+    <div class="alert alert-info alert-dismissable">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+      <strong>{{message}}<strong>
+    </div>
+ {% endfor %}
+{% endif %}

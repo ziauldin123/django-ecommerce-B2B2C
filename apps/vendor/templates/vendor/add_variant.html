@@ -1,0 +1,108 @@
+{% extends 'core/base.html' %}
+{% block title %}Add variant{% endblock %}
+{% block content %}
+<style>
+ input[type=text],[type=number],[type=file], select {
+  width: 100%;
+  padding: 8px 20px;
+  cursor: pointer;
+  margin: 4px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+</style>
+
+{% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{message.tags}}" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    {{ message |safe }}
+                </div>
+            {% endfor %}
+    {% endif %}
+    <div class="site__body">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-xl-8 col-lg-6 col-md-8">
+                    <div class="card flex-grow-1 mb-0 mt-5">
+                        <div class="card-body">
+                            <h3 class="card-title">Add product variant</h3>
+                            <form method="post" action="" enctype="multipart/form-data" style="padding: 24px;">
+                                {% csrf_token %}
+                                {{forms.errors}}
+                                <label>Title </label><input type="text" name="title" id=""></br>
+                                <label>Color </label>
+                                <select class="box" name="color">
+                                    <option selected disabled >-- Select Color --</option>
+                                    {% for pr in color %} 
+                                    <option value={{pr.id}}>{{pr.name}}</option>
+                                      {% endfor %}
+                                </select></br>
+                                <label>Size </label>
+                                <select class="box" name="size">
+                                    <option selected disabled >-- Select Size --</option>
+                                    {% for pr in size %} 
+                                    <option value={{pr.id}}>{{pr.name}}</option>
+                                      {% endfor %}
+                                </select></br>
+                                <label>Length (m)</label>
+                                <select class="box" name="length">
+                                    <option selected disabled >-- Select Length --</option>
+                                    {% for pr in length %} 
+                                    <option value={{pr.id}}>{{pr.length}}</option>
+                                      {% endfor %}
+                                </select></br>
+                                <label>Width(m) </label>
+                                <select class="box" name="width">
+                                    <option selected disabled >-- Select Width --</option>
+                                    {% for pr in width %} 
+                                    <option value={{pr.id}}>{{pr.width}}</option>
+                                      {% endfor %}
+                                </select></br>
+                                <label>Weight (kg)</label>
+                                <select class="box" name="weight">
+                                    <option selected disabled >-- Select Weight --</option>
+                                    {% for pr in weight %} 
+                                    <option value={{pr.id}}>{{pr.weight}}</option>
+                                      {% endfor %}
+                                </select></br>
+                                <label>Height (m)</label>
+                                <select class="box" name="height">
+                                    <option selected disabled >-- Select height --</option>
+                                    {% for pr in height %} 
+                                    <option value={{pr.id}}>{{pr.height}}</option>
+                                      {% endfor %}
+                                </select></br>
+                                <label>Unit Types</label>
+                                <select class="box" name="unit_type">
+                                   <option selected disabled >-- Select Unit Types --</option>
+                                   {% for pr in unitType %} 
+                                   <option value={{pr.id}}>{{pr.unit}}</option>
+                                   {% endfor %}
+                                </select></br>
+                                <label>Price </label> <input type="number" value="0" name="price"></br>
+                                <label>Discount </label><input type="number" value="0" name="discount" ></br>
+                                <label>Quantity </label><input type="number" value="0" name="quantity"></br>
+                                <label>Product </label>
+                                <select class="box" name="product">
+                                    <option >--</option>
+                                    {% for pr in product %} 
+                                    <option value={{pr.id}}>{{pr.title}}</option>
+                                      {% endfor %}
+                                </select></br>
+                                <label>Image</label>
+                                <input name="image_variant" type="file" name="upload" accept="image/*">
+                                <div class="field">
+                                    <div class="control">
+                                        <button type="submit"  name="save" value="Submit" class="button btn btn-primary mt-4">Submit</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

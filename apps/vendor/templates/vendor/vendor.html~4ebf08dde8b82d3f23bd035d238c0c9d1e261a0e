@@ -1,0 +1,109 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block title %}Shop @ {{ vendor.company_name }}{% endblock %}
+
+{% block content %}
+    <br>
+    <div>
+        <div class="site__body">
+            <div class="block block-banner">
+                <div class="container">
+                     <div class="faq__section">
+                        <div class="hours__section-body">
+                            <div class="row">
+                                <div class="faq__section-column col-12 col-lg-2">
+                                    <div class="account-menu__user-avatar">
+                                        <img {% if vendor.logo %} src="{{vendor.logo.url}}" {% else %} src="" alt="vendor_logo" {% endif %}>
+                                    </div>
+                                </div>
+                                <div class="faq__section-column col-12 col-lg-3">
+                                    <div class="address-card__row-title">Company</div>
+                                    <div class="address-card__row-content">
+                                    {{ vendor.company_name }} 
+                                    </div>
+                                </div>
+                                  <div class="faq__section-column col-12 col-lg-3">
+                                    <div class="address-card__row-title">Email</div>
+                                    <div class="address-card__row-content">
+                                    {{ vendor.email }} 
+                                    </div>
+                                </div>
+                                <div class="faq__section-column col-12 col-lg-2">
+                                    <div class="address-card__row-title">Phone number</div>
+                                    <div class="address-card__row-content">
+                                    {{ vendor.phone }}
+                                    </div>
+                                </div>
+                              
+                                <div class="faq__section-column col-12 col-lg-2">
+                                    <div class="address-card__row-title">TIN</div>
+                                    <div class="address-card__row-content">
+                                    {{ vendor.company_code }} 
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="container">
+                <div class="shop-layout shop-layout--sidebar--end">
+                    <div class="shop-layout__content">
+                        <div class="block">
+                            <div class="products-view">
+                                
+                                <div class="products-view__list products-list" data-layout="grid-3-sidebar" data-with-features="false" data-mobile-grid-columns="2">
+                                    <div class="products-list__body">
+                                        {% for product in vendor.newProducts.all %}
+                                                {% if product.vendor.enabled and product.visible and product.status %}
+                                                        {% include 'product/parts/list_item.html' %}
+                                                {% endif %}
+                                    {% endfor %}
+                                    </div>
+                                
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <div class="shop-layout__sidebar">
+                        <div class="block block-sidebar block-sidebar--offcanvas--mobile">
+                            <div class="block-sidebar__body">       
+                                 <div class="block-sidebar__item">
+                                    <div class="widget-aboutus widget">
+                                        <h4 class="widget__title">Location</h4>
+                                        <hr>
+                                        <div class="widget-aboutus__text">
+                                            <h6>District: {{ vendor.district }} </h6>
+                                            <h6>Sector: {{ vendor.sector }} </h6>
+                                            <h6> Cell: {{ vendor.cell }} </h6>
+                                            <h6>Village: {{ vendor.village }} </h6>
+                                            <h6> Address: {{ vendor.address }} </h6>
+                                        </div>  
+                                    </div>
+                                </div>
+                                <div class="block-sidebar__item">
+                                    <div class="widget-aboutus widget">
+                                        <h4 class="widget__title">Working Hours</h4>
+                                        <hr>
+                                        <div class="widget-aboutus__text">
+                                            {% for hours in vendor.Opening.all %}
+                                                <h6>
+                                                    {{hours}}: {{hours.from_hour}} to {{hours.to_hour}}
+                                                </h6>
+                                            {% endfor %} 
+                                        </div>   
+                                    </div>
+                                </div>       
+                            </div>  
+                        </div>
+                    </div>  
+                </div>
+            </div>
+            {% include 'core/pagination.html' with page=products %}
+            <br>
+        </div>    
+    </div>
+    
+{% endblock %}

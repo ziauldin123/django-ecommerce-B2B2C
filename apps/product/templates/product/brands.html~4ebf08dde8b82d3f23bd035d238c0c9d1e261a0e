@@ -1,0 +1,32 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Brands{% endblock %}
+
+{% block content %}
+
+<div class="site__body">
+            <div class="page-header">
+                <div class="page-header__container container">
+                    <div class="page-header__breadcrumb">
+                        <nav aria-label="breadcrumb">
+                            
+                        </nav>
+                    </div>
+                    <div class="page-header__title">
+                        <h3>Brands</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="widget-tags widget">
+                    <div class="tags tags--lg">
+                        <div class="tags__list">
+                            {% for brand in brands %} 
+                                <a href="">{{brand|title}}</a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block branding %}
+    <h1>Create Width</h1>
+{% endblock %}
+
+{% block content %}
+<style>
+    input[type=text],[type=number],[type=file], select {
+     width: 100%;
+     padding: 8px 20px;
+     cursor: pointer;
+     margin: 4px 0;
+     border: 1px solid #ccc;
+     border-radius: 4px;
+     box-sizing: border-box;
+   }
+   </style>
+<div style="display: inline-block; width: 65%; vertical-align:top;">
+    <form action="" method="post" style="padding: 20px;">
+        <table>
+          {{ form.as_table }}
+        </table>
+        {% csrf_token %}
+        <input type="submit" class="btn btn-primary mt-4" value="Submit" />
+    </form>
+</div>
+{% endblock %}
+{% block footer %}
+    <script type="text/javascript" src="{% static 'admin/js/vendor/jquery/jquery.js' %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'autocomplete_light/select2.css' %}" />
+    <script type="text/javascript" src="{% static 'autocomplete_light/jquery.init.js' %}"></script>
+    <script type="text/javascript" src="{% static 'autocomplete_light/autocomplete.init.js' %}"></script>
+    <script type="text/javascript" src="{% static 'autocomplete_light/select2.js' %}"></script>
+    <script type="text/javascript" src="{% static 'autocomplete_light/vendor/select2/dist/css/select2.css' %}"></script>
+    <script type="text/javascript" src="{% static 'autocomplete_light/vendor/select2/dist/js/select2.full.js' %}"></script>
+    <script type="text/javascript" src="{% static 'autocomplete_light/forward.js' %}"></script>
+    <script type="text/javascript" src="{% static 'admin/js/vendor/jquery/jquery.js' %}"></script>
+    {{ form.media }}
+{% endblock %}

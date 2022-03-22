@@ -1,0 +1,85 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Set up a Customer account{% endblock %}
+
+{% block content %}
+<div class="site__body">
+   
+       <div class="container">
+            <div class="row justify-content-center">
+            <div class="col-xl-5 col-lg-6 col-md-8">
+                <div class="card flex-grow-1 mb-0 mt-5">
+                    <div class="card-body">
+                        <h3 class="card-title">Set up a Customer account</a></h3>
+                        <form method="post" action=".">
+                           {% csrf_token %}
+                           <input type="hidden" name="next" value="{{ next }}">
+                           <div class="field form-group">
+                                <div class="control" style="display: none;">
+                                    <input type="text" name="username" id="id_username" value="username">
+                                </div>
+                           </div>
+
+                            <div class="field form-group">
+                               <label>First name & Last name</label>
+                               <div class="control">
+                                   <input type="text" class="input form-control" name="customername" id="id_customername">
+                               </div>
+                           </div>
+                           
+                           <div class="field form-group">
+                               <label>Email</label>
+                               <div class="control">
+                                   <input type="email" class="input form-control" name="email" id="id_email">
+                               </div>
+                           </div>
+                       
+                           <div class="field form-group">
+                               <label>TIN (optional)</label>
+                               <div class="control">
+                                   <input type="text" class="input form-control" name="company_code" id="id_company_code">
+                               </div>
+                           </div>
+                           <div class="field form-group">
+                               <label>Address</label>
+                               <div class="control">
+                                   <input type="text" class="input form-control" name="address" id="id_address">
+                               </div>
+                           </div>
+                           <div class="field form-group">
+                               <label>Phone</label>
+                               <div class="control">
+                                   <input type="text" class="input form-control" name="phone" id="id_phone" >
+                               </div>
+                           </div>
+                           <div class="field form-group">
+                               <label>Password</label>
+                               <input type="password" class="input form-control" name="password1" id="id_password1" >
+                           </div>
+                           <div class="field form-group">
+                               <label>Confirm Password</label>
+                               <div class="control">
+                                   <input type="password" class="input form-control" name="password2" id="id_password2">
+                               </div>
+                           </div>
+                           <div class="field form-group">
+                               <div class="control">
+                                   <input type="checkbox" name="is_privacy" value="True" id="is_privacy" required/>
+                                  <label>I agree to Sokopark's <a href="{% url 'termsandconditions' %}">Terms & Conditions</a>.</label>
+                               </div>
+                           </div>
+                           <div class="field form-group">
+                               <div class="control">
+                                   <button type="submit" class="btn btn-primary btn-lg btn-block">Register</button>
+                               </div>
+                           </div>
+                       </form>
+                        <label class="form-check-label" for="login-remember">Already have account? <a href="{% url 'login' %}"> Sign in here </a>
+                        <label class="form-check-label" for="login-remember">Register as vendor? <a href="{% url 'become_vendor' %}"> Register here </a> 
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+ </div>
+{% endblock %}

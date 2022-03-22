@@ -1,0 +1,242 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block title %}Products - {{ request.session.username }}{% endblock %}
+{% block content %}
+<script>
+    $('body').on('change','.changeQty',function(){
+        var product_id=$(this).closest('.product_data').find('.prod_id').val()
+        var product_qty=$(this).closest('.product_data').find('.input').val()
+        $.ajax({
+            method:"POST",
+            cache:false,
+            url:"{% url 'change_qty' %}",
+            data:{
+                'product_id':product_id,
+                'product_qty':product_qty,
+                csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+            },
+            success:function(data){
+                $("#message").append(
+                    '<div class="alert alert-success hideit alertSuc">Product Quantity Updated.</div >');
+                setTimeout(function () {
+                    $("#message").load(location.href + " #message");
+                }, 1000);
+            }
+        })
+    })
+    $('body').on('change','.changeQtyVariant',function(){
+        var product_id=$(this).closest('.product_data').find('.prod_id').val()
+        var product_qty=$(this).closest('.product_data').find('.input').val()
+        $.ajax({
+            method:"POST",
+            cache:false,
+            url:"{% url 'change_qty_variant' %}",
+            data:{
+                'product_id':product_id,
+                'product_qty':product_qty,
+                csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+            },
+            success:function(data){
+                $("#message").append(
+                    '<div class="alert alert-success hideit alertSuc">Product Quantity Updated.</div >');
+                setTimeout(function () {
+                    $("#message").load(location.href + " #message");
+                }, 1000);
+            }
+        })
+    })
+    $('body').on('change','.upload',function(){
+        if (this.files && this.files[0]){
+                var len = (this.files).length
+                $("#message").text(`${len} Product images selected, You can upload them.`)   
+                setTimeout(function () {
+                    $("#message").load(location.href + " #message");
+                }, 5000);
+            }
+    })
+</script>
+<div class="page-header">
+    <div class="page-header__container container">
+        <div class="page-header__breadcrumb">
+            <nav aria-label="breadcrumb">
+            </nav>
+        </div>
+    </div>
+</div>
+<div class="block">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-lg-2 d-flex">
+                <div class="account-nav flex-grow-1">
+                     <h4 class="account-nav__title">Vendor Administration</h4>
+                   <ul>
+                        <li class="account-nav__item">
+                            <a href="{% url 'vendor_admin' %}">Dashboard</a>
+                        </li>
+                        <li class="account-nav__item ">
+                            <a href="{% url 'vendor_orders' %}">Order History</a>
+                        </li>
+                         <li class="account-nav__item account-nav__item--active">
+                            <a href="{% url 'products' %}">Products</a>
+                        </li>
+                           <li class="account-nav__item ">
+                            <a href="{% url 'working_hours' %}">Working Hours</a>
+                        </li>
+                        {% if vendor.status == 'RUBY' or vendor.status == 'EMERALD' %} 
+                        <li class="account-nav__item ">
+                            <a href="{% url 'delivery_cost' %}">Delivery Price</a>
+                        </li>
+                        {% endif %}
+                        <li class="account-nav__item ">
+                            <a href="{% url 'logout' %}">Logout</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-12 col-lg-10 mt-4 mt-lg-0">
+                <div class="card">
+                    <div class="card-header">
+                        <div id="message" name="message" class="mt-3"  style="color: #007bff;font-weight: 1000;">
+                        </div>
+                        <h5>My products</h5>
+                        {% if product_limit %}
+                            <a href="{% url 'add_product' %}" class="button btn btn-primary mt-4">Add product</a>
+                            <a href="{% url 'add_product_without_variant' %}" class="button btn btn-primary mt-4">Add product with Variant</a>
+                            <a href="{% url 'add_variant' %}" class="button btn btn-primary mt-4">Add product Variants</a>
+                        {% else %}
+                            <div class="address-card__row-title">
+                                You cannot add more products. Kindly contact your account manager to increase your limit.
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="card-divider"></div>
+                    <div class="card-table">
+                        <div class="table-responsive-sm">
+                            {% if products %}
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Title</th>
+                                        <th>Price (Rwf)</th>
+                                        <th>Quantity</th>
+                                        <th>Discount</th>
+                                        <th>Status</th>
+                                        <th>Edit</th>
+                                        <th>Add Images</th>
+                                        <th>Delete</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for product in lists_products %} 
+                                    <tr>
+                                        {% if product.is_variant == False %} 
+                                        <td><a href="">{{ product.title }}</a></td>
+                                        {% else %} 
+                                        <td><a href="">{{ product.title }}</a></td>
+                                        {% endif %}
+                                        {% if product.is_variant == False %}
+                                           <td>{{ product.price }}</td>
+                                        {% else %} 
+                                           <td>{{ product.price }}</td>   
+                                        {% endif %}
+                                        {% if product.is_variant == False %}
+                                        <td>
+                                            <div class="product_data">
+                                                <input type="hidden" class="prod_id" value="{{product.id}}">
+                                                <input style="width: 50px;text-align: center;" class="input changeQty" id="quantity" name="quantity" type="number" value="{{product.quantity}}" min="1" >
+                                            </div>
+                                        </td>
+                                        {% else %} 
+                                        <td>
+                                            <div class="product_data"> 
+                                                <input type="hidden" class="prod_id" value="{{product.id}}">
+                                                <input style="width: 50px;text-align: center;" class="input changeQtyVariant" id="quantity" name="quantity" type="number" value="{{product.quantity}}" min="1" >
+                                            </div>
+                                          </td>
+                                        {% endif %}
+                                        {% if product.is_variant == False %}
+                                        <td>
+                                            {% if product.discount > 0 %}
+                                                {{ product.discount }} %
+                                            {% endif %}
+                                        </td>
+                                        {% else %} 
+                                        <td>
+                                            {% if product.discount > 0 %}
+                                            {{ product.discount }} %
+                                        {% endif %} 
+                                        </td>
+                                        {% endif %}
+                                        {% if product.is_variant == False %}
+                                        <td>
+                                            {% if product.status == True  %}
+                                                <a>Active</a>
+                                            {% else %}
+                                                <a>Under Review</a>
+                                            {% endif %}
+                                        </td>
+                                        {% else %} 
+                                        <td>
+                                            {% if product.status == True  %}
+                                            <a>Active</a>
+                                        {% else %}
+                                            <a>Under Review</a>
+                                        {% endif %} 
+                                        </td>
+                                        {% endif %}
+                                        {% if product.is_variant == False %}
+                                        <td>
+                                            <a href="{% url 'edit_product' product.id %}" class="mr-5">Edit</a>
+                                        </td>
+                                        {% else %} 
+                                        <td>
+                                            <a href="{% url 'edit_product_variant' product.id %}" class="mr-5">Edit</a>
+                                        </td>
+                                        {% endif %}
+                                        {% if product.is_variant == False %}
+                                        <td>
+                                            <form class="form" method="post" action="{% url 'add_product_image' product.id %}" enctype="multipart/form-data">
+                                                {% csrf_token %}
+                                                <img style="cursor: pointer;width: 30px;" onclick="document.getElementById('images').click()" src="https://img.icons8.com/external-tanah-basah-detailed-outline-tanah-basah/48/000000/external-upload-user-interface-tanah-basah-detailed-outline-tanah-basah.png"/>
+                                                <input  type="file" class="upload" id="images" style="display: none;cursor: pointer;" name="images" multiple>
+                                                <button type="submit" class="product-card__addtocart btn-primary" style="width: 70px;">Upload</button>
+                                            </form>
+                                        </td>
+                                        <td>
+                                            <a href="{% url 'delete_product' product.id %}">Delete</a>
+                                        </td>
+                                        {% else %} 
+                                        <td>
+                                            <form class="form" method="post" action="{% url 'add_productimage_variant' product.id %}" enctype="multipart/form-data">
+                                                {% csrf_token %}
+                                                <img  style="cursor: pointer;width: 30px;" onclick="document.getElementById('imgs').click()" src="https://img.icons8.com/external-tanah-basah-detailed-outline-tanah-basah/48/000000/external-upload-user-interface-tanah-basah-detailed-outline-tanah-basah.png" />
+                                                <input type="file" class="upload"  name="imgs" id="imgs" style="display: none;"  multiple>
+                                                <button type="submit" class="product-card__addtocart btn-primary" style="width: 70px;">Upload</button>
+                                            </form>
+                                         </td>
+                                          <td>
+                                              <a href="{% url 'delete_product_variant' product.id %}">Delete</a>
+                                          </td>
+                                        {% endif %}
+                                    </tr>
+                                    {% endfor %}  
+                                </tbody>
+                                </table>
+                                    {% else %}
+                                <table>
+                                    <td>No products yet.</td>
+                                </table>
+                                {% endif %}
+                        </div>
+                    </div>
+                    <div class="card-divider"></div>
+                    {% include 'core/pagination.html' with page=lists_products %}
+                    <br>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

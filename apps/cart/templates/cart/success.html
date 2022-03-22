@@ -1,0 +1,64 @@
+{% extends 'core/base.html' %}
+{% load l10n %}
+{% block title %}Payment {% endblock %}
+
+{% block content %}
+    <div class="site__body">
+        <div class="block order-success">
+            <div class="container">
+               <div class="order-success__body">
+                <div class="order-success__header">
+                    <svg class="order-success__icon" width="100" height="100">
+                        <use xlink:href="/static/templates/images/sprite.svg#check-100"></use>
+                    </svg>
+                    <h1 class="order-success__title">Order # {{ order.reference_number}} Received</h1>
+                    <div class="order-success__subtitle">To complete the order, kindly process the payment using the details below:</div>
+
+                      <div class="row mt-3 no-gutters mx-n2">
+                          {% if order.service_provider == 'MTN MOMO' %}
+                            <div class="col-sm-12 col-12 px-2">
+                                <div class="card address-card">
+                                    <div class="address-card__body">
+                                        <div class="address-card__badge address-card__badge">MTN MoMo</div>
+                                        <div class="address-card__name mt-3">*182*8*1*050520*{{total|stringformat:".0f" }}#</div>
+                                       
+                                    </div>
+                                </div>
+                            </div>
+                            {% elif order.service_provider == 'BANK TRANSFER' %}
+                            <div class="col-sm-12 col-12 px-2 mt-sm-0 mt-3">
+                                <div class="card address-card">
+                                    <div class="address-card__body">
+                                        <div class="address-card__badge address-card__badge">Bank Transfer</div>
+                                        <div class="address-card__name mt-3">Beneficiary: Sokopark Ltd.</div>
+                                        <div class="address-card__name mt-3">Bank: Bank of Kigali</div>
+                                        <div class="address-card__name mt-3">Account: 100075880418</div>
+                                        <div class="address-card__name mt-3">Amount: Rwf {{total|stringformat:".0f"}}</div>   
+                                    </div>
+                                </div>
+                            </div>
+                            {% else %}
+                            <div class="col-sm-12 col-12 px-2 mt-sm-0 mt-3">
+                                <div class="card address-card">
+                                    <div class="address-card__body">
+                                        <div class="address-card__badge address-card__badge">AIRTEL Money</div>
+                                        <div class="address-card__name mt-3">*500*4*2*1*630343*{{total|stringformat:".0f"}}#</div>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+                    
+                    <div class="order-success__actions">
+                        <a href="/" class="btn btn-xs btn-secondary">Go To Homepage</a>
+                    </div>
+                    <div class="order-success__actions">
+                        <a href="{% url 'myaccount' %}" class="btn btn-xs btn-secondary">Go To My Account</a>
+                    </div>
+                </div>
+               </div> 
+            </div>
+        </div>
+    </div>
+{% endblock %}

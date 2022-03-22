@@ -1,0 +1,1182 @@
+{% load static %}
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="author" content="Sokopark" />
+    <meta
+      name="description"
+      content="Sokopark is a multi-vendor marketplace that provides a wide range of building materials, home improvement items, commercial fitout articles, and other various products."
+    />
+    <meta
+      name="keywords"
+      content="sokopark, sokopark rwanda, online shopping in rwanda, online shopping in kigali, kigali, buy hardware in kigali, furniture, lighting, building supplies, delivery, buy furniture in kigali, buy building supplies in kigali, delivery service in rwanda, ecommerce rwanda"
+    />
+    
+    <meta property="og:title" content="Sokopark" />
+    <meta
+      property="og:description"
+      content="Sokopark is a multi-vendor marketplace that provides a wide range of building materials, home improvement items, commercial fitout articles, and other various products."
+    />
+    <meta property="og:title" content="Sokopark_Rwanda" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://sokopark.s3.af-south-1.amazonaws.com/media/images/new_logo.png" />
+    <meta property="og:url" content="https://sokopark.com" />
+    <meta property="og:site_name" content="Sokopark" />
+
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Sokopark_Rwanda" />
+    <meta
+      name="twitter:description"
+      content="Sokopark is a multi-vendor marketplace that provides a wide range of building materials, home improvement items, commercial fitout articles, and other various products."
+    />
+    <meta name="twitter:image" content= "https://sokopark.s3.af-south-1.amazonaws.com/media/images/new_logo.png" />
+  
+    
+
+    <link rel="canonical" href="https://sokopark.com" />
+    <link rel="image_src" href="" />
+
+    <meta itemprop="name" content="Sokopark" />
+    <meta itemprop="url" content="https://sokopark.com" />
+    <meta
+      itemprop="description"
+      content="Sokopark is a multi-vendor marketplace that provides a wide range of building materials, home improvement items, commercial fitout articles, and other various products."
+    />
+    <meta itemprop="thumbnailUrl" content= "https://sokopark.s3.af-south-1.amazonaws.com/media/images/new_logo.png" />
+    <meta itemprop="image" content="https://sokopark.s3.af-south-1.amazonaws.com/media/images/new_logo.png" />
+
+    <title>Sokopark | {% block title %}{% endblock %}</title>
+
+    <link
+      rel="apple-touch-icon"
+      sizes="57x57"
+      href="{% static 'templates/assets/img/apple-icon-57x57.png' %}"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="60x60"
+      href="{% static 'templates/assets/img/apple-icon-60x60.png' %}"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="72x72"
+      href="{% static 'templates/assets/img/imgapple-icon-72x72.png' %}"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="76x76"
+      href="{% static 'templates/assets/img/apple-icon-76x76.png' %}"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="114x114"
+      href="{% static 'templates/assets/img/apple-icon-114x114.png' %}"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="120x120"
+      href="{% static 'templates/assets/img/apple-icon-120x120.png' %}"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="144x144"
+      href="{% static 'templates/assets/img/apple-icon-144x144.png' %}"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="152x152"
+      href="{% static 'templates/assets/img/apple-icon-152x152.png' %}"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="{% static 'img/apple-icon-180x180.png' %}"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="192x192"
+      href="{% static 'assets/img/android-icon-192x192.png' %}"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="{% static 'assets/img/favicon-32x32.png' %}"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="96x96"
+      href="{% static 'assets/img/favicon-96x96.png' %}"
+    />
+
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="{% static 'assets/img/favicon-16x16.png' %}"
+    />
+    <link rel="manifest" href="/manifest.json" />
+
+    <!-- fonts -->
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Roboto:400,400i,500,500i,700,700i"
+    />
+    <!-- css -->
+    <link
+      rel="stylesheet"
+      href="{% static 'templates/vendor/bootstrap/css/bootstrap.min.css' %}"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'templates/vendor/owl-carousel/assets/owl.carousel.min.css' %}"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'templates/vendor/photoswipe/photoswipe.css' %}"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'templates/vendor/photoswipe/default-skin/default-skin.css' %}"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'templates/vendor/select2/css/select2.min.css' %}"
+    />
+    <link rel="stylesheet" href="{% static 'templates/css/style.css' %}" />
+    <!-- font - fontawesome -->
+    <link
+      rel="stylesheet"
+      href="{% static 'templates/vendor/fontawesome/css/all.min.css' %}"
+    />
+    <!-- font - stroyka -->
+    <link
+      rel="stylesheet"
+      href="{% static 'templates/fonts/stroyka/stroyka.css' %}"
+    />
+        <!-- Alertify -->
+    <!-- JavaScript -->
+<script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+
+<!-- CSS -->
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"/>
+<!-- Default theme -->
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css"/>
+<!-- Semantic UI theme -->
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/semantic.min.css"/>
+<!-- Bootstrap theme -->
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/bootstrap.min.css"/>
+
+<link href="/apps/home/static/templates/vendor/select2/css/select2.min.css" rel="stylesheet" />
+<script src="/apps/home/static/templates/vendor/select2/js/select2.min.js"></script>
+<!-- 
+    RTL version
+-->
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.rtl.min.css"/>
+<!-- Default theme -->
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.rtl.min.css"/>
+<!-- Semantic UI theme -->
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/semantic.rtl.min.css"/>
+<!-- Bootstrap theme -->
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/bootstrap.rtl.min.css"/>
+    <!-- End -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.6.0/socket.io.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.1.3/vue.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.6.0/socket.io.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.1.3/vue.min.js"></script>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XV93VS4H7T"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-XV93VS4H7T');
+    </script>
+
+    <script type="text/javascript">
+      //	window.addEventListener("resize", function() {
+      //		"use strict"; window.location.reload();
+      //	});
+
+      document.addEventListener("DOMContentLoaded", function () {
+        /////// Prevent closing from click inside dropdown
+        document.querySelectorAll(".dropdown-menu").forEach(function (element) {
+          element.addEventListener("click", function (e) {
+            e.stopPropagation();
+          });
+        });
+
+        // make it as accordion for smaller screens
+        if (window.innerWidth < 992) {
+          // close all inner dropdowns when parent is closed
+          document
+            .querySelectorAll(".navbar .dropdown")
+            .forEach(function (everydropdown) {
+              everydropdown.addEventListener("hidden.bs.dropdown", function () {
+                // after dropdown is hidden, then find all submenus
+                this.querySelectorAll(".submenu").forEach(function (
+                  everysubmenu
+                ) {
+                  // hide every submenu as well
+                  everysubmenu.style.display = "none";
+                });
+              });
+            });
+
+          document
+            .querySelectorAll(".dropdown-menu a")
+            .forEach(function (element) {
+              element.addEventListener("click", function (e) {
+                let nextEl = this.nextElementSibling;
+                if (nextEl && nextEl.classList.contains("submenu")) {
+                  // prevent opening link if link needs to open dropdown
+                  e.preventDefault();
+                  console.log(nextEl);
+                  if (nextEl.style.display == "block") {
+                    nextEl.style.display = "none";
+                  } else {
+                    nextEl.style.display = "block";
+                  }
+                }
+              });
+            });
+        }
+        // end if innerWidth
+      });
+      // DOMContentLoaded  end
+      function deletefromcart(pr_id){
+        event.preventDefault();
+        var my_token='{{ csrf_token }}'
+        alertify.confirm("Are you sure? you want to remove product from cart.",
+        function(){
+          {
+          $.ajax({
+          url:"/order/deletefromcart/" + pr_id,
+          type:'POST',
+          data:{
+            "csrfmiddlewaretoken": my_token,
+          },
+          success:function(){
+            $("#cart_table").load(location.href + " #cart_table");
+            $("#my_cart").load(location.href + " #my_cart");
+            alertify.alert("Product removed from cart").setHeader('<em>  </em> ')
+          }
+        })
+        }
+        }
+        ).setHeader('<em>  </em> ')
+        
+      }
+    </script>
+    </script>
+    <a href="https://icons8.com/icon/CvKJD43Qp5vW/upload"></a>
+    <!-- price range slider -->
+    <link
+      rel="stylesheet"
+      href="//code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css"
+    />
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
+
+    <!-- select2 lib -->
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"
+      integrity="sha512-2ImtlRlf2VVmiGZsjm9bEyhjGW4dU7B6TNwh/hx/iSByxNENtj3WVE6o/9Lj4TJeVXPi4bnOIMXFIJJAeufa0A=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css"
+      integrity="sha512-nMNlpuaDPrqlEls3IX/Q56H36qvBASwb3ipuo3MxeWbsQB1881ox0cRv7UPTgBlriqoynt35KjEwgGUeUXIPnw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <!-- <script src="https://code.jquery.com/jquery-3.5.1.js" crossorigin="anonymous"></script> -->
+  </head>
+  <body>
+    <!-- quickview-modal -->
+    <div
+      id="quickview-modal"
+      class="modal fade"
+      tabindex="-1"
+      role="dialog"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content"></div>
+      </div>
+    </div>
+ 
+    <div class="site">
+      <!-- mobile site__header -->
+      <header class="site__header d-lg-none">
+        <!-- data-sticky-mode - one of [pullToShow, alwaysOnTop] -->
+        
+        <div
+          class="mobile-header mobile-header--sticky"
+          data-sticky-mode="pullToShow"
+        >
+          <div class="mobile-header__panel">
+            <div class="container">
+              <div class="mobile-header__body">
+                  <button class="mobile-header__menu-button">
+                    <svg width="18px" height="14px">
+                      <use xlink:href="/static/templates/images/sprite.svg#menu-18x14"></use>
+                    </svg>
+                  </button>
+                  <a class="mobile-header__logo" href="/">
+                    <img src="{% static 'templates/images/navbar_logo_white1.png' %}" alt="" height="20">
+                  </a>
+              <div
+                  class="search search--location--mobile-header mobile-header__search"
+                >
+                  <div class="search__body">
+                    <form class="search__form"method="get" action="{% url 'search' %}">
+                      <input
+                        class="search__input"
+                        name="search"
+                        placeholder=""
+                        aria-label="Site search"
+                        type="text"
+                        autocomplete="off"
+                      />
+                      <button
+                        class="search__button search__button--type--submit"
+                        type="submit"
+                      >
+                        <svg width="20px" height="20px">
+                          <use
+                            xlink:href="/static/templates/images/sprite.svg#search-20"
+                          ></use>
+                        </svg>
+                      </button>
+                      <button
+                        class="search__button search__button--type--close"
+                        type="button"
+                      >
+                        <svg width="20px" height="20px">
+                          <use
+                            xlink:href="/static/templates/images/sprite.svg#cross-20"
+                          ></use>
+                        </svg>
+                      </button>
+                      <div class="search__border"></div>
+                    </form>
+                    <div
+                      class="search__suggestions suggestions suggestions--location--mobile-header"
+                    ></div>
+                  </div>
+                </div>
+                <div class="mobile-header__indicators">
+                  <div
+                    class="indicator indicator--mobile-search indicator--mobile d-md-none"
+                  >
+                    <button class="indicator__button">
+                      <span class="indicator__area">
+                        <svg width="20px" height="20px">
+                          <use
+                            xlink:href="/static/templates/images/sprite.svg#search-20"
+                          ></use>
+                        </svg>
+                      </span>
+                    </button>
+                  </div>
+                  <div class="indicator indicator--mobile d-sm-flex d-none" id="my_wishlist">
+                    <a href="/users/customer/{{ request.user.id }}/wishlist/" class="indicator__button">
+                      <span class="indicator__area">
+                        <svg width="20px" height="20px">
+                          <use
+                            xlink:href="/static/templates/images/sprite.svg#heart-20"
+                          ></use>
+                        </svg>
+                        <span class="indicator__value">{% if wishlist %} ({{ wishlist|length }}) {% else %} 0 {% endif %}</span>
+                      </span>
+                    </a>
+                  </div>
+                  <div class="indicator indicator--mobile" id="mycart">
+                    <a href="" data-open="offcanvas-cart" class="indicator__button">
+                      <span class="indicator__area">
+                        <svg width="20px" height="20px">
+                          <use xlink:href="/static/templates/images/sprite.svg#cart-20"></use>
+                        </svg>
+                         {% load myapptags %}
+                         {% shopcartcount user.id as count %}
+                        <span class="indicator__value">
+                          {% if request.user.is_authenticated %}
+                          {{count}}
+                          {% else %} 
+                          0
+                          {% endif %}
+                        </span>
+                      </span>
+                    </a>
+                  </div>
+                </div>
+            </div>
+          </div>
+        </div>
+      </header>
+      <!-- mobile site__header / end -->
+      <!-- desktop site__header -->
+      <header class="site__header d-lg-block d-none">
+        <div class="site-header">
+          <div class="site-header__topbar topbar">
+                    <div class="topbar__container container">
+                        <div class="topbar__row">   
+                          <marquee behavior="loop" direction="left">
+                            <strong>Sokopark.com - Beta version 1.0.</strong> 
+                          </marquee>
+                        </div>      
+                    </div>
+                </div>
+          <div class="site-header__middle container">
+            <div class="site-header__logo">
+              <a href="/">
+                <!-- logo -->
+                  <path
+                    d="M194.797,18 L184,18 C184,18.552 183.552,19 183,19 L182,19 C181.448,19 181,18.552 181,18 L181,16 L178.377,16 C177.708,16 177.119,15.556 176.935,14.912 L173.246,2 L168,2 L168,4 L168.500,4 C169.328,4 170,4.672 170,5.500 L170,24.500 C170,25.328 169.328,26 168.500,26 L165.500,26 C164.672,26 164,25.328 164,24.500 L164,5.500 C164,4.672 164.672,4 165.500,4 L166,4 L166,1.500 C166,0.672 166.672,0 167.500,0 L173.622,0 C174.292,0 174.881,0.444 175.065,1.088 L178.754,14 L181,14 L181,13 C181,12.448 181.448,12 182,12 L183,12 C183.552,12 184,12.448 184,13 L194.797,13 C195.461,13 196,13.539 196,14.203 L196,16.797 C196,17.461 195.461,18 194.797,18 ZM156.783,26 L154.483,26 C153.767,26 153.129,25.552 152.884,24.878 L150.437,18.135 C150.407,18.054 150.331,18 150.245,18 L142.768,18 C142.682,18 142.606,18.054 142.576,18.135 L140.129,24.878 C139.884,25.552 139.245,26 138.530,26 L136.230,26 C135.395,26 134.815,25.169 135.100,24.383 L143.445,1.122 C143.690,0.448 144.328,0 145.044,0 L147.969,0 C148.685,0 149.323,0.448 149.568,1.122 L157.913,24.383 C158.198,25.169 157.618,26 156.783,26 ZM148.472,12.725 L146.698,7.848 C146.633,7.668 146.380,7.668 146.315,7.848 L144.541,12.725 C144.492,12.859 144.591,13 144.733,13 L148.280,13 C148.422,13 148.521,12.859 148.472,12.725 ZM130.493,26 L128.090,26 C127.555,26 127.060,25.714 126.792,25.250 L122.610,18 L120.003,22.520 L120.003,24.500 C120.003,25.328 119.333,26 118.505,26 L116.507,26 C115.680,26 115.009,25.328 115.009,24.500 L115.009,1.500 C115.009,0.672 115.680,0 116.507,0 L118.505,0 C119.333,0 120.003,0.672 120.003,1.500 L120.003,12.520 L126.792,0.750 C127.060,0.286 127.555,0 128.090,0 L130.493,0 C131.646,0 132.367,1.250 131.791,2.250 L125.487,13 L131.791,23.750 C132.367,24.750 131.646,26 130.493,26 ZM103.987,15.775 L103.987,24.500 C103.987,25.328 103.315,26 102.486,26 L100.485,26 C99.656,26 98.984,25.328 98.984,24.500 L98.984,15.775 L98.594,15.100 L91.180,2.250 C90.610,1.250 91.330,0 92.481,0 L94.792,0 C95.322,0 95.823,0.290 96.093,0.750 L101.486,10.090 L106.879,0.750 C107.149,0.290 107.649,0 108.179,0 L110.491,0 C111.641,0 112.362,1.250 111.791,2.250 L103.987,15.775 ZM79,26 C71.821,26 66,20.179 66,13 C66,5.820 71.821,-0.001 79,-0.001 C86.180,-0.001 92.001,5.820 92.001,13 C92.001,20.179 86.180,26 79,26 ZM79,5 C74.582,5 71,8.582 71,13 C71,17.418 74.582,21 79,21 C83.418,21 87,17.418 87,13 C87,8.582 83.418,5 79,5 ZM62.793,23.750 C63.362,24.750 62.643,26 61.494,26 L59.186,26 C58.656,26 58.157,25.710 57.887,25.250 L53.711,18 L49.005,18 L49.005,24.500 C49.005,25.330 48.335,26 47.506,26 L45.508,26 C44.679,26 44.009,25.330 44.009,24.500 L44.009,1.500 C44.009,0.670 44.679,0 45.508,0 L54,0 C58.966,0 62.992,4.030 62.992,9 C62.992,12.240 61.274,15.090 58.706,16.670 L62.793,23.750 ZM54,5 L50.004,5 C49.454,5 49.005,5.450 49.005,6 L49.005,12 C49.005,12.550 49.454,13 50.004,13 L54,13 C56.208,13 57.997,11.210 57.997,9 C57.997,6.790 56.208,5 54,5 ZM39.500,5 L33,5 L33,24.500 C33,25.328 32.328,26 31.500,26 L29.500,26 C28.672,26 28,25.328 28,24.500 L28,5 L21.500,5 C20.672,5 20,4.328 20,3.500 L20,1.500 C20,0.672 20.672,0 21.500,0 L39.500,0 C40.328,0 41,0.672 41,1.500 L41,3.500 C41,4.328 40.328,5 39.500,5 ZM16.487,8 L14.181,8 C13.565,8 13.040,7.611 12.790,7.048 C12.261,5.856 10.765,5 9,5 C6.793,5 5.005,6.340 5.005,8 C5.005,8.940 5.575,9.780 6.483,10.320 C6.706,10.455 6.948,10.574 7.206,10.673 C8.059,11 8.412,12.020 7.955,12.812 L6.948,14.558 C6.573,15.208 5.768,15.499 5.080,15.201 C3.872,14.679 2.815,13.924 1.989,13 C0.751,11.630 0.012,9.890 0.012,8 C0.012,3.580 4.037,0 9,0 C13.254,0 17.017,2.629 17.950,6.163 C18.196,7.095 17.450,8 16.487,8 ZM1.513,18 L3.820,18 C4.435,18 4.960,18.389 5.210,18.952 C5.739,20.144 7.236,21 9,21 C11.207,21 12.995,19.660 12.995,18 C12.995,17.060 12.426,16.220 11.517,15.680 C11.294,15.544 11.052,15.426 10.794,15.327 C9.941,14.999 9.588,13.980 10.045,13.188 L11.053,11.442 C11.427,10.792 12.233,10.501 12.920,10.799 C14.128,11.320 15.185,12.075 16.011,13 C17.249,14.370 17.988,16.110 17.988,18 C17.988,22.420 13.964,26 9,26 C4.747,26 0.983,23.371 0.050,19.837 C-0.196,18.905 0.550,18 1.513,18 Z"
+                  ></path>
+                </svg>
+                <!-- logo / end -->
+                <a href="/">
+                  <img src="{% static 'templates/images/new_navbar_logo.png' %}" alt="" width="180">
+                </a>
+            </div>
+            <div class="site-header__search">
+              <div class="search search--location--header">
+                <div class="search__body">
+                  <form class="search__form" method="get" action="{% url 'search' %}">
+                    <input
+                      class="input search__input"
+                      name="query"
+                      placeholder=""
+                      aria-label="Site search"
+                      type="text"
+                      autocomplete="off"
+                      value="{{ query }}"  required name="query"
+                    />
+                    <button
+                       class="button search__button search__button--type--submit"
+                      type="submit"
+                    >
+                      <svg width="20px" height="20px">
+                        <use xlink:href="/static/templates/images/sprite.svg#search-20"></use>
+                      </svg>
+                    </button>
+                    <div class="search__border"></div>
+                  </form>
+                </div>
+              </div>
+            </div>
+            <div class="site-header__phone">
+              <div class="site-header__phone-title">Customer Service</div>
+              <div class="site-header__phone-number">
+                <a href="tel:+250790008795" style="color: white;">+250 790 008 795</a>
+              </div>
+            </div>
+          </div>
+          <div class="site-header__nav-panel">
+            <!-- data-sticky-mode - one of [pullToShow, alwaysOnTop] -->
+            <div
+              class="nav-panel nav-panel--sticky"
+              data-sticky-mode="pullToShow"
+            >
+              <div class="nav-panel__container container">
+                <div class="nav-panel__row">
+                  <div class="nav-panel__departments">
+                    <!-- .departments -->
+                    <div class="departments" data-departments-fixed-by="">
+                      <div class="departments__body">
+                        <div class="departments__links-wrapper">
+                          <div class="departments__submenus-container"></div>
+                          <ul class="departments__links">
+                            {% for category in menu_categories %} 
+                            {% if category.has_children %}
+                            <li class="departments__item">
+                              <a class="departments__item-link" href="{% url 'category' category.slug %}">
+                                {{category.title}}
+                                <svg
+                                  class="departments__item-arrow"
+                                  width="6px"
+                                  height="9px"
+                                >
+                                  <use
+                                    xlink:href="/static/templates/images/sprite.svg#arrow-rounded-right-6x9"
+                                  ></use>
+                                </svg>
+                              </a>
+                              <div
+                                class="departments__submenu departments__submenu--type--megamenu departments__submenu--size--xl"
+                              >
+                                <!-- .megamenu -->
+                                <div class="megamenu megamenu--departments">
+                                  <div
+                                    class="megamenu__body"
+                                    style="
+                                      background-image: url('images/megamenu/megamenu-1.jpg');
+                                    "
+                                  >
+                                  <div class="row">
+                                    {% for subcategory in category.children %}
+                                    <div class="col-3">
+                                      <ul
+                                        class="megamenu__links megamenu__links--level--0"
+                                      >
+                                        
+                                         {% if subcategory.has_children %}
+                                        <li
+                                          class="megamenu__item megamenu__item--with-submenu";
+                                        >
+                                          <a href="{% url 'subcategory' category.slug subcategory.slug %}">{{subcategory.title}}</a>
+                                          <ul
+                                            class="megamenu__links megamenu__links--level--1"
+                                          >
+                                            {% for subsubcategory in subcategory.children %}
+                                            <li class="megamenu__item">
+                                              <a href="{% url 'subsubcategory' category.slug subcategory.slug subsubcategory.slug %}"
+                                                >{{subsubcategory.title}}</a
+                                              >
+                                            </li>
+                                           
+                                            {% endfor %}
+                                             <br>
+                                          </ul>
+                                        </li>
+                                        {% else %}
+                                        <li class="megamenu__item">
+                                          <a  href="{% url 'subcategory' category.slug subcategory.slug %}">{{subcategory.title}}</a>
+                                        </li>
+                                        {% endif %} 
+                                      </ul>
+                                    </div>
+                                    {% endfor %}
+                                  </div>
+                                  </div>
+                                </div>
+                                <!-- .megamenu / end -->
+                              </div>
+                            </li>
+                            {% else %}
+                            <li class="departments__item">
+                              <a class="departments__item-link" href="{% url 'category' category.slug %}">
+                                {{category.title}}
+                                <svg
+                                  class="departments__item-arrow"
+                                  width="6px"
+                                  height="9px"
+                                >
+                                  <use
+                                    xlink:href="/static/templates/images/sprite.svg#arrow-rounded-right-6x9"
+                                  ></use>
+                                </svg>
+                              </a>
+                            </li>
+                            {% endif %} 
+                            {% endfor %}
+                          </ul>
+                        </div>
+                      </div>
+                      <button class="departments__button">
+                        <svg
+                          class="departments__button-icon"
+                          width="18px"
+                          height="14px"
+                        >
+                          <use xlink:href="/static/templates/images/sprite.svg#menu-18x14"></use>
+                        </svg>
+                        Shop By Category
+                        <svg
+                          class="departments__button-arrow"
+                          width="9px"
+                          height="6px"
+                        >
+                          <use
+                            xlink:href="/static/templates/images/sprite.svg#arrow-rounded-down-9x6"
+                          ></use>
+                        </svg>
+                      </button>
+                    </div>
+                    <!-- .departments / end -->
+                  </div>
+                  <!-- .nav-links -->
+                  <div class="nav-panel__nav-links nav-links">
+                    <ul class="nav-links__list">
+                  
+                      <li class="nav-links__item">
+                        <a class="nav-links__item-link" href="{% url 'vendors' %}">
+                          <div class="nav-links__item-body">
+                            Stores
+                          </div>
+                        </a>
+                      </li>
+                      <li class="nav-links__item ">
+                        <a
+                          class="nav-links__item-link"
+                          href="{% url 'blog' %}"
+                        >
+                          <div class="nav-links__item-body">
+                            Blog
+                          </div>
+                        </a>
+                      </li>
+                      <li class="nav-links__item">
+                        <a
+                          class="nav-links__item-link"
+                          href="{% url 'contact' %}"
+                        >
+                          <div class="nav-links__item-body">
+                            Contact Us
+                          </div>
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                  <!-- .nav-links / end -->
+                   <div class="nav-panel__indicators">
+                    <div class="indicator" id="my_wishlist">
+                      <a {% if request.user.is_authenticated %} href="/users/customer/{{ request.user.id }}/wishlist/" {% else %} href="/" {% endif %} class="indicator__button">
+                        <span class="indicator__area">
+                          <svg class="svg" width="15px" height="15px">
+                            <use xlink:href="/static/templates/images/sprite.svg#heart-20"></use>
+                          </svg>
+                          <span class="qty indicator__value">{% if wishlist %} {{ wishlist|length }} {% else %} 0 {% endif %}</span>
+                        </span>
+                      </a> 
+                    </div>
+                    <div class="indicator" id="my_compare">
+                      <a href="{% url 'product-comparing' %}" class="indicator__button">
+                        <span class="indicator__area">
+                          <svg class="svg" width="15px" height="15px">
+                            <use xlink:href="/static/templates/images/sprite.svg#compare-16"></use>
+                          </svg>
+                          <span class="qty indicator__value">
+                            {% if total_compare %} 
+                            {{total_compare}}
+                            {% else %} 
+                            0
+                            {% endif %}
+                          </span>
+                        </span>
+                      </a>   
+                    </div>
+                    <div class="indicator">
+                      <a class="indicator__button" data-open="offcanvas-cart" id="my_cart">
+                          <span class="indicator__area">
+                              <svg class="svg" width="15px" height="15px">
+                                <use xlink:href="/static/templates/images/sprite.svg#cart-20"></use>
+                              </svg>
+                              <span class="qty indicator__value">
+                                     {% load myapptags %}
+                                      {% shopcartcount user.id as count %}
+                                      {% if request.user.is_authenticated %}
+                                       {{count}}
+                                      {% else %}
+                                       0
+                                      {% endif %}  
+                              </span>
+                          </span>
+                      </a>
+                  </div>
+                    <div class="indicator indicator--trigger--click">
+                      <a class="indicator__button">
+                        <span class="indicator__area">
+                          <svg class="svg" width="15px" height="15px">
+                            <use xlink:href="/static/templates/images/sprite.svg#person-20"></use>
+                          </svg>
+                        </span>
+                      </a>
+                      <div class="indicator__dropdown">
+                        <div class="account-menu">
+                            {% if not request.user.is_authenticated %}
+                            <form method="post" action="{% url 'login' %}" class="account-menu__form">
+                                {% csrf_token %}
+                                <div class="account-menu__form-title">Log In to Your Account</div>
+                                <input type="hidden" name="next" value="{{ next }}">
+                                <div class="field form-group">
+                                    <label for="header-signin-email" class="sr-only">Email address</label>
+                                    <div class="control">
+                                      <input id="id_username header-signin-email" type="email" class="input form-control form-control-sm" name="username" placeholder="Email address">
+                                    </div>
+                                </div>
+                                <div class="field form-group">
+                                    <label for="header-signin-password" class="sr-only">Password</label>
+                                    <div class="account-menu__form-forgot">
+                                        <div class="control">
+                                          <input id="id_password header-signin-password" type="password" class="input form-control form-control-sm" name="password" placeholder="Password">
+                                        </div>
+                                        <a href="{% url 'request_restore_password' %}" class="account-menu__form-forgot-link">Forgot?</a>
+                                    </div>
+                                </div>
+                               
+                                {% if form.errors %}
+                                     {% for field in form %}
+                                          {% for error in field.errors %}
+                                            <div class="alert alert-danger">
+                                                 <strong>{{ error|escape }}</strong>
+                                            </div>
+                                          {% endfor %}
+                                     {% endfor %}
+                                    {% for error in form.non_field_errors %}
+                                       <div class="alert alert-danger">
+                                           <strong>{{ error|escape }}</strong>
+                                      </div>
+                                  {% endfor %}
+                            {% endif %}
+
+                                <div class="form-group account-menu__form-button field">
+                                    <button type="submit" class="button btn btn-primary btn-sm">Login</button>
+                                </div>
+                                <div class="account-menu__form-link"><a href="{% url 'become_customer' %}">Create An Account</a></div>
+                            </form>
+                            {% else %}
+                            <div class="account-menu__divider"></div>
+                            <a class="account-menu__user">
+                                {% if request.user.vendor %} 
+                                <div class="account-menu__user-avatar">
+                                    <img {% if request.session.logo %} src="{{ request.session.logo }}"  {% else %} src="/static/templates/images/avatars/avatar-1.jpg"  {% endif %} alt="">
+                                </div>
+                                {% endif %}
+                                <div class="account-menu__user-info">
+                                    <div class="account-menu__user-name">{{ request.session.username }}</div>
+                                    <div class="account-menu__user-email">{{ request.session.email }}</div>
+                                </div>
+                            </a>
+                            <div class="account-menu__divider"></div>
+                            <ul class="account-menu__links">
+                                {% if request.user.vendor %} 
+                                <li><a href="{% url 'vendor_admin'  %}">Dashboard</a></li>
+                                <li><a href="{% url 'vendor_orders' %}">Order History</a></li>
+                                <li><a href="{% url 'products' %}">Products</a></li>
+                                <li><a href="{% url 'working_hours' %}">Working Hours</a></li>
+                                {% if request.session.status == 'RUBY' or request.session == 'EMERALD' %} 
+                                    <li><a href="{% url 'delivery_cost' %}">Delivery Cost</a></li>
+                                {% endif %}
+                                {% else %} 
+                               <li><a href="{% url 'myaccount' %}">My Account</a></li>
+                                <li><a href="{% url 'orderhistory'  %}">Order History</a></li>
+                                {% endif %}
+                            </ul>
+                            <div class="account-menu__divider"></div>
+                            <ul class="account-menu__links">
+                                <li><a href="{% url 'logout' %}">Logout</a></li>
+                            </ul>
+                            {% endif %}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+        </div>
+      </header>
+      <!-- desktop site__header / end -->
+        <div class="site__body">
+          {% if messages %}
+                    {% for message in messages %}
+                        <div class="messages alert alert-{{message.tags}}" role="alert">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                            {{ message |safe }}
+                        </div>
+                    {% endfor %}
+            {% endif %}
+        {% block content %}
+         {% endblock %}
+      </div>
+      <!-- site__footer -->
+      <footer class="site__footer">
+        <div class="site-footer">
+          <div class="container">
+            <div class="site-footer__widgets">
+              <div class="row">
+                <div class="col-12 col-md-6 col-lg-4">
+                  <div class="site-footer__widget footer-contacts">
+                    <h5 class="footer-contacts__title">Contact Us</h5>
+                    <div class="footer-contacts__text">
+                      Anything we can help you with? <br>You can easily reach us.
+                    </div>
+                    <ul class="footer-contacts__contacts">
+                      <li>
+                        <i
+                          class="footer-contacts__icon fas fa-globe-americas"
+                        ></i>
+                        Kg 490 street #5, Gacuriro | Kigali, Rwanda
+                      </li>
+                      <li>
+                        <i class="footer-contacts__icon far fa-envelope"></i>
+                        <a href="mailto: info@sokopark.com"><i
+                        ></i> info@sokopark.com</a>
+                      </li>
+                      
+                      <li>
+                        <i class="footer-contacts__icon fas fa-mobile-alt"></i>
+                        <a href="tel:+250790008795">+250 790 008 795</a>
+                      </li>
+                      <li>
+                        <i class="footer-contacts__icon far fa-clock"></i>
+                        Mon-Fri 9am - 6pm | Sat 9am - 1pm
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="col-6 col-md-3 col-lg-2">
+                  <div class="site-footer__widget footer-links">
+                    <h5 class="footer-links__title">Information</h5>
+                    <ul class="footer-links__list">
+                      <li class="footer-links__item">
+                        <a href="{% url 'about' %}" class="footer-links__link">About Us</a>
+                      </li>
+                      <li class="footer-links__item">
+                        <a href="{% url 'contact' %}" class="footer-links__link"
+                          >Contact Us</a
+                        >
+                      </li>
+                      <li class="footer-links__item">
+                        <a href="{% url 'termsandconditions' %}" class="footer-links__link">Terms & Conditions</a>
+                      </li>
+                      <li class="footer-links__item">
+                        <a href="{% url 'privacy_policy' %}" class="footer-links__link">Privacy Policy</a>
+                      </li>
+                      <li class="footer-links__item">
+                        <a href="{% url 'frequently_asked_questions' %}" class="footer-links__link">FAQs</a>
+                      </li>
+                      <li class="footer-links__item">
+                        <a href="{% url 'blog' %}" class="footer-links__link">Blog</a>
+                      </li>
+                      <li class="footer-links__item">
+                        <a href="{% url 'sitemap' %}" class="footer-links__link">Sitemap</a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="col-6 col-md-3 col-lg-2">
+                  <div class="site-footer__widget footer-links">
+                    <h5 class="footer-links__title">Vendors</h5>
+                    <ul class="footer-links__list">
+                      <li class="footer-links__item">
+                        <a href="{% url 'vendors' %}" class="footer-links__link">Stores</a>
+                      </li>
+                      <li class="footer-links__item">
+                        <a href="{% url 'brands'  %}" class="footer-links__link">Brands</a>
+                      </li>
+                      <li class="footer-links__item">
+                        <a href="{% url 'pricing'  %}" class="footer-links__link">Pricing</a>
+                      </li>
+                      <li class="footer-links__item">
+                        <a href="{% url 'vendor_guidelines'  %}" class="footer-links__link">Guidelines</a>
+                      </li>
+                      
+                    </ul>
+                  </div>
+                </div>
+                 <div class="col-12 col-md-12 col-lg-4">
+                  <div id="newsletter-wrapper" class="newsletter-wrapper site-footer__widget footer-newsletter">
+                    <h5 class="footer-newsletter__title">Newsletter</h5>
+                    <div class="footer-newsletter__text">
+                     Deals - Inspiration - Trends - Information
+                    </div>
+                    {% include 'parts/newsletter.html' %}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="site-footer__bottom">
+              <div class="site-footer__copyright">
+                <!-- copyright -->
+                © Copyright 2022 - Sokopark Ltd., Sokopark.com or its affiliates.
+                <!-- copyright / end -->
+              </div>
+              <div class="site-footer__payments">
+                <img
+                  src=""
+                  alt=""
+                />
+              </div>
+            </div>
+          </div>
+          <div class="totop">
+            <div class="totop__body">
+              <div class="totop__start"></div>
+              <div class="totop__container container"></div>
+              <div class="totop__end">
+                <button type="button" class="totop__button">
+                  <svg width="13px" height="8px">
+                    <use
+                      xlink:href="/static/templates/images/sprite.svg#arrow-rounded-up-13x8"
+                    ></use>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </footer>
+      <!-- site__footer / end -->
+    </div>
+    <!-- site / end -->
+    <!-- quickview-modal -->
+    <div id="quickview-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-xl">
+          <div class="modal-content"></div>
+      </div>
+  </div>
+  <!-- quickview-modal / end -->
+  <!-- mobilemenu -->
+  <div class="mobilemenu">
+    <div class="mobilemenu__backdrop"></div>
+    <div class="mobilemenu__body">
+        <div class="mobilemenu__header">
+            <div class="mobilemenu__title">
+               <a class="mobile-header__logo" href="/">
+                    <img width="30px" height="30px" src="{% static 'templates/images/customer-service.png' %}"/>  
+                  </a>
+              <a href="tel:+250790008795" style="color:#131921;">+250 790 008 795</a>
+            </div>
+            <button type="button" class="mobilemenu__close">
+                <svg width="20px" height="20px">
+                    <use xlink:href="/static/templates/images/sprite.svg#cross-20"></use>
+                </svg>
+            </button>
+        </div>
+        <div class="mobilemenu__content">
+            <ul class="mobile-links mobile-links--level--0" data-collapse data-collapse-opened-class="mobile-links__item--open">
+                <li class="mobile-links__item" data-collapse-item>
+                    <div class="mobile-links__item-title">
+                        <a href="/" class="mobile-links__item-link">Home</a>
+                    </div>
+                </li>
+                <li class="mobile-links__item" data-collapse-item>
+                    <div class="mobile-links__item-title">
+                        <a href="" class="mobile-links__item-link">Categories</a>
+                        <button class="mobile-links__item-toggle" type="button" data-collapse-trigger>
+                            <svg class="mobile-links__item-arrow" width="12px" height="7px">
+                                <use xlink:href="/static/templates/images/sprite.svg#arrow-rounded-down-12x7"></use>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="mobile-links__item-sub-links" data-collapse-content>
+                        <ul class="mobile-links mobile-links--level--1">
+                            {% for category in menu_categories %} 
+                            {% if category.has_children %} 
+                            <li class="mobile-links__item" data-collapse-item>
+                              <div class="mobile-links__item-title">
+                                  <a href="{% url 'category' category.slug %}" class="mobile-links__item-link">{{category.title}}</a>
+                                  <button class="mobile-links__item-toggle" type="button" data-collapse-trigger>
+                                      <svg class="mobile-links__item-arrow" width="12px" height="7px">
+                                          <use xlink:href="/static/templates/images/sprite.svg#arrow-rounded-down-12x7"></use>
+                                      </svg>
+                                  </button>
+                              </div> 
+                              {% for subcategory in category.children %}
+                              <div class="mobile-links__item-sub-links" data-collapse-content>
+                                  <ul class="mobile-links mobile-links--level--2">
+                                      <li class="mobile-links__item" data-collapse-item>
+                                          <div class="mobile-links__item-title">
+                                              <a href="{% url 'subcategory' category.slug subcategory.slug %}" class="mobile-links__item-link">{{subcategory.title}}</a>
+                                          </div>
+                                      </li>
+                                  </ul>
+                              </div>
+                             </li>
+                            {% endfor %}
+                            {% else %}
+                          <li class="mobile-links__item" data-collapse-item>
+                              <div class="mobile-links__item-title">
+                                  <a href="{% url 'category' category.slug %}" class="mobile-links__item-link">{{category.title}}</a>
+                              </div>
+                          </li>
+                          {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </li>
+                <li class="mobile-links__item" data-collapse-item>
+                    <div class="mobile-links__item-title">
+                        <a href="{% url 'vendors' %}" class="mobile-links__item-link">Stores</a>
+                    </div>
+                </li>
+                <li class="mobile-links__item" data-collapse-item>
+                    <div class="mobile-links__item-title">
+                        <a href="{% url 'blog' %}" class="mobile-links__item-link">Blog</a>
+                    </div>
+                </li>
+                <li class="mobile-links__item" data-collapse-item>
+                    <div class="mobile-links__item-title">
+                        <a href="{% url 'contact' %}" class="mobile-links__item-link">Contact Us</a>
+                    </div>
+                </li>
+                <li class="mobile-links__item" data-collapse-item>
+                      {% if request.user.is_authenticated %} 
+                      {% if request.user.vendor %} 
+                      <div class="mobile-links__item-title">
+                        <a href="{% url 'vendor_admin'%}" class="mobile-links__item-link">Dashboard</a>
+                      </div>  
+                      {% else %} 
+                      <div class="mobile-links__item-title">
+                        <a href="{% url 'myaccount' %}"class="mobile-links__item-link">My account</a>
+                      </div>  
+                      {% endif %}
+                      <div class="mobile-links__item-title">
+                        <a href="{% url 'logout' %}" class="mobile-links__item-link">Logout</a>
+                      </div>
+                      {% else %}
+                      <div class="mobile-links__item-title">
+                      <a href="{% url 'login' %}" class="mobile-links__item-link">Login</a>
+                      </div>
+                      {% endif %}
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- mobilemenu / end -->
+<!-- .dropcart -->
+<div class="dropcart dropcart--style--offcanvas">
+  <div class="dropcart__backdrop"></div>
+  <div id="cart_table">
+    <div class="dropcart__body">
+      <div class="dropcart__header">
+          <div class="dropcart__title">Cart</div>
+          <button class="dropcart__close" type="button">
+              <svg width="12px" height="12px">
+                  <use xlink:href="/static/templates/images/sprite.svg#cross-12"></use>
+              </svg>
+          </button>
+      </div>
+      <div class="dropcart__products-list">
+          {% for product in shopcart %}
+          <div class="dropcart__product">
+            <div class="product-image dropcart__product-image">
+                <a href="product.html" class="product-image__body">
+                    {% if product.variant %}
+                    <img class="product-image__img" src="{{product.variant.image_variant.url}}" alt="">
+                    {% else %} 
+                    <img class="product-image__img" src="{{product.product.image.url}}" alt="">
+                    {% endif %}
+                </a>
+            </div>
+            <div class="dropcart__product-info">
+                {% if product.variant %} 
+                <div class="dropcart__product-name"><a href="{% url 'product' product.product.id product.product.slugV product.product.category.sub_category.category.slug product.product.category.sub_category.slug product.product.category.slug product.product.slug %}">{{product.variant.title}}</a></div>
+                {% else %} 
+                <div class="dropcart__product-name"><a href="{% url 'product' product.product.id product.product.slugV product.product.category.sub_category.category.slug product.product.category.sub_category.slug product.product.category.slug product.product.slug %}">{{product.product}}</a></div>
+                {% endif %}
+                <ul class="dropcart__product-options">
+                    {% if product.variant %} 
+                           {% if product.variant.color %} 
+                                 <li>Color:{{product.variant.color}} </li>
+                           {% endif %} 
+                    {% else %} 
+                          {% if product.color %}
+                                <li>Color: {{product.color}}</li> 
+                          {% endif %}      
+                    {% endif %}
+                </ul>
+                <div class="dropcart__product-meta">
+                    <span class="dropcart__product-quantity">
+                      {{product.quantity}}
+                    </span> ×
+                    <span class="dropcart__product-price">
+                      {% if product.variant %}
+                          {% if product.variant.discount %} 
+                              {{product.variant.get_discounted_price}}
+                          {% else %} 
+                              {{product.variant.price}}
+                          {% endif %}
+                      {% else %}
+                          {% if product.product.discount %}
+                               {{product.product.get_discounted_price}}
+                          {% else %} 
+                              {{product.price}}    
+                          {% endif %}     
+                      {% endif %}
+                    </span>
+                </div>
+            </div>
+            {% csrf_token %}
+            <button onclick="deletefromcart('{{product.id}}')" type="button" class="dropcart__product-remove btn btn-light btn-sm btn-svg-icon">
+              <svg width="10px" height="10px">
+                <use xlink:href="/static/templates/images/sprite.svg#cross-10"></use>
+            </svg>
+        </button>
+          </div> 
+          {% endfor %}
+      </div>
+      <div class="dropcart__totals">
+          <table>
+              <tr>
+                  <th>Total</th>
+                  <td>Rwf {% if cart %} {{ cart.get_cart_cost }} {% else %} 0 {% endif %} </td> 
+              </tr>
+          </table>
+      </div>
+      <div class="dropcart__buttons">
+          <a class="btn btn-secondary" href="{% url 'shopcart'%}">View Cart</a>
+          <a class="btn btn-primary" href="{% url 'contact_info' %}">Checkout</a>
+      </div>
+  </div>
+  </div>
+</div>
+<!-- .dropcart / end -->
+<!-- photoswipe -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="pswp__bg"></div>
+  <div class="pswp__scroll-wrap">
+      <div class="pswp__container">
+          <div class="pswp__item"></div>
+          <div class="pswp__item"></div>
+          <div class="pswp__item"></div>
+      </div>
+      <div class="pswp__ui pswp__ui--hidden">
+          <div class="pswp__top-bar">
+              <div class="pswp__counter"></div>
+              <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+              <!--<button class="pswp__button pswp__button&#45;&#45;share" title="Share"></button>-->
+              <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+              <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+              <div class="pswp__preloader">
+                  <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                          <div class="pswp__preloader__donut"></div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+              <div class="pswp__share-tooltip"></div>
+          </div>
+          <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)"></button>
+          <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button>
+          <div class="pswp__caption">
+              <div class="pswp__caption__center"></div>
+          </div>
+      </div>
+  </div>
+</div>
+<!-- photoswipe / end -->
+<!-- js -->
+    <script src="//code.tidio.co/cigxxzqfoxfwgdfbxo929xpiuiogqv2e.js"></script>
+    <script src="{% static 'templates/vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'templates/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'templates/vendor/owl-carousel/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'templates/vendor/nouislider/nouislider.min.js' %}"></script>
+    <script src="{% static 'templates/vendor/photoswipe/photoswipe.min.js' %}"></script>
+    <script src="{% static 'templates/vendor/photoswipe/photoswipe-ui-default.min.js' %}"></script>
+    <script src="{% static 'templates/vendor/select2/js/select2.min.js' %}"></script>
+    <script src="{% static 'templates/js/number.js' %}"></script>
+    <script src="{% static 'templates/js/main.js' %}"></script>
+    <script src="{% static 'templates/js/header.js' %}"></script>
+    <script src="{% static 'templates/vendor/svg4everybody/svg4everybody.min.js' %}"></script>
+    <script>
+      svg4everybody();
+    </script>
+  </body>
+</html>

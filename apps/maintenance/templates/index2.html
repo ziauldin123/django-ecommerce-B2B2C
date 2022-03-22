@@ -1,0 +1,103 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Sokopark">
+    <meta name="description" content="Sokopark is a Multi-vendor marketplace that provides a wide range of building materials, home improvement items, commercial fitout articles, and other various products.">
+    <meta name="keywords" content="sokopark, online shopping, rwanda, kigali, hardware, furniture, lighting, building supplies, delivery, buy furniture in kigali, delivery service in rwanda, ecommerce rwanda">
+    <meta name ="robots" content="noindex, nofollow">
+
+    <meta property ="og:title" content="Sokopark">
+    <meta property ="og:description" content="Multi-vendor marketplace that provides a wide range of building materials, home improvement items, commercial fitout articles, and other various products.">
+    <meta property ="og:type" content="website">
+    <!-- =====BOX ICONS===== -->
+    <link href='https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css' rel='stylesheet'>
+
+    <!-- ===== CSS ===== -->
+    <link rel="stylesheet" href="{% static 'assets/css/styles.css' %}">
+    <link rel="apple-touch-icon" sizes="57x57" href="{% static 'assets/img/apple-icon-57x57.png' %}">
+    <link rel="apple-touch-icon" sizes="60x60" href="{% static 'assets/img/apple-icon-60x60.png' %}">
+    <link rel="apple-touch-icon" sizes="72x72" href="{% static 'assets/img/imgapple-icon-72x72.png' %}">
+    <link rel="apple-touch-icon" sizes="76x76" href="{% static 'assets/img/apple-icon-76x76.png' %}">
+    <link rel="apple-touch-icon" sizes="114x114" href="{% static 'assets/img/apple-icon-114x114.png' %}">
+    <link rel="apple-touch-icon" sizes="120x120" href="{% static 'assets/img/apple-icon-120x120.png' %}">
+    <link rel="apple-touch-icon" sizes="144x144" href="{% static 'assets/img/apple-icon-144x144.png' %}">
+    <link rel="apple-touch-icon" sizes="152x152" href="{% static 'assets/img/apple-icon-152x152.png' %}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'assets/img/apple-icon-180x180.png' %}">
+    <link rel="icon" type="image/png" sizes="192x192" href="{% static 'assets/img/android-icon-192x192.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'assets/img/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="96x96" href="{% static 'assets/img/favicon-96x96.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'assets/img/favicon-16x16.png' %}">
+    <link rel="manifest" href="/manifest.json">
+
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+
+    <script src="https://kit.fontawesome.com/307191fe32.js" crossorigin="anonymous"></script>
+
+
+
+    <title>Order Furniture, Decor Items, Lighting, Building Materials and Much More | Sokopark</title>
+</head>
+
+<body>
+    <!--===== HEADER =====-->
+    <header class="l-header">
+        <nav class="nav bd-grid">
+            <a href="http://sokopark.com/" class="logo">
+                <img src="{% static 'assets/img/img2.png' %}" alt="" width="200">
+            </a>
+
+            <div class="nav__toggle" id="nav-toggle">
+                <i class='bx bx-menu'></i>
+            </div>
+
+            <div class="nav__menu" id="nav-menu">
+                <div class="nav__close" id="nav-close">
+                    <i class='bx bx-x'></i>
+                </div>
+
+                <ul class="nav__list">
+                    <li class="nav__item"><a href="tel:250789613257" class="nav__link active"><i
+                                class="fas fa-mobile"></i> +250789613257</a></li>
+                    <li class="nav__item"><a href="mailto: info@sokopark.com" class="nav__link"><i
+                                class="fas fa-envelope"></i> info@sokopark.com</a></li>
+                    <li class="nav__item"><a href="https://twitter.com/sokopark_rwanda" class="nav__link"><i
+                                class="fab fa-twitter"></i> sokopark_rwanda</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <main class="l-main">
+        <!--===== HOME =====-->
+        <section class="home" id="home">
+            <div class="home__container bd-grid">
+                <div class="home__img">
+                    <img src="{% static 'assets/img/img1.png' %}" alt="" data-speed="-2" class="move">
+                </div>
+
+                <div class="home__data">
+                    <h1 class="home__title">Platform <br> Under <br>Development</h1>
+                    <p class="home__description">We are working to ensure that you can buy, sell and promote products online in a safe and efficient manner. We will be available soon.</p>
+                    <a class="home__button">Thank you.</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!--===== Tidio ====-->
+    <script src="//code.tidio.co/cigxxzqfoxfwgdfbxo929xpiuiogqv2e.js"></script>
+    <!--===== GSAP =====-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.5.1/gsap.min.js"></script>
+
+    <!--===== MAIN JS =====-->
+    <script src="{% static 'assets/js/main.js' %}"></script>
+</body>
+
+</html>

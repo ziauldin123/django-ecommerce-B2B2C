@@ -1,0 +1,97 @@
+{% load static %}
+<!-- .block-slideshow -->
+<div class="block-slideshow block-slideshow--layout--full block">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="block-slideshow__body">
+                    <div class="owl-carousel">
+                        <a class="block-slideshow__slide" href="{% url 'become_vendor' %}">
+                            <div class="block-slideshow__slide-image block-slideshow__slide" style="background-image: url('{% static 'templates/images/caroussel_vendor.png' %}')"></div>
+                            <div class="block-slideshow__slide-image block-slideshow__slide-image--mobile" style="background-image: url('{% static 'templates/images/caroussel_vendor_mobile.png' %}')"></div>
+                              <div class="block-slideshow__slide-content">
+                                  <div class="block-slideshow__slide-title">Do you sell furniture, building <br>materials, decor items or <br>home appliances in Rwanda?</div>
+                                   <div class="block-slideshow__slide-button">
+                                      <span class="btn btn-primary">Set up your online store now!</span>
+                                  </div>
+                                  <div class="block-slideshow__slide-text">Increase Brand Visibility<br>Reach New Customers<br>Grow Your Sales</div>
+                                  
+                              </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- .block-slideshow / end -->
+  <!-- .block-features -->
+  <div class="block block-features block-features--layout--classic">
+    <div class="container">
+      <div class="block-features__list">
+        <div class="block-features__item">
+          <div class="block-features__icon">
+            <img
+              width="48px"
+              height="48px"
+              src="{% static 'templates/images/shipped.png' %}"
+            />
+          </div>
+          <div class="block-features__content">
+            <div class="block-features__title">Free Shipping</div>
+            <div class="block-features__subtitle">
+              On various products
+            </div>
+          </div>
+        </div>
+        <div class="block-features__divider"></div>
+        <div class="block-features__item">
+          <div class="block-features__icon">
+            <img
+              width="48px"
+              height="48px"
+              src="{% static 'templates/images/customer-service.png' %}"
+            />
+          </div>
+          <div class="block-features__content">
+            <div class="block-features__title">Customer Support </div>
+            <div class="block-features__subtitle">Call or Chat</div>
+          </div>
+        </div>
+        <div class="block-features__divider"></div>
+        <div class="block-features__item">
+          <div class="block-features__icon">
+            <img
+              width="48px"
+              height="48px"
+              src="{% static 'templates/images/credit-card.png' %}"
+            />
+          </div>
+          <div class="block-features__content">
+            <div class="block-features__title">100% Safety</div>
+            <div class="block-features__subtitle">
+              Only secure payments
+            </div>
+          </div>
+        </div>
+        <div class="block-features__divider"></div>
+        <div class="block-features__item">
+          <div class="block-features__icon">
+            <img
+              width="48px"
+              height="48px"
+              src="{% static 'templates/images/offer.png' %}"
+            />
+          </div>
+          <div class="block-features__content">
+            <div class="block-features__title">Hot Offers</div>
+            <div class="block-features__subtitle">
+              Deals all year long
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- .block-features / end -->
+  <!-- .block-products-carousel -->

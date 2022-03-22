@@ -1,0 +1,60 @@
+{% extends 'transporter.html' %}
+
+{% block title %}My account | {{ request.session.username }} - {% endblock %}
+
+{% block content %}
+
+    <h2 class="subtitle"><strong>Account Information</strong></h2>
+
+    <div class="box">
+
+        <p><strong>Name: </strong>{{ request.session.username }}</p>
+        <p><strong>E-mail: </strong>{{ request.user.email }}</p>
+        <p><strong>Phone: </strong>{{ transporter.phone}}</p>
+        <p><strong>Plate Number: </strong>{{ transporter.number_plate }}</p> 
+    </div>
+    <h2 class="subtitle"><strong>My Delivery</strong></h2>
+
+    {% if orders %}
+
+        <article class="message is-light">
+            <div class="message-body">
+                <table class="table is-striped is-fullwidth">
+                    <thead>
+                        <tr>
+                            <th><strong>Order Id</strong></th>
+                            <th><strong>Product</strong></th>
+                            <th><strong>Quantity</strong></th>
+                            <th><strong>Vendor Name</strong></th>
+                            <th><strong>Vendor Address</strong></th>
+                            <th><strong>Vendor phone</strong></th>
+                            <th><strong>Customer Name</strong></th>
+                            <th><strong>Address</strong></th>
+                            <th><strong>Customer Phone</strong></th>
+                            <th><strong>Status</strong></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for order in orders %}
+                        <tr>
+                            <td>{{order.id }}</td>
+                            <td>{{order.product }}</td>
+                            <td>{{order.quantity }}</td>
+                            <td>{{order.product.vendor.company_name }}</td>
+                            <td>{{order.product.vendor.district }} - {{order.product.vendor.sector }} - {{order.product.vendor.cell }} - {{order.product.vendor.village }} - {{order.product.vendor.address }}</td>
+                            <td>{{order.product.vendor.phone}}</td>
+                            <td>{{order.order.first_name }}</td>
+                            <td>{{order.order.district }} - {{order.order.sector }} - {{order.order.cell }} - {{order.order.village }} - {{order.order.delivery_address }}</td>
+                            <td>{{order.order.phone }}</td>
+                            <td>{{order.status}}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </article>
+
+    {% else %}
+        <p>You don't have any order yet.</p>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,170 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Pricing for Vendors{% endblock  %}
+
+{% block content %}
+
+<div class="site__body">
+    <div class="page-header">
+        <div class="page-header__container container">
+            <div class="page-header__breadcrumb">
+                <nav aria-label="breadcrumb">
+                    
+                </nav>
+            </div>
+            <div class="page-header__title">
+                <h3>Pricing</h3>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="block">
+                    <div class="products-view">
+                        <div class="products-view__list products-list" data-layout="grid-4-full" data-with-features="false" data-mobile-grid-columns="2">
+                            <div class="products-list__body">
+                                
+                                <div class="products-list__item">
+                                    
+                                    <div class="product-card  ">
+                                        <div class="address-card__body">
+                                            <div class="address-card__badge">Diamond</div>
+
+                                            <div class="address-card__row">
+                                                <div class="address-card__row-title">Product Limit</div>
+                                                <div class="address-card__row-content">5 products</div>
+                                            </div>
+                                            <div class="address-card__row">
+                                                <div class="address-card__row-title">Features</div>
+                                                <div class="address-card__row-content">Vendor Dashboard</div>
+                                                <div class="address-card__row-content">Email Notifications</div>
+                                            </div>
+                                            <div class="address-card__row">
+                                                <div class="address-card__row-title">Account fees</div>
+                                                <div class="address-card__row-content">FREE</div>
+                                            </div>
+                                            <div class="address-card__row">
+                                                <div class="address-card__row-title">Transaction fees</div>
+                                                <div class="address-card__row-content">1% - 3.5% per transaction(*)</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> 
+
+                                <div class="products-list__item">
+                                    <div class="product-card  ">
+                                        <div class="address-card__body">
+                                            <div class="address-card__badge">Sapphire</div>
+                                            <div class="address-card__row">
+                                                <div class="address-card__row-title">Product Limit</div>
+                                                <div class="address-card__row-content">20 products</div>
+                                            </div>
+                                            <div class="address-card__row">
+                                                <div class="address-card__row-title">Features</div>
+                                                <div class="address-card__row-content">Vendor Dashboard</div>
+                                                <div class="address-card__row-content">Email Notifications</div>
+                                                <div class="address-card__row-content">Social media promotion</div>
+                                            </div>
+                                            <div class="address-card__row">
+                                                <div class="address-card__row-title">Account fees</div>
+                                                <div class="address-card__row-content">Rwf 15,000 per month</div>
+                                            </div>
+                                            <div class="address-card__row">
+                                                <div class="address-card__row-title">Transaction fees</div>
+                                                <div class="address-card__row-content">1% - 3.5% per transaction(*)</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> 
+
+                                <div class="products-list__item">
+                                    <div class="product-card  ">
+                                    <div class="address-card__body">
+                                        <div class="address-card__badge">Emerald</div>
+                                            <div class="address-card__row">
+                                                <div class="address-card__row-title">Product Limit</div>
+                                                <div class="address-card__row-content">50 products</div>
+                                            </div>
+                                            <div class="address-card__row">
+                                                <div class="address-card__row-title">Features</div>
+                                                <div class="address-card__row-content">Vendor Dashboard</div>
+                                                <div class="address-card__row-content">Email Notifications</div>
+                                                <div class="address-card__row-content">Social media promotion</div>
+                                                <div class="address-card__row-content">Pick up order in store</div>   
+                                                <div class="address-card__row-content">Manage your delivery</div>
+                                            </div>
+                                            <div class="address-card__row">
+                                                <div class="address-card__row-title">Account fees</div>
+                                                <div class="address-card__row-content">Rwf 20,000 per month</div>
+                                            </div>
+                                            <div class="address-card__row">
+                                                <div class="address-card__row-title">Transaction fees</div>
+                                                <div class="address-card__row-content">1% - 3.5% per transaction(*)</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> 
+
+                                <div class="products-list__item">
+                                    <div class="product-card ">
+                                        <div class="address-card__body">
+                                            <div class="address-card__badge">Ruby</div>
+                                            <div class="address-card__row">
+                                                <div class="address-card__row-title">Product Limit</div>
+                                                <div class="address-card__row-content">None</div>
+                                            </div>
+                            
+                                    <div class="address-card__row">
+                                        <div class="address-card__row-title">Features</div>
+                                        <div class="address-card__row-content">Vendor Dashboard</div>
+                                        <div class="address-card__row-content">Email Notifications</div>
+                                        <div class="address-card__row-content">Social media promotion</div>
+                                        <div class="address-card__row-content">Pick up order in store</div>
+                                        <div class="address-card__row-content">Manage your delivery</div>
+                                        <div class="address-card__row-content">Featured products</div>
+                                        <div class="address-card__row-content">Customization</div>
+                                    </div>
+                                    <div class="address-card__row">
+                                        <div class="address-card__row-title">Account fees</div>
+                                        <div class="address-card__row-content">Negociable</div>
+                                    </div>
+                                    <div class="address-card__row">
+                                        <div class="address-card__row-title">Transaction fees</div>
+                                        <div class="address-card__row-content">1% - 3.5% per transaction(*)</div>
+                                    </div>
+                                        </div>
+                                    </div>
+                                </div> 
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>    
+    </div>
+    <div class="block block-brands">
+        <div class="block faq">
+            <div class="container">
+                <div class="faq__section">
+                    <div class="hours__section-body">
+                        <div class="row">
+                            <div class="faq__section-column col-12 col-lg-12">
+                            
+                                <div class="address-card__row-content">
+                                <h6>* The transaction percentage is based on product type.</h6>
+                                </div>
+                            
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    
+{% endblock  %}

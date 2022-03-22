@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+        <title>Warehouse250</title>
+
+        <style type="text/css">
+            html {
+                width: 100%;
+            }
+
+            body {
+                width: 100%;
+                font-family: Arial;
+                font-size: 14px;
+                background-color: #fff;
+                color: #333;
+            }
+        </style>
+    </head>
+
+    <body>
+        <table width="100%" cellspacing="0" cellpadding="0">
+            <tr>
+                <td><h1>Delivery Order confirmation</h1></td>
+            </tr>
+
+
+
+            <tr>
+                <td>
+                    <hr>
+
+                    <table width="100%" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td><b>Product</b></td>
+                            <td><b>Quantity</b></td>
+                            <td><b>Vendor Name</b></td>
+                            <td><b>Vendor Address</b></td>
+                            <td><b>Vendor Phone</b></td>
+                            <td><b>Customer Name</b></td>
+                            <td><b>customer Address</b></td>
+                            <td><b>Customer Phone</b></td>
+
+                        </tr>
+
+                        {% for item in order_items %}
+                            <tr>
+                                <td>{{ item.get_product_name }}</td>
+                                <td>{{ item.quantity }}</td>
+                                <td>{{ item.vendor_name }}</td>
+                                <td>{{ item.vendor_address }}</td>
+                                <td>{{ item.vendor.phone }}</td>
+                                <td>{{ item.customer_name }}</td>
+                                <td>{{ item.customer_address }}</td>
+                                <td>{{ item.order.phone }}</td>
+                            </tr>
+                        {% endfor %}
+
+
+
+
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </body>
+</html>

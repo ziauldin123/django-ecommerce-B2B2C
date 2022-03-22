@@ -1,0 +1,33 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Add or Edit Product Images - {% endblock %}
+
+{% block content %}
+    <h3 class="title">Add or Edit Product Images </h3>
+    <table>
+        {% for img in product_images %}
+            <tr>
+                <td>
+                    {{ img.image.url }}
+                </td>
+                <td class="mx-5">
+                    <a href="{% url 'del_productimage' img.id %}">
+                        <i class="fa fa-trash mx-3" aria-hidden="true"></i>
+                    </a>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    <form method="post" action="." enctype="multipart/form-data">
+        {% csrf_token %}
+
+        {{ form.as_p }}
+
+        <div class="field mt-5">
+            <div class="control">
+                <button class="button is-dark">Save changes</button>
+            </div>
+        </div>
+    </form>
+{% endblock %}
