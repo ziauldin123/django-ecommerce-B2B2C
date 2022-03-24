@@ -202,47 +202,24 @@ AWS_S3_OBJECT_PARAMETERS = {
 }
 AWS_LOCATION = 'static'
 AWS_IS_GZIPPED = True
-COLLECTFAST_THREADS = 20
+# COLLECTFAST_THREADS = 20
 
-EMAIL_BACKEND = 'django_ses.SESBackend'
-DEFAULT_EMAIL_FROM = 'customerservice@sokopark.com'
-SERVER_EMAIL = 'customerservice@sokopark.com'
-
-AWS_SES_REGION_NAME = 'eu-west-1'
-AWS_SES_REGION_ENDPOINT = 'email.eu-west-1.amazonaws.com'
-
-
-AWS_ACCESS_KEY_ID = 'AKIA2K3OSTWJYNYQ6Q5W'
-AWS_SECRET_ACCESS_KEY = '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'
-AWS_STORAGE_BUCKET_NAME = 'sokopark'
-AWS_S3_REGION_NAME = 'af-south-1'
-AWS_S3_CUSTOM_DOMAIN = '%s.s3.af-south-1.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
-AWS_PRELOAD_METADATA = True
-AWS_DEFAULT_ACL = None
-AWS_S3_SECURE_URLS = True
-AWS_EXPIRY = 60 * 60 * 24 * 7
-AWS_S3_OBJECT_PARAMETERS = {
-    'CacheControl': 'max-age={}, s-maxage={}, must-revalidate'.format(AWS_EXPIRY, AWS_EXPIRY)
-}
-AWS_LOCATION = 'static'
-AWS_IS_GZIPPED = True
-COLLECTFAST_THREADS = 20
 
 COMPRESS_ROOT = os.path.join(BASE_DIR, "static")
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
-if not DEBUG:
-    STATICFILES_LOCATION = 'static'
-    DEFAULT_FILE_STORAGE = 'main.s3utils.MediaS3Boto3Storage'
-    STATICFILES_STORAGE = 'main.s3utils.CachedS3Boto3Storage'
-    COLLECTFAST_STRATEGY = "collectfast.strategies.boto3.Boto3Strategy"
-    COMPRESS_STORAGE = STATICFILES_STORAGE
-    STATIC_URL = 'https://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION)
-    COMPRESS_URL = STATIC_URL
-else:
-    STATIC_URL = '/static/'
-    MEDIA_URL = '/media/'
+# if not DEBUG:
+STATICFILES_LOCATION = 'static'
+DEFAULT_FILE_STORAGE = 'main.s3utils.MediaS3Boto3Storage'
+STATICFILES_STORAGE = 'main.s3utils.CachedS3Boto3Storage'
+COLLECTFAST_STRATEGY = "collectfast.strategies.boto3.Boto3Strategy"
+COMPRESS_STORAGE = STATICFILES_STORAGE
+STATIC_URL = 'https://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION)
+COMPRESS_URL = STATIC_URL
+# else:
+#     STATIC_URL = '/static/'
+#     MEDIA_URL = '/media/'
 
 
 # STATIC_ROOT = "/home/ubuntu/static/"
