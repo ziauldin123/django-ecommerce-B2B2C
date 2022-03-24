@@ -1,6 +1,6 @@
 import os
 from itertools import product
-# from ckeditor_uploader.fields import RichTextUploadingField
+from turtle import title
 from django.db.models.deletion import CASCADE, SET_NULL
 from django.db.models.expressions import OrderBy
 from django.contrib.auth.models import User
@@ -159,11 +159,12 @@ class UnitTypes(models.Model):
     unit = models.CharField(max_length=150)
 
     def __str__(self):
-        return "{} {}".format(self.name, self.unit)
+        return "{}".format(self.unit)     
 
     class Meta:
         verbose_name_plural = 'Unit_Types'
-
+    
+    
 
 class Brand(models.Model):
     brand = models.CharField(max_length=250, blank=True, null=True)
@@ -171,6 +172,12 @@ class Brand(models.Model):
     def __str__(self):
         return str(self.brand)
 
+    class Meta:
+        ordering=('-brand',)
+
+    def save(self,*args,**kwargs):
+        self.brand=self.brand.lower()
+        return super(Brand, self).save(*args,**kwargs)    
 
 class Product(models.Model):
 
@@ -370,7 +377,7 @@ class CommentForm(ModelForm):
 class Images(models.Model):
     product = models.ForeignKey('newProduct.product', on_delete=models.CASCADE,
                                 null=True, blank=True, related_name='product_image')
-    # variant=models.ForeignKey('newProduct.Variants',on_delete=models.CASCADE,null=True,blank=True,related_name='variant_image')
+    
     name = models.CharField(max_length=50, blank=True)
     image = models.ImageField(blank=True, upload_to='images/')
 
@@ -467,10 +474,7 @@ class Variants(models.Model):
     def get_url(self):
         return f'/{self.product.id}/{self.product.vendor.slug}/{self.product.category.sub_category.category.slug}/{self.product.category.sub_category.slug}/{self.product.category.slug}/{self.product.slug}/'
 
-    # def get_Image(self):
-    #     if self.image_variant:
-    #         return mark_safe('<img src="%s" width="80px" height="80px"/>' % (self.image_variant.image.url))
-
+   
     def image(self):
         img = Images.objects.get(id=self.image_id)
         if img.id is not None:
