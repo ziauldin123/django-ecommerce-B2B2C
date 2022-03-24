@@ -123,7 +123,7 @@
                     <div class="col-sm-6 col-12 px-2 mt-sm-0 mt-3">
                         <div class="card address-card address-card--featured">
                             <div class="address-card__body">
-                                <div class="address-card__badge">Shipping Address</div>
+                                <div class="address-card__badge">{% if order.delivery_type == 'store' %} Pick Up Address {% else %} Shipping Address {% endif %}</div>
                                 <div class="address-card__row">
                                     <div class="address-card__row-title">District</div>
                                     <div class="address-card__row-content">{{order.district}}</div>
