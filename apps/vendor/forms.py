@@ -1,10 +1,17 @@
+from email.mime import image
+from pyexpat import model
+from tkinter import Widget
+from tkinter.tix import Select
+from turtle import color, title
+from unicodedata import category
+from urllib import request
 from django.db.models import fields
-from django.forms import ModelForm
+from django.forms import FileInput, ModelForm
 from django.contrib.auth.forms import UserCreationForm
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.admin import widgets
-# from apps.product.models import Product, ProductImage
+from jmespath import search
 from apps.newProduct.models import *
 from .models import  Vendor, Customer, OpeningHours
 from apps.cart.models import Village, Cell, Sector, District
@@ -18,6 +25,10 @@ from django_select2 import forms as s2forms
 class CreateLength(CreatePopupMixin, generic.CreateView):
     model = Length
     fields = ['length']
+
+class CreateUnitType(CreatePopupMixin,generic.CreateView):
+    model = UnitTypes
+    fields = ['name','unit']    
 
 class CreateHeight(CreatePopupMixin, generic.CreateView):
     model = Height
@@ -42,22 +53,26 @@ class CreateWidth(CreatePopupMixin, generic.CreateView):
 class CreateColor(CreatePopupMixin, generic.CreateView):
     model = Color
     fields = ['name','code']
+    
 
 class CategoryWidget(s2forms.ModelSelect2Widget):
     search_fields = [
         "title__icontains",
     ]
 
+class ProductWidget(s2forms.ModelSelect2Widget):
+    search_fields = [
+        "title__icontains"
+    ]
+
 
 class ProductForm(ModelForm):
-
-
+    description=forms.CharField(widget=forms.Textarea(attrs={'class':'form-control'}))
     class Meta:
         model = Product
         fields = (
             'category',
             'title',
-            # fields = ['category', 'image', 'title',
             'summary',
             'price',
             'is_vat',
@@ -75,12 +90,12 @@ class ProductForm(ModelForm):
             'image',
             'brand',
             'unit_type',
-            'is_vat'
+            'is_vat',
         )
         widgets = {
             'category': CategoryWidget,
             'length':  Select2AddAnother(
-                reverse_lazy('add_length'),
+                reverse_lazy('add_length'),  
             ),
             'brand':  Select2AddAnother(
                 reverse_lazy('add_brand'),
@@ -97,13 +112,18 @@ class ProductForm(ModelForm):
             'size':  Select2AddAnother(
                 reverse_lazy('add_size'),
             ),
-            'color':  Select2AddAnother(
-                reverse_lazy('add_color'),
+            'color': Select2AddAnother(
+                 reverse_lazy('add_color')
+            ),
+            'unit_type':Select2AddAnother(
+                reverse_lazy('add_unit_type')
             )
-            }
+        } 
+        
+    
 
 class ProductWithVariantForm(ModelForm):
-
+    description=forms.CharField(widget=forms.Textarea(attrs={'class':'form-control'}))
     class Meta:
         model=Product
         fields=[
@@ -121,15 +141,64 @@ class ProductWithVariantForm(ModelForm):
         'category': CategoryWidget,
         'brand':  Select2AddAnother(
             reverse_lazy('add_brand'),
-        ),
+        )
     }
 
 
-class VariantForm(forms.ModelForm):
+class VariantForm(ModelForm):
 
     class Meta:
         model = Variants
-        fields = '__all__'
+        fields = (
+            'title',
+            'product',
+            'price',
+            'discount',
+            'quantity',
+            'unit_type',
+            'image_variant',
+            'color',
+            'length',
+            'width',
+            'height',
+            'weight',
+            'size',
+        )
+        
+
+        widgets = {
+            # 'product': ProductWidget,
+
+            'length':  Select2AddAnother(
+                reverse_lazy('add_length'),  
+            ),
+            'brand':  Select2AddAnother(
+                reverse_lazy('add_brand'),
+            ),
+            'width':  Select2AddAnother(
+                reverse_lazy('add_width'),
+            ),
+            'weight':  Select2AddAnother(
+                reverse_lazy('add_weight'),
+            ),
+            'height':  Select2AddAnother(
+                reverse_lazy('add_height'),
+            ),
+            'size':  Select2AddAnother(
+                reverse_lazy('add_size'),
+            ),
+            'color': Select2AddAnother(
+                 reverse_lazy('add_color')
+            ),
+            'unit_type':Select2AddAnother(
+                reverse_lazy('add_unit_type')
+            )
+        }
+
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user','')
+        super(VariantForm, self).__init__(*args, **kwargs)
+        self.fields['product']=forms.ModelChoiceField(queryset=Product.objects.filter(vendor=user,is_variant=True))    
 
 
 class OpeningHoursForm(ModelForm):
@@ -142,8 +211,10 @@ class OpeningHoursForm(ModelForm):
 
 class ProductImageForm(ModelForm):
     class Meta:
-        model = Images
-        fields = ['image']
+        model = ProductImage
+        fields = [
+            'image',
+            ]
 
 
 # Vendor Sign Up Form
