@@ -1,0 +1,111 @@
+{% extends 'core/base.html' %}
+{% load static %} 
+{% block title %} {{item.title}} {% endblock %} 
+{% block description %} {{ item.description }} {% endblock %}
+{% block content %}
+<div class="site__body">
+    <div class="site__body">
+        <!-- BREADCRUMB -->
+        <div class="page-header">
+            <div class="page-header__container container">
+                <div class="page-header__breadcrumb">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+        <!-- /BREADCRUMB -->
+        <!-- section -->
+        <div class="block">
+            <div class="container">
+                <div class="product product--layout--standard" data-layout="standard">
+                    <div class="product__content">
+                        <!-- .product__gallery -->
+                        <div class="product__gallery">
+                            <div class="product-gallery">
+                                <div class="product-gallery__featured">
+                                    <button class="product-gallery__zoom">
+                                        <svg width="24px" height="24px">
+                                            <use xlink:href="/static/templates/images/sprite.svg#zoom-in-24"></use>
+                                        </svg>
+                                    </button>
+                                    <div class="owl-carousel" id="product-image">
+                                        <div class="product-image product-image--location--gallery">
+                                            <a href="" data-width="700" data-height="700" class="product-image__body" target="_blank">
+                                                <img class="product-image__img" src="{{ item.image.url }}" alt="">
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- .product__gallery / end -->
+                        <!-- .product__info -->
+                        <div class="product__info">
+                            <div class="product__wishlist-compare">
+                                <button type="button" class="btn btn-sm btn-light btn-svg-icon" data-toggle="tooltip" data-placement="right" title="Wishlist">
+                                    <svg width="16px" height="16px">
+                                        <use xlink:href="/static/templates/images/sprite.svg#wishlist-16"></use>
+                                    </svg>
+                                </button>
+                                <button type="button" class="btn btn-sm btn-light btn-svg-icon" data-toggle="tooltip" data-placement="right" title="Compare">
+                                    <svg width="16px" height="16px">
+                                        <use xlink:href="/static/templates/images/sprite.svg#compare-16"></use>
+                                    </svg>
+                                </button>
+                            </div>
+                            <h1 class="product__name">{{item.title}}</h1>
+                            <div class="product__description">
+                                {{ item.description }}.
+                            </div>
+                           
+                            <ul class="product__meta">
+                                <li class="product__meta-availability">Availability: <span class="text-success">
+                                    {% if item.quantity > 0  %} 
+                                    <span class="text-danger">In Stock</span> 
+                                    {% else %} 
+                                     <span class="text-danger">Out of Stock</span> 
+                                    {% endif %} 
+                                </span></li>
+                                <li>Vendor:<a href=""> {{item.vendor}} </a> </li>
+                            </ul>
+                            
+                            <div class="product__prices">
+                                </span>Rwf {{item.price}}/{{item.unit.unit}}</span> unit
+                           </div>
+                        <div class="form-group product__option">
+                            <label class="product__option-label" for="product-quantity">Quantity</label>
+                            <div class="product__actions">
+                                <div class="product product__actions-item">
+                                    <div class="input-number product__quantity">
+                                        <input class="input input-number__input form-control form-control-lg" name="quantity" id="quantity"  type="number"  min="1" max="{{product.quantity}}" value="1">
+                                        <div class="input-number__add"></div>
+                                        <div class="input-number__sub"></div>
+                                    </div>
+                                </div>
+                                <div class="product__actions-item product__actions-item--addtocart">
+                                    {% if request.user.customer %} 
+                                         <button  {% if item.quantity < 1  %} disabled {% endif %} class="add-to-cart btn btn-primary btn-lg">Add to cart</button>
+                                    {% else %} 
+                                          <button class="btn btn-primary btn-lg disabled">Add to cart</button>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                            <!-- .product__options -->
+                            
+                            <!-- .product__options / end -->
+                        </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <!-- .block-products-carousel / end -->
+        <br>
+    </div>
+</div>
+{% endblock %} 
+
