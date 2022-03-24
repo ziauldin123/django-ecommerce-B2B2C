@@ -16,22 +16,22 @@
     <div class="container">
         <div class="row">
             <div class="col-12 col-lg-8">
-                <h4 class="widget-filters__title widget__title">Rental Categories</h4>
+                <h4 class="widget-filters__title widget__title">Rent {{category}} </h4>
                 <div class="block">
                     <div class="posts-view">
                         <div class="posts-view__list posts-list posts-list--layout--grid2">
                             <div class="posts-list__body">
-                                    {% for category in category %} 
+                                    {% for item in items %} 
                                     <div class="posts-list__item">
                                         <div class="post-card post-card--layout--grid post-card--size--nl">
                                             <div class="post-card__image">
-                                                <a href="{{category.id}}">
-                                                    <img src="{{category.image.url}}">
+                                                <a href="{% url 'item-detail' item.id item.category item.slug %}">
+                                                    <img src="{{item.image.url}}">
                                                 </a>
                                             </div>
                                             <div class="post-card__info">
                                                 <div class="post-card__name">
-                                                    <a href="">{{category.title}}</a>
+                                                    <a href="">{{item.title}}</a>
                                                 </div>
                                             </div>
                                         </div>

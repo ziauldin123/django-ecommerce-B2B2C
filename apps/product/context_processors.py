@@ -1,4 +1,5 @@
 from apps.newProduct.models import Category, SubCategory, SubSubCategory
+from apps.rental import models
 
 
 def menu_categories(request):
@@ -18,3 +19,8 @@ def menu_categories(request):
         else:
             category.has_children = False
     return {'menu_categories': categories}
+
+def rental_categories(request):
+    categories = models.Category.objects.all()
+
+    return {'rental_categories':categories}

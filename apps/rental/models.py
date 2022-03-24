@@ -1,15 +1,14 @@
 from ast import arg
 from distutils.command.upload import upload
+import email
 from email.mime import image
 from operator import mod
+from statistics import mode
 from tkinter import CASCADE
 from turtle import title
 from unicodedata import category
 from django.db import models
 from django.utils.text import slugify
-from autoslug import AutoSlugField
-from apps.newProduct.models import UnitTypes
-from apps.vendor.models import Vendor
 
 # Create your models here.
 
@@ -26,19 +25,28 @@ class Category(models.Model):
     def __str__(self):
         return self.title    
 
+class UnitTypes(models.Model):
+    name = models.CharField(max_length=150)
+    unit = models.CharField(max_length=150)
+
+    def __str__(self):
+        return "{}".format(self.unit)     
+
+    class Meta:
+        verbose_name_plural = 'Unit_Types'
+
 class Item(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField(max_length=255)
-    price = models.IntegerField(max_length=12,default=0)
+    price = models.DecimalField(max_digits=12, decimal_places=2, default=0)
     category = models.ForeignKey(
         Category, related_name='items',on_delete=models.CASCADE
     ) 
-    contact = models.TextField(max_length=255)
+    phone = models.CharField(max_length=255,default=0)
+    email = models.EmailField(max_length=20,null=True)
     slug = models.SlugField(null=False, unique=True)
-    slugV = AutoSlugField(populate_from='vendor', null=True)
     quantity = models.DecimalField(max_digits=12,default=0,decimal_places=2)
-    unit=models.ForeignKey(UnitTypes,related_name='item_unit',on_delete=models.CASCADE)
     available=models.BooleanField(default=False)
     image=models.ImageField(upload_to='images/',null=False)
-    vendor=models.ForeignKey(Vendor,related_name='vendor',on_delete=models.CASCADE)
+    unit=models.ForeignKey(UnitTypes,related_name='unit_item',on_delete=models.CASCADE)
     

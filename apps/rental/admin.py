@@ -6,4 +6,5 @@ class ItemsAdmin(admin.ModelAdmin):
     list_filter=['category']
 
 admin.site.register(Category)
+admin.site.register(UnitTypes)
 admin.site.register(Item,ItemsAdmin)
