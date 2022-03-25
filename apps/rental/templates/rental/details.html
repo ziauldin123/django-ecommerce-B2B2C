@@ -61,20 +61,27 @@
                             <div class="product__description">
                                 {{ item.description }}.
                             </div>
-                           
                             <ul class="product__meta">
                                 <li class="product__meta-availability">Availability: <span class="text-success">
                                     {% if item.quantity > 0  %} 
-                                    <span class="text-danger">In Stock</span> 
+                                    <span class="text">In Stock</span> 
                                     {% else %} 
                                      <span class="text-danger">Out of Stock</span> 
                                     {% endif %} 
                                 </span></li>
-                                <li>Vendor:<a href=""> {{item.vendor}} </a> </li>
+                                <li class="product__meta-availability">
+                                    {% if item.email %}
+                                     Email:<span class="text-success">
+                                     <span class="text">{{item.email}}</span>
+                                    {% endif %} 
+                                </span></li>
+                                <li class="product__meta-availability">
+                                    Phone Number:<span class="text-success">
+                                    <span class="text">{{item.phone}}</span>
+                                </span></li>
                             </ul>
-                            
                             <div class="product__prices">
-                                </span>Rwf {{item.price}}/{{item.unit.unit}}</span> unit
+                                </span>Rwf {{item.price|floatformat:"0"}}/{{item.unit.unit}}</span>
                            </div>
                         <div class="form-group product__option">
                             <label class="product__option-label" for="product-quantity">Quantity</label>
@@ -95,15 +102,11 @@
                                 </div>
                             </div>
                         </div>
-                            <!-- .product__options -->
-                            
-                            <!-- .product__options / end -->
                         </div>
                 </div>
             </div>
         </div>
         <br>
-        <!-- .block-products-carousel / end -->
         <br>
     </div>
 </div>

@@ -11,7 +11,9 @@ def index(request):
 def category(request,id):
     category=Category.objects.get(id=id)
     items=Item.objects.filter(category=category)
-    return render(request,'rental/category.html',{'items':items,'category':category})
+    for item in items:
+        print(item.category.slug)
+    return render(request,'rental/category.html',{'items':items,'category_title':category})
 
 def item_Detail(request,id,category_slug,slug):
     item=Item.objects.get(id=id)

@@ -5,18 +5,15 @@
 <div class="site__body">
     <div class="page-header">
         <div class="page-header__container container">
-            <div class="page-header__breadcrumb">
-                
-            </div>
+            <div class="page-header__breadcrumb"></div>
             <div class="page-header__title">
-                
+                <h4 class="widget-filters__title widget__title">Rental Categories</h4> 
             </div>
         </div>
     </div>
     <div class="container">
         <div class="row">
-            <div class="col-12 col-lg-8">
-                <h4 class="widget-filters__title widget__title">Rental Categories</h4>
+            <div class="col-14 col-lg-8">
                 <div class="block">
                     <div class="posts-view">
                         <div class="posts-view__list posts-list posts-list--layout--grid2">
@@ -31,7 +28,7 @@
                                             </div>
                                             <div class="post-card__info">
                                                 <div class="post-card__name">
-                                                    <a href="">{{category.title}}</a>
+                                                    <a href="{{category.id}}">{{category.title}}</a>
                                                 </div>
                                             </div>
                                         </div>
