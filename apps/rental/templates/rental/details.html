@@ -99,11 +99,7 @@
                                     </div>
                                 </div>
                                 <div class="product__actions-item product__actions-item--addtocart">
-                                    {% if request.user.customer %} 
-                                         <button  {% if item.quantity < 1  %} disabled {% endif %} class="add-to-cart btn btn-primary btn-lg">Add to cart</button>
-                                    {% else %} 
-                                          <button class="btn btn-primary btn-lg disabled">Rent</button>
-                                    {% endif %}
+                                         <button  {% if item.quantity < 1  %} disabled {% endif %} class="add-to-cart btn btn-primary btn-lg">Rent</button>
                                 </div>
                             </div>
                         </div>
