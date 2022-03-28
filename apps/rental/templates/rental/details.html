@@ -81,7 +81,12 @@
                                 </span></li>
                             </ul>
                             <div class="product__prices">
-                                </span>Rwf {{item.price|floatformat:"0"}}/{{item.unit.unit}}</span>
+                                {% if item.discount > 0 %} 
+                                <span class="product-card__new-price">Rwf {{item.get_discounted_price}}/{{item.unit.unit}}</span>
+                                <span class="product-card__old-price">Rwf {{item.price}}/{{item.unit.unit}}</span>
+                                {% else %}
+                                <span class="product-card__old-price"></span>Rwf {{item.price}}/{{item.unit.unit}}</span>
+                                {% endif %}
                            </div>
                         <div class="form-group product__option">
                             <label class="product__option-label" for="product-quantity">Quantity</label>
@@ -97,7 +102,7 @@
                                     {% if request.user.customer %} 
                                          <button  {% if item.quantity < 1  %} disabled {% endif %} class="add-to-cart btn btn-primary btn-lg">Add to cart</button>
                                     {% else %} 
-                                          <button class="btn btn-primary btn-lg disabled">Add to cart</button>
+                                          <button class="btn btn-primary btn-lg disabled">Rent</button>
                                     {% endif %}
                                 </div>
                             </div>
