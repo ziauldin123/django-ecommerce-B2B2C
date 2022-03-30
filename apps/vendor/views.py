@@ -147,6 +147,7 @@ def login_request(request):
                 request.session['email'] = vendor.email
                 request.session['username'] = vendor.company_name
                 request.session['vendor'] = True
+                request.session['phone'] = vendor.phone
 
             except Exception as e:
                 pass

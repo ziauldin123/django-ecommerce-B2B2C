@@ -43,14 +43,15 @@ class Item(models.Model):
     category = models.ForeignKey(
         Category, related_name='items',on_delete=models.CASCADE
     ) 
-    phone = models.CharField(max_length=255,default=0)
-    email = models.EmailField(max_length=20,null=True)
-    slug = models.SlugField(null=False, unique=True)
+    phone = models.CharField(max_length=255,null=True)
+    email = models.EmailField(max_length=255,null=True)
+    slug = models.SlugField(null=True, unique=True)
     quantity = models.DecimalField(max_digits=12,default=0,decimal_places=2)
     available=models.BooleanField(default=False)
+    visible=models.BooleanField(default=False)
     image=models.ImageField(upload_to='images/',null=False)
     unit=models.ForeignKey(UnitTypes,related_name='unit_item',on_delete=models.CASCADE)
-
+ 
     def get_discounted_price(self):
         discounted_price = float( self.price - ( (self.discount*self.price) / 100 ))
         return discounted_price

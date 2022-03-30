@@ -62,11 +62,11 @@
                                 {{ item.description }}.
                             </div>
                             <ul class="product__meta">
-                                <li class="product__meta-availability">Availability: <span class="text-success">
+                                <li class="product__meta-availability">Available: <span class="text-success">
                                     {% if item.quantity > 0  %} 
-                                    <span class="text">In Stock</span> 
+                                    <span class="text">Yes</span> 
                                     {% else %} 
-                                     <span class="text-danger">Out of Stock</span> 
+                                     <span class="text-danger">No</span> 
                                     {% endif %} 
                                 </span></li>
                                 <li class="product__meta-availability">
@@ -88,21 +88,6 @@
                                 <span class="product-card__old-price"></span>Rwf {{item.price}}/{{item.unit.unit}}</span>
                                 {% endif %}
                            </div>
-                        <div class="form-group product__option">
-                            <label class="product__option-label" for="product-quantity">Quantity</label>
-                            <div class="product__actions">
-                                <div class="product product__actions-item">
-                                    <div class="input-number product__quantity">
-                                        <input class="input input-number__input form-control form-control-lg" name="quantity" id="quantity"  type="number"  min="1" max="{{item.quantity}}" value="1">
-                                        <div class="input-number__add"></div>
-                                        <div class="input-number__sub"></div>
-                                    </div>
-                                </div>
-                                <div class="product__actions-item product__actions-item--addtocart">
-                                         <button  {% if item.quantity < 1  %} disabled {% endif %} class="add-to-cart btn btn-primary btn-lg">Rent</button>
-                                </div>
-                            </div>
-                        </div>
                         </div>
                 </div>
             </div>
