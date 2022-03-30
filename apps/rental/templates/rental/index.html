@@ -15,16 +15,8 @@
         <div class="shop-layout shop-layout--sidebar--start">
             <div class="shop-layout__content">
                 <div class="block">
-                    <div class="products-view">
-                        <div class="products-view__options">
-                            <div class="view-options view-options--offcanvas--mobile">
-                                <h4>{{ category_title }}</h4>
-                                <div class="view-options__divider"></div>
-                                
-                            </div>
-                        </div>
-                        <div id="message" name="message" class="mt-3"></div>
-                        <div class="products-view__list products-list" data-layout="grid-3-sidebar" data-with-features="false" data-mobile-grid-columns="2">
+                     <div class="products-view">
+                        <div class="products-view__list products-list" data-layout="grid-4-full" data-with-features="false" data-mobile-grid-columns="2">
                             <div class="products-list__body">
                                 {% for category in category %}
                                 <div class="products-list__item">
@@ -44,11 +36,11 @@
                                 {% endfor %}
                             </div>
                         </div>
-                    </div>
+                     </div>
                 </div>
             </div>
         </div>
-        {% include "core/pagination.html" with page=category %}
-</div>
+    </div>
+    {% include "core/pagination.html" with page=category %}
 </div>
 {% endblock %}
