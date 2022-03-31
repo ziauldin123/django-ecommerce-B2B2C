@@ -32,7 +32,7 @@ def index(request):
 
 def category(request,id):
     category=Category.objects.get(id=id)
-    items_list=Item.objects.filter(category=category,available=True)
+    items_list=Item.objects.filter(category=category,visible=True)
 
     paginator = Paginator(items_list,6)
     page  = request.GET.get('page')
@@ -73,7 +73,9 @@ def add_item(request):
             item = form.save(commit=False)
             item.email = username    
             item.slug = slugify(item.title)
-            item.visible = False
+            item.user = request.session.get('username')
+            item.visible = True
+            item.review=False
             item.phone = request.session.get('phone')
             item.save()
             messages.add_message(

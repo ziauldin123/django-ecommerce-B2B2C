@@ -32,6 +32,11 @@
                                             <use xlink:href="/static/templates/images/sprite.svg#zoom-in-24"></use>
                                         </svg>
                                     </button>
+                                    {% if not item.available %}
+                                    <div class="product-card__badges-list">
+                                        <div class="product-card__badge product-card__badge--sale">Rent</div>
+                                    </div>
+                                    {% endif %}
                                     <div class="owl-carousel" id="product-image">
                                         <div class="product-image product-image--location--gallery">
                                             <a href="" data-width="700" data-height="700" class="product-image__body" target="_blank">
@@ -45,48 +50,31 @@
                         <!-- .product__gallery / end -->
                         <!-- .product__info -->
                         <div class="product__info">
-                            <div class="product__wishlist-compare">
-                                <button type="button" class="btn btn-sm btn-light btn-svg-icon" data-toggle="tooltip" data-placement="right" title="Wishlist">
-                                    <svg width="16px" height="16px">
-                                        <use xlink:href="/static/templates/images/sprite.svg#wishlist-16"></use>
-                                    </svg>
-                                </button>
-                                <button type="button" class="btn btn-sm btn-light btn-svg-icon" data-toggle="tooltip" data-placement="right" title="Compare">
-                                    <svg width="16px" height="16px">
-                                        <use xlink:href="/static/templates/images/sprite.svg#compare-16"></use>
-                                    </svg>
-                                </button>
-                            </div>
                             <h1 class="product__name">{{item.title}}</h1>
                             <div class="product__description">
                                 {{ item.description }}.
                             </div>
                             <ul class="product__meta">
-                                <li class="product__meta-availability">Available: <span class="text-success">
-                                    {% if item.quantity > 0  %} 
-                                    <span class="text">Yes</span> 
-                                    {% else %} 
-                                     <span class="text-danger">No</span> 
-                                    {% endif %} 
-                                </span></li>
+                                <li class="product__meta-availability">
+                                    Owner:<span class="text-success">
+                                        <spa class="text">{{item.user}}</spa>
+                                    </span>
+                                </li>
                                 <li class="product__meta-availability">
                                     {% if item.email %}
                                      Email:<span class="text-success">
                                      <span class="text">{{item.email}}</span>
                                     {% endif %} 
-                                </span></li>
+                                </span>
+                                </li>
                                 <li class="product__meta-availability">
                                     Phone Number:<span class="text-success">
                                     <span class="text">{{item.phone}}</span>
-                                </span></li>
+                                </span>
+                                </li>
                             </ul>
                             <div class="product__prices">
-                                {% if item.discount > 0 %} 
-                                <span class="product-card__new-price">Rwf {{item.get_discounted_price}}/{{item.unit.unit}}</span>
-                                <span class="product-card__old-price">Rwf {{item.price}}/{{item.unit.unit}}</span>
-                                {% else %}
                                 <span class="product-card__old-price"></span>Rwf {{item.price}}/{{item.unit.unit}}</span>
-                                {% endif %}
                            </div>
                         </div>
                 </div>

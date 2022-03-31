@@ -10,7 +10,6 @@ class ItemForm(ModelForm):
             'title',
             'description',
             'price',
-            'discount',
             'category',
             'quantity',
             'available',

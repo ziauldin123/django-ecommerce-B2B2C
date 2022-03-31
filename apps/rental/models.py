@@ -39,11 +39,11 @@ class Item(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField(max_length=255)
     price = models.DecimalField(max_digits=12, decimal_places=2, default=0)
-    discount = models.DecimalField(max_digits=12,decimal_places=2,default=0)
     category = models.ForeignKey(
         Category, related_name='items',on_delete=models.CASCADE
     ) 
     phone = models.CharField(max_length=255,null=True)
+    user = models.CharField(max_length=255,null=True)
     email = models.EmailField(max_length=255,null=True)
     slug = models.SlugField(null=True, unique=True)
     quantity = models.DecimalField(max_digits=12,default=0,decimal_places=2)
@@ -51,8 +51,6 @@ class Item(models.Model):
     visible=models.BooleanField(default=False)
     image=models.ImageField(upload_to='images/',null=False)
     unit=models.ForeignKey(UnitTypes,related_name='unit_item',on_delete=models.CASCADE)
+    review=models.BooleanField(default=False)
  
-    def get_discounted_price(self):
-        discounted_price = float( self.price - ( (self.discount*self.price) / 100 ))
-        return discounted_price
     

@@ -52,6 +52,11 @@
                                     {% for item in items %}
                                     <div class="products-list__item">
                                         <div class="product-card">
+                                            {% if not item.available %}
+                                            <div class="product-card__badges-list">
+                                                <div class="product-card__badge product-card__badge--sale">Rent</div>
+                                            </div>
+                                            {% endif %}
                                             <div class="product-card__image product-image">
                                                 <a href="{% url 'item-detail' item.id item.category.slug item.slug %}" class="product-image__body">
                                                     <img class="product-image__img" src="{{item.image.url}}" alt="">
@@ -63,14 +68,9 @@
                                                 </div>
                                             </div>
                                             <div class="product-card__actions">
-                                                 <div class="product-card__prices">
-                                                             {% if item.discount  %} 
-                                                                 <span class="product-card__new-price">Rwf {{item.get_discounted_price}}/{{item.unit.unit}}</span>
-                                                                 <span class="product-card__old-price">Rwf {{item.price}}</span>
-                                                             {% else %}
-                                                                 <span class="product-card__old-price"></span>Rwf {{item.price}}/{{item.unit.unit}}</span>
-                                                             {% endif %}    
-                                                    </div>
+                                                <div class="product-card__prices">
+                                                        <span class="product-card__old-price"></span>Rwf {{item.price}}/{{item.unit.unit}}</span>  
+                                                </div>
                                             </div>
                                         </div>
                                     </div>   

@@ -50,9 +50,8 @@
                                         <th>Title</th>
                                         <th>Price (Rwf)</th>
                                         <th>Quantity</th>
-                                        <th>Discount (%)</th>
                                         <th>Available</th>
-                                        <th>Visible</th>
+                                        <th>Status</th>
                                         <th>Edit</th>
                                         <th>Delete</th>
                                     </tr>
@@ -63,16 +62,15 @@
                                         <td><a href="">{{ item.title }}</a></td>
                                         <td>{{ item.price|floatformat:"0" }}</td>
                                         <td>{{item.quantity|floatformat:"0"}}</td>
-                                        <td>{{item.discount|floatformat:"0"}}</td>
                                         {% if item.available %}
                                              <td>Yes</td>
                                         {% else %}
                                               <td>No</td>
-                                        {% endif %} 
-                                        {% if item.visible %}
-                                        <td>Yes</td>
+                                        {% endif %}
+                                        {% if item.review %} 
+                                        <td>Reviewed</td>
                                         {% else %} 
-                                        <td>No</td>
+                                        <td>Under Review</td>
                                         {% endif %}
                                         <td>
                                             <a href="{% url 'edit_item' item.id %}" class="mr-5">Edit</a>
