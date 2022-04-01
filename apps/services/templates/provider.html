@@ -1,0 +1,65 @@
+{% extends 'core/base.html' %}
+{% load static %} 
+{% block title %} {{provider.title}} {% endblock %} 
+{% block description %} {{ provider.description }} {% endblock %}
+{% block content %}
+<div class="site__body">
+    <div class="site__body">
+        <!-- BREADCRUMB -->
+        <div class="page-header">
+            <div class="page-header__container container">
+                <div class="page-header__breadcrumb">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+        <!-- /BREADCRUMB -->
+        <!-- section -->
+        <div class="block">
+            <div class="container">
+                <div class="product product--layout--standard" data-layout="standard">
+                    <div class="product__content">
+                        <!-- .product__gallery -->
+                        <div class="product__gallery">
+                            <div class="product-gallery">
+                                <div class="product-gallery__featured">
+                                    <button class="product-gallery__zoom">
+                                        <svg width="24px" height="24px">
+                                            <use xlink:href="/static/templates/images/sprite.svg#zoom-in-24"></use>
+                                        </svg>
+                                    </button>
+                                    {% if not provider.available %}
+                                    <div class="product-card__badges-list">
+                                        <div class="product-card__badge product-card__badge--sale">Unavailable</div>
+                                    </div>
+                                    {% endif %}
+                                    <div class="owl-carousel" id="product-image">
+                                        <div class="product-image product-image--location--gallery">
+                                            <a href="" data-width="700" data-height="700" class="product-image__body" target="_blank">
+                                                <img class="product-image__img" src="{{ provider.image.url }}" alt="">
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- .product__gallery / end -->
+                        <!-- .product__info -->
+                        <div class="product__info">
+                            <h1 class="product__name">{{provider.name}}</h1>
+                            <div class="product__description">
+                                {{ provider.description }}.
+                            </div>
+                        </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <br>
+    </div>
+</div>
+{% endblock %} 

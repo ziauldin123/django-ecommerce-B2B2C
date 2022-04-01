@@ -1,5 +1,5 @@
 from apps.newProduct.models import Category, SubCategory, SubSubCategory
-
+from apps.services import models
 
 def menu_categories(request):
     categories = Category.objects.all()
@@ -18,3 +18,10 @@ def menu_categories(request):
         else:
             category.has_children = False
     return {'menu_categories': categories}
+
+
+
+def services(request):
+    services = models.Category.objects.all()
+
+    return {'services':services}

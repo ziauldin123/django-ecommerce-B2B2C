@@ -49,6 +49,7 @@ urlpatterns = [
     path('home/', include('apps.home.urls')),
     path('cart/', include('apps.cart.urls')),
     path('blog/', include('apps.blog.urls')),
+    path('services/',include('apps.services.urls')),
     path('transporter/', include('apps.transporter.urls')),
     path('api/add_subscriber/', api_add_subscriber, name='api_add_subscriber'),
     path('api/can_use/', api_can_use, name='api_can_use'),

@@ -1125,6 +1125,7 @@ def become_customer(request):
             email_user(user, subject, message)
 
             return redirect('activation_sent')
+     
     else:
         form = CustomerSignUpForm()
 
