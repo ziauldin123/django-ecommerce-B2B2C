@@ -1,17 +1,8 @@
-from datetime import datetime
-from distutils.command.upload import upload
-from email.mime import image
-from operator import mod
-from telnetlib import STATUS
-from turtle import title
-from unicodedata import category
-import django
 from django.db import models
 from django.dispatch import receiver
 from django.utils.text import slugify
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
-from django.utils import timezone
 
 # Create your models here.
 class Category(models.Model):
@@ -28,7 +19,6 @@ class Category(models.Model):
 
 class ServiceProvider(models.Model):
     
-
     ACCOUNT_CHOICES = (
         ('COMPANY','company'),
         ('INDIVIDUAL','individual')

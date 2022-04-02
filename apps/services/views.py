@@ -11,6 +11,7 @@ from apps.vendor.models import Profile
 from django.template.loader import render_to_string
 from django.contrib.sites.shortcuts import get_current_site
 import email
+from django.contrib.auth.decorators import login_required
 from apps.vendor import tokens,views
 from django.utils.encoding import force_bytes
 from django.contrib import messages
@@ -76,13 +77,16 @@ def become_service_provider(request):
                 profile.save()
 
             privacy_checked = request.POST.get('is_privacy')
+            
             service_id=form.cleaned_data['service']
+            service=Category.objects.get(id=service_id)
+
             service_provider = ServiceProvider(
-                name=form.cleaned_data.get('name'),
-                email=form.cleaned_data.get('email'),
-                service=service_id,
-                phone=form.cleaned_data.get('phone'),
+                service=service,
                 slug=slugify(form.cleaned_data.get('name')),
+                phone=form.cleaned_data.get('phone'),
+                email=form.cleaned_data.get('email'),
+                name=form.cleaned_data.get('name'),
                 available=True,
                 review=False,
                 privacy_checked=privacy_checked,
@@ -113,5 +117,53 @@ def become_service_provider(request):
         form = ServiceProviderForm()
 
     return render(request,'become_provider.html',{'form':form})        
-    
 
+@login_required    
+def myServiceAccount(request):
+    try:
+        service_provider = request.user.service_provider
+    except Exception as e:
+        return redirect('frontpage')    
+    if service_provider.account == 'company':
+        print('company')
+        individual = False
+    else:
+        print('individual')
+        individual = True    
+    return render(
+        request,
+        'myServiceAccount.html',
+        {'serviceProvider':service_provider,'individual':individual}
+    )
+
+@login_required
+def upload_profile(request):
+    service_provider = request.user.service_provider
+    if request.method == 'POST':
+        if "image" in request.FILES and len(request.FILES["image"]) > 0:
+            service_provider.image = request.FILES["image"]
+            service_provider.save()
+            request.session['logo'] = ServiceProvider.objects.get(
+                email=service_provider.email
+            ).image.url
+            messages.info(request,f"Profile Picture Updated Successfully")
+    return redirect('mySerrviceAccount')        
+
+@login_required
+def update_profile(request,id):
+    service_provider=ServiceProvider.objects.filter(id=id).first()
+
+    if request.method == 'POST':
+        form = ServiceProviderForm(request.POST, request.FILES,instance=service_provider)
+        if form.is_valid():
+            form.save()
+
+            messages.info(request,"Profile info updated")
+            return redirect('mySerrviceAccount')
+        else:
+            messages.info(request,'Input Error') 
+            return redirect('mySerrviceAccount')  
+    else:
+        form = ServiceProviderForm(instance=service_provider)
+
+    return render(request,'edit-profile.html',{'form':form,'service_provider':service_provider})

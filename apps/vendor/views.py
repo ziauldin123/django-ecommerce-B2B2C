@@ -46,6 +46,7 @@ from apps.cart.models import District, Sector, Cell, Village
 from django.contrib.auth.models import User, Permission
 from django import template
 from apps.cart.cart import Cart
+from apps.services.models import ServiceProvider
 register = template.Library()
 
 
@@ -138,6 +139,20 @@ def login_request(request):
                 return redirect("transporter-admin")
             except Exception as e:
                 pass
+            
+            try:
+                service_provider = ServiceProvider.objects.get(email=request.user)
+                if service_provider.image:
+                    request.session['logo'] = service_provider.image.url
+                request.session['username'] = service_provider.name   
+                request.session['email'] = service_provider.email
+                messages.info(
+                    request,f"You are now logged in as { username }."
+                )
+                return redirect('mySerrviceAccount')
+            
+            except Exception as e:
+                pass 
 
             try:
                 vendor = Vendor.objects.get(email=username)

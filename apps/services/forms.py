@@ -13,6 +13,8 @@ class ServiceProviderForm(UserCreationForm):
     service = forms.ChoiceField(choices=[
                                  (-1, '')] + [(entry.id, entry.title) for entry in Category.objects.all()])
     phone = forms.CharField(max_length=35,required=True)
+    tin = forms.CharField(max_length=25,required=False)
+    description = forms.CharField(widget=forms.Textarea(attrs={'class':'form-control'}))
     image = forms.ImageField(required=False)
     name = forms.CharField(max_length=25,required=True)
     account = forms.ChoiceField(choices=[
@@ -28,4 +30,6 @@ class ServiceProviderForm(UserCreationForm):
            'phone',
            'name',
            'account',
+           'tin',
+           'description'
         ]

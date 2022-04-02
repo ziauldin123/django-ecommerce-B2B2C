@@ -755,6 +755,10 @@
                                 <div class="account-menu__user-avatar">
                                     <img {% if request.session.logo %} src="{{ request.session.logo }}"  {% else %} src="/static/templates/images/avatars/avatar-1.jpg"  {% endif %} alt="">
                                 </div>
+                                {% elif request.user.service_provider %} 
+                                <div class="account-menu__user-avatar">
+                                  <img {% if request.session.logo %} src="{{ request.session.logo }}"  {% else %} src="/static/templates/images/avatars/avatar-1.jpg"  {% endif %} alt="">
+                              </div>
                                 {% endif %}
                                 <div class="account-menu__user-info">
                                     <div class="account-menu__user-name">{{ request.session.username }}</div>
@@ -771,6 +775,9 @@
                                 {% if request.session.status == 'RUBY' or request.session == 'EMERALD' %} 
                                     <li><a href="{% url 'delivery_cost' %}">Delivery Cost</a></li>
                                 {% endif %}
+                                {% elif request.user.service_provider %}
+                                <li><a href="{% url 'mySerrviceAccount' %}">Dashbord</a></li>
+                                <li><a href="">Edit Profile</a></li>
                                 {% else %} 
                                <li><a href="{% url 'myaccount' %}">My Account</a></li>
                                 <li><a href="{% url 'orderhistory'  %}">Order History</a></li>
