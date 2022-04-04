@@ -14,11 +14,10 @@ class ServiceProviderForm(UserCreationForm):
                                  (-1, '')] + [(entry.id, entry.title) for entry in Category.objects.all()])
     phone = forms.CharField(max_length=35,required=True)
     tin = forms.CharField(max_length=25,required=False)
-    description = forms.CharField(widget=forms.Textarea(attrs={'class':'form-control'}))
+    description = forms.CharField(widget=forms.Textarea(attrs={'class':'form-control'}),required=False)
     image = forms.ImageField(required=False)
     name = forms.CharField(max_length=25,required=True)
-    account = forms.ChoiceField(choices=[
-        (-1, '')] + [(entry.id, entry.account) for entry in ServiceProvider.objects.all()])
+    account = forms.ChoiceField(choices=ServiceProvider.ACCOUNT_CHOICES)
     class Meta:
         model = User
         fields = [

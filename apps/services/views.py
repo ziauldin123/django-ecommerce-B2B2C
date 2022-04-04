@@ -1,8 +1,9 @@
 from base64 import urlsafe_b64decode
 from email import message
 from unicodedata import category
+from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
-from .models import Category,ServiceProvider
+from .models import Category,ServiceProvider,CommentForm,Comment
 from django.core.paginator import (Paginator,PageNotAnInteger,EmptyPage)
 from django.contrib.auth import logout
 from django.contrib.auth.models import User
@@ -12,10 +13,12 @@ from django.template.loader import render_to_string
 from django.contrib.sites.shortcuts import get_current_site
 import email
 from django.contrib.auth.decorators import login_required
-from apps.vendor import tokens,views
+from apps.vendor import tokens,views,models
 from django.utils.encoding import force_bytes
+from django.utils.http import urlsafe_base64_encode
 from django.contrib import messages
 from django.utils.text import slugify
+from django.db.models import Max
 
 # Create your views here.
 def index(request):
@@ -51,8 +54,21 @@ def get_category(request,id):
 
 def get_service_provider(request,id,service_slug,slug):
     service_provider = ServiceProvider.objects.get(id=id)
+    username = request.user
+    customer = models.Customer.objects.filter(email=username)
+    max = service_provider.service_provider.all().aggregate(Max('rate'))
+    comment_list = Comment.objects.filter(service_provider=id,status='True')
+    paginator = Paginator(comment_list,2)
+    page = request.GET.get('page')
 
-    return render (request,'provider.html',{'provider':service_provider})
+    try:
+        comments = paginator.page(page)
+    except PageNotAnInteger:
+        comments = paginator.page(1)
+    except EmptyPage:
+        comments = paginator.page(paginator.num_pages)        
+
+    return render (request,'provider.html',{'provider':service_provider,'max':max,'customer':customer,'comments':comments})
 
 def become_service_provider(request):
     if request.user.is_authenticated:
@@ -87,6 +103,7 @@ def become_service_provider(request):
                 phone=form.cleaned_data.get('phone'),
                 email=form.cleaned_data.get('email'),
                 name=form.cleaned_data.get('name'),
+                account=form.cleaned_data.get('account'),
                 available=True,
                 review=False,
                 privacy_checked=privacy_checked,
@@ -96,11 +113,11 @@ def become_service_provider(request):
 
             current_site = get_current_site(request)
             subject = 'Please Activate Your Account'
-            message = render_to_string('vendor/activation_request.html',
+            message = render_to_string('activation_request.html',
             {
                 'user':user,
                 'domain':current_site.domain,
-                'uid':urlsafe_b64decode(force_bytes(user.pk)),
+                'uid':urlsafe_base64_encode(force_bytes(user.pk)),
                 'token':tokens.account_activation_token.make_token(user),
             }) 
 
@@ -108,7 +125,6 @@ def become_service_provider(request):
 
             return redirect('activation_sent')     
         else:
-            print(form.cleaned_data.get('service'))
             messages.add_message(
                 request, messages.ERROR, "Input field not Valid"
             )    
@@ -123,17 +139,11 @@ def myServiceAccount(request):
     try:
         service_provider = request.user.service_provider
     except Exception as e:
-        return redirect('frontpage')    
-    if service_provider.account == 'company':
-        print('company')
-        individual = False
-    else:
-        print('individual')
-        individual = True    
+        return redirect('frontpage')        
     return render(
         request,
         'myServiceAccount.html',
-        {'serviceProvider':service_provider,'individual':individual}
+        {'serviceProvider':service_provider}
     )
 
 @login_required
@@ -151,19 +161,40 @@ def upload_profile(request):
 
 @login_required
 def update_profile(request,id):
+    url=request.META.get('HTTP_REFERER')
     service_provider=ServiceProvider.objects.filter(id=id).first()
-
     if request.method == 'POST':
-        form = ServiceProviderForm(request.POST, request.FILES,instance=service_provider)
-        if form.is_valid():
-            form.save()
+        description=request.POST.get('description')
+        if service_provider.account == 'INDIVIDUAL':
+            tin=0
+        else :
+            tin=request.POST.get('tin')  
+        service_provider.tin=tin
+        service_provider.description=description
+        service_provider.save()
 
-            messages.info(request,"Profile info updated")
-            return redirect('mySerrviceAccount')
-        else:
-            messages.info(request,'Input Error') 
-            return redirect('mySerrviceAccount')  
+        messages.info(request,'User Profile Updated') 
+        return redirect('mySerrviceAccount')      
     else:
         form = ServiceProviderForm(instance=service_provider)
 
     return render(request,'edit-profile.html',{'form':form,'service_provider':service_provider})
+
+def addComment(request,id):
+    url=request.META.get('HTTP_REFERER')
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            data = Comment()
+            data.subject = form.cleaned_data['subject']
+            data.comment = form.cleaned_data['comment']
+            data.rate = form.cleaned_data['rate']
+            data.ip = request.META.get('REMOTE_ADDR')
+            data.service_provider_id = id
+            data.customer_id=request.user.id
+            data.save()
+            messages.success(
+                request,"Your review has been submitted."
+            )
+            return HttpResponseRedirect(url)
+    return HttpResponseRedirect(url)        

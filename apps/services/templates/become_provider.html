@@ -52,7 +52,10 @@
                            <div class="field form-group" id="account">
                                <label for="">Account type</label>
                                <div class="control">
-                                   {{form.account|add_class:"input form-control"}}
+                                   <select name="account" id="id_account" class="form-control">
+                                       <option value="INDIVIDUAL">individual</option>
+                                       <option value="COMPANY">company</option>
+                                   </select>
                                </div>
                            </div>
                            <div class="field form-group">
@@ -68,7 +71,6 @@
                                </div>
                            </div>
                            <div class="field form-group">
-                
                             <div clas="control">
                                 <input type="checkbox" name="is_privacy" value="True" id="is_privacy" required/>
                                 <label> I agree to Sokopark's <a href="{% url 'termsandconditions' %}">Terms & Conditions</a>.</label>

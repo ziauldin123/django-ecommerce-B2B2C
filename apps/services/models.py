@@ -1,8 +1,14 @@
+from dataclasses import fields
+from pyexpat import model
 from django.db import models
 from django.dispatch import receiver
+from django.forms import ModelForm
 from django.utils.text import slugify
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
+from django.db.models import Max
+from django.urls import reverse
+from django.db.models import Avg, Count
 
 # Create your models here.
 class Category(models.Model):
@@ -56,3 +62,53 @@ class ServiceProvider(models.Model):
 
     def __str__(self):
         return self.name    
+    
+    def avarageview(self):
+        reviews = Comment.objects.filter(
+            service_provider=self, status='True').aggregate(avarage=Avg('rate'))
+        avg = 0
+        if reviews["avarage"] is not None:
+            avg = float(reviews["avarage"])
+        return avg 
+
+    def countreview(self):
+        reviews = Comment.objects.filter(
+           service_provider = self, status='True').aggregate(count=Count('id')) 
+        cnt = 0
+        if reviews["count"] is not None:
+            cnt = int(reviews["count"])
+        return cnt 
+
+    def maxrating(self):
+        rate = Comment.objects.filter(
+            service_provider=self, status='True'
+        ).aggregate(Max('rate'))     
+        return rate  
+
+               
+
+class Comment(models.Model):
+    STATUS = (
+        ('New','New'),
+        ('True','True'),
+        ('False','False')
+    )
+    service_provider = models.ForeignKey(
+        ServiceProvider,related_name='service_provider',on_delete=models.CASCADE
+    )
+    customer = models.ForeignKey(User, on_delete=models.CASCADE)
+    subject = models.CharField(max_length=50,blank=True)
+    comment = models.CharField(max_length=250,blank=True)
+    rate = models.IntegerField(default=1)
+    ip = models.CharField(max_length=20,blank=True)
+    status = models.CharField(max_length=10,choices=STATUS,default='True')
+    create_at = models.DateField(auto_now_add=True)
+    update_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.subject
+
+class CommentForm(ModelForm):
+    class Meta:
+        model = Comment
+        fields =  ['subject','comment','rate']

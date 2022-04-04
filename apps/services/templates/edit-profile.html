@@ -14,38 +14,20 @@
                             <form method="post" action="." enctype="multipart/form-data">
                             {% load widget_tweaks %}
                             {% csrf_token %}
-                                <div class="form-row">
-                                    <div class="form-group col-md-4">
-                                        <label for="">Service</label>
-                                        {{form.service |add_class:"form-control"}}
-                                    </div>
-                                    <div class="form-group col-md-4">
-                                        <label for="">Name</label>
-                                        {{form.name |add_class:"form-control"}}
-                                    </div>
-                                    <div class="form-group col-md-4">
-                                        <label for="">Account Type</label>
-                                        {{form.account|add_class:"form-control"}}
-                                    </div>
-                                </div>
+                            {% if service_provider.account == 'COMPANY' %}
                                 <div class="form-row">
                                     <div class="form-group col-md-4">
                                         <label for="">TIN</label>
-                                        {{ form.tin |add_class:"form-control"}}
-                                    </div>
-                                    <div class="form-group col-md-4">
-                                        <label for="">Image</label>
-                                        {{form.image|add_class:"form-control"}}
-                                    </div>
-                                    <div class="form-group col-md-4">
-                                        <label for="">Phone Number</label>
-                                        {{form.phone|add_class:"form-control"}}
+                                        <input type="text" name="tin" id="id_tin" value="{{service_provider.tin}}" class="form-control">
                                     </div>
                                 </div>
+                            {% endif %}    
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
-                                        <label for="">Desc ription</label>
-                                        {{form.description |add_class:"form-control"}}
+                                        <label for="">Description</label>
+                                       <textarea name="description" id="id_description" cols="30" rows="10" class="form-control">
+                                           {{service_provider.description}}
+                                       </textarea>
                                     </div>
                                 </div>
                                 <div class="field">
