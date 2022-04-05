@@ -123,7 +123,7 @@
         $('.block-slideshow .owl-carousel').owlCarousel({
             items: 1,
             nav: false,
-            dots: true,
+            dots: false,
             loop: false,
             rtl: isRTL(),
             autoplay: true,
