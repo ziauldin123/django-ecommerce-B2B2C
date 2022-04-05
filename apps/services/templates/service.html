@@ -165,11 +165,11 @@
                                                     <img class="product-image__img" src="{{item.image.url}}" alt="">
                                                 </a>
                                             </div>
-                                            <div class="product-card__info">
-                                                <div class="product-card__name">
-                                                    <a href="{% url 'service_provider' item.id item.service.slug item.slug %}" >{{item.name}}</a>
-                                                </div>
+                                         
+                                            <div class="pt-3">
+                                                <a type="submit" class="btn btn-primary btn-lg btn-block" href="{% url 'service_provider' item.id item.service.slug item.slug %}" >{{item.name}}</a>
                                             </div>
+                                           
                                         </div>
                                     </div>   
                                     {% endfor %}
