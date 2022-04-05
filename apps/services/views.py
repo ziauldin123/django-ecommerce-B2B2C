@@ -1,5 +1,6 @@
 from base64 import urlsafe_b64decode
 from email import message
+import imp
 from unicodedata import category
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
@@ -19,6 +20,8 @@ from django.utils.http import urlsafe_base64_encode
 from django.contrib import messages
 from django.utils.text import slugify
 from django.db.models import Max
+from apps.cart.cart import Cart
+from apps.ordering.models import ShopCart
 
 # Create your views here.
 def index(request):
@@ -33,8 +36,46 @@ def index(request):
     except EmptyPage:
         categories = paginator.page(paginator.num_pages)
 
+    if not request.user.is_anonymous:
+        cart = Cart(request)
+        current_user = request.user
+        wishlist = models.UserWishList.objects.filter(user=current_user)
+        # cart.clear()
+        shopcart = ShopCart.objects.filter(user_id=current_user.id)
+        total = cart.get_cart_cost()
+        tax = cart.get_cart_tax()
+        grandTotal = cart.get_cart_cost() + cart.get_cart_tax()
+        if not request.session.get('comparing'):
+            comparing = 0
+        else:
+            comparing = request.session['comparing'].__len__()
 
-    return render(request,'index.html',{'categories':categories})          
+        if not request.session.get('comparing_variants'):
+            compare_var = 0
+        else:
+            compare_var = request.session['comparing_variants'].__len__()
+
+        total_compare = comparing + compare_var
+    else:
+        cart = 0
+        subtotal = 0
+        tax = 0
+        total = 0
+        grandTotal = 0
+        shopcart = None
+        wishlist = 0
+        total_compare = 0    
+
+
+    return render(request,'index.html',
+    {  'categories':categories,
+       'shopcart': shopcart,
+        'subtotal': total,
+        'tax': tax,
+        'total': grandTotal,
+        'wishlist': wishlist,
+        'total_compare': total_compare
+    })          
 
 def get_category(request,id):
     service = Category.objects.get(id=id)
@@ -48,9 +89,47 @@ def get_category(request,id):
         providers = paginator.page(1)
     except EmptyPage:
         providers = paginator.page(paginator.num_pages)
-          
+
+    if not request.user.is_anonymous:
+        cart = Cart(request)
+        current_user = request.user
+        wishlist = models.UserWishList.objects.filter(user=current_user)
+        # cart.clear()
+        shopcart = ShopCart.objects.filter(user_id=current_user.id)
+        total = cart.get_cart_cost()
+        tax = cart.get_cart_tax()
+        grandTotal = cart.get_cart_cost() + cart.get_cart_tax()
+        if not request.session.get('comparing'):
+            comparing = 0
+        else:
+            comparing = request.session['comparing'].__len__()
+
+        if not request.session.get('comparing_variants'):
+            compare_var = 0
+        else:
+            compare_var = request.session['comparing_variants'].__len__()
+
+        total_compare = comparing + compare_var
+    else:
+        cart = 0
+        subtotal = 0
+        tax = 0
+        total = 0
+        grandTotal = 0
+        shopcart = None
+        wishlist = 0
+        total_compare = 0      
     
-    return render(request,'service.html',{'service':service,'providers':providers})
+    return render(request,'service.html',
+    {'service':service,
+    'providers':providers,
+    'shopcart': shopcart,
+    'subtotal': total,
+    'tax': tax,
+    'total': grandTotal,
+    'wishlist': wishlist,
+    'total_compare': total_compare
+    })
 
 def get_service_provider(request,id,service_slug,slug):
     service_provider = ServiceProvider.objects.get(id=id)
@@ -66,9 +145,52 @@ def get_service_provider(request,id,service_slug,slug):
     except PageNotAnInteger:
         comments = paginator.page(1)
     except EmptyPage:
-        comments = paginator.page(paginator.num_pages)        
+        comments = paginator.page(paginator.num_pages)  
 
-    return render (request,'provider.html',{'provider':service_provider,'max':max,'customer':customer,'comments':comments})
+
+    if not request.user.is_anonymous:
+        cart = Cart(request)
+        current_user = request.user
+        wishlist = models.UserWishList.objects.filter(user=current_user)
+        # cart.clear()
+        shopcart = ShopCart.objects.filter(user_id=current_user.id)
+        total = cart.get_cart_cost()
+        tax = cart.get_cart_tax()
+        grandTotal = cart.get_cart_cost() + cart.get_cart_tax()
+        if not request.session.get('comparing'):
+            comparing = 0
+        else:
+            comparing = request.session['comparing'].__len__()
+
+        if not request.session.get('comparing_variants'):
+            compare_var = 0
+        else:
+            compare_var = request.session['comparing_variants'].__len__()
+
+        total_compare = comparing + compare_var
+    else:
+        cart = 0
+        subtotal = 0
+        tax = 0
+        total = 0
+        grandTotal = 0
+        shopcart = None
+        wishlist = 0
+        total_compare = 0          
+
+    return render (request,'provider.html',
+    {
+        'provider':service_provider,
+        'max':max,
+        'customer':customer,
+        'comments':comments,
+        'shopcart': shopcart,
+        'subtotal': total,
+        'tax': tax,
+        'total': grandTotal,
+        'wishlist': wishlist,
+        'total_compare': total_compare
+        })
 
 def become_service_provider(request):
     if request.user.is_authenticated:
