@@ -1,0 +1,120 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Set up a Service account{% endblock %}
+
+{% block content %}
+<div class="site__body">
+   
+       <div class="container">
+            <div class="row justify-content-center">
+            <div class="col-xl-5 col-lg-6 col-md-8">
+                <div class="card flex-grow-1 mb-0 mt-5">
+                    <div class="card-body">
+                        <h3 class="card-title">Set up a Service account</a></h3>
+                        <form method="post" action=".">
+                           {% csrf_token %}
+                           {% load widget_tweaks %}
+                           <input type="hidden" name="next" value="{{next}}">
+                           <div class="field form-group">
+                               <div class="control" style="display: none;">
+                                 <input type="text" id="id_username" name="username" value="username">
+                              </div>
+                           </div>
+                           <div class="field form-group">
+                               <label for="">Name</label>
+                               <div class="control">
+                                   <input type="text" class="input form-control" name="name" id="id_name">
+                               </div>
+                           </div>
+                           <div class="field form-group">
+                               <label for="">Email</label>
+                               <div class="control">
+                                   <input type="email" class="input form-control" id="id_email" name="email">
+                               </div>
+                           </div>
+                           <div class="field form-group" id="service">
+                               <label for="">Service</label>
+                               <div class="control">
+                                   <select class="select form-control"  name="service" id="id_service">
+                                       <option value="" selected> </option>
+                                       {% for entry in services %} 
+                                       <option value="{{ entry.id }}">{{entry.title}}</option>
+                                       {% endfor %}
+                                   </select>
+                               </div>
+                           </div>
+                           <div class="field form-group">
+                               <label for="">Phone</label>
+                               <div class="control">
+                                   <input type="text" name="phone" class="input form-control" id="id_phone">
+                               </div>
+                           </div>
+                           <div class="field form-group" id="account">
+                               <label for="">Account type</label>
+                               <div class="control">
+                                   <select name="account" id="id_account" class="form-control">
+                                       <option value="INDIVIDUAL">individual</option>
+                                       <option value="COMPANY">company</option>
+                                   </select>
+                               </div>
+                           </div>
+                           <div class="field form-group">
+                               <label for="">Password</label>
+                               <div class="control">
+                                   <input type="password" name="password1" class="input form-control" id="id_password1">
+                               </div>
+                           </div>
+                           <div class="field form-group">
+                               <label for="">Confirm Password</label>
+                               <div class="control">
+                                   <input type="password" name="password2" class="input form-control" id="id_password2">
+                               </div>
+                           </div>
+                           <div class="field form-group">
+                            <div clas="control">
+                                <input type="checkbox" name="is_privacy" value="True" id="is_privacy" required/>
+                                <label> I agree to Sokopark's <a href="{% url 'termsandconditions' %}">Terms & Conditions</a>.</label>
+                            </div>
+                        </div>
+        
+                        {% if form.errors %}
+                            {% for field in form %}
+                                {% for error in field.errors %}
+                                    <div class="alert alert-danger">
+                                        <strong>{{ error|escape }}</strong>
+                                    </div>
+                                {% endfor %}
+                            {% endfor %}
+                            {% for error in form.non_field_errors %}
+                                <div class="alert alert-danger">
+                                    <strong>{{ error|escape }}</strong>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+        
+                        {% if messages %}
+                            <div class="messages">
+                                {% for message in messages %}
+                                    <div class="alert alert-{{ message.tags }} alert-dismissible" role="alert">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        {{ message }}
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+    
+                         <div class="field form-group">
+                            <div class="control">
+                                <button type="submit" class="btn btn-primary btn-lg btn-block">Sign up</button>
+                            </div>
+                        </div>
+                       </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+ </div>
+{% endblock %}

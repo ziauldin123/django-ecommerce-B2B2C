@@ -73,6 +73,7 @@ INSTALLED_APPS = [
     'apps.ordering',
     'apps.maintenance',
     'apps.rental',
+    'apps.services',
 
 
     # 'rest_framework',
@@ -119,6 +120,7 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'apps.product.context_processors.menu_categories',
                 'apps.product.context_processors.rental_categories',
+                'apps.product.context_processors.services',
                 'apps.cart.context_processors.cart',
                 'apps.cart.context_processors.comparing',
             ],
