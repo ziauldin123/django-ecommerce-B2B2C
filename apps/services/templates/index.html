@@ -7,13 +7,13 @@
         <div class="page-header__container container">
             <div class="page-header__breadcrumb"></div>
             <div class="page-header__title">
-                <h4 class="widget-filters__title widget__title">Services Categories</h4> 
+                 <h3>Services</h3>
             </div>
         </div>
     </div>
     <div class="container">
-        <div class="shop-layout shop-layout--sidebar--start">
-            <div class="shop-layout__content">
+        <div class="row">
+            <div class="col-12">
                 <div class="block">
                      <div class="products-view">
                         <div class="products-view__list products-list" data-layout="grid-4-full" data-with-features="false" data-mobile-grid-columns="2">
@@ -26,10 +26,9 @@
                                                 <img class="product-image__img" src="{{category.image.url}}" alt="">
                                             </a>
                                         </div>
-                                        <div class="product-card__info">
-                                            <div class="product-card__name">
-                                                <a href="{{category.id}}" >{{category.title}}</a>
-                                            </div>
+                                
+                                        <div class="pt-3">
+                                            <a type="submit" class="btn btn-primary btn-lg btn-block" href="{{category.id}}" >{{category.title}}</a>
                                         </div>
                                     </div>
                                 </div>   
