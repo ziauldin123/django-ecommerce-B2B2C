@@ -594,7 +594,6 @@ def category(request, category_slug):
 
     products_list = Product.objects.filter(id__in=products_ids, visible=True, vendor__enabled=True,status=True)
    
-
     variants_id = []
 
     if search_form.is_valid():

@@ -1,6 +1,6 @@
 {% extends 'core/base.html' %}
 {% load static %} 
-{% block title %} {{item.title}} {% endblock %} 
+{% block title %} Rent - {{item.title}} {% endblock %} 
 {% block description %} {{ item.description }} {% endblock %}
 {% block content %}
 <div class="site__body">
@@ -56,25 +56,47 @@
                             </div>
                             <ul class="product__meta">
                                 <li class="product__meta-availability">
-                                    Owner:<span class="text-success">
-                                        <spa class="text">{{item.user}}</spa>
-                                    </span>
-                                </li>
-                                <li class="product__meta-availability">
                                     {% if item.email %}
                                      Email:<span class="text-success">
-                                     <span class="text">{{item.email}}</span>
+                                     <span class="text">{{user.email}}</span>
                                     {% endif %} 
                                 </span>
                                 </li>
                                 <li class="product__meta-availability">
                                     Phone Number:<span class="text-success">
-                                    <span class="text">{{item.phone}}</span>
+                                    <span class="text">{{user.phone}}</span>
                                 </span>
                                 </li>
+                                <li class="product__meta-availability">
+                                    Address: <span class="text-success">
+                                        <span class="text">{{user.address}}</span>
+                                    </span>
+                                </li>
+                                {% if user.district %} 
+                                <li class="product__meta-availability">
+                                    District: <span class="text-success">
+                                        <span class="text">{{user.district}}</span>
+                                    </span>
+                                </li>
+                                <li class="product__meta-availability">
+                                    Sector: <span class="text-success">
+                                        <span class="text">{{user.sector}}</span>
+                                    </span>
+                                </li>
+                                <li class="product__meta-availability">
+                                    Cell: <span class="text-success">
+                                        <span class="text">{{user.cell}}</span>
+                                    </span>
+                                </li>
+                                <li class="product__meta-availability">
+                                    Village: <span class="text-success">
+                                        <span class="text">{{user.village}}</span>
+                                    </span>
+                                </li>
+                                {% endif %}
                             </ul>
                             <div class="product__prices">
-                                <span class="product-card__old-price"></span>Rwf {{item.price}}/{{item.unit.unit}}</span>
+                                <span class="product-card__old-price"></span>Rwf {{item.price|floatformat:"0"}}/{{item.unit.unit}}</span>
                            </div>
                         </div>
                 </div>

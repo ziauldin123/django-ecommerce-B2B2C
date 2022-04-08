@@ -9,6 +9,7 @@ from turtle import title
 from unicodedata import category
 from django.db import models
 from django.utils.text import slugify
+from django.contrib.auth.models import User
 
 # Create your models here.
 
@@ -43,7 +44,9 @@ class Item(models.Model):
         Category, related_name='items',on_delete=models.CASCADE
     ) 
     phone = models.CharField(max_length=255,null=True)
-    user = models.CharField(max_length=255,null=True)
+    user = models.ForeignKey(
+        User, related_name='rental_items',on_delete=models.CASCADE
+    )
     email = models.EmailField(max_length=255,null=True)
     slug = models.SlugField(null=True, unique=True)
     quantity = models.DecimalField(max_digits=12,default=0,decimal_places=2)
@@ -52,5 +55,6 @@ class Item(models.Model):
     image=models.ImageField(upload_to='images/',null=False)
     unit=models.ForeignKey(UnitTypes,related_name='unit_item',on_delete=models.CASCADE)
     review=models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
  
     

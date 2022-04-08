@@ -77,7 +77,7 @@ def index(request):
         'total_compare': total_compare
     })          
 
-def get_category(request,id):
+def get_category(request,id,service_slug):
     service = Category.objects.get(id=id)
     providers_list = ServiceProvider.objects.filter(service=service,review=True)
     paginator = Paginator(providers_list,6)

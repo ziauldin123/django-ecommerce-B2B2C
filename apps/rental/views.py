@@ -7,19 +7,53 @@ from urllib import request
 import django
 from django.shortcuts import redirect, render
 from django.utils.text import slugify
-from apps.rental.forms import ItemForm
-from apps.vendor.models import Customer, Vendor
+from apps.product.views import search
+from apps.rental.forms import ItemForm,SearchForm
+from apps.vendor.models import Customer, Vendor, UserWishList
 from .models import Category,Item
 from django.contrib import messages
 from django.core.paginator import (Paginator,PageNotAnInteger,EmptyPage)
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
+from apps.cart.cart import Cart
+from apps.ordering.models import ShopCart
+from .services.filter import items_filters
 
 # Create your views here.
 def index(request):
     category_list=Category.objects.all()
     paginator = Paginator(category_list,6)
     page = request.GET.get('page')
+   
+    if not request.user.is_anonymous:
+        cart = Cart(request)
+        current_user = request.user
+        wishlist = UserWishList.objects.filter(user=current_user)
+        # cart.clear()
+        shopcart = ShopCart.objects.filter(user_id=current_user.id)
+        total = cart.get_cart_cost()
+        tax = cart.get_cart_tax()
+        grandTotal = cart.get_cart_cost() + cart.get_cart_tax()
+        if not request.session.get('comparing'):
+            comparing = 0
+        else:
+            comparing = request.session['comparing'].__len__()
+
+        if not request.session.get('comparing_variants'):
+            compare_var = 0
+        else:
+            compare_var = request.session['comparing_variants'].__len__()
+
+        total_compare = comparing + compare_var
+    else:
+        cart = 0
+        subtotal = 0
+        tax = 0
+        total = 0
+        grandTotal = 0
+        shopcart = None
+        wishlist = 0
+        total_compare = 0
 
     try:
         category = paginator.page(page)
@@ -28,12 +62,80 @@ def index(request):
     except EmptyPage:
         category = paginator.page(paginator.num_pages)        
 
-    return render(request,'rental/index.html',{'category':category})
+    return render(request,'rental/index.html',
+    {
+        'category':category,
+        'shopcart': shopcart,
+        'subtotal': total,
+        'tax': tax,
+        'total': grandTotal,
+        'wishlist': wishlist,
+        'total_compare': total_compare
+        })
 
-def category(request,id):
+def category(request,id,category_slug):
     category=Category.objects.get(id=id)
-    items_list=Item.objects.filter(category=category,visible=True)
+    # items_list=Item.objects.filter(category=category,visible=True)
+    
+    if not request.user.is_anonymous:
+        cart = Cart(request)
+        current_user = request.user
+        wishlist = UserWishList.objects.filter(user=current_user)
+        # cart.clear()
+        shopcart = ShopCart.objects.filter(user_id=current_user.id)
+        total = cart.get_cart_cost()
+        tax = cart.get_cart_tax()
+        grandTotal = cart.get_cart_cost() + cart.get_cart_tax()
+        if not request.session.get('comparing'):
+            comparing = 0
+        else:
+            comparing = request.session['comparing'].__len__()
 
+        if not request.session.get('comparing_variants'):
+            compare_var = 0
+        else:
+            compare_var = request.session['comparing_variants'].__len__()
+
+        total_compare = comparing + compare_var
+    else:
+        cart = 0
+        subtotal = 0
+        tax = 0
+        total = 0
+        grandTotal = 0
+        shopcart = None
+        wishlist = 0
+        total_compare = 0
+
+    
+
+    search_form = SearchForm(request.GET)    
+
+    query=request.GET.get('query')
+    price_to=request.GET.get('price_to')
+    price_from=request.GET.get('price_from')
+    
+    if not query:
+        query = ''
+    if price_from == None:
+        price_from = 0
+    if price_to == None:
+        price_to = "10000"
+    max_amount = "500000" 
+
+    sorting = request.GET.get('sorting','created_at')
+    
+    items_ids = []
+    items_ids.extend(
+        category.items.all().values_list('id',flat=True)
+    )
+    
+    items_list = Item.objects.filter(id__in=items_ids,visible=True)
+
+    if search_form.is_valid():
+        items_list,price_from,price_to = items_filters.filter_items(items_list,sorting=sorting,**search_form.cleaned_data)
+    else:
+        print(search_form.errors)    
     paginator = Paginator(items_list,6)
     page  = request.GET.get('page')
     
@@ -42,20 +144,77 @@ def category(request,id):
     except PageNotAnInteger:
         items = paginator.page(1)   
     except EmptyPage:
-        items = paginator.page(paginator.numb_pages)     
+        items = paginator.page(paginator.numb_pages)
+            
 
-    for item in items:
-        print(item.category.slug)
-    return render(request,'rental/category.html',{'items':items,'category_title':category})
+    return render(request,'rental/category.html',
+    {
+        'items':items,
+        'category_title':category,
+        'shopcart': shopcart,
+        'subtotal': total,
+        'tax': tax,
+        'total': grandTotal,
+        'wishlist': wishlist,
+        'total_compare': total_compare,
+        'price_to':re.sub('[\$,]','',str(price_to)),
+        'price_from':re.sub('[\$,]','',str(price_from)),
+        'max_amaount':max_amount,
+    })
 
 def item_Detail(request,id,category_slug,slug):
     url=request.META.get('HTTP_REFERER')
     item=Item.objects.get(id=id)
+    
+    if Customer.objects.filter(user=item.user).exists():
+        user=Customer.objects.get(user=item.user)
+    else:
+        user=Vendor.objects.get(user=item.user)
+
+    if not request.user.is_anonymous:
+        cart = Cart(request)
+        current_user = request.user
+        wishlist = UserWishList.objects.filter(user=current_user)
+        # cart.clear()
+        shopcart = ShopCart.objects.filter(user_id=current_user.id)
+        total = cart.get_cart_cost()
+        tax = cart.get_cart_tax()
+        grandTotal = cart.get_cart_cost() + cart.get_cart_tax()
+        if not request.session.get('comparing'):
+            comparing = 0
+        else:
+            comparing = request.session['comparing'].__len__()
+
+        if not request.session.get('comparing_variants'):
+            compare_var = 0
+        else:
+            compare_var = request.session['comparing_variants'].__len__()
+
+        total_compare = comparing + compare_var
+    else:
+        cart = 0
+        subtotal = 0
+        tax = 0
+        total = 0
+        grandTotal = 0
+        shopcart = None
+        wishlist = 0
+        total_compare = 0
+
     if not item.visible:
         messages.success(request, 'Item not available') 
         return redirect(url)
 
-    return render(request,'rental/details.html',{'item':item})
+    return render(request,'rental/details.html',
+    {   'item':item,
+        'shopcart': shopcart,
+        'subtotal': total,
+        'tax': tax,
+        'total': grandTotal,
+        'wishlist': wishlist,
+        'total_compare': total_compare,
+        'user':user
+        })
 
 def get_user_items(request):
     current_user=request.user
@@ -73,7 +232,7 @@ def add_item(request):
             item = form.save(commit=False)
             item.email = username    
             item.slug = slugify(item.title)
-            item.user = request.session.get('username')
+            item.user = current_user
             item.visible = True
             item.review=False
             item.phone = request.session.get('phone')
