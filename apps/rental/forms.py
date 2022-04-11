@@ -26,7 +26,8 @@ class SearchForm(forms.Form):
     query = forms.CharField(max_length=50,widget=forms.TextInput(attrs={'class':'input'}),required=False)
     price_from = forms.BooleanField(initial=0,required=False,widget=forms.TextInput(attrs={'class':'input'}))
     price_to = forms.IntegerField(initial=5000000, required=False,widget=forms.TextInput(attrs={'class':'input'}))
-    
+    location = forms.CharField(widget=forms.Select(),required=False)
+
     def clean_price_to(self) -> int:
         price_to = self.cleaned_data['price_to']
         if price_to is None:

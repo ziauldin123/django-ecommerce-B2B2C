@@ -16,6 +16,7 @@ from django.core.paginator import (Paginator,PageNotAnInteger,EmptyPage)
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from apps.cart.cart import Cart
+from apps.cart.models import District
 from apps.ordering.models import ShopCart
 from .services.filter import items_filters
 
@@ -106,14 +107,13 @@ def category(request,id,category_slug):
         shopcart = None
         wishlist = 0
         total_compare = 0
-
     
-
     search_form = SearchForm(request.GET)    
-
+    
     query=request.GET.get('query')
     price_to=request.GET.get('price_to')
     price_from=request.GET.get('price_from')
+    query_loc=request.GET.get('location')
     
     if not query:
         query = ''
@@ -132,21 +132,25 @@ def category(request,id,category_slug):
     
     items_list = Item.objects.filter(id__in=items_ids,visible=True)
 
-    if search_form.is_valid():
-        items_list,price_from,price_to = items_filters.filter_items(items_list,sorting=sorting,**search_form.cleaned_data)
-    else:
-        print(search_form.errors)    
-    paginator = Paginator(items_list,6)
-    page  = request.GET.get('page')
+    locations = District.objects.all() 
     
-    try:
-        items = paginator.page(page)
-    except PageNotAnInteger:
-        items = paginator.page(1)   
-    except EmptyPage:
-        items = paginator.page(paginator.numb_pages)
-            
+    if search_form.is_valid(): 
+        items_list,price_from,price_to,locations = items_filters.filter_items(query_loc,items_list,sorting=sorting,**search_form.cleaned_data)
 
+        paginator = Paginator(items_list,6)
+        page  = request.GET.get('page')
+
+        try:
+            items = paginator.page(page)
+        except PageNotAnInteger:
+            items = paginator.page(1)
+        except EmptyPage:
+            items = paginator.page(paginator.numb_pages)
+    else:
+        print(search_form.errors) 
+
+    search_form = SearchForm(request.GET,items=items_list)   
+    
     return render(request,'rental/category.html',
     {
         'items':items,
@@ -157,9 +161,14 @@ def category(request,id,category_slug):
         'total': grandTotal,
         'wishlist': wishlist,
         'total_compare': total_compare,
+        'query':query,
+        'form':search_form,
+        'sorting':sorting,
         'price_to':re.sub('[\$,]','',str(price_to)),
         'price_from':re.sub('[\$,]','',str(price_from)),
+        'query_loc':query_loc,
         'max_amaount':max_amount,
+        'location':District.objects.all()
     })
 
 def item_Detail(request,id,category_slug,slug):
@@ -219,8 +228,14 @@ def item_Detail(request,id,category_slug,slug):
 def get_user_items(request):
     current_user=request.user
     items=Item.objects.filter(email=current_user,visible=True)
-
-    return render(request,'rental/allItems.html',{'items':items})
+    vendor=[]
+    try:
+        if current_user.vendor:
+            vendor=Vendor.objects.get(email=current_user)  
+    except:
+        print('customer')
+    print(vendor)    
+    return render(request,'rental/allItems.html',{'items':items,'vendor':vendor})
 
 @login_required
 def add_item(request):
