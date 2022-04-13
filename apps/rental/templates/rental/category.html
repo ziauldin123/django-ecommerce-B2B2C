@@ -14,7 +14,7 @@
         </div>
     </div>
     <div class="container">
-        <form id="search_form1" action="" >
+        <form id="search_form1" action="">
             <div class="shop-layout shop-layout--sidebar--start">
                 <div class="shop-layout__sidebar">
                     <div class="block block-sidebar block-sidebar--offcanvas--mobile">
@@ -71,7 +71,7 @@
                                                                             <span class="input-check__body">
                                                                                 <input class="input-check__input" value="{{location.id}}" type="checkbox" name="location">
                                                                                 <span class="input-check__box"></span>
-                                                                                <svg class="input-check__icon" width="9px" height=""7px>
+                                                                                <svg class="input-check__icon" width="9px" height="7px">
                                                                                  <use xlink:href="/static/templates/images/sprite.svg#check-9x7"></use>
                                                                                 </svg>
                                                                             </span>
@@ -90,7 +90,7 @@
                                         </div>
                                         <div class="widget-filters__actions d-flex">
                                             <button class="btn btn-primary btn-sm" id="filter_search_btn">Filter</button>
-                                            <a href="" class="btn btn-secondary btn-sm">Reset</a>
+                                            <a href="{% url 'category' category_title.id category_title.slug %}" class="btn btn-secondary btn-sm">Reset</a>
                                         </div>
                                 </div>
                             </div>

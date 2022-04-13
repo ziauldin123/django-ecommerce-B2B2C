@@ -148,7 +148,6 @@ def contact_info(request):
 def district_sector(request):
     district_id = request.GET.get('districtId')
     sectors = Sector.objects.filter(district_id=district_id)
-
     return JsonResponse(list(sectors.values('id', 'sector')), safe=False)
 
 
@@ -156,7 +155,6 @@ def district_sector_cell(request):
     district_id = request.GET.get('districtId')
     sector_id = request.GET.get('sectorId')
     cells = Cell.objects.filter(district_id=district_id, sector_id=sector_id)
-
     return JsonResponse(list(cells.values('id', 'cell')), safe=False)
 
 

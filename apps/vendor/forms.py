@@ -1,5 +1,6 @@
 from email.mime import image
 from pyexpat import model
+from random import choices
 from tkinter import Widget
 from tkinter.tix import Select
 from turtle import color, title
@@ -221,6 +222,7 @@ class ProductImageForm(ModelForm):
 class VendorSignUpForm(UserCreationForm):
     company_name = forms.CharField(max_length=64, required=True)
     company_code = forms.CharField(max_length=64, required=True)
+    
     district = forms.ChoiceField(choices=[
                                  (-1, '')] + [(entry.id, entry.district) for entry in District.objects.all()])
     print("district", district)
@@ -271,6 +273,23 @@ class CustomerSignUpForm(UserCreationForm):
     address = forms.CharField(max_length=64, required=True)
     phone = forms.CharField(max_length=32, required=True)
     company_code = forms.CharField(max_length=32,required=False)
+
+    district = forms.ChoiceField(choices=[
+        (-1, '')] + [(entry.id, entry.district) for entry in District.objects.all()])
+    print('district',district)
+
+    sector = forms.ChoiceField(choices=[
+        (-1, '')] + [(entry.id, entry.sector) for entry in Sector.objects.all()])
+    print('sector',sector)
+
+    cell = forms.ChoiceField(choices=[
+        (-1, '')] + [(entry.id, entry.cell) for entry in Cell.objects.all()])
+    print('cell',cell)
+
+    village = forms.ChoiceField(choices=[
+        (-1, '')] + [(entry.id, entry.village) for entry in Village.objects.all()])
+    print('village',village)
+
     class Meta:
         model = User
         fields = [

@@ -108,7 +108,9 @@ def category(request,id,category_slug):
         wishlist = 0
         total_compare = 0
     
-    search_form = SearchForm(request.GET)    
+    search_form = SearchForm(request.GET)     
+    
+    locations = District.objects.all()
     
     query=request.GET.get('query')
     price_to=request.GET.get('price_to')
@@ -130,13 +132,12 @@ def category(request,id,category_slug):
         category.items.all().values_list('id',flat=True)
     )
     
-    items_list = Item.objects.filter(id__in=items_ids,visible=True)
+    items_list = Item.objects.filter(id__in=items_ids,review=True)
 
-    locations = District.objects.all() 
     
-    if search_form.is_valid(): 
+    if search_form.is_valid():
         items_list,price_from,price_to,locations = items_filters.filter_items(query_loc,items_list,sorting=sorting,**search_form.cleaned_data)
-
+        
         paginator = Paginator(items_list,6)
         page  = request.GET.get('page')
 
@@ -147,10 +148,9 @@ def category(request,id,category_slug):
         except EmptyPage:
             items = paginator.page(paginator.numb_pages)
     else:
-        print(search_form.errors) 
-
-    search_form = SearchForm(request.GET,items=items_list)   
+        print(search_form.errors)
     
+    search_form = SearchForm(request.GET,items=items_list)
     return render(request,'rental/category.html',
     {
         'items':items,
@@ -168,7 +168,7 @@ def category(request,id,category_slug):
         'price_from':re.sub('[\$,]','',str(price_from)),
         'query_loc':query_loc,
         'max_amaount':max_amount,
-        'location':District.objects.all()
+        'location':locations
     })
 
 def item_Detail(request,id,category_slug,slug):

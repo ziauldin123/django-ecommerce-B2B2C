@@ -1095,7 +1095,7 @@ def vendor(request, slug):
 def become_customer(request):
     if request.user.is_authenticated:
         logout(request)
-
+    districts = District.objects.all()
     if request.method == 'POST':
         form = CustomerSignUpForm(request.POST)
 
@@ -1113,12 +1113,21 @@ def become_customer(request):
                     user=user, email=form.cleaned_data.get('email'))
                 profile.save()
 
+            district_id = form.cleaned_data['district']
+            sector_id = form.cleaned_data['sector']
+            cell_id = form.cleaned_data['cell']
+            village_id = form.cleaned_data['village']
+
             privacy_checked = request.POST.get('is_privacy')
             
 
             customer = Customer(
                 customername=form.cleaned_data.get('customername'),
                 email=form.cleaned_data.get('email'),
+                village_id=village_id,
+                district_id=district_id,
+                sector_id=sector_id,
+                cell_id=cell_id,
                 address=form.cleaned_data.get('address'),
                 phone=form.cleaned_data.get('phone'),
                 company_code=form.cleaned_data.get('company_code'),
@@ -1145,7 +1154,7 @@ def become_customer(request):
     else:
         form = CustomerSignUpForm()
 
-    return render(request, 'customer/become_customer.html', {'form': form})
+    return render(request, 'customer/become_customer.html', {'form': form,'districts': districts})
 
 
 class MyAccount(TemplateView):

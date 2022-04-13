@@ -6,7 +6,7 @@ from apps.vendor.models import Customer, Vendor
 class ItemFilter:
     def filter_items(
         self,
-        locations,
+        district,
         items,
         sorting,
         query,
@@ -15,7 +15,7 @@ class ItemFilter:
         *args,
         **kwargs
         ):
-        print("filters",query,price_from,price_to,locations)
+        print("filters",query,price_from,price_to,district)
         if price_from != None and price_to != None:
             items = items.filter(Q(price__gte=price_from), Q(price__lte=price_to), ~Q(price=0))
 
@@ -41,7 +41,7 @@ class ItemFilter:
             # locations.append(i.location)
             if Customer.objects.filter(user=i.user).exists():
                 user_loc=Customer.objects.get(user=i.user)
-                locations.append(user_loc.address)
+                locations.append(user_loc.district)
             else:
                 user_loc=Vendor.objects.get(user=i.user)
                 locations.append(user_loc.district)
