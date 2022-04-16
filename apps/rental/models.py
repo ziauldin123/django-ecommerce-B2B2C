@@ -11,6 +11,9 @@ from django.db import models
 from django.utils.text import slugify
 from django.contrib.auth.models import User
 
+from apps.vendor.models import Customer, Vendor
+from apps.cart.models import District
+
 # Create your models here.
 
 class Category(models.Model):
@@ -52,9 +55,12 @@ class Item(models.Model):
     quantity = models.DecimalField(max_digits=12,default=0,decimal_places=2)
     available=models.BooleanField(default=False)
     visible=models.BooleanField(default=False)
+    district=models.ForeignKey(District,on_delete=models.CASCADE,null=True)
     image=models.ImageField(upload_to='images/',null=False)
     unit=models.ForeignKey(UnitTypes,related_name='unit_item',on_delete=models.CASCADE)
     review=models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
- 
+      
+       
+
     

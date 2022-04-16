@@ -107,16 +107,19 @@ def category(request,id,category_slug):
         shopcart = None
         wishlist = 0
         total_compare = 0
-    
-    search_form = SearchForm(request.GET)     
+
+    items_list = Item.objects.filter(category=category,review=True,visible=True)
+        
     
     locations = District.objects.all()
-    
+
+    search_form = SearchForm(request.GET) 
+
     query=request.GET.get('query')
     price_to=request.GET.get('price_to')
     price_from=request.GET.get('price_from')
     query_loc=request.GET.get('location')
-    
+
     if not query:
         query = ''
     if price_from == None:
@@ -124,7 +127,7 @@ def category(request,id,category_slug):
     if price_to == None:
         price_to = "10000"
     max_amount = "500000" 
-
+    
     sorting = request.GET.get('sorting','created_at')
     
     items_ids = []
@@ -132,25 +135,23 @@ def category(request,id,category_slug):
         category.items.all().values_list('id',flat=True)
     )
     
-    items_list = Item.objects.filter(id__in=items_ids,review=True)
-
-    
+    items_list = Item.objects.filter(id__in=items_ids,review=True)    
     if search_form.is_valid():
         items_list,price_from,price_to,locations = items_filters.filter_items(query_loc,items_list,sorting=sorting,**search_form.cleaned_data)
-        
-        paginator = Paginator(items_list,6)
-        page  = request.GET.get('page')
-
-        try:
-            items = paginator.page(page)
-        except PageNotAnInteger:
-            items = paginator.page(1)
-        except EmptyPage:
-            items = paginator.page(paginator.numb_pages)
+        print('loc:',locations)
     else:
         print(search_form.errors)
-    
     search_form = SearchForm(request.GET,items=items_list)
+    paginator = Paginator(items_list,6)
+    page  = request.GET.get('page')
+
+    try:
+        items = paginator.page(page)
+    except PageNotAnInteger:
+        items = paginator.page(1)
+    except EmptyPage:
+        items = paginator.page(paginator.numb_pages)
+
     return render(request,'rental/category.html',
     {
         'items':items,
@@ -241,6 +242,10 @@ def get_user_items(request):
 def add_item(request):
     current_user =  request.user
     username=User.objects.get(email=current_user)
+    if Customer.objects.filter(user=current_user).exists():
+        district=Customer.objects.get(user=current_user).district
+    else:
+        district=Vendor.objects.get(user=current_user).district    
     if request.method == 'POST':
         form = ItemForm(request.POST, request.FILES)
         if form.is_valid():
@@ -248,6 +253,7 @@ def add_item(request):
             item.email = username    
             item.slug = slugify(item.title)
             item.user = current_user
+            item.district = district
             item.visible = True
             item.review=False
             item.phone = request.session.get('phone')
