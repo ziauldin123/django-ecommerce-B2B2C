@@ -1,40 +1,26 @@
 {% extends 'core/base.html' %}
 {% load static %} 
-{% block title %} Service Provider - {{provider.name}} {% endblock %} 
-{% block description %} {{ provider.description }} {% endblock %}
+{% block title %} {{provider.name}} {% endblock %} 
+
 {% block content %}
+<br>
     <div class="site__body">
         <!-- BREADCRUMB -->
-        <div class="page-header">
-            <div class="page-header__container container">
-                <div class="page-header__breadcrumb">
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb">
-                            
-                        </ol>
-                    </nav>
-                </div>
-            </div>
-        </div>
-        <!-- /BREADCRUMB -->
-        <!-- section -->
-        <div class="block">
+        <div class="block block-banner">
             <div class="container">
-                <div class="row">
-                    <div class="col-12 col-lg-9 mt-4 mt-lg-0">
-                        <div class="dashboard">
-                            <div class="dashboard__profile card profile-card">
-                               <div class="card-body profile-card__body">
-                                {% if not provider.available %}
-                                <div class="product-card__badges-list">
-                                    <div class="product-card__badge product-card__badge--sale">Unavailable</div>
+                    <div class="faq__section">
+                    <div class="hours__section-body">
+                        <div class="row">
+                         
+                            <div class="faq__section-column col-12 col-lg-3">
+                                <div class="address-card__row-title">Service Provider</div>
+                                <div class="address-card__row-content">
+                                {{provider.name}}
                                 </div>
-                                {% endif %}
-                                   <div class="profile-card__avatar">
-                                       <img src="{{ provider.image.url }}" alt="">
-                                   </div>
-                                   <div class="product__rating">
-                                    <div class="product-card__rating-stars"> 
+                            </div>
+                              <div class="faq__section-column col-12 col-lg-2">
+                                <div class="address-card__row-title">Ratings</div>
+                                 <div class="product-card__rating-stars"> 
                                         <div class="rating">
                                             <div class="rating__body">
                                             {% if max.rate__max == 1 %} 
@@ -289,44 +275,58 @@
                                     <div class="product__rating-legend">
                                         <a href="">{{ provider.countreview}}  Reviews</a>
                                     </div>
-                                </div>
-                                   <div class="profile-card__name">{{provider.name}} - {{provider.service}}</div>
-                                   <div class="profile-card__email">{{provider.email}}</div>
-                               </div>
                             </div>
-                            <div class="dashboard__address card address-card address-card--featured">
-                                <div class="address-card__body">
-                                    <div class="address-card__row">
-                                        <div class="address-card__row-title">{% if provider.account == 'COMPANY' %} Company Name {% endif %}</div>
-                                        <div class="address-card__row-content">{{provider.name}}</div>
-                                    </div>
-                                    {% if provider.account == 'COMPANY' %} 
-                                    <div class="address-card__row">
-                                        <div class="address-card__row-title">TIN</div>
-                                        <div class="address-card__row-content">{{provider.tin}}</div>
-                                    </div>
-                                    {% endif %}
-                                    <div class="address-card__row">
-                                        <div class="address-card__row-title">Phone Number</div>
-                                        <div class="address-card__row-content">{{provider.phone}}</div>
-                                    </div>
-                                    <div class="address-card__row">
-                                        <div class="address-card__row-title">Description</div>
-                                        <div class="address-card__row-content">{{provider.description}}</div>
-                                    </div>
+                                <div class="faq__section-column col-12 col-lg-3">
+                                <div class="address-card__row-title">Email</div>
+                                <div class="address-card__row-content">
+                                {{ provider.email }} 
                                 </div>
                             </div>
-                            <div class="dashboard__orders card">
-                                <div class="reviews-view">
+                            <div class="faq__section-column col-12 col-lg-2">
+                                <div class="address-card__row-title">Phone number</div>
+                                <div class="address-card__row-content">
+                                {{ provider.phone }}
+                                </div>
+                            </div>
+                            {% if provider.account == 'COMPANY' %} 
+                            <div class="faq__section-column col-12 col-lg-2">
+                                <div class="address-card__row-title">TIN</div>
+                                <div class="address-card__row-content">
+                                {{ provider.tin }} 
+                              {% endif %}
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="faq__section-column col-12 col-lg-12">
+                                <div class="address-card__row-title">Bio</div>
+                                <div class="address-card__row-content">
+                                {{ provider.description }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /BREADCRUMB -->
+        <!-- section -->
+        <div class="block">
+            <div class="container">
+                <div class="shop-layout shop-layout--sidebar--end">
+                    <div class="shop-layout__content">
+                        <div class="block">
+                            <div class="products-view">
+                                <div class="dashboard__orders card">
+                               <div class="card-header">
                                     <div class="reviews-view__list">
-                                        <h3 class="reviews-view__header">Customer Reviews</h3>
+                                        <h3 class="reviews-view__header">Reviews</h3><br>
                                         <div class="reviews-list">
                                             <ol class="reviews-list__content">
                                                 {% if comments %} 
                                                 {% for comment in comments %}
                                                 <li class="reviews-list__item">
                                                     <div class="review">
-                                                        <div class="review__avatar"><img src="/static/templates/images/avatars/avatar-1.jpg" alt=""></div>
+                                                       
                                                         <div class="review__content">
                                                             <div class="review__author">{{comment.subject}}</div>
                                                             <div class="review__rating">
@@ -437,8 +437,9 @@
                                             {% include "core/pagination.html" with page=comments %}
                                         </div>
                                     </div>
-                                    </div>
-                                 <form class="reviews-view__form review-form" action="/services/addcomment/{{ provider.id }}" method="post">
+                                </div>
+                              
+                                <form class="reviews-view__form review-form" action="/services/addcomment/{{ provider.id }}" method="post">
                                     {% csrf_token %}
                                      <h3 class="reviews-view__header">Write A Review</h3>
                                      <div class="row">
@@ -475,11 +476,29 @@
                                          </div>
                                      </div>
                                  </form>
+                        
+                        
+                            </div>
+                                
                             </div>
                         </div>
                     </div>
+                    <div class="shop-layout__sidebar">
+                        <div class="block block-sidebar block-sidebar--offcanvas--mobile">
+                            <div class="block-sidebar__body">       
+                                 <div class="block-sidebar__item">
+                                    <div class="block-sidebar__item">
+                                        <div class="widget-aboutus widget">
+                                           <img src="{{ provider.image.url }}" alt="" width="100%">
+                                        </div>
+                                    </div>
+                                </div>
+                                   
+                            </div>  
+                        </div>
+                    </div>  
                 </div>
-            </div>   
+            </div>
         </div>
     </div>
 {% endblock %} 
