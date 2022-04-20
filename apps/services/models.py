@@ -23,6 +23,12 @@ class Category(models.Model):
     def __str__(self):
         return self.title   
 
+class Experience(models.Model):
+    experince = models.IntegerField(default=0)
+
+    def __str__(self):
+        return str(self.experince)
+
 class ServiceProvider(models.Model):
     
     ACCOUNT_CHOICES = (
@@ -30,13 +36,14 @@ class ServiceProvider(models.Model):
         ('INDIVIDUAL','individual')
     )
 
-    service = models.ForeignKey(Category,on_delete=models.CASCADE)
+    service = models.ForeignKey(Category,on_delete=models.CASCADE,related_name='service_category')
     slug = models.SlugField(null=False,unique=True)
     phone = models.CharField(max_length=10)
     email = models.EmailField(max_length=150)
     image = models.ImageField(upload_to='images/',null=True)
     name = models.CharField(max_length=255)
     description = models.TextField(max_length=255,null=True)
+    experience = models.ForeignKey(Experience,on_delete=models.CASCADE,null=True,blank=True)
     available = models.BooleanField(default=True)
     review = models.BooleanField(default=False)
     tin = models.CharField(max_length=255,default=0)

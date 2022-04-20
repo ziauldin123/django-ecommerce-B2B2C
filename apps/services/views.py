@@ -4,7 +4,9 @@ import imp
 from unicodedata import category
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
-from .models import Category,ServiceProvider,CommentForm,Comment
+
+from apps.services.forms import SearchForm
+from .models import Category, Experience,ServiceProvider,CommentForm,Comment
 from django.core.paginator import (Paginator,PageNotAnInteger,EmptyPage)
 from django.contrib.auth import logout
 from django.contrib.auth.models import User
@@ -22,6 +24,7 @@ from django.utils.text import slugify
 from django.db.models import Max
 from apps.cart.cart import Cart
 from apps.ordering.models import ShopCart
+from .filters.filter import providers_filters
 
 # Create your views here.
 def index(request):
@@ -120,6 +123,27 @@ def get_category(request,id,service_slug):
         wishlist = 0
         total_compare = 0      
     
+    ratings = [1,2,3,4,5]
+    experiences = Experience.objects.all()
+    search_form = SearchForm(request.GET)
+
+    query=request.GET.get('query')
+    query_rating=request.GET.get('rating')
+    query_experience=request.GET.get('experience')
+
+    sorting = request.GET.get('sorting','created_at')
+
+    providers_ids = []
+    providers_ids.extend(
+        service.service_category.all().values_list('id',flat=True)
+    )
+    
+    providers_list = ServiceProvider.objects.filter(id__in=providers_ids,review=True)
+    # if search_form.is_valid():
+    #     providers_list,experiences = providers_filters.filter_provider(providers_list,sorting=sorting,**search_form.cleaned_data)
+    # else:
+    #     print(search_form.errors)    
+    
     return render(request,'service.html',
     {'service':service,
     'providers':providers,
@@ -128,14 +152,17 @@ def get_category(request,id,service_slug):
     'tax': tax,
     'total': grandTotal,
     'wishlist': wishlist,
-    'total_compare': total_compare
+    'total_compare': total_compare,
+    'query_experience':query_experience,
+    'experinces':experiences
     })
 
 def get_service_provider(request,id,service_slug,slug):
     service_provider = ServiceProvider.objects.get(id=id)
     username = request.user
     customer = models.Customer.objects.filter(email=username)
-    max = service_provider.service_provider.all().aggregate(Max('rate'))
+    # max = service_provider.service_provider.all().aggregate(Max('rate'))
+    max=round(service_provider.avarageview(),0)
     comment_list = Comment.objects.filter(service_provider=id,status='True')
     paginator = Paginator(comment_list,2)
     page = request.GET.get('page')

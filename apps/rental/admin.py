@@ -8,3 +8,5 @@ class ItemsAdmin(admin.ModelAdmin):
 admin.site.register(Category)
 admin.site.register(UnitTypes)
 admin.site.register(Item,ItemsAdmin)
+admin.site.register(Make)
+admin.site.register(Room)

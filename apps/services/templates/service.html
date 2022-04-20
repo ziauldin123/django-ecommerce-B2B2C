@@ -102,11 +102,11 @@
                                                         <div class="filter__container">
                                                             <div class="filter-list">
                                                                 <div class="filter-list__list">
-                                                                    {% for wt in weight %}
+                                                                    {% for wt in experiences %}
                                                                     <label class="filter-list__item ">
                                                                         <span class="filter-list__input input-check">
                                                                             <span class="input-check__body">
-                                                                                <input class="input-check__input" value="{{wt.id}}" type="checkbox" name="weight">
+                                                                                <input class="input-check__input" value="{{wt.id}}" type="checkbox" name="experience">
                                                                                 <span class="input-check__box"></span>
                                                                                 <svg class="input-check__icon" width="9px" height="7px">
                                                                                     <use xlink:href="/static/templates/images/sprite.svg#check-9x7"></use>
@@ -114,11 +114,7 @@
                                                                             </span>
                                                                         </span>
                                                                         <span class="filter-list__title">
-                                                                            {% if wt.weight == None %}
-                                                                            None
-                                                                            {% else %}
-                                                                            {{wt.weight}}
-                                                                            {% endif %}
+                                                                            {{wt}}
                                                                         </span>
 
                                                                     </label>

@@ -87,6 +87,74 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            <div class="widget-filters__item">
+                                                <div class="filter filter--opened" data-collapse-item>
+                                                    <button type="button" class="filter__title"  data-collapse-trigger>
+                                                        Makes
+                                                        <svg class="filter__arrow" width="12px" height="7px">
+                                                            <use xlink:href="/static/templates/images/sprite.svg#arrow-rounded-down-12x7"></use>
+                                                        </svg>
+                                                    </button>
+                                                    <div class="filter__body" data-collapse-content>
+                                                        <div class="filter__container">
+                                                            <div class="filter-list">
+                                                                <div class="filter-list__list">
+                                                                    {% for make in makes %} 
+                                                                       <label  class="filter-list__item">
+                                                                           <span class="filter-list__input input-check">
+                                                                            <span class="input-check__body">
+                                                                                <input class="input-check__input" value="{{make.id}}" type="checkbox" name="make">
+                                                                                <span class="input-check__box"></span>
+                                                                                <svg class="input-check__icon" width="9px" height="7px">
+                                                                                 <use xlink:href="/static/templates/images/sprite.svg#check-9x7"></use>
+                                                                                </svg>
+                                                                            </span>
+                                                                           </span>
+                                                                           <span class="filter-list__title">
+                                                                               {{make}}
+                                                                           </span>
+                                                                       </label>
+                                                                    {% endfor %}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="widget-filters__item">
+                                                <div class="filter filter--opened" data-collapse-item>
+                                                    <button type="button" class="filter__title"  data-collapse-trigger>
+                                                        Rooms
+                                                        <svg class="filter__arrow" width="12px" height="7px">
+                                                            <use xlink:href="/static/templates/images/sprite.svg#arrow-rounded-down-12x7"></use>
+                                                        </svg>
+                                                    </button>
+                                                    <div class="filter__body" data-collapse-content>
+                                                        <div class="filter__container">
+                                                            <div class="filter-list">
+                                                                <div class="filter-list__list">
+                                                                    {% for room in rooms %} 
+                                                                       <label  class="filter-list__item">
+                                                                           <span class="filter-list__input input-check">
+                                                                            <span class="input-check__body">
+                                                                                <input class="input-check__input" value="{{room.id}}" type="checkbox" name="room">
+                                                                                <span class="input-check__box"></span>
+                                                                                <svg class="input-check__icon" width="9px" height="7px">
+                                                                                 <use xlink:href="/static/templates/images/sprite.svg#check-9x7"></use>
+                                                                                </svg>
+                                                                            </span>
+                                                                           </span>
+                                                                           <span class="filter-list__title">
+                                                                               {{room}}
+                                                                           </span>
+                                                                       </label>
+                                                                    {% endfor %}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                         <div class="widget-filters__actions d-flex">
                                             <button class="btn btn-primary btn-sm" id="filter_search_btn">Filter</button>

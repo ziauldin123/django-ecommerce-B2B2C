@@ -62,7 +62,8 @@ def product_detail(request, id, slug, vendor_slug, category_slug, subcategory_sl
     mainProduct = []
     query = request.GET.get('q')
     product = Product.objects.get(pk=id)
-    max = product.product.all().aggregate(Max('rate'))
+    # max = product.product.all().aggregate(Max('rate'))
+    max = round(product.avaregeview(),0)
     if not request.user.is_anonymous:
         cart = Cart(request)
         current_user = request.user

@@ -27,6 +27,8 @@ class SearchForm(forms.Form):
     price_from = forms.BooleanField(initial=0,required=False,widget=forms.TextInput(attrs={'class':'input'}))
     price_to = forms.IntegerField(initial=5000000, required=False,widget=forms.TextInput(attrs={'class':'input'}))
     location = forms.CharField(widget=forms.Select(),required=False)
+    make = forms.CharField(widget=forms.Select(),required=False)
+    room = forms.CharField(widget=forms.Select(),required=False)
 
     def clean_price_to(self) -> int:
         price_to = self.cleaned_data['price_to']

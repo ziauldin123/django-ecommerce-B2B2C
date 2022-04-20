@@ -32,3 +32,11 @@ class ServiceProviderForm(UserCreationForm):
            'tin',
            'description'
         ]
+
+class SearchForm(forms.Form):
+    def __init__(self,*args,**kwargs):
+        providers = kwargs.pop('providers') if kwargs.get('providers') is not None else ServiceProvider.objects.all()
+        super().__init__(*args,**kwargs)
+
+    query = forms.CharField(max_length=50,widget=forms.TextInput(attrs={'class':'input'}),required=False)
+    experience = forms.CharField(widget=forms.Select(),required=False)    

@@ -39,6 +39,19 @@ class UnitTypes(models.Model):
     class Meta:
         verbose_name_plural = 'Unit_Types'
 
+class Make(models.Model):
+    make = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.make
+
+class Room(models.Model):
+    room=models.IntegerField(default=0)
+
+    def __str__(self):
+        return str(self.room)
+
+
 class Item(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField(max_length=255)
@@ -56,6 +69,8 @@ class Item(models.Model):
     available=models.BooleanField(default=False)
     visible=models.BooleanField(default=False)
     district=models.ForeignKey(District,on_delete=models.CASCADE,null=True)
+    makes=models.ForeignKey(Make,on_delete=models.CASCADE,related_name='makes',null=True,blank=True)
+    rooms=models.ForeignKey(Room,on_delete=models.CASCADE,related_name='rooms',null=True,blank=True)
     image=models.ImageField(upload_to='images/',null=False)
     unit=models.ForeignKey(UnitTypes,related_name='unit_item',on_delete=models.CASCADE)
     review=models.BooleanField(default=False)

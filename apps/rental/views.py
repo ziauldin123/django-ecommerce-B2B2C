@@ -10,7 +10,7 @@ from django.utils.text import slugify
 from apps.product.views import search
 from apps.rental.forms import ItemForm,SearchForm
 from apps.vendor.models import Customer, Vendor, UserWishList
-from .models import Category,Item
+from .models import Category,Item,Make, Room
 from django.contrib import messages
 from django.core.paginator import (Paginator,PageNotAnInteger,EmptyPage)
 from django.contrib.auth.models import User
@@ -112,13 +112,16 @@ def category(request,id,category_slug):
         
     
     locations = District.objects.all()
-
+    makes = Make.objects.all()
+    rooms = Room.objects.all()
     search_form = SearchForm(request.GET) 
 
     query=request.GET.get('query')
     price_to=request.GET.get('price_to')
     price_from=request.GET.get('price_from')
     query_loc=request.GET.get('location')
+    query_makes=request.GET.get('make')
+    query_rooms=request.GET.get('room')
 
     if not query:
         query = ''
@@ -137,7 +140,7 @@ def category(request,id,category_slug):
     
     items_list = Item.objects.filter(id__in=items_ids,review=True)    
     if search_form.is_valid():
-        items_list,price_from,price_to,locations = items_filters.filter_items(query_loc,items_list,sorting=sorting,**search_form.cleaned_data)
+        items_list,price_from,price_to,locations,makes,rooms= items_filters.filter_items(query_loc,items_list,sorting=sorting,**search_form.cleaned_data)
         print('loc:',locations)
     else:
         print(search_form.errors)
@@ -168,8 +171,12 @@ def category(request,id,category_slug):
         'price_to':re.sub('[\$,]','',str(price_to)),
         'price_from':re.sub('[\$,]','',str(price_from)),
         'query_loc':query_loc,
+        'query_makes':query_makes,
+        'query_rooms':query_rooms,
         'max_amaount':max_amount,
-        'location':locations
+        'location':locations,
+        'makes':makes,
+        'rooms':rooms
     })
 
 def item_Detail(request,id,category_slug,slug):
