@@ -52,9 +52,16 @@
                         <div class="product__info">
                             <h1 class="product__name">{{item.title}}</h1>
                             <div class="product__description">
-                                {{ item.description }}.
+                                {{ item.description }}
                             </div>
                             <ul class="product__meta">
+                               
+
+                                <li class="product__meta-availability">
+                                    Phone Number:<span class="text-success">
+                                    <span class="text">{{user.phone}}</span>
+                                </span>
+                                </li>
                                 <li class="product__meta-availability">
                                     {% if item.email %}
                                      Email:<span class="text-success">
@@ -62,16 +69,7 @@
                                     {% endif %} 
                                 </span>
                                 </li>
-                                <li class="product__meta-availability">
-                                    Phone Number:<span class="text-success">
-                                    <span class="text">{{user.phone}}</span>
-                                </span>
-                                </li>
-                                <li class="product__meta-availability">
-                                    Address: <span class="text-success">
-                                        <span class="text">{{user.address}}</span>
-                                    </span>
-                                </li>
+                              
                                 {% if user.district %} 
                                 <li class="product__meta-availability">
                                     District: <span class="text-success">
@@ -94,6 +92,11 @@
                                     </span>
                                 </li>
                                 {% endif %}
+                                  <li class="product__meta-availability">
+                                    Address: <span class="text-success">
+                                        <span class="text">{{user.address}}</span>
+                                    </span>
+                                </li>
                             </ul>
                             <div class="product__prices">
                                 <span class="product-card__old-price"></span>Rwf {{item.price|floatformat:"0"}}/{{item.unit.unit}}</span>
