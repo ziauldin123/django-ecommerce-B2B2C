@@ -5,7 +5,7 @@ import re
 from unicodedata import name
 
 from apps import services
-from .models import ServiceProvider,Category
+from .models import Daily_rate, ServiceProvider,Category
 from django import forms
 from django.contrib.auth.forms import UserCreationForm,User
 
@@ -39,4 +39,20 @@ class SearchForm(forms.Form):
         super().__init__(*args,**kwargs)
 
     query = forms.CharField(max_length=50,widget=forms.TextInput(attrs={'class':'input'}),required=False)
-    experience = forms.CharField(widget=forms.Select(),required=False)    
+    price_from = forms.BooleanField(initial=0,required=False,widget=forms.TextInput(attrs={'class':'input'}))
+    price_to = forms.IntegerField(initial=5000000, required=False,widget=forms.TextInput(attrs={'class':'input'}))
+    daily_rate = forms.CharField(widget=forms.Select(),required=False)
+    experience = forms.CharField(widget=forms.Select(),required=False)
+    rating = forms.IntegerField(required=False,widget=forms.TextInput(attrs={'class':'input'}))  
+
+    def clean_price_to(self) -> int:
+        price_to = self.cleaned_data['price_to']
+        if price_to is None:
+            return 500000
+        return price_to
+
+    def clean_price_from(self) -> int:
+        price_from = self.cleaned_data['price_from']
+        if price_from is None:
+            return 0
+        return price_from  
