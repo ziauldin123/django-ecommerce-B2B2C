@@ -137,7 +137,7 @@ def category(request,id,category_slug):
     items_ids.extend(
         category.items.all().values_list('id',flat=True)
     )
-    
+        
     items_list = Item.objects.filter(id__in=items_ids,review=True)    
     if search_form.is_valid():
         items_list,price_from,price_to,locations,makes,rooms= items_filters.filter_items(query_loc,items_list,sorting=sorting,**search_form.cleaned_data)
@@ -154,7 +154,8 @@ def category(request,id,category_slug):
         items = paginator.page(1)
     except EmptyPage:
         items = paginator.page(paginator.numb_pages)
-
+    
+    
     return render(request,'rental/category.html',
     {
         'items':items,

@@ -5,7 +5,7 @@ import re
 from unicodedata import name
 
 from apps import services
-from .models import Daily_rate, ServiceProvider,Category
+from .models import  ServiceProvider,Category
 from django import forms
 from django.contrib.auth.forms import UserCreationForm,User
 
@@ -41,7 +41,6 @@ class SearchForm(forms.Form):
     query = forms.CharField(max_length=50,widget=forms.TextInput(attrs={'class':'input'}),required=False)
     price_from = forms.BooleanField(initial=0,required=False,widget=forms.TextInput(attrs={'class':'input'}))
     price_to = forms.IntegerField(initial=5000000, required=False,widget=forms.TextInput(attrs={'class':'input'}))
-    daily_rate = forms.CharField(widget=forms.Select(),required=False)
     experience = forms.CharField(widget=forms.Select(),required=False)
     rating = forms.IntegerField(required=False,widget=forms.TextInput(attrs={'class':'input'}))  
 

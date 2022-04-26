@@ -7,7 +7,7 @@ from django.shortcuts import redirect, render
 import re
 
 from apps.services.forms import SearchForm
-from .models import Category, Daily_rate, Experience,ServiceProvider,CommentForm,Comment
+from .models import Category, Experience,ServiceProvider,CommentForm,Comment
 from django.core.paginator import (Paginator,PageNotAnInteger,EmptyPage)
 from django.contrib.auth import logout
 from django.contrib.auth.models import User
@@ -85,7 +85,6 @@ def get_category(request,id,service_slug):
     service = Category.objects.get(id=id)
     providers_list = ServiceProvider.objects.filter(service=service,review=True)
     
-
     if not request.user.is_anonymous:
         cart = Cart(request)
         current_user = request.user
@@ -118,13 +117,11 @@ def get_category(request,id,service_slug):
     
     ratings = [1,2,3,4,5]
     experiences = Experience.objects.all()
-    daily_rates = Daily_rate.objects.all()
     search_form = SearchForm(request.GET)
 
     query=request.GET.get('query')
     query_rating=request.GET.get('rating')
     query_experience=request.GET.get('experience')
-    query_daily_rate=request.GET.get('daily_rate')
     price_to=request.GET.get('price_to')
     price_from=request.GET.get('price_from')
 
@@ -144,7 +141,7 @@ def get_category(request,id,service_slug):
     )
     providers_list = ServiceProvider.objects.filter(id__in=providers_ids,review=True)
     if search_form.is_valid():
-        providers_list,price_from,price_to,experiences,daily_rates= providers_filters.filter_provider(providers_list,sorting=sorting,**search_form.cleaned_data)
+        providers_list,price_from,price_to,experiences,ratings= providers_filters.filter_provider(providers_list,sorting=sorting,**search_form.cleaned_data)
     else:
         print(search_form.errors) 
 
@@ -177,10 +174,10 @@ def get_category(request,id,service_slug):
     'form':search_form,
     'sorting':sorting,
     'ratings':ratings,
-    'daily_rates':daily_rates,
-    'query_daily_rate':query_daily_rate,
+    'query_rating':query_rating,
     'price_to':re.sub('[\$,]','',str(price_to)),
     'price_from':re.sub('[\$,]','',str(price_from)),
+    'range':range(1,6)
     })
 
 def get_service_provider(request,id,service_slug,slug):
@@ -372,4 +369,4 @@ def addComment(request,id):
                 request,"Your review has been submitted."
             )
             return HttpResponseRedirect(url)
-    return HttpResponseRedirect(url)        
+    return HttpResponseRedirect(url)    

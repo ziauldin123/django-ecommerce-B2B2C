@@ -1,7 +1,3 @@
-from dataclasses import fields
-from email.policy import default
-from pyexpat import model
-from unittest.mock import DEFAULT
 from django.db import models
 from django.dispatch import receiver
 from django.forms import ModelForm
@@ -9,7 +5,6 @@ from django.utils.text import slugify
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.db.models import Max
-from django.urls import reverse
 from django.db.models import Avg, Count
 
 # Create your models here.
@@ -31,13 +26,7 @@ class Experience(models.Model):
     def __str__(self):
         return str(self.experince)
 
-class Daily_rate(models.Model):
-    daily_rate = models.CharField(max_length=255)
 
-    def __str__(self):
-        return str(self.daily_rate)
-        
-DEFAULT=1
 class ServiceProvider(models.Model):
     
     ACCOUNT_CHOICES = (
@@ -58,7 +47,6 @@ class ServiceProvider(models.Model):
     tin = models.CharField(max_length=255,default=0)
     privacy_checked = models.BooleanField(default=False)
     price=models.IntegerField(default=0)
-    daily_rate=models.ForeignKey(Daily_rate,on_delete=models.CASCADE,related_name='service_daily_rate',default=DEFAULT)
     account = models.CharField(max_length=20,choices=ACCOUNT_CHOICES,default='individual')
     created_at = models.DateTimeField(auto_now_add=True)
     user = models.OneToOneField(
@@ -86,8 +74,8 @@ class ServiceProvider(models.Model):
             service_provider=self, status='True').aggregate(avarage=Avg('rate'))
         avg = 0
         if reviews["avarage"] is not None:
-            avg = float(reviews["avarage"])
-        return avg 
+            avg=round(float(reviews["avarage"]))
+        return avg
 
     def countreview(self):
         reviews = Comment.objects.filter(
