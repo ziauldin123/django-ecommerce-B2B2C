@@ -10,7 +10,7 @@ from django.utils.text import slugify
 from apps.product.views import search
 from apps.rental.forms import ItemForm,SearchForm
 from apps.vendor.models import Customer, Vendor, UserWishList
-from .models import Category,Item,Make, Room
+from .models import Amenity, Application, Capacity, Category,Item, Item_Model,Make, Room,Year, Engine
 from django.contrib import messages
 from django.core.paginator import (Paginator,PageNotAnInteger,EmptyPage)
 from django.contrib.auth.models import User
@@ -114,6 +114,13 @@ def category(request,id,category_slug):
     locations = District.objects.all()
     makes = Make.objects.all()
     rooms = Room.objects.all()
+    application = Application.objects.all()
+    capacity = Capacity.objects.all()
+    amenity = Amenity.objects.all()
+    year = Year.objects.all()
+    model= Item_Model.objects.all()
+    engine = Engine.objects.all()
+
     search_form = SearchForm(request.GET) 
 
     query=request.GET.get('query')
@@ -122,6 +129,12 @@ def category(request,id,category_slug):
     query_loc=request.GET.get('location')
     query_makes=request.GET.get('make')
     query_rooms=request.GET.get('room')
+    query_application=request.GET.get('application')
+    query_capacity=request.GET.get('capacity')
+    query_amenity=request.GET.get('amenity')
+    query_year=request.GET.get('year')
+    query_model=request.GET.get('model')
+    query_engine=request.GET.get('engine')
 
     if not query:
         query = ''
@@ -140,7 +153,7 @@ def category(request,id,category_slug):
         
     items_list = Item.objects.filter(id__in=items_ids,review=True)    
     if search_form.is_valid():
-        items_list,price_from,price_to,locations,makes,rooms= items_filters.filter_items(query_loc,items_list,sorting=sorting,**search_form.cleaned_data)
+        items_list,price_from,price_to,locations,makes,rooms,application,capacity,amenity,year,model,engine = items_filters.filter_items(query_loc,items_list,sorting=sorting,**search_form.cleaned_data)
         print('loc:',locations)
     else:
         print(search_form.errors)
@@ -177,7 +190,21 @@ def category(request,id,category_slug):
         'max_amaount':max_amount,
         'location':locations,
         'makes':makes,
-        'rooms':rooms
+        'rooms':rooms,
+        'applicaton':application,
+        'query_application':query_application,
+        'capacity':capacity,
+        'query_capacity':query_capacity,
+        'amenity':amenity,
+        'query_amenity':query_amenity,
+        'year':year,
+        'query_year':query_year,
+        'model':model,
+        'query_model':query_model,
+        'model':model,
+        'query_model':query_model,
+        'engine':engine,
+        'query_engine':query_engine
     })
 
 def item_Detail(request,id,category_slug,slug):

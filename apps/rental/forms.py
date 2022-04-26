@@ -1,7 +1,7 @@
 from dataclasses import field
 from pyexpat import model
 from django.forms import ModelForm
-from .models import Item
+from .models import Amenity, Item
 from django import forms
 
 class ItemForm(ModelForm):
@@ -29,6 +29,12 @@ class SearchForm(forms.Form):
     location = forms.CharField(widget=forms.Select(),required=False)
     make = forms.CharField(widget=forms.Select(),required=False)
     room = forms.CharField(widget=forms.Select(),required=False)
+    application = forms.CharField(widget=forms.Select(),required=False)
+    capacity = forms.CharField(widget=forms.Select(),required=False)
+    amenity = forms.CharField(widget=forms.Select(),required=False)
+    year = forms.CharField(widget=forms.Select(),required=False)
+    model = forms.CharField(widget=forms.Select(),required=False)
+    engine = forms.CharField(widget=forms.Select(),required=False)
 
     def clean_price_to(self) -> int:
         price_to = self.cleaned_data['price_to']

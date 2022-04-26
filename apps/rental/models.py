@@ -95,6 +95,12 @@ class Make(models.Model):
     def __str__(self):
         return self.make
 
+class Item_Model(models.Model):
+    model=models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.model
+
 class Room(models.Model):
     room=models.IntegerField(default=0)
 
@@ -105,31 +111,31 @@ class Application(models.Model):
     application=models.CharField(max_length=255)
 
     def __str__(self):
-        return str(self.application)
+        return self.application
 
 class Capacity(models.Model):
     capacity=models.IntegerField(default=0)
 
     def __str__(self):
-        return self.capacity
+        return str(self.capacity)
 
 class Year(models.Model):
     year=models.IntegerField(default=0)
 
     def __str__(self):
-        return self.year
+        return str(self.year)
 
 class Engine(models.Model):
     engine=models.CharField(max_length=255)
 
     def __str__(self):
-        return str(self.engine)
+        return self.engine
 
 class Amenity(models.Model):
     amenity=models.CharField(max_length=255)
 
     def __str__(self):
-        return str(self.amenity)
+        return self.amenity
 
 class Item(models.Model):
     title = models.CharField(max_length=255)
@@ -157,6 +163,7 @@ class Item(models.Model):
     year=models.ForeignKey(Year,on_delete=models.CASCADE,related_name='year_item',null=True,blank=True)
     engine=models.ForeignKey(Engine,on_delete=models.CASCADE,related_name='engine_item',null=True,blank=True)
     amenity=models.ForeignKey(Amenity,on_delete=models.CASCADE,related_name='amenity_item',null=True,blank=True)
+    model=models.ForeignKey(Item_Model,on_delete=models.CASCADE,related_name='vehicle_model',null=True,blank=True)
     image=models.ImageField(upload_to='images/',null=False)
     unit=models.ForeignKey(UnitTypes,related_name='unit_item',on_delete=models.CASCADE)
     review=models.BooleanField(default=False)
