@@ -275,6 +275,9 @@ def get_user_items(request):
 
 @login_required
 def add_item(request):
+    equipment_id=Category.objects.get(title='Equipment').id
+    space_id=Category.objects.get(title='Spaces').id
+    vehicles_id=Category.objects.get(title='Vehicles').id
     current_user =  request.user
     username=User.objects.get(email=current_user)
     if Customer.objects.filter(user=current_user).exists():
@@ -300,12 +303,12 @@ def add_item(request):
         else:
             messages.add_message(
                 request, messages.ERROR, "Input field not Valid"
-            )    
+            ) 
             return redirect('add_item')
     else:
         form = ItemForm()
 
-    return render(request,'add_item.html',{'form':form})        
+    return render(request,'add_item.html',{'form':form,'equipment_id':equipment_id,'space_id':space_id,'vehicles_id':vehicles_id})        
 
 
 @login_required

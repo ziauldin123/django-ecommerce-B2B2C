@@ -186,7 +186,7 @@ class Item(models.Model):
                 content=ContentFile(new_image_io.getvalue()),
                 save=False
             ) 
-            super(Item,self).save(*args,**kwargs)
+        super(Item,self).save(*args,**kwargs)
 
     def __str__(self):
         return self.title 
