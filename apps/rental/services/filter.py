@@ -1,6 +1,6 @@
 from django.db.models import Q
 from django.db.models import Max,Min
-from apps.rental.models import Amenity, Application, Capacity, Item, Item_Model, Make, Room, Year, Engine
+from apps.rental.models import Amenity, Application, Capacity, Item, Item_Model, Make, Room, Year, Engine,Type
 from apps.vendor.models import Customer, Vendor
 from apps.cart.models import District
 
@@ -13,6 +13,7 @@ class ItemFilter:
         query,
         price_from,
         price_to,
+        sale,
         make,
         room,
         application,
@@ -21,12 +22,18 @@ class ItemFilter:
         year,
         model,
         engine,
+        item_type,
         *args,
         **kwargs
         ):
-        print("filters",query,price_from,price_to,district,sorting,make,room,application,capacity,amenity,year,model,engine)
+        print("filters",query,price_from,price_to,district,sale,sorting,make,room,application,capacity,amenity,year,model,engine,item_type)
         if price_from != None and price_to != None:
             items = items.filter(Q(price__gte=price_from), Q(price__lte=price_to), ~Q(price=0))
+
+        if sale:
+            items = items.filter(sale=True)
+        else:
+            items = items.filter(sale=False)        
 
         items_ids = []
         for item in items:
@@ -36,7 +43,7 @@ class ItemFilter:
         if query:
             items = items.filter(Q(title__icontains=query) | Q(description__icontains=query))
 
-        items = self.filter_district(items,district,make,room,application,capacity,amenity,year,model,engine)
+        items = self.filter_district(items,district,make,room,application,capacity,amenity,year,model,engine,item_type)
         min_price=items.filter(~Q(price=0)).aggregate(Min('price'))['price__min']
         max_price=items.aggregate(Max('price'))['price__max']
 
@@ -57,6 +64,7 @@ class ItemFilter:
         list_year=[]
         list_model=[]
         list_engine=[]
+        list_item_type=[]
         for i in items:
             locations.append(i.district)
             list_make.append(i.makes)
@@ -66,14 +74,13 @@ class ItemFilter:
             list_amenity.append(i.amenity)
             list_year.append(i.year)
             list_model.append(i.model)
-            list_engine.append(i.engine) 
-
+            list_engine.append(i.engine)
+            list_item_type.append(i.item_type )
         
-        return items.order_by(sorting),min_price,max_price,set(locations),set(list_make),set(list_room),set(list_application),set(list_capacity),set(list_amenity),set(list_year),set(list_model),set(list_engine)
-               
+        return items.order_by(sorting),min_price,max_price,sale,set(locations),set(list_make),set(list_room),set(list_application),set(list_capacity),set(list_amenity),set(list_year),set(list_model),set(list_engine),set(list_item_type),   
 
 
-    def filter_district(self,items,district,make,room,application,capacity,amenity,year,model,engine,*args,**kwargs):
+    def filter_district(self,items,district,make,room,application,capacity,amenity,year,model,engine,item_type,*args,**kwargs):
         
         if district:       
             items = items.filter(district__in=District.objects.filter(pk__in=district))
@@ -92,7 +99,9 @@ class ItemFilter:
         if model:
             items = items.filter(model__in=Item_Model.objects.filter(pk__in=model))
         if engine:
-            items = items.filter(engine__in=Engine.objects.filter(pk__in=engine))                             
+            items = items.filter(engine__in=Engine.objects.filter(pk__in=engine))  
+        if item_type:
+            items = items.filter(item_type__in=Type.objects.filter(pk__in=item_type))                                  
         
         print('filter:',items)
         return items

@@ -131,7 +131,7 @@ def get_category(request,id,service_slug):
         price_from = 0
     if price_to == None:
         price_to = "10000"
-    max_amount = "500000"            
+    max_amount = "500000"       
 
     sorting = request.GET.get('sorting','created_at')
 
@@ -141,6 +141,7 @@ def get_category(request,id,service_slug):
     )
     providers_list = ServiceProvider.objects.filter(id__in=providers_ids,review=True)
     if search_form.is_valid():
+        print('price',request.GET.get('price_from'))
         providers_list,price_from,price_to,experiences,ratings= providers_filters.filter_provider(providers_list,sorting=sorting,**search_form.cleaned_data)
     else:
         print(search_form.errors) 

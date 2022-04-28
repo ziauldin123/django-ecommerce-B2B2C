@@ -39,7 +39,7 @@ class SearchForm(forms.Form):
         super().__init__(*args,**kwargs)
 
     query = forms.CharField(max_length=50,widget=forms.TextInput(attrs={'class':'input'}),required=False)
-    price_from = forms.BooleanField(initial=0,required=False,widget=forms.TextInput(attrs={'class':'input'}))
+    price_from = forms.IntegerField(initial=0,required=False,widget=forms.TextInput(attrs={'class':'input'}))
     price_to = forms.IntegerField(initial=5000000, required=False,widget=forms.TextInput(attrs={'class':'input'}))
     experience = forms.CharField(widget=forms.Select(),required=False)
     rating = forms.IntegerField(required=False,widget=forms.TextInput(attrs={'class':'input'}))  

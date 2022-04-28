@@ -1004,7 +1004,8 @@ def brands(request):
         brands = paginator.page(paginator.num_pages)
 
     return render(request,'product/brands.html',
-    {'brands':brands,
+    {
+    'brands':brands,
     'shopcart': shopcart,
     'subtotal': total,
     'tax': tax,

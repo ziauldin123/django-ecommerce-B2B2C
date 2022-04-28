@@ -107,6 +107,8 @@ class SearchForm(forms.Form):
     year = forms.CharField(widget=forms.Select(),required=False)
     model = forms.CharField(widget=forms.Select(),required=False)
     engine = forms.CharField(widget=forms.Select(),required=False)
+    item_type = forms.CharField(widget=forms.Select(),required=False)
+    sale = forms.CharField(widget=forms.Select(),required=False)
 
     def clean_price_to(self) -> int:
         price_to = self.cleaned_data['price_to']

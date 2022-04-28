@@ -53,6 +53,42 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            {% if category_title.title != "Equipment" %}
+                                            <div class="widget-filters__item">
+                                                <div class="filter filter--opened" data-collapse-item>
+                                                    <button type="button" class="filter__title"  data-collapse-trigger>
+                                                        Item Types
+                                                        <svg class="filter__arrow" width="12px" height="7px">
+                                                            <use xlink:href="/static/templates/images/sprite.svg#arrow-rounded-down-12x7"></use>
+                                                        </svg>
+                                                    </button>
+                                                    <div class="filter__body" data-collapse-content>
+                                                        <div class="filter__container">
+                                                            <div class="filter-list">
+                                                                <div class="filter-list__list">
+                                                                    {% for type in item_type %} 
+                                                                       <label  class="filter-list__item">
+                                                                           <span class="filter-list__input input-check">
+                                                                            <span class="input-check__body">
+                                                                                <input class="input-check__input" value="{{type.id}}" type="checkbox" name="item_type">
+                                                                                <span class="input-check__box"></span>
+                                                                                <svg class="input-check__icon" width="9px" height="7px">
+                                                                                 <use xlink:href="/static/templates/images/sprite.svg#check-9x7"></use>
+                                                                                </svg>
+                                                                            </span>
+                                                                           </span>
+                                                                           <span class="filter-list__title">
+                                                                               {{type.title}}
+                                                                           </span>
+                                                                       </label>
+                                                                    {% endfor %}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            {% endif %}
                                             {% if category_title.title == "Equipment" or category_title.title == "Spaces" %}
                                             <div class="widget-filters__item">
                                                 <div class="filter filter--opened" data-collapse-item>
@@ -379,6 +415,53 @@
                                             </div>
                                         </div>
                                         
+                                        <div class="widget-filters__item">
+                                            <div class="filter filter--opened" data-collapse-item>
+                                                <button type="button" class="filter__title"  data-collapse-trigger>
+                                                     Available for Sale
+                                                    <svg class="filter__arrow" width="12px" height="7px">
+                                                        <use xlink:href="/static/templates/images/sprite.svg#arrow-rounded-down-12x7"></use>
+                                                    </svg>
+                                                </button>
+                                                <div class="filter__body" data-collapse-content>
+                                                    <div class="filter__container">
+                                                        <div class="filter-list">
+                                                            <div class="filter-list__list">
+                                                                   <label  class="filter-list__item">
+                                                                       <span class="filter-list__input input-check">
+                                                                        <span class="input-check__body">
+                                                                            <input class="input-check__input" value="True" type="checkbox" name="sale">
+                                                                            <span class="input-check__box"></span>
+                                                                            <svg class="input-check__icon" width="9px" height="7px">
+                                                                             <use xlink:href="/static/templates/images/sprite.svg#check-9x7"></use>
+                                                                            </svg>
+                                                                        </span>
+                                                                       </span>
+                                                                       <span class="filter-list__title">
+                                                                           Yes
+                                                                       </span>
+                                                                   </label>
+                                                                   <label  class="filter-list__item">
+                                                                    <span class="filter-list__input input-check">
+                                                                     <span class="input-check__body">
+                                                                         <input class="input-check__input" value="False" type="checkbox" name="sale">
+                                                                         <span class="input-check__box"></span>
+                                                                         <svg class="input-check__icon" width="9px" height="7px">
+                                                                          <use xlink:href="/static/templates/images/sprite.svg#check-9x7"></use>
+                                                                         </svg>
+                                                                     </span>
+                                                                    </span>
+                                                                    <span class="filter-list__title">
+                                                                        No
+                                                                    </span>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
                                         {% endif %}
                                         </div>
                                         <div class="widget-filters__actions d-flex">

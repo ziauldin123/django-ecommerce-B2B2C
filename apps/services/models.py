@@ -6,6 +6,9 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.db.models import Max
 from django.db.models import Avg, Count
+from PIL import Image
+from django.core.files.base import ContentFile
+from io import BytesIO
 
 # Create your models here.
 class Category(models.Model):
@@ -64,11 +67,43 @@ class ServiceProvider(models.Model):
 
     def save(self,*args,**kwargs):
         self.slug=slugify(self.name)
+        if self.image and not self.image.url.endswith('.webp'):
+            imm=Image.open(self.image).convert("RGB")
+            original_width, original_height = imm.size
+            aspect_ratio=round(original_width / original_height)
+            if aspect_ratio < 1:
+                aspect_ratio = 1
+            desired_height = 500
+            desired_width = desired_height * aspect_ratio
+            imm.thumbnail((desired_width,desired_height), Image.ANTIALIAS)
+            new_image_io = BytesIO()
+            imm.save(new_image_io,format="WEBP",quality=70)
+            self.image.save(
+                self.title[:40]+".webp",
+                content=ContentFile(new_image_io.getvalue()),
+                save=False
+            )     
         super(ServiceProvider,self).save(*args,**kwargs)
 
     def __str__(self):
         return self.name    
     
+    def get_thumbnail(self):
+        try:
+            item_image = self.image
+            if item_image.thumbnail:
+                return item_image.thumbnail.url
+            else:
+                if item_image.image:
+                    item_image.thumbnail = self.make_thumbnail(self.image)
+                    item_image.save()
+
+                    return item_image.thumbnail.url
+                else:
+                    return   'https://via.placeholder.com/240x180.jpg'
+        except:
+            return 'https://via.placeholder.com/240x180.jpg'                  
+
     def avarageview(self):
         reviews = Comment.objects.filter(
             service_provider=self, status='True').aggregate(avarage=Avg('rate'))
