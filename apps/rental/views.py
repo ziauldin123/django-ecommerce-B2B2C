@@ -10,7 +10,7 @@ from django.utils.text import slugify
 from apps.product.views import search
 from apps.rental.forms import ItemForm,SearchForm
 from apps.vendor.models import Customer, Vendor, UserWishList
-from .models import Amenity, Application, Capacity, Category,Item, Item_Model,Make, Room,Year, Engine, Type
+from .models import Amenity, Application, Capacity, Category,Item, Item_Model,Make, Room,Year, Engine, Type, ItemImage
 from django.contrib import messages
 from django.core.paginator import (Paginator,PageNotAnInteger,EmptyPage)
 from django.contrib.auth.models import User
@@ -19,6 +19,7 @@ from apps.cart.cart import Cart
 from apps.cart.models import District
 from apps.ordering.models import ShopCart
 from .services.filter import items_filters
+from django.forms import inlineformset_factory
 
 # Create your views here.
 def index(request):
@@ -121,6 +122,8 @@ def category(request,id,category_slug):
     model= Item_Model.objects.all()
     engine = Engine.objects.all()
     item_type= Type.objects.all()
+    sale = [True,False]
+    print(sale)
 
     search_form = SearchForm(request.GET) 
 
@@ -160,6 +163,7 @@ def category(request,id,category_slug):
         print('loc:',locations)
     else:
         print(search_form.errors)
+        
     search_form = SearchForm(request.GET,items=items_list)
     paginator = Paginator(items_list,6)
     page  = request.GET.get('page')
@@ -321,10 +325,13 @@ def add_item(request):
 @login_required
 def edit_item(request,pk):
     item = Item.objects.filter(id=pk).first()
+    ImageForm = inlineformset_factory(Item,ItemImage,can_delete=False,fields=['image'],extra=0)
     if request.method == 'POST':
         form = ItemForm(request.POST,request.FILES,instance=item)
+        imageForm = ImageForm(request.POST, request.FILES, instance=item)
         if form.is_valid():
             form.save()
+            imageForm.save()
             messages.info(request,"Product Updated")
             return redirect('items')
         else:
@@ -334,11 +341,41 @@ def edit_item(request,pk):
             return redirect('edit_item')  
     else:
         form = ItemForm(instance=item)
+        imageForm = ImageForm(instance=item)
 
-    return render(request,'edit_item.html',{'form':form,'item':item})        
+    return render(request,'edit_item.html',{'form':form,'item':item,'imageForm':imageForm})        
 
 @login_required
 def delete_item(request,pk):
     Item.objects.filter(id=pk).update(visible=False)
     messages.info(request,"Item Deleted")
+    return redirect('items')
+
+@login_required
+def add_item_image(request,pk):
+    user=request.user
+    item=Item.objects.get(id=pk)
+    if request.method == 'POST':
+        images = request.FILES.getlist('item_images')
+        print(images) 
+        itemImages =ItemImage.objects.filter(item=item) 
+        if len(images) > 3 :
+            messages.info(request,f"You can't can't add more than 3 images")
+        elif len(itemImages) >= 3:
+            messages.info(request,f"You have reached item images limit")
+        elif len(images) + len(itemImages) > 3:
+            if len(images) > len(itemImages):
+                img=len(images) - len(itemImages)
+            elif len(images) == len(itemImages):
+                img=3-len(images)
+            else:
+                img=len(itemImages) - len(images)
+            messages.info(request, f"You can't add more than 3 images only:" + str(img))
+        elif len(images) <= 0:
+            messages.info(request, f"No image Upload")
+        else:
+            for image in images:
+                ItemImage.objects.create(item=item,image=image) 
+            messages.info(request,f"Item image uploaded Successfully")       
+
     return redirect('items')

@@ -6,6 +6,7 @@ from operator import mod
 from pyexpat import model
 from statistics import mode
 from tkinter import CASCADE
+from django.utils.safestring import mark_safe
 from PIL import Image
 from turtle import title
 from unicodedata import category
@@ -207,6 +208,36 @@ class Item(models.Model):
         except:
             return 'https://via.placeholder.com/240x180.jpg'                                
       
-       
+    def get_absolute_url(self):
+        return '/%s/%s' % (self.category.slug, self.slug)
+    
+class ItemImage(models.Model):
+    item = models.ForeignKey(Item, related_name='items_images',on_delete=models.CASCADE,null=True)
+    title = models.CharField(max_length=50,blank=True)
+    image = models.ImageField(blank=True,upload_to='images/')
 
+    def save(self,*args,**kwargs):
+        if self.image and not self.image.url.endswith('.webp'):
+            imm = Image.open(self.image).convert("RGB")
+            original_width,original_height = imm.size
+            aspect_ration = round(original_width / original_height)
+            if aspect_ration < 1:
+                aspect_ration = 1
+            desired_height = 500
+            desired_width = desired_height * aspect_ration
+            imm.thumbnail((desired_width, desired_height), Image.ANTIALIAS)
+            new_image_io = BytesIO()
+            imm.save(new_image_io, format="WEBP", quality=70)
+            self.image.save(
+                self.title[:40]+".webp", 
+                content=ContentFile(new_image_io.getvalue()),
+                save=False
+            )  
+        super(ItemImage,self).save(*args,**kwargs) 
+    
+    def __str__(self):
+        return self.title
+
+    def image_tag(self):
+        return mark_safe('<img src="{}" height="50"/>'.format(self.image.url))         
     

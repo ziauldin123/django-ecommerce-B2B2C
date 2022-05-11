@@ -24,6 +24,6 @@ urlpatterns=[
     path('add-item/', views.add_item, name='add_item'),
     path('edit-item/<int:pk>/', views.edit_item, name='edit_item'),
     path('delete_item/<int:pk>/', views.delete_item, name='delete_item'),
-
+    path('add-item-image/<int:pk>/',views.add_item_image, name='add_item_image')
     
 ]

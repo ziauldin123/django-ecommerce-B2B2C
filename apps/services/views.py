@@ -1,11 +1,6 @@
-from base64 import urlsafe_b64decode
-from email import message
-import imp
-from unicodedata import category
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
 import re
-
 from apps.services.forms import SearchForm
 from .models import Category, Experience,ServiceProvider,CommentForm,Comment
 from django.core.paginator import (Paginator,PageNotAnInteger,EmptyPage)
@@ -15,14 +10,12 @@ from .forms import ServiceProviderForm
 from apps.vendor.models import Profile
 from django.template.loader import render_to_string
 from django.contrib.sites.shortcuts import get_current_site
-import email
 from django.contrib.auth.decorators import login_required
 from apps.vendor import tokens,views,models
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
 from django.contrib import messages
 from django.utils.text import slugify
-from django.db.models import Max
 from apps.cart.cart import Cart
 from apps.ordering.models import ShopCart
 from .filters.filter import providers_filters
@@ -113,17 +106,18 @@ def get_category(request,id,service_slug):
         grandTotal = 0
         shopcart = None
         wishlist = 0
-        total_compare = 0      
-    
+        total_compare = 0 
+
+    search_form = SearchForm(request.GET)
     ratings = [1,2,3,4,5]
     experiences = Experience.objects.all()
-    search_form = SearchForm(request.GET)
 
     query=request.GET.get('query')
     query_rating=request.GET.get('rating')
     query_experience=request.GET.get('experience')
-    price_to=request.GET.get('price_to')
     price_from=request.GET.get('price_from')
+    price_to=request.GET.get('price_to')
+    print(price_to,price_from)
 
     if not query:
         query = ''
@@ -131,32 +125,34 @@ def get_category(request,id,service_slug):
         price_from = 0
     if price_to == None:
         price_to = "10000"
-    max_amount = "500000"       
+    max_amount = "500000"    
+
+    print('price',price_from)   
 
     sorting = request.GET.get('sorting','created_at')
 
     providers_ids = []
-    providers_ids.extend(
-        service.service_category.all().values_list('id',flat=True)
-    )
-    providers_list = ServiceProvider.objects.filter(id__in=providers_ids,review=True)
+    # providers_ids.extend(
+    #     service.service_category.all().values_list('id',flat=True)
+    # )
+    # providers_list = ServiceProvider.objects.filter(id__in=providers_ids,review=True)
     if search_form.is_valid():
-        print('price',request.GET.get('price_from'))
         providers_list,price_from,price_to,experiences,ratings= providers_filters.filter_provider(providers_list,sorting=sorting,**search_form.cleaned_data)
+        paginator = Paginator(providers_list,6)
+        page = request.GET.get('page')
+
+        try:
+           providers = paginator.page(page)
+        except PageNotAnInteger:
+            providers = paginator.page(1)
+        except EmptyPage:
+            providers = paginator.page(paginator.num_pages)
+          
     else:
         print(search_form.errors) 
 
     search_form = SearchForm(request.GET,providers=providers_list)
-    paginator = Paginator(providers_list,6)
-    page = request.GET.get('page')
-
-    try:
-        providers = paginator.page(page)
-    except PageNotAnInteger:
-        providers = paginator.page(1)
-    except EmptyPage:
-        providers = paginator.page(paginator.num_pages)
-
+    
     return render(
     request,
     'service.html',
@@ -178,6 +174,7 @@ def get_category(request,id,service_slug):
     'query_rating':query_rating,
     'price_to':re.sub('[\$,]','',str(price_to)),
     'price_from':re.sub('[\$,]','',str(price_from)),
+    'max_amount':max_amount,
     'range':range(1,6)
     })
 

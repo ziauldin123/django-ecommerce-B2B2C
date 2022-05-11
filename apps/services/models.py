@@ -126,7 +126,8 @@ class ServiceProvider(models.Model):
         ).aggregate(Max('rate'))     
         return rate  
 
-               
+    def get_absolute_url(self):
+        return '/%s/%s' % (self.service.slug, self.slug)
 
 class Comment(models.Model):
     STATUS = (
@@ -148,6 +149,8 @@ class Comment(models.Model):
 
     def __str__(self):
         return self.subject
+
+        
 
 class CommentForm(ModelForm):
     class Meta:

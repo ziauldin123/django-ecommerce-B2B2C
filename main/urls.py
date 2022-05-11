@@ -32,13 +32,14 @@ from django.conf.urls import url
 
 from django.contrib.sitemaps.views import sitemap
 
-from .sitemaps import StaticViewSitemap,  PostSitemap, CategorySitemap, ProductSitemap, VendorSitemap
+from .sitemaps import StaticViewSitemap,  PostSitemap, CategorySitemap, ProductSitemap, VendorSitemap,RentalItemSitemap,ServiceProviderSitemap
 
 
 from apps.vendor import views as vendor_views
 
 sitemaps = {'static': StaticViewSitemap, 'post': PostSitemap,
             'category': CategorySitemap, 'product': ProductSitemap, 'vendor': VendorSitemap,
+            'items':RentalItemSitemap,'services':ServiceProviderSitemap
             }
 
 

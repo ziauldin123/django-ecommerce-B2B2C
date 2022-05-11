@@ -39,10 +39,45 @@
                                     {% endif %}
                                     <div class="owl-carousel" id="product-image">
                                         <div class="product-image product-image--location--gallery">
-                                            <a href="" data-width="700" data-height="700" class="product-image__body" target="_blank">
+                                            <a href="{{ item.image.url }}" data-width="700" data-height="700" class="product-image__body" target="_blank">
                                                 <img class="product-image__img" src="{{ item.image.url }}" alt="">
                                             </a>
                                         </div>
+                                        {% for images in item.items_images.all %} 
+                                           <div class="product-image product-image--location--gallery">
+                                            <!--
+                            The data-width and data-height attributes must contain the size of a larger version
+                            of the product image.
+    
+                            If you do not know the image size, you can remove the data-width and data-height
+                            attribute, in which case the width and height will be obtained from the naturalWidth
+                            and naturalHeight property of img.product-image__img.
+                            -->
+                                            {% if images.image %} 
+                                            <a href="{{images.image.url}}" data-width="700" data-height="700" class="product-image__body" target="_blank">
+                                                <img class="product-image__img" src="{{images.image.url}}" alt="">
+                                            </a>
+                                            {% endif %}
+                                               </div>
+                                           {% endfor %}
+                                    </div>
+                                </div>
+                                <div class="product-gallery__carousel">
+                                    <div class="owl-carousel" id="product-carousel">
+                                        <a href="{{item.image.url}}" class="product-image product-gallery__carousel-item">
+                                            <div class="product-image__body">
+                                                <img class="product-image__img product-gallery__carousel-image" src="{{item.image.url}}" alt="">
+                                            </div>
+                                        </a>
+                                                  {% for images in item.items_images.all %} 
+                                                    {% if images.image %} 
+                                                        <a href="{{images.image.url}}" class="product-image product-gallery__carousel-item">
+                                                            <div class="product-image__body">
+                                                                <img class="product-image__img product-gallery__carousel-image" src="{{images.image.url}}" alt="">
+                                                            </div>
+                                                        </a>
+                                                    {% endif %} 
+                                                  {% endfor %}
                                     </div>
                                 </div>
                             </div>

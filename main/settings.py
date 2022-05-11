@@ -8,6 +8,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 from distutils.command.build import build
+from operator import truediv
 from pathlib import Path
 import os
 import mimetypes
@@ -244,6 +245,7 @@ if not DEBUG:
     COMPRESS_STORAGE = STATICFILES_STORAGE
     STATIC_URL = 'https://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION)
     COMPRESS_URL = STATIC_URL
+    
 else:
     STATIC_URL = '/static/'
     MEDIA_URL = '/media/'

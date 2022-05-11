@@ -13,6 +13,8 @@ from apps.newProduct.models import Product, Category, SubCategory, SubSubCategor
 from apps.blog.models import Post
 from apps.ordering.models import ShopCart
 from apps.vendor.models import UserWishList, Vendor
+from apps.rental.models import Item
+from apps.services.models import ServiceProvider
 
 
 def frontpage(request):
@@ -389,6 +391,8 @@ def sitemap(request):
     vendors = Vendor.objects.filter(enabled=True)
     category = Category.objects.all()
     posts = Post.objects.all()
+    items = Item.objects.filter(visible=True,review=True)
+    services = ServiceProvider.objects.filter(review=True)
     if not request.user.is_anonymous:
         cart = Cart(request)
         current_user = request.user
@@ -429,7 +433,9 @@ def sitemap(request):
         'total': grandTotal,
         'wishlist': wishlist,
         'total_compare': total_compare,
-        'vendors': vendors
+        'vendors': vendors,
+        'items':items,
+        'services':services
     })
 
 

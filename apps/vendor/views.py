@@ -860,8 +860,6 @@ def add_productimage(request, pk):
     vendor = request.user.vendor
     product = Product.objects.get(vendor=vendor, id=pk)
     
-    
-
     if request.method == 'POST':
         images = request.FILES.getlist('images')
         if len(images) > 3 :

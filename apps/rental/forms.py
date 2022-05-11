@@ -2,7 +2,7 @@ from dataclasses import field
 from pyexpat import model
 from unicodedata import category
 from django.forms import ModelForm
-from .models import Amenity, Item,Make,Room,Application,Capacity,Year,Engine,Amenity,Item_Model
+from .models import Amenity, Item,Make,Room,Application,Capacity,Year,Engine,Amenity,Item_Model,ItemImage
 from django import forms
 
 from django_addanother.views import CreatePopupMixin, UpdatePopupMixin
@@ -121,3 +121,11 @@ class SearchForm(forms.Form):
         if price_from is None:
             return 0
         return price_from            
+
+
+class ProductImageForm(ModelForm):
+    class Meta:
+        model = ItemImage
+        fields = [
+            'image',
+            ]

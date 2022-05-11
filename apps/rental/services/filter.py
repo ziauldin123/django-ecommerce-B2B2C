@@ -75,7 +75,7 @@ class ItemFilter:
             list_year.append(i.year)
             list_model.append(i.model)
             list_engine.append(i.engine)
-            list_item_type.append(i.item_type )
+            list_item_type.append(i.item_type)
         
         return items.order_by(sorting),min_price,max_price,sale,set(locations),set(list_make),set(list_room),set(list_application),set(list_capacity),set(list_amenity),set(list_year),set(list_model),set(list_engine),set(list_item_type),   
 

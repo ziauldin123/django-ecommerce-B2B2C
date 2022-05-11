@@ -727,10 +727,20 @@
                 $(element).find('.filter-price__min-value')[0],
                 $(element).find('.filter-price__max-value')[0]
             ];
-
+            
+            const inputMin = document.getElementById('price_from')
+            const inputMax = document.getElementById('price_to')
+           
             slider.noUiSlider.on('update', function (values, handle) {
-                titleValues[handle].innerHTML = values[handle];
+              titleValues[handle].innerHTML = values[handle];
+              inputMin[handle].value = values[handle];
+              inputMax[handle].value = values[handle];
             });
+
+            inputMin.addEventListener('change',function(){
+                slider.noUiSlider.set([this.value])
+                slider.noUiSlider.set([this.value])
+            })
         });
     });
 
@@ -756,8 +766,6 @@
 
                 mobilemenu.removeClass('mobilemenu--open');
             };
-
-
             $('.mobile-header__menu-button').on('click', function () {
                 open();
             });
