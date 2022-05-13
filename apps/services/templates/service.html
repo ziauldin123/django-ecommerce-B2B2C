@@ -42,8 +42,8 @@
                                                                 <div class="filter-price"  data-min="{{ price_from }}" data-max="{{ price_to }}" data-from="{{ price_from }}" data-to="{{ price_to }}">
                                                                     <div class="filter-price__slider"></div>
                                                                     <div class="filter-price__title">Rwf <span class="filter-price__min-value"></span> – Rwf <span class="filter-price__max-value"></span></div>
-                                                                    <input type="text"  id="price_from" value="{{price_from}}" name="price_from" hidden="True">
-                                                                    <input type="text" id="price_to" value="{{price_to}}" name="price_to" hidden="True">
+                                                                    <input type="text"  id="price_from" value="{{price_from}}" name="price_from">
+                                                                    <input type="text" id="price_to" value="{{price_to}}" name="price_to">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -61,13 +61,12 @@
                                                             <div class="filter__container">
                                                                 <div class="filter-list">
                                                                     <div class="filter-list__list">
-    
-                                                                        {% for rating in ratings %}
+
                                                                             <label class="filter-list__item ">
                                                                                 <span class="filter-list__input input-check">
                                                                                     <span class="input-check__body">
     
-                                                                                        <input class="input-check__input" value="{{rating}}" type="checkbox" name="rating">
+                                                                                        <input class="input-check__input" value="1" type="checkbox" name="rating">
                                                                                         <span class="input-check__box"></span>
                                                                                         <svg class="input-check__icon" width="9px" height="7px">
                                                                                             <use xlink:href="/static/templates/images/sprite.svg#check-9x7"></use>
@@ -75,11 +74,75 @@
                                                                                     </span>
                                                                                 </span>
                                                                                 <span class="filter-list__title">
-                                                                                    {{rating}}
+                                                                                    1
                                                                                 </span>
     
                                                                             </label>
-                                                                        {% endfor %}
+
+                                                                            <label class="filter-list__item ">
+                                                                                <span class="filter-list__input input-check">
+                                                                                    <span class="input-check__body">
+    
+                                                                                        <input class="input-check__input" value="2" type="checkbox" name="rating">
+                                                                                        <span class="input-check__box"></span>
+                                                                                        <svg class="input-check__icon" width="9px" height="7px">
+                                                                                            <use xlink:href="/static/templates/images/sprite.svg#check-9x7"></use>
+                                                                                        </svg>
+                                                                                    </span>
+                                                                                </span>
+                                                                                <span class="filter-list__title">
+                                                                                    2
+                                                                                </span>
+    
+                                                                            </label>
+                                                                            <label class="filter-list__item ">
+                                                                                <span class="filter-list__input input-check">
+                                                                                    <span class="input-check__body">
+    
+                                                                                        <input class="input-check__input" value="3" type="checkbox" name="rating">
+                                                                                        <span class="input-check__box"></span>
+                                                                                        <svg class="input-check__icon" width="9px" height="7px">
+                                                                                            <use xlink:href="/static/templates/images/sprite.svg#check-9x7"></use>
+                                                                                        </svg>
+                                                                                    </span>
+                                                                                </span>
+                                                                                <span class="filter-list__title">
+                                                                                    3
+                                                                                </span>
+    
+                                                                            </label>
+                                                                            <label class="filter-list__item ">
+                                                                                <span class="filter-list__input input-check">
+                                                                                    <span class="input-check__body">
+    
+                                                                                        <input class="input-check__input" value="4" type="checkbox" name="rating">
+                                                                                        <span class="input-check__box"></span>
+                                                                                        <svg class="input-check__icon" width="9px" height="7px">
+                                                                                            <use xlink:href="/static/templates/images/sprite.svg#check-9x7"></use>
+                                                                                        </svg>
+                                                                                    </span>
+                                                                                </span>
+                                                                                <span class="filter-list__title">
+                                                                                    4
+                                                                                </span>
+    
+                                                                            </label>
+                                                                            <label class="filter-list__item ">
+                                                                                <span class="filter-list__input input-check">
+                                                                                    <span class="input-check__body">
+    
+                                                                                        <input class="input-check__input" value="5" type="checkbox" name="rating">
+                                                                                        <span class="input-check__box"></span>
+                                                                                        <svg class="input-check__icon" width="9px" height="7px">
+                                                                                            <use xlink:href="/static/templates/images/sprite.svg#check-9x7"></use>
+                                                                                        </svg>
+                                                                                    </span>
+                                                                                </span>
+                                                                                <span class="filter-list__title">
+                                                                                    5
+                                                                                </span>
+    
+                                                                            </label>
                                                                     </div>
                                                                 </div>
                                                             </div>

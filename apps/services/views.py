@@ -109,15 +109,14 @@ def get_category(request,id,service_slug):
         total_compare = 0 
 
     search_form = SearchForm(request.GET)
-    ratings = [1,2,3,4,5]
     experiences = Experience.objects.all()
+    rating = [1,2,3,4,5]
 
     query=request.GET.get('query')
-    query_rating=request.GET.get('rating')
     query_experience=request.GET.get('experience')
     price_from=request.GET.get('price_from')
     price_to=request.GET.get('price_to')
-    print(price_to,price_from)
+    query_rating=request.GET.get('rating')
 
     if not query:
         query = ''
@@ -137,7 +136,7 @@ def get_category(request,id,service_slug):
     # )
     # providers_list = ServiceProvider.objects.filter(id__in=providers_ids,review=True)
     if search_form.is_valid():
-        providers_list,price_from,price_to,experiences,ratings= providers_filters.filter_provider(providers_list,sorting=sorting,**search_form.cleaned_data)
+        providers_list,price_from,price_to,rating,experiences= providers_filters.filter_provider(providers_list,sorting=sorting,**search_form.cleaned_data)
         paginator = Paginator(providers_list,6)
         page = request.GET.get('page')
 
@@ -170,8 +169,6 @@ def get_category(request,id,service_slug):
     'query':query,
     'form':search_form,
     'sorting':sorting,
-    'ratings':ratings,
-    'query_rating':query_rating,
     'price_to':re.sub('[\$,]','',str(price_to)),
     'price_from':re.sub('[\$,]','',str(price_from)),
     'max_amount':max_amount,
@@ -184,6 +181,7 @@ def get_service_provider(request,id,service_slug,slug):
     customer = models.Customer.objects.filter(email=username)
     # max = service_provider.service_provider.all().aggregate(Max('rate'))
     max=round(service_provider.avarageview(),0)
+    print(service_provider.avarageview())
     comment_list = Comment.objects.filter(service_provider=id,status='True')
     paginator = Paginator(comment_list,2)
     page = request.GET.get('page')

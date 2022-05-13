@@ -26,15 +26,17 @@ class ItemFilter:
         *args,
         **kwargs
         ):
-        print("filters",query,price_from,price_to,district,sale,sorting,make,room,application,capacity,amenity,year,model,engine,item_type)
+        print("filters",query,price_from,price_to,sale,district,sorting,make,room,application,capacity,amenity,year,model,engine,item_type)
         if price_from != None and price_to != None:
             items = items.filter(Q(price__gte=price_from), Q(price__lte=price_to), ~Q(price=0))
 
         if sale:
-            items = items.filter(sale=True)
-        else:
-            items = items.filter(sale=False)        
-
+            print('sold',sale)
+            if sale == 'True':
+                items = items.filter(sale=True)
+            else:
+                items = items.filter(sale=False)    
+        
         items_ids = []
         for item in items:
             items_ids.append(item.id)
@@ -101,7 +103,8 @@ class ItemFilter:
         if engine:
             items = items.filter(engine__in=Engine.objects.filter(pk__in=engine))  
         if item_type:
-            items = items.filter(item_type__in=Type.objects.filter(pk__in=item_type))                                  
+            items = items.filter(item_type__in=Type.objects.filter(pk__in=item_type))         
+
         
         print('filter:',items)
         return items

@@ -716,6 +716,7 @@
             noUiSlider.create(slider, {
                 start: [from, to],
                 connect: true,
+                tooltips:true,
                 direction: isRTL() ? 'rtl' : 'ltr',
                 range: {
                     'min': min,
@@ -729,18 +730,28 @@
             ];
             
             const inputMin = document.getElementById('price_from')
-            const inputMax = document.getElementById('price_to')
            
-            slider.noUiSlider.on('update', function (values, handle) {
-              titleValues[handle].innerHTML = values[handle];
-              inputMin[handle].value = values[handle];
-              inputMax[handle].value = values[handle];
+            slider.noUiSlider.on('update', function (values, handle,unencoded) {
+            //   titleValues[handle].innerHTML = values[handle];
+              const minValue=values[handle] 
+              inputMin.value = minValue;
             });
 
             inputMin.addEventListener('change',function(){
-                slider.noUiSlider.set([this.value])
-                slider.noUiSlider.set([this.value])
+                slider.noUiSlider.set([null,this.value])
             })
+
+            const inputMax = document.getElementById('price_to')
+
+            slider.noUiSlider.on('update',function(values,handle,unencoded){
+               inputMax=values[handle]
+               inputMax.value=inputMax;
+            })
+
+            inputMax.addEventListener('change',function(){
+                slider.noUiSlider.set([null,this.value])
+            })
+
         });
     });
 
