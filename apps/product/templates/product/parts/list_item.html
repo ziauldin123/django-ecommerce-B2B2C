@@ -197,6 +197,7 @@
                     {% endif %}
                 </span>
             </div>
+            {% if spare_parts %}
              <div class="product-card__prices">
                     {% if product.is_variant %} 
                           {% if product.discount %} 
@@ -214,12 +215,22 @@
                          {% endif %}
                     {% endif %}     
                 </div>
+              {% endif %}  
             <div class="product-card__buttons">
                 {% if product.is_variant %}
                     <a href="{% url 'product' product.id product.slugV product.category.sub_category.category.slug product.category.sub_category.slug product.category.slug product.slug %}"> 
                         <button class="btn btn-primary product-card__addtocart" type="button" >View Options</button>
                     </a>
                 {% else %}
+                    {% if product.spare_parts %} 
+                    <a >
+                        {% if request.session.customer and product.quantity > 0 %}
+                            <button class="btn btn-primary product-card__addtocart" type="button" >Request for quotation</button>
+                        {% else %} 
+                            <button class="btn btn-primary product-card__addtocart disabled" type="button" >Request for quotation</button>
+                        {% endif %}
+                    </a>
+                    {% else %} 
                     <a onclick="addToCart('{{ product.id }}')" class="add-to-cart">
                         {% if request.session.customer and product.quantity > 0 %}
                             <button class="btn btn-primary product-card__addtocart" type="button" >Add To Cart</button>
@@ -227,6 +238,7 @@
                             <button class="btn btn-primary product-card__addtocart disabled" type="button" >Add To Cart</button>
                         {% endif %}
                     </a>
+                    {% endif %}
                     {% endif %}
                     {% if product.is_variant %} 
                     <div class="wishList">

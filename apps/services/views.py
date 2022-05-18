@@ -110,7 +110,7 @@ def get_category(request,id,service_slug):
 
     search_form = SearchForm(request.GET)
     experiences = Experience.objects.all()
-    rating = [1,2,3,4,5]
+    # rating = [1,2,3,4,5]
 
     query=request.GET.get('query')
     query_experience=request.GET.get('experience')
@@ -135,6 +135,7 @@ def get_category(request,id,service_slug):
     #     service.service_category.all().values_list('id',flat=True)
     # )
     # providers_list = ServiceProvider.objects.filter(id__in=providers_ids,review=True)
+    print(ServiceProvider.objects.filter(rating=3))
     if search_form.is_valid():
         providers_list,price_from,price_to,rating,experiences= providers_filters.filter_provider(providers_list,sorting=sorting,**search_form.cleaned_data)
         paginator = Paginator(providers_list,6)
@@ -179,9 +180,7 @@ def get_service_provider(request,id,service_slug,slug):
     service_provider = ServiceProvider.objects.get(id=id)
     username = request.user
     customer = models.Customer.objects.filter(email=username)
-    # max = service_provider.service_provider.all().aggregate(Max('rate'))
     max=round(service_provider.avarageview(),0)
-    print(service_provider.avarageview())
     comment_list = Comment.objects.filter(service_provider=id,status='True')
     paginator = Paginator(comment_list,2)
     page = request.GET.get('page')
@@ -211,7 +210,7 @@ def get_service_provider(request,id,service_slug,slug):
         if not request.session.get('comparing_variants'):
             compare_var = 0
         else:
-            compare_var = request.session['comparing_variants'].__len__()
+            compare_var = request.session['comparing_variaints'].__len__()
 
         total_compare = comparing + compare_var
     else:
@@ -236,7 +235,7 @@ def get_service_provider(request,id,service_slug,slug):
         'total': grandTotal,
         'wishlist': wishlist,
         'total_compare': total_compare
-        })
+    })
 
 def become_service_provider(request):
     if request.user.is_authenticated:

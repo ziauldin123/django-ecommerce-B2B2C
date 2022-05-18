@@ -24,6 +24,7 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 # Create your models here.
 from apps.vendor.models import Vendor
 from django.db.models import Avg, Count
+from apps.rental.models import Year,Make,Engine,Item_Model
 
 
 
@@ -220,6 +221,12 @@ class Product(models.Model):
         Height, on_delete=models.CASCADE, blank=True, null=True)
     color = models.ForeignKey(
         Color, on_delete=models.CASCADE, blank=True, null=True)
+    year = models.ForeignKey(
+        Year, on_delete=models.CASCADE, blank=True, null=True
+    )
+    make = models.ForeignKey(Make, on_delete=models.CASCADE, blank=True, null=True)
+    model = models.ForeignKey(Item_Model, on_delete=models.CASCADE,blank=True, null=True)
+    engine = models.ForeignKey(Engine, on_delete=models.CASCADE,blank=True, null=True)    
     slug = models.SlugField(null=False, unique=True)
     slugV = AutoSlugField(populate_from='vendor', null=True)
     num_visits = models.IntegerField(default=0)
@@ -232,6 +239,7 @@ class Product(models.Model):
     is_free_delivery = models.BooleanField(default=False)
     is_featured = models.BooleanField(default=False)
     is_vat = models.BooleanField(default=True)
+    spare_parts = models.BooleanField(default=False)
     is_variant = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     update_at = models.DateTimeField(auto_now=True)

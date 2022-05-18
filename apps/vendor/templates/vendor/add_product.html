@@ -2,6 +2,44 @@
 {% load static %}
 {% block title %}Add a product{% endblock %}
 {% block content %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+    $(document).ready(function(){
+        $("#spare_parts").change(function(){
+            if($(this).is(":checked")){
+               document.getElementById('hidding').style.display = "none"
+               document.getElementById('discount').style.display = "none"  
+               document.getElementById('length').style.display = "none" 
+               document.getElementById('width').style.display = "none"
+               document.getElementById('weight').style.display = "none"
+               document.getElementById('color').style.display = "none"  
+               document.getElementById('height').style.display = "none" 
+               document.getElementById('brand').style.display = "none" 
+               document.getElementById('size').style.display = "none"
+               document.getElementById('year').style.display = "block"  
+               document.getElementById('make').style.display = "block" 
+               document.getElementById('model').style.display = "block" 
+               document.getElementById('engine').style.display = "block"
+            }
+            else{
+                document.getElementById('hidding').style.display = "block"
+               document.getElementById('discount').style.display = "block" 
+               document.getElementById('length').style.display = "block" 
+               document.getElementById('width').style.display = "block"
+               document.getElementById('weight').style.display = "block"
+               document.getElementById('color').style.display = "block"  
+               document.getElementById('height').style.display = "block" 
+               document.getElementById('brand').style.display = "block" 
+               document.getElementById('size').style.display = "block"
+               document.getElementById('year').style.display = "none"  
+               document.getElementById('make').style.display = "none" 
+               document.getElementById('model').style.display = "none" 
+               document.getElementById('engine').style.display = "none"
+            }
+        });
+        $("#spare_parts").trigger("change")
+    })
+</script>    
 <div class="site__body">
     <div class="container">
         <div class="row justify-content-center">
@@ -12,16 +50,20 @@
                         <form method="post" action="." enctype="multipart/form-data">
                             {% load widget_tweaks %}
                             {% csrf_token %}
+                            <div class="form-group col-md-3 form-check form-check-inline">
+                                {{form.spare_parts|add_class:"form-check-input"}}
+                                <label for="" class="form-check-label">Spare Parts</label>
+                            </div>
                                 <div class="form-row">
                                   <div class="form-group col-md-3">
                                       <label for="">Category</label>
-                                      {{ form.category |add_class:"form-control" }}
+                                      {{ form.category |add_class:"form-control"}}
                                   </div>
                                   <div class="form-group col-md-3">
                                     <label for="">Title</label>
                                     {{form.title|add_class:"form-control"}}
                                   </div>
-                                  <div class="form-group col-md-3">
+                                  <div class="form-group col-md-3" id="hidding" style="display:block">
                                     <label for="">Price</label>
                                     {{form.price|add_class:"form-control"}}
                                  </div>
@@ -31,7 +73,7 @@
                                   </div>
                                 </div>
                                 <div class="form-row">
-                                     <div class="form-group col-md-3">
+                                     <div class="form-group col-md-3" id="discount" style="display:block">
                                         <label for="">Discount</label>
                                         {{form.discount|add_class:"form-control"}}
                                      </div>
@@ -43,36 +85,54 @@
                                          <label for="">Image</label>
                                          {{form.image|add_class:"form-control"}}
                                      </div>
-                                     <div class="form-group col-md-3">
+                                     <div class="form-group col-md-3" id="make" style="display:block">
+                                         <label for="">Make</label>
+                                         {{form.make|add_class:"form-control"}}
+                                      </div>
+                                     <div class="form-group col-md-3" id="length" style="display:block">
                                         <label for=""> Length </label>
                                          {{form.length|add_class:"form-control"}}
                                     </div>  
                                 </div>
                                 <div class="form-row">
-                                    <div class="form-group col-md-3">
+                                    <div class="form-group col-md-3" id="year" style="display:block">
+                                        <label for=""> Year </label>
+                                            {{form.year|add_class:"form-control"}}
+                                    </div>
+                                    <div class="form-group col-md-3" id="model" style="display:block">
+                                     <label for=""> Model</label>
+                                         {{form.model|add_class:"form-control"}}
+                                     </div>
+                                    <div class="form-group col-md-3" id="engine" style="display:block">
+                                        <label for=""> Engine </label>
+                                        {{form.engine|add_class:"form-control"}}
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-3" id="width" style="display:block">
                                         <label for=""> Width </label>
                                             {{form.width|add_class:"form-control"}}
                                     </div>
-                                    <div class="form-group col-md-3">
+                                    <div class="form-group col-md-3" id="weight" style="display:block">
                                      <label for=""> Weight</label>
                                          {{form.weight|add_class:"form-control"}}
                                      </div>
-                                    <div class="form-group col-md-3">
+                                    <div class="form-group col-md-3" id="color" style="display:block">
                                         <label for=""> Color </label>
                                         {{form.color|add_class:"form-control"}}
                                     </div>
-                                   <div class="form-group col-md-3">
+                                   <div class="form-group col-md-3" id="height" style="display:block">
                                        <label for=""> Height </label>
                                            {{form.height|add_class:"form-control"}}
                                    </div>
                                 </div>
                                 <div class="form-row">
                                     
-                                    <div class="form-group col-md-3">
+                                    <div class="form-group col-md-3" id="brand" style="display:block">
                                         <label for="">Brand</label>
                                         {{form.brand|add_class:"form-control"}}
                                     </div>
-                                    <div class="form-group col-md-3">
+                                    <div class="form-group col-md-3" id="size" style="display:block">
                                        <label for=""> Size </label>
                                            {{form.size|add_class:"form-control"}}
                                    </div>

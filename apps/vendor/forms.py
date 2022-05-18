@@ -92,9 +92,16 @@ class ProductForm(ModelForm):
             'brand',
             'unit_type',
             'is_vat',
+            'spare_parts',
+            'year',
+            'make',
+            'model', 
+            'engine',
         )
+
         widgets = {
             'category': CategoryWidget,
+            'spare_parts':forms.CheckboxInput(attrs={'id':'spare_parts'}),
             'length':  Select2AddAnother(
                 reverse_lazy('add_length'),  
             ),
@@ -120,8 +127,7 @@ class ProductForm(ModelForm):
                 reverse_lazy('add_unit_type')
             )
         } 
-        
-    
+
 
 class ProductWithVariantForm(ModelForm):
     description=forms.CharField(widget=forms.Textarea(attrs={'class':'form-control'}))

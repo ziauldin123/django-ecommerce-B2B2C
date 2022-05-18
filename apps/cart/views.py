@@ -1,5 +1,6 @@
 from decimal import Decimal
 import imp
+from itertools import product
 
 import stripe
 from django.conf import settings
@@ -16,8 +17,10 @@ from .services.payment_service import payment_service
 from ..core.utils import get_attr_or_none
 from apps.newProduct.models import Product
 from apps.ordering.models import notify_customer,notify_vendor
-
-
+from django.http import HttpResponse, HttpResponseRedirect
+from django.core.mail import EmailMultiAlternatives, get_connection
+from django.template.loader import render_to_string
+from apps.vendor.views import email_user
 
 def contact_info(request):
     delivery_type = ''
@@ -231,3 +234,23 @@ def check_add_qty(request, product_id, num, *args, **kwargs):
     product = Product.objects.get(id=product_id)
     json_response = {'approved': product.num_available + 1 > num}
     return JsonResponse(json_response)
+
+def request_quatation(request,id):
+    url = request.META.get('HTTP_REFERER')
+    # product=Product.objects.get(id=id)
+    # user=request.user
+
+    # connection = get_connection()
+    # connection.open()
+
+    # subject = 'Spare Parts Request'
+
+    # html_content = render_to_string(
+    #         'cart/spare_parts_request.html',{
+    #             'product':product,
+    #             'user':user
+    #         }
+    #     )
+    # email_user(user,subject,html_content)
+
+    return HttpResponseRedirect(url)

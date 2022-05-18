@@ -20,7 +20,7 @@ class ProviderFilter:
         
         if rating:
             print('rating',rating)
-            providers = providers.filter()
+            providers = providers.filter(rating=rating)  
 
         providers_ids=[]
         for provider in providers:

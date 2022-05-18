@@ -47,6 +47,7 @@ class ServiceProvider(models.Model):
     experience = models.ForeignKey(Experience,on_delete=models.CASCADE,null=True,blank=True)
     available = models.BooleanField(default=True)
     review = models.BooleanField(default=False)
+    rating = models.IntegerField(default=0)
     tin = models.CharField(max_length=255,default=0)
     privacy_checked = models.BooleanField(default=False)
     price=models.IntegerField(default=0)
@@ -64,9 +65,20 @@ class ServiceProvider(models.Model):
                 ServiceProvider.objects.last().delte()
         except Exception as e:
             pass         
+    
+    def __init__(self,*args,**kwargs):
+        super().__init__(*args,**kwargs)
+        
+        review = Comment.objects.filter(
+            service_provider=self, status='True').aggregate(avarage=Avg('rate'))
+        
+        if review["avarage"] is not None:
+            self.rating=round(float(review["avarage"]))
+
 
     def save(self,*args,**kwargs):
         self.slug=slugify(self.name)
+        
         if self.image and not self.image.url.endswith('.webp'):
             imm=Image.open(self.image).convert("RGB")
             original_width, original_height = imm.size

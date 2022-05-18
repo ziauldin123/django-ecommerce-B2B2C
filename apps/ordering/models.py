@@ -46,7 +46,6 @@ def notify_vendor(order):
     print(order)
     print("vender")
     print(order.vendors.all())
-
     from_email = settings.DEFAULT_EMAIL_FROM
     try:
 
