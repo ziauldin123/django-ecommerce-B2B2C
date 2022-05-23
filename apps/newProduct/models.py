@@ -224,6 +224,7 @@ class Product(models.Model):
     year = models.ForeignKey(
         Year, on_delete=models.CASCADE, blank=True, null=True
     )
+    spare_number = models.IntegerField(default=0)
     make = models.ForeignKey(Make, on_delete=models.CASCADE, blank=True, null=True)
     model = models.ForeignKey(Item_Model, on_delete=models.CASCADE,blank=True, null=True)
     engine = models.ForeignKey(Engine, on_delete=models.CASCADE,blank=True, null=True)    

@@ -37,6 +37,7 @@ def index(request):
 
 
 def product_detail(request, id, slug, vendor_slug, category_slug, subcategory_slug, subsubcategory_slug):
+    
     if not request.user.is_anonymous:
         cart = Cart(request)
         current_user = request.user

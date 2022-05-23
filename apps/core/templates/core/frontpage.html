@@ -22,6 +22,26 @@
             }
         });
     }
+
+    function requestQuatation(pr_id){
+        event.preventDefault();
+        $.ajax({
+            url:"/cart/request_quatation/" + pr_id,
+            type: 'POST',
+            data:{
+                'quantity':1,
+                csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+            },
+            success:function(){
+                $("#message").append(
+                    '<div class="alert alert-success hideit alertSuc">Spare parts Requested</div >');
+                setTimeout(function () {
+                    $("#message").load(location.href + " #message");
+                }, 1000);
+            }
+        })
+    }
+
     $('body').on('click','.wish',function(){
         var variant_id=$(this).closest('.wishList').find('.variantid').val()
         var product_id=$(this).closest('.wishList').find('.productid').val()

@@ -20,6 +20,7 @@
                document.getElementById('make').style.display = "block" 
                document.getElementById('model').style.display = "block" 
                document.getElementById('engine').style.display = "block"
+               document.getElementById('spare_number').style.display = "block"
             }
             else{
                 document.getElementById('hidding').style.display = "block"
@@ -35,6 +36,7 @@
                document.getElementById('make').style.display = "none" 
                document.getElementById('model').style.display = "none" 
                document.getElementById('engine').style.display = "none"
+               document.getElementById('spare_number').style.display = "none"
             }
         });
         $("#spare_parts").trigger("change")
@@ -70,6 +72,10 @@
                                  <div class="form-group col-md-3">
                                      <label for="">Quantity</label>
                                      {{form.quantity|add_class:"form-control"}}
+                                  </div>
+                                  <div class="form-group col-md-3" id="spare_number" style="display:block">
+                                      <label>Spare Numbers</label>
+                                      {{form.spare_number|add_class:"form-control"}}
                                   </div>
                                 </div>
                                 <div class="form-row">

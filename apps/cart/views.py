@@ -21,6 +21,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.core.mail import EmailMultiAlternatives, get_connection
 from django.template.loader import render_to_string
 from apps.vendor.views import email_user
+from apps.ordering.utils import create_new_ref_number
 
 def contact_info(request):
     delivery_type = ''
@@ -237,20 +238,28 @@ def check_add_qty(request, product_id, num, *args, **kwargs):
 
 def request_quatation(request,id):
     url = request.META.get('HTTP_REFERER')
-    # product=Product.objects.get(id=id)
-    # user=request.user
+    product=Product.objects.get(id=id)
+    quantity=request.POST.get('quantity')
+    reference_number=create_new_ref_number()
+    user=Customer.objects.get(user=request.user)
+    connection = get_connection()
+    connection.open()
+    
+    from_email = settings.DEFAULT_EMAIL_FROM
+    to_email = settings.DEFAULT_EMAIL_FROM
 
-    # connection = get_connection()
-    # connection.open()
-
-    # subject = 'Spare Parts Request'
-
-    # html_content = render_to_string(
-    #         'cart/spare_parts_request.html',{
-    #             'product':product,
-    #             'user':user
-    #         }
-    #     )
-    # email_user(user,subject,html_content)
+    subject = 'Spare Parts Request'
+    text_content = 'You have new Spare Parts Request'
+    html_content = render_to_string(
+            'cart/spare_parts_request.html',{
+                'product':product,
+                'user':user,
+                'quantity':quantity,
+                'reference_number':reference_number
+            }
+        )
+    msg = EmailMultiAlternatives(subject,text_content,from_email,[to_email],connection=connection)
+    msg.attach_alternative(html_content, 'text/html')
+    msg.send()
 
     return HttpResponseRedirect(url)

@@ -72,7 +72,6 @@ class AddToCartInListForm(forms.Form):
 
 
 
-
 class SearchForm(forms.Form, BaseProductVariantsForm):
     def __init__(self, *args, **kwargs):
         products = kwargs.pop('products') if kwargs.get('products') is not None else Product.objects.all()
@@ -91,7 +90,10 @@ class SearchForm(forms.Form, BaseProductVariantsForm):
     height = forms.CharField(widget=forms.Select(),required=False)
     length = forms.CharField(widget=forms.Select(),required=False)
     width = forms.CharField(widget=forms.Select(),required=False)
-
+    year = forms.CharField(widget=forms.Select(),required=False)
+    engine =  forms.CharField(widget=forms.Select(),required=False)
+    make = forms.CharField(widget=forms.Select(),required=False)
+    model = forms.CharField(widget=forms.Select(),required=False)
 
     def clean_price_to(self) -> int:
         price_to = self.cleaned_data['price_to']

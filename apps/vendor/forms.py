@@ -97,6 +97,7 @@ class ProductForm(ModelForm):
             'make',
             'model', 
             'engine',
+            'spare_number'
         )
 
         widgets = {

@@ -98,12 +98,60 @@
                                                 width="80" height="80" style="display: block; border: 0px;" /><br>
                                             <h2
                                                 style="font-size: 30px; font-weight: 800; line-height: 36px; color: #333333; margin: 0;">
-                                                New Spare Parts Request. from {{ user }}</h2>
+                                                New Spare Parts Request from {{ user }}</h2>
                                         </td>
                                     </tr>
-                                    <h1>Spare Parts</h1>
-                                    <p>{{product.title}}</p>
-                                    <p>{{product.make}}</p>
+                                    <tr>
+                                        <td align="left" style="padding-top: 0px;">
+                                            <table cellspacing="0" cellpadding="0" border="0" width="100%">
+                                                <tr>
+                                                    <td width="40%" align="left" bgcolor="#eeeeee"
+                                                        style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 800; line-height: 24px; padding: 10px;">
+                                                        Title</td>
+                                                    <td width="10%" align="left" bgcolor="#eeeeee"
+                                                        style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 800; line-height: 24px; padding: 10px;">
+                                                         Qty</td>
+                                                    <td width="25%" align="left" bgcolor="#eeeeee"
+                                                        style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 800; line-height: 24px; padding: 10px;">
+                                                         Spare Numbers</td>
+                                                    <td width="25%" align="left" bgcolor="#eeeeee"
+                                                        style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 800; line-height: 24px; padding: 10px;">
+                                                         Model</td>
+                                                    <td width="25%" align="left" bgcolor="#eeeeee"
+                                                         style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 800; line-height: 24px; padding: 10px;">
+                                                          Make</td>
+                                                    <td width="25%" align="left" bgcolor="#eeeeee"
+                                                          style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 800; line-height: 24px; padding: 10px;">
+                                                          Year</td>
+                                                    <td width="25%" align="left" bgcolor="#eeeeee"
+                                                         style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 800; line-height: 24px; padding: 10px;">
+                                                        Engine</td>                  
+                                                </tr>
+                                                <tr>
+                                                    <td width="40%" align="left"
+                                                        style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding: 15px 10px 5px 10px;">
+                                                        {{ product.title }} </td>
+                                                    <td width="10%" align="left"
+                                                        style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding: 15px 10px 5px 10px;">
+                                                        {{ quantity }} </td>
+                                                    <td width="25%" align="left"
+                                                        style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding: 15px 10px 5px 10px;">
+                                                        {{ reference_number }} </td>
+                                                    <td width="25%" align="left"
+                                                        style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding: 15px 10px 5px 10px;">
+                                                        {{ product.model }} </td>
+                                                    <td width="25%" align="left"
+                                                        style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding: 15px 10px 5px 10px;">
+                                                        {{ product.make }} </td>
+                                                    <td width="25%" align="left"
+                                                        style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding: 15px 10px 5px 10px;">
+                                                        {{ product.year }} </td>    
+                                                    <td width="25%" align="left"
+                                                        style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding: 15px 10px 5px 10px;">
+                                                        {{ product.engine }} </td>
+                                                </tr>
+                                            </table>
+                                        </td>
                                     </tr>
                                 </table>
                             </td>

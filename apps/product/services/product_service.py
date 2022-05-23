@@ -1,7 +1,7 @@
 from django.db.models import Q
 from django.db.models import Max,Min
 from apps.newProduct.models import Brand, Color, Length, Product, Size, Variants, Weight, Width,Height
-
+from apps.rental.models import Year,Make,Item_Model,Engine
 
 class ProductService:
     def filter_products(
@@ -20,13 +20,21 @@ class ProductService:
         height,
         width,
         length,
+        year,
+        engine,
+        make,
+        model,
         *args,
         **kwargs
     ):
-        print("filters",query,color,height,width,length,sorting, weight, price_from, price_to,brand)
-        if price_from != None and price_to != None:
-            products = products.filter(Q(price__gte=price_from) , Q(price__lte=price_to), ~Q(price=0))
-
+        print("filters",query,color,height,width,length,sorting, weight, price_from,price_to,brand,year,engine,make,model)
+        for pr in products:
+            if pr.price < 1:
+                products = products
+            else:
+                if price_from != None and price_to != None:
+                    products = products.filter(Q(price__gte=price_from) , Q(price__lte=price_to), ~Q(price=0))
+        print(products)    
         variants= Variants.objects.filter(product_id__in=variants_id)
         all_variants=variants.filter(Q(price__gte=price_from) , Q(price__lte=price_to))
         products_idd = []
@@ -39,7 +47,7 @@ class ProductService:
             products = products.filter(Q(title__icontains=query) | Q(description__icontains=query))
             variants = variants.filter(Q(title__icontains=query))
             
-        products,variants = self.filter_by_variants(products,variants, brand, color, weight, height,width,length, size)
+        products,variants = self.filter_by_variants(products,variants, brand, color, weight, height,width,length,size,year,engine,make,model)
         if instock:
             products = products.filter(num_available__gte=1)
 
@@ -73,17 +81,25 @@ class ProductService:
         list_height=[]
         list_color=[]
         list_length=[]
+        list_year=[]
+        list_engine=[]
+        list_make=[]
+        list_model=[]
         for bp in products:
             list_brands.append(bp.brand)
             list_weight.append(bp.weight)
             list_width.append(bp.width)
             list_size.append(bp.size)
             list_height.append(bp.height)
-
             list_color.append(bp.color)
             list_length.append(bp.length)
+            list_year.append(bp.year)
+            list_engine.append(bp.engine)
+            list_make.append(bp.make)
+            list_model.append(bp.model)
+
         
-        return products.order_by(sorting),min_price,max_price,set(list_brands),set(list_weight),set(list_width),set(list_size),set(list_height),set(list_color),set(list_length)
+        return products.order_by(sorting),min_price,max_price,set(list_brands),set(list_weight),set(list_width),set(list_size),set(list_height),set(list_color),set(list_length),set(list_year),set(list_engine),set(list_make),set(list_model),
 
     def filter_by_variants(
         self,
@@ -96,6 +112,10 @@ class ProductService:
         width,
         length,
         size,
+        year,
+        make,
+        model,
+        engine,
         *args,
         **kwargs
     ):
@@ -120,8 +140,15 @@ class ProductService:
         if size:
             products = products.filter(size__in=Size.objects.filter(pk__in=size))
             variants= variants.filter(product__in=(products.filter(size__in=Size.objects.filter(pk__in=size))))
+        if year:
+            products = products.filter(year__in=Year.objects.filter(pk__in=year))    
+        if make:
+            products = products.filter(make__in=Make.objects.filter(pk__in=make))
+        if engine:
+            products = products.filter(engine__in=Engine.objects.filter(pk__in=engine))
+        if model:
+            products = products.filter(model__in=Item_Model.objects.filter(pk__in=model))    
 
-        print("after more filter",products,variants)
         return products,variants
 
 

@@ -44,10 +44,13 @@
     }
     
     function requestQuatation(pr_id){
+        event.preventDefault();
+        pq=$("#quantity").val()
         $.ajax({
             url:"/cart/request_quatation/" + pr_id,
             type: 'POST',
             data:{
+                'quantity':pq,
                 csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
             },
             success:function(){
@@ -898,6 +901,7 @@
                     {% endif %}
                     {% else %}
                     <div class="form-group product__option">
+                        <label class="product__option-label" for="product-quantity">Quantity</label>
                         <div class="product__actions">
                         <div class="product product__actions-item">
                                 <div class="input-number product__quantity">
@@ -908,9 +912,9 @@
                         </div>
                         <div class="product__actions-item product__actions-item--addtocart">
                             {% if request.user.customer %} 
-                                 <button onclick="requestQuatation('{{product.id}}')" class="add-to-cart btn btn-primary btn-lg">Request for quotation</button>
+                                 <button onclick="requestQuatation('{{product.id}}')" class="add-to-cart btn btn-primary btn-lg">Get quotation</button>
                             {% else %} 
-                                  <button class="btn btn-primary btn-lg disabled">Request for quotation</button>
+                                  <button class="btn btn-primary btn-lg disabled">Get quotation</button>
                             {% endif %}
                         </div>
                         <div class="product__actions-item product__actions-item--wishlist">
@@ -1537,9 +1541,9 @@
                                         {% if product.spare_parts %} 
                                         <a onclick="requestQuatation('{{ product.id }}')">
                                             {% if request.session.customer and product.quantity > 0 %}
-                                            <button class="btn btn-primary product-card__addtocart disabled" type="button" >Request for quotation</button>
+                                            <button class="btn btn-primary product-card__addtocart disabled" type="button" >Get quotation</button>
                                             {% else %} 
-                                            <button class="btn btn-primary product-card__addtocart " type="button" >Request for quotation</button>
+                                            <button class="btn btn-primary product-card__addtocart " type="button">Get quotation</button>
                                             {% endif %}
                                         </a>
                                         {% else %} 

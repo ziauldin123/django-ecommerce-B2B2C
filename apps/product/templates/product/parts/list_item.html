@@ -223,11 +223,11 @@
                     </a>
                 {% else %}
                     {% if product.spare_parts %} 
-                    <a >
+                    <a onclick="requestQuatation('{{product.id}}')">
                         {% if request.session.customer and product.quantity > 0 %}
-                            <button class="btn btn-primary product-card__addtocart" type="button" >Request for quotation</button>
+                            <button  class="btn btn-primary product-card__addtocart" type="button" >Get quotation</button>
                         {% else %} 
-                            <button class="btn btn-primary product-card__addtocart disabled" type="button" >Request for quotation</button>
+                            <button class="btn btn-primary product-card__addtocart disabled" type="button" >Get quotation</button>
                         {% endif %}
                     </a>
                     {% else %} 
