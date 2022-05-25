@@ -33,8 +33,8 @@ class ProductService:
                 products = products
             else:
                 if price_from != None and price_to != None:
-                    products = products.filter(Q(price__gte=price_from) , Q(price__lte=price_to), ~Q(price=0))
-        print(products)    
+                    products = products.filter(Q(price__gte=price_from) , Q(price__lte=price_to), ~Q(price=0))   
+        print('products',products)
         variants= Variants.objects.filter(product_id__in=variants_id)
         all_variants=variants.filter(Q(price__gte=price_from) , Q(price__lte=price_to))
         products_idd = []
@@ -50,30 +50,24 @@ class ProductService:
         products,variants = self.filter_by_variants(products,variants, brand, color, weight, height,width,length,size,year,engine,make,model)
         if instock:
             products = products.filter(num_available__gte=1)
-
+        
+        
         min_price=products.filter(~Q(price=0)).aggregate(Min('price'))['price__min']
         max_price=products.aggregate(Max('price'))['price__max']
         max_var_price=variants.aggregate(Max('price'))['price__max']
         min_var_price=variants.aggregate(Min('price'))['price__min']
-        print("min_p:", min_price)
-        print("max_p:", max_price)
-        print("min_v:", min_var_price)
-        print("max_v:", max_var_price)
         if max_price == None:
             max_price=0
         if min_price == None:
             min_price=0
-
+        
         if max_var_price == None:
             max_var_price=0
         if max_var_price != None and max_price < max_var_price:
              max_price = max_var_price
         if min_var_price != None and min_price > min_var_price:
              min_price = min_var_price
-
-        print("max:", max_price)
-        print("min:", min_price )
-
+        
         list_brands=[]
         list_weight=[]
         list_width=[]
@@ -98,7 +92,6 @@ class ProductService:
             list_make.append(bp.make)
             list_model.append(bp.model)
 
-        
         return products.order_by(sorting),min_price,max_price,set(list_brands),set(list_weight),set(list_width),set(list_size),set(list_height),set(list_color),set(list_length),set(list_year),set(list_engine),set(list_make),set(list_model),
 
     def filter_by_variants(
@@ -113,9 +106,9 @@ class ProductService:
         length,
         size,
         year,
+        engine,
         make,
         model,
-        engine,
         *args,
         **kwargs
     ):
@@ -141,11 +134,11 @@ class ProductService:
             products = products.filter(size__in=Size.objects.filter(pk__in=size))
             variants= variants.filter(product__in=(products.filter(size__in=Size.objects.filter(pk__in=size))))
         if year:
-            products = products.filter(year__in=Year.objects.filter(pk__in=year))    
+            products = products.filter(year__in=Year.objects.filter(pk__in=year))   
+        if engine:
+            products = products.filter(engine__in=Engine.objects.filter(pk__in=engine))     
         if make:
             products = products.filter(make__in=Make.objects.filter(pk__in=make))
-        if engine:
-            products = products.filter(engine__in=Engine.objects.filter(pk__in=engine))
         if model:
             products = products.filter(model__in=Item_Model.objects.filter(pk__in=model))    
 

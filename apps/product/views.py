@@ -61,11 +61,11 @@ def search(request):
     if sorting == None:
         sorting = ("-created_at")
 
-    products_list = Product.objects.filter(status=True,visible=True)
-         
+    products_list = Product.objects.filter(status=True,visible=True)   
 
     for product in products_list:
         variants = Variants.objects.filter(product=product)
+        
     brands=Brand.objects.all()
     colors=Color.objects.all()
     weight=Weight.objects.all()

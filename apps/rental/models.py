@@ -94,7 +94,7 @@ class Make(models.Model):
     make = models.CharField(max_length=255)
 
     def __str__(self):
-        return self.make
+        return str(self.make)
 
 class Item_Model(models.Model):
     model=models.CharField(max_length=255)
