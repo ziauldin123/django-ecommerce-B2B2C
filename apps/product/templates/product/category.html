@@ -169,6 +169,7 @@
                                                             <div class="filter-list">
                                                                 <div class="filter-list__list">
                                                                     {% for br in brands %}
+                                                                       {% if br.brand != None %}
                                                                         <label class="filter-list__item ">
                                                                             <span class="filter-list__input input-check">
                                                                                 <span class="input-check__body">
@@ -184,6 +185,7 @@
                                                                             </span>
 
                                                                         </label>
+                                                                        {% endif %}
                                                                     {% endfor %}
                                                                 </div>
                                                             </div>
@@ -204,6 +206,7 @@
                                                             <div class="filter-list">
                                                                 <div class="filter-list__list">
                                                                     {% for wt in weight %}
+                                                                    {% if wt.weight != none %}
                                                                     <label class="filter-list__item ">
                                                                         <span class="filter-list__input input-check">
                                                                             <span class="input-check__body">
@@ -223,6 +226,7 @@
                                                                         </span>
 
                                                                     </label>
+                                                                    {% endif %}
                                                                     {% endfor %}
                                                                 </div>
                                                             </div>
@@ -243,6 +247,7 @@
                                                             <div class="filter-list">
                                                                 <div class="filter-list__list">
                                                                     {% for wd in width %}
+                                                                    {% if wd.width != None %}
                                                                     <label class="filter-list__item ">
                                                                         <span class="filter-list__input input-check">
                                                                             <span class="input-check__body">
@@ -262,6 +267,7 @@
                                                                         </span>
 
                                                                     </label>
+                                                                    {% endif %}
                                                                     {% endfor %}
                                                                 </div>
                                                             </div>
@@ -282,6 +288,7 @@
                                                             <div class="filter-list">
                                                                 <div class="filter-list__list">
                                                                     {% for ht in height %}
+                                                                    {% if ht.height != None %}
                                                                     <label class="filter-list__item ">
                                                                         <span class="filter-list__input input-check">
                                                                             <span class="input-check__body">
@@ -301,6 +308,7 @@
                                                                         </span>
 
                                                                     </label>
+                                                                    {% endif %}
                                                                     {% endfor %}
                                                                 </div>
                                                             </div>
@@ -321,6 +329,7 @@
                                                             <div class="filter-list">
                                                                 <div class="filter-list__list">
                                                                     {% for ln in length %}
+                                                                    {% if ln.length != None %}
                                                                     <label class="filter-list__item ">
                                                                         <span class="filter-list__input input-check">
                                                                             <span class="input-check__body">
@@ -340,6 +349,7 @@
                                                                         </span>
 
                                                                     </label>
+                                                                    {% endif %}
                                                                     {% endfor %}
                                                                 </div>
                                                             </div>
@@ -360,6 +370,7 @@
                                                             <div class="filter-list">
                                                                 <div class="filter-list__list">
                                                                     {% for sz in size %}
+                                                                    {% if sz.name != None %}
                                                                     <label class="filter-list__item ">
                                                                         <span class="filter-list__input input-check">
                                                                             <span class="input-check__body">
@@ -379,6 +390,7 @@
                                                                         </span>
 
                                                                     </label>
+                                                                    {% endif %}
                                                                     {% endfor %}
                                                                 </div>
                                                             </div>
