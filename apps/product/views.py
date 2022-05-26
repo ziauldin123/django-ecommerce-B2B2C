@@ -110,7 +110,7 @@ def search(request):
                 variants_id.append(product.id)
         products_list,price_from,price_to,brands,weight,width,size,height,colors,length,year,engine,make,item_model = product_service.filter_products(query_brand,products_list,variants_id,sorting=sorting, **form.cleaned_data)
     else:
-        print(form.errors)
+        print(form.errors)    
     form = SearchForm(request.GET, products=products_list)
     paginator = Paginator(products_list,6)
     page = request.GET.get('page')
@@ -121,7 +121,6 @@ def search(request):
         products = paginator.page(1)
     except EmptyPage:
         products = paginator.page(paginator.num_pages)
-    
     return render(
         request,
         'product/search.html',
@@ -627,7 +626,6 @@ def category(request, category_slug):
     else:
         print(search_form.errors)
 
-    print('list',products_list)
     paginator = Paginator(products_list,6)
     page = request.GET.get('page')
     try:

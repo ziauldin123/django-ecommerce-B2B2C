@@ -28,30 +28,33 @@ class ProductService:
         **kwargs
     ):
         print("filters",query,color,height,width,length,sorting, weight, price_from,price_to,brand,year,engine,make,model)
-        for pr in products:
-            if pr.price < 1:
-                products = products
+        
+        for pr in products: 
+            if pr.price == 0:
+                products = products.filter(Q(price__gte=price_from) , Q(price__lte=price_to)) 
+                  
             else:
                 if price_from != None and price_to != None:
                     products = products.filter(Q(price__gte=price_from) , Q(price__lte=price_to), ~Q(price=0))   
-        print('products',products)
+               
         variants= Variants.objects.filter(product_id__in=variants_id)
         all_variants=variants.filter(Q(price__gte=price_from) , Q(price__lte=price_to))
         products_idd = []
+        
         for product in products:
             products_idd.append(product.id)
         for variant in all_variants:
             products_idd.append(variant.product.id)
         products= Product.objects.filter(id__in=set(products_idd))
         if query:
-            products = products.filter(Q(title__icontains=query) | Q(description__icontains=query))
+            # products = products.filter(Q(title__icontains=query) | Q(description__icontains=query))
+            products = Product.objects.filter(Q(title__icontains=query) | Q(description__icontains=query))
             variants = variants.filter(Q(title__icontains=query))
+            print(products)
             
         products,variants = self.filter_by_variants(products,variants, brand, color, weight, height,width,length,size,year,engine,make,model)
         if instock:
             products = products.filter(num_available__gte=1)
-        
-        
         min_price=products.filter(~Q(price=0)).aggregate(Min('price'))['price__min']
         max_price=products.aggregate(Max('price'))['price__max']
         max_var_price=variants.aggregate(Max('price'))['price__max']
