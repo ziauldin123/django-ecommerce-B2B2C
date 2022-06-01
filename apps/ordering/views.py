@@ -7,7 +7,7 @@ from django.shortcuts import render, redirect
 from django.conf import settings
 from apps.cart.cart import Cart
 from django.utils.crypto import get_random_string
-from apps.ordering.models import ShopCart, ShopCartForm, Order, OrderItem
+from apps.ordering.models import ShopCart, ShopCartForm, Order, OrderItem, Quotation
 from apps.newProduct.models import Category, Product, Variants
 from apps.vendor.models import Customer, Profile, UserWishList
 from apps.cart.models import District, Sector, Cell, Village
@@ -15,6 +15,7 @@ from decimal import Decimal
 from django.views.decorators.cache import never_cache, cache_page
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
+from apps.rental.models import Item
 
 
 @never_cache
@@ -232,3 +233,4 @@ def update(request):
             return JsonResponse({'status': "Updated"})
 
     return redirect('/')
+

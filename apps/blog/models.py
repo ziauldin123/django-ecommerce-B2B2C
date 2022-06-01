@@ -7,6 +7,7 @@ from django.db import models
 from django.db.models.fields import SlugField
 from django.utils.text import slugify
 from autoslug import AutoSlugField
+from taggit.managers import TaggableManager
 
 
 class Post(models.Model):
@@ -19,6 +20,7 @@ class Post(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     image = models.ImageField(upload_to='uploads/', blank=True, null=True)
     thumbnail = models.ImageField(upload_to='uploads/', blank=True, null=True)
+    tags = TaggableManager()
 
     class Meta:
         ordering = ['-created_at']

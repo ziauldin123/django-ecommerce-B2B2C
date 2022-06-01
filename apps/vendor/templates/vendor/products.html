@@ -82,7 +82,10 @@
                         <li class="account-nav__item">
                             <a href="{% url 'items' %}">Renting items</a>
                         </li>
-                           <li class="account-nav__item ">
+                        <li class="account-nav__item">
+                            <a href="{% url 'all_quotation' %}">Quatation Request</a>
+                        </li>
+                        <li class="account-nav__item ">
                             <a href="{% url 'working_hours' %}">Working Hours</a>
                         </li>
                         {% if vendor.status == 'RUBY' or vendor.status == 'EMERALD' %} 

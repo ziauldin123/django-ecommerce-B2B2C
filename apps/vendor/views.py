@@ -20,7 +20,7 @@ from django.utils.http import urlsafe_base64_decode
 from django.db import IntegrityError
 from django.utils.encoding import force_text
 from .forms import ProductForm, TransporterSignUpForm, ProductImageForm, VariantForm, VendorSignUpForm, CustomerSignUpForm, RestorePasswordForm, RequestRestorePasswordForm, OpeningHoursForm, ProductWithVariantForm
-from apps.ordering.models import Order, OrderItem
+from apps.ordering.models import Order, OrderItem, Quotation
 from apps.newProduct.models import Color, Height, Images, Length, Product, ProductImage, Size, Variants, Weight, Width, UnitTypes
 from .models import Profile, Transporter, UserWishList, Vendor, Customer, OpeningHours, VendorDelivery
 from apps.vendor.models import VendorDelivery
@@ -1497,3 +1497,19 @@ def changeStatus(request):
     return redirect(url)    
 
 
+@login_required
+def requestedQuatation(request):
+    vendor = request.user.vendor
+    allquotations=vendor.quataion_vendor.all()
+
+    paginator = Paginator(allquotations,7)
+    page = request.GET.get('page')
+
+    try:
+        quotations = paginator.page(page)
+    except PageNotAnInteger:
+        quotations = paginator.page(1)
+    except EmptyPage:
+        quotations = paginator.page(paginator.numb_pages)        
+    
+    return render(request,'vendor/quatation.html',{'quotations':quotations})

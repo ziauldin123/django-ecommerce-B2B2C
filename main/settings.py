@@ -88,7 +88,7 @@ INSTALLED_APPS = [
     'storages',
     "collectfast",
     'django_ses',
-
+    'taggit',
 
 ]
 

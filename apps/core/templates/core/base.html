@@ -779,6 +779,7 @@
                                 <li><a href="{% url 'vendor_orders' %}">Order History</a></li>
                                 <li><a href="{% url 'products' %}">Products</a></li>
                                 <li><a href="{% url 'items' %}">Renting Items</a></li>
+                                <li><a href="{% url 'all_quotation' %}">Quotations Request</a></li>
                                 <li><a href="{% url 'working_hours' %}">Working Hours</a></li>
                                 {% if request.session.status == 'RUBY' or request.session == 'EMERALD' %} 
                                     <li><a href="{% url 'delivery_cost' %}">Delivery Cost</a></li>

@@ -3,7 +3,7 @@ from django.contrib import admin
 
 
 # Register your models here.
-from apps.ordering.models import ShopCart, Order, OrderItem
+from apps.ordering.models import ShopCart, Order, OrderItem, Quotation
 
 class ShopCartAdmin(admin.ModelAdmin):
     list_display=['product','user','quantity','price','amount']
@@ -15,6 +15,8 @@ def order_name(obj):
 
 order_name.short_description = 'Name'
 
+class QuatationAdmin(admin.ModelAdmin):
+    list_display=['reference_number','product','user','vendor','quantity']
 
 def admin_order_shipped(modeladmin, request, queryset):
     for order in queryset:
@@ -51,5 +53,6 @@ class OrderAdmin(admin.ModelAdmin):
     actions = [admin_order_shipped, admin_order_arrived]
 
 admin.site.register(ShopCart,ShopCartAdmin)
+admin.site.register(Quotation,QuatationAdmin)
 admin.site.register(Order, OrderAdmin)
 admin.site.register(OrderItem)

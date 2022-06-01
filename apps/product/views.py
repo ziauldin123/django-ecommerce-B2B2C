@@ -61,7 +61,8 @@ def search(request):
     if sorting == None:
         sorting = ("-created_at")
 
-    products_list = Product.objects.filter(status=True,visible=True)   
+    products_list = Product.objects.filter(status=True,visible=True)
+    
 
     for product in products_list:
         variants = Variants.objects.filter(product=product)
@@ -88,7 +89,6 @@ def search(request):
     query_height=request.GET.getlist('height')
     query_width=request.GET.getlist('width')
     query_length=request.GET.getlist('length')
-
     query_year = request.GET.get('year')
     query_make = request.GET.get('make')
     query_model = request.GET.get('model')
@@ -597,6 +597,9 @@ def category(request, category_slug):
     query_model = request.GET.getlist('model')
     query_engine = request.GET.getlist('engine')
 
+    print('price_from',price_from)
+    print('price_to',price_to)
+
     if not query:
         query = ''
     if price_from == None:
@@ -616,7 +619,6 @@ def category(request, category_slug):
             
     products_list = Product.objects.filter(id__in=products_ids, visible=True, vendor__enabled=True,status=True)
     variants_id = []
- 
     if search_form.is_valid():
         for product in products_list:
             if Variants.objects.filter(product_id=product.id).exists():
@@ -625,7 +627,7 @@ def category(request, category_slug):
            
     else:
         print(search_form.errors)
-
+    
     paginator = Paginator(products_list,6)
     page = request.GET.get('page')
     try:

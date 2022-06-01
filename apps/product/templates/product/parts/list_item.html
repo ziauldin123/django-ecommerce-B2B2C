@@ -197,7 +197,7 @@
                     {% endif %}
                 </span>
             </div>
-            {% if spare_parts %}
+            {% if not product.spare_parts %}
              <div class="product-card__prices">
                     {% if product.is_variant %} 
                           {% if product.discount %} 

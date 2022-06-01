@@ -1,5 +1,6 @@
 import email
 import re
+from turtle import ondrag
 from django import apps
 from django.contrib.auth.models import User
 from django.db import models
@@ -7,6 +8,7 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 # Create your models here.
+from apps.rental.models import Type,Room,Application,Capacity,Year,Engine,Amenity,Item_Model,Make,Item
 
 from django.forms import ModelForm
 from apps.newProduct.models import Product, Variants
@@ -103,7 +105,6 @@ def notify_vendor(order):
 
     connection.close()
     
-
 
 def notify_customer(order):
     connection = get_connection()  # uses SMTP server specified in settings.py
@@ -422,3 +423,17 @@ class OrderItem(models.Model):
     
     def subtotal(self):
         return self.quantity * self.get_discounted_price()
+
+class Quotation(models.Model):
+    product  = models.ForeignKey(Product,related_name="quatation_item",on_delete=models.CASCADE,null=True)
+    user = models.ForeignKey(User,related_name='quatation_user',on_delete=models.CASCADE,null=True)
+    quantity = models.IntegerField(default=1)
+    vendor = models.ForeignKey(Vendor,related_name='quataion_vendor',on_delete=models.CASCADE,null=True)
+    reference_number= models.IntegerField(default=0)
+    created_at = models.DateTimeField(auto_now_add=True,null=True)
+    
+    def __str__(self):
+        if self.product == None:
+            return "No Item Selected"
+        else:
+            return self.product.title    

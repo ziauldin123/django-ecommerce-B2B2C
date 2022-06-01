@@ -50,7 +50,6 @@ class ProductService:
             # products = products.filter(Q(title__icontains=query) | Q(description__icontains=query))
             products = Product.objects.filter(Q(title__icontains=query) | Q(description__icontains=query))
             variants = variants.filter(Q(title__icontains=query))
-            print(products)
             
         products,variants = self.filter_by_variants(products,variants, brand, color, weight, height,width,length,size,year,engine,make,model)
         if instock:

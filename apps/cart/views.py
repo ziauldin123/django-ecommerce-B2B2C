@@ -16,12 +16,16 @@ from .models import Cell, District, Sector, Village, MobileOperator
 from .services.payment_service import payment_service
 from ..core.utils import get_attr_or_none
 from apps.newProduct.models import Product
-from apps.ordering.models import notify_customer,notify_vendor
+from apps.ordering.models import notify_customer,notify_vendor,Quotation
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.mail import EmailMultiAlternatives, get_connection
 from django.template.loader import render_to_string
 from apps.vendor.views import email_user
 from apps.ordering.utils import create_new_ref_number
+from apps.rental.models import  Item
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.cache import never_cache, cache_page
+from django.contrib.auth.decorators import login_required
 
 def contact_info(request):
     delivery_type = ''
@@ -236,6 +240,9 @@ def check_add_qty(request, product_id, num, *args, **kwargs):
     json_response = {'approved': product.num_available + 1 > num}
     return JsonResponse(json_response)
 
+@login_required(login_url='/login')
+@never_cache
+@csrf_exempt
 def request_quatation(request,id):
     url = request.META.get('HTTP_REFERER')
     product=Product.objects.get(id=id)
@@ -244,7 +251,17 @@ def request_quatation(request,id):
     user=Customer.objects.get(user=request.user)
     connection = get_connection()
     connection.open()
-    
+    current_user = request.user
+    vendor=product.vendor
+    if request.method == 'POST':
+        Quotation.objects.create(
+            product_id=id, 
+            user_id=current_user.id,
+            quantity=quantity,
+            vendor_id=vendor.id,
+            reference_number=reference_number
+        )
+
     from_email = settings.DEFAULT_EMAIL_FROM
     to_email = settings.DEFAULT_EMAIL_FROM
 
