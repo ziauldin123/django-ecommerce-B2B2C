@@ -262,7 +262,7 @@ def request_quatation(request,id):
         )
 
     from_email = settings.DEFAULT_EMAIL_FROM
-    to_email = 'tuyizereanastase1@gmail.com'
+    to_email = settings.DEFAULT_EMAIL_FROM
 
     subject = 'Spare Parts Request'
     text_content = 'You have new Spare Parts Request'

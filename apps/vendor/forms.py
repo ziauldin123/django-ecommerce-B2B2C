@@ -97,7 +97,8 @@ class ProductForm(ModelForm):
             'make',
             'model', 
             'engine',
-            'spare_number'
+            'spare_number',
+            'keywords'
         )
 
         widgets = {
@@ -142,6 +143,7 @@ class ProductWithVariantForm(ModelForm):
             'pickup_available',
             'is_free_delivery',
             'brand',
+            'keywords',
             'variant',
             'is_vat'
         ]

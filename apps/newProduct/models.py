@@ -1,5 +1,6 @@
 import os
 from itertools import product
+from socketserver import ThreadingUDPServer
 from turtle import title
 from django.db.models.deletion import CASCADE, SET_NULL
 from django.db.models.expressions import OrderBy
@@ -225,6 +226,7 @@ class Product(models.Model):
         Year, on_delete=models.CASCADE, blank=True, null=True
     )
     spare_number = models.IntegerField(default=0)
+    keywords = models.CharField(max_length=255,null=True)
     make = models.ForeignKey(Make, on_delete=models.CASCADE, blank=True, null=True)
     model = models.ForeignKey(Item_Model, on_delete=models.CASCADE,blank=True, null=True)
     engine = models.ForeignKey(Engine, on_delete=models.CASCADE,blank=True, null=True)    
