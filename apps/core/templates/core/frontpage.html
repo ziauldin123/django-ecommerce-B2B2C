@@ -293,13 +293,13 @@
                             {% for post in posts %}
                             <div class="post-card">   
                                 <div class="post-card__image">
-                                    <a href="{% url 'detail' post.slug  %}">
+                                    <a href="{% url 'detail' post.id  %}">
                                       <img src="{{post.image.url}}"alt="">
                                     </a>
                                 </div>
                                 <div class="post-card__info">
                                     <div class="post-card__name">
-                                        <a href="{% url 'detail' post.slug  %}">{{post.title}}</a>
+                                        <a href="{% url 'detail' post.id  %}">{{post.title}}</a>
                                     </div>
                                     <div class="post-card__date">By {{ post.author }} | {{post.created_at}}</div>
 

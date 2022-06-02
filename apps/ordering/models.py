@@ -429,7 +429,9 @@ class Quotation(models.Model):
     user = models.ForeignKey(User,related_name='quatation_user',on_delete=models.CASCADE,null=True)
     quantity = models.IntegerField(default=1)
     vendor = models.ForeignKey(Vendor,related_name='quataion_vendor',on_delete=models.CASCADE,null=True)
-    reference_number= models.IntegerField(default=0)
+    reference_number= models.CharField(
+        max_length=100,default=create_new_ref_number
+    )
     created_at = models.DateTimeField(auto_now_add=True,null=True)
     
     def __str__(self):

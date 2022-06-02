@@ -258,12 +258,11 @@ def request_quatation(request,id):
             product_id=id, 
             user_id=current_user.id,
             quantity=quantity,
-            vendor_id=vendor.id,
-            reference_number=reference_number
+            vendor_id=vendor.id
         )
 
     from_email = settings.DEFAULT_EMAIL_FROM
-    to_email = settings.DEFAULT_EMAIL_FROM
+    to_email = 'tuyizereanastase1@gmail.com'
 
     subject = 'Spare Parts Request'
     text_content = 'You have new Spare Parts Request'
@@ -272,7 +271,8 @@ def request_quatation(request,id):
                 'product':product,
                 'user':user,
                 'quantity':quantity,
-                'reference_number':reference_number
+                'reference_number':reference_number,
+                'phone':user.phone
             }
         )
     msg = EmailMultiAlternatives(subject,text_content,from_email,[to_email],connection=connection)
