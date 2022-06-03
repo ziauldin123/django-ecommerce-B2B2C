@@ -62,8 +62,9 @@
                             <table>
                                 <thead>
                                     <tr>
-                                        <th>Qutation Reference</th>
+                                        <th>Quotation Reference</th>
                                         <th>Product</th>
+                                        <td>spare part number</td>
                                         <th>Customer phone</th>
                                         <th>Year</th>
                                         <th>Brand</th>
@@ -77,6 +78,7 @@
                                     <tr>
                                         <td>{{quotation.reference_number}}</td>
                                         <td>{{quotation.product.title}}</td>
+                                        <td>{{quotation.product.spare_number}}</td>
                                         <td>{{quotation.user.customer.phone}}</td>
                                         <td>{{quotation.product.year}}</td>
                                         <td>{{quotation.product.make}}</td>

@@ -264,15 +264,18 @@ def request_quatation(request,id):
     from_email = settings.DEFAULT_EMAIL_FROM
     to_email = settings.DEFAULT_EMAIL_FROM
 
+    quotation = Quotation.objects.last()
+
     subject = 'Spare Parts Request'
     text_content = 'You have new Spare Parts Request'
     html_content = render_to_string(
             'cart/spare_parts_request.html',{
-                'product':product,
+                'product':quotation.product,
                 'user':user,
                 'quantity':quantity,
-                'reference_number':reference_number,
-                'phone':user.phone
+                'reference_number':quotation.reference_number,
+                'phone':user.phone,
+                'date_added':quotation.created_at
             }
         )
     msg = EmailMultiAlternatives(subject,text_content,from_email,[to_email],connection=connection)
