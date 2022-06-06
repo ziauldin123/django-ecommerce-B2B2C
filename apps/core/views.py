@@ -178,6 +178,9 @@ def contact(request):
 
 
 def about(request):
+
+    
+
     if not request.user.is_anonymous:
         cart = Cart(request)
         current_user = request.user

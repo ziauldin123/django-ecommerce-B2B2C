@@ -4,6 +4,25 @@
  
 {% block content %}
 <script>
+    function requestQuatation(pr_id){
+        event.preventDefault();
+        $.ajax({
+            url:"/cart/request_quatation/" + pr_id,
+            type: 'POST',
+            data:{
+                'quantity':1,
+                csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+            },
+            success:function(){
+                $("#message").append(
+                    '<div class="alert alert-success hideit alertSuc">Spare parts Requested</div >');
+                setTimeout(function () {
+                    $("#message").load(location.href + " #message");
+                }, 1000);
+            }
+        })
+    }
+    
     $('body').on('click','.wish',function(){
         var variant_id=$(this).closest('.wishList').find('.variantid').val()
         var product_id=$(this).closest('.wishList').find('.product_id').val()
@@ -109,6 +128,7 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            {% if colors|length != 1 %}
                                             <div class="widget-filters__item">
                                                 <div class="filter filter--opened" data-collapse-item>
                                                     <button type="button" class="filter__title" data-collapse-trigger>
@@ -156,6 +176,8 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            {% endif %}
+                                            {% if brands|length != 1 %}
                                             <div class="widget-filters__item">
                                                 <div class="filter filter--opened" data-collapse-item>
                                                     <button type="button" class="filter__title" data-collapse-trigger>
@@ -193,6 +215,8 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            {% endif %}
+                                            {% if weight|length != 1 %}
                                             <div class="widget-filters__item">
                                                 <div class="filter filter--opened" data-collapse-item>
                                                     <button type="button" class="filter__title" data-collapse-trigger>
@@ -234,6 +258,8 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            {% endif %}
+                                            {% if width|length != 1 %}
                                             <div class="widget-filters__item">
                                                 <div class="filter filter--opened" data-collapse-item>
                                                     <button type="button" class="filter__title" data-collapse-trigger>
@@ -275,6 +301,8 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            {% endif %}
+                                            {% if height|length != 1 %}
                                             <div class="widget-filters__item">
                                                 <div class="filter filter--opened" data-collapse-item>
                                                     <button type="button" class="filter__title" data-collapse-trigger>
@@ -316,6 +344,8 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            {% endif %}
+                                            {% if length|length != 1 %}
                                             <div class="widget-filters__item">
                                                 <div class="filter filter--opened" data-collapse-item>
                                                     <button type="button" class="filter__title" data-collapse-trigger>
@@ -357,6 +387,8 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            {% endif %}
+                                            {% if size|length != 1 %}
                                             <div class="widget-filters__item">
                                                 <div class="filter filter--opened" data-collapse-item>
                                                     <button type="button" class="filter__title" data-collapse-trigger>
@@ -398,7 +430,9 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            {% endif %}
                                             {% else %} 
+                                            {% if year|length != 1 %}
                                             <div class="widget-filters__item">
                                                 <div class="filter filter--opened" data-collapse-item>
                                                     <button type="button" class="filter__title" data-collapse-trigger>
@@ -434,6 +468,8 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            {% endif %}
+                                            {% if make|length != 1 %}
                                             <div class="widget-filters__item">
                                                 <div class="filter filter--opened" data-collapse-item>
                                                     <button type="button" class="filter__title" data-collapse-trigger>
@@ -469,6 +505,8 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            {% endif %}
+                                            {% if item_model|length != 1 %}
                                             <div class="widget-filters__item">
                                                 <div class="filter filter--opened" data-collapse-item>
                                                     <button type="button" class="filter__title" data-collapse-trigger>
@@ -504,6 +542,8 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            {% endif %}
+                                            {% if engine|length != 1 %}
                                             <div class="widget-filters__item">
                                                 <div class="filter filter--opened" data-collapse-item>
                                                     <button type="button" class="filter__title" data-collapse-trigger>
@@ -539,6 +579,7 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            {% endif %}
                                             {% endif %}
                                         </div>
                                         <div class="widget-filters__actions d-flex">

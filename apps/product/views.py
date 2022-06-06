@@ -74,7 +74,6 @@ def search(request):
     width=Width.objects.all()
     size=Size.objects.all()
     height=Height.objects.all()
-
     year = Year.objects.all()
     make = Make.objects.all()
     item_model = Item_Model.objects.all()

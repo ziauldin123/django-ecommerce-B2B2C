@@ -426,9 +426,16 @@ class OrderItem(models.Model):
 
 class Quotation(models.Model):
     product  = models.ForeignKey(Product,related_name="quatation_item",on_delete=models.CASCADE,null=True)
+
     user = models.ForeignKey(User,related_name='quatation_user',on_delete=models.CASCADE,null=True)
     quantity = models.IntegerField(default=1)
     vendor = models.ForeignKey(Vendor,related_name='quataion_vendor',on_delete=models.CASCADE,null=True)
+    customer_phone = models.IntegerField(default=0)
+    part_number = models.IntegerField(default=0)
+    model = models.CharField(max_length=255,null=True,blank=True)
+    make = models.CharField(max_length=255,null=True,blank=True)
+    year = models.CharField(max_length=255,null=True,blank=True)
+    engine = models.CharField(max_length=255,null=True,blank=True)
     reference_number= models.CharField(
         max_length=100,default=create_new_ref_number
     )
@@ -439,3 +446,4 @@ class Quotation(models.Model):
             return "No Item Selected"
         else:
             return self.product.title    
+ 

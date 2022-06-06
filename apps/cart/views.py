@@ -249,6 +249,7 @@ def request_quatation(request,id):
     quantity=request.POST.get('quantity')
     reference_number=create_new_ref_number()
     user=Customer.objects.get(user=request.user)
+
     connection = get_connection()
     connection.open()
     current_user = request.user
@@ -258,6 +259,12 @@ def request_quatation(request,id):
             product_id=id, 
             user_id=current_user.id,
             quantity=quantity,
+            part_number=product.spare_number,
+            model=product.model,
+            make=product.make,
+            engine=product.engine,
+            year=product.year,
+            customer_phone=user.phone,
             vendor_id=vendor.id
         )
 

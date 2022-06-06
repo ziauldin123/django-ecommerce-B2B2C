@@ -436,7 +436,7 @@
                     <div class="topbar__container container">
                         <div class="topbar__row">   
                           <marquee behavior="loop" direction="left">
-                            <strong>Our products and services will be available soon. Thank you.</strong> 
+                            <strong>{% trans 'Our products and services will be available soon. Thank you.' %}</strong> 
                           </marquee>
                         </div>      
                     </div>
@@ -808,6 +808,19 @@
                 </div>
               </div>
         </div>
+        {% get_current_language as LANGUAGE_CODE %}
+        <form action="{% url 'set_language' %}" method="post">{% csrf_token %}
+         <input type="hidden" name="text" value="{{redirect_to}}">
+         <select name="language" id="">
+           {% get_available_languages as LANGUAGES %}
+           {% for code, name in LANGUAGES %} 
+           <option value="{{code}}" {% if CODE == LANGUAGE_CODE %} selected {% endif %}>
+             {{ name }} ({{ code }})
+           </option>
+           {% endfor %}
+         </select>
+         <input type="submit" name="" value="Translate" id="">
+        </form>
       </header>
       <!-- desktop site__header / end -->
         <div class="site__body">

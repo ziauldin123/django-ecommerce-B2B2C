@@ -19,7 +19,7 @@ from django.conf import settings
 from django.contrib import admin
 from django.urls import path, include, re_path
 from django.conf.urls.static import static
-
+from django.conf.urls.i18n import i18n_patterns
 from apps.cart.views import check_add_qty,contact_info, payment_check,success
 from apps.newsletter.api import api_add_subscriber
 from apps.coupon.api import api_can_use
@@ -42,10 +42,13 @@ sitemaps = {'static': StaticViewSitemap, 'post': PostSitemap,
             'items':RentalItemSitemap,'services':ServiceProviderSitemap
             }
 
-
 urlpatterns = [
-    path('admin/', admin.site.urls),
+     path('admin/', admin.site.urls),
+]
+
+urlpatterns += i18n_patterns (  
     re_path(r'^ckeditor/', include('ckeditor_uploader.urls')),
+    path('i18n/',include('django.conf.urls.i18n')),
     path('users/', include('apps.vendor.urls')),
     path('home/', include('apps.home.urls')),
     path('cart/', include('apps.cart.urls')),
@@ -88,8 +91,8 @@ urlpatterns = [
     path('sitemap.xml', sitemap, {'sitemaps': sitemaps},
          name='django.contrib.sitemaps.view.sitemap'),
 
-
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+     prefix_default_language=False,
+) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 # if settings.DEBUG:
 urlpatterns += [url(r'media/(?P<path>.*)$', serve,

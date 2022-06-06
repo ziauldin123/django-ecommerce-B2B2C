@@ -31,11 +31,12 @@ class ProductService:
         
         for pr in products: 
             if pr.price == 0:
-                products = products.filter(Q(price__gte=price_from) , Q(price__lte=price_to)) 
-                  
+                products = products.filter(Q(price__gte=price_from) , Q(price__lte=price_to))      
             else:
                 if price_from != None and price_to != None:
                     products = products.filter(Q(price__gte=price_from) , Q(price__lte=price_to), ~Q(price=0))   
+                else:
+                    products = products.filter(Q(price__gte=price_from) , Q(price__lte=price_to))    
                
         variants= Variants.objects.filter(product_id__in=variants_id)
         all_variants=variants.filter(Q(price__gte=price_from) , Q(price__lte=price_to))

@@ -98,7 +98,7 @@
                                                 width="80" height="80" style="display: block; border: 0px;" /><br>
                                             <h2
                                                 style="font-size: 30px; font-weight: 800; line-height: 36px; color: #333333; margin: 0;">
-                                                New Spare Parts Request from {{ user }}</h2>
+                                                New Quotation Request from {{ user }}</h2>
                                         </td>
                                     </tr>
                                     
@@ -108,7 +108,8 @@
                                             <p
                                                 style="font-size: 16px; font-weight: 400; line-height: 24px; color: #000000; padding-top: 15px;">
                                                 Quotation Reference: #{{ reference_number }}<br>
-                                                Quotation Date & Time: {{ date_added }}
+                                                Quotation Date & Time: {{ date_added }}<br>
+                                                Quotation Customer number: {{phone}}
                                             </p>
                                         </td>
                                     </tr>
@@ -122,13 +123,9 @@
                                                     <td width="10%" align="left" bgcolor="#eeeeee"
                                                         style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 800; line-height: 24px; padding: 10px;">
                                                          Qty</td>
-                                                         
-                                                    <td width="10%" align="left" bgcolor="#eeeeee"
-                                                    style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 800; line-height: 24px; padding: 10px;">
-                                                     Customer phone</td>
                                                     <td width="25%" align="left" bgcolor="#eeeeee"
                                                         style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 800; line-height: 24px; padding: 10px;">
-                                                         Spare part Numbers</td>
+                                                          part Number</td>
                                                     <td width="25%" align="left" bgcolor="#eeeeee"
                                                         style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 800; line-height: 24px; padding: 10px;">
                                                          Model</td>
@@ -149,12 +146,9 @@
                                                     <td width="10%" align="left"
                                                         style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding: 15px 10px 5px 10px;">
                                                         {{ quantity }} </td>
-                                                        <td width="10%" align="left"
-                                                            style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding: 15px 10px 5px 10px;">
-                                                            {{ phone }} </td>
                                                     <td width="25%" align="left"
                                                         style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding: 15px 10px 5px 10px;">
-                                                        {{ product.spare_number }} </td>
+                                                        {{ product.spare_number|floatformat:"0"}} </td>
                                                     <td width="25%" align="left"
                                                         style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding: 15px 10px 5px 10px;">
                                                         {{ product.model }} </td>

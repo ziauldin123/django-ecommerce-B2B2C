@@ -139,6 +139,7 @@ class ProductWithVariantForm(ModelForm):
             'category',
             'title',
             'summary',
+            'keywords',
             'description',
             'pickup_available',
             'is_free_delivery',

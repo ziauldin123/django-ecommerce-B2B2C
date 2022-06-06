@@ -1512,4 +1512,4 @@ def requestedQuatation(request):
     except EmptyPage:
         quotations = paginator.page(paginator.numb_pages)        
     
-    return render(request,'vendor/quatation.html',{'quotations':quotations})
+    return render(request,'vendor/quotation.html',{'quotations':quotations})
