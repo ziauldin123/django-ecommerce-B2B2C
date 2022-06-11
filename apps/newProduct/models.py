@@ -264,6 +264,8 @@ class Product(models.Model):
                 content=ContentFile(new_image_io.getvalue()),
                 save=False
             )
+        if self.spare_parts:
+            self.price=1  
         super(Product, self).save(*args, **kwargs)
 
     @property

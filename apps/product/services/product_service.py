@@ -27,7 +27,7 @@ class ProductService:
         *args,
         **kwargs
     ):
-        print("filters",query,color,height,width,length,sorting, weight, price_from,price_to,brand,year,engine,make,model)
+        print("filters",query,instock,color,height,width,length,sorting,weight, price_from,price_to,brand,year,engine,make,model)
         
         for pr in products: 
             if pr.price == 0:
@@ -48,8 +48,8 @@ class ProductService:
             products_idd.append(variant.product.id)
         products= Product.objects.filter(id__in=set(products_idd))
         if query:
-            # products = products.filter(Q(title__icontains=query) | Q(description__icontains=query))
-            products = Product.objects.filter(Q(title__icontains=query) | Q(description__icontains=query))
+            products = products.filter(Q(title__icontains=query) | Q(description__icontains=query))
+            #products = Product.objects.filter(Q(title__icontains=query) | Q(description__icontains=query),status=True,visible=True)
             variants = variants.filter(Q(title__icontains=query))
             
         products,variants = self.filter_by_variants(products,variants, brand, color, weight, height,width,length,size,year,engine,make,model)

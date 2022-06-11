@@ -56,7 +56,6 @@ def search(request):
         wishlist = 0
         total_compare = 0
 
-    form = SearchForm(request.GET)
     sorting = request.GET.get('sorting')
     if sorting == None:
         sorting = ("-created_at")
@@ -66,7 +65,8 @@ def search(request):
 
     for product in products_list:
         variants = Variants.objects.filter(product=product)
-        
+
+    search_form = SearchForm(request.GET)    
     brands=Brand.objects.all()
     colors=Color.objects.all()
     weight=Weight.objects.all()
@@ -93,24 +93,33 @@ def search(request):
     query_model = request.GET.get('model')
     query_engine = request.GET.get('engine')
     
+    print('price_from',price_from)
+    print('price_to',price_to)
 
     if not query:
         query = ''
+        print('no query')
+    else:
+        print(query)    
     if price_from == None:
         price_from = 0
     if price_to == None:
         price_to = "10000"
     max_amount = "500000"
+    
+    sorting = request.GET.get('sorting', '-created_at')
 
     variants_id = []
-    if form.is_valid():
+    print(products_list) 
+    if search_form.is_valid():
         for product in products_list:
             if Variants.objects.filter(product_id=product.id).exists():
                 variants_id.append(product.id)
-        products_list,price_from,price_to,brands,weight,width,size,height,colors,length,year,engine,make,item_model = product_service.filter_products(query_brand,products_list,variants_id,sorting=sorting, **form.cleaned_data)
+        products_list,price_from,price_to,brands,weight,width,size,height,colors,length,year,engine,make,item_model = product_service.filter_products(query_brand,products_list,variants_id,sorting=sorting, **search_form.cleaned_data)
     else:
-        print(form.errors)    
-    form = SearchForm(request.GET, products=products_list)
+        print(search_form.errors)
+           
+    search_form = SearchForm(request.GET, products=products_list)
     paginator = Paginator(products_list,6)
     page = request.GET.get('page')
 
@@ -120,11 +129,12 @@ def search(request):
         products = paginator.page(1)
     except EmptyPage:
         products = paginator.page(paginator.num_pages)
+        
     return render(
         request,
         'product/search.html',
         {
-            'form': form,
+            'form': search_form,
             'query': query,
             'products': products,
             'brands':brands,
