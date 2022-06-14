@@ -140,7 +140,7 @@ def category(request,id,category_slug):
     query_model=request.GET.get('model')
     query_engine=request.GET.get('engine')
     query_item_type=request.GET.get('item_type')
-
+    
     if not query:
         query = ''
     if price_from == None:
@@ -174,7 +174,6 @@ def category(request,id,category_slug):
         items = paginator.page(1)
     except EmptyPage:
         items = paginator.page(paginator.numb_pages)
-    
     
     return render(request,'rental/category.html',
     {

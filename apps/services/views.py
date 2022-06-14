@@ -152,7 +152,6 @@ def get_category(request,id,service_slug):
         print(search_form.errors) 
 
     search_form = SearchForm(request.GET,providers=providers_list)
-    
     return render(
     request,
     'service.html',

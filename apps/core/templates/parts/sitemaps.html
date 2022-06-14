@@ -72,7 +72,7 @@
                             <h5>Blog Posts</h5>
                             <div>
                                 {% for post in posts %} 
-                                        <div class="address-card__row-content"><a class="address-card__row-content" href="{% url 'detail' post.slug  %}">{{post.title}}</a></div>
+                                        <div class="address-card__row-content"><a class="address-card__row-content" href="{% url 'detail' post.id  %}">{{post.title}}</a></div>
                                     {% endfor %}    
                             </div><br>
 
