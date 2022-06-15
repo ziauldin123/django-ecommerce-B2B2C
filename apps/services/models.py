@@ -18,6 +18,22 @@ class Category(models.Model):
 
     def save(self,*args,**kwargs):
         self.slug=slugify(self.title)
+        if self.image and not self.image.url.endswith('.webp'):
+            imm = Image.open(self.image).convert("RGB")
+            original_width, original_height = imm.size
+            aspect_ration = round(original_width / original_height)
+            if aspect_ration <1 :
+                aspect_ration = 1
+            desired_height = 500
+            desired_width = desired_height * aspect_ration
+            imm.thumbnail((desired_width,desired_height),Image.ANTIALIAS)
+            new_image_io = BytesIO()
+            imm.save(new_image_io,format="WEBP",quality=70)
+            self.image.save(
+                self.title[:40]+".webp",
+                content=ContentFile(new_image_io.getvalue()),
+                save=False
+            )    
         super(Category,self).save(*args,**kwargs)
 
     def __str__(self):
@@ -91,7 +107,7 @@ class ServiceProvider(models.Model):
             new_image_io = BytesIO()
             imm.save(new_image_io,format="WEBP",quality=70)
             self.image.save(
-                self.title[:40]+".webp",
+                self.name[:40]+".webp",
                 content=ContentFile(new_image_io.getvalue()),
                 save=False
             )     

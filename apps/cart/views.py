@@ -289,4 +289,4 @@ def request_quatation(request,id):
     msg.attach_alternative(html_content, 'text/html')
     msg.send()
 
-    return HttpResponseRedirect(url)
+    return HttpResponse('success!')

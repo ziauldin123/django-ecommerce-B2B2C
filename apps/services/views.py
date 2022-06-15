@@ -125,17 +125,12 @@ def get_category(request,id,service_slug):
     if price_to == None:
         price_to = "10000"
     max_amount = "500000"    
-
-    print('price',price_from)   
+  
 
     sorting = request.GET.get('sorting','created_at')
-
-    providers_ids = []
-    # providers_ids.extend(
-    #     service.service_category.all().values_list('id',flat=True)
-    # )
-    # providers_list = ServiceProvider.objects.filter(id__in=providers_ids,review=True)
-    print(ServiceProvider.objects.filter(rating=3))
+    rating_list = []
+    for i in  providers_list:
+        rating_list.append(i.rating)
     if search_form.is_valid():
         providers_list,price_from,price_to,rating,experiences= providers_filters.filter_provider(providers_list,sorting=sorting,**search_form.cleaned_data)
         paginator = Paginator(providers_list,6)
@@ -161,6 +156,7 @@ def get_category(request,id,service_slug):
     'shopcart': shopcart,
     'subtotal': total,
     'tax': tax,
+    'rating_list':rating_list,
     'total': grandTotal,
     'wishlist': wishlist,
     'total_compare': total_compare,
