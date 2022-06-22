@@ -3,6 +3,7 @@ from collections import defaultdict
 from django import forms
 
 from apps.newProduct.models import Length, Product
+from apps.rental.models import Item
 
 
 class BaseProductVariantsForm:
@@ -75,6 +76,7 @@ class AddToCartInListForm(forms.Form):
 class SearchForm(forms.Form, BaseProductVariantsForm):
     def __init__(self, *args, **kwargs):
         products = kwargs.pop('products') if kwargs.get('products') is not None else Product.objects.all()
+        rental_list =kwargs.pop('rental_list') if kwargs.get('rental_list') is not None else Item.objects.all() 
         super().__init__(*args, **kwargs)
 
 

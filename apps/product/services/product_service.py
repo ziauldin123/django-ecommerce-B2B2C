@@ -1,7 +1,7 @@
 from django.db.models import Q
 from django.db.models import Max,Min
 from apps.newProduct.models import Brand, Color, Length, Product, Size, Variants, Weight, Width,Height
-from apps.rental.models import Year,Make,Item_Model,Engine
+from apps.rental.models import Item, Year,Make,Item_Model,Engine
 
 class ProductService:
     def filter_products(
@@ -28,7 +28,6 @@ class ProductService:
         **kwargs
     ):
         print("filters",query,instock,color,height,width,length,sorting,weight, price_from,price_to,brand,year,engine,make,model)
-        
         for pr in products: 
             if pr.price == 0:
                 products = products.filter(Q(price__gte=price_from) , Q(price__lte=price_to))      
@@ -41,9 +40,8 @@ class ProductService:
         variants= Variants.objects.filter(product_id__in=variants_id)
         all_variants=variants.filter(Q(price__gte=price_from) , Q(price__lte=price_to))
         products_idd = []
-        
         for product in products:
-            products_idd.append(product.id)
+            products_idd.append(product.id)       
         for variant in all_variants:
             products_idd.append(variant.product.id)
         products= Product.objects.filter(id__in=set(products_idd))
@@ -52,7 +50,7 @@ class ProductService:
             #products = Product.objects.filter(Q(title__icontains=query) | Q(description__icontains=query),status=True,visible=True)
             variants = variants.filter(Q(title__icontains=query))
             
-        products,variants = self.filter_by_variants(products,variants, brand, color, weight, height,width,length,size,year,engine,make,model)
+        products,variants = self.filter_by_variants(products,variants,brand, color, weight, height,width,length,size,year,engine,make,model)
         if instock:
             products = products.filter(num_available__gte=1)
         min_price=products.filter(~Q(price=0)).aggregate(Min('price'))['price__min']
@@ -94,7 +92,6 @@ class ProductService:
             list_engine.append(bp.engine)
             list_make.append(bp.make)
             list_model.append(bp.model)
-
         return products.order_by(sorting),min_price,max_price,set(list_brands),set(list_weight),set(list_width),set(list_size),set(list_height),set(list_color),set(list_length),set(list_year),set(list_engine),set(list_make),set(list_model),
 
     def filter_by_variants(
@@ -137,13 +134,13 @@ class ProductService:
             products = products.filter(size__in=Size.objects.filter(pk__in=size))
             variants= variants.filter(product__in=(products.filter(size__in=Size.objects.filter(pk__in=size))))
         if year:
-            products = products.filter(year__in=Year.objects.filter(pk__in=year))   
+            products = products.filter(year__in=Year.objects.filter(pk__in=year))  
         if engine:
             products = products.filter(engine__in=Engine.objects.filter(pk__in=engine))     
         if make:
             products = products.filter(make__in=Make.objects.filter(pk__in=make))
         if model:
-            products = products.filter(model__in=Item_Model.objects.filter(pk__in=model))    
+            products = products.filter(model__in=Item_Model.objects.filter(pk__in=model))
 
         return products,variants
 
