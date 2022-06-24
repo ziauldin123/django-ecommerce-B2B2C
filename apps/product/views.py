@@ -102,8 +102,8 @@ def search(request):
         query = ''
         print('no query')
     else:
-        if Item.objects.filter(Q(title__icontains=query)):
-            rentals=Item.objects.filter(Q(title__icontains=query))
+        # if Item.objects.filter(Q(title__icontains=query)):
+        #     rentals=Item.objects.filter(Q(title__icontains=query))
         print(query)    
     if price_from == None:
         price_from = 0
@@ -118,12 +118,11 @@ def search(request):
             if Variants.objects.filter(product_id=product.id).exists():
                 variants_id.append(product.id)      
         products_list,price_from,price_to,brands,weight,width,size,height,colors,length,year,engine,make,item_model = product_service.filter_products(query_brand,products_list,variants_id,sorting=sorting,**search_form.cleaned_data)
-        # print('rental',rental_list)
-        # if Item.objects.filter(Q(title__icontains=query)):
-        #     rental_list,engine=rental_service.filter_rental(rental_list,query_engine,sorting=sorting,**search_form.cleaned_data)
+        if Item.objects.filter(Q(title__icontains=query)):
+            rental_list,engine=rental_service.filter_rental(rental_list,sorting=sorting,**search_form.cleaned_data)
+            
     else:
-        print(search_form.errors)  
-    print('rental_list',rental_list)        
+        print(search_form.errors)          
     search_form = SearchForm(request.GET, products=products_list)
     paginator = Paginator(products_list,6)
     page = request.GET.get('page')
@@ -141,7 +140,7 @@ def search(request):
             'form': search_form,
             'query': query,
             'products': products,
-            'rentals':rentals,
+            'rentals':rental_list,
             'brands':brands,
             'width':width,
             'size':size,

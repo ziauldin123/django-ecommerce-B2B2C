@@ -174,7 +174,7 @@ def category(request,id,category_slug):
         items = paginator.page(1)
     except EmptyPage:
         items = paginator.page(paginator.numb_pages)
-    
+    print('rental',items_list)
     return render(request,'rental/category.html',
     {
         'items':items,

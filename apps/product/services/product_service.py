@@ -1,7 +1,7 @@
 from django.db.models import Q
 from django.db.models import Max,Min
 from apps.newProduct.models import Brand, Color, Length, Product, Size, Variants, Weight, Width,Height
-from apps.rental.models import Item, Year,Make,Item_Model,Engine
+from apps.rental.models import Year,Make,Item_Model,Engine
 
 class ProductService:
     def filter_products(

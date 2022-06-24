@@ -484,6 +484,50 @@
                         </div>
                     </div>
                 </div>
+                <div class="shop-layout__content">
+                    <div class="block">
+                        <div class="products-view">
+                            <div class="products-view__options">
+                                <div class="view-options view-options--offcanvas--mobile">
+                                    <h4>{{ category_title }}</h4>
+                                    <div class="view-options__divider"></div>
+
+                                </div>
+                            </div>
+                            <div id="message" name="message" class="mt-3"></div>
+                            <div class="products-view__list products-list" data-layout="grid-3-sidebar" data-with-features="false" data-mobile-grid-columns="2">
+                                <div class="products-list__body">
+                                    {% for item in items %}
+                                    <div class="products-list__item">
+                                        <div class="product-card">
+                                            {% if not item.available %}
+                                            <div class="product-card__badges-list">
+                                                <div class="product-card__badge product-card__badge--sale">Unavailable</div>
+                                            </div>
+                                            {% endif %}
+                                            <div class="product-card__image product-image">
+                                                <a href="{% url 'item-detail' item.id item.category.slug item.slug %}" class="product-image__body">
+                                                    <img class="product-image__img" src="{{item.image.url}}" alt="">
+                                                </a>
+                                            </div>
+                                            <div class="product-card__info">
+                                                <div class="product-card__name">
+                                                    <a href="{% url 'item-detail' item.id item.category.slug item.slug %}" >{{item.title}}</a>
+                                                </div>
+                                            </div>
+                                            <div class="product-card__actions">
+                                                <div class="product-card__prices">
+                                                        <span class="product-card__old-price"></span>Rwf {{item.price|floatformat:"0"}}/{{item.unit.unit}}</span>  
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>   
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </form>
             {% include "core/pagination.html" with page=items %}    
