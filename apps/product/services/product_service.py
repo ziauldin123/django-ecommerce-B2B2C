@@ -125,8 +125,8 @@ class ProductService:
             products = products.filter(height__in=Height.objects.filter(pk__in=height))
             variants= variants.filter(product__in=(products.filter(height__in=Height.objects.filter(pk__in=height))))
         if width:
-            products = products.filter(width__in=Width.objects.filter(pk__im=width))
-            variants= variants.filter(product__in=(products.filter(width__in=Width.objects.filter(pk__im=width))))
+            products = products.filter(width__in=Width.objects.filter(pk__in=width))
+            variants= variants.filter(product__in=(products.filter(width__in=Width.objects.filter(pk__in=width))))
         if length:
             products = products.filter(length__in=Length.objects.filter(pk__in=length))
             variants= variants.filter(product__in=(products.filter(length__in=Length.objects.filter(pk__in=length))))
