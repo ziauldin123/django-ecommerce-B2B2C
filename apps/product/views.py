@@ -119,7 +119,7 @@ def search(request):
                 variants_id.append(product.id)      
         products_list,price_from,price_to,brands,weight,width,size,height,colors,length,year,engine,make,item_model = product_service.filter_products(query_brand,products_list,variants_id,sorting=sorting,**search_form.cleaned_data)
         if Item.objects.filter(Q(title__icontains=query)):
-            rental_list,engine=rental_service.filter_rental(rental_list,sorting=sorting,**search_form.cleaned_data)
+            rental_list,engine,year=rental_service.filter_rental(rental_list,sorting=sorting,**search_form.cleaned_data)
             
     else:
         print(search_form.errors)          
@@ -637,7 +637,7 @@ def category(request, category_slug):
         for product in products_list:
             if Variants.objects.filter(product_id=product.id).exists():
                 variants_id.append(product.id)
-        products_list,price_from,price_to,brands,weight,width,size,height,colors,length,year,engine,make,item_model = product_service.filter_products(query_brand,products_list,variants_id,rental_list,sorting=sorting, **search_form.cleaned_data)
+        products_list,price_from,price_to,brands,weight,width,size,height,colors,length,year,engine,make,item_model = product_service.filter_products(query_brand,products_list,variants_id,sorting=sorting, **search_form.cleaned_data)
            
     else:
         print(search_form.errors)
@@ -812,7 +812,7 @@ def subcategory(request, category_slug, subcategory_slug):
         for product in products_list:
             if Variants.objects.filter(product_id=product.id).exists():
                 variants_id.append(product.id)
-        products_list,price_from,price_to,brands,weight,width,size,height,colors,length,year,make,engine,item_model = product_service.filter_products(query_brand,products_list,variants_id,rental_list,sorting=sorting, **search_form.cleaned_data)
+        products_list,price_from,price_to,brands,weight,width,size,height,colors,length,year,make,engine,item_model = product_service.filter_products(query_brand,products_list,variants_id,sorting=sorting, **search_form.cleaned_data)
 
         paginator = Paginator(products_list,6) 
         page = request.GET.get('page')
@@ -980,7 +980,7 @@ def subsubcategory(request, category_slug, subcategory_slug, subsubcategory_slug
         for product in products_list:
             if Variants.objects.filter(product_id=product.id).exists():
                 variants_id.append(product.id)
-        products_list,price_from,price_to,brands,weight,width,size,height,colors,length,year,engine,make,item_model = product_service.filter_products(query_brand,products_list,variants_id,rental_list,sorting=sorting, **search_form.cleaned_data)
+        products_list,price_from,price_to,brands,weight,width,size,height,colors,length,year,engine,make,item_model = product_service.filter_products(query_brand,products_list,variants_id,sorting=sorting, **search_form.cleaned_data)
         
         paginator = Paginator(products_list,6) 
         page = request.GET.get('page')
