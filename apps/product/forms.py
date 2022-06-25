@@ -94,6 +94,7 @@ class SearchForm(forms.Form, BaseProductVariantsForm):
     width = forms.CharField(widget=forms.Select(),required=False)
     year = forms.CharField(widget=forms.Select(),required=False)
     engine =  forms.CharField(widget=forms.Select(),required=False)
+    rooms =forms.CharField(widget=forms.Select(),required=False)
     make = forms.CharField(widget=forms.Select(),required=False)
     model = forms.CharField(widget=forms.Select(),required=False)
 

@@ -18,7 +18,7 @@ from stripe import Review
 from .forms import AddToCartForm, AddToCartInListForm,SearchForm, TestForm
 from apps.newProduct.models import *
 from django.core.paginator import (PageNotAnInteger, EmptyPage, Paginator)
-from apps.rental.models import Item, Year,Make,Item_Model,Engine,Amenity
+from apps.rental.models import Item, Year,Make,Item_Model,Engine,Amenity,Room
 from apps.cart.cart import Cart
 from .services.product_service import product_service
 from .services.rental_filter import rental_service
@@ -80,6 +80,7 @@ def search(request):
     make = Make.objects.all()
     item_model = Item_Model.objects.all()
     engine = Engine.objects.all()
+    rooms = Room.objects.all()
 
     query=request.GET.get('query')
     price_to=request.GET.get('price_to')
@@ -94,6 +95,7 @@ def search(request):
     query_make = request.GET.get('make')
     query_model = request.GET.get('model')
     query_engine = request.GET.get('engine')
+    query_rooms = request.GET.get('rooms')
     
     print('price_from',price_from)
     print('price_to',price_to)
@@ -119,20 +121,24 @@ def search(request):
                 variants_id.append(product.id)      
         products_list,price_from,price_to,brands,weight,width,size,height,colors,length,year,engine,make,item_model = product_service.filter_products(query_brand,products_list,variants_id,sorting=sorting,**search_form.cleaned_data)
         if Item.objects.filter(Q(title__icontains=query)):
-            rental_list,engine,year=rental_service.filter_rental(rental_list,sorting=sorting,**search_form.cleaned_data)
+            rental_list,engine,year,rooms=rental_service.filter_rental(rental_list,sorting=sorting,**search_form.cleaned_data)
             
     else:
         print(search_form.errors)          
     search_form = SearchForm(request.GET, products=products_list)
-    paginator = Paginator(products_list,6)
+    paginator = Paginator(products_list,3)
+    paginator_rentals = Paginator(rental_list,3)
     page = request.GET.get('page')
 
     try:
         products = paginator.page(page)
+        rentals = paginator_rentals.page(page)
     except PageNotAnInteger:
         products = paginator.page(1)
+        rentals = paginator_rentals.page(1)
     except EmptyPage:
-        products = paginator.page(paginator.num_pages)   
+        products = paginator.page(paginator.num_pages) 
+        rentals = paginator_rentals.page(paginator_rentals.num_pages)  
     return render(
         request,
         'product/search.html',
@@ -140,7 +146,7 @@ def search(request):
             'form': search_form,
             'query': query,
             'products': products,
-            'rentals':rental_list,
+            'rentals':rentals,
             'brands':brands,
             'width':width,
             'size':size,
@@ -155,6 +161,7 @@ def search(request):
             'make':make,
             'item_model':item_model,
             'engine':engine,
+            'rooms':rooms,
             'sorting': sorting,
             'price_to':re.sub('[\$,]', '', str(price_to)) ,
             'price_from':re.sub('[\$,]', '', str(price_from)) ,
@@ -170,6 +177,7 @@ def search(request):
             'query_make':query_make,
             'query_model':query_model,
             'query_engine':query_engine,
+            'query_rooms':query_rooms,
             'max_amount':max_amount,
             'shopcart':shopcart,
             'subtotal':total,

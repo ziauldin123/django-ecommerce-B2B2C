@@ -585,6 +585,46 @@
                                                 </div>
                                             </div>
                                             {% endif %}
+                                            
+                                            {% if rooms|length != 1 %}
+                                            <div class="widget-filters__item">
+                                                <div class="filter filter--opened" data-collapse-item>
+                                                    <button type="button" class="filter__title" data-collapse-trigger>
+                                                        Rooms
+                                                        <svg class="filter__arrow" width="12px" height="7px">
+                                                            <use xlink:href="/static/templates/images/sprite.svg#arrow-rounded-down-12x7"></use>
+                                                        </svg>
+                                                    </button>
+                                                    <div class="filter__body" data-collapse-content>
+                                                        <div class="filter__container">
+                                                            <div class="filter-list">
+                                                                <div class="filter-list__list">
+                                                                    {% for rooms in rooms %}
+                                                                    {% if rooms != None %}
+                                                                    <label class="filter-list__item ">
+                                                                        <span class="filter-list__input input-check">
+                                                                            <span class="input-check__body">
+                                                                                <input class="input-check__input" value="{{rooms.id}}" type="checkbox" name="rooms">
+                                                                                <span class="input-check__box"></span>
+                                                                                <svg class="input-check__icon" width="9px" height="7px">
+                                                                                    <use xlink:href="/static/templates/images/sprite.svg#check-9x7"></use>
+                                                                                </svg>
+                                                                            </span>
+                                                                        </span>
+                                                                        <span class="filter-list__title">
+                                                                            {{rooms}}
+                                                                        </span>
+
+                                                                    </label>
+                                                                    {% endif %}
+                                                                    {% endfor %}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            {% endif %}
                                         </div>
                                         <div class="widget-filters__actions d-flex">
                                             <button class="btn btn-primary btn-sm" id="filter_search_btn">Filter</button>
@@ -601,14 +641,10 @@
                         <div class="products-view">
                             <div class="products-view__options">
                                 <div class="view-options view-options--offcanvas--mobile">
-                                    <h4>Search Results</h4>
+                                    <h4>Search Results - Products</h4>
                                     <div class="view-options__divider"></div>
-                                    
                                 </div>
-                               
-                                
                             </div>
-                            
                             <div id="message" name="message" class="mt-3"></div>
                             <div class="products-view__list products-list" data-layout="grid-3-sidebar" data-with-features="false" data-mobile-grid-columns="2">
                                 <div class="products-list__body">
@@ -621,13 +657,26 @@
                                     {% endif %}
                                     {% endif %}
                                     {% endfor %}
-                                    
+                                </div>
+                            </div>
+                        </div>
+                        
+                        {% include 'core/pagination.html' with page=products %}
+                    </div>
+                    <div class="block">
+                        <div class="products-view">
+                            <div class="products-view__options">
+                                <div class="view-options view-options--offcanvas--mobile">
+                                    <h4>Search Results - Rentals</h4>
+                                    <div class="view-options__divider"></div> 
+                                </div>
+                            </div>
+                            <div id="message" name="message" class="mt-3"></div>
+                            <div class="products-view__list products-list" data-layout="grid-3-sidebar" data-with-features="false" data-mobile-grid-columns="2">
+                                <div class="products-list__body">
                                     {% for item in rentals %}
                                     <div class="products-list__item">
                                         <div class="product-card">
-                                            <div class="product-card__badges-list">
-                                                <div class="product-card__badge product-card__badge--sale">For Rent</div>
-                                            </div>
                                             <div class="product-card__image product-image">
                                                 <a href="{% url 'item-detail' item.id item.category.slug item.slug %}" class="product-image__body">
                                                     <img class="product-image__img" src="{{item.image.url}}" alt="">
@@ -650,7 +699,7 @@
                             </div>
                         </div>
                         
-                        {% include 'core/pagination.html' with page=products %}
+                        {% include 'core/pagination.html' with page=rentals %}
                     </div>
                 </div>
             </div>
