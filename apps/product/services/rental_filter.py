@@ -40,7 +40,7 @@ class RentalService:
         for rental in rentals:
             rentals__idd.append(rental.id)
         if query:
-            rentals=rentals.filter(Q(title__icontains=query))    
+            rentals=rentals.filter(Q(title__icontains=query) | Q(description__icontains=query))    
         
         rentals = self.filter_by_atributes(rentals,engine,year,rooms,amenity,application,capacity,rental_type)
         
