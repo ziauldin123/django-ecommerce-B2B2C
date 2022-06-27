@@ -123,7 +123,8 @@ def search(request):
     max_amount = "500000"
     
     sorting = request.GET.get('sorting', '-created_at') 
-    variants_id = [] 
+    variants_id = []
+    rental_results=False
     if search_form.is_valid():
         for product in products_list:
             if Variants.objects.filter(product_id=product.id).exists():
@@ -131,6 +132,8 @@ def search(request):
         products_list,price_from,price_to,brands,weight,width,size,height,colors,length,year,engine,make,item_model = product_service.filter_products(query_brand,products_list,variants_id,sorting=sorting,**search_form.cleaned_data)
         if Item.objects.filter(Q(title__icontains=query)):
             rental_list,price_from,price_to,engine,year,rooms,amenity,application,capacity,item_type=rental_service.filter_rental(rental_list,sorting=sorting,**search_form.cleaned_data)
+            rental_results=True
+            
             
     else:
         print(search_form.errors)          
@@ -147,8 +150,7 @@ def search(request):
         rentals = paginator_rentals.page(1)
     except EmptyPage:
         products = paginator.page(paginator.num_pages) 
-        rentals = paginator_rentals.page(paginator_rentals.num_pages)  
-       
+        rentals = paginator_rentals.page(paginator_rentals.num_pages)   
     return render(
         request,
         'product/search.html',
@@ -156,6 +158,7 @@ def search(request):
             'form': search_form,
             'query': query,
             'products': products,
+            'rental_results':rental_results,
             'rentals':rentals,
             'brands':brands,
             'width':width,

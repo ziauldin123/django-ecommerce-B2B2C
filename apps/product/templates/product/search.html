@@ -887,6 +887,7 @@
                             <div id="message" name="message" class="mt-3"></div>
                             <div class="products-view__list products-list" data-layout="grid-3-sidebar" data-with-features="false" data-mobile-grid-columns="2">
                                 <div class="products-list__body">
+                                    {% if rental_results %}
                                     {% for item in rentals %}
                                     <div class="products-list__item">
                                         <div class="product-card">
@@ -908,6 +909,7 @@
                                         </div>
                                     </div>   
                                     {% endfor %}
+                                    {% endif %}
                                 </div>
                             </div>
                         </div>
