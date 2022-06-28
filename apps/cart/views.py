@@ -27,6 +27,15 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.cache import never_cache, cache_page
 from django.contrib.auth.decorators import login_required
 
+import threading
+
+class Email_Thread(threading.Thread):
+    def __init__(self,msg):
+        self.msg=msg
+        threading.Thread.__init__(self)
+    def run(self):
+        self.msg.send()    
+
 def contact_info(request):
     delivery_type = ''
     district = ''
@@ -287,6 +296,8 @@ def request_quatation(request,id):
         )
     msg = EmailMultiAlternatives(subject,text_content,from_email,[to_email],connection=connection)
     msg.attach_alternative(html_content, 'text/html')
-    msg.send()
+    # msg.send()
+
+    Email_Thread(msg).start()
 
     return HttpResponse('success!')
