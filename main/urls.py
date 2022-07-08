@@ -14,6 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 
+from unicodedata import name
 from django import urls
 from django.conf import settings
 from django.contrib import admin
@@ -68,6 +69,7 @@ urlpatterns += i18n_patterns (
     path('', include('apps.product.urls')),
     path('newProduct/', include('apps.newProduct.urls')),
     path('ajaxcolor/', views.ajaxcolor, name='ajaxcolor'),
+    path('ajaxadjcolor/',views.ajaxAdjColor,name='ajax-adj-color'),
     path('ajaxcolorWeight/',views.ajaxcolorWeigth, name='ajaxcolor-weight'),
     path('cart/',orderview.shopcart,name='shopcart'),
     path('checkout', contact_info, name='contact_info'),

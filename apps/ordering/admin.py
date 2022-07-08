@@ -6,7 +6,7 @@ from django.contrib import admin
 from apps.ordering.models import ShopCart, Order, OrderItem, Quotation
 
 class ShopCartAdmin(admin.ModelAdmin):
-    list_display=['product','user','quantity','price','amount']
+    list_display=['product','user','quantity','price','var_dicount_amount','prodct_dicount_amount']
     list_filter=['user']
 
 def order_name(obj):

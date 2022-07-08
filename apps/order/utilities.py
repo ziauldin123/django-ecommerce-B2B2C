@@ -116,15 +116,22 @@ def checkout(
             if item['product']['is_variant']:
                 var_id = int(item['product']['variant_id']['id'])
                 pro_id = int(item['product']['id'])
-                
+                var_color_id=''
+            elif item['product']['is_variant_color']:
+                var_color_id = int(item['product']['variant_color_id'])
+                var_id = int(item['product']['variant_id']['id'])
+                pro_id = int(item['product']['id'])
+
             else:
                 pro_id = int(item['product']['id'])
                 var_id = ''
+                var_color_id=''
 
             OrderItem.objects.create(
                 order=order,
                 product_id=pro_id,
                 variant_id=var_id,
+                variant_color_id=var_color_id,
                 vendor_id=item['product']['vendor_id']['id'],
                 price=item['product']['total_price'],
                 quantity=item['quantity'],

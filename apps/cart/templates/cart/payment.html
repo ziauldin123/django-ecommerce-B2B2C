@@ -66,7 +66,11 @@
                                     <tr>
                                         <td>
                                             {% if rs.variant %}
-                                            {{rs.variant.title}}
+                                            {% if rs.variant_color %}
+                                            {{rs.variant_color.name}}
+                                       {% else %}
+                                           {{rs.variant.title}}
+                                        {% endif %}
                                             {% else %} 
                                             {{rs.product}}
                                             {% endif %} × {{rs.quantity}}
@@ -75,8 +79,14 @@
                                               {{ rs.product.unit_type.unit }}(s)
                                              {% endif %}
                                          {% else %}
+                                              {% if rs.variant_color %}
+                                                    {% if rs.variant_color.unit_type %}
+                                                         {{ rs.variant_color.unit_type.unit }}(s)
+                                                    {% endif %} 
+                                            {% else %}
                                             {% if rs.variant.unit_type %}
                                              {{ rs.variant.unit_type.unit }}(s)
+                                             {% endif %}
                                              {% endif %}
                                          {% endif %}</td>
 
@@ -87,12 +97,19 @@
                                                 {{ rs.amount }}
                                             {% endif %}
                                         {% else %}
+                                            {% if rs.variant_color %} 
+                                            {% if rs.variant_color.discount %} 
+                                            {{rs.adj_variant_amount_discount}}
+                                            {% else %} 
+                                            {{rs.adj_variant_amount }}
+                                            {% endif %}
+                                            {% else %}
                                             {% if rs.variant.discount > 0 %}
                                                  {{ rs.var_dicount_amount }}
                                             {% else %}
                                                 {{ rs.varamount }}
                                             {% endif %}
-                
+                                            {% endif %}
                                         {% endif %}
                                         {% if rs.product.is_vat == True %}{% endif %}</td>
                                     </tr>

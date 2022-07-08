@@ -141,19 +141,18 @@ class Height(models.Model):
     def __str__(self):
         return str(self.height)
 
-
 class Color(models.Model):
     name = models.CharField(max_length=28)
     code = models.CharField(max_length=10, blank=True, null=True)
 
     def __str__(self):
         return self.name
-
     def color_tag(self):
         if self.code is not None:
             return mark_safe('<p style="background-color:{}">Color </p>'.format(self.code))
         else:
             return ""
+
 
 
 class UnitTypes(models.Model):
@@ -456,6 +455,7 @@ class Variants(models.Model):
     price = models.DecimalField(max_digits=12, decimal_places=2)
     status = models.BooleanField(default=False)
     visible = models.BooleanField(default=False)
+    have_adjacent_color = models.BooleanField(default=False)
     discount = models.PositiveIntegerField(
         default=0, validators=[MinValueValidator(0), MaxValueValidator(99)], verbose_name="Discount %")
 
@@ -487,7 +487,13 @@ class Variants(models.Model):
     def get_url(self):
         return f'/{self.product.id}/{self.product.vendor.slug}/{self.product.category.sub_category.category.slug}/{self.product.category.sub_category.slug}/{self.product.category.slug}/{self.product.slug}/'
 
-   
+    @property
+    def get_adj_variant(self):
+        if AdjacentColorProduct.objects.filter(product=self).exists():
+            return AdjacentColorProduct.objects.filter(product=self).first()
+        else:
+            return []
+
     def image(self):
         img = Images.objects.get(id=self.image_id)
         if img.id is not None:
@@ -592,3 +598,67 @@ class ProductImage(models.Model):
     def image_tag(self):
 
         return mark_safe('<img src="{}" height="50"/>'.format(self.image.url))
+
+class AdjacentColorProduct(models.Model):
+    name = models.CharField(max_length=255)
+    code=models.CharField(max_length=255, blank=True, null=True)
+    price = models.DecimalField(max_digits=12,decimal_places=2,default=0)
+    quantity = models.IntegerField(default=0)
+    product = models.ForeignKey(
+        Variants, on_delete=models.CASCADE, related_name='color_product_variant')
+    discount = models.PositiveIntegerField(
+        default=0, validators=[MinValueValidator(0), MaxValueValidator(99)], verbose_name="Discount %")
+    image = models.ImageField(upload_to='images/', null=True, blank=True)
+    is_vat = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.name
+
+    def save(self, *args, **kwargs):
+        if self.image and not self.image.url.endswith('.webp'):
+            imm = Image.open(self.image).convert("RGB")
+            original_width, original_height = imm.size
+            aspect_ratio = round(original_width / original_height)
+            if aspect_ratio < 1:
+                aspect_ratio = 1
+            desired_height = 500  # Edit to add your desired height in pixels
+            desired_width = desired_height * aspect_ratio
+            imm.thumbnail((desired_width, desired_height), Image.ANTIALIAS)
+            new_image_io = BytesIO()
+            imm.save(new_image_io, format="WEBP", quality=70)
+            self.image.save(
+                self.name[:40]+".webp",
+                content=ContentFile(new_image_io.getvalue()),
+                save=False
+            ) 
+        super(AdjacentColorProduct, self).save(*args, **kwargs)
+
+    def color_tag(self):
+        if self.code is not None:
+            return mark_safe('<p style="background-color:{}">Color </p>'.format(self.code))
+        else:
+            return ""
+
+    def get_discounted_price(self):
+        discounted_price = float(self.price-((self.discount*self.price)/100))
+        return discounted_price 
+
+    def get_vat_price(self):
+        if self.is_vat == True:
+            if self.discount > 0:
+                discounted_price = float(
+                    self.price-((self.discount*self.price)/100)
+                )
+                return float(18*discounted_price/100)
+            else:
+                return float((18*self.price)/100)
+        else:
+            return 0           
+    
+    def get_vat_exclusive_price(self):
+        if self.is_vat == True:
+            discounted_price = float(
+                self.price-((self.discount*self.price)/100))
+            return float(discounted_price-((18*discounted_price)/100))
+        else:
+            return float(self.price-((self.discount*self.price)/100))

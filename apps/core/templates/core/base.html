@@ -1156,9 +1156,13 @@
                 {% endif %}
                 <ul class="dropcart__product-options">
                     {% if product.variant %} 
+                    {% if product.variant.have_adjacent_color %}
+                    <li>Color: {{product.variant.color}}</li> - {{product.variant_color.name}}
+                    {% else %}
                            {% if product.variant.color %} 
-                                 <li>Color:{{product.variant.color}} </li>
+                                 <li>Color:{{product.variant.color}}{% if product.color %} - {{product.color}}{% endif %} </li>
                            {% endif %} 
+                    {% endif %}       
                     {% else %} 
                           {% if product.color %}
                                 <li>Color: {{product.color}}</li> 
@@ -1171,11 +1175,19 @@
                     </span> ×
                     <span class="dropcart__product-price">
                       {% if product.variant %}
+                      {% if product.variant.have_adjacent_color %}
+                      {% if product.variant_color.discount > 0 %} 
+                            {{product.variant_color.get_discounted_price}}
+                               {% else %} 
+                                {{product.variant_color.price}}
+                            {% endif %}
+                      {% else %}
                           {% if product.variant.discount %} 
                               {{product.variant.get_discounted_price}}
                           {% else %} 
                               {{product.variant.price}}
                           {% endif %}
+                       {% endif %}   
                       {% else %}
                           {% if product.product.discount %}
                                {{product.product.get_discounted_price}}

@@ -708,7 +708,7 @@ def add_product_with_variant(request):
                 product.save()
                 messages.add_message(
                     request, messages.SUCCESS, "The product {} is successfully added and now under review".format(product.title))
-                return redirect('products')
+                return redirect('add_variant')
             else:
                 messages.add_message(
                     request, messages.ERROR, "You can't add new product.you reached product limit")

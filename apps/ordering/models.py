@@ -11,7 +11,7 @@ from django.dispatch import receiver
 from apps.rental.models import Type,Room,Application,Capacity,Year,Engine,Amenity,Item_Model,Make,Item
 
 from django.forms import ModelForm
-from apps.newProduct.models import Product, Variants
+from apps.newProduct.models import Product, Variants,AdjacentColorProduct
 
 
 from apps.vendor.models import Customer, Transporter, Vendor, VendorDelivery
@@ -130,6 +130,8 @@ class ShopCart(models.Model):
     product=models.ForeignKey(Product, on_delete=models.SET_NULL,null=True)
     variant=models.ForeignKey(Variants, on_delete=models.SET_NULL,null=True,blank=True) #relation with variant
     quantity=models.IntegerField()
+    variant_color=models.ForeignKey(AdjacentColorProduct,on_delete=models.SET_NULL,null=True,blank=True)
+
 
     def __str__(self):
         if self.product == None:
@@ -161,11 +163,27 @@ class ShopCart(models.Model):
             return round(Decimal(self.quantity * self.variant.price),2)
 
     @property
-    def var_dicount_amount(self):
-        if self.variant.discount  == 0:
-            return 00
+    def adj_variant_amount(self):
+        if self.variant_color == None:
+            return 0
         else:
-            return round(Decimal(self.quantity * self.variant.get_discounted_price_var()),2)
+            return round(Decimal(self.quantity * self.variant_color.price),2)  
+    
+    @property
+    def adj_variant_amount_discount(self):
+        if self.variant_color:
+            if self.variant_color.discount == 0:
+                return round(Decimal(self.quantity * self.variant_color.price),2)
+            else:
+                return round(Decimal(self.quantity * self.variant_color.get_discounted_price()),2)    
+
+    @property
+    def var_dicount_amount(self):
+        if self.variant:
+            if self.variant.discount  == 0:
+               return round(Decimal(self.quantity * self.variant.price),2)
+            else:
+               return round(Decimal(self.quantity * self.variant.get_discounted_price_var()),2)
 
     @property
     def prodct_dicount_amount(self):
@@ -317,6 +335,7 @@ class OrderItem(models.Model):
     )
     product=models.ForeignKey(Product, on_delete=models.SET_NULL,null=True,blank=True,related_name='items')
     variant=models.ForeignKey(Variants, on_delete=models.SET_NULL,null=True,blank=True,related_name='items')
+    variant_color=models.ForeignKey(AdjacentColorProduct, on_delete=models.SET_NULL,null=True,blank=True,related_name='items')
     vendor=models.ForeignKey(
         Vendor,related_name='items',on_delete=models.CASCADE
     )
