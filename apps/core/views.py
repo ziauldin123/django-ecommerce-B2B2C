@@ -62,10 +62,14 @@ def frontpage(request):
         if cart.__len__() == 0:
             for rs in shopcart:
                 if rs.variant is None:
-                    cart.add(product_id=rs.product.id, variant_id=None, user_id=current_user.id,
+                    cart.add(product_id=rs.product.id, variant_id=None,variant_color_id=None, user_id=current_user.id,
                              quantity=rs.quantity, update_quantity=True)
+                elif rs.variant_color:
+                    cart.add(product_id=rs.product.id, variant_id=rs.variant.id,variant_color_id=rs.variant_color.id, user_id=current_user.id,
+                             quantity=rs.quantity, update_quantity=True)
+
                 else:
-                    cart.add(product_id=rs.product.id, variant_id=rs.variant.id, user_id=current_user.id,
+                    cart.add(product_id=rs.product.id, variant_id=rs.variant.id,variant_color_id=None, user_id=current_user.id,
                              quantity=rs.quantity, update_quantity=True)
                              
 
