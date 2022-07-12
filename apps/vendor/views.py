@@ -643,7 +643,7 @@ def order_history(request):
 
     vendor_items_total_price = round(Decimal(vendor_items_total_price), 2)
     total_cost = round(Decimal(vendor_items_total_price), 2)
-
+    
     return render(
         request,
         'vendor/orders-history.html', {
@@ -1255,7 +1255,7 @@ def order_detail(request, id):
 
     else:
         wishlist = 0
-        total_compare = 0
+        total_compare = 0  
     return render(request, 'customer/order_details.html', {
         'order': order,
         'wishlist': wishlist,
@@ -1267,7 +1267,7 @@ def order_detail(request, id):
 
 def vendor_order_detail(request, id):
     order = Order.objects.get(pk=id)
-    
+
     for i in order.getCustomer():
         print(i.address)
     return render(request, 'vendor/vendor_order_details.html', {'order': order})

@@ -61,7 +61,7 @@
                                     {% for order in order.items.all %} 
                                     <tr>
                                         <td>{{order.vendor}}</td>
-                                        <td>{% if order.is_variant %} {{order.variant}} {% else %} {{order.product}} {% endif %} × {{order.quantity}}</td>
+                                        <td>{% if order.is_variant %} {{order.variant}} {% elif order.variant_color %} {{order.variant_color}} {% else %} {{order.product}} {% endif %} × {{order.quantity}}</td>
                                         <td>{{order.price}}</td>
                                         <td>{{order.get_total}}</td>
                                     </tr>

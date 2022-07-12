@@ -33,20 +33,22 @@ class Cart(object):
                 if shopcart.variant == None :
                     self.cart['cart'][str(p)]['product']['total_price'] = float(shopcart.product.get_discounted_price())
                     self.cart['cart'][str(p)]['product']['is_variant'] = False
+                    self.cart['cart'][str(p)]['product']['is_variant_color'] = False
                     self.cart['cart'][str(p)]['product']['tax']=float(shopcart.product.get_vat_price())
                     self.cart['cart'][str(p)]['product']['total_vat_excl'] = float(shopcart.product.get_vat_exclusive_price())  
 
                 elif shopcart.variant_color:
-                    self.cart['cart'][str(p)]['product']['total_price'] = float(shopcart.variant_color.get_discounted_price())  
-                    self.cart['cart'][str(p)]['product']['is_variant'] = True
+                    self.cart['cart'][str(p)]['product']['total_price'] = float(shopcart.variant_color.get_discounted_price())
                     self.cart['cart'][str(p)]['product']['is_variant_color'] = True
                     self.cart['cart'][str(p)]['product']['variant_color_id'] = {'id':shopcart.variant_color.id}
+                    self.cart['cart'][str(p)]['product']['variant_id'] = {'id':shopcart.variant.id}
                     self.cart['cart'][str(p)]['product']['tax']=float(shopcart.variant_color.get_vat_price())
                     self.cart['cart'][str(p)]['product']['total_vat_excl'] = float(shopcart.variant_color.get_vat_exclusive_price())
 
                 else:
                     self.cart['cart'][str(p)]['product']['total_price'] = float(shopcart.variant.get_discounted_price())
                     self.cart['cart'][str(p)]['product']['is_variant'] = True
+                    self.cart['cart'][str(p)]['product']['is_variant_color'] = False
                     self.cart['cart'][str(p)]['product']['variant_id'] = {'id':shopcart.variant.id}
                     self.cart['cart'][str(p)]['product']['tax']=float(shopcart.variant.get_vat_price())
                     self.cart['cart'][str(p)]['product']['total_vat_excl'] = float(shopcart.variant.get_vat_exclusive_price())
@@ -85,16 +87,19 @@ class Cart(object):
                 if shopcart.variant == None :
                     self.cart['cart'][str(p)]['product']['total_price'] = float(shopcart.product.get_discounted_price())
                     self.cart['cart'][str(p)]['product']['is_variant'] = False
+                    self.cart['cart'][str(p)]['product']['is_variant_color'] = False
 
                 elif shopcart.variant_color:
                     self.cart['cart'][str(p)]['product']['is_variant_color'] = True
                     self.cart['cart'][str(p)]['product']['total_price'] = float(shopcart.variant_color.get_discounted_price())
-                    self.cart['cart'][str(p)]['product']['is_variant'] = True
-                    self.cart['cart'][str(p)]['product']['variant_id'] = {'id':shopcart.variant_color.id}
+                    self.cart['cart'][str(p)]['product']['is_variant'] = False
+                    self.cart['cart'][str(p)]['product']['variant_color_id'] = {'id':shopcart.variant_color.id}
+                    self.cart['cart'][str(p)]['product']['variant_id'] = {'id':shopcart.variant.id}
 
                 else:
                     self.cart['cart'][str(p)]['product']['total_price'] = float(shopcart.variant.get_discounted_price())
                     self.cart['cart'][str(p)]['product']['is_variant'] = True
+                    self.cart['cart'][str(p)]['product']['is_variant_color'] = False
                     self.cart['cart'][str(p)]['product']['variant_id'] = {'id':shopcart.variant.id}
 
                 self.cart['cart'][str(p)]['product']['is_free_delivery'] = shopcart.product.is_free_delivery

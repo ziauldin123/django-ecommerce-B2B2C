@@ -214,7 +214,7 @@ def payment_check(request, *args, **kwargs):
             print('there invalid')
             print(form.errors)
     else:
-        form = PaymentForm()
+        form = PaymentForm()         
     return render(
         request,
         'cart/payment.html',

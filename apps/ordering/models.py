@@ -344,6 +344,7 @@ class OrderItem(models.Model):
     price_no_vat=models.DecimalField(max_digits=8,decimal_places=2,default=0)
     quantity=models.IntegerField(default=1)
     is_variant=models.BooleanField(default=False)
+    is_variant_color=models.BooleanField(default=False)
     vat=models.DecimalField(max_digits=8,decimal_places=2,blank=True,null=True)
     total=models.DecimalField(max_digits=8,decimal_places=2,default=0)
     
@@ -358,7 +359,7 @@ class OrderItem(models.Model):
 
     def get_vat_price(self):
         if not self.is_variant:
-            vat=self.product.get_vat_price()
+            vat=self.product.get_vat_price()    
         else:
             vat=self.variant.get_vat_price()
         vat=round(Decimal(vat),2)
@@ -370,10 +371,13 @@ class OrderItem(models.Model):
 
 
     def get_discounted_price(self):
-        if not self.is_variant:
-            price=self.product.get_discounted_price()
-        else:
+        if self.is_variant:
             price =self.variant.get_discounted_price()
+        elif self.is_variant_color:
+            price=self.variant_color.get_discounted_price()    
+        else:
+            price=self.product.get_discounted_price()
+
         price=round(Decimal(price),2)
         return round(Decimal(price),2)
 
@@ -413,10 +417,12 @@ class OrderItem(models.Model):
 
     
     def get_product_total_price(self):
-        if not self.is_variant:
-            price=self.product.get_discounted_price()
+        if  self.is_variant:
+            price=self.variant.get_discounted_price()
+        elif self.is_variant_color:
+            price=self.variant_color.get_discounted_price()
         else:
-            price =self.variant.get_discounted_price()
+            price=self.product.get_discounted_price()
         return round(Decimal(price),2)
 
     def get_product_no_vat(self):

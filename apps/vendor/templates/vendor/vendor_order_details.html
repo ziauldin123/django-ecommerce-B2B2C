@@ -118,7 +118,7 @@
                                     {% for item in order.items.all %}
                                         {% if item.vendor == request.user.vendor %}
                                             <tr>
-                                                <td>{{ item.get_product_name }} </td>
+                                                <td>{% if item.variant_color  %} {{item.variant_color.name }} {% elif item.variant %} {{item.variant.title}}  {% else %}{{ item.get_product_name }}{% endif %} </td>
                                                 <td>Frw {{ item.price }}</td>
                                                 <td>{{ item.quantity }}</td>
                                                 {% get_total_with_coupon order item.get_total_price user as total_price_with_coupon %}

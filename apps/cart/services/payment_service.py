@@ -2,7 +2,7 @@ from django.conf import settings
 
 from apps.cart.cart import Cart
 from apps.order.utilities import checkout
-from apps.newProduct.models import Product, Variants
+from apps.newProduct.models import AdjacentColorProduct, Product, Variants
 from apps.ordering.models import Order,OrderItem,ShopCart,notify_customer,notify_vendor
 
 
@@ -59,7 +59,7 @@ class PaymentService:
                 variant.save()
             elif is_variant_color:
                 variant_color_id=cart.cart['cart'][p_id]['product']['variant_color_id']['id']
-                variant_color = Variants.objects.get(id=variant_color_id)
+                variant_color = AdjacentColorProduct.objects.get(id=variant_color_id)
                 variant_color.quantity = variant_color.quantity - qty
                 variant_color.save()
 
