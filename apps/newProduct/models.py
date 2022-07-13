@@ -564,44 +564,12 @@ class Collection(models.Model):
         return self.title
 
 
-class ProductImage(models.Model):
-    product = models.ForeignKey(
-        Product, related_name='product_images', on_delete=models.CASCADE, blank=True, null=True)
-    variant = models.ForeignKey(
-        Variants, related_name='variants_images', on_delete=models.CASCADE, blank=True, null=True)
-    title = models.CharField(max_length=50, blank=True)
-    image = models.ImageField(blank=True, upload_to='images/')
-    
 
-    def save(self, *args, **kwargs):
-        if self.image and not self.image.url.endswith('.webp'):
-            imm = Image.open(self.image).convert("RGB")
-            original_width, original_height = imm.size
-            aspect_ratio = round(original_width / original_height)
-            if aspect_ratio < 1:
-                aspect_ratio = 1
-            desired_height = 500  # Edit to add your desired height in pixels
-            desired_width = desired_height * aspect_ratio
-            imm.thumbnail((desired_width, desired_height), Image.ANTIALIAS)
-            new_image_io = BytesIO()
-            imm.save(new_image_io, format="WEBP", quality=70)
-            self.image.save(
-                self.title[:40]+".webp",
-                content=ContentFile(new_image_io.getvalue()),
-                save=False
-            )
-        super(ProductImage, self).save(*args, **kwargs)
-
-    def __str__(self):
-        return self.title
-
-    def image_tag(self):
-
-        return mark_safe('<img src="{}" height="50"/>'.format(self.image.url))
 
 class AdjacentColorProduct(models.Model):
-    name = models.CharField(max_length=255)
-    code=models.CharField(max_length=255, blank=True, null=True)
+    title = models.CharField(max_length=255)
+    color=models.ForeignKey(
+        Color, on_delete=models.CASCADE, blank=True, null=True)
     price = models.DecimalField(max_digits=12,decimal_places=2,default=0)
     quantity = models.IntegerField(default=0)
     product = models.ForeignKey(
@@ -610,9 +578,11 @@ class AdjacentColorProduct(models.Model):
         default=0, validators=[MinValueValidator(0), MaxValueValidator(99)], verbose_name="Discount %")
     image = models.ImageField(upload_to='images/', null=True, blank=True)
     is_vat = models.BooleanField(default=True)
+    visible = models.BooleanField(default=True)
+    status = models.BooleanField(default=True)
 
     def __str__(self):
-        return self.name
+        return self.title
 
     def save(self, *args, **kwargs):
         if self.image and not self.image.url.endswith('.webp'):
@@ -662,3 +632,41 @@ class AdjacentColorProduct(models.Model):
             return float(discounted_price-((18*discounted_price)/100))
         else:
             return float(self.price-((self.discount*self.price)/100))
+
+class ProductImage(models.Model):
+    product = models.ForeignKey(
+        Product, related_name='product_images', on_delete=models.CASCADE, blank=True, null=True)
+    variant = models.ForeignKey(
+        Variants, related_name='variants_images', on_delete=models.CASCADE, blank=True, null=True)
+    variant_color = models.ForeignKey(AdjacentColorProduct,related_name='variant_color_images',on_delete=models.CASCADE,
+              blank=True, null=True
+            )    
+    title = models.CharField(max_length=50, blank=True)
+    image = models.ImageField(blank=True, upload_to='images/')
+    
+
+    def save(self, *args, **kwargs):
+        if self.image and not self.image.url.endswith('.webp'):
+            imm = Image.open(self.image).convert("RGB")
+            original_width, original_height = imm.size
+            aspect_ratio = round(original_width / original_height)
+            if aspect_ratio < 1:
+                aspect_ratio = 1
+            desired_height = 500  # Edit to add your desired height in pixels
+            desired_width = desired_height * aspect_ratio
+            imm.thumbnail((desired_width, desired_height), Image.ANTIALIAS)
+            new_image_io = BytesIO()
+            imm.save(new_image_io, format="WEBP", quality=70)
+            self.image.save(
+                self.title[:40]+".webp",
+                content=ContentFile(new_image_io.getvalue()),
+                save=False
+            )
+        super(ProductImage, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return self.title
+
+    def image_tag(self):
+
+        return mark_safe('<img src="{}" height="50"/>'.format(self.image.url))

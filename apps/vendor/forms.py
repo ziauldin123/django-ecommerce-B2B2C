@@ -174,6 +174,7 @@ class VariantForm(ModelForm):
             'height',
             'weight',
             'size',
+            'have_adjacent_color',
         )
         
 
@@ -211,6 +212,32 @@ class VariantForm(ModelForm):
         super(VariantForm, self).__init__(*args, **kwargs)
         self.fields['product']=forms.ModelChoiceField(queryset=Product.objects.filter(vendor=user,is_variant=True))    
 
+class VariantColorForm(ModelForm):
+
+    class Meta:
+        model = AdjacentColorProduct
+        fields = (
+            'title',
+            'product',
+            'price',
+            'discount',
+            'quantity',
+            'image',
+            'color',
+            'is_vat'
+        )
+        
+
+        widgets = {
+            'color': Select2AddAnother(
+                 reverse_lazy('add_color')
+            ),
+        }
+
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user','')
+        super(VariantColorForm, self).__init__(*args, **kwargs)
+        self.fields['product']=forms.ModelChoiceField(queryset=Variants.objects.filter(vendor=user,have_adjacent_color=True))
 
 class OpeningHoursForm(ModelForm):
     class Meta:

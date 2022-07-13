@@ -19,9 +19,9 @@ from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_decode
 from django.db import IntegrityError
 from django.utils.encoding import force_text
-from .forms import ProductForm, TransporterSignUpForm, ProductImageForm, VariantForm, VendorSignUpForm, CustomerSignUpForm, RestorePasswordForm, RequestRestorePasswordForm, OpeningHoursForm, ProductWithVariantForm
+from .forms import ProductForm, TransporterSignUpForm, ProductImageForm, VariantColorForm, VariantForm, VendorSignUpForm, CustomerSignUpForm, RestorePasswordForm, RequestRestorePasswordForm, OpeningHoursForm, ProductWithVariantForm
 from apps.ordering.models import Order, OrderItem, Quotation
-from apps.newProduct.models import Color, Height, Images, Length, Product, ProductImage, Size, Variants, Weight, Width, UnitTypes
+from apps.newProduct.models import AdjacentColorProduct, Color, Height, Images, Length, Product, ProductImage, Size, Variants, Weight, Width, UnitTypes
 from .models import Profile, Transporter, UserWishList, Vendor, Customer, OpeningHours, VendorDelivery
 from apps.vendor.models import VendorDelivery
 from apps.ordering.models import OrderItem, ShopCart, ShopCartForm
@@ -543,15 +543,19 @@ def vendor_products(request):
         products = paginator.page(paginator.num_pages)
 
     variants = []
+    variant_colors = []
     for pr in products:
         if pr.variant != 'None':
             variants = Variants.objects.filter(product=pr.id,visible=True)
-                
+            for variant in variants:
+                if variant.have_adjacent_color:
+                    variant_colors = AdjacentColorProduct.objects.filter(product=variant.id,visible=True)
+
     product_limit = not vendor.products_limit <= ((products.__len__(
     ) + vendor.variants_vendor.all().__len__()) - Product.objects.filter(vendor=vendor, is_variant=True).__len__())
 
     product_list = products = Product.objects.filter(vendor=vendor,visible=True,is_variant=False)
-    lists=list(chain(product_list,variants))
+    lists=list(chain(product_list,variants,variant_colors))
     paginator = Paginator(lists, 5)
     page = request.GET.get('page')
 
@@ -782,6 +786,44 @@ def add_variant(request):
                                                        'width': width, 'images': images,
                                                        'unitType': unitTpye})
 
+@login_required
+def add_color_variant(request):
+    vendor = request.user.vendor
+    variant = Variants.objects.filter(vendor=vendor,have_adjacent_color=True)
+    color = Color.objects.all()
+    if request.method == 'POST':
+        variant_color_form = VariantColorForm(request.POST,request.FILES,user=vendor)
+        if variant_color_form.is_valid():
+            if len(Product.objects.filter(vendor=vendor)) < vendor.products_limit:
+                if variant:
+                    variant_color = variant_color_form.save(commit=False)
+                    variant_color.visible = True
+                    variant_color.save()
+                    messages.add_message(
+                        request, messages.SUCCESS,"The product variant {} is successfully added ".format(
+                            variant_color.name
+                        )
+                    )
+                else:
+                    messages.add_message(
+                        request,messages.ERROR,"Please Select form your Product"
+                    )
+                return redirect('products')
+            else:
+                messages.add_message(
+                    request, messages.ERROR, "You can't add new product.you reached product limit")
+                return redirect('vendor_admin')
+        else:
+            messages.add_message(request, messages.ERROR,
+                                 "* Error: Input fields are not valid.")
+
+            return redirect('add_color_variant')
+
+    else:
+        vendor = request.user.vendor
+        variant_color_form = VariantColorForm(user=vendor)    
+
+    return render(request,'vendor/add_color_variant.html',{'form':variant_color_form,'color':color})
 
 @ login_required
 def edit_product(request, pk):

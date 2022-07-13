@@ -84,7 +84,6 @@ class BrandAdmin(admin.ModelAdmin):
     list_display=['brand',]
 
 
-
 @admin_thumbnails.thumbnail('image')
 class ImagesAdmin(admin.ModelAdmin):
     list_display=['image','name','image_thumbnail']
@@ -117,7 +116,8 @@ class colorAdmin(admin.ModelAdmin):
     
 
 class adjacentColorAdmin(admin.ModelAdmin):
-    list_display=['name','code','color_tag','price','product']
+    list_display=['title','price','product']
+    inlines =  [VariantImageInline]
 
 class LengthAdmin(admin.ModelAdmin):
     list_display=['length']

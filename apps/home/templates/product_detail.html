@@ -226,7 +226,18 @@
                                         {% endif %}
                                     </div>
                                     
-                                    {% if product.is_variant %} 
+                                    {% if product.is_variant %}
+                                          {% if variant.have_adjacent_color %} 
+                                          {% for images in adj_variant.variant_color_images.all %} 
+                                              <div class="product-image product-image--location--gallery">
+                                                        {% if images.image %} 
+                                                              <a href="{{images.image.url}}" data-width="700" data-height="700" class="product-image__body" target="_blank">
+                                                                  <img class="product-image__img" src="{{images.image.url}}" alt="">
+                                                                </a>
+                                                        {% endif %}
+                                              </div>
+                                          {% endfor %}
+                                          {% else %} 
                                          {% for images in variant.variants_images.all %} 
                                               <div class="product-image product-image--location--gallery">
                                             <!--
@@ -244,6 +255,7 @@
                                             {% endif %}
                                               </div>
                                           {% endfor %}
+                                          {% endif %}
                                     {% else %} 
                                            {% for images in product.product_images.all %} 
                                            <div class="product-image product-image--location--gallery">
@@ -272,8 +284,8 @@
                                         <div class="product-image__body">
                                             <img class="product-image__img product-gallery__carousel-image" src="{{variant.image_variant.url}}" alt="">
                                         </div>
-                                    </a>
-                                              {% for images in variant.variants_images.all %} 
+                                    </a>        {% if variant.have_adjacent_color %} 
+                                                   {% for images in adj_variant.variant_color_images.all %} 
                                                        {% if images.image %} 
                                                        <a href="{{images.image.url}}" class="product-image product-gallery__carousel-item">
                                                         <div class="product-image__body">
@@ -281,7 +293,18 @@
                                                         </div>
                                                   </a>
                                                   {% endif %} 
-                                              {% endfor %} 
+                                              {% endfor %}
+                                                {% else %} 
+                                                {% for images in variant.variants_images.all %} 
+                                                       {% if images.image %} 
+                                                       <a href="{{images.image.url}}" class="product-image product-gallery__carousel-item">
+                                                        <div class="product-image__body">
+                                                            <img class="product-image__img product-gallery__carousel-image" src="{{images.image.url}}" alt="">
+                                                        </div>
+                                                  </a>
+                                                  {% endif %} 
+                                              {% endfor %}
+                                              {% endif %}
                                     {% else %} 
                                     <a href="{{product.image.url}}" class="product-image product-gallery__carousel-item">
                                         <div class="product-image__body">
@@ -321,7 +344,7 @@
                         <h1 class="product__name">{{product.title}}</h1>
                         {% else %}
                         {% if variant.have_adjacent_color %}
-                        <h1 class="prodct__name">{{adj_variant.name}}</h1> 
+                        <h1 class="prodct__name">{{adj_variant.title}}</h1> 
                         {% else %}  
                         <h1 class="product__name">{{variant.title}}</h1>
                         {% endif %}
@@ -833,7 +856,7 @@
                                     <div class="input-radio-color">
                                         <div class="input-radio-color__list">
                                             {% for rs in colors2 %} 
-                                            <label class="input-radio-color__item input-radio-color__item--white" style="color: {{rs.code}};" data-toggle="tooltip" title="{{rs.name}}">
+                                            <label class="input-radio-color__item input-radio-color__item--white" style="color: {{rs.color.code}};" data-toggle="tooltip" title="{{rs.name}}">
                                                 <input type="hidden" name="variantid" id="variantid" value="{{ variant.id }}">
                                                 <input type="radio" {% if adj_variant.id == rs.id %} checked {% endif %} name="adj_variantid" id="adj_variantid" value="{{ rs.id }}" onchange="this.form.submit();"  onclick="adjcolor('{{rs.id }}')">
                                                 <span></span>
