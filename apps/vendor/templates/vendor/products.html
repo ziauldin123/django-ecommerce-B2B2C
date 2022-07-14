@@ -137,11 +137,9 @@
                                 <tbody>
                                     {% for product in lists_products %} 
                                     <tr>
-                                        {% if product.is_variant  == False %} 
+                                        {% if product.is_variant  == False  %} 
                                         <td><a href="">{{ product.title }}</a></td>
-                                        {% elif product.have_adjacent_color == False %}
-                                        <td><a href="">{{ product.title }}</a></td>
-                                        {% else %} 
+                                        {% else %}
                                         <td><a href="">{{ product.title }}</a></td>
                                         {% endif %}
                                         {% if product.is_variant == False %}

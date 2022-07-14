@@ -546,16 +546,19 @@ def vendor_products(request):
     variant_colors = []
     for pr in products:
         if pr.variant != 'None':
-            variants = Variants.objects.filter(product=pr.id,visible=True)
-            for variant in variants:
+            variants = Variants.objects.filter(product=pr.id,visible=True,have_adjacent_color=False)
+            variant_color=Variants.objects.filter(product=pr.id,visible=True)
+            for variant in variant_color:
                 if variant.have_adjacent_color:
                     variant_colors = AdjacentColorProduct.objects.filter(product=variant.id,visible=True)
 
     product_limit = not vendor.products_limit <= ((products.__len__(
     ) + vendor.variants_vendor.all().__len__()) - Product.objects.filter(vendor=vendor, is_variant=True).__len__())
-
+    
+    print(variants)
+    
     product_list = products = Product.objects.filter(vendor=vendor,visible=True,is_variant=False)
-    lists=list(chain(product_list,variants,variant_colors))
+    lists=list(chain(product_list,variants,variant_colors))        
     paginator = Paginator(lists, 5)
     page = request.GET.get('page')
 
@@ -853,20 +856,40 @@ def edit_product(request, pk):
 def edit_product_variant(request,pk):
    vendor=request.user.vendor
    variant=vendor.variants_vendor.filter(pk=pk).first()
-   
-   productImages = ProductImage.objects.filter(variant=variant).first()
-   ImageForm = inlineformset_factory(Variants,ProductImage,can_delete=False,fields=['image'],extra=0)
-   if request.method == 'POST':
-       form = VariantForm(request.POST, request.FILES,instance=variant,user=vendor)
-       imageForm = ImageForm(request.POST, request.FILES, instance=variant)
-       if form.is_valid() and imageForm.is_valid():
+   if variant and variant.have_adjacent_color == False:
+    productImages = ProductImage.objects.filter(variant=variant).first()
+    ImageForm = inlineformset_factory(Variants,ProductImage,can_delete=False,fields=['image'],extra=0)
+
+    if request.method == 'POST':
+        form = VariantForm(request.POST, request.FILES,instance=variant,user=vendor)
+        imageForm = ImageForm(request.POST, request.FILES, instance=variant)
+        if form.is_valid() and imageForm.is_valid():
            form.save()
            imageForm.save()
            messages.info(request,"Product Updated")
            return redirect('products')
-   else:
+       
+    else:
        form = VariantForm(instance=variant,user=vendor)
        imageForm = ImageForm(instance=variant)
+   else:
+    variant=AdjacentColorProduct.objects.filter(pk=pk).first()
+    ImageForm = inlineformset_factory(AdjacentColorProduct,ProductImage,can_delete=False,fields=['image'],extra=0)
+    if request.method == 'POST':
+        form = VariantColorForm(request.POST, request.FILES,instance=variant,user=vendor)
+        imageForm = ImageForm(request.POST,request.FILES,instance=variant)
+        if variant.product.vendor == vendor:
+            if form.is_valid() and imageForm.is_valid():
+                form.save()
+                imageForm.save()
+                messages.info(request,"Product Updated")
+                return redirect('products')
+        else:
+            messages.info(request,"Please Select from your product")
+            return redirect('products')   
+    else:
+        form=VariantColorForm(instance=variant,user=vendor)
+        imageForm = ImageForm(instance=variant)
 
    return render(request, 'vendor/edit_product_variant.html',{'form':form,'variant':variant,'imageForm':imageForm})                     
 
@@ -879,8 +902,14 @@ def delete_product(request, pk):
 
 @login_required
 def delete_product_variant(request, pk):
-    Variants.objects.filter(id=pk).update(visible=False)
-    messages.info(request,"Product Deleted")
+    variant = Variants.objects.filter(id=pk).first()
+    if variant and variant.have_adjacent_color == False:
+        Variants.objects.filter(id=pk).update(visible=False)
+        messages.info(request,"Product Deleted")
+    else:
+        AdjacentColorProduct.objects.filter(id=pk).update(visible=False)
+        messages.info(request,"Product Deleted")    
+    
     return redirect('products')
 
 @ login_required
@@ -930,9 +959,11 @@ def add_productimage(request, pk):
 
 @login_required
 def add_productimage_variant(request, pk):
-    variant = Variants.objects.get(id=pk)
-    if request.method == 'POST':
-        images=request.FILES.getlist('imgs')
+    variant = Variants.objects.filter(id=pk).first()
+    if variant and variant.have_adjacent_color == False:
+        variant = Variants.objects.get(id=pk)
+        if request.method == 'POST':
+            images=request.FILES.getlist('imgs')
         print(images)
         productImages=ProductImage.objects.filter(variant=variant)
         if len(images) > 3:
@@ -952,7 +983,32 @@ def add_productimage_variant(request, pk):
         else:
             for image in images:
                 ProductImage.objects.create(variant=variant,image=image)
-            messages.info(request,f"Product image uploaded successfully")                        
+            messages.info(request,f"Product image uploaded successfully")
+        
+    else:
+        images=request.FILES.getlist('imgs')
+        print(images)
+        variant = AdjacentColorProduct.objects.get(id=pk)
+        productImages=ProductImage.objects.filter(variant_color=variant)
+        if len(images) > 3:
+            messages.info(request,f"You can't add more than 3 images")
+        elif len(productImages) >=3 :
+            messages.info(request,f"You have reached product images limit")
+        elif len(images) + len(productImages) > 3:
+            if len(images) > len(productImages):
+                img=len(images) - len(productImages)
+            elif len(images) == len(productImages):
+                img=3 - len(images)
+            else:
+                img=len(productImages) - len(images)
+            messages.info(request,f"You can't add more than 3 images only:" + str(img))
+        elif len(images) <= 0:
+            messages.info(request,f"No Image Uploaded")    
+        else:
+            for image in images:
+                ProductImage.objects.create(variant_color=variant,image=image)
+            messages.info(request,f"Product image uploaded successfully")   
+                            
         
     return redirect('products')               
 

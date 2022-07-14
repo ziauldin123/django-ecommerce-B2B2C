@@ -45,18 +45,21 @@
                                 </div>
                                 <div class="form-row">
                                     <div class="form-group col-md-4">
-                                        <label>Unit Types</label>
-                                        {{ form.unit_type |add_class:"form-control" }}
-                                    </div>
-                                    <div class="form-group col-md-4">
                                         <label>Color </label>
                                         {{ form.color |add_class:"form-control" }}
+                                    </div>
+                                    {% if variant.image_variant %}
+                                    <div class="form-group col-md-4">
+                                        <label>Unit Types</label>
+                                        {{ form.unit_type |add_class:"form-control" }}
                                     </div>
                                     <div class="form-group col-md-4">
                                         <label>Length (m)</label>
                                         {{ form.length |add_class:"form-control" }}
                                     </div>
+                                    {% endif %}
                                 </div>
+                                {% if variant.image_variant %}
                                 <div class="form-row">
                                     <div class="form-group col-md-3">
                                         <label>Width(m) </label>
@@ -75,6 +78,7 @@
                                         {{ form.size |add_class:"form-control" }}
                                     </div>
                                 </div>
+                                {% endif %}
                                 <div class="form-row">
                                        <div class="form-group col-md-3">
                                           {{ imageForm.as_p }}

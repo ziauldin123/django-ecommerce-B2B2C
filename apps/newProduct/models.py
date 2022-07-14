@@ -612,6 +612,10 @@ class AdjacentColorProduct(models.Model):
     def get_discounted_price(self):
         discounted_price = float(self.price-((self.discount*self.price)/100))
         return discounted_price 
+    
+    def get_vendor(self):
+        vendor = self.product.vendor
+        return vendor;
 
     def get_vat_price(self):
         if self.is_vat == True:
