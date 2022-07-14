@@ -2,7 +2,7 @@
 {% load get_vendor_order_cost %}
 {% load mathfilters %}
 {% load static %}
-{% block title %}Order History - {{ request.session.username }} {% endblock %}
+{% block title %}Quotation Requests - {{ request.session.username }} {% endblock %}
 {% block content %}
 <div class="page-header">
     <div class="page-header__container container">
@@ -33,7 +33,7 @@
                             <a href="{% url 'items' %}">Renting items</a>
                         </li>
                         <li class="account-nav__item account-nav__item--active">
-                            <a href="{% url 'all_quotation' %}">Quatation Request</a>
+                            <a href="{% url 'all_quotation' %}">Quotation Requests</a>
                         </li>
                            <li class="account-nav__item ">
                             <a href="{% url 'working_hours' %}">Working Hours</a>
@@ -52,7 +52,7 @@
             <div class="col-12 col-lg-9 mt-4 mt-lg-0">
                 <div class="card">
                     <div class="card-header">
-                        <h5>My Quotation Request</h5>
+                        <h5>Quotation Requests</h5>
                         <hr>  
                     </div>
                     <div class="card-divider"></div>
