@@ -36,7 +36,7 @@
                                     <div class="post__tags tags">
                                         <div class="tags__list">
                                             {% for tag in post.tags.all %}
-                                               <a href="{% url 'tag' tag.slug %}">{{ tag }}</a>
+                                               <a>{{ tag }}</a>
                                             {% endfor %}
                                         </div>
                                     </div>
