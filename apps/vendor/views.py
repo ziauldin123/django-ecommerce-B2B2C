@@ -544,18 +544,26 @@ def vendor_products(request):
 
     variants = []
     variant_colors = []
+    with_variant_color = []
     for pr in products:
         if pr.variant != 'None':
             variants = Variants.objects.filter(product=pr.id,visible=True,have_adjacent_color=False)
             variant_color=Variants.objects.filter(product=pr.id,visible=True)
+            with_variant_color=Variants.objects.filter(product=pr.id,visible=True,have_adjacent_color=True)
             for variant in variant_color:
                 if variant.have_adjacent_color:
                     variant_colors = AdjacentColorProduct.objects.filter(product=variant.id,visible=True)
 
-    product_limit = not vendor.products_limit <= ((products.__len__(
-    ) + vendor.variants_vendor.all().__len__()) - Product.objects.filter(vendor=vendor, is_variant=True).__len__())
-    
-    print(variants)
+    # product_limit = not vendor.products_limit <= ((products.__len__(
+    # ) + vendor.variants_vendor.all().__len__()) - Product.objects.filter(vendor=vendor, is_variant=True).__len__())
+    # + variant_colors.__len__() - with_variant_color.__len__()
+
+
+    product_limit = not vendor.products_limit <= (vendor.newProducts.all().__len__() + 
+          vendor.variants_vendor.all().__len__() - 
+          Product.objects.filter(vendor=vendor, is_variant=True).__len__() +
+          vendor.adjacent_color_vendor.all().__len__() - 
+          Variants.objects.filter(vendor=vendor,have_adjacent_color=True).__len__() )
     
     product_list = products = Product.objects.filter(vendor=vendor,visible=True,is_variant=False)
     lists=list(chain(product_list,variants,variant_colors))        

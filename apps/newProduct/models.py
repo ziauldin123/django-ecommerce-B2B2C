@@ -572,6 +572,7 @@ class AdjacentColorProduct(models.Model):
         Color, on_delete=models.CASCADE, blank=True, null=True)
     price = models.DecimalField(max_digits=12,decimal_places=2,default=0)
     quantity = models.IntegerField(default=0)
+    vendor = models.ForeignKey(Vendor,on_delete=models.CASCADE,related_name='adjacent_color_vendor',blank=True,null=True)
     product = models.ForeignKey(
         Variants, on_delete=models.CASCADE, related_name='color_product_variant')
     discount = models.PositiveIntegerField(
@@ -585,6 +586,7 @@ class AdjacentColorProduct(models.Model):
         return self.title
 
     def save(self, *args, **kwargs):
+        self.vendor = self.product.vendor
         if self.image and not self.image.url.endswith('.webp'):
             imm = Image.open(self.image).convert("RGB")
             original_width, original_height = imm.size
@@ -612,10 +614,6 @@ class AdjacentColorProduct(models.Model):
     def get_discounted_price(self):
         discounted_price = float(self.price-((self.discount*self.price)/100))
         return discounted_price 
-    
-    def get_vendor(self):
-        vendor = self.product.vendor
-        return vendor;
 
     def get_vat_price(self):
         if self.is_vat == True:
