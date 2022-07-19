@@ -156,7 +156,6 @@ def product_detail(request, id, slug, vendor_slug, category_slug, subcategory_sl
                 variant = Variants.objects.get(id=variant_id, status=True, visible=True)  # selected product by color
                 adj_variant = AdjacentColorProduct.objects.get(id=adj_variant_id)
                 colors2=AdjacentColorProduct.objects.filter(product_id=variant_id )
-                print('l',colors2)
             colors = Variants.objects.filter(
                 product_id=id, size_id=variant.size_id, status=True, visible=True)
             colors1 = Variants.objects.filter(
@@ -194,8 +193,8 @@ def product_detail(request, id, slug, vendor_slug, category_slug, subcategory_sl
             height = Variants.objects.raw(
                 'SELECT * FROM newProduct_variants WHERE product_id=%s AND status=True AND visible=True GROUP BY height_id', [id])
             variant = Variants.objects.get(
-                id=variants[0].id, status=True, visible=True) 
-               
+                id=variants[0].id, status=True, visible=True)
+        print(colors2)                 
         context.update({'sizes': sizes, 'colors': colors, 'colors1': colors1, 'weight': weight, 'width': width, 'length': length, 'height': height, 'variant': variant, 'query': query,
                         'is_comparing': variant.id in request.session.get('comparing', []),'colors2':colors2,
                         'shopcart': shopcart, 'subtotal': total, 'tax': tax, 'total': grandTotal,'adj_variant':adj_variant})               

@@ -812,7 +812,7 @@ def add_color_variant(request):
                     variant_color.save()
                     messages.add_message(
                         request, messages.SUCCESS,"The product variant {} is successfully added ".format(
-                            variant_color.name
+                            variant_color.title
                         )
                     )
                 else:

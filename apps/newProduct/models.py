@@ -599,7 +599,7 @@ class AdjacentColorProduct(models.Model):
             new_image_io = BytesIO()
             imm.save(new_image_io, format="WEBP", quality=70)
             self.image.save(
-                self.name[:40]+".webp",
+                self.title[:40]+".webp",
                 content=ContentFile(new_image_io.getvalue()),
                 save=False
             ) 

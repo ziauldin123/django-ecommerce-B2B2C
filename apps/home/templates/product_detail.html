@@ -215,9 +215,15 @@
                                         </a>
                                         {% else %} 
                                         {% if variant.have_adjacent_color %}
+                                        {% if adj_variant.image %}
                                         <a href="{{ adj_variant.image.url }}" data-width="700" data-height="700" class="product-image__body" target="_blank">
                                             <img class="product-image__img" src="{{ adj_variant.image.url }}" alt="">
                                         </a>
+                                        {% else %}
+                                        <a href="{{ variant.image_variant.url }}" data-width="700" data-height="700" class="product-image__body" target="_blank">
+                                            <img class="product-image__img" src="{{ variant.image_variant.url }}" alt="">
+                                        </a>
+                                        {% endif %}
                                         {% else %} 
                                         <a href="{{ variant.image_variant.url }}" data-width="700" data-height="700" class="product-image__body" target="_blank">
                                             <img class="product-image__img" src="{{ variant.image_variant.url }}" alt="">
@@ -344,7 +350,11 @@
                         <h1 class="product__name">{{product.title}}</h1>
                         {% else %}
                         {% if variant.have_adjacent_color %}
-                        <h1 class="prodct__name">{{adj_variant.title}}</h1> 
+                        {% if adj_variant.title %}
+                        <h1 class="prodct__name">{{adj_variant.title}}</h1>
+                        {% else %} 
+                        <h1 class="product__name">{{variant.title}}</h1>
+                        {% endif %}
                         {% else %}  
                         <h1 class="product__name">{{variant.title}}</h1>
                         {% endif %}
@@ -614,7 +624,9 @@
                             <li class="product__meta-availability">Availability: <span class="text-success">
                                 {% if product.is_variant %} 
                                 {% if variant.have_adjacent_color %}
+                                {% if adj_variant.quantity %}
                                   {% if adj_variant.quantity > 0  %} In Stock {% else %} <span class="text-danger">Out of Stock</span> {% endif %}
+                                {% endif %}  
                                 {% else %}
                                    {% if variant.quantity > 0  %} In Stock {% else %} <span class="text-danger">Out of Stock</span> {% endif %}
                                 {% endif %}
@@ -634,12 +646,18 @@
                         <div class="product__prices">
                             {% if product.is_variant %} 
                             {% if variant.have_adjacent_color %}
-                            {% if adj_variant.discount %} 
+                            {% if adj_variant %}
+                                    {% if adj_variant.discount %} 
+                                        {% if adj_variant.discount %}
                                         <span class="product-card__new-price">Rwf {{adj_variant.get_discounted_price}}/{{variant.unit_type.unit}}</span>
                                         <span class="product-card__old-price"> {{adj_variant.price}}</span>
+                                        {% endif %}
                                     {% else %}
-                                        <span class="product-card__old-price"></span>Rwf {{adj_variant.price}}/{{variant.unit_type.unit}}</span>
-                                    {% endif %}
+                                        {% if adj_variant.price %}
+                                         <span class="product-card__old-price"></span>Rwf {{adj_variant.price}}/{{variant.unit_type.unit}}</span>
+                                        {% endif %} 
+                                    {% endif %}   
+                            {% endif %}        
                             {% else %}
                                     {% if product.discount %} 
                                         <span class="product-card__new-price">Rwf {{product.get_variant.discounted_price}}/{{product.unit_type.unit}}</span>
@@ -830,7 +848,7 @@
                                         </form>
                                         <br><br>  
                     {% elif product.variant == 'Color' %}
-                                        {% if variant.have_adjacent_color %} 
+                                        {% if variant.have_adjacent_color %}
                                         <form>
                                             <input type="hidden" name="size" id="size" value="{{ size_id }}">
                                                     <div class="form-group product__option">
@@ -847,12 +865,13 @@
                                                         </div>
                                                     </div>
                                         </form>
+                                        {% if adj_variant  %}
                                             <form method="post" action="?q=selectvariant" id="post-color">
                                                 {% csrf_token %}
                                                 <div id="adj_appendHere">
                                                     <input type="hidden" name="colorid" id="colorid" value="{{ colorid }}">
                                 <div class="form-group product__option">
-                                    <label class="product__option-label">Adjacent Colors</label>
+                                    <label class="product__option-label">Adjacent Colors </label>
                                     <div class="input-radio-color">
                                         <div class="input-radio-color__list">
                                             {% for rs in colors2 %} 
@@ -866,7 +885,8 @@
                                     </div>
                                 </div>
                                                 </div>
-                                            </form>
+                                            </form> 
+                                        {% endif %}       
                                         {% else %} 
                                         <form method="post" action="?q=selectvariant" id="post-color">
                                             {% csrf_token %}
@@ -903,7 +923,9 @@
                         </div>
                     </div>    
                     {% if not product.spare_parts %}
-                    {% if product.is_variant %} 
+                    {% if product.is_variant %}
+                    {% if variant.have_adjacent_color %} 
+                    {% if adj_variant.quantity %}
                     <div class="form-group product__option">
                         <input type="hidden" name="variantid" id="variant_id" value="{{ variant.id }}">
                         <label class="product__option-label" for="product-quantity">Quantity</label>
@@ -958,6 +980,63 @@
                         <div id="message" name="message" class="mt-3">
                         </div>
                     </div>
+                    {% endif %}
+                    {% else %}
+                    <div class="form-group product__option">
+                        <input type="hidden" name="variantid" id="variant_id" value="{{ variant.id }}">
+                        <label class="product__option-label" for="product-quantity">Quantity</label>
+                        <div class="product__actions">
+                            <div class="product__actions-item">
+                                <div class="input-number product__quantity">
+                                    <input id="quantity" class="input input-number__input form-control form-control-lg" name="quantity" type="number" min="1" {% if variant.have_adjacent_color %} max="{{adj_variant.quantity}}" {% else %} max="{{variant.quantity}}" {% endif %} value="1">
+                                    <div class="input-number__add"></div>
+                                    <div class="input-number__sub"></div>
+                                </div>
+                            </div>
+                            <div class="product__actions-item product__actions-item--addtocart">
+                                {% if request.user.customer %} 
+                                    <button onclick="add_To_Cart('{{ product.id }}')" {% if variant.have_adjacent_color %} {% if adj_variant.quantity < 1  %} disabled {% endif %} {% else %} {% if variant.quantity < 1  %} disabled {% endif %} {% endif %}  class="btn btn-primary btn-lg add-to-cart">Add to cart</button>
+                                {% else %} 
+                                     <button class="btn btn-primary btn-lg disabled">Add to cart</button>
+                                {% endif %}
+                            </div>
+                            <div class="product__actions-item product__actions-item--wishlist">
+                                {% if request.session.customer %}
+                                <div class="wishList">
+                                    <form action="" method="post">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="variantid" class="variantid" id="variantid" value="{{ variant.id }}">
+                                        <input type="hidden" name="productid" class="productid" id="productid" value="{{ product.id }}">
+                                        <button class="button btn btn-secondary btn-svg-icon btn-lg wish" data-toggle="tooltip" title="Wishlist">
+                                            <svg width="16px" height="16px">
+                                                <use xlink:href="/static/templates/images/sprite.svg#wishlist-16"></use>
+                                            </svg>
+                                        </button>
+                                    </form>
+                                </div> 
+                                {% else %} 
+                                <button type="button" class=" button btn btn-secondary btn-svg-icon btn-lg wish disabled" data-toggle="tooltip" title="Wishlist">
+                                    <svg width="16px" height="16px">
+                                        <use xlink:href="/static/templates/images/sprite.svg#wishlist-16"></use>
+                                    </svg>
+                                {% endif %}
+                            </div>
+                            <div class="product__actions-item product__actions-item--compare">
+                                <div class="compare">
+                                    {% csrf_token %} 
+                                    <input type="hidden" name="variantid" class="variantid" id="variantid" value="{{ variant.id }}">
+                                    <button class="button btn btn-secondary btn-svg-icon btn-lg compareBtn" data-toggle="tooltip" title="Compare">
+                                        <svg width="16px" height="16px">
+                                            <use xlink:href="/static/templates/images/sprite.svg#compare-16"></use>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="message" name="message" class="mt-3">
+                        </div>
+                    </div>
+                    {% endif %}
                     {% else %} 
                     <div class="form-group product__option">
                         <label class="product__option-label" for="product-quantity">Quantity</label>
