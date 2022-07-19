@@ -849,7 +849,7 @@
                                         <br><br>  
                     {% elif product.variant == 'Color' %}
                                         {% if variant.have_adjacent_color %}
-                                        <form>
+                                            <form>
                                             <input type="hidden" name="size" id="size" value="{{ size_id }}">
                                                     <div class="form-group product__option">
                                                         <label class="product__option-label">Color</label>
@@ -864,8 +864,8 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                        </form>
-                                        {% if adj_variant  %}
+                                            </form>
+                                            {% if request.GET.variantid or request.GET.q %}
                                             <form method="post" action="?q=selectvariant" id="post-color">
                                                 {% csrf_token %}
                                                 <div id="adj_appendHere">
@@ -885,8 +885,8 @@
                                     </div>
                                 </div>
                                                 </div>
-                                            </form> 
-                                        {% endif %}       
+                                            </form>  
+                                            {% endif %}     
                                         {% else %} 
                                         <form method="post" action="?q=selectvariant" id="post-color">
                                             {% csrf_token %}
