@@ -544,20 +544,14 @@ def vendor_products(request):
 
     variants = []
     variant_colors = []
-    with_variant_color = []
     for pr in products:
         if pr.variant != 'None':
             variants = Variants.objects.filter(product=pr.id,visible=True,have_adjacent_color=False)
             variant_color=Variants.objects.filter(product=pr.id,visible=True)
-            with_variant_color=Variants.objects.filter(product=pr.id,visible=True,have_adjacent_color=True)
             for variant in variant_color:
                 if variant.have_adjacent_color:
                     variant_colors = AdjacentColorProduct.objects.filter(product=variant.id,visible=True)
-
-    # product_limit = not vendor.products_limit <= ((products.__len__(
-    # ) + vendor.variants_vendor.all().__len__()) - Product.objects.filter(vendor=vendor, is_variant=True).__len__())
-    # + variant_colors.__len__() - with_variant_color.__len__()
-
+        print(variant_colors)
 
     product_limit = not vendor.products_limit <= (vendor.newProducts.all().__len__() + 
           vendor.variants_vendor.all().__len__() - 
@@ -566,19 +560,18 @@ def vendor_products(request):
           Variants.objects.filter(vendor=vendor,have_adjacent_color=True).__len__() )
     
     product_list = products = Product.objects.filter(vendor=vendor,visible=True,is_variant=False)
-    lists=list(chain(product_list,variants,variant_colors))        
+    lists=list(chain(product_list,variants,variant_colors))       
     paginator = Paginator(lists, 5)
     page = request.GET.get('page')
-
+        
     try:
         lists_products = paginator.page(page)
     except PageNotAnInteger:
         lists_products = paginator.page(1)
     except EmptyPage:
-        lists_products = paginator.page(paginator.num_pages)    
+        lists_products = paginator.page(paginator.num_pages)                   
 
-          
-
+    
     return render(request, 'vendor/products.html',
                   {
                       'product_limit': product_limit,

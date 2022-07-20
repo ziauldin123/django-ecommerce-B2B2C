@@ -215,7 +215,7 @@
                                         </a>
                                         {% else %} 
                                         {% if variant.have_adjacent_color %}
-                                        {% if adj_variant.image %}
+                                        {% if check_adjacent %}
                                         <a href="{{ adj_variant.image.url }}" data-width="700" data-height="700" class="product-image__body" target="_blank">
                                             <img class="product-image__img" src="{{ adj_variant.image.url }}" alt="">
                                         </a>
@@ -350,7 +350,7 @@
                         <h1 class="product__name">{{product.title}}</h1>
                         {% else %}
                         {% if variant.have_adjacent_color %}
-                        {% if adj_variant.title %}
+                        {% if check_adjacent %}
                         <h1 class="prodct__name">{{adj_variant.title}}</h1>
                         {% else %} 
                         <h1 class="product__name">{{variant.title}}</h1>
@@ -624,7 +624,7 @@
                             <li class="product__meta-availability">Availability: <span class="text-success">
                                 {% if product.is_variant %} 
                                 {% if variant.have_adjacent_color %}
-                                {% if adj_variant.quantity %}
+                                {% if check_adjacent %}
                                   {% if adj_variant.quantity > 0  %} In Stock {% else %} <span class="text-danger">Out of Stock</span> {% endif %}
                                 {% endif %}  
                                 {% else %}
@@ -646,17 +646,17 @@
                         <div class="product__prices">
                             {% if product.is_variant %} 
                             {% if variant.have_adjacent_color %}
-                            {% if adj_variant %}
-                                    {% if adj_variant.discount %} 
-                                        {% if adj_variant.discount %}
+                            {% if adj_variant %} 
+                            {% if check_adjacent %}
+                                    {% if adj_variant.discount %}
                                         <span class="product-card__new-price">Rwf {{adj_variant.get_discounted_price}}/{{variant.unit_type.unit}}</span>
                                         <span class="product-card__old-price"> {{adj_variant.price}}</span>
-                                        {% endif %}
                                     {% else %}
                                         {% if adj_variant.price %}
                                          <span class="product-card__old-price"></span>Rwf {{adj_variant.price}}/{{variant.unit_type.unit}}</span>
                                         {% endif %} 
-                                    {% endif %}   
+                                    {% endif %}
+                            {% endif %}           
                             {% endif %}        
                             {% else %}
                                     {% if product.discount %} 
@@ -871,7 +871,7 @@
                                                 <div id="adj_appendHere">
                                                     <input type="hidden" name="colorid" id="colorid" value="{{ colorid }}">
                                 <div class="form-group product__option">
-                                    <label class="product__option-label">Adjacent Colors </label>
+                                    <label class="product__option-label">Adjacent Colors  </label>
                                     <div class="input-radio-color">
                                         <div class="input-radio-color__list">
                                             {% for rs in colors2 %} 
@@ -925,7 +925,7 @@
                     {% if not product.spare_parts %}
                     {% if product.is_variant %}
                     {% if variant.have_adjacent_color %} 
-                    {% if adj_variant.quantity %}
+                    {% if check_adjacent %}
                     <div class="form-group product__option">
                         <input type="hidden" name="variantid" id="variant_id" value="{{ variant.id }}">
                         <label class="product__option-label" for="product-quantity">Quantity</label>
