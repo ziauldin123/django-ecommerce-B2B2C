@@ -1,7 +1,6 @@
 from multiprocessing import context
 from django.shortcuts import get_object_or_404, render
-from taggit.models import Tag
-from . models import Post
+from . models import Post,Tag
 from apps.cart.cart import Cart
 from apps.ordering.models import ShopCart
 from apps.vendor.models import UserWishList
@@ -38,7 +37,8 @@ def index(request):
         shopcart = None
         wishlist = 0
         total_compare = 0
-
+    
+    tags = Tag.objects.all()
     posts_list = Post.objects.all()
     paginator = Paginator(posts_list, 5)
     page = request.GET.get('page')
@@ -49,9 +49,10 @@ def index(request):
         posts = paginator.page(1)
     except EmptyPage:
         posts = paginator.page(paginator.num_pages)
-
+    
     return render(request, 'blog/index.html', {
         'posts': posts,
+        'tags':tags,
         'shopcart': shopcart,
         'subtotal': total,
         'tax': tax,
@@ -61,7 +62,7 @@ def index(request):
     })
 
 detail_template='blog/detail.html'
-def detail(request, id):
+def detail(request, slug):
     if not request.user.is_anonymous:
         cart = Cart(request)
         current_user = request.user
@@ -93,7 +94,7 @@ def detail(request, id):
         wishlist = 0
         total_compare = 0
 
-    post = Post.objects.get(id=id)
+    post = Post.objects.get(slug=slug)
     
     return render(request, detail_template, {
         'post': post,
@@ -105,10 +106,8 @@ def detail(request, id):
         'total_compare': total_compare
     })
 
-def tagged(request,slug):
-    tag = get_object_or_404(Tag,slug=slug)
-    post = Post.objects.get(tags=tag)
-
+def tagged(request,id,slug):
+    
     if not request.user.is_anonymous:
         cart = Cart(request)
         current_user = request.user
@@ -140,7 +139,19 @@ def tagged(request,slug):
         wishlist = 0
         total_compare = 0
 
-    return render(request,'blog/detail.html',
+    tag = get_object_or_404(Tag,slug=slug)
+    posts_list=Post.objects.filter(tag=tag)
+    paginator = Paginator(posts_list, 5)
+    page = request.GET.get('page')
+
+    try:
+        posts = paginator.page(page)
+    except PageNotAnInteger:
+        posts = paginator.page(1)
+    except EmptyPage:
+        posts = paginator.page(paginator.num_pages)
+
+    return render(request,'blog/index.html',
                   {
                       'shopcart': shopcart,
                       'subtotal': total,
@@ -148,6 +159,6 @@ def tagged(request,slug):
                       'total': grandTotal,
                       'wishlist': wishlist,
                       'total_compare': total_compare,
-                      'post':post,
-                      'tags':tag
+                      'tag':tag,
+                      'posts':posts
                   })

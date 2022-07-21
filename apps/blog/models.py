@@ -11,17 +11,28 @@ from taggit.managers import TaggableManager
 from django.core.files.base import ContentFile
 
 
+class Tag(models.Model):
+    tag = models.CharField(max_length=255)
+    slug = models.SlugField(null=True,blank=True)
+
+    def __str__(self):
+        return self.tag
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.tag)
+        super(Tag, self).save(*args, **kwargs)    
+
 class Post(models.Model):
     title = models.CharField(max_length=255)
     author = models.CharField(max_length=255)
     author_detail = models.TextField(blank=True, null=True)
+    tag = models.ForeignKey(Tag,on_delete=models.CASCADE,null=True,blank=True)
     slug = AutoSlugField(populate_from='title')
     intro = models.TextField()
     body = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     image = models.ImageField(upload_to='uploads/', blank=True, null=True)
     thumbnail = models.ImageField(upload_to='uploads/', blank=True, null=True)
-    tags = TaggableManager()
 
     class Meta:
         ordering = ['-created_at']

@@ -27,12 +27,13 @@
                     <div class="block">
                         <div class="posts-view">
                             <div class="posts-view__list posts-list posts-list--layout--list">
+                                {% if posts %}
                                 <div class="posts-list__body">
-                                        {% for post in posts%}
+                                    {% for post in posts %}
                                     <div class="posts-list__item">
                                             <div class="post-card post-card--layout--list post-card--size--nl">
                                             <div class="post-card__image">
-                                                <a href="{% url 'detail' post.id  %}">
+                                                <a href="{% url 'detail' post.slug  %}">
                                                     <img src="{{ post.image.url }}" alt="">
                                                 </a>
                                             </div>
@@ -41,18 +42,21 @@
                                                     By {{ post.author }}
                                                 </div>
                                                 <div class="post-card__name">
-                                                    <a href="{% url 'detail' post.id  %}">{{ post.title }}</a>
+                                                    <a href="{% url 'detail' post.slug  %}">{{ post.title }}</a>
                                                 </div>
                                                 <div class="post-card__date">{{ post.created_at|date:"d-m-Y | H:i" }}</div>
                                                 <div class="post-card__content">{{ post.intro }}</div>
                                                 <div class="post-card__read-more">
-                                                    <a href="{% url 'detail' post.id  %}" class="btn btn-secondary btn-sm">Read More</a>
+                                                    <a href="{% url 'detail' post.slug  %}" class="btn btn-secondary btn-sm">Read More</a>
                                                 </div>
                                             </div>
                                         </div>  
                                     </div>
                                     {% endfor %}
                                 </div>
+                                {% else %}
+                                <h1>No Posts</h1>
+                                {% endif %}
                             </div>   
                         </div>
                     </div>
@@ -60,37 +64,33 @@
                 
                 <div class="col-12 col-lg-4">
                     <div class="block block-sidebar block-sidebar--position--end">
-                        <!--div class="block-sidebar__item">
-                            <div class="widget-aboutus widget">
-                                <h4 class="widget__title">About Soko Blog</h4>
-                                <div class="widget-aboutus__text">
-                                <ul class="b">
-                                    <li>Design</li>
-                                    <li>Construction</li>
-                                    <li>Do-it-yourself</li>
-                                    <li>Customer service</li>
-                                    <li>Rwanda</li>
-                                </ul>
-                                </div> 
-                            </div>
-                        </div>-->
-
                         <div class="block-sidebar__item">
                             <div class="widget-aboutus widget">
+                                {% if tags %}
                                 <h4 class="widget__title">Tags</h4>
                                 <div class="widget-aboutus__text">
                                 <ul class="b">
                                     <div class="products__tags tags">
                                         <div class="tags__list">
-                                            {% for post in posts %}
-                                            {% for tag in post.tags.all %}
-                                               <a href="{% url 'tag' tag.slug %}">{{ tag }}</a>
-                                            {% endfor %}
+                                            {% for tg in tags %}
+                                               <a href="{% url 'tag' tg.id tg.slug %}">{{ tg }}</a>
                                             {% endfor %}
                                         </div>
                                     </div>
                                 </ul>
                                 </div> 
+                                {% else %}
+                                <h4 class="widget__title">Tag</h4>
+                                <div class="widget-aboutus__text">
+                                <ul class="b">
+                                    <div class="products__tags tags">
+                                        <div class="tags__list">
+                                               <a href="#">{{ tag }}</a>
+                                        </div>
+                                    </div>
+                                </ul>
+                                </div>
+                                {% endif %}
                             </div>
                         </div>
 
