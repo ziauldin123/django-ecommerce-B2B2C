@@ -1,5 +1,6 @@
 {% extends 'core/base.html' %}
 {% load static %}
+{% load i18n %}
 {% block title %}Shop @ {{ vendor.company_name }}{% endblock %}
 
 {% block content %}
@@ -17,26 +18,26 @@
                                     </div>
                                 </div>
                                 <div class="faq__section-column col-12 col-lg-3">
-                                    <div class="address-card__row-title">Company</div>
+                                    <div class="address-card__row-title">{% trans 'Company' %}</div>
                                     <div class="address-card__row-content">
                                     {{ vendor.company_name }} 
                                     </div>
                                 </div>
                                   <div class="faq__section-column col-12 col-lg-3">
-                                    <div class="address-card__row-title">Email</div>
+                                    <div class="address-card__row-title">{% trans 'Email' %}</div>
                                     <div class="address-card__row-content">
                                     {{ vendor.email }} 
                                     </div>
                                 </div>
                                 <div class="faq__section-column col-12 col-lg-2">
-                                    <div class="address-card__row-title">Phone number</div>
+                                    <div class="address-card__row-title">{% trans 'Phone number' %}</div>
                                     <div class="address-card__row-content">
                                     {{ vendor.phone }}
                                     </div>
                                 </div>
                               
                                 <div class="faq__section-column col-12 col-lg-2">
-                                    <div class="address-card__row-title">TIN</div>
+                                    <div class="address-card__row-title">{% trans 'TIN' %}</div>
                                     <div class="address-card__row-content">
                                     {{ vendor.company_code }} 
                                     </div>
@@ -72,20 +73,20 @@
                             <div class="block-sidebar__body">       
                                  <div class="block-sidebar__item">
                                     <div class="widget-aboutus widget">
-                                        <h4 class="widget__title">Location</h4>
+                                        <h4 class="widget__title">{% trans 'Location' %}</h4>
                                         <hr>
                                         <div class="widget-aboutus__text">
-                                            <h6>District: {{ vendor.district }} </h6>
-                                            <h6>Sector: {{ vendor.sector }} </h6>
-                                            <h6> Cell: {{ vendor.cell }} </h6>
-                                            <h6>Village: {{ vendor.village }} </h6>
-                                            <h6> Address: {{ vendor.address }} </h6>
+                                            <h6>{% trans 'District' %}: {{ vendor.district }} </h6>
+                                            <h6>{% trans 'Sector' %}: {{ vendor.sector }} </h6>
+                                            <h6> {% trans 'Cell' %}: {{ vendor.cell }} </h6>
+                                            <h6>{% trans 'Village' %}: {{ vendor.village }} </h6>
+                                            <h6> {% trans 'Address' %}: {{ vendor.address }} </h6>
                                         </div>  
                                     </div>
                                 </div>
                                 <div class="block-sidebar__item">
                                     <div class="widget-aboutus widget">
-                                        <h4 class="widget__title">Working Hours</h4>
+                                        <h4 class="widget__title">{% trans 'Working Hours' %}</h4>
                                         <hr>
                                         <div class="widget-aboutus__text">
                                             {% for hours in vendor.Opening.all %}

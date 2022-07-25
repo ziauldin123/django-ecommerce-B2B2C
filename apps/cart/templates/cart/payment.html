@@ -1,6 +1,6 @@
 {% extends 'core/base.html' %}
 {% load mathfilters %}
-
+{% load i18n %}
 {% block title %}Confirm Order {% endblock %}
 
 {% block content %}
@@ -52,13 +52,13 @@
                 <div class="col-12 col-lg-8 mt-4 mt-lg-0">
                     <div class="card mb-3">
                         <div class="card-body">
-                            <h3 class="card-title">Your Order</h3>
+                            <h3 class="card-title">{% trans 'Your Order' %}</h3>
                             <div class="table-responsive-sm">
                             <table class="checkout__totals">
                                 <thead class="checkout__totals-header">
                                     <tr>
-                                        <th>Product</th>
-                                        <th>Total (Rwf)</th>
+                                        <th>{% trans 'Product' %}</th>
+                                        <th>{% trans 'Total' %} (Rwf)</th>
                                     </tr>
                                 </thead>
                                 <tbody class="checkout__totals-products">
@@ -67,7 +67,7 @@
                                         <td>
                                             {% if rs.variant %}
                                             {% if rs.variant_color %}
-                                            {{rs.variant_color.name}}
+                                            {{rs.variant_color.title}}
                                        {% else %}
                                            {{rs.variant.title}}
                                         {% endif %}
@@ -121,7 +121,7 @@
                                         <td>{{ tax }} </td>
                                       </tr>
                                     <tr>
-                                        <th>Subtotal</th>
+                                        <th>{% trans 'Subtotal' %}</th>
                                         <td>{{ total }}</td>
                                     </tr> 
                                     {% if coupon.code != None %}
@@ -142,13 +142,13 @@
                                     </tr>
                                     {% endif %}
                                     <tr>
-                                        <th>{% if cart.get_delivery_type == 'store' %} Pick up {% else %} Delivery {% endif %} address</th>
+                                        <th>{% if cart.get_delivery_type == 'store' %} {% trans 'Pick up' %} {% else %} {% trans 'Delivery' %} {% endif %} {% trans 'address' %}</th>
                                         <td>{{ cart.get_delivery_address }}</td>
                                     </tr>
                                 </tbody>
                                 <tfoot class="checkout__totals-footer">
                                     <tr>
-                                        <th>TOTAL</th>
+                                        <th>{% trans 'TOTAL' %}</th>
                                         <td><span id="total_cost">Rwf {{ cart.get_total_cost }}</span></td>
                                     </tr>
                                 </tfoot>
@@ -162,16 +162,16 @@
                 <div class="col-12 col-lg-4 mt-4 mt-lg-0">
                     <div class="card mb-0">
                         <div class="card-body">
-                            <h3 class="card-title">Payment Details</h3>
+                            <h3 class="card-title">{% trans 'Payment Details' %}</h3>
                             <form method="post" action="" id="payment-form">
                                 {% csrf_token %}
                                 <div id="pay-form">
                                     <div class="form-group" id=service_provider">
-                                        <label>Payment Methods</label>
+                                        <label>{% trans 'Payment Methods' %}</label>
                 
                                         <div class="form-group">
                                             <select onchange="showPhone(this)" class="form-control select" name="service_provider" id="service service_provider">
-                                                <option value="" selected>---Select payment method---</option>
+                                                <option value="" selected>{% trans '---Select payment method---' %}</option>
                                                 {% for entry in service_provider %}
                                                 <option value="{{ entry.name }}">{{ entry.name }}</option>
                                                 {% endfor %}
@@ -179,7 +179,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group" id="hide" style="display: none;">
-                                        <label>Phone Number</label>
+                                        <label>{% trans 'Phone Number' %}</label>
                 
                                         <div class="form-group">
                                             <input class="form-control" type="text" name="phone_number" id="phone_number">
@@ -193,7 +193,7 @@
                                 {% endif %}
                                 <div class="field">
                                     <div class="control">
-                                        <button class="button btn btn-primary mt-4"">Confirm Order</button>
+                                        <button class="button btn btn-primary mt-4"">{% trans 'Confirm Order' %}</button>
                                     </div>
                                 </div>
                             </form>
@@ -201,7 +201,7 @@
                     </div>
                     <br>
                     <div class="card mb-0">
-                        <strong class= "ml-2 mr-2"><a>This confirmation will not initiate a payment. <br>You will have to manually pay using the available methods.</a></strong>
+                        <strong class= "ml-2 mr-2"><a>{% trans 'This confirmation will not initiate a payment.' %}' <br>{% trans 'You will have to manually pay using the available methods.' %}</a></strong>
                     </div>
                 </div>
 

@@ -1,13 +1,14 @@
+{% load i18n %}
 <div class="site-footer__widget footer-newsletter">
     <form v-on:submit.prevent="onSubmit" class="footer-newsletter__form">
 
         <input type="email" v-model="email" class="input form-control" id="footer-newsletter-address" placeholder="Email Address">
-        <button class="footer-newsletter__form-button btn btn-secondary">Subscribe</button>
+        <button class="footer-newsletter__form-button btn btn-secondary">{% trans 'Subscribe' %}</button>
          
     </form>
 
      <div class="footer-newsletter__text footer-newsletter__text--social" >
-        Contact us on social media.
+        {% trans 'Contact us on social media.' %}
     </div>
 
       <div class="social-links footer-newsletter__social-links social-links--shape--circle" >

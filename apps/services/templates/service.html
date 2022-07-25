@@ -1,5 +1,6 @@
 {% extends 'core/base.html' %} 
 {% load static %} 
+{% load i18n %}
 {% block title %} Service - {{service}} {% endblock %} 
 {% block content %}
 <div class="site__body">
@@ -17,7 +18,7 @@
                             <div class="block-sidebar__backdrop"></div>
                             <div class="block-sidebar__body">
                                 <div class="block-sidebar__header">
-                                    <div class="block-sidebar__title">Services</div>
+                                    <div class="block-sidebar__title">{% trans 'Services' %}</div>
                                     <button class="block-sidebar__close" type="button">
                                         <svg width="20px" height="20px">
                                             <use xlink:href="{% static 'templates/images/sprite.svg#cross-20' %}"></use>
@@ -26,13 +27,13 @@
                                 </div>
                                  <div class="block-sidebar__item">
                                     <div class="widget-filters widget widget-filters--offcanvas--mobile" data-collapse data-collapse-opened-class="filter--opened">
-                                        <h4 class="widget-filters__title widget__title">Filters</h4>
+                                        <h4 class="widget-filters__title widget__title">{% trans 'Filters' %}</h4>
                                             <input type="text" id="query" value="{{query}}" name="query" hidden="true">
                                             <div class="widget-filters__list">
                                                 <div class="widget-filters__item">
                                                     <div class="filter filter--opened" data-collapse-item>
                                                         <button type="button" class="filter__title" data-collapse-trigger>
-                                                             Price / Daily rate
+                                                            {% trans 'Price / Daily rate' %}
                                                             <svg class="filter__arrow" width="12px" height="7px">
                                                                 <use xlink:href="/static/templates/images/sprite.svg#arrow-rounded-down-12x7"></use>
                                                             </svg>
@@ -52,7 +53,7 @@
                                                 <div class="widget-filters__item">
                                                     <div class="filter filter--opened" data-collapse-item>
                                                         <button type="button" class="filter__title" data-collapse-trigger>
-                                                            Ratings
+                                                            {% trans 'Ratings' %}
                                                             <svg class="filter__arrow" width="12px" height="7px">
                                                                 <use xlink:href="/static/templates/images/sprite.svg#arrow-rounded-down-12x7"></use>
                                                             </svg>
@@ -89,7 +90,7 @@
                                                 <div class="widget-filters__item">
                                                     <div class="filter filter--opened" data-collapse-item>
                                                         <button type="button" class="filter__title" data-collapse-trigger>
-                                                            Experience in years
+                                                            {% trans 'Experience in years' %}
                                                             <svg class="filter__arrow" width="12px" height="7px">
                                                                 <use xlink:href="/static/templates/images/sprite.svg#arrow-rounded-down-12x7"></use>
                                                             </svg>
@@ -123,8 +124,8 @@
                                                 {% endif %}
                                             </div>
                                             <div class="widget-filters__actions d-flex">
-                                                <button class="btn btn-primary btn-sm" id="filter_search_btn">Filter</button>
-                                                <a class="btn btn-secondary btn-sm" href="{% url 'category-service' service.id service.slug %}">Reset</a>
+                                                <button class="btn btn-primary btn-sm" id="filter_search_btn">{% trans 'Filter' %}</button>
+                                                <a class="btn btn-secondary btn-sm" href="{% url 'category-service' service.id service.slug %}">{% trans 'Reset' %}</a>
                                             </div>
                                     </div>
                                 </div>

@@ -30,7 +30,6 @@ from apps.product import views as new
 from django.views.static import serve
 from django.conf.urls import url
 
-
 from django.contrib.sitemaps.views import sitemap
 
 from .sitemaps import StaticViewSitemap,  PostSitemap, CategorySitemap, ProductSitemap, VendorSitemap,RentalItemSitemap,ServiceProviderSitemap
@@ -103,3 +102,4 @@ urlpatterns += [url(r'media/(?P<path>.*)$', serve,
 # if settings.DEBUG:
 urlpatterns += [url(r'static/(?P<path>.*)$', serve,
                     {'document_root': settings.STATIC_ROOT, }), ]
+

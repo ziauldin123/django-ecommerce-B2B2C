@@ -1,5 +1,6 @@
 {% extends 'core/base.html' %}
 {% load static %}
+{% load i18n %}
 {% block title %}Online Shopping for Rwanda {% endblock %}
 {% block content %}
 <script>
@@ -101,7 +102,7 @@
             <div class="block block-products-carousel" data-layout="grid-4" data-mobile-grid-columns="2">
                 <div class="container">
                     <div class="block-header">
-                        <h3 class="block-header__title">Featured products</h3>
+                        <h3 class="block-header__title">{% trans 'Featured products' %}</h3>
                         <div class="block-header__divider"></div>
                         <div class="block-header__arrows-list">
                             <button class="block-header__arrow block-header__arrow--left" type="button">
@@ -140,10 +141,10 @@
                     <a href="{% url 'contact' %}" class="block-banner__body">
                         <div class="block-banner__image block-banner__image--desktop" style="background-image: url('{% static 'templates/images/test_ad_5.png' %}')"></div> 
                         <div class="block-banner__image block-banner__image--mobile" style="background-image: url('{% static 'templates/images/small_ad_mobile.png' %}')"></div>
-                        <div class="block-banner__title">Are you looking <br class="block-banner__mobile-br" > for a distributor in Rwanda?</div>
+                        <div class="block-banner__title">{% trans 'Are you looking' %} <br class="block-banner__mobile-br" > {% trans 'for a distributor in Rwanda?' %}</div>
                         <div class="block-banner__text"></div>
                         <div class="block-banner__button">
-                            <span class="btn btn-sm btn-primary">Contact Us</span>
+                            <span class="btn btn-sm btn-primary">{% trans 'Contact Us' %}</span>
                         </div>
                     </a>
                 </div>
@@ -154,7 +155,7 @@
             <div class="block block-products-carousel" data-layout="grid-4" data-mobile-grid-columns="2">
                 <div class="container">
                     <div class="block-header">
-                        <h3 class="block-header__title">Popular products</h3>
+                        <h3 class="block-header__title">{% trans 'Popular products' %}</h3>
                         <div class="block-header__divider"></div>
                         <div class="block-header__arrows-list">
                             <button class="block-header__arrow block-header__arrow--left" type="button">
@@ -235,7 +236,7 @@
             <div class="block block-products-carousel" data-layout="grid-4" data-mobile-grid-columns="2">
                 <div class="container">
                     <div class="block-header">
-                        <h3 class="block-header__title">Latest additions</h3>
+                        <h3 class="block-header__title">{% trans 'Latest additions' %}</h3>
                         <div class="block-header__divider"></div>
                         <div class="block-header__arrows-list">
                             <button class="block-header__arrow block-header__arrow--left" type="button">
@@ -273,7 +274,7 @@
             <div class="block block-posts" data-layout="grid-3" data-mobile-columns="1">
                 <div class="container">
                     <div class="block-header">
-                        <h3 class="block-header__title">Latest posts</h3>
+                        <h3 class="block-header__title">{% trans 'Latest posts' %}</h3>
                         <div class="block-header__divider"></div>
                         <div class="block-header__arrows-list">
                             <button class="block-header__arrow block-header__arrow--left" type="button">
@@ -365,7 +366,7 @@
           <div class="block block-products-carousel" data-layout="grid-4" data-mobile-grid-columns="2">
               <div class="container">
                   <div class="block-header">
-                      <h3 class="block-header__title">Recently Viewed</h3>
+                      <h3 class="block-header__title">{% trans 'Recently Viewed' %}</h3>
                       <div class="block-header__divider"></div>
                       <div class="block-header__arrows-list">
                           <button class="block-header__arrow block-header__arrow--left" type="button">

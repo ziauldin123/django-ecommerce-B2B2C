@@ -1,3 +1,4 @@
+from gettext import ngettext
 import re
 from tkinter.messagebox import NO
 from django.http import HttpResponse
@@ -84,7 +85,6 @@ def frontpage(request):
             compare_var = request.session['comparing_variants'].__len__()
 
         total_compare = comparing + compare_var
-        print(total) 
 
     else:
         cart = 0
@@ -92,8 +92,7 @@ def frontpage(request):
         wishlist = 0
         total_compare = 0
         shopcart = []
-   
-
+    
     return render(
         request,
         'core/frontpage.html',

@@ -1,5 +1,6 @@
 {% extends 'core/base.html' %}
 {% load static %} 
+{% load i18n %}
 {% block title %} {{provider.name}} {% endblock %} 
 
 {% block content %}
@@ -13,13 +14,13 @@
                         <div class="row">
                          
                             <div class="faq__section-column col-12 col-lg-3">
-                                <div class="address-card__row-title">Service Provider</div>
+                                <div class="address-card__row-title">{% trans 'Service Provider' %}</div>
                                 <div class="address-card__row-content">
                                 {{provider.name}}
                                 </div>
                             </div>
                               <div class="faq__section-column col-12 col-lg-2">
-                                <div class="address-card__row-title">Ratings</div>
+                                <div class="address-card__row-title">{% trans 'Ratings' %}</div>
                                  <div class="product-card__rating-stars"> 
                                         <div class="rating">
                                             <div class="rating__body">
@@ -273,17 +274,17 @@
                                         </div>
                                     </div>
                                     <div class="product__rating-legend">
-                                        <a href="">{{ provider.countreview}}  Reviews</a>
+                                        <a href="">{{ provider.countreview}}  {% trans 'Reviews' %}</a>
                                     </div>
                             </div>
                                 <div class="faq__section-column col-12 col-lg-3">
-                                <div class="address-card__row-title">Email</div>
+                                <div class="address-card__row-title">{% trans 'Email' %}</div>
                                 <div class="address-card__row-content">
                                 {{ provider.email }} 
                                 </div>
                             </div>
                             <div class="faq__section-column col-12 col-lg-2">
-                                <div class="address-card__row-title">Phone number</div>
+                                <div class="address-card__row-title">{% trans 'Phone number' %}</div>
                                 <div class="address-card__row-content">
                                 {{ provider.phone }}
                                 </div>
@@ -299,7 +300,7 @@
                             <br>
                             <br>
                             <div class="faq__section-column col-12 col-lg-12">
-                                <div class="address-card__row-title">Bio</div>
+                                <div class="address-card__row-title">{% trans 'Bio' %}</div>
                                 <div class="address-card__row-content">
                                 {{ provider.description }}
                                 </div>
@@ -322,7 +323,7 @@
                                 <div class="dashboard__orders card">
                                <div class="card-header">
                                     <div class="reviews-view__list">
-                                        <h3 class="reviews-view__header">Reviews</h3><br>
+                                        <h3 class="reviews-view__header">{% trans 'Reviews' %}</h3><br>
                                         <div class="reviews-list">
                                             <ol class="reviews-list__content">
                                                 {% if comments %} 
@@ -444,36 +445,36 @@
                               <div class="card-header">
                                 <form class="reviews-view__form review-form" action="/services/addcomment/{{ provider.id }}" method="post">
                                     {% csrf_token %}
-                                     <h3 class="reviews-view__header">Write A Review</h3><br>
+                                     <h3 class="reviews-view__header">{% trans 'Write A Review' %}</h3><br>
                                      <div class="row">
                                          <div class="col-12 col-lg-9 col-xl-8">
                                              <div class="row form-row">
                                                  <div class="form-group col-md-6">
                                                      <div class="input-rating">
-                                                         <label for="review-stars">Review Stars</label>
+                                                         <label for="review-stars">{% trans 'Review Stars' %}</label>
                                                          <select name="rate" id="reviews-stars" class="stars form-control">
-                                                            <option id="star5" name="rate" value="5">5 Stars Rating</option>
-                                                            <option id="star4" name="rate" value="4">4 Stars Rating</option>
-                                                            <option id="star3" name="rate" value="3">3 Stars Rating</option>
-                                                            <option id="star2" name="rate" value="2">2 Stars Rating</option>
-                                                            <option id="star1" name="rate" value="1">1 Stars Rating</option>
+                                                            <option id="star5" name="rate" value="5">5 {% trans 'Stars Rating' %}</option>
+                                                            <option id="star4" name="rate" value="4">4 {% trans 'Stars Rating' %}</option>
+                                                            <option id="star3" name="rate" value="3">3 {% trans 'Stars Rating' %}</option>
+                                                            <option id="star2" name="rate" value="2">2 {% trans 'Stars Rating' %}</option>
+                                                            <option id="star1" name="rate" value="1">1 {% trans 'Stars Rating' %}</option>
                                                          </select>
                                                      </div>
                                                  </div>
                                                  <div class="form-group col-md-6">
-                                                     <label for="review-author">Subject</label>
+                                                     <label for="review-author">{% trans 'Subject' %}</label>
                                                      <input type="text" name="subject" class="form-control input" id="review-author" placeholder="Your Subject">
                                                  </div>
                                              </div>
                                              <div class="form-group">
-                                                 <label for="review-text">Your Review</label>
+                                                 <label for="review-text">{% trans 'Your Review' %}</label>
                                                  <textarea name="comment" id="review-text" cols="30" rows="10" class="form-control input"></textarea>
                                              </div>
                                              <div class="form-group mb-0">
                                                  {% if customer %}
-                                                 <button type="submit" class="btn btn-primary btn-lg">Post Your Review</button>
+                                                 <button type="submit" class="btn btn-primary btn-lg">{% trans 'Post Your Review' %}</button>
                                                  {% else %} 
-                                                 You must be logged in to post comments
+                                                 {% trans 'You must be logged in to post comments' %}
                                                  {% endif %}
                                              </div>
                                          </div>
