@@ -1,5 +1,6 @@
 {% extends 'core/base.html' %} 
 {% load static %} 
+{% load i18n %}
 {% block title %} Rental Categories {% endblock %} 
 {% block content %} 
 <div class="site__body">
@@ -7,7 +8,7 @@
         <div class="page-header__container container">
             <div class="page-header__breadcrumb"></div>
                 <div class="page-header__title">
-                    <h3>Rental</h3>
+                    <h3>{% trans 'Rental' %}</h3>
                 </div>
         </div>
     </div>

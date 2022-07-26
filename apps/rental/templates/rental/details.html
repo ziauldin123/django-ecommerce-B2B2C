@@ -1,5 +1,6 @@
 {% extends 'core/base.html' %}
 {% load static %} 
+{% load i18n %}
 {% block title %} Rent - {{item.title}} {% endblock %} 
 {% block description %} {{ item.description }} {% endblock %}
 {% block content %}
@@ -34,7 +35,7 @@
                                     </button>
                                     {% if not item.available %}
                                     <div class="product-card__badges-list">
-                                        <div class="product-card__badge product-card__badge--sale">Unavailable</div>
+                                        <div class="product-card__badge product-card__badge--sale">{% trans 'Unavailable' %}</div>
                                     </div>
                                     {% endif %}
                                     <div class="owl-carousel" id="product-image">
@@ -93,13 +94,13 @@
                                
 
                                 <li class="product__meta-availability">
-                                    Phone Number:<span class="text-success">
+                                    {% trans 'Phone Number' %}:<span class="text-success">
                                     <span class="text">{{user.phone}}</span>
                                 </span>
                                 </li>
                                 <li class="product__meta-availability">
                                     {% if item.email %}
-                                     Email:<span class="text-success">
+                                    {% trans 'Email' %}:<span class="text-success">
                                      <span class="text">{{user.email}}</span>
                                     {% endif %} 
                                 </span>
@@ -107,28 +108,28 @@
                               
                                 {% if user.district %} 
                                 <li class="product__meta-availability">
-                                    District: <span class="text-success">
+                                    {% trans 'District' %}: <span class="text-success">
                                         <span class="text">{{user.district}}</span>
                                     </span>
                                 </li>
                                 <li class="product__meta-availability">
-                                    Sector: <span class="text-success">
+                                    {% trans 'Sector' %}: <span class="text-success">
                                         <span class="text">{{user.sector}}</span>
                                     </span>
                                 </li>
                                 <li class="product__meta-availability">
-                                    Cell: <span class="text-success">
+                                    {% trans 'Cell' %}: <span class="text-success">
                                         <span class="text">{{user.cell}}</span>
                                     </span>
                                 </li>
                                 <li class="product__meta-availability">
-                                    Village: <span class="text-success">
+                                    {% trans 'Village' %}: <span class="text-success">
                                         <span class="text">{{user.village}}</span>
                                     </span>
                                 </li>
                                 {% endif %}
                                   <li class="product__meta-availability">
-                                    Address: <span class="text-success">
+                                    {% trans 'Address' %}: <span class="text-success">
                                         <span class="text">{{user.address}}</span>
                                     </span>
                                 </li>

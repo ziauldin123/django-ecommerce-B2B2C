@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-07-25 17:03+0200\n"
+"POT-Creation-Date: 2022-07-26 11:30+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -29,8 +29,6 @@ msgstr "Chariot"
 #: .\apps\cart\templates\cart\payment.html:60
 #: .\apps\ordering\templates\shopcart_products.html:73
 #: .\apps\vendor\templates\customer\order_details.html:56
-#, fuzzy
-#| msgid "Products"
 msgid "Product"
 msgstr "produits"
 
@@ -40,6 +38,7 @@ msgstr "produits"
 #: .\apps\home\templates\product_detail.html:1043
 #: .\apps\home\templates\product_detail.html:1092
 #: .\apps\ordering\templates\shopcart_products.html:75
+#: .\apps\rental\templates\rental\allItems.html:96
 msgid "Quantity"
 msgstr "Quantité"
 
@@ -47,9 +46,9 @@ msgstr "Quantité"
 #: .\apps\order\templates\order\email_notify_customer.html:127
 #: .\apps\order\templates\order\email_notify_vendor.html:127
 #: .\apps\ordering\templates\shopcart_products.html:74
+#: .\apps\rental\templates\rental\allItems.html:95
+#: .\apps\rental\templates\rental\category.html:40
 #: .\apps\vendor\templates\customer\order_details.html:57
-#, fuzzy
-#| msgid "Pricing"
 msgid "Price"
 msgstr "Tarification"
 
@@ -59,8 +58,6 @@ msgid "Remove"
 msgstr "Retirer"
 
 #: .\apps\cart\templates\cart\cart.html:76
-#, fuzzy
-#| msgid "Total"
 msgid "Total cost"
 msgstr "Total"
 
@@ -87,6 +84,7 @@ msgstr "Nom de famille"
 #: .\apps\cart\templates\cart\contact.html:62
 #: .\apps\core\templates\core\contact.html:39
 #: .\apps\core\templates\core\contact.html:63
+#: .\apps\rental\templates\rental\details.html:103
 #: .\apps\services\templates\provider.html:281
 #: .\apps\vendor\templates\customer\become_customer.html:31
 #: .\apps\vendor\templates\vendor\vendor.html:27
@@ -99,29 +97,25 @@ msgid "Phone"
 msgstr "Téléphoner"
 
 #: .\apps\cart\templates\cart\contact.html:75
+#: .\apps\rental\templates\rental\details.html:132
 #: .\apps\vendor\templates\customer\become_customer.html:92
 #: .\apps\vendor\templates\customer\myaccount.html:60
 #: .\apps\vendor\templates\customer\order_details.html:113
 #: .\apps\vendor\templates\customer\order_details.html:148
 #: .\apps\vendor\templates\vendor\vendor.html:83
-#, fuzzy
-#| msgid "Email address"
 msgid "Address"
 msgstr "Adresse e-mail"
 
 #: .\apps\cart\templates\cart\contact.html:82
-#, fuzzy
-#| msgid "Delivery Cost"
 msgid "Delivery type"
 msgstr "Frais de port"
 
 #: .\apps\cart\templates\cart\contact.html:100
-#, fuzzy
-#| msgid "Delivery Cost"
 msgid "Delivery address"
 msgstr "Frais de port"
 
 #: .\apps\cart\templates\cart\contact.html:103
+#: .\apps\rental\templates\rental\details.html:111
 #: .\apps\vendor\templates\customer\become_customer.html:50
 #: .\apps\vendor\templates\customer\order_details.html:132
 #: .\apps\vendor\templates\vendor\vendor.html:79
@@ -134,6 +128,7 @@ msgid "---Select District---"
 msgstr "---Sélectionnez le District---"
 
 #: .\apps\cart\templates\cart\contact.html:116
+#: .\apps\rental\templates\rental\details.html:116
 #: .\apps\vendor\templates\customer\become_customer.html:63
 #: .\apps\vendor\templates\customer\order_details.html:136
 #: .\apps\vendor\templates\vendor\vendor.html:80
@@ -146,6 +141,7 @@ msgid "---Select Sector---"
 msgstr "---Select Secteur---"
 
 #: .\apps\cart\templates\cart\contact.html:126
+#: .\apps\rental\templates\rental\details.html:121
 #: .\apps\vendor\templates\customer\become_customer.html:73
 #: .\apps\vendor\templates\customer\order_details.html:140
 #: .\apps\vendor\templates\vendor\vendor.html:81
@@ -158,6 +154,7 @@ msgid "---Select Cell---"
 msgstr "---Select Cellule---"
 
 #: .\apps\cart\templates\cart\contact.html:136
+#: .\apps\rental\templates\rental\details.html:126
 #: .\apps\vendor\templates\customer\become_customer.html:83
 #: .\apps\vendor\templates\customer\order_details.html:144
 #: .\apps\vendor\templates\vendor\vendor.html:82
@@ -178,15 +175,11 @@ msgid "Go to payment"
 msgstr "Aller au paiement"
 
 #: .\apps\cart\templates\cart\contact.html:164
-#, fuzzy
-#| msgid "Delivery Cost"
 msgid "---Delivery---"
 msgstr "Frais de port"
 
 #: .\apps\cart\templates\cart\contact.html:186
 #: .\apps\cart\templates\cart\payment.html:55
-#, fuzzy
-#| msgid "Your Name"
 msgid "Your Order"
 msgstr "votre nom"
 
@@ -206,14 +199,10 @@ msgstr "Total"
 #: .\apps\cart\templates\cart\payment.html:124
 #: .\apps\ordering\templates\shopcart_products.html:216
 #: .\apps\vendor\templates\customer\order_details.html:81
-#, fuzzy
-#| msgid "Total"
 msgid "Subtotal"
 msgstr "Total"
 
 #: .\apps\cart\templates\cart\contact.html:254
-#, fuzzy
-#| msgid "Apply Coupon"
 msgid "Coupon"
 msgstr "Appliquer Coupon"
 
@@ -225,14 +214,10 @@ msgstr "Ramasser"
 #: .\apps\core\templates\core\about.html:40
 #: .\apps\order\templates\order\email_notify_customer.html:165
 #: .\apps\vendor\templates\customer\order_details.html:87
-#, fuzzy
-#| msgid "Delivery Cost"
 msgid "Delivery"
 msgstr "Frais de port"
 
 #: .\apps\cart\templates\cart\payment.html:145
-#, fuzzy
-#| msgid "Email address"
 msgid "address"
 msgstr "Adresse e-mail"
 
@@ -251,23 +236,18 @@ msgid "Payment Methods"
 msgstr "méthodes de payement"
 
 #: .\apps\cart\templates\cart\payment.html:174
-#, fuzzy
-#| msgid "---Select Sector---"
 msgid "---Select payment method---"
-msgstr "---Select Secteur---"
+msgstr "Selecte méthodes de payement"
 
 #: .\apps\cart\templates\cart\payment.html:182
 #: .\apps\core\templates\core\contact.html:40
+#: .\apps\rental\templates\rental\details.html:97
 #: .\apps\vendor\templates\customer\myaccount.html:50
 #: .\apps\vendor\templates\customer\order_details.html:117
-#, fuzzy
-#| msgid "Phone number"
 msgid "Phone Number"
 msgstr "Numéro de téléphone"
 
 #: .\apps\cart\templates\cart\payment.html:196
-#, fuzzy
-#| msgid "Your Name"
 msgid "Confirm Order"
 msgstr "votre nom"
 
@@ -286,8 +266,6 @@ msgid "Order"
 msgstr "Ordre"
 
 #: .\apps\cart\templates\cart\success.html:15
-#, fuzzy
-#| msgid "Recently Viewed"
 msgid "Received"
 msgstr "vu récemment"
 
@@ -311,8 +289,6 @@ msgid "Bank:"
 msgstr "Banque:"
 
 #: .\apps\cart\templates\cart\success.html:36
-#, fuzzy
-#| msgid "My Account"
 msgid "Account:"
 msgstr "Mon compte"
 
@@ -325,14 +301,10 @@ msgid "Go To Homepage"
 msgstr "Aller à la page d'accueil"
 
 #: .\apps\cart\templates\cart\success.html:58
-#, fuzzy
-#| msgid "My Account"
 msgid "Go To My Account"
 msgstr "Mon compte"
 
 #: .\apps\core\templates\core\about.html:15
-#, fuzzy
-#| msgid "About Us"
 msgid "About"
 msgstr "About"
 
@@ -371,8 +343,6 @@ msgid "Order management & fulfilment"
 msgstr "Gestion et exécution des commandes"
 
 #: .\apps\core\templates\core\about.html:46
-#, fuzzy
-#| msgid "Customer Service"
 msgid "Customer service"
 msgstr "Service Clients"
 
@@ -433,6 +403,7 @@ msgstr "Magasins"
 
 #: .\apps\core\templates\core\base.html:640
 #: .\apps\core\templates\core\base.html:1069
+#: .\apps\rental\templates\rental\index.html:11
 msgid "Rental"
 msgstr ""
 
@@ -490,6 +461,7 @@ msgstr "Créer un compte"
 
 #: .\apps\core\templates\core\base.html:794
 #: .\apps\core\templates\core\base.html:804
+#: .\apps\rental\templates\rental\allItems.html:34
 #: .\apps\services\templates\myServiceAccount.html:27
 #: .\apps\vendor\templates\customer\myaccount.html:20
 #: .\apps\vendor\templates\customer\order_details.html:23
@@ -499,6 +471,8 @@ msgstr ""
 
 #: .\apps\core\templates\core\base.html:795
 #: .\apps\core\templates\core\base.html:809
+#: .\apps\rental\templates\rental\allItems.html:37
+#: .\apps\rental\templates\rental\allItems.html:70
 #: .\apps\vendor\templates\customer\myaccount.html:29
 #: .\apps\vendor\templates\customer\order_details.html:29
 #: .\apps\vendor\templates\customer\order_history.html:30
@@ -507,6 +481,7 @@ msgid "Order History"
 msgstr "Historique des commandes"
 
 #: .\apps\core\templates\core\base.html:796
+#: .\apps\rental\templates\rental\allItems.html:40
 msgid "Products"
 msgstr "produits"
 
@@ -520,6 +495,7 @@ msgid "Quotations Request"
 msgstr "Demande de devis"
 
 #: .\apps\core\templates\core\base.html:799
+#: .\apps\rental\templates\rental\allItems.html:49
 #: .\apps\vendor\templates\vendor\vendor.html:89
 msgid "Working Hours"
 msgstr "Heures d'ouverture"
@@ -534,6 +510,7 @@ msgid "Edit Profile"
 msgstr "Editer le profil"
 
 #: .\apps\core\templates\core\base.html:807
+#: .\apps\rental\templates\rental\allItems.html:64
 #: .\apps\vendor\templates\customer\myaccount.html:23
 #: .\apps\vendor\templates\customer\order_details.html:20
 #: .\apps\vendor\templates\customer\order_history.html:24
@@ -541,6 +518,8 @@ msgid "My Account"
 msgstr "Mon compte"
 
 #: .\apps\core\templates\core\base.html:814
+#: .\apps\rental\templates\rental\allItems.html:57
+#: .\apps\rental\templates\rental\allItems.html:73
 #: .\apps\vendor\templates\customer\myaccount.html:32
 #: .\apps\vendor\templates\customer\order_details.html:32
 #: .\apps\vendor\templates\customer\order_history.html:33
@@ -630,8 +609,6 @@ msgid "On various products"
 msgstr "Sur divers produits"
 
 #: .\apps\core\templates\core\caroussel.html:58
-#, fuzzy
-#| msgid "Customer Service"
 msgid "Customer Support"
 msgstr "Service Clients"
 
@@ -656,8 +633,6 @@ msgid "Deals all year long"
 msgstr "Des offres toute l'année"
 
 #: .\apps\core\templates\core\contact.html:32
-#, fuzzy
-#| msgid "Email address"
 msgid "Our Address"
 msgstr "Adresse e-mail"
 
@@ -666,8 +641,6 @@ msgid "street"
 msgstr "rue"
 
 #: .\apps\core\templates\core\contact.html:43
-#, fuzzy
-#| msgid "Working Hours"
 msgid "Opening Hours"
 msgstr "Heures d'ouverture"
 
@@ -711,8 +684,6 @@ msgid "Frequently Asked Questions"
 msgstr "Questions fréquemment posées"
 
 #: .\apps\core\templates\core\frequently_asked_questions.html:23
-#, fuzzy
-#| msgid "Information"
 msgid "Delivery Information"
 msgstr "LivraisonInformation"
 
@@ -766,8 +737,6 @@ msgstr ""
 "magasin."
 
 #: .\apps\core\templates\core\frequently_asked_questions.html:56
-#, fuzzy
-#| msgid "Information"
 msgid "Payment Information"
 msgstr "Paiement Information"
 
@@ -830,16 +799,12 @@ msgstr "vu récemment"
 #: .\apps\core\templates\core\pricing.html:62
 #: .\apps\core\templates\core\pricing.html:88
 #: .\apps\core\templates\core\pricing.html:116
-#, fuzzy
-#| msgid "Products"
 msgid "Product Limit"
 msgstr "produits"
 
 #: .\apps\core\templates\core\pricing.html:38
 #: .\apps\core\templates\core\pricing.html:63
 #: .\apps\core\templates\core\pricing.html:89
-#, fuzzy
-#| msgid "Products"
 msgid "products"
 msgstr "produits"
 
@@ -847,8 +812,6 @@ msgstr "produits"
 #: .\apps\core\templates\core\pricing.html:66
 #: .\apps\core\templates\core\pricing.html:92
 #: .\apps\core\templates\core\pricing.html:121
-#, fuzzy
-#| msgid "Featured products"
 msgid "Features"
 msgstr "Produits populaires"
 
@@ -856,8 +819,6 @@ msgstr "Produits populaires"
 #: .\apps\core\templates\core\pricing.html:67
 #: .\apps\core\templates\core\pricing.html:93
 #: .\apps\core\templates\core\pricing.html:122
-#, fuzzy
-#| msgid "Vendors"
 msgid "Vendor Dashboard"
 msgstr "Vendeurs"
 
@@ -872,8 +833,6 @@ msgstr "Notifications par email"
 #: .\apps\core\templates\core\pricing.html:72
 #: .\apps\core\templates\core\pricing.html:100
 #: .\apps\core\templates\core\pricing.html:131
-#, fuzzy
-#| msgid "My Account"
 msgid "Account fees"
 msgstr "Mon compte"
 
@@ -933,8 +892,6 @@ msgid "The transaction percentage is based on product type."
 msgstr "Le pourcentage de transaction est basé sur le type de produit."
 
 #: .\apps\core\templates\core\vendor_guidelines.html:17
-#, fuzzy
-#| msgid "Guidelines"
 msgid "Vendor Guidelines"
 msgstr "Des lignes directrices"
 
@@ -959,8 +916,6 @@ msgid "High resolution company logo."
 msgstr "Logo d'entreprise haute résolution."
 
 #: .\apps\core\templates\core\vendor_guidelines.html:37
-#, fuzzy
-#| msgid "Vendors"
 msgid "Vendor Policy"
 msgstr "Politique Vendeurs"
 
@@ -979,15 +934,11 @@ msgstr ""
 "signaler à Sokopark."
 
 #: .\apps\core\templates\core\vendor_guidelines.html:46
-#, fuzzy
-#| msgid "The vendor should always act fairly and not misuse Sokopark"
 msgid "The vendor should always act fairly and not misuse"
 msgstr ""
 "Le vendeur doit toujours agir équitablement et ne pas abuser de Sokopark"
 
 #: .\apps\core\templates\core\vendor_guidelines.html:46
-#, fuzzy
-#| msgid "Customer Service"
 msgid "features or services."
 msgstr "Service Clients"
 
@@ -1020,8 +971,6 @@ msgid "The vendor should not operate more than one selling account."
 msgstr "Le vendeur ne doit pas exploiter plus d'un compte vendeur."
 
 #: .\apps\core\templates\core\vendor_guidelines.html:61
-#, fuzzy
-#| msgid "The vendor should not attempt to circumvent Sokopark"
 msgid "The vendor should not attempt to circumvent"
 msgstr "Le vendeur ne doit pas tenter de contourner Sokopark"
 
@@ -1079,15 +1028,11 @@ msgid "Out of Stock"
 msgstr "En rupture de stock"
 
 #: .\apps\home\templates\product_detail.html:639
-#, fuzzy
-#| msgid "Brands"
 msgid "Brand"
 msgstr "Marques"
 
 #: .\apps\home\templates\product_detail.html:643
 #: .\apps\vendor\templates\customer\order_details.html:55
-#, fuzzy
-#| msgid "Vendors"
 msgid "Vendor"
 msgstr "Vendeurs"
 
@@ -1147,8 +1092,6 @@ msgid "Pickup available"
 msgstr "Ramassage disponible"
 
 #: .\apps\home\templates\product_detail.html:1154
-#, fuzzy
-#| msgid "Delivery Cost"
 msgid "Free Delivery"
 msgstr "Frais de port"
 
@@ -1157,8 +1100,6 @@ msgid "Description"
 msgstr "La description"
 
 #: .\apps\home\templates\product_detail.html:1166
-#, fuzzy
-#| msgid "Email Notifications"
 msgid "Specifications"
 msgstr "Notifications par email"
 
@@ -1178,8 +1119,6 @@ msgstr "Général"
 
 #: .\apps\home\templates\product_detail.html:1204
 #: .\apps\home\templates\product_detail.html:1254
-#, fuzzy
-#| msgid "Vision"
 msgid "Dimensions"
 msgstr "Vision"
 
@@ -1197,8 +1136,6 @@ msgstr ""
 "pays de la fabrication et l'apparence"
 
 #: .\apps\home\templates\product_detail.html:1290
-#, fuzzy
-#| msgid "Customer Service"
 msgid "Customer Reviews"
 msgstr "Service Clients"
 
@@ -1222,10 +1159,8 @@ msgstr "Classement par étoiles"
 
 #: .\apps\home\templates\product_detail.html:1435
 #: .\apps\services\templates\provider.html:470
-#, fuzzy
-#| msgid "Your Name"
 msgid "Your Review"
-msgstr "votre nom"
+msgstr "votre Commentaire"
 
 #: .\apps\home\templates\product_detail.html:1440
 #: .\apps\services\templates\provider.html:475
@@ -1233,8 +1168,6 @@ msgid "Post Your Review"
 msgstr "Postez votre avis"
 
 #: .\apps\home\templates\product_detail.html:1457
-#, fuzzy
-#| msgid "Featured products"
 msgid "Related Products"
 msgstr "Produits populaires"
 
@@ -1254,8 +1187,6 @@ msgstr "Date et heure de la commande :"
 
 #: .\apps\order\templates\order\email_notify_customer.html:121
 #: .\apps\order\templates\order\email_notify_vendor.html:121
-#, fuzzy
-#| msgid "Add Item"
 msgid "Item"
 msgstr "Ajouter un item"
 
@@ -1266,15 +1197,11 @@ msgstr ""
 
 #: .\apps\order\templates\order\email_notify_customer.html:157
 #: .\apps\order\templates\order\email_notify_vendor.html:160
-#, fuzzy
-#| msgid "Total"
 msgid "Sub-Total"
 msgstr "Total"
 
 #: .\apps\order\templates\order\email_notify_customer.html:198
 #: .\apps\order\templates\order\email_notify_vendor.html:203
-#, fuzzy
-#| msgid "Customer Service"
 msgid "Customer Details"
 msgstr "Service Clients"
 
@@ -1285,15 +1212,11 @@ msgstr "Nom:"
 
 #: .\apps\order\templates\order\email_notify_customer.html:199
 #: .\apps\order\templates\order\email_notify_vendor.html:204
-#, fuzzy
-#| msgid "Phone"
 msgid "Phone:"
 msgstr "Téléphoner"
 
 #: .\apps\order\templates\order\email_notify_customer.html:199
 #: .\apps\order\templates\order\email_notify_vendor.html:204
-#, fuzzy
-#| msgid "Email"
 msgid "Email:"
 msgstr "E-mail"
 
@@ -1304,96 +1227,64 @@ msgstr ""
 
 #: .\apps\order\templates\order\email_notify_customer.html:211
 #: .\apps\vendor\templates\customer\order_details.html:130
-#, fuzzy
-#| msgid "Email address"
 msgid "Pick Up Address"
 msgstr "Adresse e-mail"
 
 #: .\apps\order\templates\order\email_notify_customer.html:211
 #: .\apps\order\templates\order\email_notify_vendor.html:217
-#, fuzzy
-#| msgid "Delivery Cost"
 msgid "Delivery Address"
 msgstr "Frais de port"
 
 #: .\apps\order\templates\order\email_notify_customer.html:212
 #: .\apps\order\templates\order\email_notify_vendor.html:218
-#, fuzzy
-#| msgid "District"
 msgid "District:"
 msgstr "District"
 
 #: .\apps\order\templates\order\email_notify_customer.html:212
 #: .\apps\order\templates\order\email_notify_vendor.html:218
-#, fuzzy
-#| msgid "Sector"
 msgid "Sector:"
 msgstr "Secteur"
 
 #: .\apps\order\templates\order\email_notify_customer.html:212
 #: .\apps\order\templates\order\email_notify_vendor.html:218
-#, fuzzy
-#| msgid "Cell"
 msgid "Cell:"
 msgstr "Cellule"
 
 #: .\apps\order\templates\order\email_notify_customer.html:212
 #: .\apps\order\templates\order\email_notify_vendor.html:218
-#, fuzzy
-#| msgid "Village"
 msgid "Village:"
 msgstr "Village"
 
 #: .\apps\order\templates\order\email_notify_customer.html:212
 #: .\apps\order\templates\order\email_notify_vendor.html:218
-#, fuzzy
-#| msgid "Email address"
 msgid "Address:"
 msgstr "Adresse e-mail"
 
 #: .\apps\order\templates\order\email_notify_customer.html:224
-#, fuzzy
-#| msgid "Delivery Cost"
 msgid "Delivery Type"
 msgstr "Frais de port"
 
 #: .\apps\order\templates\order\email_notify_customer.html:226
-#, fuzzy
-#| msgid "Pick up order in store"
 msgid "Pickup in Store"
 msgstr "Récupérer la commande en magasin"
 
 #: .\apps\order\templates\order\email_notify_customer.html:228
-#, fuzzy
-#| msgid "Delivery Cost"
 msgid "Vendor Delivery"
 msgstr "Frais de port"
 
 #: .\apps\order\templates\order\email_notify_customer.html:230
-#, fuzzy
-#| msgid "Delivery Cost"
 msgid "Express Delivery"
 msgstr "Frais de port"
 
 #: .\apps\order\templates\order\email_notify_customer.html:232
-#, fuzzy
-#| msgid "Delivery Cost"
 msgid "Basic Delivery"
 msgstr "Frais de port"
 
 #: .\apps\order\templates\order\email_notify_customer.html:245
-#, fuzzy
-#| msgid "Payment Methods"
 msgid "Payment Method"
 msgstr "méthodes de payement"
 
 #: .\apps\order\templates\order\email_notify_customer.html:278
-#, fuzzy
-#| msgid ""
-#| "This document is an order confirmation. It is the responsibility of the "
-#| "vendor to provide tax receipts to the customers. <br> * The prices above "
-#| "include Value Added Tax (if applicable). <br>* If you are not a Sokopark "
-#| "vendor, please ignore"
 msgid ""
 "This document is an order confirmation. Tax receipts will be provided by the "
 "vendor(s). <br> * The prices above include Value Added Tax (if applicable). "
@@ -1410,8 +1301,6 @@ msgid "this email."
 msgstr "cet e-mail."
 
 #: .\apps\order\templates\order\email_notify_vendor.html:102
-#, fuzzy
-#| msgid "Recently Viewed"
 msgid "Order Received."
 msgstr "vu récemment"
 
@@ -1437,8 +1326,6 @@ msgid "Apply Coupon"
 msgstr "Appliquer Coupon"
 
 #: .\apps\ordering\templates\shopcart_products.html:205
-#, fuzzy
-#| msgid "Free Shipping"
 msgid "Continue Shopping"
 msgstr "Livraison gratuite"
 
@@ -1447,20 +1334,162 @@ msgid "Proceed to checkout"
 msgstr "Passer à la caisse"
 
 #: .\apps\ordering\templates\shopcart_products.html:238
-#, fuzzy
-#| msgid "Your cart is currently empty."
 msgid "Your shopping cart is empty!"
 msgstr "Votre carte est actuellement vide."
 
 #: .\apps\ordering\templates\shopcart_products.html:240
-#, fuzzy
-#| msgid "Stars Rating"
 msgid "Start shopping"
 msgstr "Classement par étoiles"
 
+#: .\apps\rental\templates\rental\allItems.html:31
+msgid "Vendor Administration"
+msgstr "Administration des fournisseurs"
+
+#: .\apps\rental\templates\rental\allItems.html:43
+#: .\apps\rental\templates\rental\allItems.html:67
+#: .\apps\vendor\templates\customer\myaccount.html:26
+#: .\apps\vendor\templates\customer\order_details.html:26
+#: .\apps\vendor\templates\customer\order_history.html:27
+msgid "Renting items"
+msgstr "location d'articles"
+
+#: .\apps\rental\templates\rental\allItems.html:46
+msgid "Quotation Requests"
+msgstr "Demande de devis"
+
+#: .\apps\rental\templates\rental\allItems.html:53
+msgid "Delivery Price"
+msgstr "Frais de port"
+
+#: .\apps\rental\templates\rental\allItems.html:61
+msgid "Customer Administration"
+msgstr "Personnalisation"
+
+#: .\apps\rental\templates\rental\allItems.html:84
+msgid "My Items"
+msgstr "Ajouter un item"
+
+#: .\apps\rental\templates\rental\allItems.html:85
+msgid "Add Item for Rent"
+msgstr "Ajouter un item"
+
+#: .\apps\rental\templates\rental\allItems.html:94
+msgid "Title"
+msgstr "Titre"
+
+#: .\apps\rental\templates\rental\allItems.html:97
+msgid "Available"
+msgstr "Ramassage disponible"
+
+#: .\apps\rental\templates\rental\allItems.html:98
+#: .\apps\services\templates\myServiceAccount.html:83
+#: .\apps\vendor\templates\customer\myaccount.html:86
+#: .\apps\vendor\templates\customer\order_history.html:51
+msgid "Status"
+msgstr "Statut"
+
+#: .\apps\rental\templates\rental\allItems.html:99
+msgid "Add Images"
+msgstr "Image"
+
+#: .\apps\rental\templates\rental\allItems.html:100
+#: .\apps\rental\templates\rental\allItems.html:129
+#: .\env\Lib\site-packages\django_addanother\templates\django_addanother\related_widget_wrapper.html:10
+msgid "Edit"
+msgstr "Éditer"
+
+#: .\apps\rental\templates\rental\allItems.html:101
+#: .\apps\rental\templates\rental\allItems.html:132
+#: .\env\Lib\site-packages\django\forms\formsets.py:417
+msgid "Delete"
+msgstr "Effacer"
+
+#: .\apps\rental\templates\rental\allItems.html:111
+#: .\apps\rental\templates\rental\category.html:453
+#: .\env\Lib\site-packages\django\forms\widgets.py:715
+msgid "Yes"
+msgstr "Oui"
+
+#: .\apps\rental\templates\rental\allItems.html:113
+#: .\apps\rental\templates\rental\category.html:467
+#: .\env\Lib\site-packages\django\forms\widgets.py:716
+msgid "No"
+msgstr "Non"
+
+#: .\apps\rental\templates\rental\allItems.html:116
+msgid "Reviewed"
+msgstr "Commentaires"
+
+#: .\apps\rental\templates\rental\allItems.html:118
+msgid "Under Review"
+msgstr "Commentaires"
+
+#: .\apps\rental\templates\rental\allItems.html:125
+#: .\apps\services\templates\myServiceAccount.html:62
+msgid "Upload"
+msgstr "Télécharger"
+
+#: .\apps\rental\templates\rental\allItems.html:140
+msgid "No Item yet"
+msgstr "Types d'articles"
+
+#: .\apps\rental\templates\rental\category.html:25
+#: .\apps\rental\templates\rental\category.html:34
+#: .\apps\services\templates\service.html:30
+msgid "Filters"
+msgstr "Filtres"
+
+#: .\apps\rental\templates\rental\category.html:62
+msgid "Item Types"
+msgstr "Types d'articles"
+
+#: .\apps\rental\templates\rental\category.html:100
+#: .\apps\vendor\templates\vendor\vendor.html:76
+msgid "Location"
+msgstr "Information"
+
+#: .\apps\rental\templates\rental\category.html:139
+msgid "Make"
+msgstr "Faire"
+
+#: .\apps\rental\templates\rental\category.html:178
+msgid "Rooms"
+msgstr "Chambre"
+
+#: .\apps\rental\templates\rental\category.html:214
+msgid "Amenity"
+msgstr "Aménité"
+
+#: .\apps\rental\templates\rental\category.html:252
+msgid "Application"
+msgstr "spécification"
+
+#: .\apps\rental\templates\rental\category.html:289
+msgid "Capacity"
+msgstr "Capacité"
+
+#: .\apps\rental\templates\rental\category.html:326
+msgid "Year"
+msgstr "Ans"
+
+#: .\apps\rental\templates\rental\category.html:362
+msgid "Model"
+msgstr "Modèle"
+
+#: .\apps\rental\templates\rental\category.html:398
+msgid "Engine"
+msgstr "Moteur"
+
+#: .\apps\rental\templates\rental\category.html:433
+msgid "Available for Sale"
+msgstr "Disponible à la vente"
+
+#: .\apps\rental\templates\rental\details.html:38
+#: .\apps\services\templates\myServiceAccount.html:84
+msgid "Unavailable"
+msgstr "Ramassage disponible"
+
 #: .\apps\services\templates\myServiceAccount.html:24
-#, fuzzy
-#| msgid "My Account"
 msgid "Service Account"
 msgstr "Mon compte"
 
@@ -1469,18 +1498,12 @@ msgid "Active"
 msgstr "Actif"
 
 #: .\apps\services\templates\myServiceAccount.html:42
-#, fuzzy
-#| msgid "Reviews"
 msgid "Under-Review"
 msgstr "Commentaires"
 
 #: .\apps\services\templates\myServiceAccount.html:60
 msgid "Add profile image"
 msgstr "Ajouter une image de profil"
-
-#: .\apps\services\templates\myServiceAccount.html:62
-msgid "Upload"
-msgstr "Télécharger"
 
 #: .\apps\services\templates\myServiceAccount.html:67
 msgid "Basic Info"
@@ -1490,22 +1513,8 @@ msgstr "Informations de base"
 msgid "Add your TIN numbers"
 msgstr "Ajoutez vos numéros TIN"
 
-#: .\apps\services\templates\myServiceAccount.html:83
-#: .\apps\vendor\templates\customer\myaccount.html:86
-#: .\apps\vendor\templates\customer\order_history.html:51
-msgid "Status"
-msgstr "Statut"
-
 #: .\apps\services\templates\myServiceAccount.html:84
-#, fuzzy
-#| msgid "Pickup available"
 msgid "available"
-msgstr "Ramassage disponible"
-
-#: .\apps\services\templates\myServiceAccount.html:84
-#, fuzzy
-#| msgid "Pickup available"
-msgid "Unavailable"
 msgstr "Ramassage disponible"
 
 #: .\apps\services\templates\myServiceAccount.html:87
@@ -1518,15 +1527,11 @@ msgid "Add a small description about about yourself"
 msgstr "Ajouter une petite description sur vous-même"
 
 #: .\apps\services\templates\provider.html:17
-#, fuzzy
-#| msgid "Register as Service Provider"
 msgid "Service Provider"
 msgstr "S'inscrire en tant que fournisseur de services"
 
 #: .\apps\services\templates\provider.html:23
 #: .\apps\services\templates\service.html:56
-#, fuzzy
-#| msgid "Stars Rating"
 msgid "Ratings"
 msgstr "Classement par étoiles"
 
@@ -1537,11 +1542,7 @@ msgstr "Numéro de téléphone"
 
 #: .\apps\services\templates\provider.html:477
 msgid "You must be logged in to post comments"
-msgstr ""
-
-#: .\apps\services\templates\service.html:30
-msgid "Filters"
-msgstr "Filtres"
+msgstr "Vous devez vous identifier pour poster un commentaire"
 
 #: .\apps\services\templates\service.html:36
 msgid "Price / Daily rate"
@@ -1564,8 +1565,6 @@ msgid "Set up a Customer account"
 msgstr "Créer un compte client"
 
 #: .\apps\vendor\templates\customer\become_customer.html:24
-#, fuzzy
-#| msgid "First name"
 msgid "First name & Last name"
 msgstr "Prénom"
 
@@ -1574,8 +1573,6 @@ msgid "TIN (optional)"
 msgstr "TIN (optionnel)"
 
 #: .\apps\vendor\templates\customer\become_customer.html:102
-#, fuzzy
-#| msgid "Your Name"
 msgid "Confirm Password"
 msgstr "votre nom"
 
@@ -1611,23 +1608,13 @@ msgstr "Inscrivez-vous ici"
 msgid "Register as Service Provider"
 msgstr "S'inscrire en tant que fournisseur de services"
 
-#: .\apps\vendor\templates\customer\myaccount.html:26
-#: .\apps\vendor\templates\customer\order_details.html:26
-#: .\apps\vendor\templates\customer\order_history.html:27
-msgid "Renting items"
-msgstr "location d'articles"
-
 #: .\apps\vendor\templates\customer\myaccount.html:47
 #: .\apps\vendor\templates\customer\order_details.html:107
-#, fuzzy
-#| msgid "Billing details"
 msgid "Billing Address"
 msgstr "Détails de la facturation"
 
 #: .\apps\vendor\templates\customer\myaccount.html:55
 #: .\apps\vendor\templates\customer\order_details.html:121
-#, fuzzy
-#| msgid "Email address"
 msgid "Email Address"
 msgstr "Adresse e-mail"
 
@@ -1638,22 +1625,16 @@ msgstr "Dernières commandes"
 #: .\apps\vendor\templates\customer\myaccount.html:84
 #: .\apps\vendor\templates\customer\order_details.html:43
 #: .\apps\vendor\templates\customer\order_history.html:49
-#, fuzzy
-#| msgid "Order Reference:"
 msgid "Order Reference"
 msgstr "Référence de l'achat:"
 
 #: .\apps\vendor\templates\customer\myaccount.html:85
 #: .\apps\vendor\templates\customer\order_history.html:50
-#, fuzzy
-#| msgid "Order Date & Time:"
 msgid "Date and Time"
 msgstr "Date et heure de la commande :"
 
 #: .\apps\vendor\templates\customer\myaccount.html:87
 #: .\apps\vendor\templates\customer\order_history.html:52
-#, fuzzy
-#| msgid "Amount:"
 msgid "Amount"
 msgstr "Montant:"
 
@@ -1670,20 +1651,14 @@ msgid "and is"
 msgstr "et est"
 
 #: .\apps\vendor\templates\customer\order_details.html:95
-#, fuzzy
-#| msgid "Total"
 msgid "Grand Total"
 msgstr "Total"
 
 #: .\apps\vendor\templates\customer\order_details.html:109
-#, fuzzy
-#| msgid "Name:"
 msgid "Name"
 msgstr "Nom:"
 
 #: .\apps\vendor\templates\customer\order_details.html:130
-#, fuzzy
-#| msgid "Billing details"
 msgid "Shipping Address"
 msgstr "Détails de la facturation"
 
@@ -1692,20 +1667,14 @@ msgid "Forgot your password?"
 msgstr "Mot de passe oublié?"
 
 #: .\apps\vendor\templates\vendor\login.html:53
-#, fuzzy
-#| msgid "Register as vendor"
 msgid "Register as a customer"
 msgstr "S'inscrire en tant que vendeur"
 
 #: .\apps\vendor\templates\vendor\login.html:54
-#, fuzzy
-#| msgid "Register as vendor"
 msgid "Register as a vendor"
 msgstr "S'inscrire en tant que vendeur"
 
 #: .\apps\vendor\templates\vendor\login.html:55
-#, fuzzy
-#| msgid "Register as Service Provider"
 msgid "Register as a Service provider"
 msgstr "S'inscrire en tant que fournisseur de services"
 
@@ -1716,12 +1685,6 @@ msgstr "Compagnie"
 #: .\apps\vendor\templates\vendor\vendor.html:40
 msgid "TIN"
 msgstr "TIN"
-
-#: .\apps\vendor\templates\vendor\vendor.html:76
-#, fuzzy
-#| msgid "Information"
-msgid "Location"
-msgstr "Information"
 
 #: .\env\Lib\site-packages\bootstrap4\components.py:17
 #: .\env\Lib\site-packages\bootstrap4\templates\bootstrap4\form_errors.html:3
@@ -2338,10 +2301,6 @@ msgid_plural "Please submit at least %d forms."
 msgstr[0] ""
 msgstr[1] ""
 
-#: .\env\Lib\site-packages\django\forms\formsets.py:417
-msgid "Delete"
-msgstr ""
-
 #: .\env\Lib\site-packages\django\forms\models.py:763
 #, python-format
 msgid "Please correct the duplicate data for %(field)s."
@@ -2402,14 +2361,6 @@ msgstr ""
 
 #: .\env\Lib\site-packages\django\forms\widgets.py:714
 msgid "Unknown"
-msgstr ""
-
-#: .\env\Lib\site-packages\django\forms\widgets.py:715
-msgid "Yes"
-msgstr ""
-
-#: .\env\Lib\site-packages\django\forms\widgets.py:716
-msgid "No"
 msgstr ""
 
 #. Translators: Please do not add spaces around commas.
@@ -2974,10 +2925,6 @@ msgstr ""
 #: .\env\Lib\site-packages\django_addanother\templates\django_addanother\related_widget_wrapper.html:9
 msgid "Edit related"
 msgstr ""
-
-#: .\env\Lib\site-packages\django_addanother\templates\django_addanother\related_widget_wrapper.html:10
-msgid "Edit"
-msgstr "Éditer"
 
 #: .\env\Lib\site-packages\django_addanother\templates\django_addanother\related_widget_wrapper.html:17
 msgid "Add another"

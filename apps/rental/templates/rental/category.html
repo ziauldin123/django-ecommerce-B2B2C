@@ -1,5 +1,6 @@
 {% extends 'core/base.html' %} 
 {% load static %} 
+{% load i18n %}
 {% block title %} Rent {{category_title}} {% endblock %} 
 {% block content %} 
 
@@ -21,7 +22,7 @@
                         <div class="block-sidebar__backdrop"></div>
                         <div class="block-sidebar__body">
                             <div class="block-sidebar__header">
-                                <div class="block-sidebar__title">Filters</div>
+                                <div class="block-sidebar__title">{% trans 'Filters' %}</div>
                                 <button class="block-sidebar__close" type="button">
                                     <svg width="20px" height="20px">
                                         <use xlink:href="{% static 'templates/images/sprite.svg#cross-20' %}"></use>
@@ -30,13 +31,13 @@
                             </div>
                           <div class="block-sidebar__item">
                                 <div class="widget-filters widget widget-filters--offcanvas--mobile" data-collapse data-collapse-opened-class="filter--opened">
-                                    <h4 class="widget-filters__title widget__title">Filters</h4>
+                                    <h4 class="widget-filters__title widget__title">{% trans 'Filters' %}</h4>
                                     <input type="text" id="query" value="{{query}}" name="query" hidden="True">
                                         <div class="widget-filters__list">
                                             <div class="widget-filters__item">
                                                 <div class="filter filter--opened" data-collapse-item>
                                                     <button class="filter__title" type="button" data-collapse-trigger>
-                                                        Price
+                                                        {% trans 'Price' %}
                                                         <svg class="filter__arrow" width="12px" height=""7px>
                                                             <use xlink:href="/static/templates/images/sprite.svg#arrow-rounded-down-12x7"></use>
                                                         </svg>
@@ -58,7 +59,7 @@
                                             <div class="widget-filters__item">
                                                 <div class="filter filter--opened" data-collapse-item>
                                                     <button type="button" class="filter__title"  data-collapse-trigger>
-                                                        Item Types
+                                                        {% trans 'Item Types' %}
                                                         <svg class="filter__arrow" width="12px" height="7px">
                                                             <use xlink:href="/static/templates/images/sprite.svg#arrow-rounded-down-12x7"></use>
                                                         </svg>
@@ -96,7 +97,7 @@
                                             <div class="widget-filters__item">
                                                 <div class="filter filter--opened" data-collapse-item>
                                                     <button type="button" class="filter__title"  data-collapse-trigger>
-                                                        Location
+                                                        {% trans 'Location' %}
                                                         <svg class="filter__arrow" width="12px" height="7px">
                                                             <use xlink:href="/static/templates/images/sprite.svg#arrow-rounded-down-12x7"></use>
                                                         </svg>
@@ -135,7 +136,7 @@
                                             <div class="widget-filters__item">
                                                 <div class="filter filter--opened" data-collapse-item>
                                                     <button type="button" class="filter__title"  data-collapse-trigger>
-                                                        Make
+                                                        {% trans 'Make' %}
                                                         <svg class="filter__arrow" width="12px" height="7px">
                                                             <use xlink:href="/static/templates/images/sprite.svg#arrow-rounded-down-12x7"></use>
                                                         </svg>
@@ -174,7 +175,7 @@
                                            <div class="widget-filters__item">
                                             <div class="filter filter--opened" data-collapse-item>
                                                 <button type="button" class="filter__title"  data-collapse-trigger>
-                                                    Rooms
+                                                    {% trans 'Rooms' %}
                                                     <svg class="filter__arrow" width="12px" height="7px">
                                                         <use xlink:href="/static/templates/images/sprite.svg#arrow-rounded-down-12x7"></use>
                                                     </svg>
@@ -210,7 +211,7 @@
                                            <div class="widget-filters__item">
                                             <div class="filter filter--opened" data-collapse-item>
                                                 <button type="button" class="filter__title"  data-collapse-trigger>
-                                                    Amenity
+                                                    {% trans 'Amenity' %}
                                                     <svg class="filter__arrow" width="12px" height="7px">
                                                         <use xlink:href="/static/templates/images/sprite.svg#arrow-rounded-down-12x7"></use>
                                                     </svg>
@@ -248,7 +249,7 @@
                                         <div class="widget-filters__item">
                                             <div class="filter filter--opened" data-collapse-item>
                                                 <button type="button" class="filter__title"  data-collapse-trigger>
-                                                    Application
+                                                    {% trans 'Application' %}
                                                     <svg class="filter__arrow" width="12px" height="7px">
                                                         <use xlink:href="/static/templates/images/sprite.svg#arrow-rounded-down-12x7"></use>
                                                     </svg>
@@ -285,7 +286,7 @@
                                         <div class="widget-filters__item">
                                             <div class="filter filter--opened" data-collapse-item>
                                                 <button type="button" class="filter__title"  data-collapse-trigger>
-                                                    Capacity
+                                                    {% trans 'Capacity' %}
                                                     <svg class="filter__arrow" width="12px" height="7px">
                                                         <use xlink:href="/static/templates/images/sprite.svg#arrow-rounded-down-12x7"></use>
                                                     </svg>
@@ -322,7 +323,7 @@
                                         <div class="widget-filters__item">
                                             <div class="filter filter--opened" data-collapse-item>
                                                 <button type="button" class="filter__title"  data-collapse-trigger>
-                                                    Year
+                                                    {% trans 'Year' %}
                                                     <svg class="filter__arrow" width="12px" height="7px">
                                                         <use xlink:href="/static/templates/images/sprite.svg#arrow-rounded-down-12x7"></use>
                                                     </svg>
@@ -358,7 +359,7 @@
                                         <div class="widget-filters__item">
                                             <div class="filter filter--opened" data-collapse-item>
                                                 <button type="button" class="filter__title"  data-collapse-trigger>
-                                                    Model
+                                                    {% trans 'Model' %}
                                                     <svg class="filter__arrow" width="12px" height="7px">
                                                         <use xlink:href="/static/templates/images/sprite.svg#arrow-rounded-down-12x7"></use>
                                                     </svg>
@@ -394,7 +395,7 @@
                                         <div class="widget-filters__item">
                                             <div class="filter filter--opened" data-collapse-item>
                                                 <button type="button" class="filter__title"  data-collapse-trigger>
-                                                    Engine
+                                                    {% trans 'Engine' %}
                                                     <svg class="filter__arrow" width="12px" height="7px">
                                                         <use xlink:href="/static/templates/images/sprite.svg#arrow-rounded-down-12x7"></use>
                                                     </svg>
@@ -429,7 +430,7 @@
                                         <div class="widget-filters__item">
                                             <div class="filter filter--opened" data-collapse-item>
                                                 <button type="button" class="filter__title"  data-collapse-trigger>
-                                                     Available for Sale
+                                                    {% trans 'Available for Sale' %}
                                                     <svg class="filter__arrow" width="12px" height="7px">
                                                         <use xlink:href="/static/templates/images/sprite.svg#arrow-rounded-down-12x7"></use>
                                                     </svg>
@@ -449,7 +450,7 @@
                                                                         </span>
                                                                        </span>
                                                                        <span class="filter-list__title">
-                                                                           Yes
+                                                                        {% trans 'Yes' %}
                                                                        </span>
                                                                    </label>
                                                                    <label  class="filter-list__item">
@@ -463,7 +464,7 @@
                                                                      </span>
                                                                     </span>
                                                                     <span class="filter-list__title">
-                                                                        No
+                                                                        {% trans 'No' %}
                                                                     </span>
                                                                 </label>
                                                             </div>
