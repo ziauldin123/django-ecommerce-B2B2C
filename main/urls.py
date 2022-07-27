@@ -29,7 +29,7 @@ from apps.ordering import views as orderview
 from apps.product import views as new
 from django.views.static import serve
 from django.conf.urls import url
-
+from django.utils.translation import gettext_lazy as _
 from django.contrib.sitemaps.views import sitemap
 
 from .sitemaps import StaticViewSitemap,  PostSitemap, CategorySitemap, ProductSitemap, VendorSitemap,RentalItemSitemap,ServiceProviderSitemap
@@ -42,9 +42,9 @@ sitemaps = {'static': StaticViewSitemap, 'post': PostSitemap,
             'items':RentalItemSitemap,'services':ServiceProviderSitemap
             }
 
-urlpatterns = [
-     path('admin/', admin.site.urls),
-]
+urlpatterns = i18n_patterns (
+     path(_('admin/'), admin.site.urls),
+)
 
 urlpatterns += i18n_patterns (  
     re_path(r'^ckeditor/', include('ckeditor_uploader.urls')),

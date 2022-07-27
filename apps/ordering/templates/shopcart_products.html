@@ -59,7 +59,7 @@
                     </nav>
                 </div>
                 <div class="page-header__title">
-                    <h3>Cart</h3>
+                    <h3>{% trans 'Cart' %}</h3>
                 </div>
             </div>
         </div>
@@ -198,7 +198,7 @@
                 <div class="cart__actions">
                     <form class="cart__coupon-form">
                         <label for="input-coupon-code" class="sr-only">{% trans 'Password' %}</label>
-                        <input type="text" class="form-control"  name="coupon_code" id="coupon_code" placeholder="Coupon Code">
+                        <input type="text" class="form-control"  name="coupon_code" id="coupon_code" placeholder="{% trans 'Coupon Code' %}">
                         <button type="button" class="btn btn-secondary "  onclick="applyCoupon()" >{% trans 'Apply Coupon' %}</button>
                     </form>
                     <div class="cart__buttons">

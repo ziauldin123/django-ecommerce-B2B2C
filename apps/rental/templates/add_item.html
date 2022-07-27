@@ -1,5 +1,6 @@
 {% extends 'core/base.html' %} 
 {% load static %} 
+{% load i18n %}
 {% block title %} Add item {% endblock %} 
 {% block content %}
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -89,7 +90,7 @@
             <div class="col-xl-8 col-lg-4 col-md-8">
                 <div class="card flex-grow-1 mb-0 mt-5">
                     <div class="card-body">
-                        <h3 class="card-title">Add Item</h3>
+                        <h3 class="card-title">{% trans 'Add Item' %}</h3>
                         <form method="post" action="." enctype="multipart/form-data">
                             {% load widget_tweaks %}
                             {% csrf_token %}
@@ -98,94 +99,94 @@
                             <input type="hidden" id="vehicles_id" value="{{vehicles_id}}">
                             <div class="form-row">
                                 <div class="form-group col-md-3">
-                                    <label for="">Title</label>
+                                    <label for="">{% trans 'Title' %}</label>
                                     {{form.title |add_class:"form-control"}}
                                 </div>
                                 <div class="form-group col-md-3">
-                                    <label for="">Category</label>
+                                    <label for="">{% trans 'Category' %}</label>
                                     {{form.category | add_class:"form-control"}}
                                 </div>
                                 <div class="form-group col-md-3" id="spaces" style="display: none;">
-                                    <label for="">Type</label>
+                                    <label for="">{% trans 'Type' %}</label>
                                     {{form.item_type | add_class:"form-control"}}
                                 </div>
                                 <div class="form-group col-md-3">
-                                    <label for="Price">Price</label>
+                                    <label for="Price">{% trans 'Price' %}</label>
                                     {{form.price |add_class:"form-control"}}
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="form-group col-md-3" id="vehicles_year" >
-                                    <label for="">Year</label>
+                                    <label for="">{% trans 'Year' %}</label>
                                     {{form.year |add_class:"form-control"}}
                                 </div>
                                 <div class="form-group col-md-3" id="vehicles_model" >
-                                    <label for="">Model</label>
+                                    <label for="">{% trans 'Model' %}</label>
                                     {{form.model |add_class:"form-control"}}
                                 </div>
                                 <div class="form-group col-md-3" id="vehicles_engine" >
-                                    <label for="">Engine</label>
+                                    <label for="">{% trans 'Engine' %}</label>
                                     {{form.engine |add_class:"form-control"}}
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="form-group col-md-3" id="rooms" >
-                                    <label for="">Room</label>
+                                    <label for="">{% trans 'Room' %}</label>
                                     {{form.rooms |add_class:"form-control"}}
                                 </div> 
                                 <div class="form-group col-md-3" id="amenity" >
-                                    <label for="">Amenity</label>
+                                    <label for="">{% trans 'Amenity' %}</label>
                                     {{form.amenity |add_class:"form-control"}}
                                 </div>
                                 <div class="form-group col-md-3" id="application" >
-                                    <label for="">Application</label>
+                                    <label for="">{% trans 'Application' %}</label>
                                     {{form.application |add_class:"form-control"}}
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="form-group col-md-3" id="make">
-                                    <label for="">Make</label>
+                                    <label for="">{% trans 'Make' %}</label>
                                     {{form.makes |add_class:"form-control"}}
                                 </div>
                                 <div class="form-group col-md-3" id="capacity">
-                                    <label for="">Capacity</label>
+                                    <label for="">{% trans 'Capacity' %}</label>
                                     {{form.capacity |add_class:"form-control"}}
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="form-group col-md-3">
-                                    <label for="">Quantity</label>
+                                    <label for="">{% trans 'Quantity' %}</label>
                                     {{form.quantity | add_class:"form-control"}}
                                 </div>
                                 <div class="form-group col-md-3">
-                                    <label for="">Image</label>
+                                    <label for="">{% trans 'Image' %}</label>
                                     {{form.image | add_class:"form-control"}}
                                 </div>
                                 <div class="form-group col-md-3">
-                                    <label for="">Unit Type</label>
+                                    <label for="">{% trans 'Unit Type' %}</label>
                                     {{form.unit | add_class:"form-control"}}
                                 </div>
                             </div>
 
                             <div class="form-row">
                                 <div class="form-group col-md-6">
-                                    <label for="">Description</label>
+                                    <label for="">{% trans 'Description' %}</label>
                                     {{form.description | add_class:"form-control"}}
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="form-group col-md-3 form-check form-check-inline">
                                     {{form.available | add_class:"form-check-input"}}
-                                    <label for="" class="form-check-label">Available</label>
+                                    <label for="" class="form-check-label">{% trans 'Available' %}</label>
                                 </div>
                                 <div class="form-group col-md-3 form-check form-check-inline" id="sale">
                                     {{form.sale | add_class:"form-check-input"}}
-                                    <label for="" class="form-check-label">Available for Sale ?</label>
+                                    <label for="" class="form-check-label">{% trans 'Available for Sale' %} ?</label>
                                 </div>
                             </div>
                             <div class="field">
                                 <div class="control">
-                                    <button class="button btn btn-primary mt-4">Submit</button>
+                                    <button class="button btn btn-primary mt-4">{% trans 'Submit' %}</button>
                                 </div>
                             </div>
                         </form>

@@ -477,8 +477,8 @@
                                         {% endif %}
                                         </div>
                                         <div class="widget-filters__actions d-flex">
-                                            <button class="btn btn-primary btn-sm" id="filter_search_btn">Filter</button>
-                                            <a href="{% url 'category' category_title.id category_title.slug %}" class="btn btn-secondary btn-sm">Reset</a>
+                                            <button class="btn btn-primary btn-sm" id="filter_search_btn">{% trans 'Filter' %}</button>
+                                            <a href="{% url 'category' category_title.id category_title.slug %}" class="btn btn-secondary btn-sm">{% trans 'Reset' %}</a>
                                         </div>
                                 </div>
                             </div>
@@ -503,7 +503,7 @@
                                         <div class="product-card">
                                             {% if not item.available %}
                                             <div class="product-card__badges-list">
-                                                <div class="product-card__badge product-card__badge--sale">Unavailable</div>
+                                                <div class="product-card__badge product-card__badge--sale">{% trans 'Unavailable' %}</div>
                                             </div>
                                             {% endif %}
                                             <div class="product-card__image product-image">

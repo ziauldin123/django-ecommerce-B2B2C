@@ -2,6 +2,7 @@
 {% load get_vendor_order_cost %}
 {% load mathfilters %}
 {% load static %}
+{% load i18n %}
 {% block title %}Quotation Requests - {{ request.session.username }} {% endblock %}
 {% block content %}
 <div class="page-header">
@@ -18,33 +19,33 @@
         <div class="row">
             <div class="col-12 col-lg-3 d-flex">
                 <div class="account-nav flex-grow-1">
-                     <h4 class="account-nav__title">Vendor Administration</h4>
+                     <h4 class="account-nav__title">{% trans 'Vendor Administration' %}</h4>
                     <ul>
                         <li class="account-nav__item">
-                            <a href="{% url 'vendor_admin' %}">Dashboard</a>
+                            <a href="{% url 'vendor_admin' %}">{% trans 'Dashboard' %}</a>
                         </li>
                         <li class="account-nav__item">
-                            <a href="{% url 'vendor_orders' %}">Order History</a>
+                            <a href="{% url 'vendor_orders' %}">{% trans 'Order History' %}</a>
                         </li>
                         <li class="account-nav__item">
-                            <a href="{% url 'products' %}">Products</a>
+                            <a href="{% url 'products' %}">{% trans 'Products' %}</a>
                         </li>
                         <li class="account-nav__item">
-                            <a href="{% url 'items' %}">Renting items</a>
+                            <a href="{% url 'items' %}">{% trans 'Renting items' %}</a>
                         </li>
                         <li class="account-nav__item account-nav__item--active">
-                            <a href="{% url 'all_quotation' %}">Quotation Requests</a>
+                            <a href="{% url 'all_quotation' %}">{% trans 'Quotation Requests' %}</a>
                         </li>
                            <li class="account-nav__item ">
-                            <a href="{% url 'working_hours' %}">Working Hours</a>
+                            <a href="{% url 'working_hours' %}">{% trans 'Working Hours' %}</a>
                         </li>
                         {% if vendor.status == 'RUBY' or vendor.status == 'EMERALD' %} 
                         <li class="account-nav__item ">
-                            <a href="{% url 'delivery_cost' %}">Delivery Price</a>
+                            <a href="{% url 'delivery_cost' %}">{% trans 'Delivery Price' %}</a>
                         </li>
                         {% endif %}
                         <li class="account-nav__item ">
-                            <a href="{% url 'logout' %}">Logout</a>
+                            <a href="{% url 'logout' %}">{% trans 'Logout' %}</a>
                         </li>
                     </ul>
                 </div>
@@ -52,7 +53,7 @@
             <div class="col-12 col-lg-9 mt-4 mt-lg-0">
                 <div class="card">
                     <div class="card-header">
-                        <h5>Quotation Requests</h5>
+                        <h5>{% trans 'Quotation Requests' %}</h5>
                         <hr>  
                     </div>
                     <div class="card-divider"></div>
@@ -62,15 +63,15 @@
                             <table>
                                 <thead>
                                     <tr>
-                                        <th>Reference</th>
-                                        <th>Product</th>
-                                        <td>part number</td>
-                                        <th>phone</th>
-                                        <th>Year</th>
-                                        <th>Brand</th>
-                                        <th>Model</th>
-                                        <th>Engine</th>
-                                        <th>Date</th>
+                                        <th>{% trans 'Reference' %}</th>
+                                        <th>{% trans 'Product' %}</th>
+                                        <td>{% trans 'part number' %}</td>
+                                        <th>{% trans 'phone' %}</th>
+                                        <th>{% trans 'Year' %}</th>
+                                        <th>{% trans 'Brand' %}</th>
+                                        <th>{% trans 'Model' %}</th>
+                                        <th>{% trans 'Engine' %}</th>
+                                        <th>{% trans 'Date' %}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -92,7 +93,7 @@
                             {% else %}
                             <table>
                              
-                                    <td>No orders yet.</td>
+                                    <td>{% trans 'No orders yet' %}.</td>
                               
                             </table>
                             {% endif %}

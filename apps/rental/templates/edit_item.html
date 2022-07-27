@@ -1,4 +1,5 @@
 {% extends 'core/base.html' %} 
+{% load i18n %}
 {% block title %} Edit {{item.title}} {% endblock %} 
 {% block content %} 
 <div class="site__body">
@@ -7,48 +8,48 @@
            <div class="col-xl-10 col-lg-6 col-md-8">
                <div class="card flex-grow-1 mb-0 mt-5">
                    <div class="card-body">
-                       <h3 class="title">Edit {{item.title}}</h3>
+                       <h3 class="title">{% trans 'Edit' %} {{item.title}}</h3>
                        <form method="post" action="." enctype="multipart/form-data">
                         {% load widget_tweaks %}
                         {% csrf_token %} 
                         <div class="form-row">
                             <div class="form-group col-md-3">
-                                <label for="">Title</label>
+                                <label for="">{% trans 'Title' %}</label>
                                 {{form.title |add_class:"form-control"}}
                             </div>
                             <div class="form-group col-md-3">
-                                <label for="">Category</label>
+                                <label for="">{% trans 'Category' %}</label>
                                 {{form.category | add_class:"form-control"}}
                             </div>
                             <div class="form-group col-md-3">
-                                <label for="Price">Price</label>
+                                <label for="Price">{% trans 'Price' %}</label>
                                 {{form.price |add_class:"form-control"}}
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-3">
-                                <label for="">Quantity</label>
+                                <label for="">{% trans 'Quantity' %}</label>
                                 {{form.quantity | add_class:"form-control"}}
                             </div>
                             <div class="form-group col-md-6">
-                                <label for="">Image</label>
+                                <label for="">{% trans 'Image' %}</label>
                                 {{form.image | add_class:"form-control"}}
                             </div>
                             <div class="form-group col-md-3">
-                                <label for="">Unit Type</label>
+                                <label for="">{% trans 'Unit Type' %}</label>
                                 {{form.unit | add_class:"form-control"}}
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-6">
-                                <label for="">Description</label>
+                                <label for="">{% trans 'Description' %}</label>
                                 {{form.description | add_class:"form-control"}}
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-3 form-check form-check-inline">
                                 {{form.available | add_class:"form-check-input"}}
-                                <label for="" class="form-check-label">Available</label>
+                                <label for="" class="form-check-label">{% trans 'Available' %}</label>
                             </div>
                         </div><div class="form-row">
                             <div class="form-group col-md-3">
@@ -57,7 +58,7 @@
                      </div>
                         <div class="field">
                             <div class="control">
-                                <button class="button btn btn-primary mt-4">Submit</button>
+                                <button class="button btn btn-primary mt-4">{% trans 'Submit' %}</button>
                             </div>
                         </div>
                     </form>

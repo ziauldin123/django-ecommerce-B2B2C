@@ -1,5 +1,6 @@
 {% extends 'core/base.html' %}
 {% load static %}
+{% load static %}
 {% load get_vendor_order_cost %}
 {% load mathfilters %}
 {% block title %}Delivery price - {{ request.session.username }} {% endblock %}
@@ -22,7 +23,7 @@
         <div class="row">
             <div class="col-12 col-lg-3 d-flex">
                 <div class="account-nav flex-grow-1">
-                    <h4 class="account-nav__title">Vendor Administration</h4>
+                    <h4 class="account-nav__title">{% trans 'Vendor Administration' %}</h4>
                     <ul>
                         <li class="account-nav__item  ">
                             <a href="{% url 'vendor_admin' %}">Dashboard</a>

@@ -2,6 +2,7 @@
 {% load get_vendor_order_cost %}
 {% load mathfilters %}
 {% load static %}
+{% load i18n %}
 {% block title %}Order History - {{ request.session.username }} {% endblock %}
 {% block content %}
 <div class="page-header">
@@ -18,33 +19,33 @@
         <div class="row">
             <div class="col-12 col-lg-3 d-flex">
                 <div class="account-nav flex-grow-1">
-                     <h4 class="account-nav__title">Vendor Administration</h4>
+                     <h4 class="account-nav__title">{% trans 'Vendor Administration' %}</h4>
                     <ul>
                         <li class="account-nav__item">
-                            <a href="{% url 'vendor_admin' %}">Dashboard</a>
+                            <a href="{% url 'vendor_admin' %}">{% trans 'Dashboard' %}</a>
                         </li>
                         <li class="account-nav__item account-nav__item--active">
-                            <a href="{% url 'vendor_orders' %}">Order History</a>
+                            <a href="{% url 'vendor_orders' %}">{% trans 'Order History' %}</a>
                         </li>
                         <li class="account-nav__item">
-                            <a href="{% url 'products' %}">Products</a>
+                            <a href="{% url 'products' %}">{% trans 'Products' %}</a>
                         </li>
                         <li class="account-nav__item">
-                            <a href="{% url 'items' %}">Renting items</a>
+                            <a href="{% url 'items' %}">{% trans 'Renting items' %}</a>
                         </li>
                         <li class="account-nav__item">
-                            <a href="{% url 'all_quotation' %}">Quotation Requests</a>
+                            <a href="{% url 'all_quotation' %}">{% trans 'Quotation Requests' %}</a>
                         </li>
                            <li class="account-nav__item ">
-                            <a href="{% url 'working_hours' %}">Working Hours</a>
+                            <a href="{% url 'working_hours' %}">{% trans 'Working Hours' %}</a>
                         </li>
                         {% if vendor.status == 'RUBY' or vendor.status == 'EMERALD' %} 
                         <li class="account-nav__item ">
-                            <a href="{% url 'delivery_cost' %}">Delivery Price</a>
+                            <a href="{% url 'delivery_cost' %}">{% trans 'Delivery Price' %}</a>
                         </li>
                         {% endif %}
                         <li class="account-nav__item ">
-                            <a href="{% url 'logout' %}">Logout</a>
+                            <a href="{% url 'logout' %}">{% trans 'Logout' %}</a>
                         </li>
                     </ul>
                 </div>
@@ -52,13 +53,13 @@
             <div class="col-12 col-lg-9 mt-4 mt-lg-0">
                 <div class="card">
                     <div class="card-header">
-                        <h5>My Orders</h5>
+                        <h5>{% trans 'My Orders' %}</h5>
                         <hr>
                         {% get_total_balance user as total_balance %}
-                              <strong>My balance: </strong> Rwf {{ total_balance }}<br>
+                              <strong>{% trans 'My balance' %}: </strong> Rwf {{ total_balance }}<br>
 
                         {% get_total_paid_balance user as total_paid_balance %}
-                              <strong>My paid amount: </strong> Rwf {{ total_paid_balance }}
+                              <strong>{% trans 'My paid amount' %}: </strong> Rwf {{ total_paid_balance }}
                              
                     </div>
                     <div class="card-divider"></div>
@@ -68,10 +69,10 @@
                             <table>
                                 <thead>
                                     <tr>
-                                        <th>Order Reference</th>
-                                        <th>Date</th>
-                                        <th>Status</th>
-                                        <th>Amount (Rwf)</th>
+                                        <th>{% trans 'Order Reference' %}</th>
+                                        <th>{% trans 'Date' %}</th>
+                                        <th>{% trans 'Status' %}</th>
+                                        <th>{% trans 'Amount' %} (Rwf)</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -89,7 +90,7 @@
                             {% else %}
                             <table>
                              
-                                    <td>No orders yet.</td>
+                                    <td>{% trans 'No orders yet' %}.</td>
                               
                             </table>
                             {% endif %}

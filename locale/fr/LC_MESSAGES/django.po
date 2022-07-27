@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-07-26 11:30+0200\n"
+"POT-Creation-Date: 2022-07-27 17:47+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,6 +21,7 @@ msgstr ""
 
 #: .\apps\cart\templates\cart\cart.html:25
 #: .\apps\core\templates\core\base.html:1134
+#: .\apps\ordering\templates\shopcart_products.html:62
 msgid "Cart"
 msgstr "Chariot"
 
@@ -28,7 +29,13 @@ msgstr "Chariot"
 #: .\apps\cart\templates\cart\contact.html:190
 #: .\apps\cart\templates\cart\payment.html:60
 #: .\apps\ordering\templates\shopcart_products.html:73
+#: .\apps\product\templates\product\comparing.html:61
 #: .\apps\vendor\templates\customer\order_details.html:56
+#: .\apps\vendor\templates\customer\wishlist.html:49
+#: .\apps\vendor\templates\vendor\add_color_variant.html:31
+#: .\apps\vendor\templates\vendor\add_variant.html:31
+#: .\apps\vendor\templates\vendor\edit_product_variant.html:22
+#: .\apps\vendor\templates\vendor\quotation.html:67
 msgid "Product"
 msgstr "produits"
 
@@ -38,7 +45,16 @@ msgstr "produits"
 #: .\apps\home\templates\product_detail.html:1043
 #: .\apps\home\templates\product_detail.html:1092
 #: .\apps\ordering\templates\shopcart_products.html:75
+#: .\apps\rental\templates\add_item.html:158
+#: .\apps\rental\templates\edit_item.html:31
 #: .\apps\rental\templates\rental\allItems.html:96
+#: .\apps\vendor\templates\vendor\add_color_variant.html:45
+#: .\apps\vendor\templates\vendor\add_product.html:75
+#: .\apps\vendor\templates\vendor\add_variant.html:45
+#: .\apps\vendor\templates\vendor\edit_product.html:33
+#: .\apps\vendor\templates\vendor\edit_product_variant.html:36
+#: .\apps\vendor\templates\vendor\products.html:130
+#: .\apps\vendor\templates\vendor\vendor_order_details.html:113
 msgid "Quantity"
 msgstr "Quantité"
 
@@ -46,13 +62,32 @@ msgstr "Quantité"
 #: .\apps\order\templates\order\email_notify_customer.html:127
 #: .\apps\order\templates\order\email_notify_vendor.html:127
 #: .\apps\ordering\templates\shopcart_products.html:74
+#: .\apps\product\templates\product\category.html:115
+#: .\apps\product\templates\product\comparing.html:636
+#: .\apps\product\templates\product\search.html:105
+#: .\apps\product\templates\product\search.html:501
+#: .\apps\product\templates\product\subcategory.html:116
+#: .\apps\product\templates\product\subsubcategory.html:115
+#: .\apps\rental\templates\add_item.html:114
+#: .\apps\rental\templates\edit_item.html:25
 #: .\apps\rental\templates\rental\allItems.html:95
 #: .\apps\rental\templates\rental\category.html:40
 #: .\apps\vendor\templates\customer\order_details.html:57
+#: .\apps\vendor\templates\customer\wishlist.html:51
+#: .\apps\vendor\templates\vendor\add_color_variant.html:35
+#: .\apps\vendor\templates\vendor\add_product.html:71
+#: .\apps\vendor\templates\vendor\add_variant.html:35
+#: .\apps\vendor\templates\vendor\edit_product.html:29
+#: .\apps\vendor\templates\vendor\edit_product_variant.html:28
+#: .\apps\vendor\templates\vendor\products.html:129
+#: .\apps\vendor\templates\vendor\vendor_order_details.html:112
 msgid "Price"
-msgstr "Tarification"
+msgstr "Prix"
 
 #: .\apps\cart\templates\cart\cart.html:67
+#: .\apps\product\templates\product\comparing.html:795
+#: .\apps\product\templates\product\comparing.html:801
+#: .\apps\vendor\templates\vendor\working_hours.html:71
 #: .\env\Lib\site-packages\nested_admin\nested.py:170
 msgid "Remove"
 msgstr "Retirer"
@@ -85,14 +120,19 @@ msgstr "Nom de famille"
 #: .\apps\core\templates\core\contact.html:39
 #: .\apps\core\templates\core\contact.html:63
 #: .\apps\rental\templates\rental\details.html:103
+#: .\apps\services\templates\become_provider.html:30
 #: .\apps\services\templates\provider.html:281
 #: .\apps\vendor\templates\customer\become_customer.html:31
+#: .\apps\vendor\templates\vendor\become_vendor.html:34
+#: .\apps\vendor\templates\vendor\restore_password.html:21
 #: .\apps\vendor\templates\vendor\vendor.html:27
 msgid "Email"
 msgstr "E-mail"
 
 #: .\apps\cart\templates\cart\contact.html:67
+#: .\apps\services\templates\become_provider.html:47
 #: .\apps\vendor\templates\customer\become_customer.html:44
+#: .\apps\vendor\templates\vendor\become_vendor.html:42
 msgid "Phone"
 msgstr "Téléphoner"
 
@@ -103,27 +143,32 @@ msgstr "Téléphoner"
 #: .\apps\vendor\templates\customer\order_details.html:113
 #: .\apps\vendor\templates\customer\order_details.html:148
 #: .\apps\vendor\templates\vendor\vendor.html:83
+#: .\apps\vendor\templates\vendor\vendor_order_details.html:177
 msgid "Address"
-msgstr "Adresse e-mail"
+msgstr "Adresse"
 
 #: .\apps\cart\templates\cart\contact.html:82
 msgid "Delivery type"
-msgstr "Frais de port"
+msgstr "Type de livraison"
 
 #: .\apps\cart\templates\cart\contact.html:100
 msgid "Delivery address"
-msgstr "Frais de port"
+msgstr "Adresse de livraison"
 
 #: .\apps\cart\templates\cart\contact.html:103
 #: .\apps\rental\templates\rental\details.html:111
 #: .\apps\vendor\templates\customer\become_customer.html:50
 #: .\apps\vendor\templates\customer\order_details.html:132
+#: .\apps\vendor\templates\vendor\become_vendor.html:59
 #: .\apps\vendor\templates\vendor\vendor.html:79
+#: .\apps\vendor\templates\vendor\vendor_admin.html:91
+#: .\apps\vendor\templates\vendor\vendor_order_details.html:204
 msgid "District"
 msgstr "District"
 
 #: .\apps\cart\templates\cart\contact.html:107
 #: .\apps\vendor\templates\customer\become_customer.html:54
+#: .\apps\vendor\templates\vendor\become_vendor.html:63
 msgid "---Select District---"
 msgstr "---Sélectionnez le District---"
 
@@ -131,12 +176,16 @@ msgstr "---Sélectionnez le District---"
 #: .\apps\rental\templates\rental\details.html:116
 #: .\apps\vendor\templates\customer\become_customer.html:63
 #: .\apps\vendor\templates\customer\order_details.html:136
+#: .\apps\vendor\templates\vendor\become_vendor.html:72
 #: .\apps\vendor\templates\vendor\vendor.html:80
+#: .\apps\vendor\templates\vendor\vendor_admin.html:95
+#: .\apps\vendor\templates\vendor\vendor_order_details.html:208
 msgid "Sector"
 msgstr "Secteur"
 
 #: .\apps\cart\templates\cart\contact.html:120
 #: .\apps\vendor\templates\customer\become_customer.html:67
+#: .\apps\vendor\templates\vendor\become_vendor.html:76
 msgid "---Select Sector---"
 msgstr "---Select Secteur---"
 
@@ -144,12 +193,16 @@ msgstr "---Select Secteur---"
 #: .\apps\rental\templates\rental\details.html:121
 #: .\apps\vendor\templates\customer\become_customer.html:73
 #: .\apps\vendor\templates\customer\order_details.html:140
+#: .\apps\vendor\templates\vendor\become_vendor.html:82
 #: .\apps\vendor\templates\vendor\vendor.html:81
+#: .\apps\vendor\templates\vendor\vendor_admin.html:99
+#: .\apps\vendor\templates\vendor\vendor_order_details.html:212
 msgid "Cell"
 msgstr "Cellule"
 
 #: .\apps\cart\templates\cart\contact.html:130
 #: .\apps\vendor\templates\customer\become_customer.html:77
+#: .\apps\vendor\templates\vendor\become_vendor.html:86
 msgid "---Select Cell---"
 msgstr "---Select Cellule---"
 
@@ -157,12 +210,16 @@ msgstr "---Select Cellule---"
 #: .\apps\rental\templates\rental\details.html:126
 #: .\apps\vendor\templates\customer\become_customer.html:83
 #: .\apps\vendor\templates\customer\order_details.html:144
+#: .\apps\vendor\templates\vendor\become_vendor.html:92
 #: .\apps\vendor\templates\vendor\vendor.html:82
+#: .\apps\vendor\templates\vendor\vendor_admin.html:103
+#: .\apps\vendor\templates\vendor\vendor_order_details.html:216
 msgid "Village"
 msgstr "Village"
 
 #: .\apps\cart\templates\cart\contact.html:140
 #: .\apps\vendor\templates\customer\become_customer.html:87
+#: .\apps\vendor\templates\vendor\become_vendor.html:96
 msgid "---Select Village---"
 msgstr "---Select Village---"
 
@@ -181,7 +238,7 @@ msgstr "Frais de port"
 #: .\apps\cart\templates\cart\contact.html:186
 #: .\apps\cart\templates\cart\payment.html:55
 msgid "Your Order"
-msgstr "votre nom"
+msgstr "Votre commande"
 
 #: .\apps\cart\templates\cart\contact.html:191
 #: .\apps\cart\templates\cart\contact.html:265
@@ -192,6 +249,7 @@ msgstr "votre nom"
 #: .\apps\ordering\templates\shopcart_products.html:76
 #: .\apps\ordering\templates\shopcart_products.html:222
 #: .\apps\vendor\templates\customer\order_details.html:58
+#: .\apps\vendor\templates\vendor\vendor_order_details.html:114
 msgid "Total"
 msgstr "Total"
 
@@ -203,19 +261,21 @@ msgid "Subtotal"
 msgstr "Total"
 
 #: .\apps\cart\templates\cart\contact.html:254
+#: .\apps\vendor\templates\vendor\vendor_order_details.html:135
 msgid "Coupon"
 msgstr "Appliquer Coupon"
 
-#: .\apps\cart\templates\cart\payment.html:145
-msgid "Pick up"
-msgstr "Ramasser"
-
+#: .\apps\cart\templates\cart\payment.html:140
 #: .\apps\cart\templates\cart\payment.html:145
 #: .\apps\core\templates\core\about.html:40
 #: .\apps\order\templates\order\email_notify_customer.html:165
 #: .\apps\vendor\templates\customer\order_details.html:87
 msgid "Delivery"
 msgstr "Frais de port"
+
+#: .\apps\cart\templates\cart\payment.html:145
+msgid "Pick up"
+msgstr "Ramasser"
 
 #: .\apps\cart\templates\cart\payment.html:145
 msgid "address"
@@ -244,12 +304,13 @@ msgstr "Selecte méthodes de payement"
 #: .\apps\rental\templates\rental\details.html:97
 #: .\apps\vendor\templates\customer\myaccount.html:50
 #: .\apps\vendor\templates\customer\order_details.html:117
+#: .\apps\vendor\templates\vendor\vendor_order_details.html:187
 msgid "Phone Number"
 msgstr "Numéro de téléphone"
 
 #: .\apps\cart\templates\cart\payment.html:196
 msgid "Confirm Order"
-msgstr "votre nom"
+msgstr "Confirmer la commande"
 
 #: .\apps\cart\templates\cart\payment.html:204
 msgid "This confirmation will not initiate a payment."
@@ -306,7 +367,7 @@ msgstr "Mon compte"
 
 #: .\apps\core\templates\core\about.html:15
 msgid "About"
-msgstr "About"
+msgstr "Sur"
 
 #: .\apps\core\templates\core\about.html:18
 msgid ""
@@ -434,14 +495,18 @@ msgstr "Connectez-vous à votre compte"
 
 #: .\apps\core\templates\core\base.html:739
 #: .\apps\vendor\templates\vendor\login.html:18
+#: .\apps\vendor\templates\vendor\request_restore_password.html:20
 #: .\env\Lib\site-packages\django\db\models\fields\__init__.py:1638
 msgid "Email address"
 msgstr "Adresse e-mail"
 
 #: .\apps\core\templates\core\base.html:745
 #: .\apps\ordering\templates\shopcart_products.html:200
+#: .\apps\services\templates\become_provider.html:62
 #: .\apps\vendor\templates\customer\become_customer.html:98
+#: .\apps\vendor\templates\vendor\become_vendor.html:120
 #: .\apps\vendor\templates\vendor\login.html:24
+#: .\apps\vendor\templates\vendor\restore_password.html:29
 msgid "Password"
 msgstr "Mot de passe"
 
@@ -466,8 +531,14 @@ msgstr "Créer un compte"
 #: .\apps\vendor\templates\customer\myaccount.html:20
 #: .\apps\vendor\templates\customer\order_details.html:23
 #: .\apps\vendor\templates\customer\order_history.html:21
+#: .\apps\vendor\templates\vendor\orders-history.html:25
+#: .\apps\vendor\templates\vendor\products.html:75
+#: .\apps\vendor\templates\vendor\quotation.html:25
+#: .\apps\vendor\templates\vendor\vendor_admin.html:29
+#: .\apps\vendor\templates\vendor\vendor_order_details.html:57
+#: .\apps\vendor\templates\vendor\working_hours.html:27
 msgid "Dashboard"
-msgstr ""
+msgstr "Tableau de bord"
 
 #: .\apps\core\templates\core\base.html:795
 #: .\apps\core\templates\core\base.html:809
@@ -477,18 +548,30 @@ msgstr ""
 #: .\apps\vendor\templates\customer\order_details.html:29
 #: .\apps\vendor\templates\customer\order_history.html:30
 #: .\apps\vendor\templates\customer\order_history.html:41
+#: .\apps\vendor\templates\vendor\orders-history.html:28
+#: .\apps\vendor\templates\vendor\products.html:78
+#: .\apps\vendor\templates\vendor\quotation.html:28
+#: .\apps\vendor\templates\vendor\vendor_admin.html:32
+#: .\apps\vendor\templates\vendor\vendor_order_details.html:60
+#: .\apps\vendor\templates\vendor\working_hours.html:30
 msgid "Order History"
 msgstr "Historique des commandes"
 
 #: .\apps\core\templates\core\base.html:796
 #: .\apps\rental\templates\rental\allItems.html:40
+#: .\apps\vendor\templates\vendor\orders-history.html:31
+#: .\apps\vendor\templates\vendor\products.html:81
+#: .\apps\vendor\templates\vendor\quotation.html:31
+#: .\apps\vendor\templates\vendor\vendor_admin.html:35
+#: .\apps\vendor\templates\vendor\vendor_order_details.html:63
+#: .\apps\vendor\templates\vendor\working_hours.html:33
 msgid "Products"
 msgstr "produits"
 
 #: .\apps\core\templates\core\base.html:797
 #: .\apps\core\templates\core\base.html:808
 msgid "Renting Items"
-msgstr ""
+msgstr "Location d'articles"
 
 #: .\apps\core\templates\core\base.html:798
 msgid "Quotations Request"
@@ -496,11 +579,19 @@ msgstr "Demande de devis"
 
 #: .\apps\core\templates\core\base.html:799
 #: .\apps\rental\templates\rental\allItems.html:49
+#: .\apps\vendor\templates\vendor\orders-history.html:40
+#: .\apps\vendor\templates\vendor\products.html:90
+#: .\apps\vendor\templates\vendor\quotation.html:40
 #: .\apps\vendor\templates\vendor\vendor.html:89
+#: .\apps\vendor\templates\vendor\vendor_admin.html:44
+#: .\apps\vendor\templates\vendor\vendor_order_details.html:69
+#: .\apps\vendor\templates\vendor\working_hours.html:42
+#: .\apps\vendor\templates\vendor\working_hours.html:61
 msgid "Working Hours"
 msgstr "Heures d'ouverture"
 
 #: .\apps\core\templates\core\base.html:801
+#: .\apps\vendor\templates\vendor\vendor_order_details.html:144
 msgid "Delivery Cost"
 msgstr "Frais de port"
 
@@ -523,8 +614,14 @@ msgstr "Mon compte"
 #: .\apps\vendor\templates\customer\myaccount.html:32
 #: .\apps\vendor\templates\customer\order_details.html:32
 #: .\apps\vendor\templates\customer\order_history.html:33
+#: .\apps\vendor\templates\vendor\orders-history.html:48
+#: .\apps\vendor\templates\vendor\products.html:98
+#: .\apps\vendor\templates\vendor\quotation.html:48
+#: .\apps\vendor\templates\vendor\vendor_admin.html:52
+#: .\apps\vendor\templates\vendor\vendor_order_details.html:77
+#: .\apps\vendor\templates\vendor\working_hours.html:50
 msgid "Logout"
-msgstr ""
+msgstr "Se déconnecter"
 
 #: .\apps\core\templates\core\base.html:849
 msgid "Anything we can help you with?"
@@ -534,16 +631,32 @@ msgstr "tout ce que nous pouvons vous aider"
 msgid "You can easily reach us."
 msgstr "Tout ce que nous pouvons vous aider"
 
+#: .\apps\core\templates\core\base.html:856
+#: .\apps\core\templates\core\contact.html:35
+msgid "street"
+msgstr "rue"
+
+#: .\apps\core\templates\core\base.html:870
+msgid "Mon-Fri"
+msgstr "Lun-Ven"
+
+#: .\apps\core\templates\core\base.html:870
+#: .\env\Lib\site-packages\django\utils\dates.py:11
+msgid "Sat"
+msgstr "Sam"
+
 #: .\apps\core\templates\core\base.html:877
 msgid "Information"
 msgstr "Information"
 
 #: .\apps\core\templates\core\base.html:880
 msgid "About Us"
-msgstr "About"
+msgstr "Sur"
 
 #: .\apps\core\templates\core\base.html:888
+#: .\apps\services\templates\become_provider.html:76
 #: .\apps\vendor\templates\customer\become_customer.html:110
+#: .\apps\vendor\templates\vendor\become_vendor.html:140
 msgid "Terms & Conditions"
 msgstr "Conditions dutilisation et informations légales"
 
@@ -564,6 +677,7 @@ msgid "Vendors"
 msgstr "Vendeurs"
 
 #: .\apps\core\templates\core\base.html:913
+#: .\apps\product\templates\product\brands.html:16
 msgid "Brands"
 msgstr "Marques"
 
@@ -584,6 +698,14 @@ msgstr "Bulletin"
 msgid "Deals - Inspiration - Trends - Information"
 msgstr "Offres - Inspiration - Les tendances - Information"
 
+#: .\apps\core\templates\core\base.html:939
+msgid "Copyright"
+msgstr "droits d'auteur"
+
+#: .\apps\core\templates\core\base.html:939
+msgid "or its affiliates"
+msgstr "ou ses filiales"
+
 #: .\apps\core\templates\core\base.html:998
 msgid "Home"
 msgstr "Home"
@@ -594,7 +716,7 @@ msgstr "Catégories"
 
 #: .\apps\core\templates\core\base.html:1221
 msgid "View Cart"
-msgstr ""
+msgstr "Voir le panier"
 
 #: .\apps\core\templates\core\base.html:1222
 msgid "Checkout"
@@ -636,10 +758,6 @@ msgstr "Des offres toute l'année"
 msgid "Our Address"
 msgstr "Adresse e-mail"
 
-#: .\apps\core\templates\core\contact.html:35
-msgid "street"
-msgstr "rue"
-
 #: .\apps\core\templates\core\contact.html:43
 msgid "Opening Hours"
 msgstr "Heures d'ouverture"
@@ -649,6 +767,7 @@ msgid "Monday to Friday"
 msgstr "lundi à vendredi"
 
 #: .\apps\core\templates\core\contact.html:47
+#: .\apps\vendor\templates\vendor\working_hours.html:93
 #: .\env\Lib\site-packages\django\utils\dates.py:7
 msgid "Saturday"
 msgstr "Samedi"
@@ -992,6 +1111,13 @@ msgstr ""
 "Le vendeur ne doit pas partager les informations client telles que les "
 "adresses ou le téléphone numéros avec n'importe quel tiers."
 
+#: .\apps\core\templates\parts\newsletter.html:5
+#: .\apps\vendor\templates\customer\myaccount.html:55
+#: .\apps\vendor\templates\customer\order_details.html:121
+#: .\apps\vendor\templates\vendor\vendor_order_details.html:191
+msgid "Email Address"
+msgstr "Adresse e-mail"
+
 #: .\apps\core\templates\parts\newsletter.html:6
 msgid "Subscribe"
 msgstr "S'abonner"
@@ -1003,6 +1129,9 @@ msgstr "Contactez-nous sur les réseaux sociaux"
 #: .\apps\home\templates\product_detail.html:617
 #: .\apps\home\templates\product_detail.html:1167
 #: .\apps\home\templates\product_detail.html:1690
+#: .\apps\product\templates\product\comparing.html:346
+#: .\apps\product\templates\product\comparing.html:608
+#: .\apps\product\templates\product\parts\list_item.html:138
 #: .\apps\services\templates\provider.html:277
 #: .\apps\services\templates\provider.html:326
 msgid "Reviews"
@@ -1016,6 +1145,8 @@ msgstr "Écrire une Commentaires"
 
 #: .\apps\home\templates\product_detail.html:625
 #: .\apps\home\templates\product_detail.html:917
+#: .\apps\product\templates\product\comparing.html:615
+#: .\apps\vendor\templates\customer\wishlist.html:50
 msgid "Availability"
 msgstr "Disponibilité"
 
@@ -1024,10 +1155,23 @@ msgstr "Disponibilité"
 #: .\apps\home\templates\product_detail.html:635
 #: .\apps\home\templates\product_detail.html:919
 #: .\apps\home\templates\product_detail.html:921
+#: .\apps\vendor\templates\customer\wishlist.html:352
+#: .\apps\vendor\templates\customer\wishlist.html:358
 msgid "Out of Stock"
 msgstr "En rupture de stock"
 
 #: .\apps\home\templates\product_detail.html:639
+#: .\apps\product\templates\product\category.html:185
+#: .\apps\product\templates\product\category.html:477
+#: .\apps\product\templates\product\search.html:124
+#: .\apps\product\templates\product\subcategory.html:190
+#: .\apps\product\templates\product\subcategory.html:484
+#: .\apps\product\templates\product\subsubcategory.html:189
+#: .\apps\product\templates\product\subsubcategory.html:483
+#: .\apps\vendor\templates\vendor\add_product.html:140
+#: .\apps\vendor\templates\vendor\add_product_with_variant.html:32
+#: .\apps\vendor\templates\vendor\edit_product.html:53
+#: .\apps\vendor\templates\vendor\quotation.html:71
 msgid "Brand"
 msgstr "Marques"
 
@@ -1039,6 +1183,15 @@ msgstr "Vendeurs"
 #: .\apps\home\templates\product_detail.html:689
 #: .\apps\home\templates\product_detail.html:771
 #: .\apps\home\templates\product_detail.html:1186
+#: .\apps\product\templates\product\category.html:396
+#: .\apps\product\templates\product\comparing.html:770
+#: .\apps\product\templates\product\search.html:255
+#: .\apps\product\templates\product\subcategory.html:403
+#: .\apps\product\templates\product\subsubcategory.html:402
+#: .\apps\vendor\templates\vendor\add_product.html:144
+#: .\apps\vendor\templates\vendor\add_variant.html:83
+#: .\apps\vendor\templates\vendor\edit_product.html:79
+#: .\apps\vendor\templates\vendor\edit_product_variant.html:77
 msgid "Size"
 msgstr "Taille"
 
@@ -1047,6 +1200,16 @@ msgstr "Taille"
 #: .\apps\home\templates\product_detail.html:856
 #: .\apps\home\templates\product_detail.html:1192
 #: .\apps\home\templates\product_detail.html:1239
+#: .\apps\product\templates\product\category.html:136
+#: .\apps\product\templates\product\comparing.html:686
+#: .\apps\product\templates\product\search.html:384
+#: .\apps\product\templates\product\subcategory.html:137
+#: .\apps\product\templates\product\subsubcategory.html:136
+#: .\apps\vendor\templates\vendor\add_color_variant.html:49
+#: .\apps\vendor\templates\vendor\add_product.html:129
+#: .\apps\vendor\templates\vendor\add_variant.html:59
+#: .\apps\vendor\templates\vendor\edit_product.html:65
+#: .\apps\vendor\templates\vendor\edit_product_variant.html:48
 msgid "Color"
 msgstr "Couleur"
 
@@ -1054,18 +1217,45 @@ msgstr "Couleur"
 #: .\apps\home\templates\product_detail.html:814
 #: .\apps\home\templates\product_detail.html:1198
 #: .\apps\home\templates\product_detail.html:1246
+#: .\apps\product\templates\product\category.html:224
+#: .\apps\product\templates\product\comparing.html:666
+#: .\apps\product\templates\product\search.html:169
+#: .\apps\product\templates\product\subcategory.html:231
+#: .\apps\product\templates\product\subsubcategory.html:230
+#: .\apps\vendor\templates\vendor\add_product.html:125
+#: .\apps\vendor\templates\vendor\add_variant.html:77
+#: .\apps\vendor\templates\vendor\edit_product.html:61
+#: .\apps\vendor\templates\vendor\edit_product_variant.html:73
 msgid "Weight"
 msgstr "Poids"
 
 #: .\apps\home\templates\product_detail.html:792
 #: .\apps\home\templates\product_detail.html:1207
 #: .\apps\home\templates\product_detail.html:1257
+#: .\apps\product\templates\product\category.html:353
+#: .\apps\product\templates\product\comparing.html:728
+#: .\apps\product\templates\product\search.html:341
+#: .\apps\product\templates\product\subcategory.html:360
+#: .\apps\product\templates\product\subsubcategory.html:359
+#: .\apps\vendor\templates\vendor\add_product.html:101
+#: .\apps\vendor\templates\vendor\add_variant.html:73
+#: .\apps\vendor\templates\vendor\edit_product.html:71
+#: .\apps\vendor\templates\vendor\edit_product_variant.html:57
 msgid "Length"
 msgstr "Longueur"
 
 #: .\apps\home\templates\product_detail.html:835
 #: .\apps\home\templates\product_detail.html:1213
 #: .\apps\home\templates\product_detail.html:1265
+#: .\apps\product\templates\product\category.html:267
+#: .\apps\product\templates\product\comparing.html:707
+#: .\apps\product\templates\product\search.html:212
+#: .\apps\product\templates\product\subcategory.html:274
+#: .\apps\product\templates\product\subsubcategory.html:273
+#: .\apps\vendor\templates\vendor\add_product.html:121
+#: .\apps\vendor\templates\vendor\add_variant.html:63
+#: .\apps\vendor\templates\vendor\edit_product.html:57
+#: .\apps\vendor\templates\vendor\edit_product_variant.html:65
 msgid "Width"
 msgstr "Largeur"
 
@@ -1084,6 +1274,10 @@ msgstr "Ajouter au panier"
 
 #: .\apps\home\templates\product_detail.html:1103
 #: .\apps\home\templates\product_detail.html:1105
+#: .\apps\product\templates\product\parts\list_item-frontpage.html:158
+#: .\apps\product\templates\product\parts\list_item-frontpage.html:160
+#: .\apps\product\templates\product\parts\list_item.html:228
+#: .\apps\product\templates\product\parts\list_item.html:230
 msgid "Get quotation"
 msgstr "Obtenir un devis"
 
@@ -1092,16 +1286,25 @@ msgid "Pickup available"
 msgstr "Ramassage disponible"
 
 #: .\apps\home\templates\product_detail.html:1154
+#: .\apps\vendor\templates\vendor\add_product.html:174
+#: .\apps\vendor\templates\vendor\add_product_with_variant.html:62
+#: .\apps\vendor\templates\vendor\edit_product.html:105
 msgid "Free Delivery"
 msgstr "Frais de port"
 
 #: .\apps\home\templates\product_detail.html:1165
+#: .\apps\rental\templates\add_item.html:173
+#: .\apps\rental\templates\edit_item.html:45
+#: .\apps\services\templates\edit-profile.html:27
+#: .\apps\vendor\templates\vendor\add_product.html:158
+#: .\apps\vendor\templates\vendor\add_product_with_variant.html:46
+#: .\apps\vendor\templates\vendor\edit_product.html:89
 msgid "Description"
 msgstr "La description"
 
 #: .\apps\home\templates\product_detail.html:1166
 msgid "Specifications"
-msgstr "Notifications par email"
+msgstr "Caractéristiques"
 
 #: .\apps\home\templates\product_detail.html:1174
 msgid "Product Full Description"
@@ -1124,6 +1327,15 @@ msgstr "Vision"
 
 #: .\apps\home\templates\product_detail.html:1219
 #: .\apps\home\templates\product_detail.html:1273
+#: .\apps\product\templates\product\category.html:310
+#: .\apps\product\templates\product\comparing.html:749
+#: .\apps\product\templates\product\search.html:298
+#: .\apps\product\templates\product\subcategory.html:317
+#: .\apps\product\templates\product\subsubcategory.html:316
+#: .\apps\vendor\templates\vendor\add_product.html:133
+#: .\apps\vendor\templates\vendor\add_variant.html:69
+#: .\apps\vendor\templates\vendor\edit_product.html:75
+#: .\apps\vendor\templates\vendor\edit_product_variant.html:69
 msgid "Height"
 msgstr "Hauteur"
 
@@ -1167,9 +1379,14 @@ msgstr "votre Commentaire"
 msgid "Post Your Review"
 msgstr "Postez votre avis"
 
+#: .\apps\home\templates\product_detail.html:1442
+#: .\apps\services\templates\provider.html:477
+msgid "You must be logged in to post comments"
+msgstr "Vous devez vous identifier pour poster un commentaire"
+
 #: .\apps\home\templates\product_detail.html:1457
 msgid "Related Products"
-msgstr "Produits populaires"
+msgstr "Produits connexes"
 
 #: .\apps\order\templates\order\email_notify_customer.html:102
 msgid "Thank You For Your Order."
@@ -1317,9 +1534,20 @@ msgstr ""
 "n'êtes pas un Sokopark vendeur, veuillez ignorer"
 
 #: .\apps\ordering\templates\shopcart_products.html:72
+#: .\apps\rental\templates\add_item.html:162
+#: .\apps\rental\templates\edit_item.html:35
+#: .\apps\vendor\templates\customer\wishlist.html:48
+#: .\apps\vendor\templates\vendor\add_color_variant.html:55
+#: .\apps\vendor\templates\vendor\add_product.html:93
+#: .\apps\vendor\templates\vendor\add_variant.html:49
+#: .\apps\vendor\templates\vendor\edit_product_variant.html:42
 #: .\env\Lib\site-packages\django\db\models\fields\files.py:375
 msgid "Image"
 msgstr "Image"
+
+#: .\apps\ordering\templates\shopcart_products.html:201
+msgid "Coupon Code"
+msgstr "Code promo"
 
 #: .\apps\ordering\templates\shopcart_products.html:202
 msgid "Apply Coupon"
@@ -1341,7 +1569,257 @@ msgstr "Votre carte est actuellement vide."
 msgid "Start shopping"
 msgstr "Classement par étoiles"
 
+#: .\apps\product\templates\product\category.html:98
+#: .\apps\product\templates\product\category.html:107
+#: .\apps\product\templates\product\search.html:89
+#: .\apps\product\templates\product\search.html:98
+#: .\apps\product\templates\product\search.html:485
+#: .\apps\product\templates\product\search.html:494
+#: .\apps\product\templates\product\subcategory.html:99
+#: .\apps\product\templates\product\subcategory.html:108
+#: .\apps\product\templates\product\subsubcategory.html:98
+#: .\apps\product\templates\product\subsubcategory.html:107
+#: .\apps\rental\templates\rental\category.html:25
+#: .\apps\rental\templates\rental\category.html:34
+#: .\apps\services\templates\service.html:30
+msgid "Filters"
+msgstr "Filtres"
+
+#: .\apps\product\templates\product\category.html:440
+#: .\apps\product\templates\product\search.html:559
+#: .\apps\product\templates\product\subcategory.html:447
+#: .\apps\product\templates\product\subsubcategory.html:446
+#: .\apps\rental\templates\add_item.html:120
+#: .\apps\rental\templates\rental\category.html:326
+#: .\apps\vendor\templates\vendor\add_product.html:107
+#: .\apps\vendor\templates\vendor\quotation.html:70
+msgid "Year"
+msgstr "An"
+
+#: .\apps\product\templates\product\category.html:514
+#: .\apps\product\templates\product\search.html:637
+#: .\apps\product\templates\product\subcategory.html:521
+#: .\apps\product\templates\product\subsubcategory.html:520
+#: .\apps\rental\templates\add_item.html:124
+#: .\apps\rental\templates\rental\category.html:362
+#: .\apps\vendor\templates\vendor\add_product.html:111
+#: .\apps\vendor\templates\vendor\quotation.html:72
+msgid "Model"
+msgstr "Modèle"
+
+#: .\apps\product\templates\product\category.html:551
+#: .\apps\product\templates\product\search.html:676
+#: .\apps\product\templates\product\subcategory.html:558
+#: .\apps\product\templates\product\subsubcategory.html:557
+#: .\apps\rental\templates\add_item.html:128
+#: .\apps\rental\templates\rental\category.html:398
+#: .\apps\vendor\templates\vendor\add_product.html:115
+#: .\apps\vendor\templates\vendor\quotation.html:73
+msgid "Engine"
+msgstr "Moteur"
+
+#: .\apps\product\templates\product\category.html:587
+#: .\apps\product\templates\product\search.html:435
+#: .\apps\product\templates\product\search.html:870
+#: .\apps\product\templates\product\subcategory.html:594
+#: .\apps\product\templates\product\subsubcategory.html:593
+#: .\apps\rental\templates\rental\category.html:480
+#: .\apps\services\templates\service.html:127
+msgid "Filter"
+msgstr "Filtre"
+
+#: .\apps\product\templates\product\category.html:588
+#: .\apps\product\templates\product\search.html:436
+#: .\apps\product\templates\product\search.html:871
+#: .\apps\product\templates\product\subcategory.html:595
+#: .\apps\product\templates\product\subsubcategory.html:594
+#: .\apps\rental\templates\rental\category.html:481
+#: .\apps\services\templates\service.html:128
+msgid "Reset"
+msgstr "Réinitialiser"
+
+#: .\apps\product\templates\product\comparing.html:49
+msgid "Comparison"
+msgstr "Comparaison"
+
+#: .\apps\product\templates\product\comparing.html:88
+msgid "Rating"
+msgstr "Classement par étoiles"
+
+#: .\apps\product\templates\product\comparing.html:619
+#: .\apps\product\templates\product\comparing.html:628
+#: .\apps\vendor\templates\customer\wishlist.html:350
+#: .\apps\vendor\templates\customer\wishlist.html:356
+msgid "In Stock"
+msgstr "En rupture de stock"
+
+#: .\apps\product\templates\product\comparing.html:621
+#: .\apps\product\templates\product\comparing.html:630
+msgid "Out Stock"
+msgstr "En rupture de stock"
+
+#: .\apps\product\templates\product\comparing.html:657
+#: .\apps\product\templates\product\parts\list_item-frontpage.html:166
+#: .\apps\product\templates\product\parts\list_item-frontpage.html:168
+#: .\apps\product\templates\product\parts\list_item.html:236
+#: .\apps\product\templates\product\parts\list_item.html:238
+#: .\apps\vendor\templates\customer\wishlist.html:385
+msgid "Add To Cart"
+msgstr "Ajouter au panier"
+
+#: .\apps\product\templates\product\comparing.html:662
+#: .\apps\product\templates\product\parts\list_item-frontpage.html:152
+#: .\apps\product\templates\product\parts\list_item.html:222
+#: .\apps\vendor\templates\customer\wishlist.html:381
+msgid "View Options"
+msgstr "Voir sur place"
+
+#: .\apps\product\templates\product\comparing.html:813
+msgid "There are no products in your comparison table"
+msgstr "Il n'y a aucun produit dans votre tableau de comparaison"
+
+#: .\apps\product\templates\product\comparing.html:815
+#: .\apps\vendor\templates\customer\wishlist.html:418
+msgid "Return home"
+msgstr ""
+
+#: .\apps\product\templates\product\parts\list_item-frontpage.html:117
+msgid "Review(s)"
+msgstr "Commentaires"
+
+#: .\apps\product\templates\product\search.html:449
+msgid "Search Results - Products"
+msgstr "Résultats de la recherche - Produits"
+
+#: .\apps\product\templates\product\search.html:520
+msgid "Rental Type"
+msgstr "Type de location"
+
+#: .\apps\product\templates\product\search.html:598
+msgid "Makes"
+msgstr "Faire"
+
+#: .\apps\product\templates\product\search.html:715
+#: .\apps\rental\templates\add_item.html:138
+#: .\apps\rental\templates\rental\category.html:214
+msgid "Amenity"
+msgstr "Aménité"
+
+#: .\apps\product\templates\product\search.html:754
+#: .\apps\rental\templates\add_item.html:142
+#: .\apps\rental\templates\rental\category.html:252
+msgid "Application"
+msgstr "spécification"
+
+#: .\apps\product\templates\product\search.html:793
+#: .\apps\rental\templates\add_item.html:152
+#: .\apps\rental\templates\rental\category.html:289
+msgid "Capacity"
+msgstr "Capacité"
+
+#: .\apps\product\templates\product\search.html:833
+#: .\apps\rental\templates\rental\category.html:178
+msgid "Rooms"
+msgstr "Chambre"
+
+#: .\apps\product\templates\product\search.html:884
+msgid "Search Results - Rentals"
+msgstr "Résultats de la recherche - Locations"
+
+#: .\apps\rental\templates\add_item.html:93
+#: .\env\Lib\site-packages\nested_admin\templates\nesting\admin\inlines\grappelli_stacked.html:17
+#: .\env\Lib\site-packages\nested_admin\templates\nesting\admin\inlines\grappelli_stacked.html:97
+#: .\env\Lib\site-packages\nested_admin\templates\nesting\admin\inlines\grappelli_tabular.html:83
+#: .\env\Lib\site-packages\nested_admin\templates\nesting\admin\inlines\polymorphic_grappelli_stacked.html:16
+#: .\env\Lib\site-packages\nested_admin\templates\nesting\admin\inlines\polymorphic_grappelli_stacked.html:94
+msgid "Add Item"
+msgstr "Ajouter un item"
+
+#: .\apps\rental\templates\add_item.html:102
+#: .\apps\rental\templates\edit_item.html:17
+#: .\apps\rental\templates\rental\allItems.html:94
+#: .\apps\vendor\templates\vendor\add_color_variant.html:26
+#: .\apps\vendor\templates\vendor\add_product.html:67
+#: .\apps\vendor\templates\vendor\add_product_with_variant.html:22
+#: .\apps\vendor\templates\vendor\add_variant.html:26
+#: .\apps\vendor\templates\vendor\edit_product.html:23
+#: .\apps\vendor\templates\vendor\edit_product_variant.html:18
+#: .\apps\vendor\templates\vendor\products.html:128
+#: .\apps\vendor\templates\vendor\vendor_order_details.html:111
+msgid "Title"
+msgstr "Titre"
+
+#: .\apps\rental\templates\add_item.html:106
+#: .\apps\rental\templates\edit_item.html:21
+#: .\apps\vendor\templates\vendor\add_product.html:63
+#: .\apps\vendor\templates\vendor\add_product_with_variant.html:18
+#: .\apps\vendor\templates\vendor\edit_product.html:19
+msgid "Category"
+msgstr "Catégorie"
+
+#: .\apps\rental\templates\add_item.html:110
+msgid "Type"
+msgstr "Type d'unité"
+
+#: .\apps\rental\templates\add_item.html:134
+msgid "Room"
+msgstr "Chambre"
+
+#: .\apps\rental\templates\add_item.html:148
+#: .\apps\rental\templates\rental\category.html:139
+#: .\apps\vendor\templates\vendor\add_product.html:97
+msgid "Make"
+msgstr "Faire"
+
+#: .\apps\rental\templates\add_item.html:166
+#: .\apps\rental\templates\edit_item.html:39
+#: .\apps\vendor\templates\vendor\add_product.html:89
+#: .\apps\vendor\templates\vendor\add_variant.html:55
+#: .\apps\vendor\templates\vendor\edit_product.html:41
+msgid "Unit Type"
+msgstr "Type d'unité"
+
+#: .\apps\rental\templates\add_item.html:180
+#: .\apps\rental\templates\edit_item.html:52
+#: .\apps\rental\templates\rental\allItems.html:97
+msgid "Available"
+msgstr "Ramassage disponible"
+
+#: .\apps\rental\templates\add_item.html:184
+#: .\apps\rental\templates\rental\category.html:433
+msgid "Available for Sale"
+msgstr "Disponible à la vente"
+
+#: .\apps\rental\templates\add_item.html:189
+#: .\apps\rental\templates\edit_item.html:61
+#: .\apps\vendor\templates\vendor\add_color_variant.html:61
+#: .\apps\vendor\templates\vendor\add_product.html:180
+#: .\apps\vendor\templates\vendor\add_product_with_variant.html:68
+#: .\apps\vendor\templates\vendor\add_variant.html:95
+msgid "Submit"
+msgstr "Soumettre"
+
+#: .\apps\rental\templates\edit_item.html:11
+#: .\apps\rental\templates\rental\allItems.html:100
+#: .\apps\rental\templates\rental\allItems.html:129
+#: .\apps\services\templates\edit-profile.html:13
+#: .\apps\vendor\templates\vendor\edit_product.html:13
+#: .\apps\vendor\templates\vendor\edit_product_variant.html:12
+#: .\apps\vendor\templates\vendor\products.html:133
+#: .\apps\vendor\templates\vendor\products.html:198
+#: .\apps\vendor\templates\vendor\products.html:202
+#: .\env\Lib\site-packages\django_addanother\templates\django_addanother\related_widget_wrapper.html:10
+msgid "Edit"
+msgstr "Éditer"
+
 #: .\apps\rental\templates\rental\allItems.html:31
+#: .\apps\vendor\templates\vendor\delivery_cost.html:26
+#: .\apps\vendor\templates\vendor\orders-history.html:22
+#: .\apps\vendor\templates\vendor\products.html:72
+#: .\apps\vendor\templates\vendor\quotation.html:22
+#: .\apps\vendor\templates\vendor\vendor_admin.html:26
+#: .\apps\vendor\templates\vendor\vendor_order_details.html:54
+#: .\apps\vendor\templates\vendor\working_hours.html:24
 msgid "Vendor Administration"
 msgstr "Administration des fournisseurs"
 
@@ -1350,14 +1828,32 @@ msgstr "Administration des fournisseurs"
 #: .\apps\vendor\templates\customer\myaccount.html:26
 #: .\apps\vendor\templates\customer\order_details.html:26
 #: .\apps\vendor\templates\customer\order_history.html:27
+#: .\apps\vendor\templates\vendor\orders-history.html:34
+#: .\apps\vendor\templates\vendor\products.html:84
+#: .\apps\vendor\templates\vendor\quotation.html:34
+#: .\apps\vendor\templates\vendor\vendor_admin.html:38
+#: .\apps\vendor\templates\vendor\vendor_order_details.html:66
+#: .\apps\vendor\templates\vendor\working_hours.html:36
 msgid "Renting items"
 msgstr "location d'articles"
 
 #: .\apps\rental\templates\rental\allItems.html:46
+#: .\apps\vendor\templates\vendor\orders-history.html:37
+#: .\apps\vendor\templates\vendor\products.html:87
+#: .\apps\vendor\templates\vendor\quotation.html:37
+#: .\apps\vendor\templates\vendor\quotation.html:56
+#: .\apps\vendor\templates\vendor\vendor_admin.html:41
+#: .\apps\vendor\templates\vendor\working_hours.html:39
 msgid "Quotation Requests"
 msgstr "Demande de devis"
 
 #: .\apps\rental\templates\rental\allItems.html:53
+#: .\apps\vendor\templates\vendor\orders-history.html:44
+#: .\apps\vendor\templates\vendor\products.html:94
+#: .\apps\vendor\templates\vendor\quotation.html:44
+#: .\apps\vendor\templates\vendor\vendor_admin.html:48
+#: .\apps\vendor\templates\vendor\vendor_order_details.html:73
+#: .\apps\vendor\templates\vendor\working_hours.html:46
 msgid "Delivery Price"
 msgstr "Frais de port"
 
@@ -1373,33 +1869,26 @@ msgstr "Ajouter un item"
 msgid "Add Item for Rent"
 msgstr "Ajouter un item"
 
-#: .\apps\rental\templates\rental\allItems.html:94
-msgid "Title"
-msgstr "Titre"
-
-#: .\apps\rental\templates\rental\allItems.html:97
-msgid "Available"
-msgstr "Ramassage disponible"
-
 #: .\apps\rental\templates\rental\allItems.html:98
 #: .\apps\services\templates\myServiceAccount.html:83
 #: .\apps\vendor\templates\customer\myaccount.html:86
 #: .\apps\vendor\templates\customer\order_history.html:51
+#: .\apps\vendor\templates\vendor\orders-history.html:74
+#: .\apps\vendor\templates\vendor\products.html:132
+#: .\apps\vendor\templates\vendor\vendor_admin.html:111
 msgid "Status"
 msgstr "Statut"
 
 #: .\apps\rental\templates\rental\allItems.html:99
+#: .\apps\vendor\templates\vendor\products.html:134
 msgid "Add Images"
 msgstr "Image"
 
-#: .\apps\rental\templates\rental\allItems.html:100
-#: .\apps\rental\templates\rental\allItems.html:129
-#: .\env\Lib\site-packages\django_addanother\templates\django_addanother\related_widget_wrapper.html:10
-msgid "Edit"
-msgstr "Éditer"
-
 #: .\apps\rental\templates\rental\allItems.html:101
 #: .\apps\rental\templates\rental\allItems.html:132
+#: .\apps\vendor\templates\vendor\products.html:135
+#: .\apps\vendor\templates\vendor\products.html:215
+#: .\apps\vendor\templates\vendor\products.html:227
 #: .\env\Lib\site-packages\django\forms\formsets.py:417
 msgid "Delete"
 msgstr "Effacer"
@@ -1421,11 +1910,16 @@ msgid "Reviewed"
 msgstr "Commentaires"
 
 #: .\apps\rental\templates\rental\allItems.html:118
+#: .\apps\vendor\templates\vendor\products.html:184
+#: .\apps\vendor\templates\vendor\products.html:192
 msgid "Under Review"
-msgstr "Commentaires"
+msgstr "À l'étude"
 
 #: .\apps\rental\templates\rental\allItems.html:125
 #: .\apps\services\templates\myServiceAccount.html:62
+#: .\apps\vendor\templates\vendor\products.html:211
+#: .\apps\vendor\templates\vendor\products.html:223
+#: .\apps\vendor\templates\vendor\vendor_admin.html:78
 msgid "Upload"
 msgstr "Télécharger"
 
@@ -1433,11 +1927,13 @@ msgstr "Télécharger"
 msgid "No Item yet"
 msgstr "Types d'articles"
 
-#: .\apps\rental\templates\rental\category.html:25
-#: .\apps\rental\templates\rental\category.html:34
-#: .\apps\services\templates\service.html:30
-msgid "Filters"
-msgstr "Filtres"
+#: .\apps\rental\templates\rental\application_form.html:5
+msgid "Add new Application"
+msgstr "Ajouter un spécification"
+
+#: .\apps\rental\templates\rental\capacity_form.html:5
+msgid "Add Capacity"
+msgstr "Ajouter un Capacité"
 
 #: .\apps\rental\templates\rental\category.html:62
 msgid "Item Types"
@@ -1448,52 +1944,125 @@ msgstr "Types d'articles"
 msgid "Location"
 msgstr "Information"
 
-#: .\apps\rental\templates\rental\category.html:139
-msgid "Make"
-msgstr "Faire"
-
-#: .\apps\rental\templates\rental\category.html:178
-msgid "Rooms"
-msgstr "Chambre"
-
-#: .\apps\rental\templates\rental\category.html:214
-msgid "Amenity"
-msgstr "Aménité"
-
-#: .\apps\rental\templates\rental\category.html:252
-msgid "Application"
-msgstr "spécification"
-
-#: .\apps\rental\templates\rental\category.html:289
-msgid "Capacity"
-msgstr "Capacité"
-
-#: .\apps\rental\templates\rental\category.html:326
-msgid "Year"
-msgstr "Ans"
-
-#: .\apps\rental\templates\rental\category.html:362
-msgid "Model"
-msgstr "Modèle"
-
-#: .\apps\rental\templates\rental\category.html:398
-msgid "Engine"
-msgstr "Moteur"
-
-#: .\apps\rental\templates\rental\category.html:433
-msgid "Available for Sale"
-msgstr "Disponible à la vente"
-
+#: .\apps\rental\templates\rental\category.html:506
 #: .\apps\rental\templates\rental\details.html:38
 #: .\apps\services\templates\myServiceAccount.html:84
 msgid "Unavailable"
 msgstr "Ramassage disponible"
+
+#: .\apps\rental\templates\rental\engine_form.html:5
+msgid "Add Engine"
+msgstr "Ajouter un Moteur"
+
+#: .\apps\rental\templates\rental\item_model_form.html:5
+msgid "Add Model"
+msgstr "Ajouter un modèle"
+
+#: .\apps\rental\templates\rental\make_form.html:5
+msgid "Add new Make"
+msgstr "Ajouter une nouvelle marque"
+
+#: .\apps\rental\templates\rental\room_form.html:5
+msgid "Add Rooms Number"
+msgstr "Ajoutez vos numéros TIN"
+
+#: .\apps\rental\templates\rental\year_form.html:5
+msgid "Add Year"
+msgstr "Ajouter un An"
+
+#: .\apps\services\templates\become_provider.html:13
+msgid "Set up a Service account"
+msgstr "Configurer un compte de service"
+
+#: .\apps\services\templates\become_provider.html:24
+#: .\apps\vendor\templates\customer\order_details.html:109
+msgid "Name"
+msgstr "Nom:"
+
+#: .\apps\services\templates\become_provider.html:36
+msgid "Service"
+msgstr "Servise"
+
+#: .\apps\services\templates\become_provider.html:53
+msgid "Account type"
+msgstr "Type de compte"
+
+#: .\apps\services\templates\become_provider.html:56
+msgid "individual"
+msgstr "individuel"
+
+#: .\apps\services\templates\become_provider.html:57
+msgid "company"
+msgstr "Compagnie"
+
+#: .\apps\services\templates\become_provider.html:68
+#: .\apps\vendor\templates\customer\become_customer.html:102
+#: .\apps\vendor\templates\vendor\become_vendor.html:128
+msgid "Confirm Password"
+msgstr "Confirmez le mot de passe"
+
+#: .\apps\services\templates\become_provider.html:76
+#: .\apps\vendor\templates\customer\become_customer.html:110
+#: .\apps\vendor\templates\vendor\become_vendor.html:140
+msgid "I agree to"
+msgstr "Je suis d'accord pour"
+
+#: .\apps\services\templates\become_provider.html:110
+#: .\apps\vendor\templates\vendor\become_vendor.html:176
+msgid "Sign up"
+msgstr "S'inscrire"
+
+#: .\apps\services\templates\become_provider.html:114
+#: .\apps\vendor\templates\customer\become_customer.html:119
+#: .\apps\vendor\templates\vendor\become_vendor.html:181
+msgid "Already have account"
+msgstr "Avoir déjà un compte"
+
+#: .\apps\services\templates\become_provider.html:114
+#: .\apps\vendor\templates\customer\become_customer.html:119
+#: .\apps\vendor\templates\vendor\become_vendor.html:181
+msgid "Sign in here"
+msgstr "Se connecter ici"
+
+#: .\apps\services\templates\become_provider.html:115
+#: .\apps\vendor\templates\customer\become_customer.html:120
+msgid "Register as vendor"
+msgstr "S'inscrire en tant que vendeur"
+
+#: .\apps\services\templates\become_provider.html:115
+#: .\apps\services\templates\become_provider.html:116
+#: .\apps\vendor\templates\customer\become_customer.html:120
+#: .\apps\vendor\templates\customer\become_customer.html:121
+#: .\apps\vendor\templates\vendor\become_vendor.html:182
+#: .\apps\vendor\templates\vendor\become_vendor.html:183
+#: .\apps\vendor\templates\vendor\login.html:53
+#: .\apps\vendor\templates\vendor\login.html:54
+#: .\apps\vendor\templates\vendor\login.html:55
+msgid "Register here"
+msgstr "Inscrivez-vous ici"
+
+#: .\apps\services\templates\become_provider.html:116
+msgid "Register as Customer"
+msgstr "S'inscrire en tant que client"
+
+#: .\apps\services\templates\edit-profile.html:13
+msgid " Profile"
+msgstr " profil"
+
+#: .\apps\services\templates\edit-profile.html:35
+#: .\apps\vendor\templates\vendor\edit_product.html:116
+#: .\apps\vendor\templates\vendor\edit_product_variant.html:89
+#: .\apps\vendor\templates\vendor\edit_productimage.html:29
+msgid "Save changes"
+msgstr "Sauvegarder les modifications"
 
 #: .\apps\services\templates\myServiceAccount.html:24
 msgid "Service Account"
 msgstr "Mon compte"
 
 #: .\apps\services\templates\myServiceAccount.html:40
+#: .\apps\vendor\templates\vendor\products.html:182
+#: .\apps\vendor\templates\vendor\products.html:190
 msgid "Active"
 msgstr "Actif"
 
@@ -1506,6 +2075,7 @@ msgid "Add profile image"
 msgstr "Ajouter une image de profil"
 
 #: .\apps\services\templates\myServiceAccount.html:67
+#: .\apps\vendor\templates\vendor\vendor_admin.html:83
 msgid "Basic Info"
 msgstr "Informations de base"
 
@@ -1528,7 +2098,7 @@ msgstr "Ajouter une petite description sur vous-même"
 
 #: .\apps\services\templates\provider.html:17
 msgid "Service Provider"
-msgstr "S'inscrire en tant que fournisseur de services"
+msgstr "Fournisseur de services"
 
 #: .\apps\services\templates\provider.html:23
 #: .\apps\services\templates\service.html:56
@@ -1540,9 +2110,9 @@ msgstr "Classement par étoiles"
 msgid "Phone number"
 msgstr "Numéro de téléphone"
 
-#: .\apps\services\templates\provider.html:477
-msgid "You must be logged in to post comments"
-msgstr "Vous devez vous identifier pour poster un commentaire"
+#: .\apps\services\templates\provider.html:466
+msgid "Your Subject"
+msgstr "Votre sujet"
 
 #: .\apps\services\templates\service.html:36
 msgid "Price / Daily rate"
@@ -1551,14 +2121,6 @@ msgstr "Prix ​​/ Tarif journalier"
 #: .\apps\services\templates\service.html:93
 msgid "Experience in years"
 msgstr "Expérience en années"
-
-#: .\apps\services\templates\service.html:127
-msgid "Filter"
-msgstr "Filtre"
-
-#: .\apps\services\templates\service.html:128
-msgid "Reset"
-msgstr "Réinitialiser"
 
 #: .\apps\vendor\templates\customer\become_customer.html:13
 msgid "Set up a Customer account"
@@ -1572,51 +2134,20 @@ msgstr "Prénom"
 msgid "TIN (optional)"
 msgstr "TIN (optionnel)"
 
-#: .\apps\vendor\templates\customer\become_customer.html:102
-msgid "Confirm Password"
-msgstr "votre nom"
-
-#: .\apps\vendor\templates\customer\become_customer.html:110
-msgid "I agree to"
-msgstr "Je suis d'accord pour"
-
 #: .\apps\vendor\templates\customer\become_customer.html:115
 msgid "Register"
 msgstr "S'inscrire"
 
-#: .\apps\vendor\templates\customer\become_customer.html:119
-msgid "Already have account"
-msgstr "Avoir déjà un compte"
-
-#: .\apps\vendor\templates\customer\become_customer.html:119
-msgid "Sign in here"
-msgstr "Se connecter ici"
-
-#: .\apps\vendor\templates\customer\become_customer.html:120
-msgid "Register as vendor"
-msgstr "S'inscrire en tant que vendeur"
-
-#: .\apps\vendor\templates\customer\become_customer.html:120
 #: .\apps\vendor\templates\customer\become_customer.html:121
-#: .\apps\vendor\templates\vendor\login.html:53
-#: .\apps\vendor\templates\vendor\login.html:54
-#: .\apps\vendor\templates\vendor\login.html:55
-msgid "Register here"
-msgstr "Inscrivez-vous ici"
-
-#: .\apps\vendor\templates\customer\become_customer.html:121
+#: .\apps\vendor\templates\vendor\become_vendor.html:183
 msgid "Register as Service Provider"
 msgstr "S'inscrire en tant que fournisseur de services"
 
 #: .\apps\vendor\templates\customer\myaccount.html:47
 #: .\apps\vendor\templates\customer\order_details.html:107
+#: .\apps\vendor\templates\vendor\vendor_order_details.html:170
 msgid "Billing Address"
 msgstr "Détails de la facturation"
-
-#: .\apps\vendor\templates\customer\myaccount.html:55
-#: .\apps\vendor\templates\customer\order_details.html:121
-msgid "Email Address"
-msgstr "Adresse e-mail"
 
 #: .\apps\vendor\templates\customer\myaccount.html:76
 msgid "Recent Orders"
@@ -1625,6 +2156,8 @@ msgstr "Dernières commandes"
 #: .\apps\vendor\templates\customer\myaccount.html:84
 #: .\apps\vendor\templates\customer\order_details.html:43
 #: .\apps\vendor\templates\customer\order_history.html:49
+#: .\apps\vendor\templates\vendor\orders-history.html:72
+#: .\apps\vendor\templates\vendor\vendor_order_details.html:88
 msgid "Order Reference"
 msgstr "Référence de l'achat:"
 
@@ -1635,32 +2168,131 @@ msgstr "Date et heure de la commande :"
 
 #: .\apps\vendor\templates\customer\myaccount.html:87
 #: .\apps\vendor\templates\customer\order_history.html:52
+#: .\apps\vendor\templates\vendor\orders-history.html:75
 msgid "Amount"
 msgstr "Montant:"
 
 #: .\apps\vendor\templates\customer\order_details.html:41
+#: .\apps\vendor\templates\vendor\vendor_order_details.html:86
 msgid "Back to list"
 msgstr "Retour à la liste"
 
 #: .\apps\vendor\templates\customer\order_details.html:45
+#: .\apps\vendor\templates\vendor\vendor_order_details.html:90
 msgid "Was placed on"
 msgstr "A été placé sur"
 
 #: .\apps\vendor\templates\customer\order_details.html:46
+#: .\apps\vendor\templates\vendor\vendor_order_details.html:91
 msgid "and is"
 msgstr "et est"
 
 #: .\apps\vendor\templates\customer\order_details.html:95
+#: .\apps\vendor\templates\vendor\vendor_order_details.html:153
 msgid "Grand Total"
 msgstr "Total"
 
-#: .\apps\vendor\templates\customer\order_details.html:109
-msgid "Name"
-msgstr "Nom:"
-
 #: .\apps\vendor\templates\customer\order_details.html:130
+#: .\apps\vendor\templates\vendor\vendor_order_details.html:202
 msgid "Shipping Address"
 msgstr "Détails de la facturation"
+
+#: .\apps\vendor\templates\customer\wishlist.html:37
+msgid "Wishlist"
+msgstr "Liste de souhaits"
+
+#: .\apps\vendor\templates\customer\wishlist.html:416
+msgid "There are no products in your wishlist"
+msgstr "Il n'y a aucun produit dans votre liste de souhaits"
+
+#: .\apps\vendor\templates\vendor\add_color_variant.html:20
+#: .\apps\vendor\templates\vendor\add_variant.html:20
+msgid "Add product variant"
+msgstr "Ajouter des variantes de produit"
+
+#: .\apps\vendor\templates\vendor\add_color_variant.html:41
+#: .\apps\vendor\templates\vendor\add_product.html:85
+#: .\apps\vendor\templates\vendor\add_variant.html:41
+#: .\apps\vendor\templates\vendor\edit_product.html:37
+#: .\apps\vendor\templates\vendor\edit_product_variant.html:32
+#: .\apps\vendor\templates\vendor\products.html:131
+msgid "Discount"
+msgstr "réduction"
+
+#: .\apps\vendor\templates\vendor\add_product.html:53
+#: .\apps\vendor\templates\vendor\add_product_with_variant.html:12
+msgid "Add a product"
+msgstr "Ajouter un produit"
+
+#: .\apps\vendor\templates\vendor\add_product.html:59
+msgid "Spare Parts"
+msgstr "Pièces de rechange"
+
+#: .\apps\vendor\templates\vendor\add_product.html:79
+msgid "Spare Numbers"
+msgstr "Numéros de réserve"
+
+#: .\apps\vendor\templates\vendor\add_product.html:148
+#: .\apps\vendor\templates\vendor\add_product_with_variant.html:36
+msgid "Keywords"
+msgstr ""
+
+#: .\apps\vendor\templates\vendor\add_product.html:154
+#: .\apps\vendor\templates\vendor\add_product_with_variant.html:42
+#: .\apps\vendor\templates\vendor\edit_product.html:85
+msgid "Summary"
+msgstr "Sommaire"
+
+#: .\apps\vendor\templates\vendor\add_product.html:165
+#: .\apps\vendor\templates\vendor\add_product_with_variant.html:53
+msgid "VAT Applicable"
+msgstr "TVA applicable"
+
+#: .\apps\vendor\templates\vendor\add_product.html:170
+#: .\apps\vendor\templates\vendor\add_product_with_variant.html:58
+#: .\apps\vendor\templates\vendor\edit_product.html:101
+msgid "Pickup Available"
+msgstr "Ramassage disponible"
+
+#: .\apps\vendor\templates\vendor\add_product_with_variant.html:26
+msgid "Variant"
+msgstr "variante"
+
+#: .\apps\vendor\templates\vendor\add_variant.html:90
+msgid "Has Adjacent Colors"
+msgstr "A des couleurs adjacentes"
+
+#: .\apps\vendor\templates\vendor\become_vendor.html:13
+msgid "Set up a vendor account"
+msgstr "Configurer un compte vendeur"
+
+#: .\apps\vendor\templates\vendor\become_vendor.html:26
+msgid "Company Name"
+msgstr "Compagnie Nom"
+
+#: .\apps\vendor\templates\vendor\become_vendor.html:101
+msgid "Street No & House No"
+msgstr "Numéro de rue et numéro de maison"
+
+#: .\apps\vendor\templates\vendor\become_vendor.html:111
+msgid "Upload Company Registration"
+msgstr "Télécharger l'enregistrement de l'entreprise"
+
+#: .\apps\vendor\templates\vendor\become_vendor.html:182
+msgid "Register as customer"
+msgstr "S'inscrire en tant que client"
+
+#: .\apps\vendor\templates\vendor\edit_product.html:96
+msgid "VAT Apllicable"
+msgstr "TVA applicable"
+
+#: .\apps\vendor\templates\vendor\edit_product_variant.html:53
+msgid "Unit Types"
+msgstr "Type d'unité"
+
+#: .\apps\vendor\templates\vendor\edit_productimage.html:6
+msgid "Add or Edit Product Images"
+msgstr "Ajouter ou modifier des images de produits"
 
 #: .\apps\vendor\templates\vendor\login.html:29
 msgid "Forgot your password?"
@@ -1678,6 +2310,95 @@ msgstr "S'inscrire en tant que vendeur"
 msgid "Register as a Service provider"
 msgstr "S'inscrire en tant que fournisseur de services"
 
+#: .\apps\vendor\templates\vendor\orders-history.html:56
+msgid "My Orders"
+msgstr "Mes commandes"
+
+#: .\apps\vendor\templates\vendor\orders-history.html:59
+msgid "My balance"
+msgstr "Mon solde"
+
+#: .\apps\vendor\templates\vendor\orders-history.html:62
+msgid "My paid amount"
+msgstr "Mon montant payé"
+
+#: .\apps\vendor\templates\vendor\orders-history.html:73
+#: .\apps\vendor\templates\vendor\quotation.html:74
+msgid "Date"
+msgstr "Date"
+
+#: .\apps\vendor\templates\vendor\orders-history.html:93
+#: .\apps\vendor\templates\vendor\quotation.html:96
+msgid "No orders yet"
+msgstr "Pas encore de commandes"
+
+#: .\apps\vendor\templates\vendor\products.html:108
+#, fuzzy
+#| msgid "products"
+msgid "My products"
+msgstr "produits"
+
+#: .\apps\vendor\templates\vendor\products.html:110
+msgid "Add product"
+msgstr "Ajouter un produit"
+
+#: .\apps\vendor\templates\vendor\products.html:111
+msgid "Add product with Variant"
+msgstr "Ajouter un produit avec une variante"
+
+#: .\apps\vendor\templates\vendor\products.html:112
+msgid "Add product Variants"
+msgstr "Ajouter des variantes de produit"
+
+#: .\apps\vendor\templates\vendor\products.html:113
+msgid "Add product Colors Variants"
+msgstr "Ajouter un produit Variantes de couleurs"
+
+#: .\apps\vendor\templates\vendor\products.html:116
+msgid ""
+"You cannot add more products. Kindly contact your account manager to "
+"increase your limit"
+msgstr ""
+"Vous ne pouvez pas ajouter plus de produits. Veuillez contacter votre "
+"responsable de compte pour augmenter votre limite"
+
+#: .\apps\vendor\templates\vendor\products.html:236
+msgid "No products yet"
+msgstr "Pas encore de commandes"
+
+#: .\apps\vendor\templates\vendor\quotation.html:66
+msgid "Reference"
+msgstr "Référence"
+
+#: .\apps\vendor\templates\vendor\quotation.html:68
+msgid "part number"
+msgstr "Numéro d'article"
+
+#: .\apps\vendor\templates\vendor\quotation.html:69
+msgid "phone"
+msgstr "Téléphoner"
+
+#: .\apps\vendor\templates\vendor\request_restore_password.html:14
+#: .\apps\vendor\templates\vendor\restore_password.html:14
+msgid "Restore Password"
+msgstr "Restaurer le mot de passe"
+
+#: .\apps\vendor\templates\vendor\request_restore_password.html:26
+msgid "Send Request"
+msgstr "Envoyer une demande"
+
+#: .\apps\vendor\templates\vendor\restore_password.html:37
+#, fuzzy
+#| msgid "Confirm Password"
+msgid "Confirm password"
+msgstr "Confirmez le mot de passe"
+
+#: .\apps\vendor\templates\vendor\restore_password.html:46
+#, fuzzy
+#| msgid "Restore Password"
+msgid "Save new password"
+msgstr "Restaurer le mot de passe"
+
 #: .\apps\vendor\templates\vendor\vendor.html:21
 msgid "Company"
 msgstr "Compagnie"
@@ -1685,6 +2406,80 @@ msgstr "Compagnie"
 #: .\apps\vendor\templates\vendor\vendor.html:40
 msgid "TIN"
 msgstr "TIN"
+
+#: .\apps\vendor\templates\vendor\vendor_admin.html:76
+msgid "Add company logo"
+msgstr "Ajouter le logo de l'entreprise"
+
+#: .\apps\vendor\templates\vendor\vendor_admin.html:107
+msgid "Street | Building"
+msgstr "Rue | Imeuble"
+
+#: .\apps\vendor\templates\vendor\vendor_order_details.html:97
+msgid "Shipped"
+msgstr "Expédié"
+
+#: .\apps\vendor\templates\vendor\vendor_order_details.html:115
+msgid "Paid"
+msgstr "Payé"
+
+#: .\apps\vendor\templates\vendor\vendor_order_details.html:173
+msgid "Customer"
+msgstr "Client"
+
+#: .\apps\vendor\templates\vendor\vendor_order_details.html:220
+msgid "Street | House | Building"
+msgstr "Rue | Maison | Imeuble"
+
+#: .\apps\vendor\templates\vendor\working_hours.html:65
+msgid "Opening hours are not defined yet"
+msgstr "Les heures d'ouverture ne sont pas encore définies"
+
+#: .\apps\vendor\templates\vendor\working_hours.html:81
+msgid "Days"
+msgstr "Journées"
+
+#: .\apps\vendor\templates\vendor\working_hours.html:83
+#: .\env\Lib\site-packages\django\utils\dates.py:6
+msgid "Monday"
+msgstr "Lundi"
+
+#: .\apps\vendor\templates\vendor\working_hours.html:85
+#: .\env\Lib\site-packages\django\utils\dates.py:6
+msgid "Tuesday"
+msgstr ""
+
+#: .\apps\vendor\templates\vendor\working_hours.html:87
+#: .\env\Lib\site-packages\django\utils\dates.py:6
+msgid "Wednesday"
+msgstr "Mercredi"
+
+#: .\apps\vendor\templates\vendor\working_hours.html:89
+#: .\env\Lib\site-packages\django\utils\dates.py:6
+msgid "Thursday"
+msgstr "Jeudi"
+
+#: .\apps\vendor\templates\vendor\working_hours.html:91
+#: .\env\Lib\site-packages\django\utils\dates.py:6
+msgid "Friday"
+msgstr "Vendredi"
+
+#: .\apps\vendor\templates\vendor\working_hours.html:95
+#: .\env\Lib\site-packages\django\utils\dates.py:7
+msgid "Sunday"
+msgstr "Dimanche"
+
+#: .\apps\vendor\templates\vendor\working_hours.html:100
+msgid "From"
+msgstr "De"
+
+#: .\apps\vendor\templates\vendor\working_hours.html:104
+msgid "To"
+msgstr "À"
+
+#: .\apps\vendor\templates\vendor\working_hours.html:110
+msgid "Add Hours"
+msgstr "Ajouter des heures"
 
 #: .\env\Lib\site-packages\bootstrap4\components.py:17
 #: .\env\Lib\site-packages\bootstrap4\templates\bootstrap4\form_errors.html:3
@@ -2425,153 +3220,125 @@ msgstr ""
 msgid "noon"
 msgstr ""
 
-#: .\env\Lib\site-packages\django\utils\dates.py:6
-msgid "Monday"
-msgstr "Lundi"
-
-#: .\env\Lib\site-packages\django\utils\dates.py:6
-msgid "Tuesday"
-msgstr ""
-
-#: .\env\Lib\site-packages\django\utils\dates.py:6
-msgid "Wednesday"
-msgstr "Mercredi"
-
-#: .\env\Lib\site-packages\django\utils\dates.py:6
-msgid "Thursday"
-msgstr "Jeudi"
-
-#: .\env\Lib\site-packages\django\utils\dates.py:6
-msgid "Friday"
-msgstr "Vendredi"
-
-#: .\env\Lib\site-packages\django\utils\dates.py:7
-msgid "Sunday"
-msgstr "Dimanche"
-
 #: .\env\Lib\site-packages\django\utils\dates.py:10
 msgid "Mon"
-msgstr ""
+msgstr "Lun"
 
 #: .\env\Lib\site-packages\django\utils\dates.py:10
 msgid "Tue"
-msgstr ""
+msgstr "Mar"
 
 #: .\env\Lib\site-packages\django\utils\dates.py:10
 msgid "Wed"
-msgstr ""
+msgstr "Merc"
 
 #: .\env\Lib\site-packages\django\utils\dates.py:10
 msgid "Thu"
-msgstr ""
+msgstr "Ju"
 
 #: .\env\Lib\site-packages\django\utils\dates.py:10
 msgid "Fri"
-msgstr ""
-
-#: .\env\Lib\site-packages\django\utils\dates.py:11
-msgid "Sat"
-msgstr ""
+msgstr "Ven"
 
 #: .\env\Lib\site-packages\django\utils\dates.py:11
 msgid "Sun"
-msgstr ""
+msgstr "Dim"
 
 #: .\env\Lib\site-packages\django\utils\dates.py:14
 msgid "January"
-msgstr ""
+msgstr "Janvier"
 
 #: .\env\Lib\site-packages\django\utils\dates.py:14
 msgid "February"
-msgstr ""
+msgstr "Février"
 
 #: .\env\Lib\site-packages\django\utils\dates.py:14
 msgid "March"
-msgstr ""
+msgstr "Mars"
 
 #: .\env\Lib\site-packages\django\utils\dates.py:14
 msgid "April"
-msgstr ""
+msgstr "Avril"
 
 #: .\env\Lib\site-packages\django\utils\dates.py:14
 msgid "May"
-msgstr ""
+msgstr "Mai"
 
 #: .\env\Lib\site-packages\django\utils\dates.py:14
 msgid "June"
-msgstr ""
+msgstr "Juin"
 
 #: .\env\Lib\site-packages\django\utils\dates.py:15
 msgid "July"
-msgstr ""
+msgstr "Juillet"
 
 #: .\env\Lib\site-packages\django\utils\dates.py:15
 msgid "August"
-msgstr ""
+msgstr "Août"
 
 #: .\env\Lib\site-packages\django\utils\dates.py:15
 msgid "September"
-msgstr ""
+msgstr "Septembre"
 
 #: .\env\Lib\site-packages\django\utils\dates.py:15
 msgid "October"
-msgstr ""
+msgstr "Octobre"
 
 #: .\env\Lib\site-packages\django\utils\dates.py:15
 msgid "November"
-msgstr ""
+msgstr "Novembre"
 
 #: .\env\Lib\site-packages\django\utils\dates.py:16
 msgid "December"
-msgstr ""
+msgstr "Décembre"
 
 #: .\env\Lib\site-packages\django\utils\dates.py:19
 msgid "jan"
-msgstr ""
+msgstr "Janv"
 
 #: .\env\Lib\site-packages\django\utils\dates.py:19
 msgid "feb"
-msgstr ""
+msgstr "Fév"
 
 #: .\env\Lib\site-packages\django\utils\dates.py:19
 msgid "mar"
-msgstr ""
+msgstr "Mar"
 
 #: .\env\Lib\site-packages\django\utils\dates.py:19
 msgid "apr"
-msgstr ""
+msgstr "Avr"
 
 #: .\env\Lib\site-packages\django\utils\dates.py:19
 msgid "may"
-msgstr ""
+msgstr "Mai"
 
 #: .\env\Lib\site-packages\django\utils\dates.py:19
 msgid "jun"
-msgstr ""
+msgstr "Jui"
 
 #: .\env\Lib\site-packages\django\utils\dates.py:20
 msgid "jul"
-msgstr ""
+msgstr "Juil"
 
 #: .\env\Lib\site-packages\django\utils\dates.py:20
 msgid "aug"
-msgstr ""
+msgstr "Aoû"
 
 #: .\env\Lib\site-packages\django\utils\dates.py:20
 msgid "sep"
-msgstr ""
+msgstr "Sept"
 
 #: .\env\Lib\site-packages\django\utils\dates.py:20
 msgid "oct"
-msgstr ""
+msgstr "Oct"
 
 #: .\env\Lib\site-packages\django\utils\dates.py:20
 msgid "nov"
-msgstr ""
+msgstr "Nov"
 
 #: .\env\Lib\site-packages\django\utils\dates.py:20
 msgid "dec"
-msgstr ""
+msgstr "Dec"
 
 #: .\env\Lib\site-packages\django\utils\dates.py:23
 msgctxt "abbrev. month"
@@ -2970,14 +3737,6 @@ msgstr ""
 msgid "Close All Items"
 msgstr ""
 
-#: .\env\Lib\site-packages\nested_admin\templates\nesting\admin\inlines\grappelli_stacked.html:17
-#: .\env\Lib\site-packages\nested_admin\templates\nesting\admin\inlines\grappelli_stacked.html:97
-#: .\env\Lib\site-packages\nested_admin\templates\nesting\admin\inlines\grappelli_tabular.html:83
-#: .\env\Lib\site-packages\nested_admin\templates\nesting\admin\inlines\polymorphic_grappelli_stacked.html:16
-#: .\env\Lib\site-packages\nested_admin\templates\nesting\admin\inlines\polymorphic_grappelli_stacked.html:94
-msgid "Add Item"
-msgstr "Ajouter un item"
-
 #: .\env\Lib\site-packages\nested_admin\templates\nesting\admin\inlines\grappelli_stacked.html:46
 #: .\env\Lib\site-packages\nested_admin\templates\nesting\admin\inlines\polymorphic_grappelli_stacked.html:40
 #: .\env\Lib\site-packages\nested_admin\templates\nesting\admin\inlines\polymorphic_stacked.html:36
@@ -2998,6 +3757,10 @@ msgstr "Voir"
 #: .\env\Lib\site-packages\nested_admin\templates\nesting\admin\inlines\tabular.html:33
 msgid "Delete?"
 msgstr "Effacer"
+
+#: .\main\urls.py:46
+msgid "admin/"
+msgstr "administrateur/"
 
 #~ msgid "About Sokopark"
 #~ msgstr "Sur Sokopark"

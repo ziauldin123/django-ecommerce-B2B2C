@@ -1,5 +1,6 @@
 {% extends 'core/base.html' %}
 {% load static %}
+{% load i18n %}
 {% block title %}Add variant{% endblock %}
 {% block content %}
 {% if messages %}
@@ -16,82 +17,82 @@
                 <div class="col-xl-8 col-lg-6 col-md-8">
                     <div class="card flex-grow-1 mb-0 mt-5">
                         <div class="card-body">
-                            <h3 class="card-title">Add product variant</h3>
+                            <h3 class="card-title">{% trans 'Add product variant' %}</h3>
                             <form method="post" action="." enctype="multipart/form-data">
                                 {% load widget_tweaks %}
                                 {% csrf_token %}
                                 <div class="form-row">
                                     <div class="form-group col-md-4">
-                                        <label for="">Title</label>
+                                        <label for="">{% trans 'Title' %}</label>
                                         {{form.title |add_class:"form-control"}}
                                     </div>
                                     
                                     <div class="form-group col-md-4">
-                                        <label for="">Product</label>
+                                        <label for="">{% trans 'Product' %}</label>
                                         {{form.product |add_class:"form-control"}}
                                     </div>
                                     <div class="form-group col-md-4">
-                                        <label for="">Price</label>
+                                        <label for="">{% trans 'Price' %}</label>
                                         {{form.price |add_class:"form-control"}}
                                     </div>
                                 </div>
                                 <div class="form-row">
                                     <div class="form-group col-md-4">
-                                        <label for="">Discount</label>
+                                        <label for="">{% trans 'Discount' %}</label>
                                         {{form.discount |add_class:"form-control"}}
                                     </div>
                                     <div class="form-group col-md-4">
-                                        <label for="">Quantity</label>
+                                        <label for="">{% trans 'Quantity' %}</label>
                                         {{form.quantity |add_class:"form-control"}}
                                     </div>   
                                     <div class="form-group col-md-4">
-                                        <label for="">Image</label>
+                                        <label for="">{% trans 'Image' %}</label>
                                         {{form.image_variant|add_class:"form-control"}}
                                     </div>
                                 </div>
                                 <div class="form-row">
                                     <div class="form-group col-md-4">
-                                        <label for="">Unit Type</label>
+                                        <label for="">{% trans 'Unit Type' %}</label>
                                         {{form.unit_type|add_class:"form-control"}}
                                     </div>
                                     <div class="form-group col-md-4">
-                                        <label for=""> Color </label>
+                                        <label for=""> {% trans 'Color' %} </label>
                                         {{form.color|add_class:"form-control"}}
                                     </div>
                                     <div class="form-group col-md-4">
-                                        <label for=""> Width </label>
+                                        <label for=""> {% trans 'Width' %} </label>
                                         {{form.width|add_class:"form-control"}}
                                     </div>
                                 </div>
                                 <div class="form-row">
                                     <div class="form-group col-md-4">
-                                        <label for=""> Height </label>
+                                        <label for=""> {% trans 'Height' %} </label>
                                         {{form.height|add_class:"form-control"}}
                                     </div>
                                     <div class="form-group col-md-4">
-                                       <label for=""> Length </label>
+                                       <label for=""> {% trans 'Length' %} </label>
                                         {{form.length|add_class:"form-control"}}
                                    </div> 
                                    <div class="form-group col-md-4">
-                                      <label for=""> Weight </label>
+                                      <label for=""> {% trans 'Weight' %} </label>
                                           {{form.weight|add_class:"form-control"}}
                                   </div>
                                 </div>
                                 <div class="form-row">
                                     <div class="form-group col-md-4">
-                                        <label for=""> Size </label>
+                                        <label for=""> {% trans 'Size' %} </label>
                                             {{form.size|add_class:"form-control"}}
                                     </div>
                                 </div>
                                 <div class="form-row">
                                     <div class="form-group col-md-4 form-check form-check-inline">
                                         {{form.have_adjacent_color|add_class:"form-check-input"}}
-                                        <label for="" class="form-check-label">Has Adjacent Colors</label>
+                                        <label for="" class="form-check-label">{% trans 'Has Adjacent Colors' %}</label>
                                     </div>
                                 </div>
                                 <div class="field">
                                     <div class="control">
-                                        <button type="submit"  name="save" value="Submit" class="button btn btn-primary mt-4">Submit</button>
+                                        <button type="submit"  name="save" value="Submit" class="button btn btn-primary mt-4">{% trans 'Submit' %}</button>
                                     </div>
                                 </div>
                             </form>
