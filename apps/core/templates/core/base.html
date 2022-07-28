@@ -435,22 +435,6 @@
                           <marquee behavior="loop" direction="left">
                             <strong>{% trans 'Our products and services will be available soon. Thank you.' %}</strong> 
                           </marquee>
-                          {% get_current_language as LANGUAGE_CODE %}
-        <form action="{% url 'set_language' %}" method="post">
-          {% csrf_token %}
-         <input type="hidden" name="text" value="{{redirect_to}}">
-         <select name="language" id="" class="select form-control" onchange="this.form.submit();">
-           {% get_available_languages as LANGUAGES %}
-           {% for code, name in LANGUAGES %} 
-            <option  value="{{code}}" {% if  code == LANGUAGE_CODE %} selected {% endif %} >
-              <svg width="20px" height="20px">
-                <use xlink:href="/static/templates/images/sprite.svg#fr"></use>
-              </svg>
-              {{ name }} ({{ code }})
-           </option>
-           {% endfor %}
-         </select>
-        </form>
                       </div>      
                     </div>
                 </div>
