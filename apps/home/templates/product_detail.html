@@ -1,5 +1,6 @@
 {% extends 'core/base.html' %}
 {% load static %}
+{% load i18n %}
 {% load bootstrap4 %}
 {% block title %} {{ product.title }} {% endblock %}
 {% block description %} {{ product.description }} {% endblock %}
@@ -10,13 +11,16 @@
          event.preventDefault(); //so that we stop normal form submit.
          var_id = $("#variant_id").val();
          pq = $("#quantity").val()
+         //color_id = $("#colorid").val()
+         color_id= $('input[name=adj_variantid]:checked').val();
          maxQty = $("#quantity").attr('max')
          if ( pq <= maxQty && pq > 0) {
             $.ajax({
             url: "/order/addtoshopcart/" + pr_id,
             type: 'POST',
             data: {'variantid': var_id,
-                   'quantity':pq
+                   'quantity':pq,
+                   'colorid':color_id
             },
             success: function (data) {
                 console.log(data);
@@ -28,7 +32,7 @@
                     '<div class="alert alert-success hideit alertSuc">Product added in the cart successfully.</div >');
                 setTimeout(function () {
                     $("#message").load(location.href + " #message");
-                }, 1000);
+                }, 2000);
             }
         });
          }
@@ -41,6 +45,26 @@
                     </div>`
                 ) 
          }
+    }
+    
+    function requestQuatation(pr_id){
+        event.preventDefault();
+        pq=$("#quantity").val()
+        $.ajax({
+            url:"/cart/request_quatation/" + pr_id,
+            type: 'POST',
+            data:{
+                'quantity':pq,
+                csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+            },
+            success:function(){
+                $("#message").append(
+                    '<div class="alert alert-success hideit alertSuc">Spare parts Requested</div >');
+                setTimeout(function () {
+                    $("#message").load(location.href + " #message");
+                }, 2000);
+            }
+        })
     }
 
     function size(size_id){     
@@ -83,6 +107,26 @@
                                             alert("Got an error " + data);
                                         }
                                     });
+    }
+    function adjcolor(colorid){
+        $.ajax({
+            type:'POST',
+            url:'{% url "ajax-adj-color" %}',
+            data:{
+                variantid:$('#variantid').val(),
+                colorid:colorid,
+                csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+                action: 'post'
+            },
+            data_type:'html',
+            success:function(data){
+                console.log('success');
+                $('adj_appendHere').html(data.rendered_table)
+            },
+            error:function(data){
+                alert("Got an error " + data);
+            }
+        })
     }
 
                                 $('body').on('click','.compareBtn',function(){
@@ -171,13 +215,36 @@
                                             <img class="product-image__img" src="{{ product.image.url }}" alt="">
                                         </a>
                                         {% else %} 
+                                        {% if variant.have_adjacent_color %}
+                                        {% if check_adjacent %}
+                                        <a href="{{ adj_variant.image.url }}" data-width="700" data-height="700" class="product-image__body" target="_blank">
+                                            <img class="product-image__img" src="{{ adj_variant.image.url }}" alt="">
+                                        </a>
+                                        {% else %}
                                         <a href="{{ variant.image_variant.url }}" data-width="700" data-height="700" class="product-image__body" target="_blank">
                                             <img class="product-image__img" src="{{ variant.image_variant.url }}" alt="">
                                         </a>
                                         {% endif %}
+                                        {% else %} 
+                                        <a href="{{ variant.image_variant.url }}" data-width="700" data-height="700" class="product-image__body" target="_blank">
+                                            <img class="product-image__img" src="{{ variant.image_variant.url }}" alt="">
+                                        </a>
+                                        {% endif %}
+                                        {% endif %}
                                     </div>
                                     
-                                    {% if product.is_variant %} 
+                                    {% if product.is_variant %}
+                                          {% if variant.have_adjacent_color %} 
+                                          {% for images in adj_variant.variant_color_images.all %} 
+                                              <div class="product-image product-image--location--gallery">
+                                                        {% if images.image %} 
+                                                              <a href="{{images.image.url}}" data-width="700" data-height="700" class="product-image__body" target="_blank">
+                                                                  <img class="product-image__img" src="{{images.image.url}}" alt="">
+                                                                </a>
+                                                        {% endif %}
+                                              </div>
+                                          {% endfor %}
+                                          {% else %} 
                                          {% for images in variant.variants_images.all %} 
                                               <div class="product-image product-image--location--gallery">
                                             <!--
@@ -195,6 +262,7 @@
                                             {% endif %}
                                               </div>
                                           {% endfor %}
+                                          {% endif %}
                                     {% else %} 
                                            {% for images in product.product_images.all %} 
                                            <div class="product-image product-image--location--gallery">
@@ -223,8 +291,8 @@
                                         <div class="product-image__body">
                                             <img class="product-image__img product-gallery__carousel-image" src="{{variant.image_variant.url}}" alt="">
                                         </div>
-                                  </a>
-                                              {% for images in variant.variants_images.all %} 
+                                    </a>        {% if variant.have_adjacent_color %} 
+                                                   {% for images in adj_variant.variant_color_images.all %} 
                                                        {% if images.image %} 
                                                        <a href="{{images.image.url}}" class="product-image product-gallery__carousel-item">
                                                         <div class="product-image__body">
@@ -232,7 +300,18 @@
                                                         </div>
                                                   </a>
                                                   {% endif %} 
-                                              {% endfor %} 
+                                              {% endfor %}
+                                                {% else %} 
+                                                {% for images in variant.variants_images.all %} 
+                                                       {% if images.image %} 
+                                                       <a href="{{images.image.url}}" class="product-image product-gallery__carousel-item">
+                                                        <div class="product-image__body">
+                                                            <img class="product-image__img product-gallery__carousel-image" src="{{images.image.url}}" alt="">
+                                                        </div>
+                                                  </a>
+                                                  {% endif %} 
+                                              {% endfor %}
+                                              {% endif %}
                                     {% else %} 
                                     <a href="{{product.image.url}}" class="product-image product-gallery__carousel-item">
                                         <div class="product-image__body">
@@ -270,14 +349,22 @@
                         </div>
                         {% if product.variant == 'None' %} 
                         <h1 class="product__name">{{product.title}}</h1>
+                        {% else %}
+                        {% if variant.have_adjacent_color %}
+                        {% if check_adjacent %}
+                        <h1 class="prodct__name">{{adj_variant.title}}</h1>
                         {% else %} 
                         <h1 class="product__name">{{variant.title}}</h1>
+                        {% endif %}
+                        {% else %}  
+                        <h1 class="product__name">{{variant.title}}</h1>
+                        {% endif %}
                         {% endif %}
                         <div class="product__rating">
                             <div class="product-card__rating-stars"> 
                                 <div class="rating">
                                     <div class="rating__body">
-                                    {% if max.rate__max == 1 %} 
+                                    {% if max == 1 %} 
                                     <svg class="rating__star rating__star--active" width="13px" height="12px">
                                         <g class="rating__fill">
                                             <use xlink:href="/static/templates/images/sprite.svg#star-normal"></use>
@@ -294,40 +381,7 @@
                                             <div class="fake-svg-icon"></div>
                                         </div>
                                     </div>
-                                    {% elif max.rate__max == 2 %} 
-                                    <svg class="rating__star rating__star--active" width="13px" height="12px">
-                                        <g class="rating__fill">
-                                            <use xlink:href="/static/templates/images/sprite.svg#star-normal"></use>
-                                        </g>
-                                        <g class="rating__stroke">
-                                            <use xlink:href="/static/templates/images/sprite.svg#star-normal-stroke"></use>
-                                        </g>
-                                    </svg>
-                                    <div class="rating__star rating__star--only-edge rating__star--active">
-                                        <div class="rating__fill">
-                                            <div class="fake-svg-icon"></div>
-                                        </div>
-                                        <div class="rating__stroke">
-                                            <div class="fake-svg-icon"></div>
-                                        </div>
-                                    </div>
-                                    <svg class="rating__star rating__star--active" width="13px" height="12px">
-                                        <g class="rating__fill">
-                                            <use xlink:href="/static/templates/images/sprite.svg#star-normal"></use>
-                                        </g>
-                                        <g class="rating__stroke">
-                                            <use xlink:href="/static/templates/images/sprite.svg#star-normal-stroke"></use>
-                                        </g>
-                                    </svg>
-                                    <div class="rating__star rating__star--only-edge rating__star--active">
-                                        <div class="rating__fill">
-                                            <div class="fake-svg-icon"></div>
-                                        </div>
-                                        <div class="rating__stroke">
-                                            <div class="fake-svg-icon"></div>
-                                        </div>
-                                    </div>
-                                    {% elif max.rate__max == 3 %} 
+                                    {% elif max == 2 %} 
                                     <svg class="rating__star rating__star--active" width="13px" height="12px">
                                         <g class="rating__fill">
                                             <use xlink:href="/static/templates/images/sprite.svg#star-normal"></use>
@@ -360,23 +414,7 @@
                                             <div class="fake-svg-icon"></div>
                                         </div>
                                     </div>
-                                    <svg class="rating__star rating__star--active" width="13px" height="12px">
-                                        <g class="rating__fill">
-                                            <use xlink:href="/static/templates/images/sprite.svg#star-normal"></use>
-                                        </g>
-                                        <g class="rating__stroke">
-                                            <use xlink:href="/static/templates/images/sprite.svg#star-normal-stroke"></use>
-                                        </g>
-                                    </svg>
-                                    <div class="rating__star rating__star--only-edge rating__star--active">
-                                        <div class="rating__fill">
-                                            <div class="fake-svg-icon"></div>
-                                        </div>
-                                        <div class="rating__stroke">
-                                            <div class="fake-svg-icon"></div>
-                                        </div>
-                                    </div>
-                                    {% elif max.rate__max == 4 %} 
+                                    {% elif max == 3 %} 
                                     <svg class="rating__star rating__star--active" width="13px" height="12px">
                                         <g class="rating__fill">
                                             <use xlink:href="/static/templates/images/sprite.svg#star-normal"></use>
@@ -425,6 +463,7 @@
                                             <div class="fake-svg-icon"></div>
                                         </div>
                                     </div>
+                                    {% elif max == 4 %} 
                                     <svg class="rating__star rating__star--active" width="13px" height="12px">
                                         <g class="rating__fill">
                                             <use xlink:href="/static/templates/images/sprite.svg#star-normal"></use>
@@ -441,7 +480,55 @@
                                             <div class="fake-svg-icon"></div>
                                         </div>
                                     </div>
-                                    {% elif max.rate__max == 5 %} 
+                                    <svg class="rating__star rating__star--active" width="13px" height="12px">
+                                        <g class="rating__fill">
+                                            <use xlink:href="/static/templates/images/sprite.svg#star-normal"></use>
+                                        </g>
+                                        <g class="rating__stroke">
+                                            <use xlink:href="/static/templates/images/sprite.svg#star-normal-stroke"></use>
+                                        </g>
+                                    </svg>
+                                    <div class="rating__star rating__star--only-edge rating__star--active">
+                                        <div class="rating__fill">
+                                            <div class="fake-svg-icon"></div>
+                                        </div>
+                                        <div class="rating__stroke">
+                                            <div class="fake-svg-icon"></div>
+                                        </div>
+                                    </div>
+                                    <svg class="rating__star rating__star--active" width="13px" height="12px">
+                                        <g class="rating__fill">
+                                            <use xlink:href="/static/templates/images/sprite.svg#star-normal"></use>
+                                        </g>
+                                        <g class="rating__stroke">
+                                            <use xlink:href="/static/templates/images/sprite.svg#star-normal-stroke"></use>
+                                        </g>
+                                    </svg>
+                                    <div class="rating__star rating__star--only-edge rating__star--active">
+                                        <div class="rating__fill">
+                                            <div class="fake-svg-icon"></div>
+                                        </div>
+                                        <div class="rating__stroke">
+                                            <div class="fake-svg-icon"></div>
+                                        </div>
+                                    </div>
+                                    <svg class="rating__star rating__star--active" width="13px" height="12px">
+                                        <g class="rating__fill">
+                                            <use xlink:href="/static/templates/images/sprite.svg#star-normal"></use>
+                                        </g>
+                                        <g class="rating__stroke">
+                                            <use xlink:href="/static/templates/images/sprite.svg#star-normal-stroke"></use>
+                                        </g>
+                                    </svg>
+                                    <div class="rating__star rating__star--only-edge rating__star--active">
+                                        <div class="rating__fill">
+                                            <div class="fake-svg-icon"></div>
+                                        </div>
+                                        <div class="rating__stroke">
+                                            <div class="fake-svg-icon"></div>
+                                        </div>
+                                    </div>
+                                    {% elif max == 5 %} 
                                     <svg class="rating__star rating__star--active" width="13px" height="12px">
                                         <g class="rating__fill">
                                             <use xlink:href="/static/templates/images/sprite.svg#star-normal"></use>
@@ -527,7 +614,7 @@
                                 </div>
                             </div>
                             <div class="product__rating-legend">
-                                <a href="">{{ product.countreview}}  Reviews</a><span>/</span><a href="#tab-reviews">Write A Review</a>
+                                <a href="">{{ product.countreview}}  {% trans 'Reviews' %}</a><span>/</span><a href="#tab-reviews">{% trans 'Write A Review' %}</a>
                             </div>
                         </div>
                         <div class="product__description">
@@ -535,29 +622,51 @@
                         </div>
                        
                         <ul class="product__meta">
-                            <li class="product__meta-availability">Availability: <span class="text-success">
+                            <li class="product__meta-availability">{% trans 'Availability' %}: <span class="text-success">
                                 {% if product.is_variant %} 
-                                {% if variant.quantity > 0  %} In Stock {% else %} <span class="text-danger">Out of Stock</span> {% endif %}
+                                {% if variant.have_adjacent_color %}
+                                {% if check_adjacent %}
+                                  {% if adj_variant.quantity > 0  %} In Stock {% else %} <span class="text-danger">{% trans 'Out of Stock' %}</span> {% endif %}
+                                {% endif %}  
+                                {% else %}
+                                   {% if variant.quantity > 0  %} In Stock {% else %} <span class="text-danger">{% trans 'Out of Stock' %}</span> {% endif %}
+                                {% endif %}
                                 {% else %} 
-                                {% if product.quantity > 0  %} In Stock {% else %} <span class="text-danger">Out of Stock</span {% endif %}
+                                {% if product.quantity > 0  %} In Stock {% else %} <span class="text-danger">{% trans 'Out of Stock' %}</span {% endif %}
                                 {% endif %}
                             </span></li>
                             {% if product.brand %}
-                            <li>Brand: 
+                            <li>{% trans 'Brand' %}: 
                                 {{product.brand}}
                             </li>
                             {% endif %}
-                            <li>Vendor:<a href=""> {{product.vendor}} </a> </li>
+                            <li>{% trans 'Vendor' %}:<a href=""> {{product.vendor}} </a> </li>
                         </ul>
                         
+                        {% if not product.spare_parts %} 
                         <div class="product__prices">
                             {% if product.is_variant %} 
+                            {% if variant.have_adjacent_color %}
+                            {% if adj_variant %} 
+                            {% if check_adjacent %}
+                                    {% if adj_variant.discount %}
+                                        <span class="product-card__new-price">Rwf {{adj_variant.get_discounted_price}}/{{variant.unit_type.unit}}</span>
+                                        <span class="product-card__old-price"> {{adj_variant.price}}</span>
+                                    {% else %}
+                                        {% if adj_variant.price %}
+                                         <span class="product-card__old-price"></span>Rwf {{adj_variant.price}}/{{variant.unit_type.unit}}</span>
+                                        {% endif %} 
+                                    {% endif %}
+                            {% endif %}           
+                            {% endif %}        
+                            {% else %}
                                     {% if product.discount %} 
                                         <span class="product-card__new-price">Rwf {{product.get_variant.discounted_price}}/{{product.unit_type.unit}}</span>
                                         <span class="product-card__old-price"> {{product.get_variant.price}}</span>
                                     {% else %}
                                         <span class="product-card__old-price"></span>Rwf {{product.get_variant.price}}/{{product.unit_type.unit}}</span>
-                                    {% endif %}    
+                                    {% endif %} 
+                               {% endif %}        
                                 {% else %}
                                     {% if product.discount  %} 
                                         <span class="product-card__new-price">Rwf {{product.get_discounted_price}}/{{product.unit_type.unit}}</span>
@@ -568,6 +677,7 @@
                                 {% endif %}    
                         </span>
                     </div>
+                        {% endif %} 
                         <div>
                     <!-- .product__info / end -->
                     <!-- .product__sidebar -->
@@ -576,7 +686,7 @@
                             <div class="size-option">
                                 <form method="POST" id="post-form">
                                     <input type="hidden" name="productid" id="productid" value="{{ product.id }}">
-                                    <li class="product__option-label">Size</li>
+                                    <li class="product__option-label">{% trans 'Size' %}</li>
                                     {% csrf_token %}
                                     <div class="form-group product__option">
                                         <div class="input-radio-label">
@@ -596,7 +706,7 @@
                             <div id="appendHere">
                                 <input type="hidden" name="size" id="size" value="{{ size_id }}">
                                     <div class="form-group product__option">
-                                        <label class="product__option-label">Color</label>
+                                        <label class="product__option-label">{% trans 'Color' %}</label>
                                         <div class="input-radio-color">
                                             <div class="input-radio-color__list">
                                                 {% for rs in colors %} 
@@ -617,7 +727,7 @@
                         <div class="size-option">
                             <form method="POST" id="post-form1">
                                 <input type="hidden" name="productid" id="productid" value="{{ product.id }}">
-                               <label class="product__option-label">Weight</label>
+                               <label class="product__option-label">{% trans 'Weight' %}</label>
                                 {% csrf_token %}
                                 <div class="form-group product__option">
                                     <div class="input-radio-label">
@@ -637,7 +747,7 @@
                         <div id="appendHere">
                             <input type="hidden" name="weigt" id="weight" value="{{ weight_id }}">
                                 <div class="form-group product__option">
-                                    <label class="product__option-label">Color</label>
+                                    <label class="product__option-label">{% trans 'Color' %}</label>
                                     <div class="input-radio-color">
                                         <div class="input-radio-color__list">
                                             {% for rs in colors1 %} 
@@ -658,7 +768,7 @@
                                             {% csrf_token %}
                                             <div id="appendHere">
                                                 <input type="hidden" name="size" id="size" value="{{ size_id }}">
-                                                    <li class="product__option-label">Size</li>
+                                                    <li class="product__option-label">{% trans 'Size' %}</li>
                                                     <div class="form-group product__option">
                                                         <div class="input-radio-label">
                                                             <div class="input-radio-label__list">
@@ -679,7 +789,7 @@
                                             {% csrf_token %}
                                             <div id="appendHere">
                                                 <input type="hidden" name="size" id="size" value="{{ size_id }}">
-                                                    <li class="product__option-label">Length</li>
+                                                    <li class="product__option-label">{% trans 'Length' %}</li>
                                                     <div class="form-group product__option">
                                                         <div class="input-radio-label">
                                                             <div class="input-radio-label__list">
@@ -701,7 +811,7 @@
                                             {% csrf_token %}
                                             <div id="appendHere">
                                                 <input type="hidden" name="size" id="size" value="{{ size_id }}">
-                                                    <li class="product__option-label">Weight</li>
+                                                    <li class="product__option-label">{% trans 'Weight' %}</li>
                                                     <div class="form-group product__option">
                                                         <div class="input-radio-label">
                                                             <div class="input-radio-label__list">
@@ -722,7 +832,7 @@
                                             {% csrf_token %}
                                             <div id="appendHere">
                                                 <input type="hidden" name="size" id="size" value="{{ size_id }}">
-                                                    <li class="product__option-label">Width</li>
+                                                    <li class="product__option-label">{% trans 'Width' %}</li>
                                                     <div class="form-group product__option">
                                                         <div class="input-radio-label">
                                                             <div class="input-radio-label__list">
@@ -739,6 +849,46 @@
                                         </form>
                                         <br><br>  
                     {% elif product.variant == 'Color' %}
+                                        {% if variant.have_adjacent_color %}
+                                            <form>
+                                            <input type="hidden" name="size" id="size" value="{{ size_id }}">
+                                                    <div class="form-group product__option">
+                                                        <label class="product__option-label">{% trans 'Color' %}</label>
+                                                        <div class="input-radio-color">
+                                                            <div class="input-radio-color__list">
+                                                                {% for rs in colors %} 
+                                                                <label class="input-radio-color__item input-radio-color__item--white" style="color: {{rs.color.code}};" data-toggle="tooltip" title="{{rs.color}}">
+                                                                    <input type="radio" {% if adj_variant.id == rs.id %} checked {% endif %}  name="variantid" id="variantid" value="{{ rs.id }}" onchange="this.form.submit();">
+                                                                    <span></span>
+                                                                </label>
+                                                                {% endfor %}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                            </form>
+                                            {% if request.GET.variantid or request.GET.q %}
+                                            <form method="post" action="?q=selectvariant" id="post-color">
+                                                {% csrf_token %}
+                                                <div id="adj_appendHere">
+                                                    <input type="hidden" name="colorid" id="colorid" value="{{ colorid }}">
+                                <div class="form-group product__option">
+                                    <label class="product__option-label">{% trans 'Adjacent Colors' %}  </label>
+                                    <div class="input-radio-color">
+                                        <div class="input-radio-color__list">
+                                            {% for rs in colors2 %} 
+                                            <label class="input-radio-color__item input-radio-color__item--white" style="color: {{rs.color.code}};" data-toggle="tooltip" title="{{rs.name}}">
+                                                <input type="hidden" name="variantid" id="variantid" value="{{ variant.id }}">
+                                                <input type="radio" {% if adj_variant.id == rs.id %} checked {% endif %} name="adj_variantid" id="adj_variantid" value="{{ rs.id }}" onchange="this.form.submit();"  onclick="adjcolor('{{rs.id }}')">
+                                                <span></span>
+                                            </label>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+                                                </div>
+                                            </form>  
+                                            {% endif %}     
+                                        {% else %} 
                                         <form method="post" action="?q=selectvariant" id="post-color">
                                             {% csrf_token %}
                                             <div id="appendHere">
@@ -749,7 +899,7 @@
                                                             <div class="input-radio-color__list">
                                                                 {% for rs in colors %} 
                                                                 <label class="input-radio-color__item input-radio-color__item--white" style="color: {{rs.color.code}};" data-toggle="tooltip" title="{{rs.color}}">
-                                                                    <input type="radio" {% if variant.id == rs.id %} checked {% endif %} name="variantid" id="variantid" value="{{ rs.id }}" onchange="this.form.submit();">
+                                                                    <input type="radio" name="variantid" id="variantid" value="{{ rs.id }}" onchange="this.form.submit();">
                                                                     <span></span>
                                                                 </label>
                                                                 {% endfor %}
@@ -758,37 +908,41 @@
                                                     </div>
                                             </div>
                                         </form>
+                                        {% endif %}
                     {% endif %}
                         </div>
                         <br>
                     <div class="product__sidebar">
                         <div class="product__availability">
-                            Availability: <span class="text-success">
+                            {% trans 'Availability' %}: <span class="text-success">
                                 {% if product.is_variant %} 
-                                {% if variant.quantity > 0  %} In Stock {% else %} Out of Stock {% endif %}
+                                {% if variant.quantity > 0  %} In Stock {% else %} {% trans 'Out of Stock' %} {% endif %}
                                 {% else %} 
-                                {% if product.quantity > 0  %} In Stock {% else %} Out of Stock {% endif %}
+                                {% if product.quantity > 0  %} In Stock {% else %} {% trans 'Out of Stock' %} {% endif %}
                                 {% endif %}
                             </span>
                         </div>
                     </div>    
-                    {% if product.is_variant %} 
+                    {% if not product.spare_parts %}
+                    {% if product.is_variant %}
+                    {% if variant.have_adjacent_color %} 
+                    {% if check_adjacent %}
                     <div class="form-group product__option">
                         <input type="hidden" name="variantid" id="variant_id" value="{{ variant.id }}">
-                        <label class="product__option-label" for="product-quantity">Quantity</label>
+                        <label class="product__option-label" for="product-quantity">{% trans 'Quantity' %}</label>
                         <div class="product__actions">
                             <div class="product__actions-item">
                                 <div class="input-number product__quantity">
-                                    <input id="quantity" class="input input-number__input form-control form-control-lg" name="quantity" type="number" min="1" max="{{variant.quantity}}" value="1">
+                                    <input id="quantity" class="input input-number__input form-control form-control-lg" name="quantity" type="number" min="1" {% if variant.have_adjacent_color %} max="{{adj_variant.quantity}}" {% else %} max="{{variant.quantity}}" {% endif %} value="1">
                                     <div class="input-number__add"></div>
                                     <div class="input-number__sub"></div>
                                 </div>
                             </div>
                             <div class="product__actions-item product__actions-item--addtocart">
                                 {% if request.user.customer %} 
-                                    <button onclick="add_To_Cart('{{ product.id }}')"{% if variant.quantity < 1  %} disabled {% endif %} class="btn btn-primary btn-lg add-to-cart">Add to cart</button>
+                                    <button onclick="add_To_Cart('{{ product.id }}')" {% if variant.have_adjacent_color %} {% if adj_variant.quantity < 1  %} disabled {% endif %} {% else %} {% if variant.quantity < 1  %} disabled {% endif %} {% endif %}  class="btn btn-primary btn-lg add-to-cart">{% trans 'Add to cart' %}</button>
                                 {% else %} 
-                                     <button class="btn btn-primary btn-lg disabled">Add to cart</button>
+                                     <button class="btn btn-primary btn-lg disabled">{% trans 'Add to cart' %}</button>
                                 {% endif %}
                             </div>
                             <div class="product__actions-item product__actions-item--wishlist">
@@ -827,9 +981,66 @@
                         <div id="message" name="message" class="mt-3">
                         </div>
                     </div>
+                    {% endif %}
+                    {% else %}
+                    <div class="form-group product__option">
+                        <input type="hidden" name="variantid" id="variant_id" value="{{ variant.id }}">
+                        <label class="product__option-label" for="product-quantity">{% trans 'Quantity' %}</label>
+                        <div class="product__actions">
+                            <div class="product__actions-item">
+                                <div class="input-number product__quantity">
+                                    <input id="quantity" class="input input-number__input form-control form-control-lg" name="quantity" type="number" min="1" {% if variant.have_adjacent_color %} max="{{adj_variant.quantity}}" {% else %} max="{{variant.quantity}}" {% endif %} value="1">
+                                    <div class="input-number__add"></div>
+                                    <div class="input-number__sub"></div>
+                                </div>
+                            </div>
+                            <div class="product__actions-item product__actions-item--addtocart">
+                                {% if request.user.customer %} 
+                                    <button onclick="add_To_Cart('{{ product.id }}')" {% if variant.have_adjacent_color %} {% if adj_variant.quantity < 1  %} disabled {% endif %} {% else %} {% if variant.quantity < 1  %} disabled {% endif %} {% endif %}  class="btn btn-primary btn-lg add-to-cart">{% trans 'Add to cart' %}</button>
+                                {% else %} 
+                                     <button class="btn btn-primary btn-lg disabled">{% trans 'Add to cart' %}</button>
+                                {% endif %}
+                            </div>
+                            <div class="product__actions-item product__actions-item--wishlist">
+                                {% if request.session.customer %}
+                                <div class="wishList">
+                                    <form action="" method="post">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="variantid" class="variantid" id="variantid" value="{{ variant.id }}">
+                                        <input type="hidden" name="productid" class="productid" id="productid" value="{{ product.id }}">
+                                        <button class="button btn btn-secondary btn-svg-icon btn-lg wish" data-toggle="tooltip" title="Wishlist">
+                                            <svg width="16px" height="16px">
+                                                <use xlink:href="/static/templates/images/sprite.svg#wishlist-16"></use>
+                                            </svg>
+                                        </button>
+                                    </form>
+                                </div> 
+                                {% else %} 
+                                <button type="button" class=" button btn btn-secondary btn-svg-icon btn-lg wish disabled" data-toggle="tooltip" title="Wishlist">
+                                    <svg width="16px" height="16px">
+                                        <use xlink:href="/static/templates/images/sprite.svg#wishlist-16"></use>
+                                    </svg>
+                                {% endif %}
+                            </div>
+                            <div class="product__actions-item product__actions-item--compare">
+                                <div class="compare">
+                                    {% csrf_token %} 
+                                    <input type="hidden" name="variantid" class="variantid" id="variantid" value="{{ variant.id }}">
+                                    <button class="button btn btn-secondary btn-svg-icon btn-lg compareBtn" data-toggle="tooltip" title="Compare">
+                                        <svg width="16px" height="16px">
+                                            <use xlink:href="/static/templates/images/sprite.svg#compare-16"></use>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="message" name="message" class="mt-3">
+                        </div>
+                    </div>
+                    {% endif %}
                     {% else %} 
                     <div class="form-group product__option">
-                        <label class="product__option-label" for="product-quantity">Quantity</label>
+                        <label class="product__option-label" for="product-quantity">{% trans 'Quantity' %}</label>
                         <div class="product__actions">
                             <div class="product product__actions-item">
                                 <div class="input-number product__quantity">
@@ -840,9 +1051,9 @@
                             </div>
                             <div class="product__actions-item product__actions-item--addtocart">
                                 {% if request.user.customer %} 
-                                     <button onclick="add_To_Cart('{{ product.id }}')" {% if product.quantity < 1  %} disabled {% endif %} class="add-to-cart btn btn-primary btn-lg">Add to cart</button>
+                                     <button onclick="add_To_Cart('{{ product.id }}')" {% if product.quantity < 1  %} disabled {% endif %} class="add-to-cart btn btn-primary btn-lg">{% trans 'Add to cart' %}</button>
                                 {% else %} 
-                                      <button class="btn btn-primary btn-lg disabled">Add to cart</button>
+                                      <button class="btn btn-primary btn-lg disabled">{% trans 'Add to cart' %}</button>
                                 {% endif %}
                             </div>
                             <div class="product__actions-item product__actions-item--wishlist">
@@ -875,11 +1086,59 @@
                             </div>
                         </div>
                     </div>
+                    {% endif %}
+                    {% else %}
+                    <div class="form-group product__option">
+                        <label class="product__option-label" for="product-quantity">{% trans 'Quantity' %}</label>
+                        <div class="product__actions">
+                        <div class="product product__actions-item">
+                                <div class="input-number product__quantity">
+                                    <input class="input input-number__input form-control form-control-lg" name="quantity" id="quantity"  type="number"  min="1" max="{{product.quantity}}" value="1">
+                                    <div class="input-number__add"></div>
+                                    <div class="input-number__sub"></div>
+                                </div>
+                        </div>
+                        <div class="product__actions-item product__actions-item--addtocart">
+                            {% if request.user.customer %} 
+                                 <button onclick="requestQuatation('{{product.id}}')" class="add-to-cart btn btn-primary btn-lg">{% trans 'Get quotation' %}</button>
+                            {% else %} 
+                                  <button class="btn btn-primary btn-lg disabled">{% trans 'Get quotation' %}</button>
+                            {% endif %}
+                        </div>
+                        <div class="product__actions-item product__actions-item--wishlist">
+                            <form action="{% url 'wishlist-add' product.id %}" method="post">
+                                {% csrf_token %}
+                                {% if request.session.customer %} 
+                                <button class="button compreBtn btn btn-secondary btn-svg-icon btn-lg" data-toggle="tooltip" title="Wishlist">
+                                    <svg width="16px" height="16px">
+                                        <use xlink:href="/static/templates/images/sprite.svg#wishlist-16"></use>
+                                    </svg>
+                                </button>
+                                {% else %} 
+                                <button type="button" class="btn btn-secondary btn-svg-icon btn-lg disabled" data-toggle="tooltip" title="Wishlist">
+                                    <svg width="16px" height="16px">
+                                        <use xlink:href="/static/templates/images/sprite.svg#wishlist-16"></use>
+                                    </svg>
+                                </button>
+                                {% endif %} 
+                            </form>
+                        </div>
+                        <div class="product__actions-item product__actions-item--compare">
+                            <form action="{% url 'product-compare' product.id %}" method="post">
+                                {% csrf_token %} 
+                                <button class="btn wishBtn btn-secondary btn-svg-icon btn-lg" data-toggle="tooltip" title="Compare"  onclick="compare()">
+                                    <svg width="16px" height="16px">
+                                        <use xlink:href="/static/templates/images/sprite.svg#compare-16"></use>
+                                    </svg>
+                                </button>
+                            </form>
+                        </div>
+                        </div>
+                    </div>
+                    {% endif %}
 
                     <div id="message" name="message" class="mt-3">
                     </div>
-                   
-                    {% endif %}
                         <!-- .product__options -->
                         
                         <!-- .product__options / end -->
@@ -889,10 +1148,10 @@
                         <div class="product__tags tags">
                             <div class="tags__list">
                                 {% if product.pickup_available == True %}
-                                <a>Pickup available</a>
+                                <a>{% trans 'Pickup available' %}</a>
                                 {% endif %}
                                 {% if product.is_free_delivery == True %}
-                                <a>Free Delivery</a>
+                                <a>{% trans 'Free Delivery' %}</a>
                                 {% endif %}
                             </div>
                         </div>      
@@ -903,61 +1162,61 @@
             <div class="product-tabs__list">
                 <div class="product-tabs__list-body">
                     <div class="product-tabs__list-container container">
-                        <a href="#tab-description" class="product-tabs__item product-tabs__item--active">Description</a>
-                        <a href="#tab-specification" class="product-tabs__item">Specifications</a>
-                        <a href="#tab-reviews" class="product-tabs__item">Reviews</a>
+                        <a href="#tab-description" class="product-tabs__item product-tabs__item--active">{% trans 'Description' %}</a>
+                        <a href="#tab-specification" class="product-tabs__item">{% trans 'Specifications' %}</a>
+                        <a href="#tab-reviews" class="product-tabs__item">{% trans 'Reviews' %}</a>
                     </div>
                 </div>
             </div>
             <div class="product-tabs__content">
                 <div class="product-tabs__pane product-tabs__pane--active" id="tab-description">
                     <div class="typography">
-                        <h3>Product Full Description</h3>
+                        <h3>{% trans 'Product Full Description' %}</h3>
                         {{ product.description|safe }}
                     </div>
                 </div>
                 <div class="product-tabs__pane" id="tab-specification">
                     {% if product.is_variant %} 
                     <div class="spec">
-                        <h3 class="spec__header">Specification</h3>
+                        <h3 class="spec__header">{% trans 'Specification' %}</h3>
                         <div class="spec__section">
-                            <h4 class="spec__section-title">General</h4>
+                            <h4 class="spec__section-title">{% trans 'General' %}</h4>
                             {% if variant.size %}
                             <div class="spec__row">
-                                <div class="spec__name">Size</div>
+                                <div class="spec__name">{% trans 'Size' %}</div>
                                 <div class="spec__value">{{ variant.size }} cm</div>
                             </div>
                             {% endif %}
                             {% if variant.color %}
                             <div class="spec__row">
-                                <div class="spec__name">Color</div>
+                                <div class="spec__name">{% trans 'Color' %}</div>
                                 <div class="spec__value">{{ variant.color }}</div>        
                             </div>
                             {% endif %}
                             {% if variant.weight %}
                             <div class="spec__row">
-                                <div class="spec__name">Weight</div>
+                                <div class="spec__name">{% trans 'Weight' %}</div>
                                 <div class="spec__value">{{ variant.weight }} cm</div>
                             </div>
                             {% endif %}
                         </div>
                         <div class="spec__section">
-                            <h4 class="spec__section-title">Dimensions</h4>
+                            <h4 class="spec__section-title">{% trans 'Dimensions' %}</h4>
                             {% if variant.length %}
                             <div class="spec__row">
-                                <div class="spec__name">Length</div>
+                                <div class="spec__name">{% trans 'Length' %}</div>
                                 <div class="spec__value">{{ variant.length }} cm</div>
                             </div>
                             {% endif %}
                             {% if variant.width %}
                             <div class="spec__row">
-                                <div class="spec__name">Width</div>
+                                <div class="spec__name">{% trans 'Width' %}</div>
                                 <div class="spec__value">{{ variant.width }} cm</div>
                             </div>
                             {% endif %}
                             {% if variant.height %}
                             <div class="spec__row">
-                                <div class="spec__name">Height</div>
+                                <div class="spec__name">{% trans 'Height' %}</div>
                                 <div class="spec__value">{{ variant.height }} cm</div>
                              </div>
                              {% endif %}
@@ -965,9 +1224,9 @@
                     </div>
                     {% else %} 
                     <div class="spec">
-                        <h3 class="spec__header">Specification</h3>
+                        <h3 class="spec__header">{% trans 'Specification' %}</h3>
                         <div class="spec__section">
-                            <h4 class="spec__section-title">General</h4>
+                            <h4 class="spec__section-title">{% trans 'General' %}</h4>
                             {% if product.size %}
                             <div class="spec__row">
                                 <div class="spec__name">Size</div>
@@ -977,14 +1236,14 @@
                             {% endif %}
                             {% if product.color %}
                             <div class="spec__row">
-                                <div class="spec__name">Color</div>
+                                <div class="spec__name">{% trans 'Color' %}</div>
                                 <div class="spec__value"></div>
                                         {{ product.color }}
                             </div>
                             {% endif %}
                             {% if product.weight %}
                             <div class="spec__row">
-                                <div class="spec__name">Weight</div>
+                                <div class="spec__name">{% trans 'Weight' %}</div>
                                 <div class="spec__value">
                                         {{ product.weight }} Kg
                                 </div>
@@ -992,10 +1251,10 @@
                             {% endif %}
                         </div>
                         <div class="spec__section">
-                            <h4 class="spec__section-title">Dimensions</h4>
+                            <h4 class="spec__section-title">{% trans 'Dimensions' %}</h4>
                             {% if product.length %}
                             <div class="spec__row">
-                                <div class="spec__name">Length</div>
+                                <div class="spec__name">{% trans 'Length' %}</div>
                                 <div class="spec__value">
                                         {{ product.length }} cm
                                 </div>
@@ -1003,7 +1262,7 @@
                             {% endif %}
                             {% if product.width %}
                             <div class="spec__row">
-                                <div class="spec__name">Width</div>
+                                <div class="spec__name">{% trans 'Width' %}</div>
                                 <div class="spec__value">
                                         {{ product.width }} cm
                                 </div>
@@ -1011,7 +1270,7 @@
                             {% endif %}
                             {% if product.height %}
                             <div class="spec__row">
-                                <div class="spec__name">Height</div>
+                                <div class="spec__name">{% trans 'Height' %}</div>
                                 <div class="spec__value">
                                         {{ product.height }} cm
                                     </div>
@@ -1021,14 +1280,14 @@
                     </div>
                     {% endif %}
                     <div class="spec__disclaimer">
-                        Information on technical characteristics, the delivery set, the country of manufacture and the appearance
-                        of the goods is for reference only and is based on the latest information available at the time of publication.
+                        {% trans 'Information on technical characteristics, the delivery set, the country of manufacture and the appearance' %}
+                        {% trans 'of the goods is for reference only and is based on the latest information available at the time of publication.' 
                     </div>
                 </div>
                 <div class="product-tabs__pane" id="tab-reviews">
                     <div class="reviews-view">
                         <div class="reviews-view__list">
-                            <h3 class="reviews-view__header">Customer Reviews</h3>
+                            <h3 class="reviews-view__header">{% trans 'Customer Reviews' %}</h3>
                             <div class="reviews-list">
                                 <ol class="reviews-list__content">
                                     {% if comments %} 
@@ -1149,38 +1408,38 @@
                         </div>
                         <form class="reviews-view__form review-form" action="/newProduct/addcomment/{{ product.id }}" method="post">
                             {% csrf_token %}
-                            <h3 class="reviews-view__header">Write A Review</h3>
+                            <h3 class="reviews-view__header">{% trans 'Write A Review' %}</h3>
                             <div class="row">
                                 <div class="col-12 col-lg-9 col-xl-8">
                                     <div class="row form-row"> 
                                         <div class="form-group col-md-6">
                                             <div class="input-rating">
-                                            <label for="review-stars">Review Stars</label>
+                                            <label for="review-stars">{% trans 'Review Stars' %}</label>
                                             <select id="review-stars" name="rate" class="stars form-control">
-                                                <option id="star5" name="rate" value="5">5 Stars Rating</option>
-                                                <option id="star4" name="rate" value="4">4 Stars Rating</option>
-                                                <option id="star3" name="rate" value="3">3 Stars Rating</option>
-                                                <option id="star2" name="rate" value="2">2 Stars Rating</option>
-                                                <option id="star1" name="rate" value="1">1 Stars Rating</option>
+                                                <option id="star5" name="rate" value="5">5 {% trans 'Stars Rating' %}</option>
+                                                <option id="star4" name="rate" value="4">4 {% trans 'Stars Rating' %}</option>
+                                                <option id="star3" name="rate" value="3">3 {% trans 'Stars Rating' %}</option>
+                                                <option id="star2" name="rate" value="2">2 {% trans 'Stars Rating' %}</option>
+                                                <option id="star1" name="rate" value="1">1 {% trans 'Stars Rating' %}</option>
                                             </select>
                                             </div>
                                         </div>
                                             <div class="form-group col-md-6">
-                                                <label for="review-author">Subject</label>
+                                                <label for="review-author">{% trans 'Subject' %}</label>
                                                 <input type="text" name="subject"  class="form-control input" id="review-author" placeholder="Your Subject">
                                             </div>
                                     </div>
                                
                             
                                         <div class="form-group">
-                                            <label for="review-text">Your Review</label>
+                                            <label for="review-text">{% trans 'Your Review' %}</label>
                                             <textarea class="form-control input" name="comment" id="review-text" rows="6"></textarea>
                                         </div>
                                         <div class="form-group mb-0">
                                             {% if customer %} 
-                                            <button type="submit" class="btn btn-primary btn-lg">Post Your Review</button>
+                                            <button type="submit" class="btn btn-primary btn-lg">{% trans 'Post Your Review' %}</button>
                                             {% else %} 
-                                            You must be logged in to post comments
+                                            {% trans 'You must be logged in to post comments' %}
                                             {% endif %}
                                         </div>
                             </div>
@@ -1195,7 +1454,7 @@
      <div class="block block-products-carousel" data-layout="grid-5" data-mobile-grid-columns="2">
         <div class="container">
             <div class="block-header">
-                <h3 class="block-header__title">Related Products</h3>
+                <h3 class="block-header__title">{% trans 'Related Products' %}</h3>
                 <div class="block-header__divider"></div>
                 <div class="block-header__arrows-list">
                     <button class="block-header__arrow block-header__arrow--left" type="button">
@@ -1428,7 +1687,7 @@
                                             </div>
                                         </div>
                                         <div class="product-card__rating-legend">
-                                            {{ product.countreview}}  Reviews</div>
+                                            {{ product.countreview}}  {% trans 'Reviews' %}</div>
                                     </div>
                                     <ul class="product-card__features-list">
                                         <li>Speed: 750 RPM</li>
@@ -1442,6 +1701,7 @@
                                     <div class="product-card__availability">
                                         Availability: <span class="text-success">In Stock</span>
                                     </div>
+                                    {% if not product.spare_parts %}
                                     <div class="product-card__prices">
                                         {% if product.is_variant %} 
                                                {% if product.get_variant.discount > 0  %} 
@@ -1459,12 +1719,22 @@
                                              {% endif %}
                                         {% endif %}     
                                     </div>
+                                    {% endif %}
                                     <div class="product-card__buttons">
                                         {% if product.is_variant %}
                                         <a href="{% url 'product' product.id product.slugV product.category.sub_category.category.slug product.category.sub_category.slug product.category.slug product.slug %}"> 
                                             <button class="btn btn-primary product-card__addtocart" type="button" >View Options</button>
                                         </a>
                                         {% else %}
+                                        {% if product.spare_parts %} 
+                                        <a onclick="requestQuatation('{{ product.id }}')">
+                                            {% if request.session.customer and product.quantity > 0 %}
+                                            <button class="btn btn-primary product-card__addtocart disabled" type="button" >Get quotation</button>
+                                            {% else %} 
+                                            <button class="btn btn-primary product-card__addtocart " type="button">Get quotation</button>
+                                            {% endif %}
+                                        </a>
+                                        {% else %} 
                                         <a onclick="addToCart('{{ product.id }}')">
                                             {% if request.session.customer and product.quantity > 0 %}
                                             <button class="btn btn-primary product-card__addtocart disabled" type="button" >Add To Cart</button>
@@ -1472,6 +1742,7 @@
                                             <button class="btn btn-primary product-card__addtocart " type="button" >Add To Cart</button>
                                             {% endif %}
                                         </a>
+                                        {% endif %}
                                         <div id="msg" class="mt-3"></div>
                                         {% endif %}
                                     </div>

@@ -1,9 +1,9 @@
 {% extends 'core/base.html' %}
-
+{% load i18n %}
 {% block title %}Add or Edit Product Images - {% endblock %}
 
 {% block content %}
-    <h3 class="title">Add or Edit Product Images </h3>
+    <h3 class="title">{% trans 'Add or Edit Product Images' %} </h3>
     <table>
         {% for img in product_images %}
             <tr>
@@ -26,7 +26,7 @@
 
         <div class="field mt-5">
             <div class="control">
-                <button class="button is-dark">Save changes</button>
+                <button class="button is-dark">{% trans 'Save changes' %}</button>
             </div>
         </div>
     </form>

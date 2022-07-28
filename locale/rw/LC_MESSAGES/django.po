@@ -1,0 +1,2972 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-07-26 11:48+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
+"|| n%100>=20) ? 1 : 2)\n"
+
+#: .\apps\cart\templates\cart\cart.html:25
+#: .\apps\core\templates\core\base.html:1134
+msgid "Cart"
+msgstr ""
+
+#: .\apps\cart\templates\cart\cart.html:37
+#: .\apps\cart\templates\cart\contact.html:190
+#: .\apps\cart\templates\cart\payment.html:60
+#: .\apps\ordering\templates\shopcart_products.html:73
+#: .\apps\vendor\templates\customer\order_details.html:56
+msgid "Product"
+msgstr "Ibicuruzwa"
+
+#: .\apps\cart\templates\cart\cart.html:38
+#: .\apps\home\templates\product_detail.html:932
+#: .\apps\home\templates\product_detail.html:988
+#: .\apps\home\templates\product_detail.html:1043
+#: .\apps\home\templates\product_detail.html:1092
+#: .\apps\ordering\templates\shopcart_products.html:75
+#: .\apps\rental\templates\rental\allItems.html:96
+msgid "Quantity"
+msgstr "Umubare"
+
+#: .\apps\cart\templates\cart\cart.html:39
+#: .\apps\order\templates\order\email_notify_customer.html:127
+#: .\apps\order\templates\order\email_notify_vendor.html:127
+#: .\apps\ordering\templates\shopcart_products.html:74
+#: .\apps\rental\templates\rental\allItems.html:95
+#: .\apps\rental\templates\rental\category.html:40
+#: .\apps\vendor\templates\customer\order_details.html:57
+msgid "Price"
+msgstr "Ibiciro"
+
+#: .\apps\cart\templates\cart\cart.html:67
+#: .\env\Lib\site-packages\nested_admin\nested.py:170
+msgid "Remove"
+msgstr "Kuraho"
+
+#: .\apps\cart\templates\cart\cart.html:76
+msgid "Total cost"
+msgstr "Igiteranyo"
+
+#: .\apps\cart\templates\cart\cart.html:92
+msgid "Total cost with coupon"
+msgstr "Igiciro cyose hamwe na coupon"
+
+#: .\apps\cart\templates\cart\cart.html:116
+msgid "Your cart is currently empty."
+msgstr "Cart ryawe ririmo ubusa."
+
+#: .\apps\cart\templates\cart\contact.html:27
+msgid "Billing details"
+msgstr "Ibisobanuro birambuye bwo Kwishura"
+
+#: .\apps\cart\templates\cart\contact.html:51
+msgid "First name"
+msgstr "Izina rya mbere"
+
+#: .\apps\cart\templates\cart\contact.html:55
+msgid "Last name"
+msgstr "Izina ryanyuma"
+
+#: .\apps\cart\templates\cart\contact.html:62
+#: .\apps\core\templates\core\contact.html:39
+#: .\apps\core\templates\core\contact.html:63
+#: .\apps\rental\templates\rental\details.html:103
+#: .\apps\services\templates\provider.html:281
+#: .\apps\vendor\templates\customer\become_customer.html:31
+#: .\apps\vendor\templates\vendor\vendor.html:27
+msgid "Email"
+msgstr "Imeri"
+
+#: .\apps\cart\templates\cart\contact.html:67
+#: .\apps\vendor\templates\customer\become_customer.html:44
+msgid "Phone"
+msgstr "Terefone"
+
+#: .\apps\cart\templates\cart\contact.html:75
+#: .\apps\rental\templates\rental\details.html:132
+#: .\apps\vendor\templates\customer\become_customer.html:92
+#: .\apps\vendor\templates\customer\myaccount.html:60
+#: .\apps\vendor\templates\customer\order_details.html:113
+#: .\apps\vendor\templates\customer\order_details.html:148
+#: .\apps\vendor\templates\vendor\vendor.html:83
+msgid "Address"
+msgstr "Aderesi imeri"
+
+#: .\apps\cart\templates\cart\contact.html:82
+msgid "Delivery type"
+msgstr "Igiciro cyo kohereza"
+
+#: .\apps\cart\templates\cart\contact.html:100
+msgid "Delivery address"
+msgstr "Igiciro cyo kohereza"
+
+#: .\apps\cart\templates\cart\contact.html:103
+#: .\apps\rental\templates\rental\details.html:111
+#: .\apps\vendor\templates\customer\become_customer.html:50
+#: .\apps\vendor\templates\customer\order_details.html:132
+#: .\apps\vendor\templates\vendor\vendor.html:79
+msgid "District"
+msgstr "Akarere"
+
+#: .\apps\cart\templates\cart\contact.html:107
+#: .\apps\vendor\templates\customer\become_customer.html:54
+msgid "---Select District---"
+msgstr "--- Hitamo Akarere ---"
+
+#: .\apps\cart\templates\cart\contact.html:116
+#: .\apps\rental\templates\rental\details.html:116
+#: .\apps\vendor\templates\customer\become_customer.html:63
+#: .\apps\vendor\templates\customer\order_details.html:136
+#: .\apps\vendor\templates\vendor\vendor.html:80
+msgid "Sector"
+msgstr "Umurenge"
+
+#: .\apps\cart\templates\cart\contact.html:120
+#: .\apps\vendor\templates\customer\become_customer.html:67
+msgid "---Select Sector---"
+msgstr "---Hitamo Umurenge---"
+
+#: .\apps\cart\templates\cart\contact.html:126
+#: .\apps\rental\templates\rental\details.html:121
+#: .\apps\vendor\templates\customer\become_customer.html:73
+#: .\apps\vendor\templates\customer\order_details.html:140
+#: .\apps\vendor\templates\vendor\vendor.html:81
+msgid "Cell"
+msgstr "Akagari"
+
+#: .\apps\cart\templates\cart\contact.html:130
+#: .\apps\vendor\templates\customer\become_customer.html:77
+msgid "---Select Cell---"
+msgstr "---Hitamo Akagari---"
+
+#: .\apps\cart\templates\cart\contact.html:136
+#: .\apps\rental\templates\rental\details.html:126
+#: .\apps\vendor\templates\customer\become_customer.html:83
+#: .\apps\vendor\templates\customer\order_details.html:144
+#: .\apps\vendor\templates\vendor\vendor.html:82
+msgid "Village"
+msgstr "Umudugudu"
+
+#: .\apps\cart\templates\cart\contact.html:140
+#: .\apps\vendor\templates\customer\become_customer.html:87
+msgid "---Select Village---"
+msgstr "---Hitamo Umudugudu---"
+
+#: .\apps\cart\templates\cart\contact.html:146
+msgid "Street No & House No."
+msgstr "Umuhanda No & Inzu No."
+
+#: .\apps\cart\templates\cart\contact.html:155
+msgid "Go to payment"
+msgstr "Kwishyura"
+
+#: .\apps\cart\templates\cart\contact.html:164
+msgid "---Delivery---"
+msgstr ""
+
+#: .\apps\cart\templates\cart\contact.html:186
+#: .\apps\cart\templates\cart\payment.html:55
+msgid "Your Order"
+msgstr ""
+
+#: .\apps\cart\templates\cart\contact.html:191
+#: .\apps\cart\templates\cart\contact.html:265
+#: .\apps\cart\templates\cart\payment.html:61
+#: .\apps\core\templates\core\base.html:1215
+#: .\apps\order\templates\order\email_notify_customer.html:130
+#: .\apps\order\templates\order\email_notify_vendor.html:130
+#: .\apps\ordering\templates\shopcart_products.html:76
+#: .\apps\ordering\templates\shopcart_products.html:222
+#: .\apps\vendor\templates\customer\order_details.html:58
+msgid "Total"
+msgstr "Igiteranyo"
+
+#: .\apps\cart\templates\cart\contact.html:249
+#: .\apps\cart\templates\cart\payment.html:124
+#: .\apps\ordering\templates\shopcart_products.html:216
+#: .\apps\vendor\templates\customer\order_details.html:81
+msgid "Subtotal"
+msgstr "Igiteranyo"
+
+#: .\apps\cart\templates\cart\contact.html:254
+msgid "Coupon"
+msgstr ""
+
+#: .\apps\cart\templates\cart\payment.html:145
+msgid "Pick up"
+msgstr ""
+
+#: .\apps\cart\templates\cart\payment.html:145
+#: .\apps\core\templates\core\about.html:40
+#: .\apps\order\templates\order\email_notify_customer.html:165
+#: .\apps\vendor\templates\customer\order_details.html:87
+msgid "Delivery"
+msgstr "Igiciro cyo kohereza"
+
+#: .\apps\cart\templates\cart\payment.html:145
+msgid "address"
+msgstr "Aderesi imeri"
+
+#: .\apps\cart\templates\cart\payment.html:151
+#: .\apps\order\templates\order\email_notify_customer.html:173
+#: .\apps\order\templates\order\email_notify_vendor.html:178
+msgid "TOTAL"
+msgstr "Igiteranyo"
+
+#: .\apps\cart\templates\cart\payment.html:165
+msgid "Payment Details"
+msgstr "Ibisobanuro byo Kwishura"
+
+#: .\apps\cart\templates\cart\payment.html:170
+msgid "Payment Methods"
+msgstr "Uburyo bwo Kwishura"
+
+#: .\apps\cart\templates\cart\payment.html:174
+msgid "---Select payment method---"
+msgstr "Hitamo uburyo bwo kwishyura"
+
+#: .\apps\cart\templates\cart\payment.html:182
+#: .\apps\core\templates\core\contact.html:40
+#: .\apps\rental\templates\rental\details.html:97
+#: .\apps\vendor\templates\customer\myaccount.html:50
+#: .\apps\vendor\templates\customer\order_details.html:117
+msgid "Phone Number"
+msgstr "Numero ya terefone"
+
+#: .\apps\cart\templates\cart\payment.html:196
+msgid "Confirm Order"
+msgstr "Emeza"
+
+#: .\apps\cart\templates\cart\payment.html:204
+msgid "This confirmation will not initiate a payment."
+msgstr "Iki cyemezo ntikemeza ko wishyuye"
+
+#: .\apps\cart\templates\cart\payment.html:204
+msgid "You will have to manually pay using the available methods."
+msgstr "Uzagomba kwishyura  ukoresheje uburyo buboneka."
+
+#: .\apps\cart\templates\cart\success.html:15
+#: .\env\Lib\site-packages\django\forms\formsets.py:405
+#: .\env\Lib\site-packages\django\forms\formsets.py:412
+msgid "Order"
+msgstr "Emeza"
+
+#: .\apps\cart\templates\cart\success.html:15
+msgid "Received"
+msgstr "Yakiriwe"
+
+#: .\apps\cart\templates\cart\success.html:16
+msgid "To complete the order, kindly process the payment using the details below:"
+msgstr "Kugira ngo urangize ibyateganijwe, banza gutunganya ubwishyu ukoresheje ibisobanuro bikurikira:"
+
+#: .\apps\cart\templates\cart\success.html:33
+msgid "Bank Transfer"
+msgstr "Kwishyura ukoresheje banki"
+
+#: .\apps\cart\templates\cart\success.html:34
+msgid "Beneficiary:"
+msgstr "Uwakira"
+
+#: .\apps\cart\templates\cart\success.html:35
+msgid "Bank:"
+msgstr "Banki"
+
+#: .\apps\cart\templates\cart\success.html:36
+msgid "Account:"
+msgstr "Konti yanjye"
+
+#: .\apps\cart\templates\cart\success.html:37
+msgid "Amount:"
+msgstr "Igiciro"
+
+#: .\apps\cart\templates\cart\success.html:55
+msgid "Go To Homepage"
+msgstr "Subira ahabanza"
+
+#: .\apps\cart\templates\cart\success.html:58
+msgid "Go To My Account"
+msgstr "Konti yanjye"
+
+#: .\apps\core\templates\core\about.html:15
+msgid "About"
+msgstr "Ibyerekeye"
+
+#: .\apps\core\templates\core\about.html:18
+msgid ""
+"is an online marketplace that provides a wide range of products with focus "
+"on variety, fast delivery and competitive prices."
+msgstr "ni isoko ryo kumurongo w' ikoranbuhanga ritanga ibicuruzwa byinshi bitandukanye "
+" gutanga service byihuse n'ibiciro byiza."
+
+#: .\apps\core\templates\core\about.html:22
+msgid ""
+"With emphasis on reliability and respect of high quality, we continue to "
+"nurture solid and strategic relationships with a network of "
+msgstr "Dushimangiye kwizerwa no kubaha ubuziranenge bwo hejuru, dukomeje "
+"kwimakaza umubano ukomeye kandi ufatika hamwe numuyoboro wa"
+
+#: .\apps\core\templates\core\about.html:23
+msgid ""
+"exclusively-selected manufacturers and vendors in an effort to provide "
+"optimal solutions to fit the specific demands of our clients."
+msgstr "byatoranijwe gusa n'ababikora n'abacuruzi mu rwego rwo gutanga "
+"igisubizo cyiza cyo guhuza ibyifuzo byabakiriya bacu."
+
+#: .\apps\core\templates\core\about.html:27
+msgid "Our Operations"
+msgstr "Ibikorwa byacu"
+
+#: .\apps\core\templates\core\about.html:34
+msgid "Order management & fulfilment"
+msgstr "Gutumiza gucunga no gusohoza"
+
+#: .\apps\core\templates\core\about.html:46
+msgid "Customer service"
+msgstr "Serivise y'abakiriya"
+
+#: .\apps\core\templates\core\about.html:52
+msgid "Advisory"
+msgstr "Ubujyanama"
+
+#: .\apps\core\templates\core\about.html:58
+msgid "Advertising & Promotion"
+msgstr "Kwamamaza & Gutezimbere"
+
+#: .\apps\core\templates\core\about.html:64
+msgid "Storage (available soon)"
+msgstr "Ububiko (burahari vuba)"
+
+#: .\apps\core\templates\core\about.html:71
+msgid "Vision"
+msgstr "Icyerekezo"
+
+#: .\apps\core\templates\core\about.html:71
+msgid "Efficient African Trade"
+msgstr "Ubucuruzi bwiza bwo muri Afrika"
+
+#: .\apps\core\templates\core\about.html:72
+msgid "Mission"
+msgstr "Inshingano"
+
+#: .\apps\core\templates\core\about.html:72
+msgid "Setting a New Standard in Service Delivery"
+msgstr "Gushiraho Ibipimo bishya mugutanga serivisi"
+
+#: .\apps\core\templates\core\about.html:73
+msgid "Values"
+msgstr "Indangagaciro"
+
+#: .\apps\core\templates\core\about.html:73
+msgid "Accountability - Customer Engagement - Integrity - Service Excellence"
+msgstr "Kubazwa - Guhuza abakiriya - Ubunyangamugayo - Serivisi nziza"
+
+#: .\apps\core\templates\core\base.html:436
+msgid "Our products and services will be available soon. Thank you."
+msgstr "Ibicuruzwa na serivisi byacu bizaboneka vuba. Murakoze."
+
+#: .\apps\core\templates\core\base.html:497
+msgid "Customer Service"
+msgstr "Serivise y'abakiriya"
+
+#: .\apps\core\templates\core\base.html:612
+msgid "Shop By Category"
+msgstr "Amaduka Ukurikije Ibyiciro"
+
+#: .\apps\core\templates\core\base.html:633
+#: .\apps\core\templates\core\base.html:910
+#: .\apps\core\templates\core\base.html:1090
+#: .\apps\vendor\templates\vendor\vendors.html:18
+msgid "Stores"
+msgstr "Amaduka"
+
+#: .\apps\core\templates\core\base.html:640
+#: .\apps\core\templates\core\base.html:1069
+#: .\apps\rental\templates\rental\index.html:11
+msgid "Rental"
+msgstr "Gukodesha"
+
+#: .\apps\core\templates\core\base.html:650
+#: .\apps\core\templates\core\base.html:1048
+#: .\apps\services\templates\index.html:11
+#: .\apps\services\templates\service.html:21
+msgid "Services"
+msgstr "Serivici"
+
+#: .\apps\core\templates\core\base.html:660
+#: .\apps\core\templates\core\base.html:897
+#: .\apps\core\templates\core\base.html:1095
+msgid "Blog"
+msgstr "Blog"
+
+#: .\apps\core\templates\core\base.html:671
+#: .\apps\core\templates\core\base.html:847
+#: .\apps\core\templates\core\base.html:884
+#: .\apps\core\templates\core\base.html:1100
+#: .\apps\core\templates\core\frontpage.html:147
+msgid "Contact Us"
+msgstr "Twandikire"
+
+#: .\apps\core\templates\core\base.html:736
+msgid "Log In to Your Account"
+msgstr "Injira kuri Konti yawe"
+
+#: .\apps\core\templates\core\base.html:739
+#: .\apps\vendor\templates\vendor\login.html:18
+#: .\env\Lib\site-packages\django\db\models\fields\__init__.py:1638
+msgid "Email address"
+msgstr "Aderesi imeri"
+
+#: .\apps\core\templates\core\base.html:745
+#: .\apps\ordering\templates\shopcart_products.html:200
+#: .\apps\vendor\templates\customer\become_customer.html:98
+#: .\apps\vendor\templates\vendor\login.html:24
+msgid "Password"
+msgstr "Ijambobanga"
+
+#: .\apps\core\templates\core\base.html:750
+msgid "Forgot?"
+msgstr "Wibagiwe Ijambobanga"
+
+#: .\apps\core\templates\core\base.html:770
+#: .\apps\vendor\templates\vendor\login.html:13
+#: .\apps\vendor\templates\vendor\login.html:49
+msgid "Login"
+msgstr "Injira"
+
+#: .\apps\core\templates\core\base.html:772
+msgid "Create An Account"
+msgstr "Kora Konti"
+
+#: .\apps\core\templates\core\base.html:794
+#: .\apps\core\templates\core\base.html:804
+#: .\apps\rental\templates\rental\allItems.html:34
+#: .\apps\services\templates\myServiceAccount.html:27
+#: .\apps\vendor\templates\customer\myaccount.html:20
+#: .\apps\vendor\templates\customer\order_details.html:23
+#: .\apps\vendor\templates\customer\order_history.html:21
+msgid "Dashboard"
+msgstr ""
+
+#: .\apps\core\templates\core\base.html:795
+#: .\apps\core\templates\core\base.html:809
+#: .\apps\rental\templates\rental\allItems.html:37
+#: .\apps\rental\templates\rental\allItems.html:70
+#: .\apps\vendor\templates\customer\myaccount.html:29
+#: .\apps\vendor\templates\customer\order_details.html:29
+#: .\apps\vendor\templates\customer\order_history.html:30
+#: .\apps\vendor\templates\customer\order_history.html:41
+msgid "Order History"
+msgstr ""
+
+#: .\apps\core\templates\core\base.html:796
+#: .\apps\rental\templates\rental\allItems.html:40
+msgid "Products"
+msgstr "Ibicuruzwa"
+
+#: .\apps\core\templates\core\base.html:797
+#: .\apps\core\templates\core\base.html:808
+msgid "Renting Items"
+msgstr "Gukodesha Ibintu"
+
+#: .\apps\core\templates\core\base.html:798
+msgid "Quotations Request"
+msgstr "Gusaba ibicuruzwa"
+
+#: .\apps\core\templates\core\base.html:799
+#: .\apps\rental\templates\rental\allItems.html:49
+#: .\apps\vendor\templates\vendor\vendor.html:89
+msgid "Working Hours"
+msgstr "Amasaha y'akazi"
+
+#: .\apps\core\templates\core\base.html:801
+msgid "Delivery Cost"
+msgstr "Igiciro cyo kohereza"
+
+#: .\apps\core\templates\core\base.html:805
+#: .\apps\services\templates\myServiceAccount.html:30
+msgid "Edit Profile"
+msgstr "Hindura ibikuranga"
+
+#: .\apps\core\templates\core\base.html:807
+#: .\apps\rental\templates\rental\allItems.html:64
+#: .\apps\vendor\templates\customer\myaccount.html:23
+#: .\apps\vendor\templates\customer\order_details.html:20
+#: .\apps\vendor\templates\customer\order_history.html:24
+msgid "My Account"
+msgstr "Konti yanjye"
+
+#: .\apps\core\templates\core\base.html:814
+#: .\apps\rental\templates\rental\allItems.html:57
+#: .\apps\rental\templates\rental\allItems.html:73
+#: .\apps\vendor\templates\customer\myaccount.html:32
+#: .\apps\vendor\templates\customer\order_details.html:32
+#: .\apps\vendor\templates\customer\order_history.html:33
+msgid "Logout"
+msgstr "Gusohoka"
+
+#: .\apps\core\templates\core\base.html:849
+msgid "Anything we can help you with?"
+msgstr "Ikintu cyose dushobora kugufasha"
+
+#: .\apps\core\templates\core\base.html:849
+msgid "You can easily reach us."
+msgstr "Urashobora kutugeraho byoroshye"
+
+#: .\apps\core\templates\core\base.html:877
+msgid "Information"
+msgstr "Amakuru"
+
+#: .\apps\core\templates\core\base.html:880
+msgid "About Us"
+msgstr "Ibyerekeye"
+
+#: .\apps\core\templates\core\base.html:888
+#: .\apps\vendor\templates\customer\become_customer.html:110
+msgid "Terms & Conditions"
+msgstr "Amabwiriza n' Amategeko"
+
+#: .\apps\core\templates\core\base.html:891
+msgid "Privacy Policy"
+msgstr "Ibanga"
+
+#: .\apps\core\templates\core\base.html:894
+msgid "FAQs"
+msgstr "FAQS"
+
+#: .\apps\core\templates\core\base.html:900
+msgid "Sitemap"
+msgstr ""
+
+#: .\apps\core\templates\core\base.html:907
+msgid "Vendors"
+msgstr "Abacuruzi"
+
+#: .\apps\core\templates\core\base.html:913
+msgid "Brands"
+msgstr "Ibirango"
+
+#: .\apps\core\templates\core\base.html:916
+#: .\apps\core\templates\core\pricing.html:16
+msgid "Pricing"
+msgstr "Ibiciro"
+
+#: .\apps\core\templates\core\base.html:919
+msgid "Guidelines"
+msgstr "Amabwiriza"
+
+#: .\apps\core\templates\core\base.html:927
+msgid "Newsletter"
+msgstr "Akanyamakuru"
+
+#: .\apps\core\templates\core\base.html:929
+msgid "Deals - Inspiration - Trends - Information"
+msgstr "Amasezerano - Inspiration - Ibigezweho - Amakuru"
+
+#: .\apps\core\templates\core\base.html:998
+msgid "Home"
+msgstr "Home"
+
+#: .\apps\core\templates\core\base.html:1003
+msgid "Categories"
+msgstr "Ibyiciro"
+
+#: .\apps\core\templates\core\base.html:1221
+msgid "View Cart"
+msgstr ""
+
+#: .\apps\core\templates\core\base.html:1222
+msgid "Checkout"
+msgstr "Kugenzura"
+
+#: .\apps\core\templates\core\caroussel.html:42
+msgid "Free Shipping"
+msgstr "Kohereza ku buntu"
+
+#: .\apps\core\templates\core\caroussel.html:44
+msgid "On various products"
+msgstr "Ku bicuruzwa bitandukanye"
+
+#: .\apps\core\templates\core\caroussel.html:58
+msgid "Customer Support"
+msgstr "Serivise y'abakiriya"
+
+#: .\apps\core\templates\core\caroussel.html:59
+msgid "Call or Chat"
+msgstr "Hamagara cyangwa Tuganire"
+
+#: .\apps\core\templates\core\caroussel.html:72
+msgid "Safety"
+msgstr "Umutekano"
+
+#: .\apps\core\templates\core\caroussel.html:74
+msgid "Only secure payments"
+msgstr "Kwishyura mu buryo butekanye"
+
+#: .\apps\core\templates\core\caroussel.html:88
+msgid "Hot Offers"
+msgstr ""
+
+#: .\apps\core\templates\core\caroussel.html:90
+msgid "Deals all year long"
+msgstr "Amasezerano umwaka wose"
+
+#: .\apps\core\templates\core\contact.html:32
+msgid "Our Address"
+msgstr "Aderesi yacu"
+
+#: .\apps\core\templates\core\contact.html:35
+msgid "street"
+msgstr "umuhanda"
+
+#: .\apps\core\templates\core\contact.html:43
+msgid "Opening Hours"
+msgstr "Amasaha y'akazi"
+
+#: .\apps\core\templates\core\contact.html:46
+msgid "Monday to Friday"
+msgstr "Kuwa mbere kugeza kuwa gatanu"
+
+#: .\apps\core\templates\core\contact.html:47
+#: .\env\Lib\site-packages\django\utils\dates.py:7
+msgid "Saturday"
+msgstr "Kuwa gatandatu"
+
+#: .\apps\core\templates\core\contact.html:48
+msgid "Sunday: Closed"
+msgstr "Kucyumeru:Gufunga"
+
+#: .\apps\core\templates\core\contact.html:54
+msgid "Leave us a Message"
+msgstr "Twandikire"
+
+#: .\apps\core\templates\core\contact.html:59
+msgid "Your Name"
+msgstr "Amazina yawe"
+
+#: .\apps\core\templates\core\contact.html:68
+#: .\apps\home\templates\product_detail.html:1428
+#: .\apps\services\templates\provider.html:465
+msgid "Subject"
+msgstr "Ingingo"
+
+#: .\apps\core\templates\core\contact.html:72
+msgid "Message"
+msgstr "Ubutumwa"
+
+#: .\apps\core\templates\core\contact.html:75
+msgid "Send Message"
+msgstr "Oheraza ubutumwa"
+
+#: .\apps\core\templates\core\frequently_asked_questions.html:14
+msgid "Frequently Asked Questions"
+msgstr "Ibibazo Bikunze Kubazwa"
+
+#: .\apps\core\templates\core\frequently_asked_questions.html:23
+msgid "Delivery Information"
+msgstr "Amakuru"
+
+#: .\apps\core\templates\core\frequently_asked_questions.html:29
+msgid "What delivery types are available?"
+msgstr "Ni ubuhe bwoko bwo kohereza burahari"
+
+#: .\apps\core\templates\core\frequently_asked_questions.html:31
+msgid ""
+"There are 3 types of delivery on sokopark.com: basic delivery ( 5 to 24 "
+"hours), express (1 to 5 hours) and vendor delivery (depends on the vendor)."
+msgstr "Hariho ubwoko 3 bwo kohereza  kuri sokopark.com:  basic deleivery (5 kugeza 24 "
+"amasaha), express (amasaha 1 kugeza kuri 5) no kohereza ibicuruzwa (biterwa numucuruzi)."
+
+#: .\apps\core\templates\core\frequently_asked_questions.html:33
+msgid "What products does Sokopark deliver?"
+msgstr "Ni ibihe bicuruzwa Sokopark itanga?"
+
+#: .\apps\core\templates\core\frequently_asked_questions.html:35
+msgid ""
+"Sokopark delivers furniture, building materials, lighting fixtures, paint, "
+"home appliances, decor items, tools, plants, fertilizers, roofing sheets, "
+"etc..."
+msgstr "Sokopark itanga ibikoresho, ibikoresho byo kubaka, ibikoresho byo kumurika, irangi, "
+"ibikoresho byo mu rugo, ibikoresho byo gushushanya, ibikoresho, ibimera, ifumbire, impapuro zo hejuru."
+"n'ibindi ..."
+
+#: .\apps\core\templates\core\frequently_asked_questions.html:41
+msgid "Where does Sokopark deliver?"
+msgstr "Sokopark yohereza  he?"
+
+#: .\apps\core\templates\core\frequently_asked_questions.html:43
+msgid ""
+"Sokopark currently delivers only in Kigali. Out of town deliveries will "
+"start within the next 6 months."
+msgstr "Sokopark kuri ubu itanga gusa muri Kigali. Ibisohoka mu mujyi "
+"tuzangira mu mezi 6 ari imbere."
+
+#: .\apps\core\templates\core\frequently_asked_questions.html:45
+msgid "Can orders be picked up in stores?"
+msgstr "Ibicuruzwa bishobora gufatwa mububiko?"
+
+#: .\apps\core\templates\core\frequently_asked_questions.html:47
+msgid "Yes. Orders from certain vendors can be picked up in stores."
+msgstr "Yego. Ibicuruzwa byabacuruzi bamwe birashobora gufatwa mububiko."
+
+#: .\apps\core\templates\core\frequently_asked_questions.html:56
+msgid "Payment Information"
+msgstr "Amakuru"
+
+#: .\apps\core\templates\core\frequently_asked_questions.html:62
+msgid "What payment methods are available?"
+msgstr "Ni ubuhe buryo bwo kwishyura buboneka?"
+
+#: .\apps\core\templates\core\frequently_asked_questions.html:64
+msgid ""
+"We currently only accept mobile money payments (MTN and Airtel) and bank "
+"transfers. We are still working to add visa and mastercard as payment "
+"options."
+msgstr "Kugeza ubu twemera gusa kwishyura amafaranga kuri terefone igendanwa (MTN na Airtel) na banki "
+"mu kohereza. Turacyakora kugira ngo twongere viza na mastercard nk'ubwishyu."
+"amahitamo."
+
+#: .\apps\core\templates\core\frequently_asked_questions.html:70
+msgid "How long does payments to the vendor take?"
+msgstr "Kwishura umucuruzi bifata igihe kingana iki?"
+
+#: .\apps\core\templates\core\frequently_asked_questions.html:72
+msgid ""
+"Payments to vendors are processed every day. The payment timeline cannot "
+"exceed 24 hours."
+msgstr "Kwishura abacuruzi bikorwa buri munsi. Igihe cyo kwishyura ntigishobora "
+"kurenza amasaha 24."
+
+#: .\apps\core\templates\core\frontpage.html:105
+#: .\apps\core\templates\core\pricing.html:127
+msgid "Featured products"
+msgstr "Ibicuruzwa byihariye"
+
+#: .\apps\core\templates\core\frontpage.html:144
+msgid "Are you looking"
+msgstr "Wifuza iki?"
+
+#: .\apps\core\templates\core\frontpage.html:144
+msgid "for a distributor in Rwanda?"
+msgstr "kubafatabuguzi bo mu Rwanda?"
+
+#: .\apps\core\templates\core\frontpage.html:158
+msgid "Popular products"
+msgstr "Ibicuruzwa"
+
+#: .\apps\core\templates\core\frontpage.html:239
+msgid "Latest additions"
+msgstr "ibicuruzwa bishya"
+
+#: .\apps\core\templates\core\frontpage.html:277
+msgid "Latest posts"
+msgstr "Amakuru mashya"
+
+#: .\apps\core\templates\core\frontpage.html:369
+msgid "Recently Viewed"
+msgstr "Ibicuruzwa uheruste kureba"
+
+#: .\apps\core\templates\core\pricing.html:37
+#: .\apps\core\templates\core\pricing.html:62
+#: .\apps\core\templates\core\pricing.html:88
+#: .\apps\core\templates\core\pricing.html:116
+msgid "Product Limit"
+msgstr "Ibicuruzwa"
+
+#: .\apps\core\templates\core\pricing.html:38
+#: .\apps\core\templates\core\pricing.html:63
+#: .\apps\core\templates\core\pricing.html:89
+msgid "products"
+msgstr "Ibicuruzwa"
+
+#: .\apps\core\templates\core\pricing.html:41
+#: .\apps\core\templates\core\pricing.html:66
+#: .\apps\core\templates\core\pricing.html:92
+#: .\apps\core\templates\core\pricing.html:121
+msgid "Features"
+msgstr "Ibiranga"
+
+#: .\apps\core\templates\core\pricing.html:42
+#: .\apps\core\templates\core\pricing.html:67
+#: .\apps\core\templates\core\pricing.html:93
+#: .\apps\core\templates\core\pricing.html:122
+msgid "Vendor Dashboard"
+msgstr "Abacuruzi"
+
+#: .\apps\core\templates\core\pricing.html:43
+#: .\apps\core\templates\core\pricing.html:68
+#: .\apps\core\templates\core\pricing.html:94
+#: .\apps\core\templates\core\pricing.html:123
+msgid "Email Notifications"
+msgstr "Kumenyesha imeri"
+
+#: .\apps\core\templates\core\pricing.html:46
+#: .\apps\core\templates\core\pricing.html:72
+#: .\apps\core\templates\core\pricing.html:100
+#: .\apps\core\templates\core\pricing.html:131
+msgid "Account fees"
+msgstr "Konti yanjye"
+
+#: .\apps\core\templates\core\pricing.html:47
+msgid "FREE"
+msgstr "ubuntu"
+
+#: .\apps\core\templates\core\pricing.html:50
+#: .\apps\core\templates\core\pricing.html:76
+#: .\apps\core\templates\core\pricing.html:104
+#: .\apps\core\templates\core\pricing.html:135
+msgid "Transaction fees"
+msgstr "Amafaranga yo gucuruza"
+
+#: .\apps\core\templates\core\pricing.html:51
+#: .\apps\core\templates\core\pricing.html:77
+#: .\apps\core\templates\core\pricing.html:105
+#: .\apps\core\templates\core\pricing.html:136
+msgid "per transaction(*)"
+msgstr "kuri buri gikorwa(*)"
+
+#: .\apps\core\templates\core\pricing.html:69
+#: .\apps\core\templates\core\pricing.html:95
+#: .\apps\core\templates\core\pricing.html:124
+msgid "Social media promotion"
+msgstr "Kwamamaza imbuga nkoranyambaga"
+
+#: .\apps\core\templates\core\pricing.html:73
+#: .\apps\core\templates\core\pricing.html:101
+msgid "per month"
+msgstr "ku kwezi"
+
+#: .\apps\core\templates\core\pricing.html:96
+#: .\apps\core\templates\core\pricing.html:125
+msgid "Pick up order in store"
+msgstr "Kuza kwifatira ibicuruzwa"
+
+#: .\apps\core\templates\core\pricing.html:97
+#: .\apps\core\templates\core\pricing.html:126
+msgid "Manage your delivery"
+msgstr "Gucunga ibyo wohererejwe"
+
+#: .\apps\core\templates\core\pricing.html:117
+msgid "None"
+msgstr ""
+
+#: .\apps\core\templates\core\pricing.html:128
+msgid "Customization"
+msgstr "Guhitamo"
+
+#: .\apps\core\templates\core\pricing.html:132
+msgid "Negociable"
+msgstr "Ibiganiro"
+
+#: .\apps\core\templates\core\pricing.html:158
+msgid "The transaction percentage is based on product type."
+msgstr ""
+
+#: .\apps\core\templates\core\vendor_guidelines.html:17
+msgid "Vendor Guidelines"
+msgstr "Amabwiriza"
+
+#: .\apps\core\templates\core\vendor_guidelines.html:21
+msgid "Account Requirements"
+msgstr "Ibisabwa Konti"
+
+#: .\apps\core\templates\core\vendor_guidelines.html:24
+msgid "Full registration certificate (RDB)."
+msgstr "Icyemezo cyuko wiyandikisha cyuzuye muri (RDB)."
+
+#: .\apps\core\templates\core\vendor_guidelines.html:27
+msgid "Momo merchant code."
+msgstr "Momo code yu mucuruzi"
+
+#: .\apps\core\templates\core\vendor_guidelines.html:30
+msgid "Bank account details."
+msgstr "Ibisobanuro bya konti ya banki"
+
+#: .\apps\core\templates\core\vendor_guidelines.html:33
+msgid "High resolution company logo."
+msgstr "Ikirangantego cy' umucuruzi."
+
+#: .\apps\core\templates\core\vendor_guidelines.html:37
+msgid "Vendor Policy"
+msgstr "Abacuruzi"
+
+#: .\apps\core\templates\core\vendor_guidelines.html:40
+msgid "The vendor must provide detailed & accurate information."
+msgstr "Umucuruzi agomba gutanga amakuru arambuye & yukuri."
+
+#: .\apps\core\templates\core\vendor_guidelines.html:43
+msgid ""
+"The vendor must respect the intellectual property of others. If you feel "
+"someone has violated your intellectual property rights, you can report it to "
+"Sokopark."
+msgstr "Umucuruzi agomba kubaha umutungo wibanga wabandi. Niba wumva "
+"umuntu yarenze ku burenganzira bwawe ku mutungo bwite bwibanga, urashobora kubimenyesha."
+"Sokopark."
+
+#: .\apps\core\templates\core\vendor_guidelines.html:46
+msgid "The vendor should always act fairly and not misuse"
+msgstr "Umucuruzi agomba guhora akora neza kandi ntagomba gukoresha nabi amakuru"
+
+#: .\apps\core\templates\core\vendor_guidelines.html:46
+msgid "features or services."
+msgstr "ibiranga cyangwa serivisi."
+
+#: .\apps\core\templates\core\vendor_guidelines.html:49
+msgid ""
+"It is the responsibility of the vendor to update the products information "
+"(stock, delivery times)."
+msgstr "Ni inshingano z'umucuruzi kuvugurura amakuru y'ibicuruzwa "
+"(ububiko, igihe cyo kohereza)."
+
+#: .\apps\core\templates\core\vendor_guidelines.html:52
+msgid ""
+"Product images must be in high definition and the main image must have a "
+"white background."
+msgstr "Amashusho y'ibicuruzwa agomba kuba mubisobanuro bihanitse kandi ishusho nyamukuru igomba kugira "
+"inyuma yera."
+
+#: .\apps\core\templates\core\vendor_guidelines.html:55
+msgid ""
+"The vendor should not attempt to increase the price of a product after an "
+"order is confirmed."
+msgstr "Umucuruzi ntagomba kugerageza kongera igiciro cyibicuruzwa nyuma ya "
+"igicuruza cyatumijwe."
+
+#: .\apps\core\templates\core\vendor_guidelines.html:58
+msgid "The vendor should not operate more than one selling account."
+msgstr "Umucuruzi ntagomba gukora konti irenze imwe yo kugurisha."
+
+#: .\apps\core\templates\core\vendor_guidelines.html:61
+msgid "The vendor should not attempt to circumvent"
+msgstr "Umucuruzi ntagomba kugerageza kuzenguruka"
+
+#: .\apps\core\templates\core\vendor_guidelines.html:61
+msgid "sales process."
+msgstr "inzira yo kugurisha."
+
+#: .\apps\core\templates\core\vendor_guidelines.html:64
+msgid "The vendor should not send unsolicited or inappropriate communications."
+msgstr "Umucuruzi ntagomba kohereza itumanaho ridasabwe cyangwa ridakwiye."
+
+#: .\apps\core\templates\core\vendor_guidelines.html:67
+msgid ""
+"The vendor should not share customer information such as addresses or phone "
+"numbers with any third-party."
+msgstr "Umucuruzi ntagomba gusangira amakuru yabakiriya nka aderesi cyangwa terefone "
+"imibare hamwe nundi muntu wese."
+
+#: .\apps\core\templates\parts\newsletter.html:6
+msgid "Subscribe"
+msgstr "Iyandikishe"
+
+#: .\apps\core\templates\parts\newsletter.html:11
+msgid "Contact us on social media."
+msgstr "Twandikire ku mbuga nkoranyambaga"
+
+#: .\apps\home\templates\product_detail.html:617
+#: .\apps\home\templates\product_detail.html:1167
+#: .\apps\home\templates\product_detail.html:1690
+#: .\apps\services\templates\provider.html:277
+#: .\apps\services\templates\provider.html:326
+msgid "Reviews"
+msgstr "Tanga ubutumwa "
+
+#: .\apps\home\templates\product_detail.html:617
+#: .\apps\home\templates\product_detail.html:1411
+#: .\apps\services\templates\provider.html:448
+msgid "Write A Review"
+msgstr ""
+
+#: .\apps\home\templates\product_detail.html:625
+#: .\apps\home\templates\product_detail.html:917
+msgid "Availability"
+msgstr "Kuboneka"
+
+#: .\apps\home\templates\product_detail.html:629
+#: .\apps\home\templates\product_detail.html:632
+#: .\apps\home\templates\product_detail.html:635
+#: .\apps\home\templates\product_detail.html:919
+#: .\apps\home\templates\product_detail.html:921
+msgid "Out of Stock"
+msgstr "Nta gicuruzwa gisigaye mu bubiko"
+
+#: .\apps\home\templates\product_detail.html:639
+msgid "Brand"
+msgstr "Ibirango"
+
+#: .\apps\home\templates\product_detail.html:643
+#: .\apps\vendor\templates\customer\order_details.html:55
+msgid "Vendor"
+msgstr "Abacuruzi"
+
+#: .\apps\home\templates\product_detail.html:689
+#: .\apps\home\templates\product_detail.html:771
+#: .\apps\home\templates\product_detail.html:1186
+msgid "Size"
+msgstr "Ingano"
+
+#: .\apps\home\templates\product_detail.html:709
+#: .\apps\home\templates\product_detail.html:750
+#: .\apps\home\templates\product_detail.html:856
+#: .\apps\home\templates\product_detail.html:1192
+#: .\apps\home\templates\product_detail.html:1239
+msgid "Color"
+msgstr "ibara"
+
+#: .\apps\home\templates\product_detail.html:730
+#: .\apps\home\templates\product_detail.html:814
+#: .\apps\home\templates\product_detail.html:1198
+#: .\apps\home\templates\product_detail.html:1246
+msgid "Weight"
+msgstr "Ibiro"
+
+#: .\apps\home\templates\product_detail.html:792
+#: .\apps\home\templates\product_detail.html:1207
+#: .\apps\home\templates\product_detail.html:1257
+msgid "Length"
+msgstr "Uburebure"
+
+#: .\apps\home\templates\product_detail.html:835
+#: .\apps\home\templates\product_detail.html:1213
+#: .\apps\home\templates\product_detail.html:1265
+msgid "Width"
+msgstr "Ubugari"
+
+#: .\apps\home\templates\product_detail.html:875
+msgid "Adjacent Colors"
+msgstr "Amabara yegeranye"
+
+#: .\apps\home\templates\product_detail.html:943
+#: .\apps\home\templates\product_detail.html:945
+#: .\apps\home\templates\product_detail.html:999
+#: .\apps\home\templates\product_detail.html:1001
+#: .\apps\home\templates\product_detail.html:1054
+#: .\apps\home\templates\product_detail.html:1056
+msgid "Add to cart"
+msgstr "Gura"
+
+#: .\apps\home\templates\product_detail.html:1103
+#: .\apps\home\templates\product_detail.html:1105
+msgid "Get quotation"
+msgstr "Saba igicuruzwa"
+
+#: .\apps\home\templates\product_detail.html:1151
+msgid "Pickup available"
+msgstr "kuza kw' iduka"
+
+#: .\apps\home\templates\product_detail.html:1154
+msgid "Free Delivery"
+msgstr "Igiciro cyo kohereza"
+
+#: .\apps\home\templates\product_detail.html:1165
+msgid "Description"
+msgstr "Ibisobanuro"
+
+#: .\apps\home\templates\product_detail.html:1166
+msgid "Specifications"
+msgstr "Ibisobanuro"
+
+#: .\apps\home\templates\product_detail.html:1174
+msgid "Product Full Description"
+msgstr "Ubisobanuro byuzuye by' Ibicuruzwa "
+
+#: .\apps\home\templates\product_detail.html:1181
+#: .\apps\home\templates\product_detail.html:1227
+msgid "Specification"
+msgstr "Ibisobanuro"
+
+#: .\apps\home\templates\product_detail.html:1183
+#: .\apps\home\templates\product_detail.html:1229
+msgid "General"
+msgstr ""
+
+#: .\apps\home\templates\product_detail.html:1204
+#: .\apps\home\templates\product_detail.html:1254
+msgid "Dimensions"
+msgstr "Ibipimo"
+
+#: .\apps\home\templates\product_detail.html:1219
+#: .\apps\home\templates\product_detail.html:1273
+msgid "Height"
+msgstr "Uburebure"
+
+#: .\apps\home\templates\product_detail.html:1283
+msgid ""
+"Information on technical characteristics, the delivery set, the country of "
+"manufacture and the appearance"
+msgstr "Amakuru ku biranga tekiniki, uburyo gitumizwamo, igihugu cya "
+"cyakorewemo no kugaragara"
+
+#: .\apps\home\templates\product_detail.html:1290
+msgid "Customer Reviews"
+msgstr "Serivise y'abakiriya"
+
+#: .\apps\home\templates\product_detail.html:1417
+#: .\apps\services\templates\provider.html:454
+msgid "Review Stars"
+msgstr ""
+
+#: .\apps\home\templates\product_detail.html:1419
+#: .\apps\home\templates\product_detail.html:1420
+#: .\apps\home\templates\product_detail.html:1421
+#: .\apps\home\templates\product_detail.html:1422
+#: .\apps\home\templates\product_detail.html:1423
+#: .\apps\services\templates\provider.html:456
+#: .\apps\services\templates\provider.html:457
+#: .\apps\services\templates\provider.html:458
+#: .\apps\services\templates\provider.html:459
+#: .\apps\services\templates\provider.html:460
+msgid "Stars Rating"
+msgstr ""
+
+#: .\apps\home\templates\product_detail.html:1435
+#: .\apps\services\templates\provider.html:470
+msgid "Your Review"
+msgstr ""
+
+#: .\apps\home\templates\product_detail.html:1440
+#: .\apps\services\templates\provider.html:475
+msgid "Post Your Review"
+msgstr ""
+
+#: .\apps\home\templates\product_detail.html:1457
+msgid "Related Products"
+msgstr "Ibicuruzwa bifitanye isano"
+
+#: .\apps\order\templates\order\email_notify_customer.html:102
+msgid "Thank You For Your Order."
+msgstr ""
+
+#: .\apps\order\templates\order\email_notify_customer.html:110
+#: .\apps\order\templates\order\email_notify_vendor.html:110
+msgid "Order Reference:"
+msgstr ""
+
+#: .\apps\order\templates\order\email_notify_customer.html:111
+#: .\apps\order\templates\order\email_notify_vendor.html:111
+msgid "Order Date & Time:"
+msgstr "Itariki & Igihe:"
+
+#: .\apps\order\templates\order\email_notify_customer.html:121
+#: .\apps\order\templates\order\email_notify_vendor.html:121
+msgid "Item"
+msgstr "igicuruzwa"
+
+#: .\apps\order\templates\order\email_notify_customer.html:124
+#: .\apps\order\templates\order\email_notify_vendor.html:124
+msgid "Qty"
+msgstr "umubare"
+
+#: .\apps\order\templates\order\email_notify_customer.html:157
+#: .\apps\order\templates\order\email_notify_vendor.html:160
+msgid "Sub-Total"
+msgstr "Igiteranyo"
+
+#: .\apps\order\templates\order\email_notify_customer.html:198
+#: .\apps\order\templates\order\email_notify_vendor.html:203
+msgid "Customer Details"
+msgstr "Serivise y'abakiriya"
+
+#: .\apps\order\templates\order\email_notify_customer.html:199
+#: .\apps\order\templates\order\email_notify_vendor.html:204
+msgid "Name:"
+msgstr "amazina"
+
+#: .\apps\order\templates\order\email_notify_customer.html:199
+#: .\apps\order\templates\order\email_notify_vendor.html:204
+msgid "Phone:"
+msgstr "telefone"
+
+#: .\apps\order\templates\order\email_notify_customer.html:199
+#: .\apps\order\templates\order\email_notify_vendor.html:204
+msgid "Email:"
+msgstr "Imeri:"
+
+#: .\apps\order\templates\order\email_notify_customer.html:199
+#: .\apps\order\templates\order\email_notify_vendor.html:204
+msgid "Tin:"
+msgstr ""
+
+#: .\apps\order\templates\order\email_notify_customer.html:211
+#: .\apps\vendor\templates\customer\order_details.html:130
+msgid "Pick Up Address"
+msgstr "Aderesi y' igucuruzwa"
+
+#: .\apps\order\templates\order\email_notify_customer.html:211
+#: .\apps\order\templates\order\email_notify_vendor.html:217
+msgid "Delivery Address"
+msgstr "Igiciro cyo kohereza"
+
+#: .\apps\order\templates\order\email_notify_customer.html:212
+#: .\apps\order\templates\order\email_notify_vendor.html:218
+msgid "District:"
+msgstr "akarere"
+
+#: .\apps\order\templates\order\email_notify_customer.html:212
+#: .\apps\order\templates\order\email_notify_vendor.html:218
+msgid "Sector:"
+msgstr "Umurenge"
+
+#: .\apps\order\templates\order\email_notify_customer.html:212
+#: .\apps\order\templates\order\email_notify_vendor.html:218
+msgid "Cell:"
+msgstr "Akagari"
+
+#: .\apps\order\templates\order\email_notify_customer.html:212
+#: .\apps\order\templates\order\email_notify_vendor.html:218
+msgid "Village:"
+msgstr "Umudugudu"
+
+#: .\apps\order\templates\order\email_notify_customer.html:212
+#: .\apps\order\templates\order\email_notify_vendor.html:218
+msgid "Address:"
+msgstr "aderesi"
+
+#: .\apps\order\templates\order\email_notify_customer.html:224
+msgid "Delivery Type"
+msgstr "Igiciro cyo kohereza"
+
+#: .\apps\order\templates\order\email_notify_customer.html:226
+msgid "Pickup in Store"
+msgstr "gufata igicuruzwa kw' iduka"
+
+#: .\apps\order\templates\order\email_notify_customer.html:228
+msgid "Vendor Delivery"
+msgstr "koherezwa n' umucuruzi"
+
+#: .\apps\order\templates\order\email_notify_customer.html:230
+msgid "Express Delivery"
+msgstr "kohereza byihuse"
+
+#: .\apps\order\templates\order\email_notify_customer.html:232
+msgid "Basic Delivery"
+msgstr "kohereza bisanzwe"
+
+#: .\apps\order\templates\order\email_notify_customer.html:245
+msgid "Payment Method"
+msgstr "uburyo bwo kwishyura"
+
+#: .\apps\order\templates\order\email_notify_customer.html:278
+msgid ""
+"This document is an order confirmation. Tax receipts will be provided by the "
+"vendor(s). <br> * The prices above include Value Added Tax (if applicable). "
+"<br>* If you did not make this order, please ignore"
+msgstr "Iyi nyandiko ni icyemezo cyemeza. Inyemezabwishyu y’imisoro izatangwa na "
+"umucuruzi (s). <br> * Ibiciro hejuru birimo umusoro ku nyongeragaciro (niba bishoboka)."
+"<br> * Niba utarabisabye,  wirengagize ibyavuzwe haruguru"
+
+#: .\apps\order\templates\order\email_notify_customer.html:279
+#: .\apps\order\templates\order\email_notify_vendor.html:252
+msgid "this email."
+msgstr "iyi imeri."
+
+#: .\apps\order\templates\order\email_notify_vendor.html:102
+msgid "Order Received."
+msgstr "ibicuruzwa byakiriwe."
+
+#: .\apps\order\templates\order\email_notify_vendor.html:251
+msgid ""
+"This document is an order confirmation. It is the responsibility of the "
+"vendor to provide tax receipts to the customers. <br> * The prices above "
+"include Value Added Tax (if applicable). <br>* If you are not a Sokopark "
+"vendor, please ignore"
+msgstr "Iyi nyandiko ni icyemezo cyemeza. Ni inshingano za "
+"umucuruzi gutanga inyemezabwishyu ku bakiriya. <br> * Ibiciro hejuru."
+"shyiramo umusoro ku nyongeragaciro (niba bishoboka). <br> * Niba utari umucuruzi wa Sokopark"
+" wirengagize ubu butumwa"
+
+#: .\apps\ordering\templates\shopcart_products.html:72
+#: .\env\Lib\site-packages\django\db\models\fields\files.py:375
+msgid "Image"
+msgstr "Ishusho "
+
+#: .\apps\ordering\templates\shopcart_products.html:202
+msgid "Apply Coupon"
+msgstr "Koresha Coupon"
+
+#: .\apps\ordering\templates\shopcart_products.html:205
+msgid "Continue Shopping"
+msgstr "Komeza Guhaha"
+
+#: .\apps\ordering\templates\shopcart_products.html:229
+msgid "Proceed to checkout"
+msgstr "Komeza kuri ku giteranyo"
+
+#: .\apps\ordering\templates\shopcart_products.html:238
+msgid "Your shopping cart is empty!"
+msgstr "Ikarita yawe yo guhaha irimo ubusa"
+
+#: .\apps\ordering\templates\shopcart_products.html:240
+msgid "Start shopping"
+msgstr "Tangira guhaha"
+
+#: .\apps\rental\templates\rental\allItems.html:31
+msgid "Vendor Administration"
+msgstr "igenzura bw'abacuruzi"
+
+#: .\apps\rental\templates\rental\allItems.html:43
+#: .\apps\rental\templates\rental\allItems.html:67
+#: .\apps\vendor\templates\customer\myaccount.html:26
+#: .\apps\vendor\templates\customer\order_details.html:26
+#: .\apps\vendor\templates\customer\order_history.html:27
+msgid "Renting items"
+msgstr "Gukodesha Ibintu"
+
+#: .\apps\rental\templates\rental\allItems.html:46
+msgid "Quotation Requests"
+msgstr "Gusaba ibicuruzwa"
+
+#: .\apps\rental\templates\rental\allItems.html:53
+msgid "Delivery Price"
+msgstr "Igiciro cyo kohereza"
+
+#: .\apps\rental\templates\rental\allItems.html:61
+msgid "Customer Administration"
+msgstr "ubugenzuzi bwu muguzi"
+
+#: .\apps\rental\templates\rental\allItems.html:84
+msgid "My Items"
+msgstr "ibikondeshwa"
+
+#: .\apps\rental\templates\rental\allItems.html:85
+msgid "Add Item for Rent"
+msgstr "ongera ibikodeshwa"
+
+#: .\apps\rental\templates\rental\allItems.html:94
+msgid "Title"
+msgstr "Umutwe"
+
+#: .\apps\rental\templates\rental\allItems.html:97
+msgid "Available"
+msgstr "Birashoboka"
+
+#: .\apps\rental\templates\rental\allItems.html:98
+#: .\apps\services\templates\myServiceAccount.html:83
+#: .\apps\vendor\templates\customer\myaccount.html:86
+#: .\apps\vendor\templates\customer\order_history.html:51
+msgid "Status"
+msgstr "Imiterere"
+
+#: .\apps\rental\templates\rental\allItems.html:99
+msgid "Add Images"
+msgstr "ongeraho ishusho"
+
+#: .\apps\rental\templates\rental\allItems.html:100
+#: .\apps\rental\templates\rental\allItems.html:129
+#: .\env\Lib\site-packages\django_addanother\templates\django_addanother\related_widget_wrapper.html:10
+msgid "Edit"
+msgstr "hindura"
+
+#: .\apps\rental\templates\rental\allItems.html:101
+#: .\apps\rental\templates\rental\allItems.html:132
+#: .\env\Lib\site-packages\django\forms\formsets.py:417
+msgid "Delete"
+msgstr "gusiba"
+
+#: .\apps\rental\templates\rental\allItems.html:111
+#: .\apps\rental\templates\rental\category.html:453
+#: .\env\Lib\site-packages\django\forms\widgets.py:715
+msgid "Yes"
+msgstr "yego"
+
+#: .\apps\rental\templates\rental\allItems.html:113
+#: .\apps\rental\templates\rental\category.html:467
+#: .\env\Lib\site-packages\django\forms\widgets.py:716
+msgid "No"
+msgstr "oya"
+
+#: .\apps\rental\templates\rental\allItems.html:116
+msgid "Reviewed"
+msgstr "yemejwe"
+
+#: .\apps\rental\templates\rental\allItems.html:118
+msgid "Under Review"
+msgstr "nti remezwa"
+
+#: .\apps\rental\templates\rental\allItems.html:125
+#: .\apps\services\templates\myServiceAccount.html:62
+msgid "Upload"
+msgstr "shiraho ishusho"
+
+#: .\apps\rental\templates\rental\allItems.html:140
+msgid "No Item yet"
+msgstr "nta bikodeshwa washizemo"
+
+#: .\apps\rental\templates\rental\category.html:25
+#: .\apps\rental\templates\rental\category.html:34
+#: .\apps\services\templates\service.html:30
+msgid "Filters"
+msgstr "Hitamo"
+
+#: .\apps\rental\templates\rental\category.html:62
+msgid "Item Types"
+msgstr "Ubwoko bw' ibikodeshwa"
+
+#: .\apps\rental\templates\rental\category.html:100
+#: .\apps\vendor\templates\vendor\vendor.html:76
+msgid "Location"
+msgstr "Amakuru"
+
+#: .\apps\rental\templates\rental\category.html:139
+msgid "Make"
+msgstr "cyakoze"
+
+#: .\apps\rental\templates\rental\category.html:178
+msgid "Rooms"
+msgstr "ibyumba"
+
+#: .\apps\rental\templates\rental\category.html:214
+msgid "Amenity"
+msgstr "Ibyiza"
+
+#: .\apps\rental\templates\rental\category.html:252
+msgid "Application"
+msgstr "Gikoreshwa"
+
+#: .\apps\rental\templates\rental\category.html:289
+msgid "Capacity"
+msgstr "ubushobozi"
+
+#: .\apps\rental\templates\rental\category.html:326
+msgid "Year"
+msgstr "umwaka"
+
+#: .\apps\rental\templates\rental\category.html:362
+msgid "Model"
+msgstr ""
+
+#: .\apps\rental\templates\rental\category.html:398
+msgid "Engine"
+msgstr "Moteri"
+
+#: .\apps\rental\templates\rental\category.html:433
+msgid "Available for Sale"
+msgstr "Birashoboka kugurisha"
+
+#: .\apps\rental\templates\rental\details.html:38
+#: .\apps\services\templates\myServiceAccount.html:84
+msgid "Unavailable"
+msgstr "Ntagihari"
+
+#: .\apps\services\templates\myServiceAccount.html:24
+msgid "Service Account"
+msgstr "Konti yanjye"
+
+#: .\apps\services\templates\myServiceAccount.html:40
+msgid "Active"
+msgstr "kiri k' isoko"
+
+#: .\apps\services\templates\myServiceAccount.html:42
+msgid "Under-Review"
+msgstr "ntikiremezwa"
+
+#: .\apps\services\templates\myServiceAccount.html:60
+msgid "Add profile image"
+msgstr "shiraho ishusho yawe"
+
+#: .\apps\services\templates\myServiceAccount.html:67
+msgid "Basic Info"
+msgstr "Amakuru Yibanze"
+
+#: .\apps\services\templates\myServiceAccount.html:75
+msgid "Add your TIN numbers"
+msgstr "Ongeraho numero yawe ya TIN"
+
+#: .\apps\services\templates\myServiceAccount.html:84
+msgid "available"
+msgstr "irahari"
+
+#: .\apps\services\templates\myServiceAccount.html:87
+#: .\apps\services\templates\provider.html:303
+msgid "Bio"
+msgstr ""
+
+#: .\apps\services\templates\myServiceAccount.html:90
+msgid "Add a small description about about yourself"
+msgstr "Ongeraho ibisobanuro bito byawe"
+
+#: .\apps\services\templates\provider.html:17
+msgid "Service Provider"
+msgstr "Utanga serivisi"
+
+#: .\apps\services\templates\provider.html:23
+#: .\apps\services\templates\service.html:56
+msgid "Ratings"
+msgstr "Gukodesha Ibintu"
+
+#: .\apps\services\templates\provider.html:287
+#: .\apps\vendor\templates\vendor\vendor.html:33
+msgid "Phone number"
+msgstr "Numero ya terefone"
+
+#: .\apps\services\templates\provider.html:477
+msgid "You must be logged in to post comments"
+msgstr "Ugomba kwinjira kugirango ushireho ibitekerezo"
+
+#: .\apps\services\templates\service.html:36
+msgid "Price / Daily rate"
+msgstr "Igiciro / Igiciro cya buri munsi"
+
+#: .\apps\services\templates\service.html:93
+msgid "Experience in years"
+msgstr "Ubunararibonye mu myaka"
+
+#: .\apps\services\templates\service.html:127
+msgid "Filter"
+msgstr "Hitamo"
+
+#: .\apps\services\templates\service.html:128
+msgid "Reset"
+msgstr "Gusubiramo"
+
+#: .\apps\vendor\templates\customer\become_customer.html:13
+msgid "Set up a Customer account"
+msgstr "Fungura conte y' umucuruzi"
+
+#: .\apps\vendor\templates\customer\become_customer.html:24
+msgid "First name & Last name"
+msgstr "Izina ryambere & Izina ryanyuma"
+
+#: .\apps\vendor\templates\customer\become_customer.html:38
+msgid "TIN (optional)"
+msgstr ""
+
+#: .\apps\vendor\templates\customer\become_customer.html:102
+msgid "Confirm Password"
+msgstr "Ijambobanga"
+
+#: .\apps\vendor\templates\customer\become_customer.html:110
+msgid "I agree to"
+msgstr "Ndemeza ko"
+
+#: .\apps\vendor\templates\customer\become_customer.html:115
+msgid "Register"
+msgstr "Iyandikishe"
+
+#: .\apps\vendor\templates\customer\become_customer.html:119
+msgid "Already have account"
+msgstr "Ufite konti"
+
+#: .\apps\vendor\templates\customer\become_customer.html:119
+msgid "Sign in here"
+msgstr "Injira hano"
+
+#: .\apps\vendor\templates\customer\become_customer.html:120
+msgid "Register as vendor"
+msgstr "Iyandikishe nku mucuruzi"
+
+#: .\apps\vendor\templates\customer\become_customer.html:120
+#: .\apps\vendor\templates\customer\become_customer.html:121
+#: .\apps\vendor\templates\vendor\login.html:53
+#: .\apps\vendor\templates\vendor\login.html:54
+#: .\apps\vendor\templates\vendor\login.html:55
+msgid "Register here"
+msgstr "iyandikishe hano"
+
+#: .\apps\vendor\templates\customer\become_customer.html:121
+msgid "Register as Service Provider"
+msgstr "Iyandikishe nkutanga servici"
+
+#: .\apps\vendor\templates\customer\myaccount.html:47
+#: .\apps\vendor\templates\customer\order_details.html:107
+msgid "Billing Address"
+msgstr "Aderesi imeri"
+
+#: .\apps\vendor\templates\customer\myaccount.html:55
+#: .\apps\vendor\templates\customer\order_details.html:121
+msgid "Email Address"
+msgstr "Aderesi imeri"
+
+#: .\apps\vendor\templates\customer\myaccount.html:76
+msgid "Recent Orders"
+msgstr ""
+
+#: .\apps\vendor\templates\customer\myaccount.html:84
+#: .\apps\vendor\templates\customer\order_details.html:43
+#: .\apps\vendor\templates\customer\order_history.html:49
+msgid "Order Reference"
+msgstr ""
+
+#: .\apps\vendor\templates\customer\myaccount.html:85
+#: .\apps\vendor\templates\customer\order_history.html:50
+msgid "Date and Time"
+msgstr "itariki n' igihe"
+
+#: .\apps\vendor\templates\customer\myaccount.html:87
+#: .\apps\vendor\templates\customer\order_history.html:52
+msgid "Amount"
+msgstr "Konti yanjye"
+
+#: .\apps\vendor\templates\customer\order_details.html:41
+msgid "Back to list"
+msgstr "subira kuri lisiti"
+
+#: .\apps\vendor\templates\customer\order_details.html:45
+msgid "Was placed on"
+msgstr "twabyohereje kuri "
+
+#: .\apps\vendor\templates\customer\order_details.html:46
+msgid "and is"
+msgstr "kandi ni"
+
+#: .\apps\vendor\templates\customer\order_details.html:95
+msgid "Grand Total"
+msgstr "Igiteranyo"
+
+#: .\apps\vendor\templates\customer\order_details.html:109
+msgid "Name"
+msgstr "Amazina"
+
+#: .\apps\vendor\templates\customer\order_details.html:130
+msgid "Shipping Address"
+msgstr "Aderesi byoherejweho"
+
+#: .\apps\vendor\templates\vendor\login.html:29
+msgid "Forgot your password?"
+msgstr "Wibagiwe ijambo ryibanga"
+
+#: .\apps\vendor\templates\vendor\login.html:53
+msgid "Register as a customer"
+msgstr "Iyandikishe nk' umuguzi"
+
+#: .\apps\vendor\templates\vendor\login.html:54
+msgid "Register as a vendor"
+msgstr "Iyandikishe nku mucuruzi"
+
+#: .\apps\vendor\templates\vendor\login.html:55
+msgid "Register as a Service provider"
+msgstr "Iyandikishe nkutanga service"
+
+#: .\apps\vendor\templates\vendor\vendor.html:21
+msgid "Company"
+msgstr "Isosiyete"
+
+#: .\apps\vendor\templates\vendor\vendor.html:40
+msgid "TIN"
+msgstr ""
+
+#: .\env\Lib\site-packages\bootstrap4\components.py:17
+#: .\env\Lib\site-packages\bootstrap4\templates\bootstrap4\form_errors.html:3
+#: .\env\Lib\site-packages\bootstrap4\templates\bootstrap4\messages.html:4
+msgid "close"
+msgstr ""
+
+#: .\env\Lib\site-packages\ckeditor_uploader\forms.py:6
+msgid "Search files"
+msgstr ""
+
+#: .\env\Lib\site-packages\ckeditor_uploader\templates\ckeditor\browse.html:5
+msgid "Select an image to embed"
+msgstr ""
+
+#: .\env\Lib\site-packages\ckeditor_uploader\templates\ckeditor\browse.html:27
+msgid "Browse for the image you want, then click 'Embed Image' to continue..."
+msgstr ""
+
+#: .\env\Lib\site-packages\ckeditor_uploader\templates\ckeditor\browse.html:29
+msgid ""
+"No images found. Upload images using the 'Image Button' dialog's 'Upload' "
+"tab."
+msgstr ""
+
+#: .\env\Lib\site-packages\ckeditor_uploader\templates\ckeditor\browse.html:50
+msgid "Images in: "
+msgstr ""
+
+#: .\env\Lib\site-packages\ckeditor_uploader\templates\ckeditor\browse.html:62
+#: .\env\Lib\site-packages\ckeditor_uploader\templates\ckeditor\browse.html:80
+msgid "Embed Image"
+msgstr ""
+
+#: .\env\Lib\site-packages\ckeditor_uploader\templates\ckeditor\browse.html:146
+msgid "Play Slideshow"
+msgstr ""
+
+#: .\env\Lib\site-packages\ckeditor_uploader\templates\ckeditor\browse.html:147
+msgid "Pause Slideshow"
+msgstr ""
+
+#: .\env\Lib\site-packages\ckeditor_uploader\templates\ckeditor\browse.html:148
+msgid "&lsaquo; Previous Photo"
+msgstr ""
+
+#: .\env\Lib\site-packages\ckeditor_uploader\templates\ckeditor\browse.html:149
+msgid "Next Photo &rsaquo;"
+msgstr ""
+
+#: .\env\Lib\site-packages\ckeditor_uploader\templates\ckeditor\browse.html:150
+msgid "Next &rsaquo;"
+msgstr ""
+
+#: .\env\Lib\site-packages\ckeditor_uploader\templates\ckeditor\browse.html:151
+msgid "&lsaquo; Prev"
+msgstr ""
+
+#: .\env\Lib\site-packages\crispy_forms\tests\test_form_helper.py:129
+#: .\env\Lib\site-packages\crispy_forms\tests\test_form_helper.py:139
+#: .\env\Lib\site-packages\django\forms\fields.py:54
+msgid "This field is required."
+msgstr ""
+
+#: .\env\Lib\site-packages\crispy_forms\tests\test_layout.py:391
+msgid "i18n text"
+msgstr ""
+
+#: .\env\Lib\site-packages\crispy_forms\tests\test_layout.py:393
+msgid "i18n legend"
+msgstr ""
+
+#: .\env\Lib\site-packages\crispy_forms\tests\test_layout_objects.py:134
+#: .\env\Lib\site-packages\django\core\validators.py:22
+msgid "Enter a valid value."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\contrib\messages\apps.py:7
+msgid "Messages"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\contrib\sitemaps\apps.py:8
+msgid "Site Maps"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\contrib\staticfiles\apps.py:9
+msgid "Static Files"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\contrib\syndication\apps.py:7
+msgid "Syndication"
+msgstr ""
+
+#. Translators: String used to replace omitted page numbers in elided page
+#. range generated by paginators, e.g. [1, 2, '…', 5, 6, 7, '…', 9, 10].
+#: .\env\Lib\site-packages\django\core\paginator.py:30
+msgid "…"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\core\paginator.py:51
+msgid "That page number is not an integer"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\core\paginator.py:53
+msgid "That page number is less than 1"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\core\paginator.py:58
+msgid "That page contains no results"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\core\validators.py:93
+#: .\env\Lib\site-packages\django\forms\fields.py:664
+msgid "Enter a valid URL."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\core\validators.py:150
+msgid "Enter a valid integer."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\core\validators.py:161
+msgid "Enter a valid email address."
+msgstr ""
+
+#. Translators: "letters" means latin letters: a-z and A-Z.
+#: .\env\Lib\site-packages\django\core\validators.py:262
+msgid ""
+"Enter a valid “slug” consisting of letters, numbers, underscores or hyphens."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\core\validators.py:269
+msgid ""
+"Enter a valid “slug” consisting of Unicode letters, numbers, underscores, or "
+"hyphens."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\core\validators.py:278
+#: .\env\Lib\site-packages\django\core\validators.py:288
+#: .\env\Lib\site-packages\django\core\validators.py:311
+msgid "Enter a valid IPv4 address."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\core\validators.py:296
+#: .\env\Lib\site-packages\django\core\validators.py:312
+msgid "Enter a valid IPv6 address."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\core\validators.py:306
+#: .\env\Lib\site-packages\django\core\validators.py:310
+msgid "Enter a valid IPv4 or IPv6 address."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\core\validators.py:340
+msgid "Enter only digits separated by commas."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\core\validators.py:346
+#, python-format
+msgid "Ensure this value is %(limit_value)s (it is %(show_value)s)."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\core\validators.py:379
+#, python-format
+msgid "Ensure this value is less than or equal to %(limit_value)s."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\core\validators.py:388
+#, python-format
+msgid "Ensure this value is greater than or equal to %(limit_value)s."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\core\validators.py:398
+#, python-format
+msgid ""
+"Ensure this value has at least %(limit_value)d character (it has "
+"%(show_value)d)."
+msgid_plural ""
+"Ensure this value has at least %(limit_value)d characters (it has "
+"%(show_value)d)."
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\env\Lib\site-packages\django\core\validators.py:413
+#, python-format
+msgid ""
+"Ensure this value has at most %(limit_value)d character (it has "
+"%(show_value)d)."
+msgid_plural ""
+"Ensure this value has at most %(limit_value)d characters (it has "
+"%(show_value)d)."
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\env\Lib\site-packages\django\core\validators.py:432
+#: .\env\Lib\site-packages\django\forms\fields.py:292
+#: .\env\Lib\site-packages\django\forms\fields.py:327
+msgid "Enter a number."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\core\validators.py:434
+#, python-format
+msgid "Ensure that there are no more than %(max)s digit in total."
+msgid_plural "Ensure that there are no more than %(max)s digits in total."
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\env\Lib\site-packages\django\core\validators.py:439
+#, python-format
+msgid "Ensure that there are no more than %(max)s decimal place."
+msgid_plural "Ensure that there are no more than %(max)s decimal places."
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\env\Lib\site-packages\django\core\validators.py:444
+#, python-format
+msgid ""
+"Ensure that there are no more than %(max)s digit before the decimal point."
+msgid_plural ""
+"Ensure that there are no more than %(max)s digits before the decimal point."
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\env\Lib\site-packages\django\core\validators.py:506
+#, python-format
+msgid ""
+"File extension “%(extension)s” is not allowed. Allowed extensions are: "
+"%(allowed_extensions)s."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\core\validators.py:559
+msgid "Null characters are not allowed."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\db\models\base.py:1197
+#: .\env\Lib\site-packages\django\forms\models.py:768
+msgid "and"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\db\models\base.py:1199
+#, python-format
+msgid "%(model_name)s with this %(field_labels)s already exists."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\db\models\fields\__init__.py:100
+#, python-format
+msgid "Value %(value)r is not a valid choice."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\db\models\fields\__init__.py:101
+msgid "This field cannot be null."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\db\models\fields\__init__.py:102
+msgid "This field cannot be blank."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\db\models\fields\__init__.py:103
+#, python-format
+msgid "%(model_name)s with this %(field_label)s already exists."
+msgstr ""
+
+#. Translators: The 'lookup_type' is one of 'date', 'year' or 'month'.
+#. Eg: "Title must be unique for pub_date year"
+#: .\env\Lib\site-packages\django\db\models\fields\__init__.py:107
+#, python-format
+msgid ""
+"%(field_label)s must be unique for %(date_field_label)s %(lookup_type)s."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\db\models\fields\__init__.py:126
+#, python-format
+msgid "Field of type: %(field_type)s"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\db\models\fields\__init__.py:958
+#, python-format
+msgid "“%(value)s” value must be either True or False."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\db\models\fields\__init__.py:959
+#, python-format
+msgid "“%(value)s” value must be either True, False, or None."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\db\models\fields\__init__.py:961
+msgid "Boolean (Either True or False)"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\db\models\fields\__init__.py:1002
+#, python-format
+msgid "String (up to %(max_length)s)"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\db\models\fields\__init__.py:1096
+msgid "Comma-separated integers"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\db\models\fields\__init__.py:1145
+#, python-format
+msgid ""
+"“%(value)s” value has an invalid date format. It must be in YYYY-MM-DD "
+"format."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\db\models\fields\__init__.py:1147
+#: .\env\Lib\site-packages\django\db\models\fields\__init__.py:1290
+#, python-format
+msgid ""
+"“%(value)s” value has the correct format (YYYY-MM-DD) but it is an invalid "
+"date."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\db\models\fields\__init__.py:1150
+msgid "Date (without time)"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\db\models\fields\__init__.py:1288
+#, python-format
+msgid ""
+"“%(value)s” value has an invalid format. It must be in YYYY-MM-DD HH:MM[:ss[."
+"uuuuuu]][TZ] format."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\db\models\fields\__init__.py:1292
+#, python-format
+msgid ""
+"“%(value)s” value has the correct format (YYYY-MM-DD HH:MM[:ss[.uuuuuu]]"
+"[TZ]) but it is an invalid date/time."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\db\models\fields\__init__.py:1296
+msgid "Date (with time)"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\db\models\fields\__init__.py:1444
+#, python-format
+msgid "“%(value)s” value must be a decimal number."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\db\models\fields\__init__.py:1446
+msgid "Decimal number"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\db\models\fields\__init__.py:1585
+#, python-format
+msgid ""
+"“%(value)s” value has an invalid format. It must be in [DD] [[HH:]MM:]ss[."
+"uuuuuu] format."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\db\models\fields\__init__.py:1588
+msgid "Duration"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\db\models\fields\__init__.py:1661
+msgid "File path"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\db\models\fields\__init__.py:1727
+#, python-format
+msgid "“%(value)s” value must be a float."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\db\models\fields\__init__.py:1729
+msgid "Floating point number"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\db\models\fields\__init__.py:1767
+#, python-format
+msgid "“%(value)s” value must be an integer."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\db\models\fields\__init__.py:1769
+msgid "Integer"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\db\models\fields\__init__.py:1852
+msgid "Big (8 byte) integer"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\db\models\fields\__init__.py:1867
+msgid "Small integer"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\db\models\fields\__init__.py:1875
+msgid "IPv4 address"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\db\models\fields\__init__.py:1906
+msgid "IP address"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\db\models\fields\__init__.py:1986
+#: .\env\Lib\site-packages\django\db\models\fields\__init__.py:1987
+#, python-format
+msgid "“%(value)s” value must be either None, True or False."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\db\models\fields\__init__.py:1989
+msgid "Boolean (Either True, False or None)"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\db\models\fields\__init__.py:2043
+msgid "Positive big integer"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\db\models\fields\__init__.py:2056
+msgid "Positive integer"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\db\models\fields\__init__.py:2069
+msgid "Positive small integer"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\db\models\fields\__init__.py:2083
+#, python-format
+msgid "Slug (up to %(max_length)s)"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\db\models\fields\__init__.py:2115
+msgid "Text"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\db\models\fields\__init__.py:2181
+#, python-format
+msgid ""
+"“%(value)s” value has an invalid format. It must be in HH:MM[:ss[.uuuuuu]] "
+"format."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\db\models\fields\__init__.py:2183
+#, python-format
+msgid ""
+"“%(value)s” value has the correct format (HH:MM[:ss[.uuuuuu]]) but it is an "
+"invalid time."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\db\models\fields\__init__.py:2186
+msgid "Time"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\db\models\fields\__init__.py:2312
+msgid "URL"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\db\models\fields\__init__.py:2334
+msgid "Raw binary data"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\db\models\fields\__init__.py:2399
+#, python-format
+msgid "“%(value)s” is not a valid UUID."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\db\models\fields\__init__.py:2401
+msgid "Universally unique identifier"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\db\models\fields\files.py:226
+msgid "File"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\db\models\fields\json.py:18
+msgid "A JSON object"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\db\models\fields\json.py:20
+msgid "Value must be valid JSON."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\db\models\fields\related.py:790
+#, python-format
+msgid "%(model)s instance with %(field)s %(value)r does not exist."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\db\models\fields\related.py:792
+msgid "Foreign Key (type determined by related field)"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\db\models\fields\related.py:1045
+msgid "One-to-one relationship"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\db\models\fields\related.py:1099
+#, python-format
+msgid "%(from)s-%(to)s relationship"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\db\models\fields\related.py:1100
+#, python-format
+msgid "%(from)s-%(to)s relationships"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\db\models\fields\related.py:1142
+msgid "Many-to-many relationship"
+msgstr ""
+
+#. Translators: If found as last label character, these punctuation
+#. characters will prevent the default label_suffix to be appended to the label
+#: .\env\Lib\site-packages\django\forms\boundfield.py:150
+msgid ":?.!"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\forms\fields.py:247
+msgid "Enter a whole number."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\forms\fields.py:391
+#: .\env\Lib\site-packages\django\forms\fields.py:1132
+msgid "Enter a valid date."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\forms\fields.py:415
+#: .\env\Lib\site-packages\django\forms\fields.py:1133
+msgid "Enter a valid time."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\forms\fields.py:443
+msgid "Enter a valid date/time."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\forms\fields.py:477
+msgid "Enter a valid duration."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\forms\fields.py:478
+#, python-brace-format
+msgid "The number of days must be between {min_days} and {max_days}."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\forms\fields.py:538
+msgid "No file was submitted. Check the encoding type on the form."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\forms\fields.py:539
+msgid "No file was submitted."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\forms\fields.py:540
+msgid "The submitted file is empty."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\forms\fields.py:542
+#, python-format
+msgid "Ensure this filename has at most %(max)d character (it has %(length)d)."
+msgid_plural ""
+"Ensure this filename has at most %(max)d characters (it has %(length)d)."
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\env\Lib\site-packages\django\forms\fields.py:545
+msgid "Please either submit a file or check the clear checkbox, not both."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\forms\fields.py:606
+msgid ""
+"Upload a valid image. The file you uploaded was either not an image or a "
+"corrupted image."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\forms\fields.py:768
+#: .\env\Lib\site-packages\django\forms\fields.py:858
+#: .\env\Lib\site-packages\django\forms\models.py:1309
+#, python-format
+msgid "Select a valid choice. %(value)s is not one of the available choices."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\forms\fields.py:859
+#: .\env\Lib\site-packages\django\forms\fields.py:974
+#: .\env\Lib\site-packages\django\forms\models.py:1308
+msgid "Enter a list of values."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\forms\fields.py:975
+msgid "Enter a complete value."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\forms\fields.py:1191
+msgid "Enter a valid UUID."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\forms\fields.py:1221
+msgid "Enter a valid JSON."
+msgstr ""
+
+#. Translators: This is the default suffix added to form field labels
+#: .\env\Lib\site-packages\django\forms\forms.py:76
+msgid ":"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\forms\forms.py:203
+#, python-format
+msgid "(Hidden field %(name)s) %(error)s"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\forms\formsets.py:61
+#, python-format
+msgid ""
+"ManagementForm data is missing or has been tampered with. Missing fields: "
+"%(field_names)s. You may need to file a bug report if the issue persists."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\forms\formsets.py:370
+#, python-format
+msgid "Please submit at most %d form."
+msgid_plural "Please submit at most %d forms."
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\env\Lib\site-packages\django\forms\formsets.py:377
+#, python-format
+msgid "Please submit at least %d form."
+msgid_plural "Please submit at least %d forms."
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\env\Lib\site-packages\django\forms\models.py:763
+#, python-format
+msgid "Please correct the duplicate data for %(field)s."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\forms\models.py:767
+#, python-format
+msgid "Please correct the duplicate data for %(field)s, which must be unique."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\forms\models.py:773
+#, python-format
+msgid ""
+"Please correct the duplicate data for %(field_name)s which must be unique "
+"for the %(lookup)s in %(date_field)s."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\forms\models.py:782
+msgid "Please correct the duplicate values below."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\forms\models.py:1109
+msgid "The inline value did not match the parent instance."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\forms\models.py:1193
+msgid "Select a valid choice. That choice is not one of the available choices."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\forms\models.py:1311
+#, python-format
+msgid "“%(pk)s” is not a valid value."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\forms\utils.py:172
+#, python-format
+msgid ""
+"%(datetime)s couldn’t be interpreted in time zone %(current_timezone)s; it "
+"may be ambiguous or it may not exist."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\forms\widgets.py:403
+msgid "Clear"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\forms\widgets.py:404
+msgid "Currently"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\forms\widgets.py:405
+#: .\env\Lib\site-packages\nested_admin\templates\nesting\admin\includes\grappelli_inline_tabular.html:32
+#: .\env\Lib\site-packages\nested_admin\templates\nesting\admin\inlines\grappelli_stacked.html:42
+#: .\env\Lib\site-packages\nested_admin\templates\nesting\admin\inlines\polymorphic_stacked.html:34
+#: .\env\Lib\site-packages\nested_admin\templates\nesting\admin\inlines\stacked.html:34
+#: .\env\Lib\site-packages\nested_admin\templates\nesting\admin\inlines\tabular.html:59
+msgid "Change"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\forms\widgets.py:714
+msgid "Unknown"
+msgstr ""
+
+#. Translators: Please do not add spaces around commas.
+#: .\env\Lib\site-packages\django\template\defaultfilters.py:805
+msgid "yes,no,maybe"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\template\defaultfilters.py:834
+#: .\env\Lib\site-packages\django\template\defaultfilters.py:851
+#, python-format
+msgid "%(size)d byte"
+msgid_plural "%(size)d bytes"
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\env\Lib\site-packages\django\template\defaultfilters.py:853
+#, python-format
+msgid "%s KB"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\template\defaultfilters.py:855
+#, python-format
+msgid "%s MB"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\template\defaultfilters.py:857
+#, python-format
+msgid "%s GB"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\template\defaultfilters.py:859
+#, python-format
+msgid "%s TB"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\template\defaultfilters.py:861
+#, python-format
+msgid "%s PB"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dateformat.py:66
+msgid "p.m."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dateformat.py:67
+msgid "a.m."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dateformat.py:72
+msgid "PM"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dateformat.py:73
+msgid "AM"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dateformat.py:146
+msgid "midnight"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dateformat.py:148
+msgid "noon"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:6
+msgid "Monday"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:6
+msgid "Tuesday"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:6
+msgid "Wednesday"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:6
+msgid "Thursday"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:6
+msgid "Friday"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:7
+msgid "Sunday"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:10
+msgid "Mon"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:10
+msgid "Tue"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:10
+msgid "Wed"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:10
+msgid "Thu"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:10
+msgid "Fri"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:11
+msgid "Sat"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:11
+msgid "Sun"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:14
+msgid "January"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:14
+msgid "February"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:14
+msgid "March"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:14
+msgid "April"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:14
+msgid "May"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:14
+msgid "June"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:15
+msgid "July"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:15
+msgid "August"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:15
+msgid "September"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:15
+msgid "October"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:15
+msgid "November"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:16
+msgid "December"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:19
+msgid "jan"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:19
+msgid "feb"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:19
+msgid "mar"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:19
+msgid "apr"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:19
+msgid "may"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:19
+msgid "jun"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:20
+msgid "jul"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:20
+msgid "aug"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:20
+msgid "sep"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:20
+msgid "oct"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:20
+msgid "nov"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:20
+msgid "dec"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:23
+msgctxt "abbrev. month"
+msgid "Jan."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:24
+msgctxt "abbrev. month"
+msgid "Feb."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:25
+msgctxt "abbrev. month"
+msgid "March"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:26
+msgctxt "abbrev. month"
+msgid "April"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:27
+msgctxt "abbrev. month"
+msgid "May"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:28
+msgctxt "abbrev. month"
+msgid "June"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:29
+msgctxt "abbrev. month"
+msgid "July"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:30
+msgctxt "abbrev. month"
+msgid "Aug."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:31
+msgctxt "abbrev. month"
+msgid "Sept."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:32
+msgctxt "abbrev. month"
+msgid "Oct."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:33
+msgctxt "abbrev. month"
+msgid "Nov."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:34
+msgctxt "abbrev. month"
+msgid "Dec."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:37
+msgctxt "alt. month"
+msgid "January"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:38
+msgctxt "alt. month"
+msgid "February"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:39
+msgctxt "alt. month"
+msgid "March"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:40
+msgctxt "alt. month"
+msgid "April"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:41
+msgctxt "alt. month"
+msgid "May"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:42
+msgctxt "alt. month"
+msgid "June"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:43
+msgctxt "alt. month"
+msgid "July"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:44
+msgctxt "alt. month"
+msgid "August"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:45
+msgctxt "alt. month"
+msgid "September"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:46
+msgctxt "alt. month"
+msgid "October"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:47
+msgctxt "alt. month"
+msgid "November"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:48
+msgctxt "alt. month"
+msgid "December"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\ipv6.py:8
+msgid "This is not a valid IPv6 address."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\text.py:71
+#, python-format
+msgctxt "String to return when truncating text"
+msgid "%(truncated_text)s…"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\text.py:240
+msgid "or"
+msgstr ""
+
+#. Translators: This string is used as a separator between list elements
+#: .\env\Lib\site-packages\django\utils\text.py:259
+#: .\env\Lib\site-packages\django\utils\timesince.py:94
+msgid ", "
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\timesince.py:9
+#, python-format
+msgid "%d year"
+msgid_plural "%d years"
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\env\Lib\site-packages\django\utils\timesince.py:10
+#, python-format
+msgid "%d month"
+msgid_plural "%d months"
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\env\Lib\site-packages\django\utils\timesince.py:11
+#, python-format
+msgid "%d week"
+msgid_plural "%d weeks"
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\env\Lib\site-packages\django\utils\timesince.py:12
+#, python-format
+msgid "%d day"
+msgid_plural "%d days"
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\env\Lib\site-packages\django\utils\timesince.py:13
+#, python-format
+msgid "%d hour"
+msgid_plural "%d hours"
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\env\Lib\site-packages\django\utils\timesince.py:14
+#, python-format
+msgid "%d minute"
+msgid_plural "%d minutes"
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\env\Lib\site-packages\django\views\csrf.py:110
+msgid "Forbidden"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\views\csrf.py:111
+msgid "CSRF verification failed. Request aborted."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\views\csrf.py:115
+msgid ""
+"You are seeing this message because this HTTPS site requires a “Referer "
+"header” to be sent by your Web browser, but none was sent. This header is "
+"required for security reasons, to ensure that your browser is not being "
+"hijacked by third parties."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\views\csrf.py:120
+msgid ""
+"If you have configured your browser to disable “Referer” headers, please re-"
+"enable them, at least for this site, or for HTTPS connections, or for “same-"
+"origin” requests."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\views\csrf.py:124
+msgid ""
+"If you are using the <meta name=\"referrer\" content=\"no-referrer\"> tag or "
+"including the “Referrer-Policy: no-referrer” header, please remove them. The "
+"CSRF protection requires the “Referer” header to do strict referer checking. "
+"If you’re concerned about privacy, use alternatives like <a rel=\"noreferrer"
+"\" …> for links to third-party sites."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\views\csrf.py:132
+msgid ""
+"You are seeing this message because this site requires a CSRF cookie when "
+"submitting forms. This cookie is required for security reasons, to ensure "
+"that your browser is not being hijacked by third parties."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\views\csrf.py:137
+msgid ""
+"If you have configured your browser to disable cookies, please re-enable "
+"them, at least for this site, or for “same-origin” requests."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\views\csrf.py:142
+msgid "More information is available with DEBUG=True."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\views\generic\dates.py:41
+msgid "No year specified"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\views\generic\dates.py:61
+#: .\env\Lib\site-packages\django\views\generic\dates.py:111
+#: .\env\Lib\site-packages\django\views\generic\dates.py:208
+msgid "Date out of range"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\views\generic\dates.py:90
+msgid "No month specified"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\views\generic\dates.py:142
+msgid "No day specified"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\views\generic\dates.py:188
+msgid "No week specified"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\views\generic\dates.py:338
+#: .\env\Lib\site-packages\django\views\generic\dates.py:367
+#, python-format
+msgid "No %(verbose_name_plural)s available"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\views\generic\dates.py:594
+#, python-format
+msgid ""
+"Future %(verbose_name_plural)s not available because %(class_name)s."
+"allow_future is False."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\views\generic\dates.py:628
+#, python-format
+msgid "Invalid date string “%(datestr)s” given format “%(format)s”"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\views\generic\detail.py:54
+#, python-format
+msgid "No %(verbose_name)s found matching the query"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\views\generic\list.py:67
+msgid "Page is not “last”, nor can it be converted to an int."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\views\generic\list.py:72
+#, python-format
+msgid "Invalid page (%(page_number)s): %(message)s"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\views\generic\list.py:154
+#, python-format
+msgid "Empty list and “%(class_name)s.allow_empty” is False."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\views\static.py:40
+msgid "Directory indexes are not allowed here."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\views\static.py:42
+#, python-format
+msgid "“%(path)s” does not exist"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\views\static.py:80
+#, python-format
+msgid "Index of %(directory)s"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\views\templates\default_urlconf.html:7
+#: .\env\Lib\site-packages\django\views\templates\default_urlconf.html:221
+msgid "The install worked successfully! Congratulations!"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\views\templates\default_urlconf.html:207
+#, python-format
+msgid ""
+"View <a href=\"https://docs.djangoproject.com/en/%(version)s/releases/\" "
+"target=\"_blank\" rel=\"noopener\">release notes</a> for Django %(version)s"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\views\templates\default_urlconf.html:222
+#, python-format
+msgid ""
+"You are seeing this page because <a href=\"https://docs.djangoproject.com/en/"
+"%(version)s/ref/settings/#debug\" target=\"_blank\" rel=\"noopener"
+"\">DEBUG=True</a> is in your settings file and you have not configured any "
+"URLs."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\views\templates\default_urlconf.html:230
+msgid "Django Documentation"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\views\templates\default_urlconf.html:231
+msgid "Topics, references, &amp; how-to’s"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\views\templates\default_urlconf.html:239
+msgid "Tutorial: A Polling App"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\views\templates\default_urlconf.html:240
+msgid "Get started with Django"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\views\templates\default_urlconf.html:248
+msgid "Django Community"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\views\templates\default_urlconf.html:249
+msgid "Connect, get help, or contribute"
+msgstr ""
+
+#: .\env\Lib\site-packages\django_addanother\templates\django_addanother\related_widget_wrapper.html:9
+msgid "Edit related"
+msgstr ""
+
+#: .\env\Lib\site-packages\django_addanother\templates\django_addanother\related_widget_wrapper.html:17
+msgid "Add another"
+msgstr ""
+
+#: .\env\Lib\site-packages\django_addanother\templates\django_addanother\related_widget_wrapper.html:18
+msgid "Add"
+msgstr ""
+
+#: .\env\Lib\site-packages\nested_admin\nested.py:167
+#: .\env\Lib\site-packages\nested_admin\templates\nesting\admin\inlines\grappelli_stacked.html:93
+#: .\env\Lib\site-packages\nested_admin\templates\nesting\admin\inlines\grappelli_tabular.html:81
+#: .\env\Lib\site-packages\nested_admin\templates\nesting\admin\inlines\polymorphic_grappelli_stacked.html:90
+#: .\env\Lib\site-packages\nested_admin\templates\nesting\admin\inlines\polymorphic_stacked.html:74
+#: .\env\Lib\site-packages\nested_admin\templates\nesting\admin\inlines\stacked.html:71
+#: .\env\Lib\site-packages\nested_admin\templates\nesting\admin\inlines\tabular.html:122
+#, python-format
+msgid "Add another %(verbose_name)s"
+msgstr ""
+
+#: .\env\Lib\site-packages\nested_admin\templates\nesting\admin\includes\grappelli_inline_tabular.html:38
+#: .\env\Lib\site-packages\nested_admin\templates\nesting\admin\inlines\grappelli_stacked.html:50
+#: .\env\Lib\site-packages\nested_admin\templates\nesting\admin\inlines\polymorphic_grappelli_stacked.html:44
+msgid "Move Item"
+msgstr ""
+
+#: .\env\Lib\site-packages\nested_admin\templates\nesting\admin\includes\grappelli_inline_tabular.html:45
+#: .\env\Lib\site-packages\nested_admin\templates\nesting\admin\includes\grappelli_inline_tabular.html:52
+#: .\env\Lib\site-packages\nested_admin\templates\nesting\admin\inlines\grappelli_stacked.html:57
+#: .\env\Lib\site-packages\nested_admin\templates\nesting\admin\inlines\grappelli_stacked.html:61
+#: .\env\Lib\site-packages\nested_admin\templates\nesting\admin\inlines\polymorphic_grappelli_stacked.html:51
+#: .\env\Lib\site-packages\nested_admin\templates\nesting\admin\inlines\polymorphic_grappelli_stacked.html:55
+msgid "Delete Item"
+msgstr ""
+
+#: .\env\Lib\site-packages\nested_admin\templates\nesting\admin\inlines\grappelli_stacked.html:15
+#: .\env\Lib\site-packages\nested_admin\templates\nesting\admin\inlines\polymorphic_grappelli_stacked.html:14
+msgid "Open All Items"
+msgstr ""
+
+#: .\env\Lib\site-packages\nested_admin\templates\nesting\admin\inlines\grappelli_stacked.html:16
+#: .\env\Lib\site-packages\nested_admin\templates\nesting\admin\inlines\polymorphic_grappelli_stacked.html:15
+msgid "Close All Items"
+msgstr ""
+
+#: .\env\Lib\site-packages\nested_admin\templates\nesting\admin\inlines\grappelli_stacked.html:17
+#: .\env\Lib\site-packages\nested_admin\templates\nesting\admin\inlines\grappelli_stacked.html:97
+#: .\env\Lib\site-packages\nested_admin\templates\nesting\admin\inlines\grappelli_tabular.html:83
+#: .\env\Lib\site-packages\nested_admin\templates\nesting\admin\inlines\polymorphic_grappelli_stacked.html:16
+#: .\env\Lib\site-packages\nested_admin\templates\nesting\admin\inlines\polymorphic_grappelli_stacked.html:94
+msgid "Add Item"
+msgstr ""
+
+#: .\env\Lib\site-packages\nested_admin\templates\nesting\admin\inlines\grappelli_stacked.html:46
+#: .\env\Lib\site-packages\nested_admin\templates\nesting\admin\inlines\polymorphic_grappelli_stacked.html:40
+#: .\env\Lib\site-packages\nested_admin\templates\nesting\admin\inlines\polymorphic_stacked.html:36
+#: .\env\Lib\site-packages\nested_admin\templates\nesting\admin\inlines\stacked.html:36
+#: .\env\Lib\site-packages\nested_admin\templates\nesting\admin\inlines\tabular.html:61
+msgid "View on site"
+msgstr ""
+
+#: .\env\Lib\site-packages\nested_admin\templates\nesting\admin\inlines\grappelli_tabular.html:17
+msgid "Add Another"
+msgstr ""
+
+#: .\env\Lib\site-packages\nested_admin\templates\nesting\admin\inlines\stacked.html:34
+#: .\env\Lib\site-packages\nested_admin\templates\nesting\admin\inlines\tabular.html:59
+msgid "View"
+msgstr ""
+
+#: .\env\Lib\site-packages\nested_admin\templates\nesting\admin\inlines\tabular.html:33
+msgid "Delete?"
+msgstr ""

@@ -1,4 +1,5 @@
 from cgi import print_form
+from email.mime import application
 import random
 from copy import copy
 
@@ -13,14 +14,15 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.views import View
 from django.views.decorators.cache import never_cache
 from django.views.generic import FormView, TemplateView
+from stripe import Review
 
 from .forms import AddToCartForm, AddToCartInListForm,SearchForm, TestForm
 from apps.newProduct.models import *
 from django.core.paginator import (PageNotAnInteger, EmptyPage, Paginator)
-
-
+from apps.rental.models import Capacity, Item, Year,Make,Item_Model,Engine,Amenity,Room,Type,Application
 from apps.cart.cart import Cart
 from .services.product_service import product_service
+from .services.rental_filter import rental_service
 from ..vendor.models import Customer, UserWishList
 from apps.ordering.models import ShopCart, ShopCartForm
 import re
@@ -57,16 +59,17 @@ def search(request):
         wishlist = 0
         total_compare = 0
 
-    form = SearchForm(request.GET)
     sorting = request.GET.get('sorting')
     if sorting == None:
         sorting = ("-created_at")
 
     products_list = Product.objects.filter(status=True,visible=True)
-         
-
+    rental_list = Item.objects.filter(review=True,visible=True)
+    
     for product in products_list:
         variants = Variants.objects.filter(product=product)
+
+    search_form = SearchForm(request.GET)    
     brands=Brand.objects.all()
     colors=Color.objects.all()
     weight=Weight.objects.all()
@@ -74,6 +77,15 @@ def search(request):
     width=Width.objects.all()
     size=Size.objects.all()
     height=Height.objects.all()
+    year = Year.objects.all()
+    make = Make.objects.all()
+    item_model = Item_Model.objects.all()
+    engine = Engine.objects.all()
+    rooms = Room.objects.all()
+    amenity = Amenity.objects.all()
+    application = Application.objects.all()
+    capacity = Capacity.objects.all()
+    item_type = Type.objects.all()
 
     query=request.GET.get('query')
     price_to=request.GET.get('price_to')
@@ -84,42 +96,70 @@ def search(request):
     query_height=request.GET.getlist('height')
     query_width=request.GET.getlist('width')
     query_length=request.GET.getlist('length')
+    query_year = request.GET.get('year')
+    query_make = request.GET.get('make')
+    query_model = request.GET.get('model')
+    query_engine = request.GET.get('engine')
+    query_rooms = request.GET.get('rooms')
+    query_amenity = request.GET.get('amenity')
+    query_application = request.GET.get('application')
+    query_capacity = request.GET.get('capacity')
+    query_item_type = request.GET.get('item_type')
     
+    print('price_from',price_from)
+    print('price_to',price_to)
 
     if not query:
         query = ''
+        print('no query')
+    else:
+        # if Item.objects.filter(Q(title__icontains=query)):
+        #     rentals=Item.objects.filter(Q(title__icontains=query))
+        print(query)    
     if price_from == None:
         price_from = 0
     if price_to == None:
         price_to = "10000"
     max_amount = "500000"
-
+    
+    sorting = request.GET.get('sorting', '-created_at') 
     variants_id = []
-    if form.is_valid():
+    rental_results=False
+    if search_form.is_valid():
         for product in products_list:
             if Variants.objects.filter(product_id=product.id).exists():
-                variants_id.append(product.id)
-        products_list,price_from,price_to,brands,weight,width,size,height,colors,length = product_service.filter_products(query_brand,products_list,variants_id,sorting=sorting, **form.cleaned_data)
+                variants_id.append(product.id)      
+        products_list,price_from,price_to,brands,weight,width,size,height,colors,length,year,engine,make,item_model = product_service.filter_products(query_brand,products_list,variants_id,sorting=sorting,**search_form.cleaned_data)
+        if Item.objects.filter(Q(title__icontains=query)):
+            rental_list,price_from,price_to,engine,year,rooms,amenity,application,capacity,item_type=rental_service.filter_rental(rental_list,sorting=sorting,**search_form.cleaned_data)
+            rental_results=True
+            
+            
     else:
-        print(form.errors)
-    form = SearchForm(request.GET, products=products_list)
-    paginator = Paginator(products_list,6)
+        print(search_form.errors)          
+    search_form = SearchForm(request.GET, products=products_list)
+    paginator = Paginator(products_list,3)
+    paginator_rentals = Paginator(rental_list,3)
     page = request.GET.get('page')
 
     try:
         products = paginator.page(page)
+        rentals = paginator_rentals.page(page)
     except PageNotAnInteger:
         products = paginator.page(1)
+        rentals = paginator_rentals.page(1)
     except EmptyPage:
-        products = paginator.page(paginator.num_pages)
-    
+        products = paginator.page(paginator.num_pages) 
+        rentals = paginator_rentals.page(paginator_rentals.num_pages)   
     return render(
         request,
         'product/search.html',
         {
-            'form': form,
+            'form': search_form,
             'query': query,
             'products': products,
+            'rental_results':rental_results,
+            'rentals':rentals,
             'brands':brands,
             'width':width,
             'size':size,
@@ -130,6 +170,15 @@ def search(request):
             'width':width,
             'size':size,
             'height':height,
+            'year':year,
+            'make':make,
+            'item_model':item_model,
+            'engine':engine,
+            'rooms':rooms,
+            'amenity':amenity,
+            'application':application,
+            'capacity':capacity,
+            'item_type':item_type,
             'sorting': sorting,
             'price_to':re.sub('[\$,]', '', str(price_to)) ,
             'price_from':re.sub('[\$,]', '', str(price_from)) ,
@@ -141,6 +190,15 @@ def search(request):
             'query_height':query_height,
             'query_width':query_width,
             'query_length':query_length,
+            'query_year':query_year,
+            'query_make':query_make,
+            'query_model':query_model,
+            'query_engine':query_engine,
+            'query_rooms':query_rooms,
+            'query_amenity':query_amenity,
+            'query_application':query_application,
+            'query_capacity':query_capacity,
+            'query_item_type':query_item_type,
             'max_amount':max_amount,
             'shopcart':shopcart,
             'subtotal':total,
@@ -437,8 +495,6 @@ class WishListAddView(FormView):
 
 
 class WishlistAddVariant(FormView):
-    
-
     def post(self, request, *args, **kwargs):
         url = request.META.get('HTTP_REFERER')  # get last url
         if request.method == "POST":
@@ -564,6 +620,10 @@ def category(request, category_slug):
     width=Width.objects.all()
     size=Size.objects.all()
     height=Height.objects.all()
+    year = Year.objects.all()
+    make = Make.objects.all()
+    item_model = Item_Model.objects.all()
+    engine = Engine.objects.all()
 
     query=request.GET.get('query')
     price_to=request.GET.get('price_to')
@@ -574,6 +634,13 @@ def category(request, category_slug):
     query_height=request.GET.getlist('height')
     query_width=request.GET.getlist('width')
     query_length=request.GET.getlist('length')
+    query_year = request.GET.getlist('year')
+    query_make = request.GET.getlist('make')
+    query_model = request.GET.getlist('model')
+    query_engine = request.GET.getlist('engine')
+
+    print('price_from',price_from)
+    print('price_to',price_to)
 
     if not query:
         query = ''
@@ -582,32 +649,30 @@ def category(request, category_slug):
     if price_to == None:
         price_to = "10000"
     max_amount = "500000"
-
+    
     sorting = request.GET.get('sorting', '-created_at')
-
+    
     products_ids = []
+    
     for subcategory in category.subcategory.all():
         for subsubcategory in subcategory.subsubcategory.all():
             products_ids.extend(
                 subsubcategory.product.all().values_list('id', flat=True))
             
-
     products_list = Product.objects.filter(id__in=products_ids, visible=True, vendor__enabled=True,status=True)
-   
-
+    rental_list = Item.objects.filter(review=True,visible=True)
     variants_id = []
-
     if search_form.is_valid():
         for product in products_list:
             if Variants.objects.filter(product_id=product.id).exists():
                 variants_id.append(product.id)
-        
-        products_list,price_from,price_to,brands,weight,width,size,height,colors,length = product_service.filter_products(query_brand,products_list,variants_id,sorting=sorting, **search_form.cleaned_data)
+        products_list,price_from,price_to,brands,weight,width,size,height,colors,length,year,engine,make,item_model = product_service.filter_products(query_brand,products_list,variants_id,sorting=sorting, **search_form.cleaned_data)
+           
     else:
         print(search_form.errors)
+    
     paginator = Paginator(products_list,6)
     page = request.GET.get('page')
-
     try:
         products = paginator.page(page)
     except PageNotAnInteger:
@@ -635,6 +700,10 @@ def category(request, category_slug):
             'length':length,
             'size':size,
             'height':height,
+            'year':year,
+            'make':make,
+            'item_model':item_model,
+            'engine':engine,
             'sorting': sorting,
             'price_to':re.sub('[\$,]', '', str(price_to)) ,
             'price_from':re.sub('[\$,]', '', str(price_from)) ,
@@ -646,6 +715,10 @@ def category(request, category_slug):
             'query_height':query_height,
             'query_width':query_width,
             'query_length':query_length,
+            'query_year':query_year,
+            'query_make':query_make,
+            'query_model':query_model,
+            'query_engine':query_engine,
             'max_amount':max_amount,
             'shopcart': shopcart,
             'subtotal': total,
@@ -692,6 +765,7 @@ def subcategory(request, category_slug, subcategory_slug):
     sub_category=SubSubCategory.objects.filter(sub_category=category).first()
     sub_category_name=str(category)
     products_list = Product.objects.filter(visible=True,category=sub_category,status=True)
+    rental_list = Item.objects.filter(review=True,visible=True)
     for product in products_list:
         variants = Variants.objects.filter(product=product)
     brands = Brand.objects.all()
@@ -731,6 +805,11 @@ def subcategory(request, category_slug, subcategory_slug):
     size=Size.objects.all()
     height=Height.objects.all()
 
+    year = Year.objects.all()
+    make = Make.objects.all()
+    item_model = Item_Model.objects.all()
+    engine = Engine.objects.all()
+
     query=request.GET.get('query')
     price_to=request.GET.get('price_to')
     price_from=request.GET.get('price_from')
@@ -740,6 +819,11 @@ def subcategory(request, category_slug, subcategory_slug):
     query_height=request.GET.getlist('height')
     query_width=request.GET.getlist('width')
     query_length=request.GET.getlist('length')
+
+    query_year = request.GET.get('year')
+    query_make = request.GET.get('make')
+    query_model = request.GET.get('model')
+    query_engine = request.GET.get('engine')
 
 
     if not query:
@@ -757,7 +841,7 @@ def subcategory(request, category_slug, subcategory_slug):
         for product in products_list:
             if Variants.objects.filter(product_id=product.id).exists():
                 variants_id.append(product.id)
-        products_list,price_from,price_to,brands,weight,width,size,height,colors,length = product_service.filter_products(query_brand,products_list,variants_id,sorting=sorting, **search_form.cleaned_data)
+        products_list,price_from,price_to,brands,weight,width,size,height,colors,length,year,make,engine,item_model = product_service.filter_products(query_brand,products_list,variants_id,sorting=sorting, **search_form.cleaned_data)
 
         paginator = Paginator(products_list,6) 
         page = request.GET.get('page')
@@ -786,6 +870,10 @@ def subcategory(request, category_slug, subcategory_slug):
             'colors':colors,
             'weight':weight,
             'length':length,
+            'year':year,
+            'make':make,
+            'item_model':item_model,
+            'engine':engine,
             'sorting': sorting,
             'price_to':re.sub('[\$,]', '', str(price_to)) ,
             'price_from':re.sub('[\$,]', '', str(price_from)) ,
@@ -797,6 +885,10 @@ def subcategory(request, category_slug, subcategory_slug):
             'query_height':query_height,
             'query_width':query_width,
             'query_length':query_length,
+            'query_year':query_year,
+            'query_make':query_make,
+            'query_model':query_model,
+            'query_engine':query_engine,
             'max_amount':max_amount,
             'shopcart': shopcart,
             'subtotal': total,
@@ -842,6 +934,7 @@ def subsubcategory(request, category_slug, subcategory_slug, subsubcategory_slug
     category = get_object_or_404(SubSubCategory, slug=subsubcategory_slug)
     sub_sub_category_name = str(category)
     products_list = Product.objects.filter(visible=True,category=category,status=True)
+    rental_list = Item.objects.filter(review=True,visible=True)
     for product in products_list:
         variants = Variants.objects.filter(product=product)
 
@@ -882,6 +975,11 @@ def subsubcategory(request, category_slug, subcategory_slug, subsubcategory_slug
     size=Size.objects.all()
     height=Height.objects.all()
 
+    year = Year.objects.all()
+    make = Make.objects.all()
+    item_model = Item_Model.objects.all()
+    engine = Engine.objects.all()
+
     query=request.GET.get('query')
     price_to=request.GET.get('price_to')
     price_from=request.GET.get('price_from')
@@ -891,6 +989,11 @@ def subsubcategory(request, category_slug, subcategory_slug, subsubcategory_slug
     query_height=request.GET.getlist('height')
     query_width=request.GET.getlist('width')
     query_length=request.GET.getlist('length')
+
+    query_year = request.GET.get('year')
+    query_make = request.GET.get('make')
+    query_model = request.GET.get('model')
+    query_engine = request.GET.get('engine')
 
     if not query:
         query = ''
@@ -906,7 +1009,7 @@ def subsubcategory(request, category_slug, subcategory_slug, subsubcategory_slug
         for product in products_list:
             if Variants.objects.filter(product_id=product.id).exists():
                 variants_id.append(product.id)
-        products_list,price_from,price_to,brands,weight,width,size,height,colors,length = product_service.filter_products(query_brand,products_list,variants_id,sorting=sorting, **search_form.cleaned_data)
+        products_list,price_from,price_to,brands,weight,width,size,height,colors,length,year,engine,make,item_model = product_service.filter_products(query_brand,products_list,variants_id,sorting=sorting, **search_form.cleaned_data)
         
         paginator = Paginator(products_list,6) 
         page = request.GET.get('page')
@@ -940,6 +1043,10 @@ def subsubcategory(request, category_slug, subcategory_slug, subsubcategory_slug
             'width':width,
             'size':size,
             'height':height,
+            'year':year,
+            'make':make,
+            'item_model':item_model,
+            'engine':engine,
             'sorting': sorting,
             'price_to':re.sub('[\$,]', '', str(price_to)) ,
             'price_from':re.sub('[\$,]', '', str(price_from)) ,
@@ -951,6 +1058,10 @@ def subsubcategory(request, category_slug, subcategory_slug, subsubcategory_slug
             'query_height':query_height,
             'query_width':query_width,
             'query_length':query_length,
+            'query_year':query_year,
+            'query_make':query_make,
+            'query_model':query_model,
+            'query_engine':query_engine,
             'max_amount':max_amount,
             'shopcart':shopcart,
             'subtotal':total,
@@ -1005,7 +1116,8 @@ def brands(request):
         brands = paginator.page(paginator.num_pages)
 
     return render(request,'product/brands.html',
-    {'brands':brands,
+    {
+    'brands':brands,
     'shopcart': shopcart,
     'subtotal': total,
     'tax': tax,

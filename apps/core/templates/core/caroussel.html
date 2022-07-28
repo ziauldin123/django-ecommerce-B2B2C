@@ -1,4 +1,5 @@
 {% load static %}
+{% load i18n %}
 <!-- .block-slideshow -->
 <div class="block-slideshow block-slideshow--layout--full block">
     <div class="container">
@@ -38,9 +39,9 @@
             />
           </div>
           <div class="block-features__content">
-            <div class="block-features__title">Free Shipping</div>
+            <div class="block-features__title">{% trans 'Free Shipping' %}</div>
             <div class="block-features__subtitle">
-              On various products
+              {% trans 'On various products' %}
             </div>
           </div>
         </div>
@@ -54,8 +55,8 @@
             />
           </div>
           <div class="block-features__content">
-            <div class="block-features__title">Customer Support </div>
-            <div class="block-features__subtitle">Call or Chat</div>
+            <div class="block-features__title">{% trans 'Customer Support' %} </div>
+            <div class="block-features__subtitle">{% trans 'Call or Chat' %}</div>
           </div>
         </div>
         <div class="block-features__divider"></div>
@@ -68,9 +69,9 @@
             />
           </div>
           <div class="block-features__content">
-            <div class="block-features__title">100% Safety</div>
+            <div class="block-features__title">100% {% trans 'Safety' %}</div>
             <div class="block-features__subtitle">
-              Only secure payments
+              {% trans 'Only secure payments' %}
             </div>
           </div>
         </div>
@@ -84,9 +85,9 @@
             />
           </div>
           <div class="block-features__content">
-            <div class="block-features__title">Hot Offers</div>
+            <div class="block-features__title">{% trans 'Hot Offers' %}</div>
             <div class="block-features__subtitle">
-              Deals all year long
+              {% trans 'Deals all year long' %}
             </div>
           </div>
         </div>

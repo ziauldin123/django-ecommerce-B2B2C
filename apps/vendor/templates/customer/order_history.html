@@ -1,5 +1,6 @@
 {% extends 'core/base.html' %}
 {% load static %}
+{% load i18n %}
 {% block title %}Order History - {{ request.session.username }}{% endblock %}
 {% block content %}
 <div class="page-header">
@@ -17,16 +18,19 @@
         <div class="row">
             <div class="col-12 col-lg-3 d-flex">
                 <div class="account-nav flex-grow-1">
-                    <h4 class="account-nav__title">Dashboard</h4>
+                    <h4 class="account-nav__title">{% trans 'Dashboard' %}</h4>
                     <ul>
                         <li class="account-nav__item   ">
-                            <a href="{% url 'myaccount' %}">My Account</a>
+                            <a href="{% url 'myaccount' %}">{% trans 'My Account' %}</a>
+                        </li>
+                        <li class="account-nav__item">
+                            <a href="{% url 'items' %}">{% trans 'Renting items' %}</a>
                         </li>
                         <li class="account-nav__item account-nav__item--active">
-                            <a href="{% url 'orderhistory' %}">Order History</a>
+                            <a href="{% url 'orderhistory' %}">{% trans 'Order History' %}</a>
                         </li>
                         <li class="account-nav__item ">
-                            <a href="{% url 'logout' %}">Logout</a>
+                            <a href="{% url 'logout' %}">{% trans 'Logout' %}</a>
                         </li>
                     </ul>
                 </div>
@@ -34,7 +38,7 @@
             <div class="col-12 col-lg-9 mt-4 mt-lg-0">
                 <div class="card">
                     <div class="card-header">
-                        <h5>Order History</h5>
+                        <h5>{% trans 'Order History' %}</h5>
                     </div>
                     <div class="card-divider"></div>
                     <div class="card-table">
@@ -42,10 +46,10 @@
                             <table>
                                 <thead>
                                     <tr>
-                                        <th>Order Reference</th>
-                                        <th>Date and Time</th>
-                                        <th>Status</th>
-                                        <th>Amount (Rwf)</th>
+                                        <th>{% trans 'Order Reference' %}</th>
+                                        <th>{% trans 'Date and Time' %}</th>
+                                        <th>{% trans 'Status' %}</th>
+                                        <th>{% trans 'Amount' %} (Rwf)</th>
                                     </tr>
                                 </thead>
                                 <tbody>

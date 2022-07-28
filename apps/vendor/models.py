@@ -1,5 +1,6 @@
 from decimal import Decimal
 from random import choices
+from tkinter import Image
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
@@ -7,7 +8,10 @@ from django.dispatch import receiver
 from apps.cart.models import District, Sector, Cell, Village
 from autoslug import AutoSlugField
 import apps.ordering
-
+from django.core.files.base import ContentFile
+from io import BytesIO
+from PIL import Image
+from django.core.files import File
 
 class Vendor(models.Model):
     STATUS = (
@@ -36,6 +40,26 @@ class Vendor(models.Model):
         upload_to='upload/registration/company-%Y-%m-%d/', blank=True, null=True)
     privacy_checked = models.BooleanField(default=False)
     status = models.CharField(max_length=10, choices=STATUS, default='DIAMOND')
+    
+    def save(self, *args, **kwargs):
+        if self.logo and not self.logo.url.endswith('.webp'):
+            imm = Image.open(self.logo).convert("RGB")
+            original_width, original_height = imm.size
+            aspect_ration = round(original_width / original_height)
+            if aspect_ration < 1:
+                aspect_ration = 1
+            desired_height = 500
+            desired_width = desired_height * aspect_ration
+            imm.thumbnail((desired_width,desired_height),Image.ANTIALIAS) 
+            new_image_io = BytesIO()
+            imm.save(new_image_io,format="WEBP",quality=70)
+            self.logo.save(
+                self.company_name[:40]+".webp",
+                content=ContentFile(new_image_io.getvalue()),
+                save=False
+            )
+        super(Vendor,self).save(*args,**kwargs)    
+
 
     def __str__(self):
         return self.company_name
@@ -123,6 +147,10 @@ class Customer(models.Model):
     email = models.EmailField(max_length=150)
     customername = models.CharField(max_length=32)
     address = models.CharField(max_length=255)
+    district = models.ForeignKey(District,on_delete=models.CASCADE,null=True)
+    sector = models.ForeignKey(Sector,on_delete=models.CASCADE,null=True)
+    cell = models.ForeignKey(Cell,on_delete=models.CASCADE,null=True)
+    village = models.ForeignKey(Village,on_delete=models.CASCADE,null=True)
     phone = models.CharField(max_length=10)
     created_at = models.DateTimeField(auto_now_add=True)
     company_code = models.CharField(max_length=255, null=True, blank=True)

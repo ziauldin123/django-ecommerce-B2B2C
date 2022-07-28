@@ -8,6 +8,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 from distutils.command.build import build
+from operator import truediv
 from pathlib import Path
 import os
 import mimetypes
@@ -72,6 +73,8 @@ INSTALLED_APPS = [
     'apps.transporter',
     'apps.ordering',
     'apps.maintenance',
+    'apps.rental',
+    'apps.services',
 
 
     # 'rest_framework',
@@ -85,13 +88,14 @@ INSTALLED_APPS = [
     'storages',
     "collectfast",
     'django_ses',
-
+    'taggit',
 
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -117,6 +121,8 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'apps.product.context_processors.menu_categories',
+                'apps.product.context_processors.rental_categories',
+                'apps.product.context_processors.services',
                 'apps.cart.context_processors.cart',
                 'apps.cart.context_processors.comparing',
             ],
@@ -163,6 +169,14 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
+# LANGUAGE_CODE = 'fr'
+# LANGUAGE_CODE = 'rw'
+
+LANGUAGES = [
+    ('en','English'),
+    ('fr','French'),
+    ('rw','Kinyarwanda')
+]
 
 TIME_ZONE = 'Africa/Kigali'
 
@@ -171,6 +185,10 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = False
+
+LOCALE_PATHS = [
+    os.path.join(BASE_DIR,'locale')
+]
 
 USE_THOUSAND_SEPARATOR = True
 SESSION_SAVE_EVERY_REQUEST = True
@@ -240,6 +258,7 @@ if not DEBUG:
     COMPRESS_STORAGE = STATICFILES_STORAGE
     STATIC_URL = 'https://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION)
     COMPRESS_URL = STATIC_URL
+    
 else:
     STATIC_URL = '/static/'
     MEDIA_URL = '/media/'

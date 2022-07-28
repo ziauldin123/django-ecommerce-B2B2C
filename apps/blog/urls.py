@@ -6,4 +6,5 @@ urlpatterns = [
 
     path('', views.index, name='blog'),
     path('<slug:slug>/', views.detail, name='detail'),
+    path('<int:id>/<slug:slug>/',views.tagged,name='tag')
 ]

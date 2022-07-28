@@ -1,9 +1,29 @@
 {% extends 'core/base.html' %}
 {% load static %}
+{% load i18n %}
 {% block title %}{{subsubcategory.title}}{% endblock %}
 
 {% block content %}
 <script>
+    function requestQuatation(pr_id){
+        event.preventDefault();
+        $.ajax({
+            url:"/cart/request_quatation/" + pr_id,
+            type: 'POST',
+            data:{
+                'quantity':1,
+                csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+            },
+            success:function(){
+                $("#message").append(
+                    '<div class="alert alert-success hideit alertSuc">Spare parts Requested</div >');
+                setTimeout(function () {
+                    $("#message").load(location.href + " #message");
+                }, 1000);
+            }
+        })
+    }
+    
     $('body').on('click','.wish',function(){
         var variant_id=$(this).closest('.wishList').find('.variantid').val()
         var product_id=$(this).closest('.wishList').find('.product_id').val()
@@ -75,7 +95,7 @@
                         <div class="block-sidebar__backdrop"></div>
                         <div class="block-sidebar__body">
                             <div class="block-sidebar__header">
-                                <div class="block-sidebar__title">Filters</div>
+                                <div class="block-sidebar__title">{% trans 'Filters' %}</div>
                                 <button class="block-sidebar__close" type="button">
                                     <svg width="20px" height="20px">
                                         <use xlink:href="/static/templates/images/sprite.svg#cross-20"></use>
@@ -84,14 +104,15 @@
                             </div>
                             <div class="block-sidebar__item">
                                 <div class="widget-filters widget widget-filters--offcanvas--mobile" data-collapse data-collapse-opened-class="filter--opened">
-                                    <h4 class="widget-filters__title widget__title">Filters</h4>
+                                    <h4 class="widget-filters__title widget__title">{% trans 'Filters' %}</h4>
 
                                         <input type="text" id="query" value="{{query}}" name="query" hidden="true">
                                         <div class="widget-filters__list">
+                                            {% if  category != "spare-parts" %} 
                                             <div class="widget-filters__item">
                                                 <div class="filter filter--opened" data-collapse-item>
                                                     <button type="button" class="filter__title" data-collapse-trigger>
-                                                        Price
+                                                        {% trans 'Price' %}
                                                         <svg class="filter__arrow" width="12px" height="7px">
                                                             <use xlink:href="/static/templates/images/sprite.svg#arrow-rounded-down-12x7"></use>
                                                         </svg>
@@ -99,19 +120,20 @@
                                                     <div class="filter__body" data-collapse-content>
                                                         <div class="filter__container">
                                                             <div class="filter-price" data-min="{{ price_from }}" data-max="{{ price_to }}" data-from="{{ price_from }}" data-to="{{ price_to }}">
-                                                                <div class="filter-price__slider"></div>
-                                                                <div class="filter-price__title">Rwf <span class="filter-price__min-value"></span> – Rwf <span class="filter-price__max-value"></span></div>
-                                                                <input type="text" id="price_from" value="{{price_from}}" name="price_from" hidden="true">
-                                                                <input type="text" id="price_to" value="{{price_to}}" name="price_to" hidden="true">
+                                                                <div style="margin: 2px;">
+                                                                    <input type="text" id="price_from" placeholder="Min" value="" name="price_from" style="width: 100px;border-radius: 10px;margin: 2px;text-align: center;"> 
+                                                                    <input type="text" id="price_to" placeholder="Max" value="" name="price_to" style="width: 100px;border-radius: 10px;text-align: center;">
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
+                                            {% if colors|length != 1 %}
                                              <div class="widget-filters__item">
                                                 <div class="filter filter--opened" data-collapse-item>
                                                     <button type="button" class="filter__title" data-collapse-trigger>
-                                                        Color
+                                                        {% trans 'Color' %}
                                                         <svg class="filter__arrow" width="12px" height="7px">
                                                             <use xlink:href="images/sprite.svg#arrow-rounded-down-12x7"></use>
                                                         </svg>
@@ -159,10 +181,12 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            {% endif %}
+                                            {% if brands|length != 1 %}
                                             <div class="widget-filters__item">
                                                 <div class="filter filter--opened" data-collapse-item>
                                                     <button type="button" class="filter__title" data-collapse-trigger>
-                                                        Brand
+                                                        {% trans 'Brand' %}
                                                         <svg class="filter__arrow" width="12px" height="7px">
                                                             <use xlink:href="/static/templates/images/sprite.svg#arrow-rounded-down-12x7"></use>
                                                         </svg>
@@ -173,6 +197,7 @@
                                                                 <div class="filter-list__list">
 
                                                                     {% for br in brands %}
+                                                                    {% if br.brand != None %}
                                                                         <label class="filter-list__item ">
                                                                             <span class="filter-list__input input-check">
                                                                                 <span class="input-check__body">
@@ -189,6 +214,7 @@
                                                                             </span>
 
                                                                         </label>
+                                                                        {% endif %}
                                                                     {% endfor %}
                                                                 </div>
                                                             </div>
@@ -196,10 +222,12 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            {% endif %}
+                                            {% if weight|length != 1 %}
                                             <div class="widget-filters__item">
                                                 <div class="filter filter--opened" data-collapse-item>
                                                     <button type="button" class="filter__title" data-collapse-trigger>
-                                                        Weight
+                                                        {% trans 'Weight' %}
                                                         <svg class="filter__arrow" width="12px" height="7px">
                                                             <use xlink:href="/static/templates/images/sprite.svg#arrow-rounded-down-12x7"></use>
                                                         </svg>
@@ -209,6 +237,7 @@
                                                             <div class="filter-list">
                                                                 <div class="filter-list__list">
                                                                     {% for wt in weight %}
+                                                                    {% if wt.weight != None %}
                                                                     <label class="filter-list__item ">
                                                                         <span class="filter-list__input input-check">
                                                                             <span class="input-check__body">
@@ -228,6 +257,7 @@
                                                                         </span>
 
                                                                     </label>
+                                                                    {% endif %}
                                                                     {% endfor %}
                                                                 </div>
                                                             </div>
@@ -235,10 +265,12 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            {% endif %}
+                                            {% if width|length != 1 %}
                                             <div class="widget-filters__item">
                                                 <div class="filter filter--opened" data-collapse-item>
                                                     <button type="button" class="filter__title" data-collapse-trigger>
-                                                        Width
+                                                        {% trans 'Width' %}
                                                         <svg class="filter__arrow" width="12px" height="7px">
                                                             <use xlink:href="/static/templates/images/sprite.svg#arrow-rounded-down-12x7"></use>
                                                         </svg>
@@ -248,6 +280,7 @@
                                                             <div class="filter-list">
                                                                 <div class="filter-list__list">
                                                                     {% for wd in width %}
+                                                                    {% if wd.width != None %}
                                                                     <label class="filter-list__item ">
                                                                         <span class="filter-list__input input-check">
                                                                             <span class="input-check__body">
@@ -267,6 +300,7 @@
                                                                         </span>
 
                                                                     </label>
+                                                                    {% endif %}
                                                                     {% endfor %}
                                                                 </div>
                                                             </div>
@@ -274,11 +308,12 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                          
+                                            {% endif %}
+                                            {% if height|length != 1 %}
                                             <div class="widget-filters__item">
                                                 <div class="filter filter--opened" data-collapse-item>
                                                     <button type="button" class="filter__title" data-collapse-trigger>
-                                                        Height
+                                                        {% trans 'Height' %}
                                                         <svg class="filter__arrow" width="12px" height="7px">
                                                             <use xlink:href="/static/templates/images/sprite.svg#arrow-rounded-down-12x7"></use>
                                                         </svg>
@@ -288,6 +323,7 @@
                                                             <div class="filter-list">
                                                                 <div class="filter-list__list">
                                                                     {% for ht in height %}
+                                                                    {% if ht.height != None %}
                                                                     <label class="filter-list__item ">
                                                                         <span class="filter-list__input input-check">
                                                                             <span class="input-check__body">
@@ -307,6 +343,7 @@
                                                                         </span>
 
                                                                     </label>
+                                                                    {% endif %}
                                                                     {% endfor %}
                                                                 </div>
                                                             </div>
@@ -314,10 +351,12 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            {% endif %}
+                                            {% if length|length != 1 %}
                                             <div class="widget-filters__item">
                                                 <div class="filter filter--opened" data-collapse-item>
                                                     <button type="button" class="filter__title" data-collapse-trigger>
-                                                        Length
+                                                        {% trans 'Length' %}
                                                         <svg class="filter__arrow" width="12px" height="7px">
                                                             <use xlink:href="/static/templates/images/sprite.svg#arrow-rounded-down-12x7"></use>
                                                         </svg>
@@ -327,6 +366,7 @@
                                                             <div class="filter-list">
                                                                 <div class="filter-list__list">
                                                                     {% for ln in length %}
+                                                                    {% if ln.length != None %}
                                                                     <label class="filter-list__item ">
                                                                         <span class="filter-list__input input-check">
                                                                             <span class="input-check__body">
@@ -346,6 +386,7 @@
                                                                         </span>
 
                                                                     </label>
+                                                                    {% endif %}
                                                                     {% endfor %}
                                                                 </div>
                                                             </div>
@@ -353,10 +394,12 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            {% endif %}
+                                            {% if size|length != 1 %}
                                               <div class="widget-filters__item">
                                                 <div class="filter filter--opened" data-collapse-item>
                                                     <button type="button" class="filter__title" data-collapse-trigger>
-                                                        Size
+                                                        {% trans 'Size' %}
                                                         <svg class="filter__arrow" width="12px" height="7px">
                                                             <use xlink:href="/static/templates/images/sprite.svg#arrow-rounded-down-12x7"></use>
                                                         </svg>
@@ -366,6 +409,7 @@
                                                             <div class="filter-list">
                                                                 <div class="filter-list__list">
                                                                     {% for sz in size %}
+                                                                    {% if sz.name != None %}
                                                                     <label class="filter-list__item ">
                                                                         <span class="filter-list__input input-check">
                                                                             <span class="input-check__body">
@@ -385,6 +429,7 @@
                                                                         </span>
 
                                                                     </label>
+                                                                    {% endif %}
                                                                     {% endfor %}
                                                                 </div>
                                                             </div>
@@ -392,11 +437,161 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                           
+                                            {% endif %}
+                                            {% else %} 
+                                            {% if year|length != 1 %}
+                                            <div class="widget-filters__item">
+                                                <div class="filter filter--opened" data-collapse-item>
+                                                    <button type="button" class="filter__title" data-collapse-trigger>
+                                                        {% trans 'Year' %}
+                                                        <svg class="filter__arrow" width="12px" height="7px">
+                                                            <use xlink:href="/static/templates/images/sprite.svg#arrow-rounded-down-12x7"></use>
+                                                        </svg>
+                                                    </button>
+                                                    <div class="filter__body" data-collapse-content>
+                                                        <div class="filter__container">
+                                                            <div class="filter-list">
+                                                                <div class="filter-list__list">
+                                                                    {% for year in year %}
+                                                                    <label class="filter-list__item ">
+                                                                        <span class="filter-list__input input-check">
+                                                                            <span class="input-check__body">
+                                                                                <input class="input-check__input" value="{{year.id}}" type="checkbox" name="year">
+                                                                                <span class="input-check__box"></span>
+                                                                                <svg class="input-check__icon" width="9px" height="7px">
+                                                                                    <use xlink:href="/static/templates/images/sprite.svg#check-9x7"></use>
+                                                                                </svg>
+                                                                            </span>
+                                                                        </span>
+                                                                        <span class="filter-list__title">
+                                                                            {{year}}
+                                                                        </span>
+
+                                                                    </label>
+                                                                    {% endfor %}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            {% endif %}
+                                            {% if make|length != 1 %}
+                                            <div class="widget-filters__item">
+                                                <div class="filter filter--opened" data-collapse-item>
+                                                    <button type="button" class="filter__title" data-collapse-trigger>
+                                                        {% trans 'Brand' %}
+                                                        <svg class="filter__arrow" width="12px" height="7px">
+                                                            <use xlink:href="/static/templates/images/sprite.svg#arrow-rounded-down-12x7"></use>
+                                                        </svg>
+                                                    </button>
+                                                    <div class="filter__body" data-collapse-content>
+                                                        <div class="filter__container">
+                                                            <div class="filter-list">
+                                                                <div class="filter-list__list">
+                                                                    {% for make in make %}
+                                                                    <label class="filter-list__item ">
+                                                                        <span class="filter-list__input input-check">
+                                                                            <span class="input-check__body">
+                                                                                <input class="input-check__input" value="{{make.id}}" type="checkbox" name="make">
+                                                                                <span class="input-check__box"></span>
+                                                                                <svg class="input-check__icon" width="9px" height="7px">
+                                                                                    <use xlink:href="/static/templates/images/sprite.svg#check-9x7"></use>
+                                                                                </svg>
+                                                                            </span>
+                                                                        </span>
+                                                                        <span class="filter-list__title">
+                                                                            {{make}}
+                                                                        </span>
+
+                                                                    </label>
+                                                                    {% endfor %}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            {% endif %}
+                                            {% if item_model|length != 1 %}
+                                            <div class="widget-filters__item">
+                                                <div class="filter filter--opened" data-collapse-item>
+                                                    <button type="button" class="filter__title" data-collapse-trigger>
+                                                        {% trans 'Model' %}
+                                                        <svg class="filter__arrow" width="12px" height="7px">
+                                                            <use xlink:href="/static/templates/images/sprite.svg#arrow-rounded-down-12x7"></use>
+                                                        </svg>
+                                                    </button>
+                                                    <div class="filter__body" data-collapse-content>
+                                                        <div class="filter__container">
+                                                            <div class="filter-list">
+                                                                <div class="filter-list__list">
+                                                                    {% for model in item_model %}
+                                                                    <label class="filter-list__item ">
+                                                                        <span class="filter-list__input input-check">
+                                                                            <span class="input-check__body">
+                                                                                <input class="input-check__input" value="{{model.id}}" type="checkbox" name="model">
+                                                                                <span class="input-check__box"></span>
+                                                                                <svg class="input-check__icon" width="9px" height="7px">
+                                                                                    <use xlink:href="/static/templates/images/sprite.svg#check-9x7"></use>
+                                                                                </svg>
+                                                                            </span>
+                                                                        </span>
+                                                                        <span class="filter-list__title">
+                                                                            {{model}}
+                                                                        </span>
+
+                                                                    </label>
+                                                                    {% endfor %}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            {% endif %}
+                                            {% if engine|length != 1 %}
+                                            <div class="widget-filters__item">
+                                                <div class="filter filter--opened" data-collapse-item>
+                                                    <button type="button" class="filter__title" data-collapse-trigger>
+                                                        {% trans 'Engine' %}
+                                                        <svg class="filter__arrow" width="12px" height="7px">
+                                                            <use xlink:href="/static/templates/images/sprite.svg#arrow-rounded-down-12x7"></use>
+                                                        </svg>
+                                                    </button>
+                                                    <div class="filter__body" data-collapse-content>
+                                                        <div class="filter__container">
+                                                            <div class="filter-list">
+                                                                <div class="filter-list__list">
+                                                                    {% for engine in engine %}
+                                                                    <label class="filter-list__item ">
+                                                                        <span class="filter-list__input input-check">
+                                                                            <span class="input-check__body">
+                                                                                <input class="input-check__input" value="{{engine.id}}" type="checkbox" name="engine">
+                                                                                <span class="input-check__box"></span>
+                                                                                <svg class="input-check__icon" width="9px" height="7px">
+                                                                                    <use xlink:href="/static/templates/images/sprite.svg#check-9x7"></use>
+                                                                                </svg>
+                                                                            </span>
+                                                                        </span>
+                                                                        <span class="filter-list__title">
+                                                                            {{engine}}
+                                                                        </span>
+
+                                                                    </label>
+                                                                    {% endfor %}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            {% endif %}
+                                            {% endif %}
                                         </div>
                                         <div class="widget-filters__actions d-flex">
-                                            <button class="btn btn-primary btn-sm" id="filter_search_btn">Filter</button>
-                                            <a class="btn btn-secondary btn-sm" href="/{{category }}/{{subcategory}}/{{subsubcategory}}">Reset</a>
+                                            <button class="btn btn-primary btn-sm" id="filter_search_btn">{% trans 'Filter' %}</button>
+                                            <a class="btn btn-secondary btn-sm" href="/{{category }}/{{subcategory}}/{{subsubcategory}}">{% trans 'Reset' %}</a>
                                         </div>
 
                                 </div>

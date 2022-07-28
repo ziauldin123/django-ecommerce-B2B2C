@@ -1,5 +1,6 @@
 import email
 import re
+from turtle import ondrag
 from django import apps
 from django.contrib.auth.models import User
 from django.db import models
@@ -7,9 +8,10 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 # Create your models here.
+from apps.rental.models import Type,Room,Application,Capacity,Year,Engine,Amenity,Item_Model,Make,Item
 
 from django.forms import ModelForm
-from apps.newProduct.models import Product, Variants
+from apps.newProduct.models import Product, Variants,AdjacentColorProduct
 
 
 from apps.vendor.models import Customer, Transporter, Vendor, VendorDelivery
@@ -46,7 +48,6 @@ def notify_vendor(order):
     print(order)
     print("vender")
     print(order.vendors.all())
-
     from_email = settings.DEFAULT_EMAIL_FROM
     try:
 
@@ -105,7 +106,6 @@ def notify_vendor(order):
     connection.close()
     
 
-
 def notify_customer(order):
     connection = get_connection()  # uses SMTP server specified in settings.py
     connection.open()
@@ -130,6 +130,8 @@ class ShopCart(models.Model):
     product=models.ForeignKey(Product, on_delete=models.SET_NULL,null=True)
     variant=models.ForeignKey(Variants, on_delete=models.SET_NULL,null=True,blank=True) #relation with variant
     quantity=models.IntegerField()
+    variant_color=models.ForeignKey(AdjacentColorProduct,on_delete=models.SET_NULL,null=True,blank=True)
+
 
     def __str__(self):
         if self.product == None:
@@ -161,11 +163,27 @@ class ShopCart(models.Model):
             return round(Decimal(self.quantity * self.variant.price),2)
 
     @property
-    def var_dicount_amount(self):
-        if self.variant.discount  == 0:
-            return 00
+    def adj_variant_amount(self):
+        if self.variant_color == None:
+            return 0
         else:
-            return round(Decimal(self.quantity * self.variant.get_discounted_price_var()),2)
+            return round(Decimal(self.quantity * self.variant_color.price),2)  
+    
+    @property
+    def adj_variant_amount_discount(self):
+        if self.variant_color:
+            if self.variant_color.discount == 0:
+                return round(Decimal(self.quantity * self.variant_color.price),2)
+            else:
+                return round(Decimal(self.quantity * self.variant_color.get_discounted_price()),2)    
+
+    @property
+    def var_dicount_amount(self):
+        if self.variant:
+            if self.variant.discount  == 0:
+               return round(Decimal(self.quantity * self.variant.price),2)
+            else:
+               return round(Decimal(self.quantity * self.variant.get_discounted_price_var()),2)
 
     @property
     def prodct_dicount_amount(self):
@@ -317,6 +335,7 @@ class OrderItem(models.Model):
     )
     product=models.ForeignKey(Product, on_delete=models.SET_NULL,null=True,blank=True,related_name='items')
     variant=models.ForeignKey(Variants, on_delete=models.SET_NULL,null=True,blank=True,related_name='items')
+    variant_color=models.ForeignKey(AdjacentColorProduct, on_delete=models.SET_NULL,null=True,blank=True,related_name='items')
     vendor=models.ForeignKey(
         Vendor,related_name='items',on_delete=models.CASCADE
     )
@@ -325,6 +344,7 @@ class OrderItem(models.Model):
     price_no_vat=models.DecimalField(max_digits=8,decimal_places=2,default=0)
     quantity=models.IntegerField(default=1)
     is_variant=models.BooleanField(default=False)
+    is_variant_color=models.BooleanField(default=False)
     vat=models.DecimalField(max_digits=8,decimal_places=2,blank=True,null=True)
     total=models.DecimalField(max_digits=8,decimal_places=2,default=0)
     
@@ -339,7 +359,7 @@ class OrderItem(models.Model):
 
     def get_vat_price(self):
         if not self.is_variant:
-            vat=self.product.get_vat_price()
+            vat=self.product.get_vat_price()    
         else:
             vat=self.variant.get_vat_price()
         vat=round(Decimal(vat),2)
@@ -351,10 +371,13 @@ class OrderItem(models.Model):
 
 
     def get_discounted_price(self):
-        if not self.is_variant:
-            price=self.product.get_discounted_price()
-        else:
+        if self.is_variant:
             price =self.variant.get_discounted_price()
+        elif self.is_variant_color:
+            price=self.variant_color.get_discounted_price()    
+        else:
+            price=self.product.get_discounted_price()
+
         price=round(Decimal(price),2)
         return round(Decimal(price),2)
 
@@ -394,10 +417,12 @@ class OrderItem(models.Model):
 
     
     def get_product_total_price(self):
-        if not self.is_variant:
-            price=self.product.get_discounted_price()
+        if  self.is_variant:
+            price=self.variant.get_discounted_price()
+        elif self.is_variant_color:
+            price=self.variant_color.get_discounted_price()
         else:
-            price =self.variant.get_discounted_price()
+            price=self.product.get_discounted_price()
         return round(Decimal(price),2)
 
     def get_product_no_vat(self):
@@ -423,3 +448,27 @@ class OrderItem(models.Model):
     
     def subtotal(self):
         return self.quantity * self.get_discounted_price()
+
+class Quotation(models.Model):
+    product  = models.ForeignKey(Product,related_name="quatation_item",on_delete=models.CASCADE,null=True)
+
+    user = models.ForeignKey(User,related_name='quatation_user',on_delete=models.CASCADE,null=True)
+    quantity = models.IntegerField(default=1)
+    vendor = models.ForeignKey(Vendor,related_name='quataion_vendor',on_delete=models.CASCADE,null=True)
+    customer_phone = models.IntegerField(default=0)
+    part_number = models.IntegerField(default=0)
+    model = models.CharField(max_length=255,null=True,blank=True)
+    make = models.CharField(max_length=255,null=True,blank=True)
+    year = models.CharField(max_length=255,null=True,blank=True)
+    engine = models.CharField(max_length=255,null=True,blank=True)
+    reference_number= models.CharField(
+        max_length=100,default=create_new_ref_number
+    )
+    created_at = models.DateTimeField(auto_now_add=True,null=True)
+    
+    def __str__(self):
+        if self.product == None:
+            return "No Item Selected"
+        else:
+            return self.product.title    
+ 

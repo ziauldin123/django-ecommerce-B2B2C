@@ -3,6 +3,7 @@ from collections import defaultdict
 from django import forms
 
 from apps.newProduct.models import Length, Product
+from apps.rental.models import Item
 
 
 class BaseProductVariantsForm:
@@ -72,10 +73,10 @@ class AddToCartInListForm(forms.Form):
 
 
 
-
 class SearchForm(forms.Form, BaseProductVariantsForm):
     def __init__(self, *args, **kwargs):
         products = kwargs.pop('products') if kwargs.get('products') is not None else Product.objects.all()
+        rental_list =kwargs.pop('rental_list') if kwargs.get('rental_list') is not None else Item.objects.all() 
         super().__init__(*args, **kwargs)
 
 
@@ -91,7 +92,15 @@ class SearchForm(forms.Form, BaseProductVariantsForm):
     height = forms.CharField(widget=forms.Select(),required=False)
     length = forms.CharField(widget=forms.Select(),required=False)
     width = forms.CharField(widget=forms.Select(),required=False)
-
+    year = forms.CharField(widget=forms.Select(),required=False)
+    engine =  forms.CharField(widget=forms.Select(),required=False)
+    rooms =forms.CharField(widget=forms.Select(),required=False)
+    amenity=forms.CharField(widget=forms.Select(),required=False)
+    make = forms.CharField(widget=forms.Select(),required=False)
+    model = forms.CharField(widget=forms.Select(),required=False)
+    application = forms.CharField(widget=forms.Select(),required=False)
+    capacity = forms.CharField(widget=forms.Select(),required=False)
+    rental_type = forms.CharField(widget=forms.Select(),required=False)
 
     def clean_price_to(self) -> int:
         price_to = self.cleaned_data['price_to']

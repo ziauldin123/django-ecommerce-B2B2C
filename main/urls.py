@@ -14,12 +14,13 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 
+from unicodedata import name
 from django import urls
 from django.conf import settings
 from django.contrib import admin
 from django.urls import path, include, re_path
 from django.conf.urls.static import static
-
+from django.conf.urls.i18n import i18n_patterns
 from apps.cart.views import check_add_qty,contact_info, payment_check,success
 from apps.newsletter.api import api_add_subscriber
 from apps.coupon.api import api_can_use
@@ -28,27 +29,32 @@ from apps.ordering import views as orderview
 from apps.product import views as new
 from django.views.static import serve
 from django.conf.urls import url
-
-
+from django.utils.translation import gettext_lazy as _
 from django.contrib.sitemaps.views import sitemap
 
-from .sitemaps import StaticViewSitemap,  PostSitemap, CategorySitemap, ProductSitemap, VendorSitemap
+from .sitemaps import StaticViewSitemap,  PostSitemap, CategorySitemap, ProductSitemap, VendorSitemap,RentalItemSitemap,ServiceProviderSitemap
 
 
 from apps.vendor import views as vendor_views
 
 sitemaps = {'static': StaticViewSitemap, 'post': PostSitemap,
             'category': CategorySitemap, 'product': ProductSitemap, 'vendor': VendorSitemap,
+            'items':RentalItemSitemap,'services':ServiceProviderSitemap
             }
 
+urlpatterns = i18n_patterns (
+     path(_('admin/'), admin.site.urls),
+)
 
-urlpatterns = [
-    path('admin/', admin.site.urls),
+urlpatterns += i18n_patterns (  
     re_path(r'^ckeditor/', include('ckeditor_uploader.urls')),
+    path('i18n/',include('django.conf.urls.i18n')),
     path('users/', include('apps.vendor.urls')),
     path('home/', include('apps.home.urls')),
     path('cart/', include('apps.cart.urls')),
     path('blog/', include('apps.blog.urls')),
+    path('rental/',include('apps.rental.urls')),
+    path('services/',include('apps.services.urls')),
     path('transporter/', include('apps.transporter.urls')),
     path('api/add_subscriber/', api_add_subscriber, name='api_add_subscriber'),
     path('api/can_use/', api_can_use, name='api_can_use'),
@@ -62,6 +68,7 @@ urlpatterns = [
     path('', include('apps.product.urls')),
     path('newProduct/', include('apps.newProduct.urls')),
     path('ajaxcolor/', views.ajaxcolor, name='ajaxcolor'),
+    path('ajaxadjcolor/',views.ajaxAdjColor,name='ajax-adj-color'),
     path('ajaxcolorWeight/',views.ajaxcolorWeigth, name='ajaxcolor-weight'),
     path('cart/',orderview.shopcart,name='shopcart'),
     path('checkout', contact_info, name='contact_info'),
@@ -85,8 +92,8 @@ urlpatterns = [
     path('sitemap.xml', sitemap, {'sitemaps': sitemaps},
          name='django.contrib.sitemaps.view.sitemap'),
 
-
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+     prefix_default_language=False,
+) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 # if settings.DEBUG:
 urlpatterns += [url(r'media/(?P<path>.*)$', serve,
@@ -95,3 +102,4 @@ urlpatterns += [url(r'media/(?P<path>.*)$', serve,
 # if settings.DEBUG:
 urlpatterns += [url(r'static/(?P<path>.*)$', serve,
                     {'document_root': settings.STATIC_ROOT, }), ]
+
