@@ -119,24 +119,24 @@
                                                {{rs.product.price}}
                                             {% endif %}
 
-                                        {% else %}
-                                           {% if rs.variant.have_adjacent_color %}
+                                {% else %}
+                                    {% if rs.variant.have_adjacent_color %}
 
-                                           {% if rs.variant_color.discount > 0 %} 
+                                            {% if rs.variant_color.discount > 0 %} 
                                                {{rs.variant_color.get_discounted_price}}
                                             {% else %} 
                                                {{rs.variant_color.price}}
                                             {% endif %}
 
-                                           {% else %}
+                                    {% else %}
                                             {% if rs.variant.discount > 0 %} 
                                                {{rs.variant.get_discounted_price_var}}
                                             {% else %} 
                                                {{rs.variant.price}}
                                             {% endif %} 
-                                            {% endif %}
+                                    {% endif %}
 
-                                        {% endif %} / 
+                                    {% endif %} / 
 
                                         {% if rs.product.variant == 'None' %}
                                         {% if rs.product.unit_type %}
@@ -146,7 +146,7 @@
                                         {% if rs.variant.unit_type %}
                                          {{ rs.variant.unit_type.unit }}
                                          {% endif %}
-                                     {% endif %}
+                                {% endif %}
                             </td>
                             <td class="cart-table__column cart-table__column--quantity" data-title="Quantity">
                                 <div class="product_data input-number">

@@ -16,7 +16,7 @@ def order_name(obj):
 order_name.short_description = 'Name'
 
 class QuatationAdmin(admin.ModelAdmin):
-    list_display=['reference_number','product','user','vendor','quantity']
+    list_display=['reference_number','product','user','vendor','quantity','created_at']
 
 def admin_order_shipped(modeladmin, request, queryset):
     for order in queryset:

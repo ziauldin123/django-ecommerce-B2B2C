@@ -46,7 +46,7 @@ urlpatterns = i18n_patterns (
      path(_('admin/'), admin.site.urls),
 )
 
-urlpatterns += i18n_patterns (  
+urlpatterns += [
     re_path(r'^ckeditor/', include('ckeditor_uploader.urls')),
     path('i18n/',include('django.conf.urls.i18n')),
     path('users/', include('apps.vendor.urls')),
@@ -92,8 +92,7 @@ urlpatterns += i18n_patterns (
     path('sitemap.xml', sitemap, {'sitemaps': sitemaps},
          name='django.contrib.sitemaps.view.sitemap'),
 
-     prefix_default_language=False,
-) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 # if settings.DEBUG:
 urlpatterns += [url(r'media/(?P<path>.*)$', serve,

@@ -51,11 +51,10 @@
         event.preventDefault();
         pq=$("#quantity").val()
         $.ajax({
-            url:"/cart/request_quatation/" + pr_id,
             type: 'POST',
+            url:"/cart/request_quatation/" + pr_id,
             data:{
                 'quantity':pq,
-                csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
             },
             success:function(){
                 $("#message").append(
@@ -63,6 +62,9 @@
                 setTimeout(function () {
                     $("#message").load(location.href + " #message");
                 }, 2000);
+            },
+            error:function(err){
+                    alert(err)
             }
         })
     }
@@ -632,7 +634,7 @@
                                    {% if variant.quantity > 0  %} In Stock {% else %} <span class="text-danger">{% trans 'Out of Stock' %}</span> {% endif %}
                                 {% endif %}
                                 {% else %} 
-                                {% if product.quantity > 0  %} In Stock {% else %} <span class="text-danger">{% trans 'Out of Stock' %}</span {% endif %}
+                                {% if product.quantity > 0  %} In Stock {% else %} <span class="text-danger">{% trans 'Out of Stock' %}</span> {% endif %}
                                 {% endif %}
                             </span></li>
                             {% if product.brand %}
@@ -676,7 +678,7 @@
                                     {% endif %}
                                 {% endif %}    
                         </span>
-                    </div>
+                        </div>
                         {% endif %} 
                         <div>
                     <!-- .product__info / end -->

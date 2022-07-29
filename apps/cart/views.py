@@ -263,7 +263,7 @@ def request_quatation(request,id):
     connection.open()
     current_user = request.user
     vendor=product.vendor
-    if request.method == 'POST':
+    if request.method == "POST":
         Quotation.objects.create(
             product_id=id, 
             user_id=current_user.id,
@@ -276,7 +276,9 @@ def request_quatation(request,id):
             customer_phone=user.phone,
             vendor_id=vendor.id
         )
-
+        print('post')
+    else:
+        print(request.method)    
     from_email = settings.DEFAULT_EMAIL_FROM
     to_email = settings.DEFAULT_EMAIL_FROM
 
