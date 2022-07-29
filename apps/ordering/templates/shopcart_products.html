@@ -120,7 +120,7 @@
                                             {% endif %}
 
                                 {% else %}
-                                    {% if rs.variant.have_adjacent_color %}
+                                    {% if rs.variant_color %}
 
                                             {% if rs.variant_color.discount > 0 %} 
                                                {{rs.variant_color.get_discounted_price}}
@@ -130,7 +130,7 @@
 
                                     {% else %}
                                             {% if rs.variant.discount > 0 %} 
-                                               {{rs.variant.get_discounted_price_var}}
+                                               {{rs.variant.get_discounted_price}}
                                             {% else %} 
                                                {{rs.variant.price}}
                                             {% endif %} 
