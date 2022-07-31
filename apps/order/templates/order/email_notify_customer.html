@@ -1,3 +1,4 @@
+{% load i18n %}
 <!doctype html>
 <html>
 
@@ -98,7 +99,7 @@
                                                 width="80" height="80" style="display: block; border: 0px;" /><br>
                                             <h2
                                                 style="font-size: 30px; font-weight: 800; line-height: 36px; color: #333333; margin: 0;">
-                                                Thank You For Your Order. </h2>
+                                                {% trans 'Thank You For Your Order.' %}' </h2>
                                         </td>
                                     </tr>
                                     <tr>
@@ -106,8 +107,8 @@
                                             style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding-top: 10px;">
                                             <p
                                                 style="font-size: 16px; font-weight: 400; line-height: 24px; color: #000000; padding-top: 15px;">
-                                                Order Reference: #{{ order.reference_number }}<br>
-                                                Order Date & Time: {{ order.created_at }}
+                                                {% trans 'Order Reference:' %}' #{{ order.reference_number }}<br>
+                                                {% trans 'Order Date & Time:' %}' {{ order.created_at }}
                                             </p>
                                         </td>
                                     </tr>
@@ -117,22 +118,22 @@
                                                 <tr>
                                                     <td width="40%" align="left" bgcolor="#eeeeee"
                                                         style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 800; line-height: 24px; padding: 10px;">
-                                                        Item</td>
+                                                        {% trans 'Item' %}</td>
                                                     <td width="10%" align="left" bgcolor="#eeeeee"
                                                         style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 800; line-height: 24px; padding: 10px;">
-                                                         Qty</td>
+                                                        {% trans 'Qty' %}</td>
                                                     <td width="25%" align="left" bgcolor="#eeeeee"
                                                         style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 800; line-height: 24px; padding: 10px;">
-                                                         Price (Rwf)</td>
+                                                        {% trans 'Price' %} (Rwf)</td>
                                                     <td width="25%" align="left" bgcolor="#eeeeee"
                                                         style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 800; line-height: 24px; padding: 10px;">
-                                                         Total (Rwf)</td>
+                                                        {% trans 'Total' %} (Rwf)</td>
                                                 </tr>
                                                 {% for item in order.items.all %}
                                                 <tr>
                                                     <td width="40%" align="left"
                                                         style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding: 15px 10px 5px 10px;">
-                                                        {{ item.get_product_name }} </td>
+                                                        {% if item.variant_color  %} {{item.variant_color.name }} {% elif item.variant %} {{item.variant.title}}  {% else %}{{ item.get_product_name }}{% endif %} </td>
                                                     <td width="10%" align="left"
                                                         style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding: 15px 10px 5px 10px;">
                                                         {{ item.quantity }} </td>
@@ -153,7 +154,7 @@
                                                 <tr>
                                                     <td width="75%" align="right"
                                                         style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 800; line-height: 24px; padding: 10px; border-top: 3px solid #eeeeee; border-bottom: 3px solid #eeeeee;">
-                                                        Sub-Total </td>
+                                                        {% trans 'Sub-Total' %} </td>
                                                     <td width="25%" align="left"
                                                         style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 800; line-height: 24px; padding: 10px; border-top: 3px solid #eeeeee; border-bottom: 3px solid #eeeeee;">
                                                         {{ order.paid_amount }} </td>
@@ -161,7 +162,7 @@
                                                 <tr>
                                                     <td width="75%" align="right"
                                                         style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding: 5px 10px;">
-                                                        Delivery  </td>
+                                                        {% trans 'Delivery' %}  </td>
                                                     <td width="25%" align="left"
                                                         style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding: 5px 10px;">
                                                         {{ order.get_delivery_cost }} </td>
@@ -169,7 +170,7 @@
                                                 <tr>
                                                     <td width="75%" align="right"
                                                         style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 800; line-height: 24px; padding: 10px; border-top: 3px solid #eeeeee; border-bottom: 3px solid #eeeeee;">
-                                                        TOTAL </td>
+                                                        {% trans 'TOTAL' %} </td>
                                                     <td width="25%" align="left"
                                                         style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 800; line-height: 24px; padding: 10px; border-top: 3px solid #eeeeee; border-bottom: 3px solid #eeeeee;">
                                                         {{ grand_cost }} </td>
@@ -194,8 +195,8 @@
                                                     <tr>
                                                         <td align="left" valign="top"
                                                             style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px;">
-                                                            <p style="font-weight: 800;">Customer Details</p>
-                                                            <p>Name: {{ order.first_name }} {{ order.last_name }}<br>Phone: {{ order.phone }}<br>Email: {{ order.email }}<br>Tin: {{ order.company_code }}</p>
+                                                            <p style="font-weight: 800;">{% trans 'Customer Details' %}</p>
+                                                            <p>{% trans 'Name:' %} {{ order.first_name }} {{ order.last_name }}<br>{% trans 'Phone:' %} {{ order.phone }}<br>{% trans 'Email:' %} {{ order.email }}<br>{% trans 'Tin:' %} {{ order.company_code }}</p>
                                                         </td>
                                                     </tr>
                                                 </table>
@@ -207,8 +208,8 @@
                                                     <tr>
                                                         <td align="left" valign="top"
                                                             style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px;">
-                                                            <p style="font-weight: 800;">{% if order.delivery_type == 'store' %} Pick Up Address {% else %} Delivery Address {% endif %}</p>
-                                                            <p>District: {{order.district}}<br>Sector: {{order.sector}}<br>Cell: {{order.cell}}<br>Village: {{order.village}}<br>Address: {{order.delivery_address}}<br></p>
+                                                            <p style="font-weight: 800;">{% if order.delivery_type == 'store' %} {% trans 'Pick Up Address' %} {% else %} {% trans 'Delivery Address' %} {% endif %}</p>
+                                                            <p>{% trans 'District:' %} {{order.district}}<br>{% trans 'Sector:' %} {{order.sector}}<br>{% trans 'Cell:' %} {{order.cell}}<br>{% trans 'Village:' %} {{order.village}}<br>{% trans 'Address:' %} {{order.delivery_address}}<br></p>
                                                         </td>
                                                     </tr>
                                                 </table>
@@ -220,15 +221,15 @@
                                                     <tr>
                                                         <td align="left" valign="top"
                                                             style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px;">
-                                                            <p style="font-weight: 800;">Delivery Type</p>
+                                                            <p style="font-weight: 800;">{% trans 'Delivery Type' %}</p>
                                                             {% if order.delivery_type == 'store' %}
-                                                            <p>Pickup in Store</p>
+                                                            <p>{% trans 'Pickup in Store' %}</p>
                                                             {% elif order.delivery_type == 'Vendor_Delivery' %}  
-                                                            <p>Vendor Delivery</p>
+                                                            <p>{% trans 'Vendor Delivery' %}</p>
                                                             {% elif order.delivery_type == 'Express_Delivery' %}  
-                                                            <p>Express Delivery</p>
+                                                            <p>{% trans 'Express Delivery' %}</p>
                                                             {% else %}  
-                                                            <p>Basic Delivery</p>
+                                                            <p>{% trans 'Basic Delivery' %}</p>
                                                             {% endif %}
                                                         </td>
                                                     </tr>
@@ -241,7 +242,7 @@
                                                     <tr>
                                                         <td align="left" valign="top"
                                                             style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px;">
-                                                            <p style="font-weight: 800;">Payment Method</p>
+                                                            <p style="font-weight: 800;">{% trans 'Payment Method' %}</p>
                                                             <p>{{order.service_provider}} - {{order.momo}}</p>  
                                                         </td>
                                                     </tr>
@@ -274,8 +275,8 @@
                                             style="font-family: Open Sans, Helvetica, Arial, sans-serif;font-weight: 400; line-height: 24px;">
                                             <p
                                                 style="font-size: 11px; font-weight: 400; line-height: 20px; color: #777777;">
-                                                * This document is an order confirmation. Tax receipts will be provided by the vendor(s). <br> * The prices above include Value Added Tax (if applicable). <br>* If you didn't make this order, please ignore
-                                                this email.</p>
+                                                * {% trans 'This document is an order confirmation. Tax receipts will be provided by the vendor(s). <br> * The prices above include Value Added Tax (if applicable). <br>* If you did not make this order, please ignore' %}
+                                                {% trans 'this email.' %}</p>
                                         </td>
                                     </tr>
                                 </table>

@@ -27,8 +27,9 @@
                     <div class="block">
                         <div class="posts-view">
                             <div class="posts-view__list posts-list posts-list--layout--list">
+                                {% if posts %}
                                 <div class="posts-list__body">
-                                        {% for post in posts%}
+                                    {% for post in posts %}
                                     <div class="posts-list__item">
                                             <div class="post-card post-card--layout--list post-card--size--nl">
                                             <div class="post-card__image">
@@ -53,6 +54,9 @@
                                     </div>
                                     {% endfor %}
                                 </div>
+                                {% else %}
+                                <h1>No Posts</h1>
+                                {% endif %}
                             </div>   
                         </div>
                     </div>
@@ -62,16 +66,31 @@
                     <div class="block block-sidebar block-sidebar--position--end">
                         <div class="block-sidebar__item">
                             <div class="widget-aboutus widget">
-                                <h4 class="widget__title">About Soko Blog</h4>
+                                {% if tags %}
+                                <h4 class="widget__title">Tags</h4>
                                 <div class="widget-aboutus__text">
                                 <ul class="b">
-                                    <li>Design</li>
-                                    <li>Construction</li>
-                                    <li>Do-it-yourself</li>
-                                    <li>Customer service</li>
-                                    <li>Rwanda</li>
+                                    <div class="products__tags tags">
+                                        <div class="tags__list">
+                                            {% for tg in tags %}
+                                               <a href="{% url 'tag' tg.id tg.slug %}">{{ tg }}</a>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
                                 </ul>
                                 </div> 
+                                {% else %}
+                                <h4 class="widget__title">Tag</h4>
+                                <div class="widget-aboutus__text">
+                                <ul class="b">
+                                    <div class="products__tags tags">
+                                        <div class="tags__list">
+                                               <a href="#">{{ tag }}</a>
+                                        </div>
+                                    </div>
+                                </ul>
+                                </div>
+                                {% endif %}
                             </div>
                         </div>
 

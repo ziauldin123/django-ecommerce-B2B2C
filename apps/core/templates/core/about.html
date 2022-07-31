@@ -1,6 +1,6 @@
 {% extends 'core/base.html' %}
 {% load static %}
-
+{% load i18n %}
 {% block title %}About us{% endblock  %}
 
 {% block content %}
@@ -12,65 +12,69 @@
             <div class="row justify-content-center">
                 <div class="col-12 col-xl-10">
                     <div class="about-us__body">
-                        <h1 class="about-us__title">About Sokopark</h1>
+                        <h1 class="about-us__title">{% trans 'About' %} Sokopark</h1>
                         <div class="about-us__text typography">
                             <p>
+<<<<<<< HEAD
                                 Sokopark is an online marketplace that provides a wide range of products with focus on variety, fast delivery and competitive prices.
+=======
+                                Sokopark {% trans 'is an online marketplace that provides a wide range of products with focus on variety, fast delivery and competitive prices.' %}
+>>>>>>> 58f5ad9488575279c5fc5bb596bcd6f11cd0656f
                                 We strive to be the go-to platform for the different needs of Rwandan consumers. We also aim to assist our clients in meeting their projects requirements at all stages.
                             </p>
                             <p>
-                                With emphasis on reliability and respect of high quality, we continue to nurture solid and strategic relationships with a network of 
-                                exclusively-selected manufacturers and vendors in an effort to provide optimal solutions to fit the specific demands of our clients.
+                                {% trans 'With emphasis on reliability and respect of high quality, we continue to nurture solid and strategic relationships with a network of ' %}
+                                {% trans 'exclusively-selected manufacturers and vendors in an effort to provide optimal solutions to fit the specific demands of our clients.' %}'
                             </p>
                         </div>
                         <div class="about-us__team">
-                            <h2 class="about-us__team-title">Our Operations</h2>
+                            <h2 class="about-us__team-title">{% trans 'Our Operations' %}</h2>
                             <div class="about-us__teammates teammates">
                                 <div class="owl-carousel">
                                     <div class="teammates__item teammate">
                                         <div class="teammate__avatar">
                                              <img src="https://sokopark.s3.af-south-1.amazonaws.com/static/templates/images/order_management.webp" alt="">
                                         </div>
-                                        <div class="teammate__name">Order management & fulfilment</div>
+                                        <div class="teammate__name">{% trans 'Order management & fulfilment' %}</div>
                                     </div>
                                     <div class="teammates__item teammate">
                                         <div class="teammate__avatar">   
                                              <img src="https://sokopark.s3.af-south-1.amazonaws.com/static/templates/images/delivery.webp" alt="">
                                         </div>
-                                        <div class="teammate__name">Delivery</div>
+                                        <div class="teammate__name">{% trans 'Delivery' %}</div>
                                     </div>
                                     <div class="teammates__item teammate">
                                         <div class="teammate__avatar">
                                              <img src="https://sokopark.s3.af-south-1.amazonaws.com/static/templates/images/service.webp" alt="">
                                         </div>
-                                        <div class="teammate__name">Customer service</div>
+                                        <div class="teammate__name">{% trans 'Customer service' %}</div>
                                     </div>
                                      <div class="teammates__item teammate">
                                         <div class="teammate__avatar">
                                              <img src="https://sokopark.s3.af-south-1.amazonaws.com/static/templates/images/advisory.webp" alt="">
                                         </div>
-                                        <div class="teammate__name">Advisory</div>
+                                        <div class="teammate__name">{% trans 'Advisory' %}</div>
                                     </div>
                                     <div class="teammates__item teammate">
                                         <div class="teammate__avatar">
                                             <img src="https://sokopark.s3.af-south-1.amazonaws.com/static/templates/images/advertising.webp" alt="">
                                         </div>
-                                        <div class="teammate__name">Advertising & Promotion</div>
+                                        <div class="teammate__name">{% trans 'Advertising & Promotion' %}</div>
                                     </div>
                                     <div class="teammates__item teammate">
                                         <div class="teammate__avatar">
                                              <img src="https://sokopark.s3.af-south-1.amazonaws.com/static/templates/images/storage.webp" alt="">
                                         </div>
-                                        <div class="teammate__name">Storage (available soon)</div>
+                                        <div class="teammate__name">{% trans 'Storage (available soon)' %}</div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <br>
                         <div class="about-us__text typography">
-                            <p> <strong> Vision | </strong> Efficient African Trade</p>
-                            <p> <strong> Mission | </strong> Setting a New Standard in Service Delivery</p>
-                            <p> <strong> Values | </strong> Accountability - Customer Engagement - Integrity - Service Excellence  </p>
+                            <p> <strong> {% trans 'Vision' %} | </strong> {% trans 'Efficient African Trade' %}</p>
+                            <p> <strong> {% trans 'Mission' %} | </strong> {% trans 'Setting a New Standard in Service Delivery' %}</p>
+                            <p> <strong> {% trans 'Values' %} | </strong> {% trans 'Accountability - Customer Engagement - Integrity - Service Excellence' %}  </p>
                         </div>
                     </div>
                 </div>

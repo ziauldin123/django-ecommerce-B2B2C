@@ -2,8 +2,12 @@ from django.conf import settings
 
 from apps.cart.cart import Cart
 from apps.order.utilities import checkout
+<<<<<<< HEAD
 # from apps.product.models import Product
 from apps.newProduct.models import Product, Variants
+=======
+from apps.newProduct.models import AdjacentColorProduct, Product, Variants
+>>>>>>> 58f5ad9488575279c5fc5bb596bcd6f11cd0656f
 from apps.ordering.models import Order,OrderItem,ShopCart,notify_customer,notify_vendor
 
 
@@ -52,11 +56,18 @@ class PaymentService:
         for p_id in product_ids:
             qty = cart.cart['cart'][p_id]['quantity']
             is_variant=cart.cart['cart'][p_id]['product']['is_variant']
+            is_variant_color=cart.cart['cart'][p_id]['product']['is_variant_color']
             if is_variant:
                 variant_id=cart.cart['cart'][p_id]['product']['variant_id']['id']
                 variant = Variants.objects.get(id=variant_id)
                 variant.quantity = variant.quantity - qty
                 variant.save()
+            elif is_variant_color:
+                variant_color_id=cart.cart['cart'][p_id]['product']['variant_color_id']['id']
+                variant_color = AdjacentColorProduct.objects.get(id=variant_color_id)
+                variant_color.quantity = variant_color.quantity - qty
+                variant_color.save()
+
             else:
                 product_id=cart.cart['cart'][p_id]['product']['id']
                 product = Product.objects.get(id=product_id)

@@ -1,4 +1,5 @@
 {% load static %}
+{% load i18n %}
 <div class="block-products-carousel__column">
     <div class="block-products-carousel__cell">
         <div class="product-card product-card--hidden-actions ">
@@ -113,7 +114,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="product-card__rating-legend">{{ product.countreview}}  Review(s)</div>
+                    <div class="product-card__rating-legend">{{ product.countreview}}  {% trans 'Review(s)' %}</div>
                 </div>
             </div>
             <div class="product-card__actions">
@@ -126,6 +127,7 @@
                         {% endif %}
                     </span>
                 </div>
+                {% if not product.spare_parts %}
                 <div class="product-card__prices">
                     {% if product.is_variant %} 
                           {% if product.discount %} 
@@ -143,21 +145,31 @@
                          {% endif %}
                     {% endif %}     
                 </div>
+                {% endif %}
                 <div class="product-card__buttons">
                     {% if product.is_variant %}
                     <a href="{% url 'product' product.id product.slugV product.category.sub_category.category.slug product.category.sub_category.slug product.category.slug product.slug %}"> 
-                        <button class="btn btn-primary product-card__addtocart" type="button" >View Options</button>
+                        <button class="btn btn-primary product-card__addtocart" type="button" >{% trans 'View Options' %}</button>
                     </a>
                     {% else %}
-                    <a onclick="addToCart('{{ product.id }}')">
+                    {% if product.spare_parts %} 
+                    <a onclick="requestQuatation('{{product.id}}')">
                         {% if request.session.customer and product.quantity > 0 %}
-                        <button class="btn btn-primary product-card__addtocart " type="button" >Add To Cart</button>
+                        <button  class="btn btn-primary product-card__addtocart " type="button" >{% trans 'Get quotation' %}</button>
                         {% else %} 
-                        <button class="btn btn-primary product-card__addtocart disabled" type="button" >Add To Cart</button>
+                        <button class="btn btn-primary product-card__addtocart disabled" type="button" >{% trans 'Get quotation' %}</button>
                         {% endif %}
                     </a>
+                    {% else %} 
+                        <a onclick="addToCart('{{ product.id }}')">
+                            {% if request.session.customer and product.quantity > 0 %}
+                            <button class="btn btn-primary product-card__addtocart " type="button" >{% trans 'Add To Cart' %}</button>
+                            {% else %} 
+                            <button class="btn btn-primary product-card__addtocart disabled" type="button" >{% trans 'Add To Cart' %}</button>
+                            {% endif %}
+                        </a>
                     {% endif %}
-
+                    {% endif %}
                     {% if product.is_variant %} 
                     <div class="wishList">
                         <form action="" method="post">

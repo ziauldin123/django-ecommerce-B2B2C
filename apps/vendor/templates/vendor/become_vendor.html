@@ -1,5 +1,5 @@
 {% extends 'core/base.html' %}
-
+{% load i18n %}
 {% block title %}Set up a vendor account{% endblock %}
 
 {% block content %}
@@ -10,7 +10,7 @@
             <div class="col-xl-5 col-lg-6 col-md-8">
                 <div class="card flex-grow-1 mb-0 mt-5">
                     <div class="card-body">
-                        <h3 class="card-title">Set up a vendor account</a></h3>
+                        <h3 class="card-title">{% trans 'Set up a vendor account' %}</a></h3>
                         <form method="post" action="." enctype="multipart/form-data" >
                             {% csrf_token %}
                 
@@ -23,7 +23,7 @@
                                 </div>
 
                                 <div class="field form-group">
-                                    <label>Company Name</label>
+                                    <label>{% trans 'Company Name' %}</label>
                 
                                     <div clas="control">
                                         <input type="text" class="input form-control" name="company_name" id="id_company_name">
@@ -31,7 +31,7 @@
                                 </div>
                 
                                 <div class="field form-group">
-                                    <label>Email</label>
+                                    <label>{% trans 'Email' %}</label>
                 
                                     <div class="control">
                                         <input type="email" class="input form-control" name="email" id="id_email">
@@ -39,7 +39,7 @@
                                 </div>
                 
                                 <div class="field form-group">
-                                    <label>Phone</label>
+                                    <label>{% trans 'Phone' %}</label>
                 
                                     <div clas="control">
                                         <input type="text" class="input form-control" name="phone" id="id_phone">
@@ -56,11 +56,11 @@
                 
                            
                                 <div class="field form-group" id="district">
-                                        <label>District</label>
+                                        <label>{% trans 'District' %}</label>
                 
                                         <div class="control">
                                             <select class="select form-control" name="district" id="id_district">
-                                                <option value="" selected>---Select District---</option>
+                                                <option value="" selected>{% trans '---Select District---' %}</option>
                                                 {% for entry in districts %}
                                                 <option value="{{ entry.id }}">{{ entry.district }}</option>
                                                 {% endfor %}
@@ -69,36 +69,36 @@
                                     </div>
                 
                                     <div class="field form-group" id="sector">
-                                        <label>Sector</label>
+                                        <label>{% trans 'Sector' %}</label>
                 
                                         <div class="control">
                                             <select class="select form-control" name="sector" id="id_sector">
-                                                <option value="" selected>---Select Sector---</option>
+                                                <option value="" selected>{% trans '---Select Sector---' %}</option>
                                             </select>
                                         </div>
                                     </div>
                 
                                     <div class="field form-group" id="cell">
-                                        <label>Cell</label>
+                                        <label>{% trans 'Cell' %}</label>
                 
                                         <div class="control">
                                             <select class="select form-control" name="cell" id="id_cell">
-                                                <option value="" selected>---Select Cell---</option>
+                                                <option value="" selected>{% trans '---Select Cell---' %}</option>
                                             </select>
                                         </div>
                                     </div>
                 
                                     <div class="field form-group" id="village">
-                                        <label>Village</label>
+                                        <label>{% trans 'Village' %}</label>
                 
                                         <div class="control">
                                             <select class="select form-control" name="village" id="id_village">
-                                                <option value="" selected>---Select Village---</option>
+                                                <option value="" selected>{% trans '---Select Village---' %}</option>
                                             </select>
                                         </div>
                                     </div>
                                     <div class="field form-group" id="address">
-                                        <label>Street No & House No.</label>
+                                        <label>{% trans 'Street No & House No' %}.</label>
                 
                                         <div class="control">
                                             <input type="textarea" class="textarea form-control" name="address" id="id_address" value="">
@@ -108,7 +108,7 @@
                             
                 
                                <div class="field form-group">
-                                    <label>Upload Company Registration</label>
+                                    <label>{% trans 'Upload Company Registration' %}</label>
                 
                                     <div clas="control">
                                         <input type="file" class="form-control" name="reg_image" id="reg_image" required />
@@ -117,15 +117,15 @@
                 
                 
                                 <div class="field form-group">
-                                    <label>Password</label>
+                                    <label>{% trans 'Password' %}</label>
                 
-                                    <div clas="control">
+                                    <div class="control">
                                         <input type="password" class="input form-control" name="password1" id="id_password1">
                                     </div>
                                 </div>
                 
                                <div class="field form-group">
-                                    <label>Confirm Password</label>
+                                    <label>{% trans 'Confirm Password' %}</label>
                 
                                     <div clas="control">
                                         <input type="password" class="input form-control" name="password2" id="id_password2">
@@ -137,7 +137,7 @@
                 
                                     <div clas="control">
                                         <input type="checkbox" name="is_privacy" value="True" id="is_privacy" required/>
-                                        <label> I agree to Sokopark's <a href="{% url 'termsandconditions' %}">Terms & Conditions</a>.</label>
+                                        <label> {% trans 'I agree to' %} Sokopark's <a href="{% url 'termsandconditions' %}">{% trans 'Terms & Conditions' %}</a>.</label>
                                     </div>
                                 </div>
                 
@@ -173,13 +173,14 @@
                 
                                  <div class="field form-group">
                                     <div class="control">
-                                        <button class="btn btn-primary btn-lg btn-block"type="submit">Sign up</button>
+                                        <button class="btn btn-primary btn-lg btn-block"type="submit">{% trans 'Sign up' %}</button>
                                     </div>
                                 </div>
                         </form>
                         
-                        <label class="form-check-label" for="login-remember">Already have account? <a href="{% url 'login' %}"> Sign in here </a>
-                        <label class="form-check-label" for="login-remember">Register as customer? <a href="{% url 'become_customer' %}"> Register here </a> 
+                        <label class="form-check-label" for="login-remember">{% trans 'Already have account' %}? <a href="{% url 'login' %}"> {% trans 'Sign in here' %} </a>
+                        <label class="form-check-label" for="login-remember">{% trans 'Register as customer' %}? <a href="{% url 'become_customer' %}"> {% trans 'Register here' %} </a> 
+                        <label class="form-check-label" for="login-remember">{% trans 'Register as Service Provider' %} ? <a href="{% url 'become-service-provider' %}"> {% trans 'Register here' %} </a> 
                     </div>
                 </div>
             </div>

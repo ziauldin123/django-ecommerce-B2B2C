@@ -1,5 +1,5 @@
 {% extends 'core/base.html' %}
-
+{% load i18n %}
 {% block title %}Pricing for Vendors{% endblock  %}
 
 {% block content %}
@@ -13,7 +13,7 @@
                 </nav>
             </div>
             <div class="page-header__title">
-                <h3>Pricing</h3>
+                <h3>{% trans 'Pricing' %}</h3>
             </div>
         </div>
     </div>
@@ -34,21 +34,21 @@
                                             <div class="address-card__badge">Diamond</div>
 
                                             <div class="address-card__row">
-                                                <div class="address-card__row-title">Product Limit</div>
-                                                <div class="address-card__row-content">5 products</div>
+                                                <div class="address-card__row-title">{% trans 'Product Limit' %}</div>
+                                                <div class="address-card__row-content">5 {% trans 'products' %}</div>
                                             </div>
                                             <div class="address-card__row">
-                                                <div class="address-card__row-title">Features</div>
-                                                <div class="address-card__row-content">Vendor Dashboard</div>
-                                                <div class="address-card__row-content">Email Notifications</div>
+                                                <div class="address-card__row-title">{% trans 'Features' %}</div>
+                                                <div class="address-card__row-content">{% trans 'Vendor Dashboard' %}</div>
+                                                <div class="address-card__row-content">{% trans 'Email Notifications' %}</div>
                                             </div>
                                             <div class="address-card__row">
-                                                <div class="address-card__row-title">Account fees</div>
-                                                <div class="address-card__row-content">FREE</div>
+                                                <div class="address-card__row-title">{% trans 'Account fees' %}</div>
+                                                <div class="address-card__row-content">{% trans 'FREE' %}</div>
                                             </div>
                                             <div class="address-card__row">
-                                                <div class="address-card__row-title">Transaction fees</div>
-                                                <div class="address-card__row-content">1% - 3.5% per transaction(*)</div>
+                                                <div class="address-card__row-title">{% trans 'Transaction fees' %}</div>
+                                                <div class="address-card__row-content">1% - 3.5% {% trans 'per transaction(*)' %}</div>
                                             </div>
                                         </div>
                                     </div>
@@ -59,22 +59,27 @@
                                         <div class="address-card__body">
                                             <div class="address-card__badge">Sapphire</div>
                                             <div class="address-card__row">
-                                                <div class="address-card__row-title">Product Limit</div>
-                                                <div class="address-card__row-content">20 products</div>
+                                                <div class="address-card__row-title">{% trans 'Product Limit' %}</div>
+                                                <div class="address-card__row-content">20 {% trans 'products' %}</div>
                                             </div>
                                             <div class="address-card__row">
-                                                <div class="address-card__row-title">Features</div>
-                                                <div class="address-card__row-content">Vendor Dashboard</div>
-                                                <div class="address-card__row-content">Email Notifications</div>
-                                                <div class="address-card__row-content">Social media promotion</div>
+                                                <div class="address-card__row-title">{% trans 'Features' %}</div>
+                                                <div class="address-card__row-content">{% trans 'Vendor Dashboard' %}</div>
+                                                <div class="address-card__row-content">{% trans 'Email Notifications' %}</div>
+                                                <div class="address-card__row-content">{% trans 'Social media promotion' %}</div>
                                             </div>
                                             <div class="address-card__row">
+<<<<<<< HEAD
                                                 <div class="address-card__row-title">Account fees</div>
                                                 <div class="address-card__row-content">Rwf 5,000 per month</div>
+=======
+                                                <div class="address-card__row-title">{% trans 'Account fees' %}</div>
+                                                <div class="address-card__row-content">Rwf 5,000 {% trans 'per month' %}</div>
+>>>>>>> 58f5ad9488575279c5fc5bb596bcd6f11cd0656f
                                             </div>
                                             <div class="address-card__row">
-                                                <div class="address-card__row-title">Transaction fees</div>
-                                                <div class="address-card__row-content">1% - 3.5% per transaction(*)</div>
+                                                <div class="address-card__row-title">{% trans 'Transaction fees' %}</div>
+                                                <div class="address-card__row-content">1% - 3.5% {% trans 'per transaction(*)' %}</div>
                                             </div>
                                         </div>
                                     </div>
@@ -85,24 +90,29 @@
                                     <div class="address-card__body">
                                         <div class="address-card__badge">Emerald</div>
                                             <div class="address-card__row">
-                                                <div class="address-card__row-title">Product Limit</div>
-                                                <div class="address-card__row-content">50 products</div>
+                                                <div class="address-card__row-title">{% trans 'Product Limit' %}</div>
+                                                <div class="address-card__row-content">50 {% trans 'products' %}</div>
                                             </div>
                                             <div class="address-card__row">
-                                                <div class="address-card__row-title">Features</div>
-                                                <div class="address-card__row-content">Vendor Dashboard</div>
-                                                <div class="address-card__row-content">Email Notifications</div>
-                                                <div class="address-card__row-content">Social media promotion</div>
-                                                <div class="address-card__row-content">Pick up order in store</div>   
-                                                <div class="address-card__row-content">Manage your delivery</div>
+                                                <div class="address-card__row-title">{% trans 'Features' %}</div>
+                                                <div class="address-card__row-content">{% trans 'Vendor Dashboard' %}</div>
+                                                <div class="address-card__row-content">{% trans 'Email Notifications' %}</div>
+                                                <div class="address-card__row-content">{% trans 'Social media promotion' %}</div>
+                                                <div class="address-card__row-content">{% trans 'Pick up order in store' %}</div>   
+                                                <div class="address-card__row-content">{% trans 'Manage your delivery' %}</div>
                                             </div>
                                             <div class="address-card__row">
+<<<<<<< HEAD
                                                 <div class="address-card__row-title">Account fees</div>
                                                 <div class="address-card__row-content">Rwf 7,500 per month</div>
+=======
+                                                <div class="address-card__row-title">{% trans 'Account fees' %}</div>
+                                                <div class="address-card__row-content">Rwf 7,500 {% trans 'per month' %}</div>
+>>>>>>> 58f5ad9488575279c5fc5bb596bcd6f11cd0656f
                                             </div>
                                             <div class="address-card__row">
-                                                <div class="address-card__row-title">Transaction fees</div>
-                                                <div class="address-card__row-content">1% - 3.5% per transaction(*)</div>
+                                                <div class="address-card__row-title">{% trans 'Transaction fees' %}</div>
+                                                <div class="address-card__row-content">1% - 3.5% {% trans 'per transaction(*)' %}</div>
                                             </div>
                                         </div>
                                     </div>
@@ -113,27 +123,27 @@
                                         <div class="address-card__body">
                                             <div class="address-card__badge">Ruby</div>
                                             <div class="address-card__row">
-                                                <div class="address-card__row-title">Product Limit</div>
-                                                <div class="address-card__row-content">None</div>
+                                                <div class="address-card__row-title">{% trans 'Product Limit' %}</div>
+                                                <div class="address-card__row-content">{% trans 'None' %}</div>
                                             </div>
                             
                                     <div class="address-card__row">
-                                        <div class="address-card__row-title">Features</div>
-                                        <div class="address-card__row-content">Vendor Dashboard</div>
-                                        <div class="address-card__row-content">Email Notifications</div>
-                                        <div class="address-card__row-content">Social media promotion</div>
-                                        <div class="address-card__row-content">Pick up order in store</div>
-                                        <div class="address-card__row-content">Manage your delivery</div>
-                                        <div class="address-card__row-content">Featured products</div>
-                                        <div class="address-card__row-content">Customization</div>
+                                        <div class="address-card__row-title">{% trans 'Features' %}</div>
+                                        <div class="address-card__row-content">{% trans 'Vendor Dashboard' %}</div>
+                                        <div class="address-card__row-content">{% trans 'Email Notifications' %}</div>
+                                        <div class="address-card__row-content">{% trans 'Social media promotion' %}</div>
+                                        <div class="address-card__row-content">{% trans 'Pick up order in store' %}</div>
+                                        <div class="address-card__row-content">{% trans 'Manage your delivery' %}</div>
+                                        <div class="address-card__row-content">{% trans 'Featured products' %}</div>
+                                        <div class="address-card__row-content">{% trans 'Customization' %}</div>
                                     </div>
                                     <div class="address-card__row">
-                                        <div class="address-card__row-title">Account fees</div>
-                                        <div class="address-card__row-content">Negociable</div>
+                                        <div class="address-card__row-title">{% trans 'Account fees' %}</div>
+                                        <div class="address-card__row-content">{% trans 'Negociable' %}</div>
                                     </div>
                                     <div class="address-card__row">
-                                        <div class="address-card__row-title">Transaction fees</div>
-                                        <div class="address-card__row-content">1% - 3.5% per transaction(*)</div>
+                                        <div class="address-card__row-title">{% trans 'Transaction fees' %}</div>
+                                        <div class="address-card__row-content">1% - 3.5% {% trans 'per transaction(*)' %}</div>
                                     </div>
                                         </div>
                                     </div>
@@ -155,7 +165,7 @@
                             <div class="faq__section-column col-12 col-lg-12">
                             
                                 <div class="address-card__row-content">
-                                <h6>* The transaction percentage is based on product type.</h6>
+                                <h6>* {% trans 'The transaction percentage is based on product type.' %}</h6>
                                 </div>
                             
                             </div>

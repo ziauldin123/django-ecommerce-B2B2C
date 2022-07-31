@@ -1,5 +1,7 @@
 from apps.newProduct.models import Category, SubCategory, SubSubCategory
+from apps.rental import models
 
+from apps.services import models
 
 def menu_categories(request):
     categories = Category.objects.all()
@@ -26,3 +28,14 @@ def menu_categories(request):
     #                 for subsubcategory in subcategory.children:
     #                     print("grandchild: ", subsubcategory)
     return {'menu_categories': categories}
+
+def rental_categories(request):
+    categories = models.Category.objects.all()
+
+    return {'rental_categories':categories}
+
+
+def services(request):
+    services = models.Category.objects.all()
+
+    return {'services':services}

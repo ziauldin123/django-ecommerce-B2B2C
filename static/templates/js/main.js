@@ -123,7 +123,11 @@
         $('.block-slideshow .owl-carousel').owlCarousel({
             items: 1,
             nav: false,
+<<<<<<< HEAD
             dots: true,
+=======
+            dots: false,
+>>>>>>> 58f5ad9488575279c5fc5bb596bcd6f11cd0656f
             loop: false,
             rtl: isRTL(),
             autoplay: true,
@@ -716,6 +720,10 @@
             noUiSlider.create(slider, {
                 start: [from, to],
                 connect: true,
+<<<<<<< HEAD
+=======
+                tooltips:true,
+>>>>>>> 58f5ad9488575279c5fc5bb596bcd6f11cd0656f
                 direction: isRTL() ? 'rtl' : 'ltr',
                 range: {
                     'min': min,
@@ -727,10 +735,37 @@
                 $(element).find('.filter-price__min-value')[0],
                 $(element).find('.filter-price__max-value')[0]
             ];
+<<<<<<< HEAD
 
             slider.noUiSlider.on('update', function (values, handle) {
                 titleValues[handle].innerHTML = values[handle];
             });
+=======
+            
+            const inputMin = document.getElementById('price_from')
+           
+            slider.noUiSlider.on('update', function (values, handle,unencoded) {
+            //   titleValues[handle].innerHTML = values[handle];
+              const minValue=values[handle] 
+              inputMin.value = minValue;
+            });
+
+            inputMin.addEventListener('change',function(){
+                slider.noUiSlider.set([null,this.value])
+            })
+
+            const inputMax = document.getElementById('price_to')
+
+            slider.noUiSlider.on('update',function(values,handle,unencoded){
+               inputMax=values[handle]
+               inputMax.value=inputMax;
+            })
+
+            inputMax.addEventListener('change',function(){
+                slider.noUiSlider.set([null,this.value])
+            })
+
+>>>>>>> 58f5ad9488575279c5fc5bb596bcd6f11cd0656f
         });
     });
 
@@ -756,8 +791,11 @@
 
                 mobilemenu.removeClass('mobilemenu--open');
             };
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 58f5ad9488575279c5fc5bb596bcd6f11cd0656f
             $('.mobile-header__menu-button').on('click', function () {
                 open();
             });

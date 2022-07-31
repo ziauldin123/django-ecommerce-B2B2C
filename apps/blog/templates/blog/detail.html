@@ -33,14 +33,13 @@
                             </div>
                             <div class="post__footer">
                                 <div class="post__tags-share-links">
-                                    <!--<div class="post__tags tags">
+                                    <div class="post__tags tags">
                                         <div class="tags__list">
-                                            <a href="">Promotion</a>
-                                            <a href="">Power Tool</a>
-                                            <a href="">Wrench</a>
-                                            <a href="">Electrodes</a>
+                                            {% for tag in post.tags.all %}
+                                               <a>{{ tag }}</a>
+                                            {% endfor %}
                                         </div>
-                                    </div>-->
+                                    </div>
                                     <div class="post__share-links share-links">
                                         <ul class="share-links__list">
                                             <li class="share-links__item share-links__item--type--like"><a href="">Like</a></li>

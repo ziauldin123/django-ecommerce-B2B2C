@@ -7,14 +7,15 @@ from django.shortcuts import render, redirect
 from django.conf import settings
 from apps.cart.cart import Cart
 from django.utils.crypto import get_random_string
-from apps.ordering.models import ShopCart, ShopCartForm, Order, OrderItem
-from apps.newProduct.models import Category, Product, Variants
+from apps.ordering.models import ShopCart, ShopCartForm, Order, OrderItem, Quotation
+from apps.newProduct.models import AdjacentColorProduct, Category, Product, Variants
 from apps.vendor.models import Customer, Profile, UserWishList
 from apps.cart.models import District, Sector, Cell, Village
 from decimal import Decimal
 from django.views.decorators.cache import never_cache, cache_page
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
+from apps.rental.models import Item
 
 
 @never_cache
@@ -31,24 +32,40 @@ def addtoshopcart(request, id):
     current_user = request.user  # Access User Session infor
     product = Product.objects.get(pk=id)
     variantid = request.POST.get('variantid')
+<<<<<<< HEAD
     # variant = Variants.objects.get(id=variantid)
 
+=======
+>>>>>>> 58f5ad9488575279c5fc5bb596bcd6f11cd0656f
     if product.vendor.enabled != True:
         messages.success(request, 'Product not available')
         return redirect(url)
 
     customer = Customer.objects.filter(email=current_user)
-    print("variant id", variantid)
 
     if product.is_variant:
         # get variant object
         # from variant add to cart
-        checkinvariant = ShopCart.objects.filter(
-            variant_id=variantid, user=current_user)  # check product from cart
-        if checkinvariant:
-            control = 1  # product is in cart
+        variant = Variants.objects.get(id=variantid)
+        if request.POST.get('colorid'):
+            colorid=int(request.POST.get('colorid'))
         else:
-            control = 0  # product is not in cart
+            colorid=None    
+        if variant.have_adjacent_color:
+            color_id = colorid
+            checkinvariant = ShopCart.objects.filter(
+            variant_color=color_id,variant_id=variantid, user=current_user)  # check product from cart
+            if checkinvariant:
+                control = 1  # product is in cart
+            else:
+                control = 0  # product is not in cart
+        else:
+            checkinvariant = ShopCart.objects.filter(
+            variant_id=variantid,user=current_user)  # check product from cart
+            if checkinvariant:
+                control = 1  # product is in cart
+            else:
+                control = 0  # product is not in cart        
     else:
         # No Variant
         variant = None
@@ -60,7 +77,6 @@ def addtoshopcart(request, id):
             control = 0  # product is not in cart
 
     if request.method == 'POST':  # if there is a post
-        print("control", control)
         p_quantity = int(request.POST.get('quantity'))
 
         if control == 1:  # update shopcart
@@ -70,29 +86,44 @@ def addtoshopcart(request, id):
                     product_id=id, user_id=current_user)
                 data.quantity += p_quantity
                 data.save()  # save data
-                cart.add(product_id=id, variant_id=None, user_id=current_user.id,
+                cart.add(product_id=id, variant_id=None,variant_color_id=None, user_id=current_user.id,
                          quantity=p_quantity, update_quantity=True)
             else:
                 variant = Variants.objects.get(id=variantid)
+                if variant.have_adjacent_color:
+                    variant_color=colorid
+                else:
+                    variant_color=None   
                 data = ShopCart.objects.get(
-                    variant_id=variantid, user_id=current_user.id)
+                    variant_id=variantid,variant_color=variant_color, user_id=current_user.id)
                 data.quantity += p_quantity
                 data.save()  # save data
-                cart.add(product_id=id, variant_id=variantid,
+                cart.add(product_id=id, variant_id=variantid,variant_color_id=variant_color, 
                          user_id=current_user.id, quantity=p_quantity, update_quantity=True)
 
         else:  # insert to shopcart
             data = ShopCart()
             if product.variant != 'None':
                 variant = Variants.objects.get(id=variantid)
+                if variant.have_adjacent_color:
+                    variant_color=AdjacentColorProduct.objects.get(id=colorid)
+                else:
+                    variant_color=None    
                 data.variant = variant
                 data.variant_id = variantid
+                data.variant_color=variant_color
+                data.variant_color_id=colorid
             data.user = current_user
             data.product = product
             data.quantity = p_quantity
             data.save()
+<<<<<<< HEAD
             # cart.set(int(product.id), int(form.cleaned_data['quantity']))
             cart.add(product_id=id, variant_id=variantid,
+=======
+            
+            cart.add(product_id=id, variant_id=variantid,variant_color_id=variant_color,
+>>>>>>> 58f5ad9488575279c5fc5bb596bcd6f11cd0656f
                      user_id=current_user.id, quantity=p_quantity, update_quantity=True)
 
         messages.success(request, "Product added to Shopcart")
@@ -100,11 +131,10 @@ def addtoshopcart(request, id):
 
     else:  # if there is no post
         if control == 1:
-            print("get 1")
             data = ShopCart.objects.get(product_id=id, user_id=current_user.id)
             data.quantity += 1
             data.save()
-            cart.add(product_id=product.id, variant_id=None, quantity=1,
+            cart.add(product_id=product.id, variant_id=None,variant_color_id=None, quantity=1,
                      update_quantity=True, user_id=current_user.id)
         else:  # insert to shopcart
             print("get")
@@ -113,8 +143,9 @@ def addtoshopcart(request, id):
                 product_id=id,
                 quantity=1,
                 variant_id=None,
+                variant_color=None
             )
-            cart.add(product_id=product.id, variant_id=None, quantity=1,
+            cart.add(product_id=product.id, variant_id=None,variant_color_id=None, quantity=1,
                      update_quantity=True, user_id=current_user.id)
         messages.success(request, 'Product added to Shopcart')
         return HttpResponse("Success!")
@@ -222,17 +253,22 @@ def update(request):
             cart = ShopCart.objects.get(id=prod_id, user=request.user)
             cart.quantity = prod_qty
             cart.save()
-
             if cart.product.is_variant:
-                cart_data.add(product_id=cart.product.id, variant_id=cart.variant.id,
+                if cart.variant_color:
+                    cart_data.add(product_id=cart.product.id, variant_id=cart.variant.id,variant_color_id=None,
+                              user_id=request.user.id, quantity=prod_qty, update_quantity=True)
+
+                else:
+                    cart_data.add(product_id=cart.product.id, variant_id=cart.variant.id,variant_color_id=None,
                               user_id=request.user.id, quantity=prod_qty, update_quantity=True)
             else:
-                cart_data.add(product_id=cart.product.id, variant_id=None,
+                cart_data.add(product_id=cart.product.id, variant_id=None,variant_color_id=None,
                               user_id=request.user.id, quantity=prod_qty, update_quantity=True)
             return JsonResponse({'status': "Updated"})
 
     return redirect('/')
 
+<<<<<<< HEAD
 
 def orderproduct(request):
     category = Category.objects.all()
@@ -318,3 +354,5 @@ def orderproduct(request):
                'village': village
                }
     return render(request, 'Order_Form.html', context)
+=======
+>>>>>>> 58f5ad9488575279c5fc5bb596bcd6f11cd0656f

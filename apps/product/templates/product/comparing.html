@@ -1,4 +1,5 @@
 {% extends 'core/base.html' %}
+{% load i18n %}
 {% block title %}Comparison{% endblock %}
 {% block content %}
 <script>
@@ -45,7 +46,7 @@
                 </nav>
             </div>
             <div class="page-header__title">
-                <h3>Comparison</h3>
+                <h3>{% trans 'Comparison' %}</h3>
             </div>
         </div>
     </div>
@@ -57,7 +58,7 @@
                 <table class="compare-table">
                     <tbody>
                         <tr>
-                            <th>Product</th>
+                            <th>{% trans 'Product' %}</th>
                             {% for product in products %} 
                             <td>
                                 <a class="compare-table__product-link" href="{% url 'product' product.id product.slugV product.category.sub_category.category.slug product.category.sub_category.slug product.category.slug product.slug %}">
@@ -84,7 +85,7 @@
                             {% endfor %}
                         </tr>
                         <tr>
-                            <th>Rating</th>
+                            <th>{% trans 'Rating' %}</th>
                             {% for product in products %} 
                             <td>
                                 <div class="compare-table__product-rating">
@@ -342,7 +343,7 @@
                                 <div class="compare-table__product-rating-legend">
                                     {% if product.countreview %}
                                         {{product.countreview}}
-                                                Reviews
+                                        {% trans 'Reviews' %}
                                     {% endif %}
                                 </div>
                             </td>
@@ -604,35 +605,35 @@
                                 <div class="compare-table__product-rating-legend">
                                     {% if product.product.countreview %}
                                         {{product.product.countreview}} 
-                                            Reviews
+                                        {% trans 'Reviews'  %}
                                     {% endif %}
                                 </div>
                             </td>
                             {% endfor %}
                         </tr>
                         <tr>
-                            <th>Availability</th>
+                            <th>{% trans 'Availability' %}</th>
                             {% for product in products %} 
                                 <td><span class="compare-table__product-badge badge badge-success">
                                     {% if product.quantity > 0 %} 
-                                    In Stock 
+                                    {% trans 'In Stock' %} 
                                     {% else %} 
-                                    Out Stock
+                                    {% trans 'Out Stock' %}
                                     {% endif %}
                                 </span></td>
                             {% endfor %}
                             {% for product in variants %}
                                <td><span class="compare-table__product-badge badge badge-success">
                                    {% if product.quantity > 0 %} 
-                                   In Stock
+                                   {% trans 'In Stock' %}
                                    {% else %} 
-                                   Out Stock
+                                   {% trans 'Out Stock' %}
                                    {% endif %}
                                </span></td>
                             {% endfor %}
                         </tr>
                         <tr>
-                            <th>Price</th>
+                            <th>{% trans 'Price' %}</th>
                             {% for product in products %} 
                             <td>{% if product.discount %} 
                                  Rwf {{product.get_discounted_price}}
@@ -653,16 +654,16 @@
                             {% for product in products %}
                             <td>
                              <a onclick="addToCart('{{ product.id }}')" class="add-to-cart">
-                                <button type="button" class="product-card__addtocart btn btn-primary" {% if product.quantity < 1  %} disabled {% endif %}>Add To Cart</button>
+                                <button type="button" class="product-card__addtocart btn btn-primary" {% if product.quantity < 1  %} disabled {% endif %}>{% trans 'Add To Cart' %}</button>
                              </a>
                             </td>
                             {% endfor %} 
                             {% for product in variants %}
-                            <td><button class="btn btn-primary"><a href="{% url 'product' product.product.id product.product.slugV product.product.category.sub_category.category.slug product.product.category.sub_category.slug product.product.category.slug product.product.slug %}" style="color: white;">View Options</a></button></td>
+                            <td><button class="btn btn-primary"><a href="{% url 'product' product.product.id product.product.slugV product.product.category.sub_category.category.slug product.product.category.sub_category.slug product.product.category.slug product.product.slug %}" style="color: white;">{% trans 'View Options' %}</a></button></td>
                             {% endfor %}
                         </tr>
                         <tr>
-                            <th>Weight</th>
+                            <th>{% trans 'Weight' %}</th>
                             {% for product in products %} 
                             <td>
                                 {% if product.weight %} 
@@ -682,7 +683,7 @@
                             {% endfor %}
                         </tr>
                         <tr>
-                            <th>Color</th>
+                            <th>{% trans 'Color' %}</th>
                             {% for product in products %} 
                             <td>
                                 {% if product.color %} 
@@ -703,7 +704,7 @@
                             {% endfor %}
                         </tr>
                         <tr>
-                            <th>Width</th>
+                            <th>{% trans 'Width' %}</th>
                             {% for product in products %} 
                             <td>
                                 {% if product.width %} 
@@ -724,7 +725,7 @@
                             {% endfor %}
                         </tr>
                         <tr>
-                            <th>Length</th>
+                            <th>{% trans 'Length' %}</th>
                             {% for product in products %} 
                             <td>
                                 {% if product.length %} 
@@ -745,7 +746,7 @@
                             {% endfor %}
                         </tr>
                         <tr>
-                            <th>Height</th>
+                            <th>{% trans 'Height' %}</th>
                             {% for product in products %} 
                             <td>
                                 {% if product.height %} 
@@ -766,7 +767,7 @@
                             {% endfor %}
                         </tr>
                         <tr>
-                            <th>Size</th>
+                            <th>{% trans 'Size' %}</th>
                             {% for product in products %} 
                             <td>
                                 {% if product.size %} 
@@ -791,13 +792,13 @@
                             {% for product in products %} 
                             <td>
                                 <a href="/compare/delete/{{ product.id }}" onclick="return confirm('Delete ! Are you sure?')">
-                                    <button class="btn btn-secondary btn-sm">Remove</button>
+                                    <button class="btn btn-secondary btn-sm">{% trans 'Remove' %}</button>
                                 </a>
                             </td>
                             {% endfor %} 
                             {% for product in variants %} 
                             <td><a href="/compare/deletevariant/{{ product.id }}" onclick="return confirm('Delete ! Are you sure?')">
-                                <button class="btn btn-secondary btn-sm">Remove</button>
+                                <button class="btn btn-secondary btn-sm">{% trans 'Remove' %}</button>
                             </a>
                         </td>
                             {% endfor %}
@@ -809,9 +810,9 @@
     </div>
     {% else %}
     <div class="block-empty__body">
-        <div class="block-empty__message">There are no products in your comparison table.</div>
+        <div class="block-empty__message">{% trans 'There are no products in your comparison table' %}.</div>
         <div class="block-empty__actions">
-            <a class="btn btn-primary btn-sm" href="/">Return home</a>
+            <a class="btn btn-primary btn-sm" href="/">{% trans 'Return home' %}</a>
         </div>
     </div>
     {% endif %}

@@ -34,7 +34,11 @@
                             </div><br>
                 
                             <h5>Information</h5>
+<<<<<<< HEAD
                         <div> 
+=======
+                            <div> 
+>>>>>>> 58f5ad9488575279c5fc5bb596bcd6f11cd0656f
                                 <div class="address-card__row-content"><a class="address-card__row-content" href="{% url 'contact' %}">Contact</a></div>
                                 <div class="address-card__row-content"><a class="address-card__row-content" href="{% url 'about' %}">About</a></div>
                                 <div class="address-card__row-content"><a class="address-card__row-content" class="address-card__row-content"a href="{% url 'pricing' %}">Pricing</a></div>
@@ -45,12 +49,21 @@
                             </div><br>
 
                             <h5>Vendors</h5>
+<<<<<<< HEAD
                                {% for vendor in vendors %} 
                                         <div class="address-card__row-content"><a class="address-card__row-content" href="{% url 'vendor' vendor.slug %}">{{ vendor.company_name }}</a></div> 
                                     {% endfor %}    
                                     <br>
+=======
+                               <div>
+                                {% for vendor in vendors %} 
+                                <div class="address-card__row-content"><a class="address-card__row-content" href="{% url 'vendor' vendor.slug %}">{{ vendor.company_name }}</a></div> 
+                            {% endfor %}   
+                               </div> 
+                                <br>
+>>>>>>> 58f5ad9488575279c5fc5bb596bcd6f11cd0656f
 
-                            <h5>Product Categories</div>
+                            <h5>Product Categories</h5>
                             <div>
                                     {% for category in category %} 
                                 <div class="address-card__row-content"> <a class="address-card__row-content" href="{{category.get_absolute_url}}">{{category.title}}</a></div>
@@ -59,11 +72,16 @@
                           
 
                             <h5>Products</h5>
+<<<<<<< HEAD
+=======
+                            <div>
+>>>>>>> 58f5ad9488575279c5fc5bb596bcd6f11cd0656f
                                 {% for product in product %} 
                                         {% if product.vendor.enabled %} 
                                             <div class="address-card__row-content"><a class="address-card__row-content" href="{% url 'product' product.id product.slugV product.category.sub_category.category.slug product.category.sub_category.slug product.category.slug product.slug %}">{{product.title}}</a></div>
                                         {% endif %} 
                                     {% endfor %}    
+<<<<<<< HEAD
                                 </div><br>  
                                 
                               <h5>Blog Posts</h5>
@@ -71,6 +89,30 @@
                                         <div class="address-card__row-content"><a class="address-card__row-content"href="{% url 'detail' post.slug  %}">{{post.title}}</a></div>
                                     {% endfor %}    
                                 </div><br>
+=======
+                            </div><br>  
+                                
+                            <h5>Blog Posts</h5>
+                            <div>
+                                {% for post in posts %} 
+                                        <div class="address-card__row-content"><a class="address-card__row-content" href="{% url 'detail' post.id  %}">{{post.title}}</a></div>
+                                    {% endfor %}    
+                            </div><br>
+
+                            <h5>Rental Items</h5>
+                            <div>
+                                {% for item in items %} 
+                                        <div class="address-card__row-content"><a class="address-card__row-content" href="{% url 'item-detail' item.id item.category.slug item.slug  %}">{{item.title}}</a></div>
+                                    {% endfor %}    
+                            </div><br>
+
+                            <h5>Services</h5>
+                            <div>
+                            {% for service in services %} 
+                                <div class="address-card__row-content"><a class="address-card__row-content" href="{% url 'service_provider' service.id service.service.slug service.slug  %}">{{service.name}}</a></div>
+                            {% endfor %}    
+                            </div><br>
+>>>>>>> 58f5ad9488575279c5fc5bb596bcd6f11cd0656f
                         </div>
                     </div>
                 </div>

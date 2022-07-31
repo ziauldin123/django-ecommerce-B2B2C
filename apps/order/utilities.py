@@ -101,8 +101,12 @@ def checkout(
         subtotal_amount = 0
         price_no_vat = 0
         vat = 0
+<<<<<<< HEAD
         print("checkout")
 
+=======
+        
+>>>>>>> 58f5ad9488575279c5fc5bb596bcd6f11cd0656f
         for item in Cart(request):
 
             total_quantity += item['quantity']
@@ -118,19 +122,32 @@ def checkout(
             if item['product']['is_variant']:
                 var_id = int(item['product']['variant_id']['id'])
                 pro_id = int(item['product']['id'])
+<<<<<<< HEAD
                 print(pro_id)
+=======
+                var_color_id=''
+
+            elif item['product']['is_variant_color']:
+                var_color_id = int(item['product']['variant_color_id']['id'])
+                var_id = int(item['product']['variant_id']['id'])
+                pro_id = int(item['product']['id'])
+                
+>>>>>>> 58f5ad9488575279c5fc5bb596bcd6f11cd0656f
             else:
                 pro_id = int(item['product']['id'])
                 var_id = ''
+                var_color_id=''
 
             OrderItem.objects.create(
                 order=order,
                 product_id=pro_id,
                 variant_id=var_id,
+                variant_color_id=var_color_id,
                 vendor_id=item['product']['vendor_id']['id'],
                 price=item['product']['total_price'],
                 quantity=item['quantity'],
-                is_variant=item['product']['is_variant']
+                is_variant=item['product']['is_variant'],
+                is_variant_color=item['product']['is_variant_color']
             )
             vendor = Vendor.objects.get(pk=item['product']['vendor_id']['id'])
             order.vendors.add(vendor)

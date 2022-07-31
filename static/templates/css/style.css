@@ -3717,7 +3717,11 @@ html:not([dir=rtl]) .noUi-horizontal .noUi-origin {
 // .select2
 */
 .form-control + .select2-container {
+<<<<<<< HEAD
   width: 100%;
+=======
+  width: 10%;
+>>>>>>> 58f5ad9488575279c5fc5bb596bcd6f11cd0656f
 }
 .form-control + .select2-container .select2-selection__arrow {
   display: none;
@@ -3763,6 +3767,10 @@ html:not([dir=rtl]) .noUi-horizontal .noUi-origin {
 }
 .form-control + .select2-container .select2-selection--single {
   height: 38px;
+<<<<<<< HEAD
+=======
+  width: 200px;
+>>>>>>> 58f5ad9488575279c5fc5bb596bcd6f11cd0656f
 }
 [dir=ltr] .form-control + .select2-container .select2-selection--single {
   background-position: right 12px center;
@@ -10717,6 +10725,10 @@ html:not([dir=rtl]) .noUi-horizontal .noUi-origin {
 }
 
 .products-list[data-layout=grid-4-full] .products-list__body {
+<<<<<<< HEAD
+=======
+  width: 70rem;
+>>>>>>> 58f5ad9488575279c5fc5bb596bcd6f11cd0656f
   margin: -8px -6px;
 }
 .products-list[data-layout=grid-4-full] .products-list__item {
@@ -10851,6 +10863,12 @@ html:not([dir=rtl]) .noUi-horizontal .noUi-origin {
 .products-list[data-layout=grid-4-full][data-mobile-grid-columns="2"] .product-card .product-card__image {
     padding: 15px;
   }
+<<<<<<< HEAD
+=======
+  .products-list[data-layout=grid-4-full][data-mobile-grid-columns="2"] .products-list__body {
+    width: 25rem;
+  }
+>>>>>>> 58f5ad9488575279c5fc5bb596bcd6f11cd0656f
   .products-list[data-layout=grid-3-sidebar][data-mobile-grid-columns="2"] .product-card .product-card__badges-list,
 .products-list[data-layout=grid-4-full][data-mobile-grid-columns="2"] .product-card .product-card__badges-list {
     top: 16px;
@@ -10884,6 +10902,14 @@ html:not([dir=rtl]) .noUi-horizontal .noUi-origin {
     width: calc(1.5rem + 2px);
   }
 }
+<<<<<<< HEAD
+=======
+@media (max-width:360px){
+  .products-list[data-layout=grid-4-full][data-mobile-grid-columns="2"] .products-list__body {
+    width: 25rem;
+  }
+}  
+>>>>>>> 58f5ad9488575279c5fc5bb596bcd6f11cd0656f
 @media (max-width: 1199px) and (min-width: 375px) and (hover: hover) {
   .products-list[data-layout=grid-3-sidebar][data-mobile-grid-columns="2"] .product-card--hidden-actions .product-card__buttons,
 .products-list[data-layout=grid-4-full][data-mobile-grid-columns="2"] .product-card--hidden-actions .product-card__buttons {
@@ -12752,7 +12778,11 @@ html:not([dir=rtl]) .noUi-horizontal .noUi-origin {
 }
 
 .posts-list--layout--grid2 .posts-list__item {
+<<<<<<< HEAD
   width: calc(50% - 30px);
+=======
+  width: calc(50% - 50px);
+>>>>>>> 58f5ad9488575279c5fc5bb596bcd6f11cd0656f
 }
 @media (max-width: 767px) {
   .posts-list--layout--grid2 .posts-list__body {

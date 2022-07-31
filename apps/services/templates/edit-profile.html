@@ -1,0 +1,47 @@
+{% extends 'core/base.html' %}
+{% load i18n %}
+{% block title %}Edit  {{service_provider.name}} Profile {% endblock %}
+
+{% block content %}
+
+<div class="site__body">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-xl-10 col-lg-6 col-md-8">
+                <div class="card flex-grow-1 mb-0 mt-5">
+                    <div class="card-body">
+                        <h3 class="title">{% trans 'Edit' %} {{service_provider.name}}{% trans ' Profile' %}</h3>
+                            <form method="post" action="." enctype="multipart/form-data">
+                            {% load widget_tweaks %}
+                            {% csrf_token %}
+                            {% if service_provider.account == 'COMPANY' %}
+                                <div class="form-row">
+                                    <div class="form-group col-md-4">
+                                        <label for="">TIN</label>
+                                        <input type="text" name="tin" id="id_tin" value="{{service_provider.tin}}" class="form-control">
+                                    </div>
+                                </div>
+                            {% endif %}    
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label for="">{% trans 'Description' %}</label>
+                                       <textarea name="description" id="id_description" cols="30" rows="10" class="form-control">
+                                           {{service_provider.description}}
+                                       </textarea>
+                                    </div>
+                                </div>
+                                <div class="field">
+                                    <div class="control">
+                                        <button class="button btn btn-primary mt-4">{% trans 'Save changes' %}</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
