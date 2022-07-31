@@ -1,3 +1,4 @@
+from pyexpat import model
 from django.contrib import admin
 from django.contrib.admin.options import ModelAdmin
 from django.db import models
@@ -64,6 +65,12 @@ class ProductImageInline(admin.TabularInline):
     readonly_fields = ('id',)
     extra = 1
 
+@admin_thumbnails.thumbnail('image')
+class VariantImageInline(admin.TabularInline):
+    model = ProductImage
+    readonly_fields = ('id',)
+    extra = 1
+
 class ProductVariantsInline(admin.TabularInline):
     model=Variants
     readonly_fields=['image_tag']
@@ -95,13 +102,9 @@ class colorInline(admin.TabularInline):
     show_change_link=True
 
 class VariantAdmin(admin.ModelAdmin):
-<<<<<<< HEAD
-    list_display=['title','product','color','image_variant','size','discount','price','get_discounted_price','get_vat_price','get_vat_exclusive_price','quantity','image_tag']
-=======
     list_display=['title','product','color','image_variant','size','discount','price','get_discounted_price','get_vat_price','get_vat_exclusive_price','quantity']
     inlines=[VariantImageInline,colorInline]
     list_filter=['product']
->>>>>>> 58f5ad9488575279c5fc5bb596bcd6f11cd0656f
 
 class sizeAdmin(admin.ModelAdmin):
     list_display=['name','code']

@@ -27,13 +27,6 @@ class ProductService:
         *args,
         **kwargs
     ):
-<<<<<<< HEAD
-        print("filters",query,color,height,width,length,sorting, weight, price_from, price_to,brand)
-        # print(products)
-        if price_from != None and price_to != None:
-            products = products.filter(Q(price__gte=price_from) , Q(price__lte=price_to), ~Q(price=0))
-
-=======
         print("filters",query,instock,color,height,width,length,sorting,weight, price_from,price_to,brand,year,engine,make,model)
         for pr in products: 
             if pr.price == 0:
@@ -44,39 +37,20 @@ class ProductService:
                 else:
                     products = products.filter(Q(price__gte=price_from) , Q(price__lte=price_to))    
                
->>>>>>> 58f5ad9488575279c5fc5bb596bcd6f11cd0656f
         variants= Variants.objects.filter(product_id__in=variants_id)
         all_variants=variants.filter(Q(price__gte=price_from) , Q(price__lte=price_to))
-        print("all variants",all_variants)
         products_idd = []
         for product in products:
-<<<<<<< HEAD
-            # discounted_price = product.get_discounted_price()
-            # if discounted_price >= float(price_from) and discounted_price <= float(price_to):
-            products_idd.append(product.id)
-=======
             products_idd.append(product.id)       
->>>>>>> 58f5ad9488575279c5fc5bb596bcd6f11cd0656f
         for variant in all_variants:
             products_idd.append(variant.product.id)
         products= Product.objects.filter(id__in=set(products_idd))
-        print(products)
         if query:
             products = products.filter(Q(title__icontains=query) | Q(description__icontains=query))
             #products = Product.objects.filter(Q(title__icontains=query) | Q(description__icontains=query),status=True,visible=True)
             variants = variants.filter(Q(title__icontains=query))
-<<<<<<< HEAD
-            # for product in products:
-            #     variants=variants.filter(Q(product=product))
-
-
-        # print(products)
-        products,variants = self.filter_by_variants(products,variants, brand, color, weight, height,width,length, size)
-        # print("after filter",products)
-=======
             
         products,variants = self.filter_by_variants(products,variants,brand, color, weight, height,width,length,size,year,engine,make,model)
->>>>>>> 58f5ad9488575279c5fc5bb596bcd6f11cd0656f
         if instock:
             products = products.filter(num_available__gte=1)
         min_price=products.filter(~Q(price=0)).aggregate(Min('price'))['price__min']
@@ -114,22 +88,11 @@ class ProductService:
             list_height.append(bp.height)
             list_color.append(bp.color)
             list_length.append(bp.length)
-<<<<<<< HEAD
-        # print("brands", set(list_brands))
-        # print("brands", set(list_weight))
-        print("brands", set(list_width))
-        # print("brands", set(list_size))
-        # print("brands", set(list_height))
-        print("color", set(list_color))
-        print("brands", Brand.objects.filter(pk__in=brand))
-        return products.order_by(sorting),min_price,max_price,set(list_brands),set(list_weight),set(list_width),set(list_size),set(list_height),set(list_color),set(list_length)
-=======
             list_year.append(bp.year)
             list_engine.append(bp.engine)
             list_make.append(bp.make)
             list_model.append(bp.model)
         return products.order_by(sorting),min_price,max_price,set(list_brands),set(list_weight),set(list_width),set(list_size),set(list_height),set(list_color),set(list_length),set(list_year),set(list_engine),set(list_make),set(list_model),
->>>>>>> 58f5ad9488575279c5fc5bb596bcd6f11cd0656f
 
     def filter_by_variants(
         self,

@@ -25,6 +25,14 @@
                 },
             });
         }
+        function showPhone(select){
+            if(select.value == 'BANK TRANSFER' ){
+                document.getElementById('hide').style.display = "none"
+            }
+            else {
+                document.getElementById('hide').style.display = "block"
+            }
+        }
     </script>
     <div class="site__body">
         <div class="page-header">
@@ -162,29 +170,19 @@
                                         <label>{% trans 'Payment Methods' %}</label>
                 
                                         <div class="form-group">
-<<<<<<< HEAD
-                                            <select class="form-control select" name="service_provider" id="service_provider">
-                                                <option value="" selected>---Select payment method---</option>
-=======
                                             <select onchange="showPhone(this)" class="form-control select" name="service_provider" id="service service_provider">
                                                 <option value="" selected>{% trans '---Select payment method---' %}</option>
->>>>>>> 58f5ad9488575279c5fc5bb596bcd6f11cd0656f
                                                 {% for entry in service_provider %}
                                                 <option value="{{ entry.name }}">{{ entry.name }}</option>
                                                 {% endfor %}
                                             </select>
                                         </div>
                                     </div>
-<<<<<<< HEAD
-                                    <div class="form-group" id="phone_number">
-                                        <label>Phone Number</label>
-=======
                                     <div class="form-group" id="hide" style="display: none;">
                                         <label>{% trans 'Phone Number' %}</label>
->>>>>>> 58f5ad9488575279c5fc5bb596bcd6f11cd0656f
                 
                                         <div class="form-group">
-                                            <input type="text" name="phone_number" id="phone_number">
+                                            <input class="form-control" type="text" name="phone_number" id="phone_number">
                                         </div>
                                     </div>
                                 </div>
