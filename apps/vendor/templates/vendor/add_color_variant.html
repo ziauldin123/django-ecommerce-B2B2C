@@ -17,7 +17,7 @@
                 <div class="col-xl-8 col-lg-6 col-md-8">
                     <div class="card flex-grow-1 mb-0 mt-5">
                         <div class="card-body">
-                            <h3 class="card-title">{% trans 'Add product variant' %}</h3>
+                            <h3 class="card-title">{% trans 'Add adjacent colors product ' %}</h3>
                             <form method="post" action="." enctype="multipart/form-data">
                                 {% load widget_tweaks %}
                                 {% csrf_token %}
@@ -28,7 +28,7 @@
                                     </div>
                                     
                                     <div class="form-group col-md-4">
-                                        <label for="">{% trans 'Product' %} </label>
+                                        <label for="">{% trans 'Product Variant' %} </label>
                                         {{form.product |add_class:"form-control"}}
                                     </div>
                                     <div class="form-group col-md-4">
