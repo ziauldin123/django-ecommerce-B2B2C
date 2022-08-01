@@ -77,7 +77,6 @@ urlpatterns += [
     path('order/addtoshopcart/<int:id>', orderview.addtoshopcart, name='addtoshopcart'),
     path('updateshopcart',orderview.update, name='update'),
     path('order/deletefromcart/<int:id>', orderview.deletefromcart, name='deletefromcart'),
-    path('order/orderproduct/', orderview.orderproduct, name='orderproduct'),
     path('customer/order-detail/<int:id>/',
          vendor_views.order_detail, name='order_details'),
     path('vendor/order_details/<int:id>/',
