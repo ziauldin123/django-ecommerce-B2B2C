@@ -16,7 +16,8 @@ Welcome to the Django E-commerce B2B2C Hub GitHub Repository! Explore a transfor
 - **Comprehensive Admin Management:** Control panel for seamless vendor and product management.
 - **Scalability and Performance:** Engineered to scale while maintaining high performance.
 
-  ![alt-text-1](https://github.com/ziauldin123/django-ecommerce-B2B2C/blob/0ce7dbcd2ef5abae104d322c655c51acfcc5420b/screenshots/SokoPark%20-%20Django%20E-commerce%20B2B2C.png?raw=true "title-1") ![alt-text-2](https://github.com/ziauldin123/django-ecommerce-B2B2C/blob/4aab104e488bae2acf083367982b563eac2daf2a/screenshots/SokoPark%20-%20Django%20E-commerce%20B2B2C-products.png?raw=true "SokoPark - Django E-commerce B2B2C-products.png")
+![alt-text-1](https://github.com/ziauldin123/django-ecommerce-B2B2C/blob/0ce7dbcd2ef5abae104d322c655c51acfcc5420b/screenshots/SokoPark%20-%20Django%20E-commerce%20B2B2C.png?raw=true "SokoPark - Django E-commerce B2B2C")
+![alt-text-2](https://github.com/ziauldin123/django-ecommerce-B2B2C/blob/4aab104e488bae2acf083367982b563eac2daf2a/screenshots/SokoPark%20-%20Django%20E-commerce%20B2B2C-products.png?raw=true "SokoPark - Django E-commerce B2B2C-products") | ![alt-text-3](https://github.com/ziauldin123/django-ecommerce-B2B2C/blob/83ee976a232cb2ca4ba4db21a5f3dce1029ae1fe/screenshots/SokoPark%20-%20Django%20E-commerce%20B2B2C2.png "SokoPark - Django E-commerce B2B2C-product")
 
 ## Contribute to the B2B2C Hub
 
