@@ -1,4 +1,4 @@
-# Django E-commerce B2B2C Platform Hub Website: Empowering Multivendor Retail and Wholesale 
+# SokoPark - Django E-commerce B2B2C Platform Hub Website: Empowering Multivendor Retail and Wholesale 
 
 Welcome to the Django E-commerce B2B2C Hub GitHub Repository! Explore a transformative online marketplace tailored for both retailers and wholesalers. Built on the robust Django framework, this platform combines the power of E-commerce with efficient B2B and B2C transactions, delivering a seamless experience.
 
