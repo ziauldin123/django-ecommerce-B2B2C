@@ -1,5 +1,5 @@
 {% extends 'core/base.html' %}
-{% load i18n %}
+
 {% block title %}Log in{% endblock %}
 
 {% block content %}
@@ -10,23 +10,23 @@
             <div class="col-xl-5 col-lg-6 col-md-8">
                 <div class="card flex-grow-1 mb-0 mt-5">
                     <div class="card-body">
-                        <h3 class="card-title">{% trans 'Login' %}</a></h3>
+                        <h3 class="card-title">Login</a></h3>
                         <form method="post" action=".">
                             {% csrf_token %}
                             <input type="hidden" name="next" value="{{ next }}">
                             <div class="field form-group">
-                                <label>{% trans 'Email address' %}</label>
+                                <label>Email address</label>
                                 <div class="control">
                                     <input type="email" name="username" id="id_username" class="input form-control">
                                 </div>
                             </div>
                             <div class=" field form-group">
-                                <label>{% trans 'Password' %}</label>
+                                <label>Password</label>
                                 <div class="control">
                                     <input type="password" name="password" id="id_password" class="input form-control">
                                 </div>
                                 <small class="form-text text-muted">
-                                    <a href="{% url 'request_restore_password' %}">{% trans 'Forgot your password?' %}</a>
+                                    <a href="{% url 'request_restore_password' %}">Forgot your password?</a>
                                 </small>
                             </div>
                             
@@ -46,13 +46,12 @@
                 {% endif %}
     
                         <div class="control">
-                            <button type="submit" class="btn btn-primary btn-lg btn-block">{% trans 'Login' %}</button>
+                            <button type="submit" class="btn btn-primary btn-lg btn-block">Login</button>
                         </div>
                         </form>
                         </br>
-                        <label class="form-check-label" for="login-remember">{% trans 'Register as a customer' %}? <a href="{% url 'become_customer' %}"> {% trans 'Register here' %} </a></label>
-                        <label class="form-check-label" for="login-remember">{% trans 'Register as a vendor' %}? <a href="{% url 'become_vendor' %}"> {% trans 'Register here' %} </a>
-                        <label class="form-check-label" for="login-remember">{% trans 'Register a Service' %}?<a href="{% url 'become-service-provider' %}"> {% trans 'Register here' %} </a>  
+                        <label class="form-check-label" for="login-remember">Register as a customer? <a href="{% url 'become_customer' %}"> Register here </a></label>
+                         <label class="form-check-label" for="login-remember">Register as a vendor? <a href="{% url 'become_vendor' %}"> Register here </a> 
                     </div>
                 </div>
             </div>

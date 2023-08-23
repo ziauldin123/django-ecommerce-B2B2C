@@ -1,6 +1,5 @@
 from email.mime import image
 from pyexpat import model
-from random import choices
 from tkinter import Widget
 from tkinter.tix import Select
 from turtle import color, title
@@ -92,18 +91,9 @@ class ProductForm(ModelForm):
             'brand',
             'unit_type',
             'is_vat',
-            'spare_parts',
-            'year',
-            'make',
-            'model', 
-            'engine',
-            'spare_number',
-            'keywords'
         )
-
         widgets = {
             'category': CategoryWidget,
-            'spare_parts':forms.CheckboxInput(attrs={'id':'spare_parts'}),
             'length':  Select2AddAnother(
                 reverse_lazy('add_length'),  
             ),
@@ -129,7 +119,8 @@ class ProductForm(ModelForm):
                 reverse_lazy('add_unit_type')
             )
         } 
-
+        
+    
 
 class ProductWithVariantForm(ModelForm):
     description=forms.CharField(widget=forms.Textarea(attrs={'class':'form-control'}))
@@ -139,12 +130,10 @@ class ProductWithVariantForm(ModelForm):
             'category',
             'title',
             'summary',
-            'keywords',
             'description',
             'pickup_available',
             'is_free_delivery',
             'brand',
-            'keywords',
             'variant',
             'is_vat'
         ]
@@ -174,7 +163,6 @@ class VariantForm(ModelForm):
             'height',
             'weight',
             'size',
-            'have_adjacent_color',
         )
         
 
@@ -212,32 +200,6 @@ class VariantForm(ModelForm):
         super(VariantForm, self).__init__(*args, **kwargs)
         self.fields['product']=forms.ModelChoiceField(queryset=Product.objects.filter(vendor=user,is_variant=True))    
 
-class VariantColorForm(ModelForm):
-
-    class Meta:
-        model = AdjacentColorProduct
-        fields = (
-            'title',
-            'product',
-            'price',
-            'discount',
-            'quantity',
-            'image',
-            'color',
-            'is_vat'
-        )
-        
-
-        widgets = {
-            'color': Select2AddAnother(
-                 reverse_lazy('add_color')
-            ),
-        }
-
-    def __init__(self, *args, **kwargs):
-        user = kwargs.pop('user','')
-        super(VariantColorForm, self).__init__(*args, **kwargs)
-        self.fields['product']=forms.ModelChoiceField(queryset=Variants.objects.filter(vendor=user,have_adjacent_color=True))
 
 class OpeningHoursForm(ModelForm):
     class Meta:
@@ -259,7 +221,6 @@ class ProductImageForm(ModelForm):
 class VendorSignUpForm(UserCreationForm):
     company_name = forms.CharField(max_length=64, required=True)
     company_code = forms.CharField(max_length=64, required=True)
-    
     district = forms.ChoiceField(choices=[
                                  (-1, '')] + [(entry.id, entry.district) for entry in District.objects.all()])
     print("district", district)
@@ -310,23 +271,6 @@ class CustomerSignUpForm(UserCreationForm):
     address = forms.CharField(max_length=64, required=True)
     phone = forms.CharField(max_length=32, required=True)
     company_code = forms.CharField(max_length=32,required=False)
-
-    district = forms.ChoiceField(choices=[
-        (-1, '')] + [(entry.id, entry.district) for entry in District.objects.all()])
-    print('district',district)
-
-    sector = forms.ChoiceField(choices=[
-        (-1, '')] + [(entry.id, entry.sector) for entry in Sector.objects.all()])
-    print('sector',sector)
-
-    cell = forms.ChoiceField(choices=[
-        (-1, '')] + [(entry.id, entry.cell) for entry in Cell.objects.all()])
-    print('cell',cell)
-
-    village = forms.ChoiceField(choices=[
-        (-1, '')] + [(entry.id, entry.village) for entry in Village.objects.all()])
-    print('village',village)
-
     class Meta:
         model = User
         fields = [

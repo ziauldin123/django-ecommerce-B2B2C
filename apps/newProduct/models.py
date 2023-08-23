@@ -1,6 +1,5 @@
 import os
 from itertools import product
-from socketserver import ThreadingUDPServer
 from turtle import title
 from django.db.models.deletion import CASCADE, SET_NULL
 from django.db.models.expressions import OrderBy
@@ -25,7 +24,6 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 # Create your models here.
 from apps.vendor.models import Vendor
 from django.db.models import Avg, Count
-from apps.rental.models import Year,Make,Engine,Item_Model
 
 
 
@@ -141,18 +139,19 @@ class Height(models.Model):
     def __str__(self):
         return str(self.height)
 
+
 class Color(models.Model):
     name = models.CharField(max_length=28)
     code = models.CharField(max_length=10, blank=True, null=True)
 
     def __str__(self):
         return self.name
+
     def color_tag(self):
         if self.code is not None:
             return mark_safe('<p style="background-color:{}">Color </p>'.format(self.code))
         else:
             return ""
-
 
 
 class UnitTypes(models.Model):
@@ -221,14 +220,6 @@ class Product(models.Model):
         Height, on_delete=models.CASCADE, blank=True, null=True)
     color = models.ForeignKey(
         Color, on_delete=models.CASCADE, blank=True, null=True)
-    year = models.ForeignKey(
-        Year, on_delete=models.CASCADE, blank=True, null=True
-    )
-    spare_number = models.IntegerField(default=0)
-    keywords = models.CharField(max_length=255,null=True)
-    make = models.ForeignKey(Make, on_delete=models.CASCADE, blank=True, null=True)
-    model = models.ForeignKey(Item_Model, on_delete=models.CASCADE,blank=True, null=True)
-    engine = models.ForeignKey(Engine, on_delete=models.CASCADE,blank=True, null=True)    
     slug = models.SlugField(null=False, unique=True)
     slugV = AutoSlugField(populate_from='vendor', null=True)
     num_visits = models.IntegerField(default=0)
@@ -241,7 +232,6 @@ class Product(models.Model):
     is_free_delivery = models.BooleanField(default=False)
     is_featured = models.BooleanField(default=False)
     is_vat = models.BooleanField(default=True)
-    spare_parts = models.BooleanField(default=False)
     is_variant = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     update_at = models.DateTimeField(auto_now=True)
@@ -263,8 +253,6 @@ class Product(models.Model):
                 content=ContentFile(new_image_io.getvalue()),
                 save=False
             )
-        if self.spare_parts:
-            self.price=1  
         super(Product, self).save(*args, **kwargs)
 
     @property
@@ -367,7 +355,7 @@ class Comment(models.Model):
     )
     product = models.ForeignKey(
         Product, related_name='product', on_delete=models.CASCADE)
-    user = models.ForeignKey(User,related_name='user', on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     subject = models.CharField(max_length=50, blank=True)
     comment = models.CharField(max_length=250, blank=True)
     rate = models.IntegerField(default=1)
@@ -455,7 +443,6 @@ class Variants(models.Model):
     price = models.DecimalField(max_digits=12, decimal_places=2)
     status = models.BooleanField(default=False)
     visible = models.BooleanField(default=False)
-    have_adjacent_color = models.BooleanField(default=False)
     discount = models.PositiveIntegerField(
         default=0, validators=[MinValueValidator(0), MaxValueValidator(99)], verbose_name="Discount %")
 
@@ -487,13 +474,7 @@ class Variants(models.Model):
     def get_url(self):
         return f'/{self.product.id}/{self.product.vendor.slug}/{self.product.category.sub_category.category.slug}/{self.product.category.sub_category.slug}/{self.product.category.slug}/{self.product.slug}/'
 
-    @property
-    def get_adj_variant(self):
-        if AdjacentColorProduct.objects.filter(product=self).exists():
-            return AdjacentColorProduct.objects.filter(product=self).first()
-        else:
-            return []
-
+   
     def image(self):
         img = Images.objects.get(id=self.image_id)
         if img.id is not None:
@@ -564,85 +545,11 @@ class Collection(models.Model):
         return self.title
 
 
-
-
-class AdjacentColorProduct(models.Model):
-    title = models.CharField(max_length=255)
-    color=models.ForeignKey(
-        Color, on_delete=models.CASCADE, blank=True, null=True)
-    price = models.DecimalField(max_digits=12,decimal_places=2,default=0)
-    quantity = models.IntegerField(default=0)
-    vendor = models.ForeignKey(Vendor,on_delete=models.CASCADE,related_name='adjacent_color_vendor',blank=True,null=True)
-    product = models.ForeignKey(
-        Variants, on_delete=models.CASCADE, related_name='color_product_variant')
-    discount = models.PositiveIntegerField(
-        default=0, validators=[MinValueValidator(0), MaxValueValidator(99)], verbose_name="Discount %")
-    image = models.ImageField(upload_to='images/', null=True, blank=True)
-    is_vat = models.BooleanField(default=True)
-    visible = models.BooleanField(default=True)
-    status = models.BooleanField(default=True)
-
-    def __str__(self):
-        return self.title
-
-    def save(self, *args, **kwargs):
-        self.vendor = self.product.vendor
-        if self.image and not self.image.url.endswith('.webp'):
-            imm = Image.open(self.image).convert("RGB")
-            original_width, original_height = imm.size
-            aspect_ratio = round(original_width / original_height)
-            if aspect_ratio < 1:
-                aspect_ratio = 1
-            desired_height = 500  # Edit to add your desired height in pixels
-            desired_width = desired_height * aspect_ratio
-            imm.thumbnail((desired_width, desired_height), Image.ANTIALIAS)
-            new_image_io = BytesIO()
-            imm.save(new_image_io, format="WEBP", quality=70)
-            self.image.save(
-                self.title[:40]+".webp",
-                content=ContentFile(new_image_io.getvalue()),
-                save=False
-            ) 
-        super(AdjacentColorProduct, self).save(*args, **kwargs)
-
-    def color_tag(self):
-        if self.code is not None:
-            return mark_safe('<p style="background-color:{}">Color </p>'.format(self.code))
-        else:
-            return ""
-
-    def get_discounted_price(self):
-        discounted_price = float(self.price-((self.discount*self.price)/100))
-        return discounted_price 
-
-    def get_vat_price(self):
-        if self.is_vat == True:
-            if self.discount > 0:
-                discounted_price = float(
-                    self.price-((self.discount*self.price)/100)
-                )
-                return float(18*discounted_price/100)
-            else:
-                return float((18*self.price)/100)
-        else:
-            return 0           
-    
-    def get_vat_exclusive_price(self):
-        if self.is_vat == True:
-            discounted_price = float(
-                self.price-((self.discount*self.price)/100))
-            return float(discounted_price-((18*discounted_price)/100))
-        else:
-            return float(self.price-((self.discount*self.price)/100))
-
 class ProductImage(models.Model):
     product = models.ForeignKey(
         Product, related_name='product_images', on_delete=models.CASCADE, blank=True, null=True)
     variant = models.ForeignKey(
         Variants, related_name='variants_images', on_delete=models.CASCADE, blank=True, null=True)
-    variant_color = models.ForeignKey(AdjacentColorProduct,related_name='variant_color_images',on_delete=models.CASCADE,
-              blank=True, null=True
-            )    
     title = models.CharField(max_length=50, blank=True)
     image = models.ImageField(blank=True, upload_to='images/')
     

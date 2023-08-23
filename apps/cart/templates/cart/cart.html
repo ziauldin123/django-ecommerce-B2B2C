@@ -1,5 +1,5 @@
 {% extends 'core/base.html' %}
-{% load i18n %}
+
 {% block title %}Cart{% endblock %}
 
 {% block content %}
@@ -22,7 +22,7 @@
             });
         }
     </script>
-    <h1 class="title">{% trans 'Cart' %}</h1>
+    <h1 class="title">Cart</h1>
 
     {% if cart %}
         <div class="box mb-6">
@@ -34,9 +34,9 @@
                     <table class="table is-fullwidth is-striped">
                         <thead>
                             <th></th>
-                            <th>{% trans 'Product' %}</th>
-                            <th>{% trans 'Quantity' %}</th>
-                            <th>{% trans 'Price' %}</th>
+                            <th>Product</th>
+                            <th>Quantity</th>
+                            <th>Price</th>
                             <th></th>
                         </thead>
 
@@ -64,7 +64,7 @@
 
                                     </td>
                                     <td>Frw {{ item.total_price }}</td>
-                                    <td class="text-center"><a href="?remove_from_cart={{ item.id }}" class="delete">{% trans 'Remove' %}</a></td>
+                                    <td class="text-center"><a href="?remove_from_cart={{ item.id }}" class="delete">Remove</a></td>
                                 </tr>
                                 {% endif %}
                             {% endfor %}
@@ -73,7 +73,7 @@
                         <tfoot>
                             <tr>
                                 <td></td>
-                                <td><strong>{% trans 'Total cost' %}</strong></td>
+                                <td><strong>Total cost</strong></td>
                                 <td><strong>{{ cart|length }}</strong></td>
                                 <td><strong>Frw <span id="total_cost">{{ cart.get_cart_cost }}</span></strong></td>
                                 <td></td>
@@ -89,7 +89,7 @@
 
                             <tr>
                                 <td></td>
-                                <td><strong>{% trans 'Total cost with coupon' %}</strong></td>
+                                <td><strong>Total cost with coupon</strong></td>
                                 <td><strong></strong></td>
                                 <td><strong>Frw
                                     <span id="total_cost_with_coupon" name="total_cost_with_coupon">
@@ -113,7 +113,7 @@
             <div class="hero-body">
                 <div class="container has-text-centered">
                     <p class="subtitle">
-                        {% trans 'Your cart is currently empty.' %}' 
+                        Your cart is currently empty. 
                     </p>
                 </div>
             </div>

@@ -2,7 +2,6 @@ from django.core.files.storage import get_storage_class
 from storages.backends.s3boto3 import S3Boto3Storage, SpooledTemporaryFile
 import os
 
-
 class CachedS3Boto3Storage(S3Boto3Storage):
     """
     S3 storage backend that saves files locally too.
@@ -41,8 +40,7 @@ class MediaS3Boto3Storage(S3Boto3Storage):
         content_autoclose.write(content.read())
 
         # Upload the object which will auto close the content_autoclose instance
-        super(MediaS3Boto3Storage, self)._save_content(
-            obj, content_autoclose, parameters)
+        super(MediaS3Boto3Storage, self)._save_content(obj, content_autoclose, parameters)
 
         # Cleanup if this is fixed upstream our duplicate should always close
         if not content_autoclose.closed:

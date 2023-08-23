@@ -1,5 +1,4 @@
 {% load static %}
-{% load i18n %}
 <!-- .block-slideshow -->
 <div class="block-slideshow block-slideshow--layout--full block">
     <div class="container">
@@ -7,17 +6,17 @@
             <div class="col-12">
                 <div class="block-slideshow__body">
                     <div class="owl-carousel">
-                        <!----><a class="block-slideshow__slide" href="https://sokopark.com/users/vendor/auto-parts/">
-                            <div class="block-slideshow__slide-image block-slideshow__slide" style="background-image: url('{% static 'templates/images/new_banner_desktop.png' %}')"></div>
-                            <div class="block-slideshow__slide-image block-slideshow__slide-image--mobile" style="background-image: url('{% static 'templates/images/new_banner_mobile.png' %}')"></div>
-                              <!--<div class="block-slideshow__slide-content">
+                        <a class="block-slideshow__slide" href="{% url 'become_vendor' %}">
+                            <div class="block-slideshow__slide-image block-slideshow__slide" style="background-image: url('{% static 'templates/images/caroussel_vendor.png' %}')"></div>
+                            <div class="block-slideshow__slide-image block-slideshow__slide-image--mobile" style="background-image: url('{% static 'templates/images/caroussel_vendor_mobile.png' %}')"></div>
+                              <div class="block-slideshow__slide-content">
                                   <div class="block-slideshow__slide-title">Do you sell furniture, building <br>materials, decor items or <br>home appliances in Rwanda?</div>
                                    <div class="block-slideshow__slide-button">
                                       <span class="btn btn-primary">Set up your online store now!</span>
                                   </div>
                                   <div class="block-slideshow__slide-text">Increase Brand Visibility<br>Reach New Customers<br>Grow Your Sales</div>
                                   
-                              </div>-->
+                              </div>
                         </a>
                     </div>
                 </div>
@@ -39,9 +38,9 @@
             />
           </div>
           <div class="block-features__content">
-            <div class="block-features__title">{% trans 'Free Shipping' %}</div>
+            <div class="block-features__title">Free Shipping</div>
             <div class="block-features__subtitle">
-              {% trans 'On various products' %}
+              On various products
             </div>
           </div>
         </div>
@@ -55,8 +54,8 @@
             />
           </div>
           <div class="block-features__content">
-            <div class="block-features__title">{% trans 'Customer Support' %} </div>
-            <div class="block-features__subtitle">{% trans 'Call or Chat' %}</div>
+            <div class="block-features__title">Customer Support </div>
+            <div class="block-features__subtitle">Call or Chat</div>
           </div>
         </div>
         <div class="block-features__divider"></div>
@@ -69,9 +68,9 @@
             />
           </div>
           <div class="block-features__content">
-            <div class="block-features__title">100% {% trans 'Safety' %}</div>
+            <div class="block-features__title">100% Safety</div>
             <div class="block-features__subtitle">
-              {% trans 'Only secure payments' %}
+              Only secure payments
             </div>
           </div>
         </div>
@@ -85,9 +84,9 @@
             />
           </div>
           <div class="block-features__content">
-            <div class="block-features__title">{% trans 'Hot Offers' %}</div>
+            <div class="block-features__title">Hot Offers</div>
             <div class="block-features__subtitle">
-              {% trans 'Deals all year long' %}
+              Deals all year long
             </div>
           </div>
         </div>

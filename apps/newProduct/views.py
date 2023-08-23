@@ -16,7 +16,7 @@ def index(request):
 
 def addcomment(request, id):
     url = request.META.get('HTTP_REFERER')  # get last url
-    # return HttpResponse(url)
+    
     if request.method == 'POST':  # check post
         form = CommentForm(request.POST)
         if form.is_valid():

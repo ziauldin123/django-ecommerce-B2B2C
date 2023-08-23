@@ -9,21 +9,21 @@
     <meta name="author" content="Sokopark" />
     <meta
       name="description"
-      content="Sokopark is an online marketplace that provides a wide range of products with focus on variety, fast delivery and competitive prices."
+      content="Sokopark is a multi-vendor marketplace that provides a wide range of building materials, home improvement items, commercial fitout articles, and other various products."
     />
     <meta
       name="keywords"
-      content="sokopark, sokopark rwanda, online shopping in rwanda, online shopping in kigali, hardware, auto spare parts, building supplies, delivery service in rwanda, ecommerce rwanda"
+      content="sokopark, sokopark rwanda, online shopping in rwanda, online shopping in kigali, kigali, buy hardware in kigali, furniture, lighting, building supplies, delivery, buy furniture in kigali, buy building supplies in kigali, delivery service in rwanda, ecommerce rwanda"
     />
     
     <meta property="og:title" content="Sokopark" />
     <meta
       property="og:description"
-      content="Sokopark is an online marketplace that provides a wide range of products with focus on variety, fast delivery and competitive prices."
+      content="Sokopark is a multi-vendor marketplace that provides a wide range of building materials, home improvement items, commercial fitout articles, and other various products."
     />
     <meta property="og:title" content="Sokopark_Rwanda" />
     <meta property="og:type" content="website" />
-    <meta property="og:image" content="https://sokopark.s3.af-south-1.amazonaws.com/static/templates/images/new_logo.png" />
+    <meta property="og:image" content="https://sokopark.s3.af-south-1.amazonaws.com/media/images/new_logo.png" />
     <meta property="og:url" content="https://sokopark.com" />
     <meta property="og:site_name" content="Sokopark" />
 
@@ -31,23 +31,23 @@
     <meta name="twitter:title" content="Sokopark_Rwanda" />
     <meta
       name="twitter:description"
-      content="Sokopark is an online marketplace that provides a wide range of products with focus on variety, fast delivery and competitive prices."
+      content="Sokopark is a multi-vendor marketplace that provides a wide range of building materials, home improvement items, commercial fitout articles, and other various products."
     />
-    <meta name="twitter:image" content="https://sokopark.s3.af-south-1.amazonaws.com/static/templates/images/new_logo.png" />
+    <meta name="twitter:image" content= "https://sokopark.s3.af-south-1.amazonaws.com/media/images/new_logo.png" />
   
     
 
     <link rel="canonical" href="https://sokopark.com" />
-    <link rel="image_src" href="https://sokopark.s3.af-south-1.amazonaws.com/static/templates/images/new_logo.png" />
+    <link rel="image_src" href="" />
 
     <meta itemprop="name" content="Sokopark" />
     <meta itemprop="url" content="https://sokopark.com" />
     <meta
       itemprop="description"
-      content="Sokopark is an online marketplace that provides a wide range of products with focus on variety, fast delivery and competitive prices."
+      content="Sokopark is a multi-vendor marketplace that provides a wide range of building materials, home improvement items, commercial fitout articles, and other various products."
     />
-    <meta itemprop="thumbnailUrl" content= "https://sokopark.s3.af-south-1.amazonaws.com/static/templates/images/new_logo.png" />
-    <meta itemprop="image" content="https://sokopark.s3.af-south-1.amazonaws.com/static/templates/images/new_logo.png" />
+    <meta itemprop="thumbnailUrl" content= "https://sokopark.s3.af-south-1.amazonaws.com/media/images/new_logo.png" />
+    <meta itemprop="image" content="https://sokopark.s3.af-south-1.amazonaws.com/media/images/new_logo.png" />
 
     <title>Sokopark | {% block title %}{% endblock %}</title>
 
@@ -429,15 +429,15 @@
       <!-- desktop site__header -->
       <header class="site__header d-lg-block d-none">
         <div class="site-header">
-          <!--<div class="site-header__topbar topbar">
-              <div class="topbar__container container">
-                  <div class="topbar__row">   
-                    <marquee behavior="loop" direction="left">
-                      <strong>{% trans 'Our products and services will be available soon. Thank you.' %}</strong> 
-                    </marquee>
-                </div>      
-              </div>
-          </div>-->
+          <div class="site-header__topbar topbar">
+                    <div class="topbar__container container">
+                        <div class="topbar__row">   
+                          <marquee behavior="loop" direction="left">
+                            <strong>Sokopark.com - Beta version 1.0.</strong> 
+                          </marquee>
+                        </div>      
+                    </div>
+                </div>
           <div class="site-header__middle container">
             <div class="site-header__logo">
               <a href="/">
@@ -478,7 +478,7 @@
               </div>
             </div>
             <div class="site-header__phone">
-              <div class="site-header__phone-title">{% trans 'Customer Service' %}</div>
+              <div class="site-header__phone-title">Customer Service</div>
               <div class="site-header__phone-number">
                 <a href="tel:+250790008795" style="color: white;">+250 790 008 795</a>
               </div>
@@ -593,7 +593,7 @@
                         >
                           <use xlink:href="/static/templates/images/sprite.svg#menu-18x14"></use>
                         </svg>
-                        {% trans 'Shop By Category' %}
+                        Shop By Category
                         <svg
                           class="departments__button-arrow"
                           width="9px"
@@ -614,24 +614,7 @@
                       <li class="nav-links__item">
                         <a class="nav-links__item-link" href="{% url 'vendors' %}">
                           <div class="nav-links__item-body">
-                            {% trans 'Stores' %}
-                          </div>
-                        </a>
-                      </li>
-                      <li class="nav-links__item">
-                        <a class="nav-links__item-link" href="{% url 'rental' %}">
-                          <div class="nav-links__item-body">
-                            {% trans 'Rental' %}
-                          </div>
-                        </a>
-                      </li>
-                      <li class="nav-links__item">    
-                        <a
-                          class="nav-links__item-link"
-                          href="{% url 'services' %}"
-                        >
-                          <div class="nav-links__item-body">
-                            {% trans 'Services' %}
+                            Stores
                           </div>
                         </a>
                       </li>
@@ -641,18 +624,17 @@
                           href="{% url 'blog' %}"
                         >
                           <div class="nav-links__item-body">
-                            {% trans 'Blog' %}
+                            Blog
                           </div>
                         </a>
                       </li>
-                      
                       <li class="nav-links__item">
                         <a
                           class="nav-links__item-link"
                           href="{% url 'contact' %}"
                         >
                           <div class="nav-links__item-body">
-                            {% trans 'Contact Us' %}
+                            Contact Us
                           </div>
                         </a>
                       </li>
@@ -717,21 +699,21 @@
                             {% if not request.user.is_authenticated %}
                             <form method="post" action="{% url 'login' %}" class="account-menu__form">
                                 {% csrf_token %}
-                                <div class="account-menu__form-title">{% trans 'Log In to Your Account' %}</div>
+                                <div class="account-menu__form-title">Log In to Your Account</div>
                                 <input type="hidden" name="next" value="{{ next }}">
                                 <div class="field form-group">
-                                    <label for="header-signin-email" class="sr-only">{% trans 'Email address' %}</label>
+                                    <label for="header-signin-email" class="sr-only">Email address</label>
                                     <div class="control">
                                       <input id="id_username header-signin-email" type="email" class="input form-control form-control-sm" name="username" placeholder="Email address">
                                     </div>
                                 </div>
                                 <div class="field form-group">
-                                    <label for="header-signin-password" class="sr-only">{% trans 'Password' %}</label>
+                                    <label for="header-signin-password" class="sr-only">Password</label>
                                     <div class="account-menu__form-forgot">
                                         <div class="control">
                                           <input id="id_password header-signin-password" type="password" class="input form-control form-control-sm" name="password" placeholder="Password">
                                         </div>
-                                        <a href="{% url 'request_restore_password' %}" class="account-menu__form-forgot-link">{% trans 'Forgot?' %}</a>
+                                        <a href="{% url 'request_restore_password' %}" class="account-menu__form-forgot-link">Forgot?</a>
                                     </div>
                                 </div>
                                
@@ -751,9 +733,9 @@
                             {% endif %}
 
                                 <div class="form-group account-menu__form-button field">
-                                    <button type="submit" class="button btn btn-primary btn-sm">{% trans 'Login' %}</button>
+                                    <button type="submit" class="button btn btn-primary btn-sm">Login</button>
                                 </div>
-                                <div class="account-menu__form-link"><a href="{% url 'become_customer' %}">{% trans 'Create An Account' %}</a></div>
+                                <div class="account-menu__form-link"><a href="{% url 'become_customer' %}">Create An Account</a></div>
                             </form>
                             {% else %}
                             <div class="account-menu__divider"></div>
@@ -762,10 +744,6 @@
                                 <div class="account-menu__user-avatar">
                                     <img {% if request.session.logo %} src="{{ request.session.logo }}"  {% else %} src="/static/templates/images/avatars/avatar-1.jpg"  {% endif %} alt="">
                                 </div>
-                                {% elif request.user.service_provider %} 
-                                <div class="account-menu__user-avatar">
-                                  <img {% if request.session.logo %} src="{{ request.session.logo }}"  {% else %} src="/static/templates/images/avatars/avatar-1.jpg"  {% endif %} alt="">
-                              </div>
                                 {% endif %}
                                 <div class="account-menu__user-info">
                                     <div class="account-menu__user-name">{{ request.session.username }}</div>
@@ -775,27 +753,21 @@
                             <div class="account-menu__divider"></div>
                             <ul class="account-menu__links">
                                 {% if request.user.vendor %} 
-                                <li><a href="{% url 'vendor_admin'  %}">{% trans 'Dashboard' %}</a></li>
-                                <li><a href="{% url 'vendor_orders' %}">{% trans 'Order History' %}</a></li>
-                                <li><a href="{% url 'products' %}">{% trans 'Products' %}</a></li>
-                                <li><a href="{% url 'items' %}">{% trans 'Renting Items' %}</a></li>
-                                <li><a href="{% url 'all_quotation' %}">{% trans 'Quotations Requests' %}</a></li>
-                                <li><a href="{% url 'working_hours' %}">{% trans 'Working Hours' %}</a></li>
+                                <li><a href="{% url 'vendor_admin'  %}">Dashboard</a></li>
+                                <li><a href="{% url 'vendor_orders' %}">Order History</a></li>
+                                <li><a href="{% url 'products' %}">Products</a></li>
+                                <li><a href="{% url 'working_hours' %}">Working Hours</a></li>
                                 {% if request.session.status == 'RUBY' or request.session == 'EMERALD' %} 
-                                    <li><a href="{% url 'delivery_cost' %}">{% trans 'Delivery Cost' %}</a></li>
+                                    <li><a href="{% url 'delivery_cost' %}">Delivery Cost</a></li>
                                 {% endif %}
-                                {% elif request.user.service_provider %}
-                                <li><a href="{% url 'mySerrviceAccount' %}">{% trans 'Dashboard' %}</a></li>
-                                <li><a href="">{% trans 'Edit Profile' %}</a></li>
                                 {% else %} 
-                               <li><a href="{% url 'myaccount' %}">{% trans 'My Account' %}</a></li>
-                               <li><a href="{% url 'items' %}">{% trans 'Renting Items' %}</a></li>
-                                <li><a href="{% url 'orderhistory'  %}">{% trans 'Order History' %}</a></li>
+                               <li><a href="{% url 'myaccount' %}">My Account</a></li>
+                                <li><a href="{% url 'orderhistory'  %}">Order History</a></li>
                                 {% endif %}
                             </ul>
                             <div class="account-menu__divider"></div>
                             <ul class="account-menu__links">
-                                <li><a href="{% url 'logout' %}">{% trans 'Logout' %}</a></li>
+                                <li><a href="{% url 'logout' %}">Logout</a></li>
                             </ul>
                             {% endif %}
                         </div>
@@ -808,7 +780,6 @@
       </header>
       <!-- desktop site__header / end -->
         <div class="site__body">
-          <div id="message" class="mt-3"></div>
           {% if messages %}
                     {% for message in messages %}
                         <div class="messages alert alert-{{message.tags}}" role="alert">
@@ -828,16 +799,16 @@
               <div class="row">
                 <div class="col-12 col-md-6 col-lg-4">
                   <div class="site-footer__widget footer-contacts">
-                    <h5 class="footer-contacts__title">{% trans 'Contact Us' %}</h5>
+                    <h5 class="footer-contacts__title">Contact Us</h5>
                     <div class="footer-contacts__text">
-                      {% trans 'Anything we can help you with?' %} <br>{% trans 'You can easily reach us.' %}
+                      Anything we can help you with? <br>You can easily reach us.
                     </div>
                     <ul class="footer-contacts__contacts">
                       <li>
                         <i
                           class="footer-contacts__icon fas fa-globe-americas"
                         ></i>
-                        Kg 490 {% trans 'street' %} #5, Gacuriro | Kigali, Rwanda
+                        Kg 490 street #5, Gacuriro | Kigali, Rwanda
                       </li>
                       <li>
                         <i class="footer-contacts__icon far fa-envelope"></i>
@@ -851,56 +822,56 @@
                       </li>
                       <li>
                         <i class="footer-contacts__icon far fa-clock"></i>
-                        {% trans 'Mon-Fri' %} 9am - 6pm | {% trans 'Sat' %} 9am - 1pm
+                        Mon-Fri 9am - 6pm | Sat 9am - 1pm
                       </li>
                     </ul>
                   </div>
                 </div>
                 <div class="col-6 col-md-3 col-lg-2">
                   <div class="site-footer__widget footer-links">
-                    <h5 class="footer-links__title">{% trans 'Information' %}</h5>
+                    <h5 class="footer-links__title">Information</h5>
                     <ul class="footer-links__list">
                       <li class="footer-links__item">
-                        <a href="{% url 'about' %}" class="footer-links__link">{% trans 'About Us' %}</a>
+                        <a href="{% url 'about' %}" class="footer-links__link">About Us</a>
                       </li>
                       <li class="footer-links__item">
                         <a href="{% url 'contact' %}" class="footer-links__link"
-                          >{% trans 'Contact Us' %}</a
+                          >Contact Us</a
                         >
                       </li>
                       <li class="footer-links__item">
-                        <a href="{% url 'termsandconditions' %}" class="footer-links__link">{% trans 'Terms & Conditions'%}</a>
+                        <a href="{% url 'termsandconditions' %}" class="footer-links__link">Terms & Conditions</a>
                       </li>
                       <li class="footer-links__item">
-                        <a href="{% url 'privacy_policy' %}" class="footer-links__link">{% trans 'Privacy Policy' %}</a>
+                        <a href="{% url 'privacy_policy' %}" class="footer-links__link">Privacy Policy</a>
                       </li>
                       <li class="footer-links__item">
-                        <a href="{% url 'frequently_asked_questions' %}" class="footer-links__link">{% trans 'FAQs' %}</a>
+                        <a href="{% url 'frequently_asked_questions' %}" class="footer-links__link">FAQs</a>
                       </li>
                       <li class="footer-links__item">
-                        <a href="{% url 'blog' %}" class="footer-links__link">{% trans 'Blog' %}</a>
+                        <a href="{% url 'blog' %}" class="footer-links__link">Blog</a>
                       </li>
                       <li class="footer-links__item">
-                        <a href="{% url 'sitemap' %}" class="footer-links__link">{% trans 'Sitemap' %}</a>
+                        <a href="{% url 'sitemap' %}" class="footer-links__link">Sitemap</a>
                       </li>
                     </ul>
                   </div>
                 </div>
                 <div class="col-6 col-md-3 col-lg-2">
                   <div class="site-footer__widget footer-links">
-                    <h5 class="footer-links__title">{% trans 'Vendors' %}</h5>
+                    <h5 class="footer-links__title">Vendors</h5>
                     <ul class="footer-links__list">
                       <li class="footer-links__item">
-                        <a href="{% url 'vendors' %}" class="footer-links__link">{% trans 'Stores' %}</a>
+                        <a href="{% url 'vendors' %}" class="footer-links__link">Stores</a>
                       </li>
                       <li class="footer-links__item">
-                        <a href="{% url 'brands'  %}" class="footer-links__link">{% trans 'Brands' %}</a>
+                        <a href="{% url 'brands'  %}" class="footer-links__link">Brands</a>
                       </li>
                       <li class="footer-links__item">
-                        <a href="{% url 'pricing'  %}" class="footer-links__link">{% trans 'Pricing' %}</a>
+                        <a href="{% url 'pricing'  %}" class="footer-links__link">Pricing</a>
                       </li>
                       <li class="footer-links__item">
-                        <a href="{% url 'vendor_guidelines'  %}" class="footer-links__link">{% trans 'Guidelines' %}</a>
+                        <a href="{% url 'vendor_guidelines'  %}" class="footer-links__link">Guidelines</a>
                       </li>
                       
                     </ul>
@@ -908,9 +879,9 @@
                 </div>
                  <div class="col-12 col-md-12 col-lg-4">
                   <div id="newsletter-wrapper" class="newsletter-wrapper site-footer__widget footer-newsletter">
-                    <h5 class="footer-newsletter__title">{% trans 'Newsletter' %}</h5>
+                    <h5 class="footer-newsletter__title">Newsletter</h5>
                     <div class="footer-newsletter__text">
-                      {% trans 'Deals - Inspiration - Trends - Information' %}
+                     Deals - Inspiration - Trends - Information
                     </div>
                     {% include 'parts/newsletter.html' %}
                   </div>
@@ -920,7 +891,7 @@
             <div class="site-footer__bottom">
               <div class="site-footer__copyright">
                 <!-- copyright -->
-                © {% trans 'Copyright' %} 2022 - Sokopark Ltd., Sokopark.com {% trans 'or its affiliates' %}.
+                © Copyright 2022 - Sokopark Ltd., Sokopark.com or its affiliates.
                 <!-- copyright / end -->
               </div>
               <div class="site-footer__payments">
@@ -979,12 +950,12 @@
             <ul class="mobile-links mobile-links--level--0" data-collapse data-collapse-opened-class="mobile-links__item--open">
                 <li class="mobile-links__item" data-collapse-item>
                     <div class="mobile-links__item-title">
-                        <a href="/" class="mobile-links__item-link">{% trans 'Home' %}</a>
+                        <a href="/" class="mobile-links__item-link">Home</a>
                     </div>
                 </li>
                 <li class="mobile-links__item" data-collapse-item>
                     <div class="mobile-links__item-title">
-                        <a href="" class="mobile-links__item-link">{% trans 'Categories' %}</a>
+                        <a href="" class="mobile-links__item-link">Categories</a>
                         <button class="mobile-links__item-toggle" type="button" data-collapse-trigger>
                             <svg class="mobile-links__item-arrow" width="12px" height="7px">
                                 <use xlink:href="/static/templates/images/sprite.svg#arrow-rounded-down-12x7"></use>
@@ -1028,60 +999,18 @@
                     </div>
                 </li>
                 <li class="mobile-links__item" data-collapse-item>
-                  <div class="mobile-links__item-title">
-                      <a href="/rental" class="mobile-links__item-link">{% trans 'Services' %}</a>
-                      <button class="mobile-links__item-toggle" type="button" data-collapse-trigger>
-                          <svg class="mobile-links__item-arrow" width="12px" height="7px">
-                              <use xlink:href="/static/templates/images/sprite.svg#arrow-rounded-down-12x7"></use>
-                          </svg>
-                      </button>
-                  </div>
-                  <div class="mobile-links__item-sub-links" data-collapse-content>
-                      <ul class="mobile-links mobile-links--level--1">
-                        {% for category in services %} 
-                        <li class="mobile-links__item" data-collapse-item>
-                            <div class="mobile-links__item-title">
-                                <a href="{{category.id}}" class="mobile-links__item-link">{{category.title}}</a>
-                            </div>
-                        </li>
-                          {% endfor %}
-                      </ul>
-                  </div>
-              </li>
-                <li class="mobile-links__item" data-collapse-item>
                     <div class="mobile-links__item-title">
-                        <a href="/rental" class="mobile-links__item-link">{% trans 'Rental' %}</a>
-                        <button class="mobile-links__item-toggle" type="button" data-collapse-trigger>
-                            <svg class="mobile-links__item-arrow" width="12px" height="7px">
-                                <use xlink:href="/static/templates/images/sprite.svg#arrow-rounded-down-12x7"></use>
-                            </svg>
-                        </button>
-                    </div>
-                    <div class="mobile-links__item-sub-links" data-collapse-content>
-                        <ul class="mobile-links mobile-links--level--1">
-                          {% for category in rental_categories %} 
-                          <li class="mobile-links__item" data-collapse-item>
-                              <div class="mobile-links__item-title">
-                                  <a href="{{category.id}}" class="mobile-links__item-link">{{category.title}}</a>
-                              </div>
-                          </li>
-                            {% endfor %}
-                        </ul>
+                        <a href="{% url 'vendors' %}" class="mobile-links__item-link">Stores</a>
                     </div>
                 </li>
                 <li class="mobile-links__item" data-collapse-item>
                     <div class="mobile-links__item-title">
-                        <a href="{% url 'vendors' %}" class="mobile-links__item-link">{% trans 'Stores' %}</a>
+                        <a href="{% url 'blog' %}" class="mobile-links__item-link">Blog</a>
                     </div>
                 </li>
                 <li class="mobile-links__item" data-collapse-item>
                     <div class="mobile-links__item-title">
-                        <a href="{% url 'blog' %}" class="mobile-links__item-link">{% trans 'Blog' %}</a>
-                    </div>
-                </li>
-                <li class="mobile-links__item" data-collapse-item>
-                    <div class="mobile-links__item-title">
-                        <a href="{% url 'contact' %}" class="mobile-links__item-link">{% trans 'Contact Us' %}</a>
+                        <a href="{% url 'contact' %}" class="mobile-links__item-link">Contact Us</a>
                     </div>
                 </li>
                 <li class="mobile-links__item" data-collapse-item>
@@ -1115,7 +1044,7 @@
   <div id="cart_table">
     <div class="dropcart__body">
       <div class="dropcart__header">
-          <div class="dropcart__title">{% trans 'Cart' %}</div>
+          <div class="dropcart__title">Cart</div>
           <button class="dropcart__close" type="button">
               <svg width="12px" height="12px">
                   <use xlink:href="/static/templates/images/sprite.svg#cross-12"></use>
@@ -1142,13 +1071,9 @@
                 {% endif %}
                 <ul class="dropcart__product-options">
                     {% if product.variant %} 
-                    {% if product.variant.have_adjacent_color %}
-                    <li>Color: {{product.variant.color}}</li> - {{product.variant_color.name}}
-                    {% else %}
                            {% if product.variant.color %} 
-                                 <li>Color:{{product.variant.color}}{% if product.color %} - {{product.color}}{% endif %} </li>
+                                 <li>Color:{{product.variant.color}} </li>
                            {% endif %} 
-                    {% endif %}       
                     {% else %} 
                           {% if product.color %}
                                 <li>Color: {{product.color}}</li> 
@@ -1161,19 +1086,11 @@
                     </span> ×
                     <span class="dropcart__product-price">
                       {% if product.variant %}
-                      {% if product.variant.have_adjacent_color %}
-                      {% if product.variant_color.discount > 0 %} 
-                            {{product.variant_color.get_discounted_price}}
-                               {% else %} 
-                                {{product.variant_color.price}}
-                            {% endif %}
-                      {% else %}
                           {% if product.variant.discount %} 
                               {{product.variant.get_discounted_price}}
                           {% else %} 
                               {{product.variant.price}}
                           {% endif %}
-                       {% endif %}   
                       {% else %}
                           {% if product.product.discount %}
                                {{product.product.get_discounted_price}}
@@ -1196,14 +1113,14 @@
       <div class="dropcart__totals">
           <table>
               <tr>
-                  <th>{% trans 'Total' %}</th>
+                  <th>Total</th>
                   <td>Rwf {% if cart %} {{ cart.get_cart_cost }} {% else %} 0 {% endif %} </td> 
               </tr>
           </table>
       </div>
       <div class="dropcart__buttons">
-          <a class="btn btn-secondary" href="{% url 'shopcart'%}">{% trans 'View Cart' %}</a>
-          <a class="btn btn-primary" href="{% url 'contact_info' %}">{% trans 'Checkout' %}</a>
+          <a class="btn btn-secondary" href="{% url 'shopcart'%}">View Cart</a>
+          <a class="btn btn-primary" href="{% url 'contact_info' %}">Checkout</a>
       </div>
   </div>
   </div>

@@ -12752,7 +12752,7 @@ html:not([dir=rtl]) .noUi-horizontal .noUi-origin {
 }
 
 .posts-list--layout--grid2 .posts-list__item {
-  width: calc(20% - 30px);
+  width: calc(50% - 30px);
 }
 @media (max-width: 767px) {
   .posts-list--layout--grid2 .posts-list__body {

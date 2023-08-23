@@ -22,11 +22,9 @@ urlpatterns = [
 
     path('become-vendor/', views.become_vendor, name='become_vendor'),
     path('products/', views.vendor_products, name='products'),
-    path('all-quotation/',views.requestedQuatation,name='all_quotation'),
     path('order-history/', views.order_history, name='vendor_orders'),
     path('add-product/', views.add_product, name='add_product'),
     path('add-variant/', views.add_variant, name='add_variant'),
-    path('add-color-variant/',views.add_color_variant,name='add_color_variant'),
     path('add-product-with-variant/', views.add_product_with_variant,
          name='add_product_without_variant'),
     path('edit-vendor/', views.edit_vendor, name='edit_vendor'),

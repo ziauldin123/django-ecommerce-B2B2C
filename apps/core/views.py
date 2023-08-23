@@ -1,4 +1,3 @@
-from gettext import ngettext
 import re
 from tkinter.messagebox import NO
 from django.http import HttpResponse
@@ -14,8 +13,6 @@ from apps.newProduct.models import Product, Category, SubCategory, SubSubCategor
 from apps.blog.models import Post
 from apps.ordering.models import ShopCart
 from apps.vendor.models import UserWishList, Vendor
-from apps.rental.models import Item
-from apps.services.models import ServiceProvider
 
 
 def frontpage(request):
@@ -51,7 +48,7 @@ def frontpage(request):
     popular_products = Product.objects.filter(
         status=True, visible=True).order_by('-num_visits')[0:4]
     recently_viewed_products = Product.objects.filter(status=True, visible=True).order_by(
-        '-last_visit')[0:4]
+        '-last_visit')[0:5]
     
     if not request.user.is_anonymous:
         cart = Cart(request)
@@ -63,14 +60,10 @@ def frontpage(request):
         if cart.__len__() == 0:
             for rs in shopcart:
                 if rs.variant is None:
-                    cart.add(product_id=rs.product.id, variant_id=None,variant_color_id=None, user_id=current_user.id,
+                    cart.add(product_id=rs.product.id, variant_id=None, user_id=current_user.id,
                              quantity=rs.quantity, update_quantity=True)
-                elif rs.variant_color:
-                    cart.add(product_id=rs.product.id, variant_id=rs.variant.id,variant_color_id=rs.variant_color.id, user_id=current_user.id,
-                             quantity=rs.quantity, update_quantity=True)
-
                 else:
-                    cart.add(product_id=rs.product.id, variant_id=rs.variant.id,variant_color_id=None, user_id=current_user.id,
+                    cart.add(product_id=rs.product.id, variant_id=rs.variant.id, user_id=current_user.id,
                              quantity=rs.quantity, update_quantity=True)
                              
 
@@ -85,6 +78,7 @@ def frontpage(request):
             compare_var = request.session['comparing_variants'].__len__()
 
         total_compare = comparing + compare_var
+        print(total) 
 
     else:
         cart = 0
@@ -92,7 +86,8 @@ def frontpage(request):
         wishlist = 0
         total_compare = 0
         shopcart = []
-    
+   
+
     return render(
         request,
         'core/frontpage.html',
@@ -181,9 +176,6 @@ def contact(request):
 
 
 def about(request):
-
-    
-
     if not request.user.is_anonymous:
         cart = Cart(request)
         current_user = request.user
@@ -397,8 +389,6 @@ def sitemap(request):
     vendors = Vendor.objects.filter(enabled=True)
     category = Category.objects.all()
     posts = Post.objects.all()
-    items = Item.objects.filter(visible=True,review=True)
-    services = ServiceProvider.objects.filter(review=True)
     if not request.user.is_anonymous:
         cart = Cart(request)
         current_user = request.user
@@ -439,9 +429,7 @@ def sitemap(request):
         'total': grandTotal,
         'wishlist': wishlist,
         'total_compare': total_compare,
-        'vendors': vendors,
-        'items':items,
-        'services':services
+        'vendors': vendors
     })
 
 

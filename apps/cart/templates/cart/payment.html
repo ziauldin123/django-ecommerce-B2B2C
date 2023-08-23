@@ -1,6 +1,6 @@
 {% extends 'core/base.html' %}
 {% load mathfilters %}
-{% load i18n %}
+
 {% block title %}Confirm Order {% endblock %}
 
 {% block content %}
@@ -52,13 +52,13 @@
                 <div class="col-12 col-lg-8 mt-4 mt-lg-0">
                     <div class="card mb-3">
                         <div class="card-body">
-                            <h3 class="card-title">{% trans 'Your Order' %}</h3>
+                            <h3 class="card-title">Your Order</h3>
                             <div class="table-responsive-sm">
                             <table class="checkout__totals">
                                 <thead class="checkout__totals-header">
                                     <tr>
-                                        <th>{% trans 'Product' %}</th>
-                                        <th>{% trans 'Total' %} (Rwf)</th>
+                                        <th>Product</th>
+                                        <th>Total (Rwf)</th>
                                     </tr>
                                 </thead>
                                 <tbody class="checkout__totals-products">
@@ -66,11 +66,7 @@
                                     <tr>
                                         <td>
                                             {% if rs.variant %}
-                                            {% if rs.variant_color %}
-                                            {{rs.variant_color.title}}
-                                       {% else %}
-                                           {{rs.variant.title}}
-                                        {% endif %}
+                                            {{rs.variant.title}}
                                             {% else %} 
                                             {{rs.product}}
                                             {% endif %} × {{rs.quantity}}
@@ -79,14 +75,8 @@
                                               {{ rs.product.unit_type.unit }}(s)
                                              {% endif %}
                                          {% else %}
-                                              {% if rs.variant_color %}
-                                                    {% if rs.variant_color.unit_type %}
-                                                         {{ rs.variant_color.unit_type.unit }}(s)
-                                                    {% endif %} 
-                                            {% else %}
                                             {% if rs.variant.unit_type %}
                                              {{ rs.variant.unit_type.unit }}(s)
-                                             {% endif %}
                                              {% endif %}
                                          {% endif %}</td>
 
@@ -97,19 +87,12 @@
                                                 {{ rs.amount }}
                                             {% endif %}
                                         {% else %}
-                                            {% if rs.variant_color %} 
-                                            {% if rs.variant_color.discount %} 
-                                            {{rs.adj_variant_amount_discount}}
-                                            {% else %} 
-                                            {{rs.adj_variant_amount }}
-                                            {% endif %}
-                                            {% else %}
                                             {% if rs.variant.discount > 0 %}
                                                  {{ rs.var_dicount_amount }}
                                             {% else %}
                                                 {{ rs.varamount }}
                                             {% endif %}
-                                            {% endif %}
+                
                                         {% endif %}
                                         {% if rs.product.is_vat == True %}{% endif %}</td>
                                     </tr>
@@ -121,7 +104,7 @@
                                         <td>{{ tax }} </td>
                                       </tr>
                                     <tr>
-                                        <th>{% trans 'Subtotal' %}</th>
+                                        <th>Subtotal</th>
                                         <td>{{ total }}</td>
                                     </tr> 
                                     {% if coupon.code != None %}
@@ -137,18 +120,18 @@
                                     {% endif %}
                                     {% if cart.get_delivery_cost %} 
                                     <tr>
-                                        <th>{% trans 'Delivery' %}</th>
+                                        <th>Delivery</th>
                                        <td>{{cart.get_delivery_cost}}</td>
                                     </tr>
                                     {% endif %}
                                     <tr>
-                                        <th>{% if cart.get_delivery_type == 'store' %} {% trans 'Pick up' %} {% else %} {% trans 'Delivery' %} {% endif %} {% trans 'address' %}</th>
+                                        <th>{% if cart.get_delivery_type == 'store' %} Pick up {% else %} Delivery {% endif %} address</th>
                                         <td>{{ cart.get_delivery_address }}</td>
                                     </tr>
                                 </tbody>
                                 <tfoot class="checkout__totals-footer">
                                     <tr>
-                                        <th>{% trans 'TOTAL' %}</th>
+                                        <th>TOTAL</th>
                                         <td><span id="total_cost">Rwf {{ cart.get_total_cost }}</span></td>
                                     </tr>
                                 </tfoot>
@@ -162,16 +145,16 @@
                 <div class="col-12 col-lg-4 mt-4 mt-lg-0">
                     <div class="card mb-0">
                         <div class="card-body">
-                            <h3 class="card-title">{% trans 'Payment Details' %}</h3>
+                            <h3 class="card-title">Payment Details</h3>
                             <form method="post" action="" id="payment-form">
                                 {% csrf_token %}
                                 <div id="pay-form">
                                     <div class="form-group" id=service_provider">
-                                        <label>{% trans 'Payment Methods' %}</label>
+                                        <label>Payment Methods</label>
                 
                                         <div class="form-group">
                                             <select onchange="showPhone(this)" class="form-control select" name="service_provider" id="service service_provider">
-                                                <option value="" selected>{% trans '---Select payment method---' %}</option>
+                                                <option value="" selected>---Select payment method---</option>
                                                 {% for entry in service_provider %}
                                                 <option value="{{ entry.name }}">{{ entry.name }}</option>
                                                 {% endfor %}
@@ -179,7 +162,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group" id="hide" style="display: none;">
-                                        <label>{% trans 'Phone Number' %}</label>
+                                        <label>Phone Number</label>
                 
                                         <div class="form-group">
                                             <input class="form-control" type="text" name="phone_number" id="phone_number">
@@ -193,7 +176,7 @@
                                 {% endif %}
                                 <div class="field">
                                     <div class="control">
-                                        <button class="button btn btn-primary mt-4"">{% trans 'Confirm Order' %}</button>
+                                        <button class="button btn btn-primary mt-4"">Confirm Order</button>
                                     </div>
                                 </div>
                             </form>
@@ -201,7 +184,7 @@
                     </div>
                     <br>
                     <div class="card mb-0">
-                        <strong class= "ml-2 mr-2"><a>{% trans 'This confirmation will not initiate a payment.' %}' <br>{% trans 'You will have to manually pay using the available methods.' %}</a></strong>
+                        <strong class= "ml-2 mr-2"><a>This confirmation will not initiate a payment. <br>You will have to manually pay using the available methods.</a></strong>
                     </div>
                 </div>
 

@@ -1,5 +1,4 @@
 import imp
-from tabnanny import check
 from django.contrib.sitemaps import Sitemap
 from django.shortcuts import get_object_or_404, redirect, render
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse, request
@@ -16,7 +15,7 @@ from django.conf import settings
 from apps.cart.cart import Cart
 from apps.ordering.models import ShopCart
 
-from apps.newProduct.models import AdjacentColorProduct, Category, Comment, Product, SubCategory, SubSubCategory, Images, Comment, Variants
+from apps.newProduct.models import Category, Comment, Product, SubCategory, SubSubCategory, Images, Comment, Variants
 from apps.vendor.models import UserWishList, Customer
 from django.core.paginator import (Paginator, EmptyPage, PageNotAnInteger)
 # Create your views here.
@@ -38,7 +37,6 @@ def index(request):
 
 
 def product_detail(request, id, slug, vendor_slug, category_slug, subcategory_slug, subsubcategory_slug):
-    
     if not request.user.is_anonymous:
         cart = Cart(request)
         current_user = request.user
@@ -64,8 +62,7 @@ def product_detail(request, id, slug, vendor_slug, category_slug, subcategory_sl
     mainProduct = []
     query = request.GET.get('q')
     product = Product.objects.get(pk=id)
-    # max = product.product.all().aggregate(Max('rate'))
-    max = round(product.avaregeview(),0)
+    max = product.product.all().aggregate(Max('rate'))
     if not request.user.is_anonymous:
         cart = Cart(request)
         current_user = request.user
@@ -136,31 +133,15 @@ def product_detail(request, id, slug, vendor_slug, category_slug, subcategory_sl
                'total_compare': total_compare,
                'max': max
                }
-    if product.variant != "None":  # pr has variantsu   
-        adj_variant=[]  
-        colors=[]  
-        colors1=[]
+    if product.variant != "None":  # pr has variantsu
         if request.method == 'POST':  # if we select color
             variant_id = request.POST.get('variantid')
-            adj_variant_id = request.POST.get('adj_variantid')
-            if variant_id:
-                variant = Variants.objects.get(
+            variant = Variants.objects.get(
                 id=variant_id, status=True, visible=True)  # selected product by color
-
-                if variant.have_adjacent_color:
-                    colors2=AdjacentColorProduct.objects.filter(product_id=variant.id)
-                    adj_variant=AdjacentColorProduct.objects.filter(product_id=variant.id).first()
-                else:
-                    colors2=None        
-                
-            if adj_variant_id and variant_id:
-                variant = Variants.objects.get(id=variant_id, status=True, visible=True)  # selected product by color
-                adj_variant = AdjacentColorProduct.objects.get(id=adj_variant_id)
-                colors2=AdjacentColorProduct.objects.filter(product_id=variant_id )
             colors = Variants.objects.filter(
                 product_id=id, size_id=variant.size_id, status=True, visible=True)
             colors1 = Variants.objects.filter(
-                product_id=id, weight_id=variant.weight_id, status=True, visible=True)   
+                product_id=id, weight_id=variant.weight_id, status=True, visible=True)
             sizes = Variants.objects.raw(
                 'SELECT * FROM newProduct_variants WHERE product_id=%s AND status=True AND visible=True GROUP BY size_id', [id])
             weight = Variants.objects.raw(
@@ -174,11 +155,7 @@ def product_detail(request, id, slug, vendor_slug, category_slug, subcategory_sl
             # query +=variant.title+' Size:' +str(variant.size) +' Color:' +str(variant.color) +' Weight:' +str(variant.weight)+' length:' +str(variant.length)+' Width:' +str(variant.width)
         else:
             variants = Variants.objects.filter(
-                product_id=id, status=True, visible=True)   
-            for var in variants:
-                if var.have_adjacent_color:
-                    colors2=AdjacentColorProduct.objects.filter(product_id=var)
-                    adj_variant=AdjacentColorProduct.objects.filter(product_id=variants[0].id)
+                product_id=id, status=True, visible=True)
             colors = Variants.objects.filter(
                 product_id=id, size_id=variants[0].size_id, status=True, visible=True)
             colors1 = Variants.objects.filter(
@@ -195,13 +172,10 @@ def product_detail(request, id, slug, vendor_slug, category_slug, subcategory_sl
                 'SELECT * FROM newProduct_variants WHERE product_id=%s AND status=True AND visible=True GROUP BY height_id', [id])
             variant = Variants.objects.get(
                 id=variants[0].id, status=True, visible=True)
-        if request.POST.get('adj_variantid'):
-            check_adjacent=True 
-        else:
-            check_adjacent=False               
+
         context.update({'sizes': sizes, 'colors': colors, 'colors1': colors1, 'weight': weight, 'width': width, 'length': length, 'height': height, 'variant': variant, 'query': query,
-                        'is_comparing': variant.id in request.session.get('comparing', []),'colors2':colors2,'check_adjacent':check_adjacent,
-                        'shopcart': shopcart, 'subtotal': total, 'tax': tax, 'total': grandTotal,'adj_variant':adj_variant})               
+                        'is_comparing': variant.id in request.session.get('comparing', []),
+                        'shopcart': shopcart, 'subtotal': total, 'tax': tax, 'total': grandTotal})
     return render(request, 'product_detail.html', context)
 
 
@@ -238,21 +212,3 @@ def ajaxcolorWeigth(request):
             'color_list.html', context=context)}
         return JsonResponse(data)
     return JsonResponse(data)
-
-def ajaxAdjColor(request):
-    data = {}
-    if request.POST.get('action') == 'post':
-        colorid=request.POST.get('colorid')
-        variantid=request.POST.get('variantid')
-        colors=AdjacentColorProduct.objects.filter(
-          id=colorid,
-        )
-        context = {
-            'colorid':colorid,
-            'variantid':variantid,
-            'colors':colors
-        }
-        data = {'rendered_table': render_to_string(
-            'color_list.html',context=context)}
-        return JsonResponse(data)
-    return JsonResponse(data)    

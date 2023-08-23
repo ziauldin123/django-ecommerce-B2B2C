@@ -2,7 +2,6 @@
 {% load get_vendor_order_cost %}
 {% load mathfilters %}
 {% load static %}
-{% load i18n %}
 {% block title %} Order #{{order.reference_number}}{% endblock %}
 {% block content %}
 <style>
@@ -51,30 +50,27 @@
         <div class="row">
             <div class="col-12 col-lg-3 d-flex">
                 <div class="account-nav flex-grow-1">
-                     <h4 class="account-nav__title">{% trans 'Vendor Administration' %}</h4>
+                     <h4 class="account-nav__title">Vendor Administration</h4>
                     <ul>
                         <li class="account-nav__item">
-                            <a href="{% url 'vendor_admin' %}">{% trans 'Dashboard' %}</a>
+                            <a href="{% url 'vendor_admin' %}">Dashboard</a>
                         </li>
                         <li class="account-nav__item account-nav__item--active ">
-                            <a href="{% url 'vendor_orders' %}">{% trans 'Order History' %}</a>
+                            <a href="{% url 'vendor_orders' %}">Order History</a>
                         </li>
                          <li class="account-nav__item">
-                            <a href="{% url 'products' %}">{% trans 'Products' %}</a>
-                        </li>
-                        <li class="account-nav__item">
-                            <a href="{% url 'items' %}">{% trans 'Renting items' %}</a>
+                            <a href="{% url 'products' %}">Products</a>
                         </li>
                            <li class="account-nav__item ">
-                            <a href="{% url 'working_hours' %}">{% trans 'Working Hours' %}</a>
+                            <a href="{% url 'working_hours' %}">Working Hours</a>
                         </li>
                         {% if vendor.status == 'RUBY' or vendor.status == 'EMERALD' %} 
                         <li class="account-nav__item ">
-                            <a href="{% url 'delivery_cost' %}">{% trans 'Delivery Price' %}</a>
+                            <a href="{% url 'delivery_cost' %}">Delivery Price</a>
                         </li>
                         {% endif %}
                         <li class="account-nav__item ">
-                            <a href="{% url 'logout' %}">{% trans 'Logout' %}</a>
+                            <a href="{% url 'logout' %}">Logout</a>
                         </li>
                     </ul>
                 </div>
@@ -83,18 +79,18 @@
                 <div class="card">
                     <div class="order-header">
                         <div class="order-header__actions">
-                            <a href="{% url 'vendor_orders' %}" class="btn btn-xs btn-secondary">{% trans 'Back to list' %}</a>
+                            <a href="{% url 'vendor_orders' %}" class="btn btn-xs btn-secondary">Back to list</a>
                         </div>
-                        <h5 class="order-header__title">{% trans 'Order Reference' %} #{{order.reference_number}}</h5>
+                        <h5 class="order-header__title">Order Reference #{{order.reference_number}}</h5>
                         <div class="order-header__subtitle" id="change_status">
-                            {% trans 'Was placed on' %} <mark class="order-header__date">{{order.created_at}}</mark>
-                            {% trans 'and is' %} <mark class="order-header__status">
+                            Was placed on <mark class="order-header__date">{{order.created_at}}</mark>
+                            and is <mark class="order-header__status">
                                 {% if order.delivery_type == 'Vendor_Delivery' and order.status == 'paid' %}
                                    {% csrf_token %}
                                     <input type="hidden" id="order_id" value="{{order.id}}"> 
                                     <select name="status" id="status" {% if order.status == 'shipped' %} disabled {% endif %} style="color: black;font-weight: 500;" onchange="changeStatus(this)">
                                         <option value="{{order.status}}">{{order.status}}</option>
-                                        <option value="shipped">{% trans 'Shipped' %}</option>
+                                        <option value="shipped">Shipped</option>
                                     </select>
                                 {% else %}
                                        {{order.status}}
@@ -108,18 +104,18 @@
                             <table>
                                 <thead>
                                     <tr>
-                                        <th>{% trans 'Title' %}</th>
-                                        <th>{% trans 'Price' %} (Rwf)</th>
-                                        <th>{% trans 'Quantity' %}</th>
-                                        <th>{% trans 'Total' %} (Rwf)</th>
-                                        <th>{% trans 'Paid' %}</th>
+                                        <th>Title</th>
+                                        <th>Price (Rwf)</th>
+                                        <th>Quantity</th>
+                                        <th>Total (Rwf)</th>
+                                        <th>Paid</th>
                                     </tr>
                                 </thead>
                                 <tbody class="card-table__body card-table__body--merge-rows">
                                     {% for item in order.items.all %}
                                         {% if item.vendor == request.user.vendor %}
                                             <tr>
-                                                <td>{% if item.variant_color  %} {{item.variant_color.name }} {% elif item.variant %} {{item.variant.title}}  {% else %}{{ item.get_product_name }}{% endif %} </td>
+                                                <td>{{ item.get_product_name }} </td>
                                                 <td>Frw {{ item.price }}</td>
                                                 <td>{{ item.quantity }}</td>
                                                 {% get_total_with_coupon order item.get_total_price user as total_price_with_coupon %}
@@ -132,7 +128,7 @@
                                 <tbody class="card-table__body card-table__body--merge-rows">
                                     {% if order.used_coupon %}
                                     <tr>
-                                        <th>{% trans 'Coupon' %}</th>
+                                        <th>Coupon</th>
                                        
                                                <td>{{ order.used_coupon }} </td>
                                                <td></td>
@@ -141,7 +137,7 @@
                                      {% endif %}
                                     {% if order.delivery_type == 'Vendor_Delivery' %}
                                     <tr>
-                                        <th>{% trans 'Delivery Cost' %}</th>
+                                        <th>Delivery Cost</th>
                                         {% get_order_delivery_cost order user as order_delivery_cost %}
                                             <td></td>
                                             <td></td>
@@ -150,7 +146,7 @@
                                     </tr>
                                     {% endif %}
                                     <tr>
-                                        <th>{% trans 'Grand Total' %}</th>
+                                        <th>Grand Total</th>
                                         {% get_total_order_cost order user as total_cost_order %}
                                                 <td></td>
                                                 <td></td>
@@ -167,14 +163,14 @@
                     <div class="col-sm-6 col-12 px-2">
                         <div class="card address-card address-card--featured">
                             <div class="address-card__body">
-                                <div class="address-card__badge ">{% trans 'Billing Address' %}</div>
+                                <div class="address-card__badge ">Billing Address</div>
                                 {% for customer in order.getCustomer %} 
                                  <div class="address-card__row">
-                                    <div class="address-card__row-title">{% trans 'Customer' %}</Address></div>
+                                    <div class="address-card__row-title">Customer</Address></div>
                                     <div class="address-card__row-content">{{customer.customername}}</div>
                                 </div>
                                 <div class="address-card__row">
-                                    <div class="address-card__row-title">{% trans 'Address' %}</Address></div>
+                                    <div class="address-card__row-title">Address</Address></div>
                                     <div class="address-card__row-content">{{customer.address}}</div>
                                 </div>
                                 <div class="address-card__row"> 
@@ -184,11 +180,11 @@
                                     {% endif %}
                                 </div>
                                 <div class="address-card__row">
-                                    <div class="address-card__row-title">{% trans 'Phone Number' %}</div>
+                                    <div class="address-card__row-title">Phone Number</div>
                                     <div class="address-card__row-content">{{customer.phone}}</div>
                                 </div>
                                 <div class="address-card__row">
-                                    <div class="address-card__row-title">{% trans 'Email Address' %}</div>
+                                    <div class="address-card__row-title">Email Address</div>
                                     <div class="address-card__row-content">{{customer.email}}</div>
                                 </div>
                                 {% endfor %}
@@ -199,25 +195,25 @@
                     <div class="col-sm-6 col-12 px-2">
                         <div class="card address-card address-card--featured">
                             <div class="address-card__body">
-                                <div class="address-card__badge ">{% trans 'Shipping Address' %}</div>
+                                <div class="address-card__badge ">Shipping Address</div>
                                 <div class="address-card__row">
-                                    <div class="address-card__row-title">{% trans 'District' %}</div>
+                                    <div class="address-card__row-title">District</div>
                                     <div class="address-card__row-content">{{order.district}}</div>
                                 </div>
                                  <div class="address-card__row"> 
-                                    <div class="address-card__row-title">{% trans 'Sector' %}</div>
+                                    <div class="address-card__row-title">Sector</div>
                                     <div class="address-card__row-content">{{order.sector}}</div>                          
                                 </div>
                                  <div class="address-card__row">
-                                    <div class="address-card__row-title">{% trans 'Cell' %}</div>
+                                    <div class="address-card__row-title">Cell</div>
                                     <div class="address-card__row-content"> {{order.cell}}</div>   
                                 </div>
                                  <div class="address-card__row">
-                                     <div class="address-card__row-title">{% trans 'Village' %}</div>
+                                     <div class="address-card__row-title">Village</div>
                                     <div class="address-card__row-content">{{order.village}}</div>   
                                 </div>
                                 <div class="address-card__row">
-                                     <div class="address-card__row-title">{% trans 'Street | House | Building' %}</div>
+                                     <div class="address-card__row-title">Street | House | Building</div>
                                     <div class="address-card__row-content">{{order.delivery_address}}</div>   
                                 </div>
                                 {% endif %}

@@ -1,5 +1,4 @@
 {% extends 'core/base.html' %}
-{% load i18n %}
 {% block title %} Cart {% endblock %}
 {% block description %} {{ setting.description }} {% endblock %}
 {% block keywords %} {{ setting.keywords }} {% endblock %}
@@ -59,7 +58,7 @@
                     </nav>
                 </div>
                 <div class="page-header__title">
-                    <h3>{% trans 'Cart' %}</h3>
+                    <h3>Cart</h3>
                 </div>
             </div>
         </div>
@@ -69,11 +68,11 @@
                 <table class="cart__table cart-table">
                     <thead class="cart-table__head">
                         <tr class="cart-table__row">
-                            <th class="cart-table__column cart-table__column--image">{% trans 'Image' %}</th>
-                            <th class="cart-table__column cart-table__column--product">{% trans 'Product' %}</th>
-                            <th class="cart-table__column cart-table__column--price">{% trans 'Price' %} (Rwf)</th>
-                            <th class="cart-table__column cart-table__column--quantity">{% trans 'Quantity' %}</th>
-                            <th class="cart-table__column cart-table__column--total">{% trans 'Total' %} (Rwf)</th>
+                            <th class="cart-table__column cart-table__column--image">Image</th>
+                            <th class="cart-table__column cart-table__column--product">Product</th>
+                            <th class="cart-table__column cart-table__column--price">Price (Rwf)</th>
+                            <th class="cart-table__column cart-table__column--quantity">Quantity</th>
+                            <th class="cart-table__column cart-table__column--total">Total (Rwf)</th>
                             <th class="cart-table__column cart-table__column--remove"></th>
                         </tr>
                     </thead>
@@ -98,7 +97,7 @@
                                 <a href="" class="cart-table__product-name">{{rs.variant.title}}</a>
                                 {% if rs.variant.color %} 
                                 <ul class="cart-table__options">
-                                    <li>Color: {{rs.variant.color}}{% if rs.variant.have_adjacent_color %} - {{rs.variant_color.title}}{% endif %}</li>
+                                    <li>Color: {{rs.variant.color}}</li>
                                 </ul>
                                 {% endif %}
                                 {% else %} 
@@ -112,32 +111,18 @@
                             </td>
                             <td class="cart-table__column cart-table__column--price" data-title="Price">
                                 {% if rs.product.variant == 'None' %}
-
                                             {% if rs.product.discount > 0 %} 
                                                 {{ rs.product.get_discounted_price }}
                                             {% else %} 
                                                {{rs.product.price}}
                                             {% endif %}
-
-                                {% else %}
-                                    {% if rs.variant_color %}
-
-                                            {% if rs.variant_color.discount > 0 %} 
-                                               {{rs.variant_color.get_discounted_price}}
-                                            {% else %} 
-                                               {{rs.variant_color.price}}
-                                            {% endif %}
-
-                                    {% else %}
+                                        {% else %}
                                             {% if rs.variant.discount > 0 %} 
-                                               {{rs.variant.get_discounted_price}}
+                                               {{rs.variant.get_discounted_price_var}}
                                             {% else %} 
                                                {{rs.variant.price}}
-                                            {% endif %} 
-                                    {% endif %}
-
-                                    {% endif %} / 
-
+                                            {% endif %}       
+                                        {% endif %} / 
                                         {% if rs.product.variant == 'None' %}
                                         {% if rs.product.unit_type %}
                                           {{ rs.product.unit_type.unit }}
@@ -146,16 +131,11 @@
                                         {% if rs.variant.unit_type %}
                                          {{ rs.variant.unit_type.unit }}
                                          {% endif %}
-                                {% endif %}
+                                     {% endif %}
                             </td>
                             <td class="cart-table__column cart-table__column--quantity" data-title="Quantity">
                                 <div class="product_data input-number">
                                     <input type="hidden" class="prod_id" value="{{rs.id}}">
-                                    <!-- <input type="number" class="input changeQty form-control input-number__input" id="quantity" name="quantity"
-                                    min="1" {% if rs.product.is_variant %} max="{{ rs.variant.quantity }}"
-                                    {% else %} max="{{ rs.product.quantity }}" id="{{rs.id}}" {% endif %} value="{{rs.quantity}}">
-                                    <div class="input-number__add"></div>
-                                    <div class="input-number__sub"></div> -->
                                     <input style="display: block;text-align: center;width: 100%;min-width: 88px;" class="input changeQty form-control input-number" id="quantity" name="quantity" type="number" value="{{rs.quantity}}" min="1" {% if rs.product.is_variant %} max="{{ rs.variant.quantity }}" {% else %} max="{{ rs.product.quantity }}" {% endif %}>
                                 </div>
                             </td>
@@ -167,22 +147,10 @@
                                                  {{ rs.amount }}
                                             {% endif %}
                                         {% else %}
-                                            {% if rs.variant.have_adjacent_color %}
-
-                                            {% if rs.variant_color.discount > 0 %}
-                                                 {{ rs.adj_variant_amount_discount }}
-                                            {% else %}
-                                                 {{ rs.adj_variant_amount }}
-                                            {% endif %}
-
-                                            {% else %}
-
                                             {% if rs.variant.discount > 0 %}
                                                  {{ rs.var_dicount_amount }}
                                             {% else %}
                                                  {{ rs.varamount }}
-                                            {% endif %}
-
                                             {% endif %}
                                         {% endif %}
                                 
@@ -202,12 +170,12 @@
                 </table>
                 <div class="cart__actions">
                     <form class="cart__coupon-form">
-                        <label for="input-coupon-code" class="sr-only">{% trans 'Password' %}</label>
-                        <input type="text" class="form-control"  name="coupon_code" id="coupon_code" placeholder="{% trans 'Coupon Code' %}">
-                        <button type="button" class="btn btn-secondary "  onclick="applyCoupon()" >{% trans 'Apply Coupon' %}</button>
+                        <label for="input-coupon-code" class="sr-only">Password</label>
+                        <input type="text" class="form-control"  name="coupon_code" id="coupon_code" placeholder="Coupon Code">
+                        <button type="button" class="btn btn-secondary "  onclick="applyCoupon()" >Apply Coupon</button>
                     </form>
                     <div class="cart__buttons">
-                        <a href="/" class="btn btn-secondary">{% trans 'Continue Shopping' %}</a>
+                        <a href="/" class="btn btn-secondary">Continue Shopping</a>
                     </div>
                 </div>
                 <div class="row justify-content-end pt-5">
@@ -218,20 +186,20 @@
                                 <table class="cart__totals">
                                     <thead class="cart__totals-header">
                                         <tr>
-                                            <th>{% trans 'Subtotal' %}</th>
+                                            <th>Subtotal</th>
                                             <td>Rwf {{ subtotal }}</td>
                                         </tr>
                                     </thead>
                                     <tfoot class="cart__totals-footer">
                                         <tr>
-                                            <th>{% trans 'Total' %}</th>
+                                            <th>Total</th>
                                             <td>
                                                 <span id="total_cost_with_coupon" name="total_cost_with_coupon">Rwf {{ subtotal }}</span>
                                             </td>
                                         </tr>
                                     </tfoot>
                                 </table>
-                                <a class="btn btn-primary btn-block cart__checkout-button" href="{% url 'contact_info' %}">{% trans 'Proceed to checkout' %}</a>
+                                <a class="btn btn-primary btn-block cart__checkout-button" href="{% url 'contact_info' %}">Proceed to checkout</a>
                             </div>
                         </div>
                     </div>
@@ -240,9 +208,9 @@
         </div>
         {% else %}
         <div class="block-empty__body">
-            <div class="block-empty__message">{% trans 'Your shopping cart is empty!' %}</div>
+            <div class="block-empty__message">Your shopping cart is empty!</div>
             <div class="block-empty__actions">
-                <a class="btn btn-primary btn-sm" href="/">{% trans 'Start shopping' %}</a>
+                <a class="btn btn-primary btn-sm" href="/">Start shopping</a>
             </div>
         </div>
         {% endif %}    

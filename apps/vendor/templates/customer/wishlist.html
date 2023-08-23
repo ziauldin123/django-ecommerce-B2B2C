@@ -1,5 +1,4 @@
 {% extends 'core/base.html' %}
-{% load i18n %}
 {% block title %} {{ request.session.username }}'s wishlist  - {% endblock %}
 {% block content %} 
 <script>   
@@ -34,7 +33,7 @@
                 </nav>
             </div>
             <div class="page-header__title">
-                <h3>{% trans 'Wishlist' %}</h3>
+                <h3>Wishlist</h3>
             </div>
         </div>
     </div>
@@ -45,10 +44,10 @@
             <table class="wishlist">
                 <thead class="wishlist__head">
                     <tr class="wishlist__row">
-                        <th class="wishlist__column wishlist__column--image">{% trans 'Image' %}</th>
-                        <th class="wishlist__column wishlist__column--product">{% trans 'Product' %}</th>
-                        <th class="wishlist__column wishlist__column--stock">{% trans 'Availability' %}</th>
-                        <th class="wishlist__column wishlist__column--price">{% trans 'Price' %} (Rwf)</th>
+                        <th class="wishlist__column wishlist__column--image">Image</th>
+                        <th class="wishlist__column wishlist__column--product">Product</th>
+                        <th class="wishlist__column wishlist__column--stock">Availability</th>
+                        <th class="wishlist__column wishlist__column--price">Price (Rwf)</th>
                         <th class="wishlist__column wishlist__column--tocart"></th>
                         <th class="wishlist__column wishlist__column--remove"></th>
                     </tr>
@@ -347,15 +346,15 @@
                             <div class="badge badge-success">
                                 {% if product.variant %} 
                                        {% if product.variant.quantity > 0 %} 
-                                       {% trans 'In Stock' %}
+                                                     In Stock
                                      {% else %} 
-                                     {% trans 'Out of Stock' %}
+                                         Out of Stock
                                        {% endif %} 
                                 {% else %} 
                                       {% if product.product.quantity > 0 %} 
-                                      {% trans 'In Stock' %}
+                                          In Stock
                                      {% else %} 
-                                     {% trans 'Out of Stock' %}
+                                          Out of Stock
                                     {% endif %} 
                                 {% endif %}    
                             </div>
@@ -378,11 +377,11 @@
                         <td class="wishlist__column wishlist__column--tocart">
                             {% if product.variant %} 
                             <a href="{% url 'product' product.product.id product.product.slugV product.product.category.sub_category.category.slug product.product.category.sub_category.slug product.product.category.slug product.product.slug %}">
-                                <button type="button" class="btn btn-primary btn-sm">{% trans 'View Options' %}</button>
+                                <button type="button" class="btn btn-primary btn-sm">View Options</button>
                             </a>
                             {% else %} 
                                 <a onclick="addToCart('{{ product.product.id }}')" class="add-to-cart">
-                                    <button type="button" class="product-card__addtocart btn btn-primary btn-sm" {% if product.product.quantity < 1  %} disabled {% endif %}  >{% trans 'Add To Cart' %}</button>
+                                    <button type="button" class="product-card__addtocart btn btn-primary btn-sm" {% if product.product.quantity < 1  %} disabled {% endif %}  >Add To Cart</button>
                                 </a>
                             {% endif %}
                         </td>
@@ -413,9 +412,9 @@
     </div>
       {% else %}
         <div class="block-empty__body">
-            <div class="block-empty__message">{% trans 'There are no products in your wishlist' %}.</div>
+            <div class="block-empty__message">There are no products in your wishlist.</div>
             <div class="block-empty__actions">
-                <a class="btn btn-primary btn-sm" href="/">{% trans 'Return home' %}</a>
+                <a class="btn btn-primary btn-sm" href="/">Return home</a>
             </div>
         </div>
         {% endif %} 

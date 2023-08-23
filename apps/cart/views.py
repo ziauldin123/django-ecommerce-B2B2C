@@ -1,6 +1,5 @@
 from decimal import Decimal
 import imp
-from itertools import product
 
 import stripe
 from django.conf import settings
@@ -16,25 +15,9 @@ from .models import Cell, District, Sector, Village, MobileOperator
 from .services.payment_service import payment_service
 from ..core.utils import get_attr_or_none
 from apps.newProduct.models import Product
-from apps.ordering.models import notify_customer,notify_vendor,Quotation
-from django.http import HttpResponse, HttpResponseRedirect
-from django.core.mail import EmailMultiAlternatives, get_connection
-from django.template.loader import render_to_string
-from apps.vendor.views import email_user
-from apps.ordering.utils import create_new_ref_number
-from apps.rental.models import  Item
-from django.views.decorators.csrf import csrf_exempt
-from django.views.decorators.cache import never_cache, cache_page
-from django.contrib.auth.decorators import login_required
+from apps.ordering.models import notify_customer,notify_vendor
 
-import threading
 
-class Email_Thread(threading.Thread):
-    def __init__(self,msg):
-        self.msg=msg
-        threading.Thread.__init__(self)
-    def run(self):
-        self.msg.send()    
 
 def contact_info(request):
     delivery_type = ''
@@ -165,6 +148,7 @@ def contact_info(request):
 def district_sector(request):
     district_id = request.GET.get('districtId')
     sectors = Sector.objects.filter(district_id=district_id)
+
     return JsonResponse(list(sectors.values('id', 'sector')), safe=False)
 
 
@@ -172,6 +156,7 @@ def district_sector_cell(request):
     district_id = request.GET.get('districtId')
     sector_id = request.GET.get('sectorId')
     cells = Cell.objects.filter(district_id=district_id, sector_id=sector_id)
+
     return JsonResponse(list(cells.values('id', 'cell')), safe=False)
 
 
@@ -214,7 +199,7 @@ def payment_check(request, *args, **kwargs):
             print('there invalid')
             print(form.errors)
     else:
-        form = PaymentForm()         
+        form = PaymentForm()
     return render(
         request,
         'cart/payment.html',
@@ -248,58 +233,3 @@ def check_add_qty(request, product_id, num, *args, **kwargs):
     product = Product.objects.get(id=product_id)
     json_response = {'approved': product.num_available + 1 > num}
     return JsonResponse(json_response)
-
-@login_required(login_url='/login')
-@never_cache
-@csrf_exempt
-def request_quatation(request,id):
-    url = request.META.get('HTTP_REFERER')
-    product=Product.objects.get(id=id)
-    quantity=request.POST.get('quantity')
-    reference_number=create_new_ref_number()
-    user=Customer.objects.get(user=request.user)
-
-    connection = get_connection()
-    connection.open()
-    current_user = request.user
-    vendor=product.vendor
-    if request.method == "POST":
-        Quotation.objects.create(
-            product_id=id, 
-            user_id=current_user.id,
-            quantity=quantity,
-            part_number=product.spare_number,
-            model=product.model,
-            make=product.make,
-            engine=product.engine,
-            year=product.year,
-            customer_phone=user.phone,
-            vendor_id=vendor.id
-        )
-        print('post')
-    else:
-        print(request.method)    
-    from_email = settings.DEFAULT_EMAIL_FROM
-    to_email = settings.DEFAULT_EMAIL_FROM
-
-    quotation = Quotation.objects.last()
-
-    subject = 'Spare Parts Request'
-    text_content = 'You have new Spare Parts Request'
-    html_content = render_to_string(
-            'cart/spare_parts_request.html',{
-                'product':quotation.product,
-                'user':user,
-                'quantity':quantity,
-                'reference_number':quotation.reference_number,
-                'phone':user.phone,
-                'date_added':quotation.created_at
-            }
-        )
-    msg = EmailMultiAlternatives(subject,text_content,from_email,[to_email],connection=connection)
-    msg.attach_alternative(html_content, 'text/html')
-    # msg.send()
-
-    Email_Thread(msg).start()
-
-    return HttpResponse('success!')

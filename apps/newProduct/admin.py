@@ -84,6 +84,7 @@ class BrandAdmin(admin.ModelAdmin):
     list_display=['brand',]
 
 
+
 @admin_thumbnails.thumbnail('image')
 class ImagesAdmin(admin.ModelAdmin):
     list_display=['image','name','image_thumbnail']
@@ -95,29 +96,16 @@ class ProductAdmin(admin.ModelAdmin):
     inlines=[ProductVariantsInline,ProductImageInline]
     prepopulated_fields={'slug':('title',)}
 
-class colorInline(admin.TabularInline):
-    model=AdjacentColorProduct
-    readonly_fields=['color_tag']
-    extra=1
-    show_change_link=True
-
 class VariantAdmin(admin.ModelAdmin):
     list_display=['title','product','color','image_variant','size','discount','price','get_discounted_price','get_vat_price','get_vat_exclusive_price','quantity']
-    inlines=[VariantImageInline,colorInline]
+    inlines=[VariantImageInline]
     list_filter=['product']
 
 class sizeAdmin(admin.ModelAdmin):
     list_display=['name','code']
 
-
-
 class colorAdmin(admin.ModelAdmin):
     list_display=['name','code','color_tag']
-    
-
-class adjacentColorAdmin(admin.ModelAdmin):
-    list_display=['title','price','product']
-    inlines =  [VariantImageInline]
 
 class LengthAdmin(admin.ModelAdmin):
     list_display=['length']
@@ -141,7 +129,6 @@ class ProductImageAdmin(admin.ModelAdmin):
 
 admin.site.register(Size,sizeAdmin)
 admin.site.register(Color,colorAdmin)
-admin.site.register(AdjacentColorProduct,adjacentColorAdmin)
 admin.site.register(Category)
 admin.site.register(SubCategory)
 admin.site.register(SubSubCategory,CategoryAdmin)

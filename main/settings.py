@@ -8,7 +8,6 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 from distutils.command.build import build
-from operator import truediv
 from pathlib import Path
 import os
 import mimetypes
@@ -26,7 +25,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'dr&-v@o7w9#&#r3wj$d#$t78t&*hb$&(2)xa5@05d1p$)1=$96'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*', ]
 
@@ -73,8 +72,6 @@ INSTALLED_APPS = [
     'apps.transporter',
     'apps.ordering',
     'apps.maintenance',
-    'apps.rental',
-    'apps.services',
 
 
     # 'rest_framework',
@@ -88,14 +85,13 @@ INSTALLED_APPS = [
     'storages',
     "collectfast",
     'django_ses',
-    'taggit',
+
 
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -121,8 +117,6 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'apps.product.context_processors.menu_categories',
-                'apps.product.context_processors.rental_categories',
-                'apps.product.context_processors.services',
                 'apps.cart.context_processors.cart',
                 'apps.cart.context_processors.comparing',
             ],
@@ -169,14 +163,6 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
-# LANGUAGE_CODE = 'fr'
-# LANGUAGE_CODE = 'rw'
-
-LANGUAGES = [
-    ('en','English'),
-    ('fr','French'),
-    ('rw','Kinyarwanda')
-]
 
 TIME_ZONE = 'Africa/Kigali'
 
@@ -185,10 +171,6 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = False
-
-LOCALE_PATHS = [
-    os.path.join(BASE_DIR,'locale')
-]
 
 USE_THOUSAND_SEPARATOR = True
 SESSION_SAVE_EVERY_REQUEST = True
@@ -220,31 +202,8 @@ AWS_S3_OBJECT_PARAMETERS = {
 }
 AWS_LOCATION = 'static'
 AWS_IS_GZIPPED = True
-COLLECTFAST_THREADS = 20
+# COLLECTFAST_THREADS = 20
 
-EMAIL_BACKEND = 'django_ses.SESBackend'
-DEFAULT_EMAIL_FROM = 'customerservice@sokopark.com'
-SERVER_EMAIL = 'customerservice@sokopark.com'
-
-AWS_SES_REGION_NAME = 'eu-west-1'
-AWS_SES_REGION_ENDPOINT = 'email.eu-west-1.amazonaws.com'
-
-
-AWS_ACCESS_KEY_ID = 'AKIA2K3OSTWJYNYQ6Q5W'
-AWS_SECRET_ACCESS_KEY = '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'
-AWS_STORAGE_BUCKET_NAME = 'sokopark'
-AWS_S3_REGION_NAME = 'af-south-1'
-AWS_S3_CUSTOM_DOMAIN = '%s.s3.af-south-1.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
-AWS_PRELOAD_METADATA = True
-AWS_DEFAULT_ACL = None
-AWS_S3_SECURE_URLS = True
-AWS_EXPIRY = 60 * 60 * 24 * 7
-AWS_S3_OBJECT_PARAMETERS = {
-    'CacheControl': 'max-age={}, s-maxage={}, must-revalidate'.format(AWS_EXPIRY, AWS_EXPIRY)
-}
-AWS_LOCATION = 'static'
-AWS_IS_GZIPPED = True
-COLLECTFAST_THREADS = 20
 
 COMPRESS_ROOT = os.path.join(BASE_DIR, "static")
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
@@ -258,7 +217,6 @@ if not DEBUG:
     COMPRESS_STORAGE = STATICFILES_STORAGE
     STATIC_URL = 'https://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION)
     COMPRESS_URL = STATIC_URL
-    
 else:
     STATIC_URL = '/static/'
     MEDIA_URL = '/media/'

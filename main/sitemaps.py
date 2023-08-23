@@ -5,8 +5,6 @@ from django.shortcuts import reverse
 from apps.blog.models import Post
 from apps.newProduct.models import Product, Category
 from apps.vendor.models import Vendor
-from apps.rental.models import Item
-from apps.services.models import ServiceProvider
 
 
 class StaticViewSitemap(Sitemap):
@@ -51,21 +49,3 @@ class VendorSitemap(Sitemap):
 
     def items(self):
         return Vendor.objects.all()
-
-class RentalItemSitemap(Sitemap):
-    template_name = 'core/sitemaps.html'
-
-    def items(self):
-        return Item.objects.all()
-
-    def lastmod(self,obj):
-        return obj.created_at
-
-class ServiceProviderSitemap(Sitemap):
-    template_name = 'core/sitemaps.html'
-
-    def items(self):
-        return ServiceProvider.objects.all()
-
-    def lastmod(self,obj):
-        return obj.created_at    
