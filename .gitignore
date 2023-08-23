@@ -141,3 +141,8 @@ ehthumbs.db
 Thumbs.db
 *.png
 *.jpg
+
+
+!screenshots/SokoPark - Django E-commerce B2B2C.png
+!screenshots/SokoPark - Django E-commerce B2B2C2.png
+!screenshots/SokoPark - Django E-commerce B2B2C-products.png
